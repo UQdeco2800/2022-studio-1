@@ -115,4 +115,4 @@ Thumbs.db
 /ios/IOSLauncher.app.dSYM
 
 ## Desktop Gradle Build
-/desktop/build.gradle
+## /desktop/build.gradle
