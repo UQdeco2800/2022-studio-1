@@ -1,5 +1,4 @@
 package com.deco2800.game.entities.factories;
-
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Enviromental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
@@ -26,7 +25,7 @@ public class ObstacleFactory {
             .addComponent(new TextureRenderComponent("images/tree.png"))
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new EnvironmentalComponent());
+            .addComponent(new EnvironmentalComponent().setType(EnvironmentalComponent.EnvironmentalType.ROCK));
 
     tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
