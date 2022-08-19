@@ -92,5 +92,4 @@ public class EnvironmentalComponent extends Component {
         return "";
     }
 
-
 }
