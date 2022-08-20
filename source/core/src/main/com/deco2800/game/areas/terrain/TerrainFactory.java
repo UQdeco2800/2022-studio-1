@@ -32,14 +32,14 @@ public class TerrainFactory {
    * @param cameraComponent Camera to render terrains to. Must be ortographic.
    */
   public TerrainFactory(CameraComponent cameraComponent) {
-    this(cameraComponent, TerrainOrientation.ORTHOGONAL);
+    this(cameraComponent, TerrainOrientation.ISOMETRIC);
   }
 
   /**
    * Create a terrain factory
    *
    * @param cameraComponent Camera to render terrains to. Must be orthographic.
-   * @param orientation orientation to render terrain at
+   * @param orientation     orientation to render terrain at
    */
   public TerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
     this.camera = (OrthographicCamera) cameraComponent.getCamera();
@@ -47,7 +47,8 @@ public class TerrainFactory {
   }
 
   /**
-   * Create a terrain of the given type, using the orientation of the factory. This can be extended
+   * Create a terrain of the given type, using the orientation of the factory.
+   * This can be extended
    * to add additional game terrains.
    *
    * @param terrainType Terrain to create
@@ -57,28 +58,19 @@ public class TerrainFactory {
     ResourceService resourceService = ServiceLocator.getResourceService();
     switch (terrainType) {
       case FOREST_DEMO:
-        TextureRegion orthoGrass =
-            new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
-        TextureRegion orthoTuft =
-            new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
-        TextureRegion orthoRocks =
-            new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
+        TextureRegion orthoGrass = new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
+        TextureRegion orthoTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
+        TextureRegion orthoRocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
         return createForestDemoTerrain(0.5f, orthoGrass, orthoTuft, orthoRocks);
       case FOREST_DEMO_ISO:
-        TextureRegion isoGrass =
-            new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
-        TextureRegion isoTuft =
-            new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
-        TextureRegion isoRocks =
-            new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
-        return createForestDemoTerrain(1f, isoGrass, isoTuft, isoRocks);
+        TextureRegion isoGrass = new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
+        TextureRegion isoTuft = new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
+        TextureRegion isoRocks = new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
+        return createForestDemoTerrain(0.5f, isoGrass, isoTuft, isoRocks);
       case FOREST_DEMO_HEX:
-        TextureRegion hexGrass =
-            new TextureRegion(resourceService.getAsset("images/hex_grass_1.png", Texture.class));
-        TextureRegion hexTuft =
-            new TextureRegion(resourceService.getAsset("images/hex_grass_2.png", Texture.class));
-        TextureRegion hexRocks =
-            new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
+        TextureRegion hexGrass = new TextureRegion(resourceService.getAsset("images/hex_grass_1.png", Texture.class));
+        TextureRegion hexTuft = new TextureRegion(resourceService.getAsset("images/hex_grass_2.png", Texture.class));
+        TextureRegion hexRocks = new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
         return createForestDemoTerrain(1f, hexGrass, hexTuft, hexRocks);
       default:
         return null;
@@ -148,8 +140,10 @@ public class TerrainFactory {
   }
 
   /**
-   * This enum should contain the different terrains in your game, e.g. forest, cave, home, all with
-   * the same oerientation. But for demonstration purposes, the base code has the same level in 3
+   * This enum should contain the different terrains in your game, e.g. forest,
+   * cave, home, all with
+   * the same oerientation. But for demonstration purposes, the base code has the
+   * same level in 3
    * different orientations.
    */
   public enum TerrainType {
