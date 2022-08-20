@@ -1,7 +1,10 @@
 package com.deco2800.game.components.maingame;
 
 import com.deco2800.game.GdxGame;
+import com.deco2800.game.areas.ShopArea;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.rendering.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +16,8 @@ public class MainGameActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
   private GdxGame game;
 
+  private Renderer renderer;
+
   public MainGameActions(GdxGame game) {
     this.game = game;
   }
@@ -20,6 +25,7 @@ public class MainGameActions extends Component {
   @Override
   public void create() {
     entity.getEvents().addListener("exit", this::onExit);
+    entity.getEvents().addListener("shop", this::openShop);
   }
 
   /**
@@ -28,5 +34,10 @@ public class MainGameActions extends Component {
   private void onExit() {
     logger.info("Exiting main game screen");
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
+  }
+
+  private void openShop() {
+    logger.info("Exiting main game screen");
+    game.setScreen(GdxGame.ScreenType.SHOP);
   }
 }

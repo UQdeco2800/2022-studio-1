@@ -29,6 +29,7 @@ public class MainGameExitDisplay extends UIComponent {
     table.setFillParent(true);
 
     TextButton mainMenuBtn = new TextButton("Exit", skin);
+    TextButton shopBtn = new TextButton("Shop", skin);
 
     // Triggers an event when the button is pressed.
     mainMenuBtn.addListener(
@@ -38,10 +39,18 @@ public class MainGameExitDisplay extends UIComponent {
           logger.debug("Exit button clicked");
           entity.getEvents().trigger("exit");
         }
-      });
-
+        });
+    shopBtn.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Load button clicked");
+                entity.getEvents().trigger("shop");
+              }
+            });
     table.add(mainMenuBtn).padTop(10f).padRight(10f);
-
+    table.row();
+    table.add(shopBtn).padTop(15f);
     stage.addActor(table);
   }
 
