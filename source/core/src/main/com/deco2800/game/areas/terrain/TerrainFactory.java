@@ -19,7 +19,8 @@ import com.deco2800.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private static final GridPoint2 MAP_SIZE = new GridPoint2(30, 30);
+  private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
+  private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(30, 30);
   private static final int TUFT_TILE_COUNT = 30;
   private static final int ROCK_TILE_COUNT = 30;
 
@@ -57,30 +58,22 @@ public class TerrainFactory {
   public TerrainComponent createTerrain(TerrainType terrainType) {
     ResourceService resourceService = ServiceLocator.getResourceService();
     switch (terrainType) {
-      case FOREST_DEMO:
-        TextureRegion orthoGrass = new TextureRegion(resourceService.getAsset("images/grass_1.png", Texture.class));
-        TextureRegion orthoTuft = new TextureRegion(resourceService.getAsset("images/grass_2.png", Texture.class));
-        TextureRegion orthoRocks = new TextureRegion(resourceService.getAsset("images/grass_3.png", Texture.class));
-        return createForestDemoTerrain(0.5f, orthoGrass, orthoTuft, orthoRocks);
       case FOREST_DEMO_ISO:
         TextureRegion isoGrass = new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
         TextureRegion isoTuft = new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
         TextureRegion isoRocks = new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
-        return createForestDemoTerrain(0.5f, isoGrass, isoTuft, isoRocks);
-      case FOREST_DEMO_HEX:
-        TextureRegion hexGrass = new TextureRegion(resourceService.getAsset("images/hex_grass_1.png", Texture.class));
-        TextureRegion hexTuft = new TextureRegion(resourceService.getAsset("images/hex_grass_2.png", Texture.class));
-        TextureRegion hexRocks = new TextureRegion(resourceService.getAsset("images/hex_grass_3.png", Texture.class));
-        return createForestDemoTerrain(1f, hexGrass, hexTuft, hexRocks);
+        TextureRegion isoWater = new TextureRegion(
+            resourceService.getAsset("images/iso_water_placeholder.png", Texture.class));
+        return createForestDemoTerrain(0.5f, isoGrass, isoTuft, isoRocks, isoWater);
       default:
         return null;
     }
   }
 
   private TerrainComponent createForestDemoTerrain(
-      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
+      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water) {
     GridPoint2 tilePixelSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
-    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks);
+    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks, water);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
   }
@@ -99,19 +92,20 @@ public class TerrainFactory {
   }
 
   private TiledMap createForestDemoTiles(
-      GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks) {
+      GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water) {
     TiledMap tiledMap = new TiledMap();
     TerrainTile grassTile = new TerrainTile(grass);
     TerrainTile grassTuftTile = new TerrainTile(grassTuft);
     TerrainTile rockTile = new TerrainTile(rocks);
+    TerrainTile waterTile = new TerrainTile(water);
     TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
     // Create base grass
-    fillTiles(layer, MAP_SIZE, grassTile);
+    fillTiles(layer, INITIAL_ISLAND_SIZE, MAP_SIZE, waterTile, grassTile);
 
     // Add some grass and rocks
-    fillTilesAtRandom(layer, MAP_SIZE, grassTuftTile, TUFT_TILE_COUNT);
-    fillTilesAtRandom(layer, MAP_SIZE, rockTile, ROCK_TILE_COUNT);
+    // fillTilesAtRandom(layer, MAP_SIZE, grassTuftTile, TUFT_TILE_COUNT);
+    // fillTilesAtRandom(layer, MAP_SIZE, rockTile, ROCK_TILE_COUNT);
 
     tiledMap.getLayers().add(layer);
     return tiledMap;
@@ -129,12 +123,29 @@ public class TerrainFactory {
     }
   }
 
-  private static void fillTiles(TiledMapTileLayer layer, GridPoint2 mapSize, TerrainTile tile) {
+  private static void fillTiles(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize, TerrainTile water,
+      TerrainTile land) {
+
+    int waterWidth = (int) Math.floor((mapSize.x - islandSize.x) / 2);
+    int waterHeight = (int) Math.floor((mapSize.y - islandSize.y) / 2);
+
+    // Fill island tiles
+    for (int x = waterWidth; x <= islandSize.x + waterWidth; x++) {
+      for (int y = waterHeight; y <= islandSize.y + waterHeight; y++) {
+        Cell cell = new Cell();
+        cell.setTile(land);
+        layer.setCell(x, y, cell);
+      }
+    }
+
+    // Fill remaining tiles with water
     for (int x = 0; x < mapSize.x; x++) {
       for (int y = 0; y < mapSize.y; y++) {
-        Cell cell = new Cell();
-        cell.setTile(tile);
-        layer.setCell(x, y, cell);
+        if (layer.getCell(x, y) == null) {
+          Cell cell = new Cell();
+          cell.setTile(water);
+          layer.setCell(x, y, cell);
+        }
       }
     }
   }
