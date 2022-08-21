@@ -64,16 +64,24 @@ public class TerrainFactory {
         TextureRegion isoRocks = new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
         TextureRegion isoWater = new TextureRegion(
             resourceService.getAsset("images/iso_water_placeholder.png", Texture.class));
-        return createForestDemoTerrain(0.5f, isoGrass, isoTuft, isoRocks, isoWater);
+        TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/iso_cliff.png", Texture.class));
+        TextureRegion isoCliffLeft = new TextureRegion(
+            resourceService.getAsset("images/iso_cliff_edge_left.png", Texture.class));
+        TextureRegion isoCliffRight = new TextureRegion(
+            resourceService.getAsset("images/iso_cliff_edge_right.png", Texture.class));
+        return createForestDemoTerrain(0.5f, isoGrass, isoTuft, isoRocks, isoWater, isoCliff, isoCliffLeft,
+            isoCliffRight);
       default:
         return null;
     }
   }
 
   private TerrainComponent createForestDemoTerrain(
-      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water) {
+      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water,
+      TextureRegion cliff, TextureRegion cliffLeft, TextureRegion cliffRight) {
     GridPoint2 tilePixelSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
-    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks, water);
+    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks, water, cliff, cliffLeft,
+        cliffRight);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
   }
@@ -92,16 +100,20 @@ public class TerrainFactory {
   }
 
   private TiledMap createForestDemoTiles(
-      GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water) {
+      GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water,
+      TextureRegion cliff, TextureRegion cliffLeft, TextureRegion cliffRight) {
     TiledMap tiledMap = new TiledMap();
     TerrainTile grassTile = new TerrainTile(grass);
     TerrainTile grassTuftTile = new TerrainTile(grassTuft);
     TerrainTile rockTile = new TerrainTile(rocks);
     TerrainTile waterTile = new TerrainTile(water);
+    TerrainTile cliffTile = new TerrainTile(cliff);
+    TerrainTile cliffRightTile = new TerrainTile(cliffRight);
+    TerrainTile cliffLeftTile = new TerrainTile(cliffLeft);
     TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
     // Create base grass
-    fillTiles(layer, INITIAL_ISLAND_SIZE, MAP_SIZE, waterTile, grassTile);
+    fillTiles(layer, INITIAL_ISLAND_SIZE, MAP_SIZE, waterTile, grassTile, cliffTile, cliffRightTile, cliffLeftTile);
 
     // Add some grass and rocks
     // fillTilesAtRandom(layer, MAP_SIZE, grassTuftTile, TUFT_TILE_COUNT);
@@ -124,7 +136,7 @@ public class TerrainFactory {
   }
 
   private static void fillTiles(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize, TerrainTile water,
-      TerrainTile land) {
+      TerrainTile land, TerrainTile cliffTile, TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
 
     int waterWidth = (int) Math.floor((mapSize.x - islandSize.x) / 2);
     int waterHeight = (int) Math.floor((mapSize.y - islandSize.y) / 2);
@@ -136,6 +148,28 @@ public class TerrainFactory {
         cell.setTile(land);
         layer.setCell(x, y, cell);
       }
+    }
+
+    // Add Cliff Corners
+    Cell leftCorner = new Cell();
+    leftCorner.setTile(cliffLeftTile);
+    Cell rightCorner = new Cell();
+    rightCorner.setTile(cliffRightTile);
+    layer.setCell(waterWidth, waterHeight - 1, leftCorner);
+    layer.setCell(waterWidth + islandSize.x + 1, waterHeight + islandSize.y, rightCorner);
+
+    // Add Cliffs -- left side
+    for (int x = waterWidth + 1; x <= waterWidth + islandSize.x + 1; x++) {
+      Cell cell = new Cell();
+      cell.setTile(cliffTile);
+      layer.setCell(x, waterHeight - 1, cell);
+    }
+
+    // Add Cliffs -- right side
+    for (int y = waterHeight; y < waterHeight + islandSize.y; y++) {
+      Cell cell = new Cell();
+      cell.setTile(cliffTile);
+      layer.setCell(waterWidth + islandSize.x + 1, y, cell);
     }
 
     // Fill remaining tiles with water
