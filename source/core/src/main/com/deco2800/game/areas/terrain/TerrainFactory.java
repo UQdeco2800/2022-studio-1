@@ -152,24 +152,36 @@ public class TerrainFactory {
 
     // Add Cliff Corners
     Cell leftCorner = new Cell();
+    Cell leftCorner2 = new Cell();
     leftCorner.setTile(cliffLeftTile);
+    leftCorner2.setTile(cliffLeftTile);
     Cell rightCorner = new Cell();
+    Cell rightCorner2 = new Cell();
     rightCorner.setTile(cliffRightTile);
+    rightCorner2.setTile(cliffRightTile);
     layer.setCell(waterWidth, waterHeight - 1, leftCorner);
+    layer.setCell(waterWidth + 1, waterHeight - 2, leftCorner2);
     layer.setCell(waterWidth + islandSize.x + 1, waterHeight + islandSize.y, rightCorner);
+    layer.setCell(waterWidth + islandSize.x + 2, waterHeight + islandSize.y - 1, rightCorner2);
 
     // Add Cliffs -- left side
     for (int x = waterWidth + 1; x <= waterWidth + islandSize.x + 1; x++) {
       Cell cell = new Cell();
+      Cell lowerCell = new Cell();
       cell.setTile(cliffTile);
+      lowerCell.setTile(cliffTile);
       layer.setCell(x, waterHeight - 1, cell);
+      layer.setCell(x + 1, waterHeight - 2, cell);
     }
 
     // Add Cliffs -- right side
     for (int y = waterHeight; y < waterHeight + islandSize.y; y++) {
       Cell cell = new Cell();
+      Cell lowerCell = new Cell();
       cell.setTile(cliffTile);
+      lowerCell.setTile(cliffTile);
       layer.setCell(waterWidth + islandSize.x + 1, y, cell);
+      layer.setCell(waterWidth + islandSize.x + 2, y - 1, cell);
     }
 
     // Fill remaining tiles with water
