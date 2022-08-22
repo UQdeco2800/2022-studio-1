@@ -1,0 +1,52 @@
+STARTING THE GAME
+
+Hello [USERNAME]! My name is [MAIN CHARACTER NAME]. We need your help in keeping our beloved Atlantis from sinking!
+
+
+DAY TIME
+
+During the day, you can build the city and prepare for your battle against our enemies tonight. Create the most developed city possible!
+
+To build a building, we must gather some resources first!
+
+We have to break this rock to get some resources. The more you break, the more you will gain! 
+
+Make sure to keep the crystal safe! Our city will sink if it is damaged by the monsters that will attack us at night.
+
+It’s getting dark now. Make sure to buy what you need from the store before it closes!
+
+
+NIGHT TIME
+
+The moon has risen! We must be alert for enemies that come from the water! Defend our city as well as you can!
+
+Guard the crystal as best as you can. The whole city depends on it!
+
+Eliminate as many enemies as possible!
+
+The sun is almost rising; keep going strong!
+
+
+AFTER THE WAVE
+
+Congratulations, you made it through the wave!
+
+Now, let’s prepare for tonight’s enemy wave!
+
+I have heard that the grand monster would come from that side of the city. Try to build more there! [WHILE INDICATING TO THE REFERRED COAST]
+
+
+FINAL BOSS
+
+Look, it is the grand monster! We must eliminate it to stop the enemies from returning to our city!
+
+
+AFTER THE FINAL BOSS
+
+We made it! We eliminated the grand monster! Our city is safe now. Thank you for saving us, [USERNAME]!
+
+
+BUTTONS
+
+- General: Back, buy, build
+- Menu: Sound, Close, Quit Game
