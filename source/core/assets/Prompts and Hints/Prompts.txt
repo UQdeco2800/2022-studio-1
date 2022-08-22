@@ -1,6 +1,3 @@
-Prompts
-
-
 STARTING THE GAME
 
 Hello [USERNAME]! My name is [MAIN CHARACTER NAME]. We need your help in keeping our beloved Atlantis from sinking!
@@ -53,12 +50,3 @@ BUTTONS
 
 - General: Back, buy, build
 - Menu: Sound, Close, Quit Game
-
-
-HINTS
-
-Hint: Build the city all over the coasts because the enemies are going to come from every side of the city.
-
-Hint: Try to even up the development on each coast so that the crystal would be protected from every side.
-
-Hint: Build more on the point where the grand monster will rise because it will be harder to eliminate!
