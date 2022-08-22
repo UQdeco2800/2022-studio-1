@@ -1,5 +1,4 @@
 package com.deco2800.game.components.infrastructure;
-import com.deco2800.game.entities.Entity;
 
 /**
  * Core abstract infrastructure class which creates a default infrastructure object. 
