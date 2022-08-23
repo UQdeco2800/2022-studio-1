@@ -1,24 +1,20 @@
 package com.deco2800.game.areas;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Octree.Collider;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
+import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
-import com.deco2800.game.physics.components.ColliderComponent;
-import com.deco2800.game.physics.components.PhysicsComponent;
-import com.deco2800.game.utils.math.GridPoint2Utils;
-import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.components.gamearea.GameAreaDisplay;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.deco2800.game.utils.math.RandomUtils;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
