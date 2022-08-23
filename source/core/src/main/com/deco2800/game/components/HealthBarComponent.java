@@ -26,6 +26,13 @@ public class HealthBarComponent extends RenderComponent {
     private float entityWidthScale;
     private float entityHeightScale;
 
+    /**
+     *
+     * Constructs a new health bar
+     *
+     * @param width the width of the health bar in pixels
+     * @param height the height of the healbar in pixels
+     */
     public HealthBarComponent(int width, int height) {
         this.healthBarWidth = width;
         this.healthBarHeight = height;
@@ -53,6 +60,12 @@ public class HealthBarComponent extends RenderComponent {
         this.combatStatsComponent = combatStatsComponent;
     }
 
+    /**
+     * As soon as the entity is created we want to get its CombatStatsComponent.
+     * This means the order in which you add the HealthBarComponent and CombatStatsComponent is
+     * important. You are expected to have CombatStatsComponent first added.
+     * fullHealth refers to the initial health of the entity when constructed
+     */
     @Override
     public void create() {
         super.create(); // registers renderer
@@ -65,6 +78,11 @@ public class HealthBarComponent extends RenderComponent {
         this.entityHeightScale = this.getEntity().getScale().y;
     }
 
+    /**
+     * When the render calls draw we render the health bar with
+     * any adjustments made so it reflects the remaining or added heath
+     * @param batch Batch to render to.
+     */
     @Override
     protected void draw(SpriteBatch batch) {
         var entityCurrentPosition = this.getEntity().getPosition();
