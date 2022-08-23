@@ -2,12 +2,10 @@ package com.deco2800.game.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.deco2800.game.rendering.RenderComponent;
-import com.deco2800.game.rendering.RenderService;
-import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.DrawableUtil;
+import com.deco2800.game.utils.RenderUtil;
 
 
 /**
@@ -16,15 +14,19 @@ import com.deco2800.game.utils.DrawableUtil;
 public class HealthBarComponent extends RenderComponent {
 
     private final ProgressBar progressBar;
-    private float viewportHeight;
-    private int screenHeight;
     private CombatStatsComponent combatStatsComponent;
+
+    private CameraComponent cameraComponent;
 
     private int fullHealth;
 
     private final int healthBarWidth;
 
     private final int healthBarHeight;
+
+    private float pixelsPerUnit;
+    private float entityWidthScale;
+    private float entityHeightScale;
 
     public HealthBarComponent(int width, int height) {
         this.healthBarWidth = width;
@@ -58,22 +60,17 @@ public class HealthBarComponent extends RenderComponent {
         super.create(); // registers renderer
         var pos = this.getEntity().getPosition();
         this.progressBar.setPosition(pos.x, pos.y);
-        RenderService renderService = ServiceLocator.getRenderService();
-        var cameraEntity = ServiceLocator.getEntityService().getNamedEntity("camera");
-        var cameraComponent = cameraEntity.getComponent(CameraComponent.class);
+        this.cameraComponent = RenderUtil.getCameraComponent();
         this.setCombatStatsComponent(this.getEntity().getComponent(CombatStatsComponent.class));
         this.fullHealth = this.combatStatsComponent.getHealth();
-        this.screenHeight = renderService.getStage().getViewport().getScreenHeight();
-        this.viewportHeight = cameraComponent.getCamera().viewportHeight; // in units
+        this.pixelsPerUnit = RenderUtil.getPixelsPerUnit();
+        this.entityWidthScale = this.getEntity().getScale().x;
+        this.entityHeightScale = this.getEntity().getScale().y;
     }
 
     @Override
     protected void draw(SpriteBatch batch) {
-        float pixelsPerUnit = this.screenHeight/this.viewportHeight;
-        float entityWidthScale = this.getEntity().getScale().x;
-        float entityHeightScale = this.getEntity().getScale().y;
         var entityCurrentPosition = this.getEntity().getPosition();
-
         /* Update progress bar*/
         this.progressBar.setValue( (float) this.combatStatsComponent.getHealth()/this.fullHealth);
         this.progressBar.updateVisualValue();
@@ -85,12 +82,10 @@ public class HealthBarComponent extends RenderComponent {
         this.progressBar.setPosition(healthBarXPos , healthBarYPos);
 
         /* We need to temporarily render in pixels */
-        Matrix4 originalMatrix = batch.getProjectionMatrix().cpy();
-        batch.setProjectionMatrix(originalMatrix.cpy()
-                .scale(this.viewportHeight/this.screenHeight,
-                        this.viewportHeight/this.screenHeight, 1));
-        this.progressBar.draw(batch, 1);
-        batch.setProjectionMatrix(originalMatrix); // go back to original projection
+        RenderUtil.renderInPixels(batch, cameraComponent.getCamera(), () -> {
+            this.progressBar.draw(batch, 1);
+        });
     }
+
 
 }
