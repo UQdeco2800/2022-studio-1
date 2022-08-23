@@ -61,12 +61,13 @@ public class TerrainFactory {
             resourceService.getAsset("images/trial3GrassTile.png", Texture.class));
 
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/iso_water_placeholder.png", Texture.class));
-        TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/iso_cliff.png", Texture.class));
+            resourceService.getAsset("images/water version 2.png", Texture.class));
+        TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/fullSizedDirt.png", Texture.class));
         TextureRegion isoCliffLeft = new TextureRegion(
-            resourceService.getAsset("images/iso_cliff_edge_left.png", Texture.class));
+            resourceService.getAsset("images/waterDirtMerged.png", Texture.class));
         TextureRegion isoCliffRight = new TextureRegion(
-            resourceService.getAsset("images/iso_cliff_edge_right.png", Texture.class));
+            resourceService.getAsset("images/waterDirtMerged.png", Texture.class));
+        isoCliffRight.flip(true, false);
 
         return createForestDemoTerrain(0.5f, isoGrass, isoWater, isoCliff, isoCliffLeft,
             isoCliffRight);
