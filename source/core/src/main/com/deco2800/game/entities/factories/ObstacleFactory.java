@@ -1,6 +1,6 @@
 package com.deco2800.game.entities.factories;
-
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.deco2800.game.components.Enviromental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -20,17 +20,39 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    Entity tree =
-        new Entity()
-            .addComponent(new TextureRenderComponent("images/tree.png"))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+    return createEnvironmentalObject("images/tree.png",EnvironmentalComponent.EnvironmentalType.WOOD, 2.5f, 0.5f, 0.2f);
+  }
 
-    tree.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
-    tree.getComponent(TextureRenderComponent.class).scaleEntity();
-    tree.scaleHeight(2.5f);
-    PhysicsUtils.setScaledCollider(tree, 0.5f, 0.2f);
-    return tree;
+  /**
+   * Creates a rock entity.
+   * Placeholder image from:
+   * <a href='https://www.freepik.com/vectors/sea-monster'>Sea monster vector created by macrovector - www.freepik.com</a>
+   * @return entity
+   */
+  public static Entity createRock() {
+    return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f);
+  }
+
+  /**
+   * Create a environmental entity based off the given parameters.
+   * @param type type of environmental object from EnvironmentalType
+   * @param heightScale height scaling of the entity
+   * @param scaleX x scaling of the entity
+   * @param scaleY y scaling of the entity
+   * @return Environmental Entity
+   */
+  private static Entity createEnvironmentalObject(String imgPath, EnvironmentalComponent.EnvironmentalType type, float heightScale, float scaleX, float scaleY) {
+      Entity environmentalObject = new Entity()
+                  .addComponent(new TextureRenderComponent(imgPath))
+                  .addComponent(new PhysicsComponent())
+                  .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+                  .addComponent(new EnvironmentalComponent().setType(type));
+
+    environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
+    environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
+    environmentalObject.scaleHeight(heightScale);
+    PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
+    return environmentalObject;
   }
 
   /**
