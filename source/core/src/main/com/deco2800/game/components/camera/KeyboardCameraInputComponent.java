@@ -9,6 +9,7 @@ import com.deco2800.game.utils.math.Vector2Utils;
 public class KeyboardCameraInputComponent extends InputComponent {
         private final Vector2 panDirection = Vector2.Zero.cpy();
         private boolean zoom = false;
+        private boolean zoomOut = false;
 
         public KeyboardCameraInputComponent() {
                 super(5);
@@ -40,8 +41,12 @@ public class KeyboardCameraInputComponent extends InputComponent {
                                 triggerPanEvent();
                                 return true;
                         case Keys.Z:
-                                zoom = false;
+                                zoom = true;
                                 triggerZoomEvent();
+                                return true;
+                        case Keys.X:
+                                zoomOut = true;
+                                triggerZoomOutEvent();
                                 return true;
                         case Keys.P:
                                 triggerToggleDebug();
@@ -80,6 +85,10 @@ public class KeyboardCameraInputComponent extends InputComponent {
                                 zoom = false;
                                 triggerZoomEvent();
                                 return true;
+                        case Keys.X:
+                                zoomOut = false;
+                                triggerZoomOutEvent();
+                                return true;
                         case Keys.P:
                                 return true;
                         default:
@@ -106,6 +115,14 @@ public class KeyboardCameraInputComponent extends InputComponent {
                         entity.getEvents().trigger("zoom");
                 } else {
                         entity.getEvents().trigger("zoomStop");
+                }
+        }
+
+        private void triggerZoomOutEvent() {
+                if (zoomOut) {
+                        entity.getEvents().trigger("zoomOut");
+                } else {
+                        entity.getEvents().trigger("stopZoomOut");
                 }
         }
 
