@@ -82,7 +82,7 @@ public class HealthBarComponent extends RenderComponent {
         this.progressBar.setPosition(healthBarXPos , healthBarYPos);
 
         /* We need to temporarily render in pixels */
-        RenderUtil.renderInPixels(batch, cameraComponent.getCamera(), () -> {
+        RenderUtil.renderInPixels(batch, () -> {
             this.progressBar.draw(batch, 1);
         });
     }

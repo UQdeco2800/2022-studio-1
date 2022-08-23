@@ -1,6 +1,5 @@
 package com.deco2800.game.utils;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Matrix4;
 import com.deco2800.game.components.CameraComponent;
@@ -18,12 +17,11 @@ public class RenderUtil {
      * This expects a callback function
      *
      * @param batch the batch to draw onto
-     * @param camera the camera
      * @param runnable a callback method that includes draw calls
      */
-    public static void renderInPixels(Batch batch, Camera camera, Runnable runnable) {
-        float screenHeight = ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
-        float viewportHeight = camera.viewportHeight; // in units
+    public static void renderInPixels(Batch batch, Runnable runnable) {
+        float screenHeight = getScreenHeight();
+        float viewportHeight = getCameraComponent().getCamera().viewportHeight;
 
         Matrix4 originalMatrix = batch.getProjectionMatrix().cpy();
         batch.setProjectionMatrix(originalMatrix.cpy()
@@ -44,7 +42,7 @@ public class RenderUtil {
 
     /**
      * Uses EntityService to fetch the "camera" entity from which the camera component
-     * can the be located.
+     * can then be located.
      *
      * @return the located camera component
      */
