@@ -32,11 +32,11 @@ public class TerrainFactory {
    * @param cameraComponent Camera to render terrains to. Must be ortographic.
    */
   public TerrainFactory(CameraComponent cameraComponent) {
-    this(cameraComponent, TerrainOrientation.ORTHOGONAL);
+    this(cameraComponent, TerrainOrientation.ISOMETRIC);
   }
 
   /**
-   * Create a terrain factory
+   * Create a terrain factory`
    *
    * @param cameraComponent Camera to render terrains to. Must be orthographic.
    * @param orientation orientation to render terrain at

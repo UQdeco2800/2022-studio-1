@@ -20,10 +20,18 @@ import org.slf4j.LoggerFactory;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final int NUM_TREES = 7;
+
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
+
+  private static final int MAX_ENVIROMENTAL_OBJECTS = 20;
+  private static final int MIN_NUM_TREES = 3;
+  private static final int MAX_NUM_TREES = 12;
+  private static final int MIN_NUM_ROCKS = 5;
+  private static final int MAX_NUM_ROCKS = 8;
+
+
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
     "images/tree.png",
@@ -37,7 +45,8 @@ public class ForestGameArea extends GameArea {
     "images/hex_grass_3.png",
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
-    "images/iso_grass_3.png"
+    "images/iso_grass_3.png",
+    "images/rock_placeholder_image.png"
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -63,10 +72,13 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
-    spawnTrees();
+
+    spawnEnvironmentalObjects();
+
     player = spawnPlayer();
     spawnGhosts();
     spawnGhostKing();
+
 
     playMusic();
   }
@@ -79,7 +91,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnTerrain() {
     // Background terrain
-    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO);
+    terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
     spawnEntity(new Entity().addComponent(terrain));
 
     // Terrain walls
@@ -107,16 +119,54 @@ public class ForestGameArea extends GameArea {
         ObstacleFactory.createWall(worldBounds.x, WALL_WIDTH), GridPoint2Utils.ZERO, false, false);
   }
 
-  private void spawnTrees() {
+  /**
+   *  Spawns trees based off semi random bounds
+   * @param numTrees Number of trees to spawn
+   */
+  private void spawnTrees(int numTrees) {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    for (int i = 0; i < NUM_TREES; i++) {
+    for (int i = 0; i < numTrees; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
       spawnEntityAt(tree, randomPos, true, false);
     }
   }
+
+  /**
+   * Spawns rocks based of semi random bounds
+   * @param numRocks Number of rocks to spawn
+   */
+  private void spawnRocks(int numRocks) {
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+
+    for (int i = 0; i < numRocks; i++) {
+      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      Entity Rock = ObstacleFactory.createRock();
+      spawnEntityAt(Rock, randomPos, true, false);
+    }
+  }
+
+  /**
+   * Generate the environment objects. This is responsible for rocks, trees and other related Environmental Types.
+   * Object numbers must fall within set bounds.
+   */
+  private void spawnEnvironmentalObjects() {
+    int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
+    System.out.println(numTrees);
+    spawnTrees(numTrees);
+    int objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numTrees;
+
+    int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
+    spawnRocks(numRocks);
+    objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numRocks;
+
+    //Remaining number of objects can be spawned off raw percentage?
+
+  }
+
 
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.createPlayer();
