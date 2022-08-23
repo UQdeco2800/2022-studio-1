@@ -63,8 +63,8 @@ public class ShopScreen extends ScreenAdapter {
 
         logger.debug("Initialising main game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
-        forestGameArea.create();
+        ShopArea shopArea = new ShopArea(terrainFactory);
+        shopArea.create();
     }
 
     @Override
@@ -77,7 +77,6 @@ public class ShopScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
-        logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
     @Override
