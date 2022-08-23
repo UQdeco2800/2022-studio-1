@@ -22,8 +22,8 @@ public class Tower1 extends DefensiveTower {
     /*
      * Function which creates the tower entity. 
      */
-    public Tower1 createTower1() {
-        Tower1 tower1 = createTower();
+    public Entity createTower1() {
+        Entity tower1 = createTower();
 
         return tower1;
     }    
