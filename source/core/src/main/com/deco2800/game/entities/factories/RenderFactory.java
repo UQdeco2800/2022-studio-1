@@ -18,9 +18,11 @@ public class RenderFactory {
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForCamera();
 
     Entity camera = createCamera();
+
     camera.addComponent(new CameraActions());
     camera.addComponent(inputComponent);
-    ServiceLocator.getEntityService().register(camera);
+
+    ServiceLocator.getEntityService().registerNamed("camera", camera);
     CameraComponent camComponent = camera.getComponent(CameraComponent.class);
     return new Renderer(camComponent);
   }

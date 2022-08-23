@@ -35,7 +35,7 @@ public class TerrainFactory {
   }
 
   /**
-   * Create a terrain factory
+   * Create a terrain factory`
    *
    * @param cameraComponent Camera to render terrains to. Must be orthographic.
    * @param orientation     orientation to render terrain at
