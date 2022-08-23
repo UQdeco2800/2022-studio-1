@@ -21,8 +21,6 @@ import com.deco2800.game.services.ServiceLocator;
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
   private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(30, 30);
-  private static final int TUFT_TILE_COUNT = 30;
-  private static final int ROCK_TILE_COUNT = 30;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -59,9 +57,8 @@ public class TerrainFactory {
     ResourceService resourceService = ServiceLocator.getResourceService();
     switch (terrainType) {
       case FOREST_DEMO_ISO:
-        TextureRegion isoGrass = new TextureRegion(resourceService.getAsset("images/iso_grass_1.png", Texture.class));
-        TextureRegion isoTuft = new TextureRegion(resourceService.getAsset("images/iso_grass_2.png", Texture.class));
-        TextureRegion isoRocks = new TextureRegion(resourceService.getAsset("images/iso_grass_3.png", Texture.class));
+        TextureRegion isoGrass = new TextureRegion(
+            resourceService.getAsset("images/trial2GrassTile.png", Texture.class));
         TextureRegion isoWater = new TextureRegion(
             resourceService.getAsset("images/iso_water_placeholder.png", Texture.class));
         TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/iso_cliff.png", Texture.class));
@@ -69,7 +66,8 @@ public class TerrainFactory {
             resourceService.getAsset("images/iso_cliff_edge_left.png", Texture.class));
         TextureRegion isoCliffRight = new TextureRegion(
             resourceService.getAsset("images/iso_cliff_edge_right.png", Texture.class));
-        return createForestDemoTerrain(0.5f, isoGrass, isoTuft, isoRocks, isoWater, isoCliff, isoCliffLeft,
+
+        return createForestDemoTerrain(0.5f, isoGrass, isoWater, isoCliff, isoCliffLeft,
             isoCliffRight);
       default:
         return null;
@@ -77,10 +75,10 @@ public class TerrainFactory {
   }
 
   private TerrainComponent createForestDemoTerrain(
-      float tileWorldSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water,
+      float tileWorldSize, TextureRegion grass, TextureRegion water,
       TextureRegion cliff, TextureRegion cliffLeft, TextureRegion cliffRight) {
     GridPoint2 tilePixelSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
-    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, grassTuft, rocks, water, cliff, cliffLeft,
+    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, water, cliff, cliffLeft,
         cliffRight);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
@@ -100,12 +98,10 @@ public class TerrainFactory {
   }
 
   private TiledMap createForestDemoTiles(
-      GridPoint2 tileSize, TextureRegion grass, TextureRegion grassTuft, TextureRegion rocks, TextureRegion water,
-      TextureRegion cliff, TextureRegion cliffLeft, TextureRegion cliffRight) {
+      GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion cliff, TextureRegion cliffLeft,
+      TextureRegion cliffRight) {
     TiledMap tiledMap = new TiledMap();
     TerrainTile grassTile = new TerrainTile(grass);
-    TerrainTile grassTuftTile = new TerrainTile(grassTuft);
-    TerrainTile rockTile = new TerrainTile(rocks);
     TerrainTile waterTile = new TerrainTile(water);
     TerrainTile cliffTile = new TerrainTile(cliff);
     TerrainTile cliffRightTile = new TerrainTile(cliffRight);
@@ -115,16 +111,11 @@ public class TerrainFactory {
     // Create base grass
     fillTiles(layer, INITIAL_ISLAND_SIZE, MAP_SIZE, waterTile, grassTile, cliffTile, cliffRightTile, cliffLeftTile);
 
-    // Add some grass and rocks
-    // fillTilesAtRandom(layer, MAP_SIZE, grassTuftTile, TUFT_TILE_COUNT);
-    // fillTilesAtRandom(layer, MAP_SIZE, rockTile, ROCK_TILE_COUNT);
-
     tiledMap.getLayers().add(layer);
     return tiledMap;
   }
 
-  private static void fillTilesAtRandom(
-      TiledMapTileLayer layer, GridPoint2 mapSize, TerrainTile tile, int amount) {
+  private static void fillTilesAtRandom(TiledMapTileLayer layer, GridPoint2 mapSize, TerrainTile tile, int amount) {
     GridPoint2 min = new GridPoint2(0, 0);
     GridPoint2 max = new GridPoint2(mapSize.x - 1, mapSize.y - 1);
 
