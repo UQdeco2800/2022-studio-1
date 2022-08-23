@@ -22,7 +22,13 @@ public class HealthBarComponent extends RenderComponent {
 
     private int fullHealth;
 
+    private final int healthBarWidth;
+
+    private final int healthBarHeight;
+
     public HealthBarComponent(int width, int height) {
+        this.healthBarWidth = width;
+        this.healthBarHeight = height;
         this.progressBar = new ProgressBar (0f,
                 1f,
                 0.01f,
@@ -59,18 +65,30 @@ public class HealthBarComponent extends RenderComponent {
         this.fullHealth = this.combatStatsComponent.getHealth();
         this.screenHeight = renderService.getStage().getViewport().getScreenHeight();
         this.viewportHeight = cameraComponent.getCamera().viewportHeight; // in units
-
     }
 
     @Override
     protected void draw(SpriteBatch batch) {
         float pixelsPerUnit = this.screenHeight/this.viewportHeight;
+        float entityWidthScale = this.getEntity().getScale().x;
+        float entityHeightScale = this.getEntity().getScale().y;
         var entityCurrentPosition = this.getEntity().getPosition();
+
+        /* Update progress bar*/
         this.progressBar.setValue( (float) this.combatStatsComponent.getHealth()/this.fullHealth);
         this.progressBar.updateVisualValue();
-        this.progressBar.setPosition(entityCurrentPosition.x * pixelsPerUnit, entityCurrentPosition.y * pixelsPerUnit);
+
+        /* We need these calculations to correctly position the health bar at the top of entity */
+        float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale/2 * pixelsPerUnit))
+                - (this.healthBarWidth / 2f);
+        float healthBarYPos = (entityCurrentPosition.y *pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
+        this.progressBar.setPosition(healthBarXPos , healthBarYPos);
+
+        /* We need to temporarily render in pixels */
         Matrix4 originalMatrix = batch.getProjectionMatrix().cpy();
-        batch.setProjectionMatrix(originalMatrix.cpy().scale(this.viewportHeight/this.screenHeight, this.viewportHeight/this.screenHeight, 1));
+        batch.setProjectionMatrix(originalMatrix.cpy()
+                .scale(this.viewportHeight/this.screenHeight,
+                        this.viewportHeight/this.screenHeight, 1));
         this.progressBar.draw(batch, 1);
         batch.setProjectionMatrix(originalMatrix); // go back to original projection
     }
