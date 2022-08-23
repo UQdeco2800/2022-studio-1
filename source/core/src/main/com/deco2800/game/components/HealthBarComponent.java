@@ -16,8 +16,6 @@ public class HealthBarComponent extends RenderComponent {
     private final ProgressBar progressBar;
     private CombatStatsComponent combatStatsComponent;
 
-    private CameraComponent cameraComponent;
-
     private int fullHealth;
 
     private final int healthBarWidth;
@@ -60,7 +58,6 @@ public class HealthBarComponent extends RenderComponent {
         super.create(); // registers renderer
         var pos = this.getEntity().getPosition();
         this.progressBar.setPosition(pos.x, pos.y);
-        this.cameraComponent = RenderUtil.getCameraComponent();
         this.setCombatStatsComponent(this.getEntity().getComponent(CombatStatsComponent.class));
         this.fullHealth = this.combatStatsComponent.getHealth();
         this.pixelsPerUnit = RenderUtil.getPixelsPerUnit();
