@@ -12,7 +12,7 @@ import com.deco2800.game.rendering.TextureRenderComponent;
  * Core defensiveTower class which extends the infrastructure class. Adds 
  * additional attributes such as damage, which all defensive towers possess. 
  */
-public abstract class defensiveTower extends infrastructure {
+public class DefensiveTower extends Infrastructure {
     //Will need to adjust these variables once we know a definitive tile size
     static float TOWERX = 0.6f; 
     static float TOWERY = 0.3f;
@@ -24,7 +24,7 @@ public abstract class defensiveTower extends infrastructure {
      * Constructor for the defensiveTower abstract class. Initialises health and
      * damage parameters. 
      */
-    public defensiveTower(int health, int damage, String texture) {
+    public DefensiveTower(int health, int damage, String texture) {
         super(health); //Sets the health of the tower
         this.damage = damage; //Sets the damage of the tower
         this.texture = texture;

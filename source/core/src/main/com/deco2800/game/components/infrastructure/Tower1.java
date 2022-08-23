@@ -7,12 +7,12 @@ import com.deco2800.game.entities.Entity;
  * Adds additional relevant components to create desired behaviour. 
  */
 
-public class tower1 extends defensiveTower {
+public class Tower1 extends DefensiveTower {
     
     /*
      * Constructor which initialises texture, health and damage to desired values
      */
-    public tower1(int health, int damage, String texture) {
+    public Tower1(int health, int damage, String texture) {
         super(health, damage, texture);
         this.texture = "images/mud.png";
         this.health = 100;
