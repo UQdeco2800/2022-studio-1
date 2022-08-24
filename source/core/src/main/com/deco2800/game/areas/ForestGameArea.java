@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
+import com.deco2800.game.components.Enviromental.EnvironmentalComponent;
 import com.deco2800.game.components.Enviromental.SpeedComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.NPCFactory;
@@ -17,6 +18,9 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -167,6 +171,28 @@ public class ForestGameArea extends GameArea {
 
     //Remaining number of objects can be spawned off raw percentage?
 
+  }
+
+
+  /*removes an entity at a specific tile coordinate
+   *@param removeTile The tile where environment entities is removed
+   */
+  private void removeEnvironmentalObject(GridPoint2 removeTile) {
+    Vector2 removeLoc = terrain.tileToWorldPosition(removeTile);
+    List<Entity> found = new ArrayList<Entity>();
+    //go through areaEntities to find entity in that position
+    for (Entity entity : this.areaEntities) {
+      if(entity.getPosition() == removeLoc &&
+              //check if entity is an environment object
+              entity.getComponent(EnvironmentalComponent.class) != null) {
+        // put inside separate list first to avoid ConcurrentModificationException
+        found.add(entity);
+      }
+    }
+    this.areaEntities.removeAll(found);
+    for (Entity entity : found) {
+      entity.dispose();
+    }
   }
 
 
