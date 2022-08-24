@@ -19,15 +19,15 @@ import org.slf4j.LoggerFactory;
 public class ShopArea extends GameArea {
     private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
 
-    private static final int NUM_GHOSTS = 2;
+    private static final int NUM_GHOSTS = 0;
     private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
     private static final float WALL_WIDTH = 0.1f;
 
     private static final int MAX_ENVIROMENTAL_OBJECTS = 20;
-    private static final int MIN_NUM_TREES = 3;
-    private static final int MAX_NUM_TREES = 12;
-    private static final int MIN_NUM_ROCKS = 5;
-    private static final int MAX_NUM_ROCKS = 8;
+    private static final int MIN_NUM_TREES = 0;
+    private static final int MAX_NUM_TREES = 0;
+    private static final int MIN_NUM_ROCKS = 0;
+    private static final int MAX_NUM_ROCKS = 0;
 
 
     private static final String[] forestTextures = {
