@@ -31,8 +31,10 @@ import org.slf4j.LoggerFactory;
 
 public class ShopScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-    private static final String[] mainGameTextures = {"images/heart.png"};
-    private static final Vector2 CAMERA_POSITION = new Vector2(15f, 0f);
+
+    private static final String[] mainGameTextures = { "images/heart.png" };
+
+    private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
 
     private final GdxGame game;
     private final Renderer renderer;
@@ -63,8 +65,8 @@ public class ShopScreen extends ScreenAdapter {
 
         logger.debug("Initialising main game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-        ShopArea shopArea = new ShopArea(terrainFactory);
-        shopArea.create();
+        ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
+        forestGameArea.create();
     }
 
     @Override
@@ -77,6 +79,7 @@ public class ShopScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
+        logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
     @Override
@@ -117,14 +120,14 @@ public class ShopScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates the main game's ui including components for rendering ui elements to the screen and
+     * Creates the main game's ui including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent =
-                ServiceLocator.getInputService().getInputFactory().createForTerminal();
+        InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
