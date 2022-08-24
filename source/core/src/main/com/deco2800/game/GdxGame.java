@@ -14,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import static com.badlogic.gdx.Gdx.app;
 
 /**
- * Entry point of the non-platform-specific game logic. Controls which screen is currently running.
- * The current screen triggers transitions to other screens. This works similarly to a finite state
+ * Entry point of the non-platform-specific game logic. Controls which screen is
+ * currently running.
+ * The current screen triggers transitions to other screens. This works
+ * similarly to a finite state
  * machine (See the State Pattern).
  */
 public class GdxGame extends Game {
@@ -27,7 +29,7 @@ public class GdxGame extends Game {
     loadSettings();
 
     // Sets background to light yellow
-    Gdx.gl.glClearColor(248f/255f, 249/255f, 178/255f, 1);
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
     setScreen(ScreenType.MAIN_MENU);
   }
@@ -43,6 +45,7 @@ public class GdxGame extends Game {
 
   /**
    * Sets the game's screen to a new screen of the provided type.
+   * 
    * @param screenType screen type
    */
   public void setScreen(ScreenType screenType) {
@@ -50,6 +53,12 @@ public class GdxGame extends Game {
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
       currentScreen.dispose();
+    }
+
+    if (screenType == ScreenType.MAIN_GAME) {
+      Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
+    } else {
+      Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
     setScreen(newScreen(screenType));
   }
@@ -62,6 +71,7 @@ public class GdxGame extends Game {
 
   /**
    * Create a new screen of the provided type.
+   * 
    * @param screenType screen type
    * @return new screen
    */
