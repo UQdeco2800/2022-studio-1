@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
+import com.deco2800.game.components.Enviromental.SpeedComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
@@ -72,10 +73,10 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
-
+    player = spawnPlayer();
     spawnEnvironmentalObjects();
 
-    player = spawnPlayer();
+
     spawnGhosts();
     spawnGhostKing();
 
@@ -130,7 +131,8 @@ public class ForestGameArea extends GameArea {
     for (int i = 0; i < numTrees; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
-      spawnEntityAt(tree, randomPos, true, false);
+      tree.getComponent(SpeedComponent.class).setPlayer(player);
+      spawnEntityAt(tree, randomPos, true, true);
     }
   }
 
@@ -160,7 +162,7 @@ public class ForestGameArea extends GameArea {
     int objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numTrees;
 
     int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    spawnRocks(numRocks);
+    //spawnRocks(numRocks);
     objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numRocks;
 
     //Remaining number of objects can be spawned off raw percentage?

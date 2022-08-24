@@ -12,7 +12,7 @@ import com.deco2800.game.services.ServiceLocator;
  * and when triggered should call methods within this class.
  */
 public class PlayerActions extends Component {
-  private static final Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
 
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
@@ -31,6 +31,10 @@ public class PlayerActions extends Component {
     if (moving) {
       updateSpeed();
     }
+  }
+
+  public void setPlayerSpeed(float x, float y) {
+    MAX_SPEED = new Vector2(x, y);
   }
 
   private void updateSpeed() {
