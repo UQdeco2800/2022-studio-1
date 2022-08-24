@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
-import com.deco2800.game.components.Enviromental.SpeedComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
@@ -55,7 +55,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestSounds = {"sounds/Impact4.ogg"};
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
   private static final String[] forestMusic = {backgroundMusic};
-
+  private EnvironmentalCollision entityMapping;
   private final TerrainFactory terrainFactory;
 
   private Entity player;
@@ -73,15 +73,16 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
+    this.entityMapping = new EnvironmentalCollision(terrain);
+
     player = spawnPlayer();
     spawnEnvironmentalObjects();
 
-
     spawnGhosts();
     spawnGhostKing();
-
-
     playMusic();
+
+
   }
 
   private void displayUI() {
@@ -131,8 +132,13 @@ public class ForestGameArea extends GameArea {
     for (int i = 0; i < numTrees; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity tree = ObstacleFactory.createTree();
-      tree.getComponent(SpeedComponent.class).setPlayer(player);
-      spawnEntityAt(tree, randomPos, true, true);
+
+      while (this.entityMapping.wouldCollide(tree, randomPos.x, randomPos.y)) {
+        randomPos = RandomUtils.random(minPos, maxPos);
+      }
+
+      this.entityMapping.addEntity(tree);
+      spawnEntityAt(tree, randomPos, false, false);
     }
   }
 
@@ -147,7 +153,11 @@ public class ForestGameArea extends GameArea {
     for (int i = 0; i < numRocks; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
       Entity Rock = ObstacleFactory.createRock();
-      spawnEntityAt(Rock, randomPos, true, false);
+
+      while (this.entityMapping.wouldCollide(Rock, randomPos.x, randomPos.y)) {
+        randomPos = RandomUtils.random(minPos, maxPos);
+      }
+      spawnEntityAt(Rock, randomPos, false, false);
     }
   }
 
@@ -157,16 +167,15 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnvironmentalObjects() {
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
-    System.out.println(numTrees);
     spawnTrees(numTrees);
     int objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numTrees;
 
     int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    //spawnRocks(numRocks);
+    spawnRocks(numRocks);
     objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numRocks;
 
-    //Remaining number of objects can be spawned off raw percentage?
 
+    //Remaining number of objects can be spawned off raw percentage?
   }
 
 
