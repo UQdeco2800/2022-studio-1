@@ -1,7 +1,9 @@
 package com.deco2800.game.entities.factories;
 
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -12,10 +14,16 @@ public class RenderFactory {
   }
 
   public static Renderer createRenderer() {
-    Entity camera = createCamera();
-    ServiceLocator.getEntityService().register(camera);
-    CameraComponent camComponent = camera.getComponent(CameraComponent.class);
 
+    InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForCamera();
+
+    Entity camera = createCamera();
+
+    camera.addComponent(new CameraActions());
+    camera.addComponent(inputComponent);
+
+    ServiceLocator.getEntityService().registerNamed("camera", camera);
+    CameraComponent camComponent = camera.getComponent(CameraComponent.class);
     return new Renderer(camComponent);
   }
 
