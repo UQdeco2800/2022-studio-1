@@ -53,7 +53,7 @@ public class EnvironmentalCollision {
      * @return true if a collision would occur else false
      */
     public Boolean wouldCollide(Entity potentialEntity, int xPotential, int yPotential) {
-        //if empty no collisions to check
+        //if empty no collisions to check:
         if (entityMap.values().size() == 0) {
             return false;
         }
