@@ -30,12 +30,16 @@ import org.slf4j.LoggerFactory;
 /**
  * The game screen containing the main game.
  *
- * <p>Details on libGDX screens: https://happycoding.io/tutorials/libgdx/game-screens
+ * <p>
+ * Details on libGDX screens:
+ * https://happycoding.io/tutorials/libgdx/game-screens
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-  private static final String[] mainGameTextures = {"images/heart.png"};
-  private static final Vector2 CAMERA_POSITION = new Vector2(15f, 0f);
+
+  private static final String[] mainGameTextures = { "images/heart.png" };
+
+  private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
 
   private final GdxGame game;
   private final Renderer renderer;
@@ -121,14 +125,14 @@ public class MainGameScreen extends ScreenAdapter {
   }
 
   /**
-   * Creates the main game's ui including components for rendering ui elements to the screen and
+   * Creates the main game's ui including components for rendering ui elements to
+   * the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
-    InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForTerminal();
+    InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
