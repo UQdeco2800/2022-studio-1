@@ -81,11 +81,14 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">InputFactory</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">InputFactory creates inputType-specific inputFactories which can handle various types of input.
- Currently only keyboard input and touch is implemented, but InputFactory can be expanded to
+<div class="block">InputFactory creates inputType-specific inputFactories which can handle
+ various types of input.
+ Currently only keyboard input and touch is implemented, but InputFactory can
+ be expanded to
  include more, e.g. touch gestures.
 
- <p>Methods to get new input handlers should be defined here.</div>
+ <p>
+ Methods to get new input handlers should be defined here.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -131,18 +134,21 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createForPlayer()" class="member-name-link">createForPlayer</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createForCamera()" class="member-name-link">createForCamera</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createForPlayer()" class="member-name-link">createForPlayer</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates an input handler for the player</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createForTerminal()" class="member-name-link">createForTerminal</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createForTerminal()" class="member-name-link">createForTerminal</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates an input handler for the terminal</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="InputFactory.html" title="class in com.deco2800.game.input">InputFactory</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createFromInputType(com.deco2800.game.input.InputFactory.InputType)" class="member-name-link">createFromInputType</a><wbr>(<a href="InputFactory.InputType.html" title="enum class in com.deco2800.game.input">InputFactory.InputType</a>&nbsp;inputType)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="InputFactory.html" title="class in com.deco2800.game.input">InputFactory</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createFromInputType(com.deco2800.game.input.InputFactory.InputType)" class="member-name-link">createFromInputType</a><wbr>(<a href="InputFactory.InputType.html" title="enum class in com.deco2800.game.input">InputFactory.InputType</a>&nbsp;inputType)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -195,6 +201,12 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>Player input handler</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createForCamera()">
+<h3>createForCamera</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></span>&nbsp;<span class="element-name">createForCamera</span>()</div>
 </section>
 </li>
 <li>

@@ -79,7 +79,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">KeyboardInputFactory</span>
 <span class="extends-implements">extends <a href="InputFactory.html" title="class in com.deco2800.game.input">InputFactory</a></span></div>
-<div class="block">KeyboardInputFactory creates input handlers that process keyboard and touch support.</div>
+<div class="block">KeyboardInputFactory creates input handlers that process keyboard and touch
+ support.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -117,13 +118,18 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createForPlayer()" class="member-name-link">createForPlayer</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createForCamera()" class="member-name-link">createForCamera</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Creates an input handler for the player.</div>
+<div class="block">Creates an input handler for the camera.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createForTerminal()" class="member-name-link">createForTerminal</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createForPlayer()" class="member-name-link">createForPlayer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates an input handler for the player.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createForTerminal()" class="member-name-link">createForTerminal</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates an input handler for the terminal.</div>
 </div>
 </div>
@@ -183,6 +189,19 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="InputFactory.html#createForTerminal()">createForTerminal</a></code>&nbsp;in class&nbsp;<code><a href="InputFactory.html" title="class in com.deco2800.game.input">InputFactory</a></code></dd>
 <dt>Returns:</dt>
 <dd>Terminal input handler</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createForCamera()">
+<h3>createForCamera</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></span>&nbsp;<span class="element-name">createForCamera</span>()</div>
+<div class="block">Creates an input handler for the camera.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="InputFactory.html#createForCamera()">createForCamera</a></code>&nbsp;in class&nbsp;<code><a href="InputFactory.html" title="class in com.deco2800.game.input">InputFactory</a></code></dd>
+<dt>Returns:</dt>
+<dd>Camera input handler</dd>
 </dl>
 </section>
 </li>

@@ -86,10 +86,13 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">GameArea</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements com.badlogic.gdx.utils.Disposable</span></div>
-<div class="block">Represents an area in the game, such as a level, indoor area, etc. An area has a terrain and
+<div class="block">Represents an area in the game, such as a level, indoor area, etc. An area
+ has a terrain and
  other entities to spawn on that terrain.
 
- <p>Support for enabling/disabling game areas could be added by making this a Component instead.</div>
+ <p>
+ Support for enabling/disabling game areas could be added by making this a
+ Component instead.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -252,8 +255,10 @@ implements com.badlogic.gdx.utils.Disposable</span></div>
 <dt>Parameters:</dt>
 <dd><code>entity</code> - Entity (not yet registered)</dd>
 <dd><code>tilePos</code> - tile position to spawn at</dd>
-<dd><code>centerX</code> - true to center entity X on the tile, false to align the bottom left corner</dd>
-<dd><code>centerY</code> - true to center entity Y on the tile, false to align the bottom left corner</dd>
+<dd><code>centerX</code> - true to center entity X on the tile, false to align the bottom
+                left corner</dd>
+<dd><code>centerY</code> - true to center entity Y on the tile, false to align the bottom
+                left corner</dd>
 </dl>
 </section>
 </li>
