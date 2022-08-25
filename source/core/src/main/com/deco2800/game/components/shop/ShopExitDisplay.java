@@ -21,14 +21,20 @@ public class ShopExitDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table table;
 
-    private TextureRegionDrawable up;
+    private TextureRegionDrawable returnUp;
 
-    private TextureRegionDrawable down;
+    private TextureRegionDrawable returnDown;
     private Texture returnTexture;
 
     private Texture shopTexture;
 
     private Image shop_background;
+
+    private Image buildingBtn;
+    private Texture buildingTexture;
+
+    private Image artefactsBtn;
+    private Texture artefactTexture;
 
     @Override
     public void create() {
@@ -42,14 +48,26 @@ public class ShopExitDisplay extends UIComponent {
         table.setFillParent(true);
 
         returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
-        up = new TextureRegionDrawable(returnTexture);
-        down = new TextureRegionDrawable(returnTexture);
-        ImageButton backBtn = new ImageButton(up,down);
+        returnUp = new TextureRegionDrawable(returnTexture);
+        returnDown = new TextureRegionDrawable(returnTexture);
+        ImageButton backBtn = new ImageButton(returnUp,returnDown);
+
+        buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+        buildingBtn = new Image(buildingTexture);
+        buildingBtn.setPosition(500,500);
+        buildingBtn.setSize(300,300);
+
+        artefactTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+        Image artefactBtn = new Image(artefactTexture);
+        artefactBtn.setPosition(1000,500);
+        artefactBtn.setSize(300,300);
 
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
-        shop_background.setPosition(480,300);
+        shop_background.setPosition(400,300);
         stage.addActor(shop_background);
+        stage.addActor(buildingBtn);
+        stage.addActor(artefactBtn);
 
         // Triggers an event when the button is pressed.
         backBtn.addListener(
