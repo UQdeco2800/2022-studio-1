@@ -1,13 +1,12 @@
 package com.deco2800.game.components.mainmenu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import jdk.jfr.Label;
@@ -21,6 +20,12 @@ public class MainMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
+  private TextureRegionDrawable homeUp;
+  private TextureRegionDrawable homeDown;
+  private Texture homeButton;
+  private Texture loadButton;
+  private Texture settingsButton;
+  private Texture exitButton;
 
 
   @Override
@@ -37,14 +42,23 @@ public class MainMenuDisplay extends UIComponent {
             ServiceLocator.getResourceService()
                 .getAsset("images/atlantissinkstitle.png", Texture.class));
 
+      // inserting home Button
+      homeButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+      homeUp = new TextureRegionDrawable(homeButton);
+      homeDown = new TextureRegionDrawable(homeButton);
+      ImageButton homeButton = new ImageButton(homeUp,homeDown);
 
-    TextButton startBtn = new TextButton("Start", skin);
+      // inserting load Button
+
+
+
+    //TextButton startBtn = new TextButton("Start", skin);
     TextButton loadBtn = new TextButton("Load", skin);
     TextButton settingsBtn = new TextButton("Settings", skin);
     TextButton exitBtn = new TextButton("Exit", skin);
 
     // Triggers an event when the button is pressed
-    startBtn.addListener(
+    homeButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -83,7 +97,7 @@ public class MainMenuDisplay extends UIComponent {
 
     table.add(title).size(1000f,400f);
     table.row();
-    table.add(startBtn).padTop(15f);
+    table.add(homeButton).padTop(15f);
     table.row();
     table.add(loadBtn).padTop(15f);
     table.row();

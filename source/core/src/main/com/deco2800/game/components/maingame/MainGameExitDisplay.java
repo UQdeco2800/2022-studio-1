@@ -1,10 +1,14 @@
 package com.deco2800.game.components.maingame;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +20,7 @@ public class MainGameExitDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
+
 
   @Override
   public void create() {
@@ -30,8 +35,33 @@ public class MainGameExitDisplay extends UIComponent {
 
     TextButton mainMenuBtn = new TextButton("Exit", skin);
 
+    //Entering the Shop Button
+    Texture shopTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Shop_Button.png"));
+    TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
+    TextureRegionDrawable downShop = new TextureRegionDrawable(shopTexture);
+    ImageButton shopButton = new ImageButton(upShop,downShop);
+
+    //Entering the Inventory Button -- need to add the inventory button
+    Texture inventoryTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Shop_Button.png"));
+    TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
+    TextureRegionDrawable downInventory = new TextureRegionDrawable(inventoryTexture);
+    ImageButton inventoryButton = new ImageButton(upInventory,downInventory);
+
+    //Entering the settings button
+    Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+    TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+    TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+    ImageButton backButton = new ImageButton(upBack,downBack);
+
+    //Entering the settings button
+    Texture buildingTexture = new Texture(Gdx.files.internal("images/Building_Button.png"));
+    TextureRegionDrawable upBuilding = new TextureRegionDrawable(buildingTexture);
+    TextureRegionDrawable downBuilding = new TextureRegionDrawable(buildingTexture);
+    ImageButton buildingButton = new ImageButton(upBuilding,downBuilding);
+
+
     // Triggers an event when the button is pressed.
-    mainMenuBtn.addListener(
+    backButton.addListener(
       new ChangeListener() {
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -40,7 +70,13 @@ public class MainGameExitDisplay extends UIComponent {
         }
       });
 
-    table.add(mainMenuBtn).padTop(10f).padRight(10f);
+    table.add(backButton).size(50f).pad(5);
+    table.row();
+    table.add(shopButton);
+    table.row();
+    table.add(inventoryButton);
+    table.row();
+    table.add(buildingButton);
 
     stage.addActor(table);
   }
