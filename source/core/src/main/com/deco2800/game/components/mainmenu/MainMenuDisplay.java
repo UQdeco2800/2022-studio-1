@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+import jdk.jfr.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,7 @@ public class MainMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
+
 
   @Override
   public void create() {
@@ -32,7 +35,8 @@ public class MainMenuDisplay extends UIComponent {
     Image title =
         new Image(
             ServiceLocator.getResourceService()
-                .getAsset("images/box_boy_title.png", Texture.class));
+                .getAsset("images/atlantissinkstitle.png", Texture.class));
+
 
     TextButton startBtn = new TextButton("Start", skin);
     TextButton loadBtn = new TextButton("Load", skin);
@@ -77,9 +81,9 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-    table.add(title);
+    table.add(title).size(1000f,400f);
     table.row();
-    table.add(startBtn).padTop(30f);
+    table.add(startBtn).padTop(15f);
     table.row();
     table.add(loadBtn).padTop(15f);
     table.row();

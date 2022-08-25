@@ -29,4 +29,13 @@ public class MainGameActions extends Component {
     logger.info("Exiting main game screen");
     game.setScreen(GdxGame.ScreenType.MAIN_MENU);
   }
+
+  /**
+   * Swaps to shop screen.
+   */
+//  private void onShop() {
+//    logger.info("Going to shop screen");
+//    game.setScreen(GdxGame.ScreenType.SHOP_SCREEN);
+//  }
+
 }
