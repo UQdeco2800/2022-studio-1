@@ -1,4 +1,4 @@
-package com.deco2800.game.components.Enviromental;
+package com.deco2800.game.components.Environmental;
 
 import com.deco2800.game.components.Component;
 

@@ -1,6 +1,6 @@
 package com.deco2800.game.entities.factories;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.deco2800.game.components.Enviromental.EnvironmentalComponent;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
