@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.ui.UIComponent;
@@ -26,7 +24,11 @@ public class ShopExitDisplay extends UIComponent {
     private TextureRegionDrawable up;
 
     private TextureRegionDrawable down;
-    private Texture tex;
+    private Texture returnTexture;
+
+    private Texture shopTexture;
+
+    private Image shop_background;
 
     @Override
     public void create() {
@@ -39,10 +41,15 @@ public class ShopExitDisplay extends UIComponent {
         table.top().right();
         table.setFillParent(true);
 
-        tex = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
-        up = new TextureRegionDrawable(tex);
-        down = new TextureRegionDrawable(tex);
+        returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
+        up = new TextureRegionDrawable(returnTexture);
+        down = new TextureRegionDrawable(returnTexture);
         ImageButton backBtn = new ImageButton(up,down);
+
+        shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
+        shop_background = new Image(shopTexture);
+        shop_background.setPosition(480,300);
+        stage.addActor(shop_background);
 
         // Triggers an event when the button is pressed.
         backBtn.addListener(
