@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +34,12 @@ public class ShopExitDisplay extends UIComponent {
     private Image buildingBtn;
     private Texture buildingTexture;
 
-    private Image artefactsBtn;
+    private Label buildingTitle;
+
+    private Image artefactBtn;
     private Texture artefactTexture;
+    private Label artefactTitle;
+
 
     @Override
     public void create() {
@@ -56,18 +61,26 @@ public class ShopExitDisplay extends UIComponent {
         buildingBtn = new Image(buildingTexture);
         buildingBtn.setPosition(500,500);
         buildingBtn.setSize(300,300);
+        String buildingText = "Buildings";
+        buildingTitle = new Label(buildingText, skin, "large");
+        buildingTitle.setPosition(585,495);
 
         artefactTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-        Image artefactBtn = new Image(artefactTexture);
+        artefactBtn = new Image(artefactTexture);
         artefactBtn.setPosition(1000,500);
         artefactBtn.setSize(300,300);
+        String artefactText = "Artefacts";
+        artefactTitle = new Label(artefactText, skin, "large");
+        artefactTitle.setPosition(1085,495);
 
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
         shop_background.setPosition(400,300);
         stage.addActor(shop_background);
         stage.addActor(buildingBtn);
+        stage.addActor(buildingTitle);
         stage.addActor(artefactBtn);
+        stage.addActor(artefactTitle);
 
         // Triggers an event when the button is pressed.
         backBtn.addListener(
