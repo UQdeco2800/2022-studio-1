@@ -26,13 +26,13 @@ public class EnvironmentalComponent extends Component {
      * and when a player walks through it, their speed is reduced by 40%
      */
     public enum EnvironmentalType {
-        UNDEFINED(0, 1),
-        WOOD(10, 1),
-        ROCK(20, 1),
-        COBWEB(0, 0.6);
+        UNDEFINED(0, 1f),
+        WOOD(10, 1f),
+        ROCK(20, 1f),
+        COBWEB(0, 0.6f);
 
         private int resourceValue;
-        private double speedModifier;
+        private float speedModifier;
 
         /**
          * Enum constructor for EnvironmentalType
@@ -40,7 +40,7 @@ public class EnvironmentalComponent extends Component {
          * @param resourceValue The number of resources to give when the Environmental type is destroyed/removed
          * @param speedModifier The active modifier this object will apply to players/enemies/entities
          */
-        EnvironmentalType(int resourceValue, double speedModifier) {
+        EnvironmentalType(int resourceValue, float speedModifier) {
             this.resourceValue = resourceValue;
             this.speedModifier = speedModifier;
         }
@@ -83,7 +83,7 @@ public class EnvironmentalComponent extends Component {
     /**
      * @return The speed modifier of the Environmental Type
      */
-    public Double getSpeedModifier() {
+    public float getSpeedModifier() {
         return this.type.speedModifier;
     }
 
