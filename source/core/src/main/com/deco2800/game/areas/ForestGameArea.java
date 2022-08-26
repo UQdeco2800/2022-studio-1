@@ -134,7 +134,7 @@ public class ForestGameArea extends GameArea {
    * @param numObjects the number of objects to be spawned
    * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
    */
-  private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalType type) {
+  private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
@@ -176,22 +176,22 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnvironmentalObjects() {
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
-    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalType.TREE);
+    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
 
     int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalType.ROCK);
+    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
     objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
 
     //Remaining number of objects can be spawned off raw percentage?
     //placeholder functions below:
     int numVines = objectsRemaining;
-    spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalType.VINE);
+    spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalObstacle.VINE);
     objectsRemaining = objectsRemaining - numVines;
 
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalType.KNOCKBACK_TOWER);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalType.SPEED_ARTEFACT);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalType.SPIKY_BUSH);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
   }
 
 

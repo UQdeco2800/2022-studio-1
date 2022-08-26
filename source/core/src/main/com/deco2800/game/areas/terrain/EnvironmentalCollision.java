@@ -40,6 +40,29 @@ public class EnvironmentalCollision {
         entityMap.put(newEntity.getCenterPosition(), newEntity);
     }
 
+    public Entity findClosetEntity(int x, int y) {
+        if (entityMap.values().size() == 0) {
+            return null;
+        }
+
+        Entity closetEntity = null;
+        float smallestDistance = 99999;
+
+        for (Entity entity: entityMap.values()) {
+            float entityX = entity.getCenterPosition().x;
+            float entityY = entity.getCenterPosition().y;
+
+            double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
+
+            if (currentDistance < smallestDistance) {
+                closetEntity = entity;
+            }
+        }
+
+        return closetEntity;
+    }
+
+
     /**
      * Calculates if the given entity will collide with already existing entities
      * Still in testing phase. Uses the scale x and scale y of the entity to determine collision/hitbox
@@ -85,9 +108,5 @@ public class EnvironmentalCollision {
 
         return false;
     }
-
-
-
-
 
 }
