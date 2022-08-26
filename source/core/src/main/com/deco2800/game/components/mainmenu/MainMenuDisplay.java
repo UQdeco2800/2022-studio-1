@@ -60,17 +60,17 @@ public class MainMenuDisplay extends UIComponent {
     // backgroundColour.setColor(0, 0, 128); // r, g, b, a
     // table.setBackground(backgroundColour);
 
-      // inserting home Button
-      homeButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
-      homeUp = new TextureRegionDrawable(homeButton);
-      homeDown = new TextureRegionDrawable(homeButton);
-      ImageButton homeButton = new ImageButton(homeUp,homeDown);
+    // inserting home Button
+    homeButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    homeUp = new TextureRegionDrawable(homeButton);
+    homeDown = new TextureRegionDrawable(homeButton);
+    ImageButton homeButton = new ImageButton(homeUp,homeDown);
 
-      // inserting load Button
-      loadButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
-      loadUp = new TextureRegionDrawable(loadButton);
-      loadDown = new TextureRegionDrawable(loadButton);
-      ImageButton loadButton = new ImageButton(loadUp, loadDown);
+    // inserting load Button
+    loadButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    loadUp = new TextureRegionDrawable(loadButton);
+    loadDown = new TextureRegionDrawable(loadButton);
+    ImageButton loadButton = new ImageButton(loadUp, loadDown);
 
     // inserting settings Button
     settingsButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
