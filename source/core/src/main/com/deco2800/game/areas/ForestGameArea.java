@@ -52,7 +52,10 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_2.png",
     "images/iso_grass_3.png",
     "images/rock_placeholder_image.png",
-    "images/vine_placeholder.png"
+    "images/vine_placeholder.png",
+    "images/spiky_bush_placeholder.png",
+    "images/speed_tower_placeholder.png",
+    "images/knockback_tower_placeholder.png",
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -145,6 +148,15 @@ public class ForestGameArea extends GameArea {
         case VINE:
           envObj = ObstacleFactory.createVine();
           break;
+        case SPIKY_BUSH:
+          envObj = ObstacleFactory.createSpikyBush();
+          break;
+        case SPEED_ARTEFACT:
+          envObj = ObstacleFactory.createAoeSpeedArtefact();
+          break;
+        case KNOCKBACK_TOWER:
+          envObj = ObstacleFactory.createKnockbackTower();
+          break;
         case ROCK:
           //falls through to default
         default:
@@ -172,10 +184,14 @@ public class ForestGameArea extends GameArea {
     objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
 
     //Remaining number of objects can be spawned off raw percentage?
-
+    //placeholder functions below:
     int numVines = objectsRemaining;
     spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalType.VINE);
     objectsRemaining = objectsRemaining - numVines;
+
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalType.KNOCKBACK_TOWER);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalType.SPEED_ARTEFACT);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalType.SPIKY_BUSH);
   }
 
 

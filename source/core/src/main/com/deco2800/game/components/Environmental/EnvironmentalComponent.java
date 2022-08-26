@@ -29,6 +29,9 @@ public class EnvironmentalComponent extends Component {
         UNDEFINED(0, 1f),
         TREE(10, 1f),
         ROCK(20, 1f),
+        SPIKY_BUSH(20, 1f),
+        KNOCKBACK_TOWER(20, 1f),
+        SPEED_ARTEFACT(1, 2f),
         VINE(0, 0.6f);
 
         private int resourceValue;

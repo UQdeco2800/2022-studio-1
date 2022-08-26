@@ -52,7 +52,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createSpikyBush() {
-    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK,
+    return createEnvironmentalObject("images/spiky_bush_placeholder.png", EnvironmentalComponent.EnvironmentalType.SPIKY_BUSH,
             1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
   }
 
@@ -61,8 +61,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createKnockbackTower() {
-    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
+    return createEnvironmentalObject("images/knockback_tower_placeholder.png", EnvironmentalComponent.EnvironmentalType.KNOCKBACK_TOWER,
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK);
   }
 
   /**
@@ -70,7 +70,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createAoeSpeedArtefact() {
-    Entity artefact = createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE,
+    Entity artefact = createEnvironmentalObject("images/speed_tower_placeholder.png", EnvironmentalComponent.EnvironmentalType.SPEED_ARTEFACT,
             1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
     Vector2 aoeSize = new Vector2();
     Vector2 size = artefact.getScale();
