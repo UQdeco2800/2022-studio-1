@@ -21,6 +21,10 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image crystalImage;
   private Image crystalBarImage;
 
+  private Image stoneCurrencyImage;
+  private Label stoneCurrencyLabel;
+
+
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -68,6 +72,15 @@ public class PlayerStatsDisplay extends UIComponent {
     //Crystal bar
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
 
+    //Stone image
+    float stoneSize =30f;
+    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/stone.png", Texture.class));
+
+    //Stone text. 0 as an initial set up
+    int stone = 0;
+    CharSequence stoneCount = String.format("Stone: %d", stone);
+    stoneCurrencyLabel = new Label(stoneCount, skin, "large");
+
 
 
 
@@ -80,6 +93,9 @@ public class PlayerStatsDisplay extends UIComponent {
     table.row();
     table.add(coinImage).size(coinSideLenghth);
     table.add(coinLabel);
+    table.row();
+    table.add(stoneCurrencyImage).size(stoneSize);
+    table.add(stoneCurrencyLabel);
     table.row();
     stage.addActor(table);
   }
@@ -100,5 +116,7 @@ public class PlayerStatsDisplay extends UIComponent {
     healthBarImage.remove();
     crystalBarImage.remove();
     crystalImage.remove();
+    stoneCurrencyImage.remove();
+    stoneCurrencyLabel.remove();
   }
 }
