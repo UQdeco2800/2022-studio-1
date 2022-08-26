@@ -23,7 +23,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    return createEnvironmentalObject("images/tree.png",EnvironmentalComponent.EnvironmentalType.TREE, 2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
+    return createEnvironmentalObject("images/tree.png",EnvironmentalComponent.EnvironmentalType.TREE,
+            2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
   }
 
   /**
@@ -33,7 +34,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createRock() {
-    return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
+    return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalType.ROCK,
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
   }
 
   /**
@@ -41,7 +43,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createVine() {
-    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
+    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE,
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
   }
 
   /**
@@ -49,7 +52,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createSpikyBush() {
-    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
+    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK,
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
   }
 
   /**
@@ -57,7 +61,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createKnockbackTower() {
-    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
+    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK,
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
   }
 
   /**
@@ -65,7 +70,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createAoeSpeedArtefact() {
-    Entity artefact = createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
+    Entity artefact = createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE,
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
     Vector2 aoeSize = new Vector2();
     Vector2 size = artefact.getScale();
     //sets aoe to twice the scale of the object
@@ -85,7 +91,9 @@ public class ObstacleFactory {
    * @param scaleY y scaling of the entity
    * @return Environmental Entity
    */
-  private static Entity createEnvironmentalObject(String imgPath, EnvironmentalComponent.EnvironmentalType type, float heightScale, float scaleX, float scaleY, CollisionEffectComponent.CollisionEffect collisionEffect) {
+  private static Entity createEnvironmentalObject(String imgPath, EnvironmentalComponent.EnvironmentalType type,
+                                                  float heightScale, float scaleX, float scaleY,
+                                                  CollisionEffectComponent.CollisionEffect collisionEffect) {
       Entity environmentalObject = new Entity()
                   .addComponent(new TextureRenderComponent(imgPath))
                   .addComponent(new PhysicsComponent())

@@ -70,8 +70,8 @@ public class CollisionEffectComponent extends Component {
         this.colliderComponent = entity.getComponent(ColliderComponent.class);
         this.environmentalComponent = entity.getComponent(EnvironmentalComponent.class);
         this.hitboxComponent = entity.getComponent(HitboxComponent.class);
+        this.speedModifier = this.environmentalComponent.getSpeedModifier();
         this.AoE = (this.hitboxComponent != null);
-        this.speedModifier = environmentalComponent.getSpeedModifier();
         setCollisionEffect(this.collisionEffect);
     }
 
