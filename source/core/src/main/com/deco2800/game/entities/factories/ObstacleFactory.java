@@ -21,7 +21,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    return createEnvironmentalObject("images/tree.png",EnvironmentalComponent.EnvironmentalType.WOOD, 2.5f, 0.5f, 0.2f);
+    return createEnvironmentalObject("images/tree.png",EnvironmentalComponent.EnvironmentalType.TREE, 2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
   }
 
   /**
@@ -31,7 +31,11 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createRock() {
-    return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f);
+    return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
+  }
+
+  public static Entity createVine() {
+    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
   }
 
   /**
@@ -42,13 +46,13 @@ public class ObstacleFactory {
    * @param scaleY y scaling of the entity
    * @return Environmental Entity
    */
-  private static Entity createEnvironmentalObject(String imgPath, EnvironmentalComponent.EnvironmentalType type, float heightScale, float scaleX, float scaleY) {
+  private static Entity createEnvironmentalObject(String imgPath, EnvironmentalComponent.EnvironmentalType type, float heightScale, float scaleX, float scaleY, CollisionEffectComponent.CollisionEffect collisionEffect) {
       Entity environmentalObject = new Entity()
                   .addComponent(new TextureRenderComponent(imgPath))
                   .addComponent(new PhysicsComponent())
                   .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                   .addComponent(new EnvironmentalComponent().setType(type))
-                  .addComponent(new CollisionEffectComponent(CollisionEffectComponent.CollisionEffect.SLOW));
+                  .addComponent(new CollisionEffectComponent(collisionEffect));
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);

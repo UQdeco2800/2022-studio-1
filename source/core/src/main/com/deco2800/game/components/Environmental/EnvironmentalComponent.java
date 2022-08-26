@@ -27,9 +27,9 @@ public class EnvironmentalComponent extends Component {
      */
     public enum EnvironmentalType {
         UNDEFINED(0, 1f),
-        WOOD(10, 1f),
+        TREE(10, 1f),
         ROCK(20, 1f),
-        COBWEB(0, 0.6f);
+        VINE(0, 0.6f);
 
         private int resourceValue;
         private float speedModifier;

@@ -16,6 +16,9 @@ import com.deco2800.game.components.Component;
  */
 public class CollisionEffectComponent extends Component {
 
+    /**
+     * Collision effect
+     */
     public enum CollisionEffect {
         DIVERT,
         SLOW,
@@ -33,6 +36,9 @@ public class CollisionEffectComponent extends Component {
         this.collisionEffect = collisionEffect;
     }
 
+    /**
+     * initialise the collisionEffect. Note this happens after entity has been attached
+     */
     @Override
     public void create() {
         entity.getEvents().addListener("collisionStart", this::onCollisionStart);
@@ -46,16 +52,33 @@ public class CollisionEffectComponent extends Component {
 
     public CollisionEffect getCollisionEffect() { return this.collisionEffect; }
 
+    /**
+     * sets collision effect. Requires entity to be attached to ColliderComponent
+     * Note that this changes ColliderComponent behaviour - may need to change this depending on desired behaviour
+     * @param effect the effect to set, defined in CollisionEffectComponent.SetCollisionEffect enum
+     * @return CollisionEffectComponent
+     */
     public CollisionEffectComponent setCollisionEffect(CollisionEffect effect) {
         this.collisionEffect = effect;
-        if (this.collisionEffect == CollisionEffect.DIVERT) {
-            this.colliderComponent.setSensor(false);
-        } else {
-            this.colliderComponent.setSensor(true);
+        switch (this.collisionEffect) {
+            case NONE:
+            case SLOW:
+                this.colliderComponent.setSensor(true);
+                break;
+            case DIVERT:
+            case DAMAGE:
+            default:
+                this.colliderComponent.setSensor(false);
+                break;
         }
         return this;
     }
 
+    /**
+     * Collision handler - adds effect on collision start
+     * @param me the fixture associated with the ColliderComponent attached to this Entity
+     * @param other same but for the other object involved
+     */
     private void onCollisionStart(Fixture me, Fixture other) {
         if (this.colliderComponent.getFixture() != me) {
             //not triggered by hitbox - ignore
@@ -64,6 +87,7 @@ public class CollisionEffectComponent extends Component {
         }
         switch (this.getCollisionEffect()) {
             case DIVERT:
+                //handled by physics engine
                 break;
             case SLOW:
                 Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
@@ -73,12 +97,20 @@ public class CollisionEffectComponent extends Component {
                     Vector2 speed = playerActions.getPlayerSpeed();
                     speed.x = (this.speedModifier * speed.x);
                     speed.y = (this.speedModifier * speed.y);
-                }  //TODO what about other entities (enemies)?
+                }  //TODO other entities?
+            case DAMAGE:
+
+            case NONE:
             default:
                 break;
         }
     }
 
+    /**
+     * Collision handler - removes effect when collision ends
+     * @param me the fixture associated with the ColliderComponent attached to this Entity
+     * @param other same but for the other object involved
+     */
     private void onCollisionEnd(Fixture me, Fixture other) {
         if (this.colliderComponent.getFixture() != me) {
             //not triggered by hitbox - ignore
@@ -97,7 +129,7 @@ public class CollisionEffectComponent extends Component {
                     speed.x = (1f/this.speedModifier * speed.x);
                     speed.y = (1f/this.speedModifier * speed.y);
                 }
-                //TODO what about other entities (enemies)?
+                //TODO other entities?
             default:
                 break;
         }

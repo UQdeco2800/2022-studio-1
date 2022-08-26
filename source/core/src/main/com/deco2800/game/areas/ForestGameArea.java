@@ -30,7 +30,7 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(10, 10);
   private static final float WALL_WIDTH = 0.1f;
 
-  private static final int MAX_ENVIROMENTAL_OBJECTS = 20;
+  private static final int MAX_ENVIRONMENTAL_OBJECTS = 20;
   private static final int MIN_NUM_TREES = 3;
   private static final int MAX_NUM_TREES = 12;
   private static final int MIN_NUM_ROCKS = 5;
@@ -51,7 +51,8 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
     "images/iso_grass_3.png",
-    "images/rock_placeholder_image.png"
+    "images/rock_placeholder_image.png",
+    "images/vine_placeholder.png"
   };
   private static final String[] forestTextureAtlases = {
     "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -126,42 +127,34 @@ public class ForestGameArea extends GameArea {
   }
 
   /**
-   *  Spawns trees based off semi random bounds
-   * @param numTrees Number of trees to spawn
+   * spawns environmental objects based off semi-random bounds
+   * @param numObjects the number of objects to be spawned
+   * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
    */
-  private void spawnTrees(int numTrees) {
+  private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalType type) {
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
 
-    for (int i = 0; i < numTrees; i++) {
+    for (int i = 0; i < numObjects; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity tree = ObstacleFactory.createTree();
-
-      while (this.entityMapping.wouldCollide(tree, randomPos.x, randomPos.y)) {
-        randomPos = RandomUtils.random(minPos, maxPos);
+      Entity envObj;
+      switch (type) {
+        case TREE:
+          envObj = ObstacleFactory.createTree();
+          break;
+        case VINE:
+          envObj = ObstacleFactory.createVine();
+          break;
+        case ROCK:
+          //falls through to default
+        default:
+          envObj = ObstacleFactory.createRock();
       }
 
-      this.entityMapping.addEntity(tree);
-      spawnEntityAt(tree, randomPos, false, false);
-    }
-  }
-
-  /**
-   * Spawns rocks based of semi random bounds
-   * @param numRocks Number of rocks to spawn
-   */
-  private void spawnRocks(int numRocks) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
-
-    for (int i = 0; i < numRocks; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-      Entity Rock = ObstacleFactory.createRock();
-
-      while (this.entityMapping.wouldCollide(Rock, randomPos.x, randomPos.y)) {
+      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
       }
-      spawnEntityAt(Rock, randomPos, false, false);
+      spawnEntityAt(envObj, randomPos, false, false);
     }
   }
 
@@ -171,15 +164,18 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnvironmentalObjects() {
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
-    spawnTrees(numTrees);
-    int objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numTrees;
+    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalType.TREE);
+    int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
 
     int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    spawnRocks(numRocks);
-    objectsRemaining = MAX_ENVIROMENTAL_OBJECTS - numRocks;
-
+    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalType.ROCK);
+    objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
 
     //Remaining number of objects can be spawned off raw percentage?
+
+    int numVines = objectsRemaining;
+    spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalType.VINE);
+    objectsRemaining = objectsRemaining - numVines;
   }
 
 
