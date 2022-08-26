@@ -10,8 +10,9 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.components.Component;
 
 /**
- * class containing collision effects
+ * class containing collision effects defined by the CollisionEffect enum
  * Entities implementing this must also implement ColliderComponent, PhysicsComponent & EnvironmentalComponent
+ * Entities can have one collision effect only, as described by the enum
  */
 public class CollisionEffectComponent extends Component {
 
@@ -19,7 +20,7 @@ public class CollisionEffectComponent extends Component {
         DIVERT,
         SLOW,
         DAMAGE,
-        NONE,
+        NONE;
     }
 
     private CollisionEffect collisionEffect;
@@ -28,15 +29,19 @@ public class CollisionEffectComponent extends Component {
     private EnvironmentalComponent environmentalComponent;
     private float speedModifier;
 
+    public CollisionEffectComponent(CollisionEffect collisionEffect) {
+        this.collisionEffect = collisionEffect;
+    }
+
     @Override
     public void create() {
-        setCollisionEffect(CollisionEffect.DIVERT);
+        entity.getEvents().addListener("collisionStart", this::onCollisionStart);
+        entity.getEvents().addListener("collisionEnd", this::onCollisionEnd);
         this.physicsComponent = entity.getComponent(PhysicsComponent.class);
         this.colliderComponent = entity.getComponent(ColliderComponent.class);
         this.environmentalComponent = entity.getComponent(EnvironmentalComponent.class);
         this.speedModifier = environmentalComponent.getSpeedModifier();
-        entity.getEvents().addListener("collisionStart", this::onCollisionStart);
-        entity.getEvents().addListener("collisionEnd", this::onCollisionEnd);
+        setCollisionEffect(this.collisionEffect);
     }
 
     public CollisionEffect getCollisionEffect() { return this.collisionEffect; }
@@ -44,9 +49,9 @@ public class CollisionEffectComponent extends Component {
     public CollisionEffectComponent setCollisionEffect(CollisionEffect effect) {
         this.collisionEffect = effect;
         if (this.collisionEffect == CollisionEffect.DIVERT) {
-            colliderComponent.setSensor(false);
+            this.colliderComponent.setSensor(false);
         } else {
-            colliderComponent.setSensor(true);
+            this.colliderComponent.setSensor(true);
         }
         return this;
     }
@@ -66,8 +71,9 @@ public class CollisionEffectComponent extends Component {
                 if (playerActions != null) {
                     //player character
                     Vector2 speed = playerActions.getPlayerSpeed();
-                    speed.x = (this.speedModifier * speed.x);
-                    speed.y = (this.speedModifier * speed.y);
+                    speed.x = (0.5f * speed.x);
+                    speed.y = (0.5f * speed.y);
+                    //todo change from 0.5f back to this.speedmodifier
                 }  //TODO what about other entities (enemies)?
             default:
                 break;

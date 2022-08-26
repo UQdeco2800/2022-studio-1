@@ -1,5 +1,6 @@
 package com.deco2800.game.entities.factories;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -46,8 +47,8 @@ public class ObstacleFactory {
                   .addComponent(new TextureRenderComponent(imgPath))
                   .addComponent(new PhysicsComponent())
                   .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-                  .addComponent(new EnvironmentalComponent().setType(type));
-
+                  .addComponent(new EnvironmentalComponent().setType(type))
+                  .addComponent(new CollisionEffectComponent(CollisionEffectComponent.CollisionEffect.SLOW));
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);
