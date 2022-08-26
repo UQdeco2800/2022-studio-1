@@ -71,9 +71,8 @@ public class CollisionEffectComponent extends Component {
                 if (playerActions != null) {
                     //player character
                     Vector2 speed = playerActions.getPlayerSpeed();
-                    speed.x = (0.5f * speed.x);
-                    speed.y = (0.5f * speed.y);
-                    //todo change from 0.5f back to this.speedmodifier
+                    speed.x = (this.speedModifier * speed.x);
+                    speed.y = (this.speedModifier * speed.y);
                 }  //TODO what about other entities (enemies)?
             default:
                 break;
@@ -95,8 +94,8 @@ public class CollisionEffectComponent extends Component {
                 if (playerActions != null) {
                     //player character
                     Vector2 speed = playerActions.getPlayerSpeed();
-                    speed.x = ((1f/this.speedModifier) * speed.x);
-                    speed.y = ((1f/this.speedModifier) * speed.y);
+                    speed.x = (1f/this.speedModifier * speed.x);
+                    speed.y = (1f/this.speedModifier * speed.y);
                 }
                 //TODO what about other entities (enemies)?
             default:
