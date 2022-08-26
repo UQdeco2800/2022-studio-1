@@ -4,6 +4,9 @@ import com.badlogic.gdx.utils.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Provides a global access point for entities to register themselves. This allows for iterating
  * over entities to perform updates each loop. All game entities should be registered here.
@@ -17,6 +20,8 @@ public class EntityService {
 
   private final Array<Entity> entities = new Array<>(false, INITIAL_CAPACITY);
 
+  private final Map<String, Entity> namedEntities = new HashMap<>();
+
   /**
    * Register a new entity with the entity service. The entity will be created and start updating.
    * @param entity new entity.
@@ -25,6 +30,26 @@ public class EntityService {
     logger.debug("Registering {} in entity service", entity);
     entities.add(entity);
     entity.create();
+  }
+
+  /**
+   * Registers an entity with a name so it can be found later
+   *
+   * @param name the name to register it as (must be unique or will overwrite)
+   * @param entity the entity to register
+   */
+  public void registerNamed(String name, Entity entity) {
+    this.namedEntities.put(name, entity);
+    this.register(entity);
+  }
+
+  /**
+   * Returns a registered named entity
+   * @param name the name the entity was registered as
+   * @return the registered entity or null
+   */
+  public Entity getNamedEntity(String name) {
+    return this.namedEntities.get(name);
   }
 
   /**

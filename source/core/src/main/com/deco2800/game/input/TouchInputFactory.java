@@ -5,7 +5,7 @@ import com.deco2800.game.ui.terminal.TouchTerminalInputComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TouchInputFactory extends InputFactory{
+public class TouchInputFactory extends InputFactory {
   private static final Logger logger = LoggerFactory.getLogger(TouchInputFactory.class);
 
   /**
@@ -28,5 +28,11 @@ public class TouchInputFactory extends InputFactory{
   public InputComponent createForTerminal() {
     logger.debug("Creating terminal input handler");
     return new TouchTerminalInputComponent();
+  }
+
+  @Override
+  public InputComponent createForCamera() {
+    logger.debug("Creating camera input handler");
+    return null; // FOR MOUSE PANNING AND ZOOMING
   }
 }
