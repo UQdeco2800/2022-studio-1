@@ -1,5 +1,9 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.input.InputComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +26,7 @@ public class ForestGameArea extends GameArea {
 
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
+  private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
 
   private static final int MAX_ENVIROMENTAL_OBJECTS = 20;
@@ -45,7 +50,8 @@ public class ForestGameArea extends GameArea {
       "images/fullSizedDirt.png",
       "images/waterDirtMerged.png",
       "images/trial3GrassTile.png",
-      "images/rock_placeholder_image.png"
+      "images/rock_placeholder_image.png",
+          "images/wallTransparent.png"
   };
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -76,6 +82,8 @@ public class ForestGameArea extends GameArea {
     spawnTerrain();
 
     spawnEnvironmentalObjects();
+
+    spawnWall(60,60);
 
     player = spawnPlayer();
 
@@ -163,6 +171,11 @@ public class ForestGameArea extends GameArea {
     Entity newPlayer = PlayerFactory.createPlayer();
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
+  }
+
+  private void spawnWall(int x_pos, int y_pos) {
+    Entity newWall = StructureFactory.createWall("images/wallTransparent.png");
+    spawnEntityAt(newWall, new GridPoint2(x_pos, y_pos), true, true);
   }
 
   private void playMusic() {

@@ -3,9 +3,7 @@ package com.deco2800.game.components.player;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.components.infrastructure.DefensiveTower;
-import com.deco2800.game.components.infrastructure.Infrastructure;
-import com.deco2800.game.components.infrastructure.Tower1;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.utils.math.Vector2Utils;
 
@@ -79,8 +77,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.sub(Vector2Utils.RIGHT);
         triggerWalkEvent();
         return true;
-      case Keys.B: 
-        triggerBuildEvent();
       default:
         return false;
     }
@@ -92,10 +88,5 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     } else {
       entity.getEvents().trigger("walk", walkDirection);
     }
-  }
-
-  private void triggerBuildEvent() {
-    Tower1 tower = new Tower1(100,20,"images/mud.png");
-    tower.createTower();
   }
 }
