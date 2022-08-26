@@ -3,6 +3,7 @@ package com.deco2800.game.components.player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
@@ -12,7 +13,8 @@ import com.deco2800.game.services.ServiceLocator;
  * and when triggered should call methods within this class.
  */
 public class PlayerActions extends Component {
-  private static final Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(3f, 3f); //Metres per second
 
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
@@ -31,6 +33,14 @@ public class PlayerActions extends Component {
     if (moving) {
       updateSpeed();
     }
+  }
+
+  public Vector2 getPlayerSpeed() {
+    return MAX_SPEED;
+  }
+
+  public void resetPlayerSpeed() {
+    MAX_SPEED = DEFAULT_MAX_SPEED;
   }
 
   private void updateSpeed() {
