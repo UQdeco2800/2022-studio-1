@@ -16,6 +16,8 @@ import com.deco2800.game.physics.components.PhysicsMovementComponent;
 /**
  * class containing collision effects defined by the CollisionEffect enum
  * Entities implementing this must also implement ColliderComponent, PhysicsComponent & EnvironmentalComponent
+ * To make the effect AoE, a hitboxcomponent must also be added (change the size of hitboxcomponent to change AoE)
+ * At this stage, only speed is supported as an AoE effect
  * By default, collision effects impact both players and NPCs. Use SetEffectTarget() to change this.
  */
 public class CollisionEffectComponent extends Component {
@@ -31,6 +33,9 @@ public class CollisionEffectComponent extends Component {
         NONE;
     }
 
+    /**
+     * Effect target
+     */
     public enum EffectTarget {
         PLAYER,
         NPC,
@@ -41,7 +46,9 @@ public class CollisionEffectComponent extends Component {
     private ColliderComponent colliderComponent;
     private PhysicsComponent physicsComponent;
     private EnvironmentalComponent environmentalComponent;
-    private float speedModifier;
+    private float speedModifier; //note it might be worth restructuring to have this be standalone rather than relying on environmentalcomponent
+    private HitboxComponent hitboxComponent;
+    private boolean AoE;
     private float knockbackForce = 1f;
     private int damage = 1;
     private EffectTarget effectTarget = EffectTarget.ALL;
@@ -62,6 +69,8 @@ public class CollisionEffectComponent extends Component {
         this.physicsComponent = entity.getComponent(PhysicsComponent.class);
         this.colliderComponent = entity.getComponent(ColliderComponent.class);
         this.environmentalComponent = entity.getComponent(EnvironmentalComponent.class);
+        this.hitboxComponent = entity.getComponent(HitboxComponent.class);
+        this.AoE = (this.hitboxComponent != null);
         this.speedModifier = environmentalComponent.getSpeedModifier();
         setCollisionEffect(this.collisionEffect);
     }
@@ -94,8 +103,12 @@ public class CollisionEffectComponent extends Component {
         this.collisionEffect = effect;
         switch (this.collisionEffect) {
             case NONE:
-            case SLOW:
                 this.colliderComponent.setSensor(true);
+                break;
+            case SLOW:
+                if (!AoE) {
+                    this.colliderComponent.setSensor(true);
+                } //hitbox should already be a sensor
                 break;
             case DIVERT:
             case DAMAGE:
@@ -112,11 +125,17 @@ public class CollisionEffectComponent extends Component {
      * @param other same but for the other object involved
      */
     private void onCollisionStart(Fixture me, Fixture other) {
-        if (this.colliderComponent.getFixture() != me) {
-            //not triggered by colliderComponent - ignore
-            //NB this could be changed to a different sized hitboxcomponent for AoE?
-            return;
+        //check collision has been triggered by the right thing
+        if (AoE) {
+            if (this.hitboxComponent.getFixture() != me) {
+                return;
+            }
+        } else {
+            if (this.colliderComponent.getFixture() != me) {
+                return;
+            }
         }
+
         Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
         if (target.getComponent(PlayerActions.class) != null && effectTarget == EffectTarget.NPC) {
             //incorrect target
@@ -126,7 +145,6 @@ public class CollisionEffectComponent extends Component {
             //incorrect target
             return;
         }
-
         switch (this.getCollisionEffect()) {
             case SLOW:
                 PlayerActions playerActions = target.getComponent(PlayerActions.class);
@@ -175,10 +193,15 @@ public class CollisionEffectComponent extends Component {
      * @param other same but for the other object involved
      */
     private void onCollisionEnd(Fixture me, Fixture other) {
-        if (this.colliderComponent.getFixture() != me) {
-            //not triggered by colliderComponent - ignore
-            //NB this could be changed to a different sized hitboxcomponent instead of collidercomponent for AoE
-            return;
+        //check collision has been triggered by the right thing
+        if (AoE) {
+            if (this.hitboxComponent.getFixture() != me) {
+                return;
+            }
+        } else {
+            if (this.colliderComponent.getFixture() != me) {
+                return;
+            }
         }
         Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
         if (target.getComponent(PlayerActions.class) != null && effectTarget == EffectTarget.NPC) {
