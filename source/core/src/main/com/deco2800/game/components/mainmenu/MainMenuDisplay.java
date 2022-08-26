@@ -61,7 +61,7 @@ public class MainMenuDisplay extends UIComponent {
     // table.setBackground(backgroundColour);
 
     // inserting home Button
-    homeButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    homeButton = new Texture(Gdx.files.internal("images/uiElements/exports/start_button_with_text.png"));
     homeUp = new TextureRegionDrawable(homeButton);
     homeDown = new TextureRegionDrawable(homeButton);
     ImageButton homeButton = new ImageButton(homeUp,homeDown);
@@ -73,18 +73,18 @@ public class MainMenuDisplay extends UIComponent {
     ImageButton loadButton = new ImageButton(loadUp, loadDown);
 
     // inserting settings Button
-    settingsButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    settingsButton = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
     settingsUp = new TextureRegionDrawable(settingsButton);
     settingsDown = new TextureRegionDrawable(settingsButton);
     ImageButton settingsButton = new ImageButton(settingsUp, settingsDown);
 
     // inserting exit Button
-    exitButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    exitButton = new Texture(Gdx.files.internal("images/uiElements/exports/exit_button.png"));
     exitUp = new TextureRegionDrawable(exitButton);
     exitDown = new TextureRegionDrawable(exitButton);
     ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
-    //TextButton startBtn = new TextButton("Start", skin);
+    TextButton startBtn = new TextButton("Start", skin);
     TextButton loadBtn = new TextButton("Load", skin);
     TextButton settingsBtn = new TextButton("Settings", skin);
     TextButton exitBtn = new TextButton("Exit", skin);
