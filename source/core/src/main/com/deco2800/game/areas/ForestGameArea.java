@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import org.slf4j.Logger;
@@ -126,6 +127,7 @@ public class ForestGameArea extends GameArea {
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
+    System.out.println(tileSize);
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
@@ -246,6 +248,7 @@ public class ForestGameArea extends GameArea {
     }
     this.entityMapping.addEntity(newWall);
     spawnEntityAt(newWall, new GridPoint2(x_pos, y_pos), true, true);
+
   }
 
   private void playMusic() {
