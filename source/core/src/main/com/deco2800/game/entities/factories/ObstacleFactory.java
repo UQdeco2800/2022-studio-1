@@ -24,7 +24,7 @@ public class ObstacleFactory {
    */
   public static Entity createTree() {
     return createEnvironmentalObject("images/tree.png", EnvironmentalComponent.EnvironmentalObstacle.TREE,
-            2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
+            2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
   /**
@@ -35,7 +35,7 @@ public class ObstacleFactory {
    */
   public static Entity createRock() {
     return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalObstacle.ROCK,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
   /**
@@ -44,7 +44,7 @@ public class ObstacleFactory {
    */
   public static Entity createVine() {
     return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
   }
 
   /**
@@ -53,7 +53,7 @@ public class ObstacleFactory {
    */
   public static Entity createSpikyBush() {
     return createEnvironmentalObject("images/spiky_bush_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 1f);
   }
 
   /**
@@ -62,7 +62,7 @@ public class ObstacleFactory {
    */
   public static Entity createKnockbackTower() {
     return createEnvironmentalObject("images/knockback_tower_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK);
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
   }
 
   /**
@@ -71,7 +71,7 @@ public class ObstacleFactory {
    */
   public static Entity createAoeSpeedArtefact() {
     Entity artefact = createEnvironmentalObject("images/speed_tower_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
+            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
     Vector2 aoeSize = new Vector2();
     Vector2 size = artefact.getScale();
     //sets aoe to twice the scale of the object
@@ -93,13 +93,13 @@ public class ObstacleFactory {
    */
   private static Entity createEnvironmentalObject(String imgPath, EnvironmentalComponent.EnvironmentalObstacle type,
                                                   float heightScale, float scaleX, float scaleY,
-                                                  CollisionEffectComponent.CollisionEffect collisionEffect) {
+                                                  CollisionEffectComponent.CollisionEffect collisionEffect, float speedModifier) {
       Entity environmentalObject = new Entity()
                   .addComponent(new TextureRenderComponent(imgPath))
                   .addComponent(new PhysicsComponent())
                   .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                   .addComponent(new EnvironmentalComponent().setObstacle(type))
-                  .addComponent(new CollisionEffectComponent(collisionEffect));
+                  .addComponent(new CollisionEffectComponent(collisionEffect, speedModifier));
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);

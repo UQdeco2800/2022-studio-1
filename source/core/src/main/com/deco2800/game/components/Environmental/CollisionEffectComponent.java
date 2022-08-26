@@ -53,8 +53,9 @@ public class CollisionEffectComponent extends Component {
     private int damage = 1;
     private EffectTarget effectTarget = EffectTarget.ALL;
 
-    public CollisionEffectComponent(CollisionEffect collisionEffect) {
+    public CollisionEffectComponent(CollisionEffect collisionEffect, float speedModifier) {
         this.collisionEffect = collisionEffect;
+        this.speedModifier = speedModifier;
     }
 
     /**
@@ -70,7 +71,6 @@ public class CollisionEffectComponent extends Component {
         this.colliderComponent = entity.getComponent(ColliderComponent.class);
         this.environmentalComponent = entity.getComponent(EnvironmentalComponent.class);
         this.hitboxComponent = entity.getComponent(HitboxComponent.class);
-        this.speedModifier = this.environmentalComponent.getSpeedModifier();
         this.AoE = (this.hitboxComponent != null);
         setCollisionEffect(this.collisionEffect);
     }
