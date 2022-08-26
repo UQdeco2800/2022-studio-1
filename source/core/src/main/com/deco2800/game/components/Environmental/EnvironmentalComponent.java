@@ -15,6 +15,11 @@ import com.deco2800.game.components.Component;
  */
 public class EnvironmentalComponent extends Component {
 
+    private EnvironmentalObstacle environmentalObstacle;
+
+    /**
+     * Types of resources
+     */
     public enum ResourceTypes {
         NONE,
         STONE,
@@ -26,8 +31,8 @@ public class EnvironmentalComponent extends Component {
      * Enum containing the associate values for the environmental component
      *
      * An environmental component has:
-     *      resourceValue: The number of resources to be returned when this object is destroyed
-     *      speedModifier: A speed modifier for the player/enemy
+     *      resourceType: The type of resource
+     *      resourceValue: The number of resources to be returned associated with resource type
      *
      * E.g A cobweb has resourceValue = 0, speedModifier = 0.6 indicating zero resources will be given when broken
      * and when a player walks through it, their speed is reduced by 40%
@@ -54,8 +59,6 @@ public class EnvironmentalComponent extends Component {
             this.type = type;
         }
     }
-
-    private EnvironmentalObstacle environmentalObstacle;
 
     /**
      * Sets the component to be UNDEFINED on startup
@@ -89,14 +92,11 @@ public class EnvironmentalComponent extends Component {
         return this.environmentalObstacle.resourceValue;
     }
 
+    /**
+     * @return the resource type
+     */
     public ResourceTypes getType() {
         return this.environmentalObstacle.type;
-    }
-
-
-    @Override
-    public String toString() {
-        return "";
     }
 
 }

@@ -34,10 +34,6 @@ public class PlayerActions extends Component {
     }
   }
 
-  public void setPlayerSpeed(float x, float y) {
-    MAX_SPEED = new Vector2(x, y);
-  }
-
   public Vector2 getPlayerSpeed() {
     return MAX_SPEED;
   }

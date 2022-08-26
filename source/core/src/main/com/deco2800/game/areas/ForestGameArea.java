@@ -81,6 +81,8 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
+
+    //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
     player = spawnPlayer();
@@ -89,8 +91,6 @@ public class ForestGameArea extends GameArea {
     spawnGhosts();
     spawnGhostKing();
     playMusic();
-
-
   }
 
   private void displayUI() {
@@ -163,9 +163,12 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createRock();
       }
 
+      //check for possible collision and reroll location until valid
       while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
       }
+
+      this.entityMapping.addEntity(envObj);
       spawnEntityAt(envObj, randomPos, false, false);
     }
   }
@@ -175,6 +178,8 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
+
+    //semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;

@@ -9,7 +9,8 @@ import java.util.Hashtable;
 
 /**
  * Helper Class that stores entities on the map and checks collisions when given a new entity
- * Used for placing environmental objects such as trees, rocks and buildings
+ * Used for placing environmental objects such as trees, rocks and buildings plus additional
+ * utility like finding closet entity to a point or retrieving a list of all environmental entities
  */
 public class EnvironmentalCollision {
 
@@ -40,6 +41,12 @@ public class EnvironmentalCollision {
         entityMap.put(newEntity.getCenterPosition(), newEntity);
     }
 
+    /**
+     * Finds the closet entity based off euclidean distance from a given x,y point
+     * @param x cell cord
+     * @param y cell cord
+     * @return Entity closet
+     */
     public Entity findClosetEntity(int x, int y) {
         if (entityMap.values().size() == 0) {
             return null;
