@@ -241,6 +241,10 @@ public class ForestGameArea extends GameArea {
 
   private void spawnWall(int x_pos, int y_pos) {
     Entity newWall = StructureFactory.createWall("images/wallTransparent.png");
+    while (this.entityMapping.wouldCollide(newWall, x_pos, y_pos)) {
+      x_pos++;
+    }
+    this.entityMapping.addEntity(newWall);
     spawnEntityAt(newWall, new GridPoint2(x_pos, y_pos), true, true);
   }
 
