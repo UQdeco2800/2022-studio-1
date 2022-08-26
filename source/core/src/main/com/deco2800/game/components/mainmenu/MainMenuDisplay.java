@@ -13,6 +13,8 @@ import jdk.jfr.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.xpath.XPath;
+
 /**
  * A ui component for displaying the Main menu.
  */
@@ -23,8 +25,19 @@ public class MainMenuDisplay extends UIComponent {
   private TextureRegionDrawable homeUp;
   private TextureRegionDrawable homeDown;
   private Texture homeButton;
+
+  private TextureRegionDrawable loadUp;
+  private TextureRegionDrawable loadDown;
   private Texture loadButton;
+
+  private TextureRegionDrawable settingsUp;
+  private TextureRegionDrawable settingsDown;
   private Texture settingsButton;
+
+  private TextureRegionDrawable exitUp;
+
+  private TextureRegionDrawable exitDown;
+
   private Texture exitButton;
 
 
@@ -42,6 +55,11 @@ public class MainMenuDisplay extends UIComponent {
             ServiceLocator.getResourceService()
                 .getAsset("images/atlantissinkstitle.png", Texture.class));
 
+    // Team 10 - TJ's attempt for background colour
+    // backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
+    // backgroundColour.setColor(0, 0, 128); // r, g, b, a
+    // table.setBackground(backgroundColour);
+
       // inserting home Button
       homeButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
       homeUp = new TextureRegionDrawable(homeButton);
@@ -49,8 +67,22 @@ public class MainMenuDisplay extends UIComponent {
       ImageButton homeButton = new ImageButton(homeUp,homeDown);
 
       // inserting load Button
+      loadButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+      loadUp = new TextureRegionDrawable(loadButton);
+      loadDown = new TextureRegionDrawable(loadButton);
+      ImageButton loadButton = new ImageButton(loadUp, loadDown);
 
+    // inserting settings Button
+    settingsButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    settingsUp = new TextureRegionDrawable(settingsButton);
+    settingsDown = new TextureRegionDrawable(settingsButton);
+    ImageButton settingsButton = new ImageButton(settingsUp, settingsDown);
 
+    // inserting exit Button
+    exitButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    exitUp = new TextureRegionDrawable(exitButton);
+    exitDown = new TextureRegionDrawable(exitButton);
+    ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
     //TextButton startBtn = new TextButton("Start", skin);
     TextButton loadBtn = new TextButton("Load", skin);
@@ -67,7 +99,7 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-    loadBtn.addListener(
+    loadButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -76,7 +108,7 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-    settingsBtn.addListener(
+    settingsButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -85,7 +117,7 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-    exitBtn.addListener(
+    exitButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -95,15 +127,16 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
+
     table.add(title).size(1000f,400f);
     table.row();
     table.add(homeButton).padTop(15f);
     table.row();
-    table.add(loadBtn).padTop(15f);
+    table.add(loadButton).padTop(15f);
     table.row();
-    table.add(settingsBtn).padTop(15f);
+    table.add(settingsButton).padTop(15f);
     table.row();
-    table.add(exitBtn).padTop(15f);
+    table.add(exitButton).padTop(15f);
 
     stage.addActor(table);
   }
