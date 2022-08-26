@@ -53,7 +53,7 @@ public class MainMenuDisplay extends UIComponent {
     Image title =
         new Image(
             ServiceLocator.getResourceService()
-                .getAsset("images/atlantissinkstitle.png", Texture.class));
+                .getAsset("images/atlantisSinksTitleRefactored.png", Texture.class));
 
     // Team 10 - TJ's attempt for background colour
     // backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
