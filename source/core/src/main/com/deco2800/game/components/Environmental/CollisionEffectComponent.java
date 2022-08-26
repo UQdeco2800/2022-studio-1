@@ -6,13 +6,16 @@ import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.BodyUserData;
 import com.deco2800.game.physics.components.ColliderComponent;
+import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.physics.components.PhysicsMovementComponent;
 
 /**
  * class containing collision effects defined by the CollisionEffect enum
  * Entities implementing this must also implement ColliderComponent, PhysicsComponent & EnvironmentalComponent
  * Entities can have one collision effect only, as described by the enum
+ * for area of effect, specify a hitboxcomponent and size
  */
 public class CollisionEffectComponent extends Component {
 
@@ -30,6 +33,7 @@ public class CollisionEffectComponent extends Component {
     private ColliderComponent colliderComponent;
     private PhysicsComponent physicsComponent;
     private EnvironmentalComponent environmentalComponent;
+    private HitboxComponent hitboxComponent;
     private float speedModifier;
 
     public CollisionEffectComponent(CollisionEffect collisionEffect) {
@@ -81,26 +85,29 @@ public class CollisionEffectComponent extends Component {
      */
     private void onCollisionStart(Fixture me, Fixture other) {
         if (this.colliderComponent.getFixture() != me) {
-            //not triggered by hitbox - ignore
+            //not triggered by colliderComponent - ignore
             //NB this could be changed to a different sized hitboxcomponent for AoE?
             return;
         }
         switch (this.getCollisionEffect()) {
-            case DIVERT:
-                //handled by physics engine
-                break;
             case SLOW:
                 Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
                 PlayerActions playerActions = target.getComponent(PlayerActions.class);
+                PhysicsMovementComponent npcMovementComponent = target.getComponent(PhysicsMovementComponent.class);
                 if (playerActions != null) {
                     //player character
                     Vector2 speed = playerActions.getPlayerSpeed();
                     speed.x = (this.speedModifier * speed.x);
                     speed.y = (this.speedModifier * speed.y);
-                }  //TODO other entities?
-            case DAMAGE:
-
-            case NONE:
+                }  else if (npcMovementComponent != null) {
+                    //npc
+                    Vector2 speed = npcMovementComponent.getSpeed();
+                    speed.x = (this.speedModifier * speed.x);
+                    speed.y = (this.speedModifier * speed.y);
+                    //this is working without using the setter method but maybe we should anyway?
+                } else {
+                    break;
+            }
             default:
                 break;
         }
@@ -113,23 +120,30 @@ public class CollisionEffectComponent extends Component {
      */
     private void onCollisionEnd(Fixture me, Fixture other) {
         if (this.colliderComponent.getFixture() != me) {
-            //not triggered by hitbox - ignore
-            //NB this could be changed to a different sized hitboxcomponent instead of collidercomponent for AoE?
+            //not triggered by colliderComponent - ignore
+            //NB this could be changed to a different sized hitboxcomponent instead of collidercomponent for AoE
             return;
         }
         switch (this.getCollisionEffect()) {
-            case DIVERT:
-                break;
             case SLOW:
                 Entity target = ((BodyUserData) other.getBody().getUserData()).entity;
                 PlayerActions playerActions = target.getComponent(PlayerActions.class);
+                PhysicsMovementComponent npcMovementComponent = target.getComponent(PhysicsMovementComponent.class);
                 if (playerActions != null) {
                     //player character
                     Vector2 speed = playerActions.getPlayerSpeed();
                     speed.x = (1f/this.speedModifier * speed.x);
                     speed.y = (1f/this.speedModifier * speed.y);
+                    //could also use resetSpeed() if this leads to floating point errors
+                } else if (npcMovementComponent != null) {
+                    //npc
+                    Vector2 speed = npcMovementComponent.getSpeed();
+                    speed.x = (1f/this.speedModifier * speed.x);
+                    speed.y = (1f/this.speedModifier * speed.y);
+                    //could also use resetSpeed() as above
+                } else {
+                    break;
                 }
-                //TODO other entities?
             default:
                 break;
         }
