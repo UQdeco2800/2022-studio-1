@@ -1,4 +1,5 @@
 package com.deco2800.game.entities.factories;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
@@ -8,6 +9,7 @@ import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.physics.components.HitboxComponent;
 
 /**
  * Factory to create obstacle entities.
@@ -34,12 +36,49 @@ public class ObstacleFactory {
     return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT);
   }
 
+  /**
+   * Creates a vine entity, which slows players down
+   * @return entity
+   */
   public static Entity createVine() {
     return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
   }
 
   /**
-   * Create a environmental entity based off the given parameters.
+   * Creates a spiky bush entity, which damages players and knocks them back on contact
+   * @return entity
+   */
+  public static Entity createSpikyBush() {
+    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
+  }
+
+  /**
+   * Creates a Knockback tower entity, which knocks players back on contact
+   * @return entity
+   */
+  public static Entity createKnockbackTower() {
+    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.ROCK, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE);
+  }
+
+  /**
+   * creates an AOE artefact that changes player speed in an area of effect around the artefact.
+   * @return entity
+   */
+  public static Entity createAoeSpeedArtefact() {
+    Entity artefact = createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalType.VINE, 1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW);
+    Vector2 aoeSize = new Vector2();
+    Vector2 size = artefact.getScale();
+    //sets aoe to twice the scale of the object
+    aoeSize.x = size.x * 2;
+    aoeSize.y = size.y * 2;
+    artefact.addComponent(new HitboxComponent());
+    artefact.getComponent(HitboxComponent.class).setAsBox(aoeSize);
+    artefact.getComponent(CollisionEffectComponent.class).setAoe(true);
+    return artefact;
+  }
+
+  /**
+   * Create an environmental entity based off the given parameters.
    * @param type type of environmental object from EnvironmentalType
    * @param heightScale height scaling of the entity
    * @param scaleX x scaling of the entity

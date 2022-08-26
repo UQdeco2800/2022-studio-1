@@ -81,6 +81,18 @@ public class CollisionEffectComponent extends Component {
         this.damage = damage;
     }
 
+    /**
+     * Sets AoE value to true - used in checks to confirm how to implement collision effect
+     * Will do nothing if the entity has no HitboxComponent attached (to avoid null pointer issues later on)
+     * @param AoE whether the effect should be AoE or not
+     */
+    public void setAoe(boolean AoE) {
+        if (entity.getComponent(HitboxComponent.class) != null) {
+            //do nothing if there's not hitbox - otherwise there will be null pointer issues when collisions happen
+            this.AoE = AoE;
+        }
+    }
+
     public void setKnockbackForce(float knockbackForce) {
         this.knockbackForce = knockbackForce;
     }
