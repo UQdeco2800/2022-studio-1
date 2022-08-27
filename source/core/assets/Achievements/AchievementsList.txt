@@ -1,0 +1,31 @@
+List of Achievements
+
+GAME
+- Completed 1 game
+- Completed 5 games
+- Completed 10 games
+- Completed 20 games
+
+GOLD
+- Collected more than 100 gold in one game
+- Collected more than 300 gold in one game
+- Collected more than 500 gold in one game
+- Collected more than 1000 gold in one game
+
+NIGHT WAVE
+- Survive 1 enemy wave
+- Survive 5 enemy waves
+- Survive 10 enemy waves
+- Survive 20 enemy waves
+
+ENEMY ELIMINATION
+- Eliminated 10 enemy
+- Eliminated 50 enemy
+- Eliminated 100 enemy
+- Eliminated 500 enemy
+
+BUILDINGS CREATION
+- Built 1 building
+- Built 4 buildings
+- Built 20 buildings
+- Build 100 buildings
