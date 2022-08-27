@@ -57,6 +57,8 @@ public class GdxGame extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
+    } else if (screenType == ScreenType.SHOP) {
+      Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
