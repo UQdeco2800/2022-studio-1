@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class EntityService {
   private static final Logger logger = LoggerFactory.getLogger(EntityService.class);
-  private static final int INITIAL_CAPACITY = 16;
+  private static final int INITIAL_CAPACITY = 40;
 
   private final Array<Entity> entities = new Array<>(false, INITIAL_CAPACITY);
 
