@@ -42,6 +42,18 @@ public class ShopBuidlingDisplay extends UIComponent {
     private Image goldFrame;
     private Texture goldTexture;
 
+    private Image returnShopBtn;
+    private Texture returnShopTexture;
+
+    private Image buildingDescriptionFrame;
+    private Texture buildingDescriptionTexture;
+
+    private Image price;
+    private Texture priceTexture;
+
+    private Image buyBtn;
+    private Texture buyTexture;
+
 
 
     @Override
@@ -63,6 +75,11 @@ public class ShopBuidlingDisplay extends UIComponent {
         buildingTitle = new Label(buildingText, skin, "large");
         buildingTitle.setPosition(570,750);
 
+        returnShopTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Setting_Off_Button.png"));
+        returnShopBtn = new Image(returnShopTexture);
+        returnShopBtn.setSize(85,85);
+        returnShopBtn.setPosition(415,860);
+
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
         shop_background.setPosition(400,300);
@@ -78,11 +95,30 @@ public class ShopBuidlingDisplay extends UIComponent {
         goldFrame.setSize(200,200);
         goldFrame.setPosition(1100,780);
 
+        buildingDescriptionTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
+        buildingDescriptionFrame = new Image(buildingDescriptionTexture);
+        buildingDescriptionFrame.setSize(350,320);
+        buildingDescriptionFrame.setPosition(740,230);
+
+        priceTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        price = new Image(priceTexture);
+        price.setSize(200,280);
+        price.setPosition(540,250);
+
+        buyTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        buyBtn = new Image(buyTexture);
+        buyBtn.setSize(200,280);
+        buyBtn.setPosition(1090,250);
+
         stage.addActor(shop_background);
         stage.addActor(buildingBtn);
         stage.addActor(buildingTitle);
         stage.addActor(stoneFrame);
         stage.addActor(goldFrame);
+        stage.addActor(returnShopBtn);
+        stage.addActor(buildingDescriptionFrame);
+        stage.addActor(price);
+        stage.addActor(buyBtn);
 
         // Triggers an event when the button is pressed.
         returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
