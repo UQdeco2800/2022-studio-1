@@ -53,7 +53,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     //Coin text - set as 0, for placeholder
     int coin = 0;
-    CharSequence coinText = String.format("Coins: %d", coin);
+    CharSequence coinText = String.format("x %d", coin);
     coinLabel = new Label(coinText, skin, "large");
 
     // Heart image
@@ -78,7 +78,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     //Stone text. 0 as an initial set up
     int stone = 0;
-    CharSequence stoneCount = String.format("Stone: %d", stone);
+    CharSequence stoneCount = String.format("x %d", stone);
     stoneCurrencyLabel = new Label(stoneCount, skin, "large");
 
 

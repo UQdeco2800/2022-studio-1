@@ -166,10 +166,15 @@ public class SettingsMenuDisplay extends UIComponent {
   }
 
   private Table makeMenuBtns() {
-    TextButton exitBtn = new TextButton("Exit", skin);
+    //TextButton exitBtn = new TextButton("Exit", skin);
+    Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+    TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+    TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+    ImageButton backButton = new ImageButton(upBack,downBack);
+
     TextButton applyBtn = new TextButton("Apply", skin);
 
-    exitBtn.addListener(
+    backButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -188,7 +193,7 @@ public class SettingsMenuDisplay extends UIComponent {
         });
 
     Table table = new Table();
-    table.add(exitBtn).expandX().left().pad(0f, 15f, 15f, 0f);
+    table.add(backButton).expandX().left().pad(0f, 15f, 15f, 0f).size(60f);
     table.add(applyBtn).expandX().right().pad(0f, 0f, 15f, 15f);
     return table;
   }
@@ -210,6 +215,7 @@ public class SettingsMenuDisplay extends UIComponent {
 
   private void exitMenu() {
     game.setScreen(ScreenType.MAIN_MENU);
+
   }
 
   private Integer parseOrNull(String num) {

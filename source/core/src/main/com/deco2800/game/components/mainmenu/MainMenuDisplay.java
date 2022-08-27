@@ -1,21 +1,16 @@
 package com.deco2800.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
-import jdk.jfr.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Text;
-
-import javax.xml.xpath.XPath;
 
 /**
  * A ui component for displaying the Main menu.
@@ -23,7 +18,7 @@ import javax.xml.xpath.XPath;
 public class MainMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
   private static final float Z_INDEX = 2f;
-  private Table table;
+  private Table rootTable;
   private TextureRegionDrawable homeUp;
   private TextureRegionDrawable homeDown;
   private Texture homeButton;
@@ -50,32 +45,30 @@ public class MainMenuDisplay extends UIComponent {
   }
 
   private void addActors() {
-    table = new Table();
-    table.setFillParent(true);
+
+    rootTable = new Table();
+    rootTable.setFillParent(true);
+
+    Table settingsTable = new Table();
+
+    Table mainTable = new Table();
     Image title =
         new Image(
             ServiceLocator.getResourceService()
-                .getAsset("images/atlantisSinksTitleRefactored.png", Texture.class));
+                .getAsset("images/uiElements/exports/title.png", Texture.class));
 
-    //Team 10 - TJ's attempt for background colour
-//     backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
-//     backgroundColour.setColor(0, 0, 128); // r, g, b, a
+
     // Background Colour
-    Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
+    Texture colour = new Texture(Gdx.files.internal("images/uiElements/exports/background.png"));
     Drawable backgroundColour = new TextureRegionDrawable(colour);
-    table.setBackground(backgroundColour);
+    rootTable.setBackground(backgroundColour);
+
 
     // inserting home Button
-    homeButton = new Texture(Gdx.files.internal("images/uiElements/exports/start_button_with_text.png"));
+    homeButton = new Texture(Gdx.files.internal("images/uiElements/exports/start_button.png"));
     homeUp = new TextureRegionDrawable(homeButton);
     homeDown = new TextureRegionDrawable(homeButton);
     ImageButton homeButton = new ImageButton(homeUp,homeDown);
-
-    // inserting load Button
-    loadButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
-    loadUp = new TextureRegionDrawable(loadButton);
-    loadDown = new TextureRegionDrawable(loadButton);
-    ImageButton loadButton = new ImageButton(loadUp, loadDown);
 
     // inserting settings Button
     settingsButton = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
@@ -89,10 +82,10 @@ public class MainMenuDisplay extends UIComponent {
     exitDown = new TextureRegionDrawable(exitButton);
     ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
-    TextButton startBtn = new TextButton("Start", skin);
-    TextButton loadBtn = new TextButton("Load", skin);
-    TextButton settingsBtn = new TextButton("Settings", skin);
-    TextButton exitBtn = new TextButton("Exit", skin);
+//    TextButton startBtn = new TextButton("Start", skin);
+//    TextButton loadBtn = new TextButton("Load", skin);
+//    TextButton settingsBtn = new TextButton("Settings", skin);
+//    TextButton exitBtn = new TextButton("Exit", skin);
 
     // Triggers an event when the button is pressed
     homeButton.addListener(
@@ -104,14 +97,14 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-    loadButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
-            logger.debug("Load button clicked");
-            entity.getEvents().trigger("load");
-          }
-        });
+//    loadButton.addListener(
+//        new ChangeListener() {
+//          @Override
+//          public void changed(ChangeEvent changeEvent, Actor actor) {
+//            logger.debug("Load button clicked");
+//            entity.getEvents().trigger("load");
+//          }
+//        });
 
     settingsButton.addListener(
         new ChangeListener() {
@@ -126,24 +119,24 @@ public class MainMenuDisplay extends UIComponent {
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
-
             logger.debug("Exit button clicked");
             entity.getEvents().trigger("exit");
           }
         });
 
+    mainTable.add(title).padBottom(50f);
+    mainTable.row();
+    mainTable.add(homeButton);
+    mainTable.row();
+    mainTable.add(exitButton);
 
-    table.add(title).size(1000f,200f);
-    table.row();
-    table.add(homeButton);
-    table.row();
-    table.add(loadButton);
-    table.row();
-    table.add(settingsButton);
-    table.row();
-    table.add(exitButton);
+    settingsTable.add(settingsButton).expandX().expandY().right().bottom().pad(0f, 0f, 0f, 0f);
 
-    stage.addActor(table);
+    rootTable.add(mainTable).expandX();
+    rootTable.row();
+    rootTable.add(settingsTable).fillX();
+
+    stage.addActor(rootTable);
   }
 
   @Override
@@ -158,7 +151,7 @@ public class MainMenuDisplay extends UIComponent {
 
   @Override
   public void dispose() {
-    table.clear();
+    rootTable.clear();
     super.dispose();
   }
 }
