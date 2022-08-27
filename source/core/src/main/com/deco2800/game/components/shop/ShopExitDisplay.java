@@ -40,6 +40,13 @@ public class ShopExitDisplay extends UIComponent {
     private Texture artefactTexture;
     private Label artefactTitle;
 
+    private Image stoneFrame;
+    private Texture stoneTexture;
+
+    private Image goldFrame;
+    private Texture goldTexture;
+
+
 
     @Override
     public void create() {
@@ -59,28 +66,42 @@ public class ShopExitDisplay extends UIComponent {
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
         buildingBtn = new Image(buildingTexture);
-        buildingBtn.setPosition(500,500);
+        buildingBtn.setPosition(500,450);
         buildingBtn.setSize(300,300);
         String buildingText = "Buildings";
         buildingTitle = new Label(buildingText, skin, "large");
-        buildingTitle.setPosition(585,495);
+        buildingTitle.setPosition(585,445);
 
         artefactTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
         artefactBtn = new Image(artefactTexture);
-        artefactBtn.setPosition(1000,500);
+        artefactBtn.setPosition(1000,450);
         artefactBtn.setSize(300,300);
         String artefactText = "Artefacts";
         artefactTitle = new Label(artefactText, skin, "large");
-        artefactTitle.setPosition(1085,495);
+        artefactTitle.setPosition(1085,445);
 
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
         shop_background.setPosition(400,300);
+
+        stoneTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
+        stoneFrame = new Image(stoneTexture);
+        stoneFrame.setSize(200,200);
+        stoneFrame.setPosition(1100,700);
+        stoneFrame.setColor(216,189,151,10);
+
+        goldTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
+        goldFrame = new Image(goldTexture);
+        goldFrame.setSize(200,200);
+        goldFrame.setPosition(1100,780);
+
         stage.addActor(shop_background);
         stage.addActor(buildingBtn);
         stage.addActor(buildingTitle);
         stage.addActor(artefactBtn);
         stage.addActor(artefactTitle);
+        stage.addActor(stoneFrame);
+        stage.addActor(goldFrame);
 
         // Triggers an event when the button is pressed.
         backBtn.addListener(
