@@ -1,5 +1,6 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,11 +32,11 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
   private static final float WALL_WIDTH = 0.1f;
 
-  private static final int MAX_ENVIRONMENTAL_OBJECTS = 20;
+  private static final int MAX_ENVIRONMENTAL_OBJECTS = 10;
   private static final int MIN_NUM_TREES = 3;
-  private static final int MAX_NUM_TREES = 12;
-  private static final int MIN_NUM_ROCKS = 5;
-  private static final int MAX_NUM_ROCKS = 8;
+  private static final int MAX_NUM_TREES = 6;
+  private static final int MIN_NUM_ROCKS = 2;
+  private static final int MAX_NUM_ROCKS = 4;
 
   private static final String[] forestTextures = {
     "images/box_boy_leaf.png",
@@ -136,8 +137,8 @@ public class ForestGameArea extends GameArea {
    * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 minPos = new GridPoint2(50, 50);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(25, 25);
 
     for (int i = 0; i < numObjects; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -164,13 +165,24 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createRock();
       }
 
+      int counter = 0;
       //check for possible collision and reroll location until valid
-      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)) {
+      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+              || entityMapping.isNearWater(randomPos.x, randomPos.y) ) {
         randomPos = RandomUtils.random(minPos, maxPos);
+
+        //safety to avoid infinite looping on loading screen.
+        //If cant spawn the object then space has ran out on map
+        if (counter > 1000) {
+          System.out.println("clash");
+          return;
+        }
+
+        counter++;
       }
 
+      spawnEntityAt(envObj, randomPos, true, true);
       this.entityMapping.addEntity(envObj);
-      spawnEntityAt(envObj, randomPos, false, false);
     }
   }
 
@@ -183,6 +195,7 @@ public class ForestGameArea extends GameArea {
 
     //semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
+
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
 
