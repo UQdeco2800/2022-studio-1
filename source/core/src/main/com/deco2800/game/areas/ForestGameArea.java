@@ -1,6 +1,8 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+import com.deco2800.game.entities.factories.StructureFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,7 @@ public class ForestGameArea extends GameArea {
 
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
+  private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
 
   private static final int MAX_ENVIRONMENTAL_OBJECTS = 10;
@@ -39,6 +42,7 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_ROCKS = 4;
 
   private static final String[] forestTextures = {
+
     "images/box_boy_leaf.png",
     "images/tree.png",
     "images/ghost_king.png",
@@ -61,7 +65,8 @@ public class ForestGameArea extends GameArea {
     "images/fullSizedDirt.png",
     "images/waterDirtMerged.png",
     "images/trial3GrassTile.png",
-    "images/rock_placeholder_image.png"
+    "images/rock_placeholder_image.png",
+              "images/wallTransparent.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -98,6 +103,8 @@ public class ForestGameArea extends GameArea {
     //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
+    spawnWall(60,60);
+
     player = spawnPlayer();
 
     spawnEnvironmentalObjects();
@@ -118,6 +125,7 @@ public class ForestGameArea extends GameArea {
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
+    System.out.println(tileSize);
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
@@ -241,6 +249,16 @@ public class ForestGameArea extends GameArea {
     Entity newPlayer = PlayerFactory.createPlayer();
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
+  }
+
+  private void spawnWall(int x_pos, int y_pos) {
+    Entity newWall = StructureFactory.createWall("images/wallTransparent.png");
+    while (this.entityMapping.wouldCollide(newWall, x_pos, y_pos)) {
+      x_pos++;
+    }
+    this.entityMapping.addEntity(newWall);
+    spawnEntityAt(newWall, new GridPoint2(x_pos, y_pos), true, true);
+
   }
 
   private void playMusic() {
