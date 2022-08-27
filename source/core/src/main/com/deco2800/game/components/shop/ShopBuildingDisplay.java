@@ -40,10 +40,10 @@ public class ShopBuildingDisplay extends UIComponent {
 
     private Texture leftTexture;
 
-    private Image stoneFrame;
+    private TextButton stoneFrame;
     private Texture stoneTexture;
 
-    private Image goldFrame;
+    private TextButton goldFrame;
     private Texture goldTexture;
 
     private Image currentItem;
@@ -102,13 +102,20 @@ public class ShopBuildingDisplay extends UIComponent {
         returnShopBtn.setPosition(415, 860);
 
         stoneTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        stoneFrame = new Image(stoneTexture);
+        TextureRegionDrawable stoneDraw = new TextureRegionDrawable(stoneTexture);
+        stoneFrame = ShopUtils.createImageTextButton(
+                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()), skin.getColor("black"),
+                "button", 1f, stoneDraw, stoneDraw, skin, true);
         stoneFrame.setSize(200, 200);
         stoneFrame.setPosition(1100, 700);
         stoneFrame.setColor(216, 189, 151, 10);
 
         goldTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        goldFrame = new Image(goldTexture);
+        TextureRegionDrawable goldDraw = new TextureRegionDrawable(goldTexture);
+        goldFrame = ShopUtils.createImageTextButton(
+                "Gold: " + Integer.toString(entity.getComponent(InventoryComponent.class).getGold()),
+                skin.getColor("black"),
+                "button", 1f, goldDraw, goldDraw, skin, true);
         goldFrame.setSize(200, 200);
         goldFrame.setPosition(1100, 780);
 
@@ -157,7 +164,7 @@ public class ShopBuildingDisplay extends UIComponent {
         descriptionDisplay.setScaleY(6f);
         TextButton buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 3f, pressed, s,
                 skin,
-                true);
+                false);
         rightButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -196,12 +203,22 @@ public class ShopBuildingDisplay extends UIComponent {
                     }
                 });
 
-        // priceDisplay.setTransform(true);
-        // priceDisplay.setScale(4f);
+        buyButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.info("Buy button clicked");
 
-        // p.getLabel().setAlignment(Align.center);
-        price.setPosition(540, 250);
-        // priceTitle = new Label(priceText, skin, "large");
+                        if (entity.getComponent(InventoryComponent.class).hasGold(current.artefact.getPrice())) {
+                            logger.info("Sufficient Gold");
+                            entity.getComponent(InventoryComponent.class).addGold(-1 * current.artefact.getPrice());
+                        } else {
+                            logger.info("Insufficient gold!");
+                        }
+                        goldFrame.setText(
+                                "Gold: " + Integer.toString(entity.getComponent(InventoryComponent.class).getGold()));
+                    }
+                });
 
         buyTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
         buyBtn = new Image(buyTexture);
@@ -236,11 +253,6 @@ public class ShopBuildingDisplay extends UIComponent {
                     }
                 });
 
-        /*
-         * table.add().expandX();
-         * table.add(backBtn).padTop(10f).padRight(10f).top().right();
-         * table.row();
-         */
         Label title = new Label("SHOP", skin, "title");
         title.setPosition(width * 0.05f, height * 0.90f);
         title.setFontScale(4f);
@@ -249,6 +261,9 @@ public class ShopBuildingDisplay extends UIComponent {
         stage.addActor(backBtn);
 
         stage.addActor(title);
+
+        stage.addActor(goldFrame);
+        stage.addActor(stoneFrame);
 
         leftButton.setPosition(width * 0.30f, height * 0.45f);
         stage.addActor(leftButton);
@@ -268,7 +283,6 @@ public class ShopBuildingDisplay extends UIComponent {
         // buyButton.setOrigin(0, 0);
         buyButton.setPosition(width * 0.78f, height * 0.0f);
         stage.addActor(buyButton);
-        stage.isDebugAll();
 
         /*
          * table.add(buildingItem);
