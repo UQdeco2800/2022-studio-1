@@ -55,6 +55,24 @@ public class MainGameExitDisplay extends UIComponent {
         }
       });
 
+    //Entering the system button
+    Texture settingTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/settingsGame.png"));
+    TextureRegionDrawable upSetting = new TextureRegionDrawable(settingTexture);
+    TextureRegionDrawable downSetting = new TextureRegionDrawable(settingTexture);
+    ImageButton settingsButton = new ImageButton(upSetting,downSetting);
+
+    //Settings Button
+    settingsButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Settings button clicked on game page");
+                logger.info("Game paused");
+                entity.getEvents().trigger("setting game page");
+              }
+            });
+
+    table.add(settingsButton).size(50f).pad(5);
     table.add(backButton).size(50f).pad(5);
     table.row();
     stage.addActor(table);

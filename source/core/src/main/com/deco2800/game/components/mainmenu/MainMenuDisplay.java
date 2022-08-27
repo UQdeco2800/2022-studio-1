@@ -130,7 +130,7 @@ public class MainMenuDisplay extends UIComponent {
     mainTable.row();
     mainTable.add(exitButton);
 
-    settingsTable.add(settingsButton).expandX().expandY().right().bottom().pad(0f, 0f, 0f, 0f);;
+    settingsTable.add(settingsButton).expandX().expandY().right().bottom().pad(0f, 0f, 0f, 0f);
 
     rootTable.add(mainTable).expandX();
     rootTable.row();
