@@ -20,6 +20,8 @@ public class MainGameExitDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
+  private Table table2;
+  private Table table3;
 
 
   @Override
@@ -29,11 +31,15 @@ public class MainGameExitDisplay extends UIComponent {
   }
 
   private void addActors() {
+    table3 = new Table();
+    table3.bottom().left();
+    table2 = new Table();
+    //table2.bottom().right();
     table = new Table();
     table.top().right();
     table.setFillParent(true);
 
-    TextButton mainMenuBtn = new TextButton("Exit", skin);
+    //TextButton mainMenuBtn = new TextButton("Exit", skin);
 
     //Entering the Shop Button
     Texture shopTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Shop_Button.png"));
@@ -72,13 +78,13 @@ public class MainGameExitDisplay extends UIComponent {
 
     table.add(backButton).size(50f).pad(5);
     table.row();
-    table.add(shopButton);
-    table.row();
-    table.add(inventoryButton);
-    table.row();
-    table.add(buildingButton);
+    table3.add(shopButton).left().bottom();
+    table2.add(inventoryButton);
+    table2.add(buildingButton);
 
     stage.addActor(table);
+    stage.addActor(table2);
+    stage.addActor(table3);
   }
 
   @Override

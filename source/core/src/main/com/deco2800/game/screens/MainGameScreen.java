@@ -42,7 +42,8 @@ public class MainGameScreen extends ScreenAdapter {
           "images/coin.png",
           "images/healthBar.png",
           "images/crystal.png",
-          "images/stone.png"
+          "images/stone.png",
+          "atlantisBasicBackground.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);

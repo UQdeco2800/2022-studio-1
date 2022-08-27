@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import jdk.jfr.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Text;
 
 import javax.xml.xpath.XPath;
 
@@ -55,10 +57,13 @@ public class MainMenuDisplay extends UIComponent {
             ServiceLocator.getResourceService()
                 .getAsset("images/atlantisSinksTitleRefactored.png", Texture.class));
 
-    // Team 10 - TJ's attempt for background colour
-    // backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
-    // backgroundColour.setColor(0, 0, 128); // r, g, b, a
-    // table.setBackground(backgroundColour);
+    //Team 10 - TJ's attempt for background colour
+//     backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
+//     backgroundColour.setColor(0, 0, 128); // r, g, b, a
+    // Background Colour
+    Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
+    Drawable backgroundColour = new TextureRegionDrawable(colour);
+    table.setBackground(backgroundColour);
 
     // inserting home Button
     homeButton = new Texture(Gdx.files.internal("images/uiElements/exports/start_button_with_text.png"));
@@ -128,15 +133,15 @@ public class MainMenuDisplay extends UIComponent {
         });
 
 
-    table.add(title).size(1000f,400f);
+    table.add(title).size(1000f,200f);
     table.row();
-    table.add(homeButton).padTop(15f);
+    table.add(homeButton);
     table.row();
-    table.add(loadButton).padTop(15f);
+    table.add(loadButton);
     table.row();
-    table.add(settingsButton).padTop(15f);
+    table.add(settingsButton);
     table.row();
-    table.add(exitButton).padTop(15f);
+    table.add(exitButton);
 
     stage.addActor(table);
   }
