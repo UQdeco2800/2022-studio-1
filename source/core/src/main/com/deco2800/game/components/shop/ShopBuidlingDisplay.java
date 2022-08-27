@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
-public class ShopExitDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(ShopExitDisplay.class);
+public class ShopBuidlingDisplay extends UIComponent {
+    private static final Logger logger = LoggerFactory.getLogger(ShopBuidlingDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
 
@@ -31,20 +31,35 @@ public class ShopExitDisplay extends UIComponent {
 
     private Image shop_background;
 
-    private Image buildingBtn;
+    private Image buildingItem;
     private Texture buildingTexture;
 
     private Label buildingTitle;
-
-    private Image artefactBtn;
-    private Texture artefactTexture;
-    private Label artefactTitle;
 
     private Image stoneFrame;
     private Texture stoneTexture;
 
     private Image goldFrame;
     private Texture goldTexture;
+
+    private Image returnShopBtn;
+    private Texture returnShopTexture;
+
+    private Image buildingDescriptionFrame;
+    private Texture buildingDescriptionTexture;
+    private Label descriptionTitle;
+
+    private Image price;
+    private Texture priceTexture;
+    private Label priceTitle;
+
+    private Image buyBtn;
+    private Texture buyTexture;
+    private Label buyTitle;
+
+    private Image sword;
+    private Texture swordTexture;
+    private Label swordTitle;
 
 
 
@@ -60,20 +75,17 @@ public class ShopExitDisplay extends UIComponent {
         table.setFillParent(true);
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-        buildingBtn = new Image(buildingTexture);
-        buildingBtn.setPosition(500,450);
-        buildingBtn.setSize(300,300);
+        buildingItem = new Image(buildingTexture);
+        buildingItem.setPosition(740,430);
+        buildingItem.setSize(350,350);
         String buildingText = "Buildings";
         buildingTitle = new Label(buildingText, skin, "large");
-        buildingTitle.setPosition(585,445);
+        buildingTitle.setPosition(570,750);
 
-        artefactTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-        artefactBtn = new Image(artefactTexture);
-        artefactBtn.setPosition(1000,450);
-        artefactBtn.setSize(300,300);
-        String artefactText = "Artefacts";
-        artefactTitle = new Label(artefactText, skin, "large");
-        artefactTitle.setPosition(1085,445);
+        returnShopTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Setting_Off_Button.png"));
+        returnShopBtn = new Image(returnShopTexture);
+        returnShopBtn.setSize(85,85);
+        returnShopBtn.setPosition(415,860);
 
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
@@ -90,13 +102,52 @@ public class ShopExitDisplay extends UIComponent {
         goldFrame.setSize(200,200);
         goldFrame.setPosition(1100,780);
 
+        buildingDescriptionTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
+        buildingDescriptionFrame = new Image(buildingDescriptionTexture);
+        buildingDescriptionFrame.setSize(350,320);
+        buildingDescriptionFrame.setPosition(740,230);
+        String descriptionText = "Defense against enemies";
+        descriptionTitle = new Label(descriptionText, skin, "small");
+        descriptionTitle.setPosition(800,400);
+
+        priceTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        price = new Image(priceTexture);
+        price.setSize(200,280);
+        price.setPosition(540,250);
+        String priceText = "100";
+        priceTitle = new Label(priceText, skin, "large");
+        priceTitle.setPosition(620,390);
+
+        buyTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        buyBtn = new Image(buyTexture);
+        buyBtn.setSize(200,280);
+        buyBtn.setPosition(1090,250);
+        String buyText = "BUY";
+        buyTitle = new Label(buyText, skin, "large");
+        buyTitle.setPosition(1170,390);
+
+        swordTexture = new Texture(Gdx.files.internal("images/shop-sword.png"));
+        sword = new Image(swordTexture);
+        sword.setSize(200,200);
+        sword.setPosition(820,500);
+        String swordText = "Sword";
+        swordTitle = new Label(swordText, skin, "large");
+        swordTitle.setPosition(870,700);
+
         stage.addActor(shop_background);
-        stage.addActor(buildingBtn);
+        stage.addActor(buildingItem);
         stage.addActor(buildingTitle);
-        stage.addActor(artefactBtn);
-        stage.addActor(artefactTitle);
         stage.addActor(stoneFrame);
         stage.addActor(goldFrame);
+        stage.addActor(returnShopBtn);
+        stage.addActor(buildingDescriptionFrame);
+        stage.addActor(descriptionTitle);
+        stage.addActor(price);
+        stage.addActor(priceTitle);
+        stage.addActor(buyBtn);
+        stage.addActor(buyTitle);
+        stage.addActor(sword);
+        stage.addActor(swordTitle);
 
         // Triggers an event when the button is pressed.
         returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));

@@ -1,8 +1,6 @@
 package com.deco2800.game.components.maingame;
 
 import com.deco2800.game.GdxGame;
-import com.deco2800.game.areas.ShopArea;
-import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.rendering.Renderer;
 import org.slf4j.Logger;
