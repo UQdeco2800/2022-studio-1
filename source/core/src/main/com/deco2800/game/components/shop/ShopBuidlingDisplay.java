@@ -47,12 +47,15 @@ public class ShopBuidlingDisplay extends UIComponent {
 
     private Image buildingDescriptionFrame;
     private Texture buildingDescriptionTexture;
+    private Label descriptionTitle;
 
     private Image price;
     private Texture priceTexture;
+    private Label priceTitle;
 
     private Image buyBtn;
     private Texture buyTexture;
+    private Label buyTitle;
 
     private Image sword;
     private Texture swordTexture;
@@ -103,16 +106,25 @@ public class ShopBuidlingDisplay extends UIComponent {
         buildingDescriptionFrame = new Image(buildingDescriptionTexture);
         buildingDescriptionFrame.setSize(350,320);
         buildingDescriptionFrame.setPosition(740,230);
+        String descriptionText = "Defense against enemies";
+        descriptionTitle = new Label(descriptionText, skin, "small");
+        descriptionTitle.setPosition(800,400);
 
         priceTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
         price = new Image(priceTexture);
         price.setSize(200,280);
         price.setPosition(540,250);
+        String priceText = "100";
+        priceTitle = new Label(priceText, skin, "large");
+        priceTitle.setPosition(620,390);
 
         buyTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
         buyBtn = new Image(buyTexture);
         buyBtn.setSize(200,280);
         buyBtn.setPosition(1090,250);
+        String buyText = "BUY";
+        buyTitle = new Label(buyText, skin, "large");
+        buyTitle.setPosition(1170,390);
 
         swordTexture = new Texture(Gdx.files.internal("images/shop-sword.png"));
         sword = new Image(swordTexture);
@@ -129,8 +141,11 @@ public class ShopBuidlingDisplay extends UIComponent {
         stage.addActor(goldFrame);
         stage.addActor(returnShopBtn);
         stage.addActor(buildingDescriptionFrame);
+        stage.addActor(descriptionTitle);
         stage.addActor(price);
+        stage.addActor(priceTitle);
         stage.addActor(buyBtn);
+        stage.addActor(buyTitle);
         stage.addActor(sword);
         stage.addActor(swordTitle);
 
