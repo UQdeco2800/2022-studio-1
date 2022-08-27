@@ -7,8 +7,6 @@ import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
-import com.deco2800.game.entities.configs.Tower1Config;
-import com.deco2800.game.entities.configs.WallConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -40,25 +38,25 @@ public class StructureFactory {
    */
   public static Entity createWall(String texture) {
     Entity wall = createBaseStructure(texture);
-    WallConfig config = new WallConfig(); //For some reason it errors if I use configs.wall :o 
+    BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(200, 0));
+            .addComponent(new HealthBarComponent(75, 10));
     return wall;
   }
 
-
   /**
-   * Creates a Tower1 entity. 
-   * @return specialised Tower1 entity
+   * Creates a tower1 entity.
+   *
+   * //@param target entity to chase
+   * @return entity
    */
   public static Entity createTower1(String texture) {
     Entity tower1 = createBaseStructure(texture);
-    Tower1Config config = configs.tower1;
+    BaseEntityConfig config = configs.tower1;
 
     tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-      .addComponent(new HealthBarComponent(50, 10));
-
+            .addComponent(new HealthBarComponent(75, 10));
     return tower1;
   }
 
