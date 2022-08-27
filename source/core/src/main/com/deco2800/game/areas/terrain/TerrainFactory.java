@@ -20,7 +20,7 @@ import com.deco2800.game.services.ServiceLocator;
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
-  private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(30, 30);
+  private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(6, 6);
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -69,7 +69,7 @@ public class TerrainFactory {
             resourceService.getAsset("images/waterDirtMerged.png", Texture.class));
         isoCliffRight.flip(true, false);
 
-        return createForestDemoTerrain(0.5f, isoGrass, isoWater, isoCliff, isoCliffLeft,
+        return createForestDemoTerrain(3f, isoGrass, isoWater, isoCliff, isoCliffLeft,
             isoCliffRight);
       default:
         return null;
@@ -134,16 +134,28 @@ public class TerrainFactory {
     int waterWidth = (int) Math.floor((mapSize.x - islandSize.x) / 2);
     int waterHeight = (int) Math.floor((mapSize.y - islandSize.y) / 2);
 
-    // Fill island tiles
-    for (int x = waterWidth; x <= islandSize.x + waterWidth; x++) {
-      for (int y = waterHeight; y <= islandSize.y + waterHeight; y++) {
+    GridPoint2 waterDimensions = new GridPoint2(waterWidth, waterHeight);
+
+    fillLand(layer, islandSize, mapSize, waterDimensions, land);
+    fillCliffs(layer, islandSize, mapSize, waterDimensions, cliffTile, cliffRightTile, cliffLeftTile);
+    fillWater(layer, islandSize, mapSize, waterDimensions, water);
+  }
+
+  public static void fillLand(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
+      GridPoint2 waterDimensions, TerrainTile land) {
+    for (int x = waterDimensions.x; x < islandSize.x + waterDimensions.x; x++) {
+      for (int y = waterDimensions.y; y < islandSize.y + waterDimensions.y; y++) {
         Cell cell = new Cell();
         cell.setTile(land);
         layer.setCell(x, y, cell);
       }
     }
+  }
 
-    // Add Cliff Corners
+  public static void fillCliffs(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
+      GridPoint2 waterDimensions,
+      TerrainTile cliffTile,
+      TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
     Cell leftCorner = new Cell();
     Cell leftCorner2 = new Cell();
     leftCorner.setTile(cliffLeftTile);
@@ -152,32 +164,34 @@ public class TerrainFactory {
     Cell rightCorner2 = new Cell();
     rightCorner.setTile(cliffRightTile);
     rightCorner2.setTile(cliffRightTile);
-    layer.setCell(waterWidth, waterHeight - 1, leftCorner);
-    layer.setCell(waterWidth + 1, waterHeight - 2, leftCorner2);
-    layer.setCell(waterWidth + islandSize.x + 1, waterHeight + islandSize.y, rightCorner);
-    layer.setCell(waterWidth + islandSize.x + 2, waterHeight + islandSize.y - 1, rightCorner2);
+    layer.setCell(waterDimensions.x, waterDimensions.y - 1, leftCorner);
+    layer.setCell(waterDimensions.x + 1, waterDimensions.y - 2, leftCorner2);
+    layer.setCell(waterDimensions.x + islandSize.x + 1, waterDimensions.y + islandSize.y, rightCorner);
+    layer.setCell(waterDimensions.x + islandSize.x + 2, waterDimensions.y + islandSize.y - 1, rightCorner2);
 
-    // Add Cliffs -- left side
-    for (int x = waterWidth + 1; x <= waterWidth + islandSize.x + 1; x++) {
+    for (int x = waterDimensions.x + 1; x <= waterDimensions.x + islandSize.x + 1; x++) {
       Cell cell = new Cell();
       Cell lowerCell = new Cell();
       cell.setTile(cliffTile);
       lowerCell.setTile(cliffTile);
-      layer.setCell(x, waterHeight - 1, cell);
-      layer.setCell(x + 1, waterHeight - 2, cell);
+      layer.setCell(x, waterDimensions.y - 1, cell);
+      layer.setCell(x + 1, waterDimensions.y - 2, cell);
     }
 
     // Add Cliffs -- right side
-    for (int y = waterHeight; y < waterHeight + islandSize.y; y++) {
+    for (int y = waterDimensions.y; y < waterDimensions.y + islandSize.y; y++) {
       Cell cell = new Cell();
       Cell lowerCell = new Cell();
       cell.setTile(cliffTile);
       lowerCell.setTile(cliffTile);
-      layer.setCell(waterWidth + islandSize.x + 1, y, cell);
-      layer.setCell(waterWidth + islandSize.x + 2, y - 1, cell);
+      layer.setCell(waterDimensions.x + islandSize.x + 1, y, cell);
+      layer.setCell(waterDimensions.x + islandSize.x + 2, y - 1, cell);
     }
 
-    // Fill remaining tiles with water
+  }
+
+  public static void fillWater(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
+      GridPoint2 waterDimensions, TerrainTile water) {
     for (int x = 0; x < mapSize.x; x++) {
       for (int y = 0; y < mapSize.y; y++) {
         if (layer.getCell(x, y) == null) {
