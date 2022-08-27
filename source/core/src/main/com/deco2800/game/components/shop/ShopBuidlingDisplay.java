@@ -31,7 +31,7 @@ public class ShopBuidlingDisplay extends UIComponent {
 
     private Image shop_background;
 
-    private Image buildingBtn;
+    private Image buildingItem;
     private Texture buildingTexture;
 
     private Label buildingTitle;
@@ -54,6 +54,10 @@ public class ShopBuidlingDisplay extends UIComponent {
     private Image buyBtn;
     private Texture buyTexture;
 
+    private Image sword;
+    private Texture swordTexture;
+    private Label swordTitle;
+
 
 
     @Override
@@ -68,9 +72,9 @@ public class ShopBuidlingDisplay extends UIComponent {
         table.setFillParent(true);
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-        buildingBtn = new Image(buildingTexture);
-        buildingBtn.setPosition(740,430);
-        buildingBtn.setSize(350,350);
+        buildingItem = new Image(buildingTexture);
+        buildingItem.setPosition(740,430);
+        buildingItem.setSize(350,350);
         String buildingText = "Buildings";
         buildingTitle = new Label(buildingText, skin, "large");
         buildingTitle.setPosition(570,750);
@@ -110,8 +114,16 @@ public class ShopBuidlingDisplay extends UIComponent {
         buyBtn.setSize(200,280);
         buyBtn.setPosition(1090,250);
 
+        swordTexture = new Texture(Gdx.files.internal("images/shop-sword.png"));
+        sword = new Image(swordTexture);
+        sword.setSize(200,200);
+        sword.setPosition(820,500);
+        String swordText = "Sword";
+        swordTitle = new Label(swordText, skin, "large");
+        swordTitle.setPosition(870,700);
+
         stage.addActor(shop_background);
-        stage.addActor(buildingBtn);
+        stage.addActor(buildingItem);
         stage.addActor(buildingTitle);
         stage.addActor(stoneFrame);
         stage.addActor(goldFrame);
@@ -119,6 +131,8 @@ public class ShopBuidlingDisplay extends UIComponent {
         stage.addActor(buildingDescriptionFrame);
         stage.addActor(price);
         stage.addActor(buyBtn);
+        stage.addActor(sword);
+        stage.addActor(swordTitle);
 
         // Triggers an event when the button is pressed.
         returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
