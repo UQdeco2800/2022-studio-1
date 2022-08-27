@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import jdk.jfr.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Text;
 
 import javax.xml.xpath.XPath;
 
@@ -53,38 +55,41 @@ public class MainMenuDisplay extends UIComponent {
     Image title =
         new Image(
             ServiceLocator.getResourceService()
-                .getAsset("images/atlantissinkstitle.png", Texture.class));
+                .getAsset("images/atlantisSinksTitleRefactored.png", Texture.class));
 
-    // Team 10 - TJ's attempt for background colour
-    // backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
-    // backgroundColour.setColor(0, 0, 128); // r, g, b, a
-    // table.setBackground(backgroundColour);
+    //Team 10 - TJ's attempt for background colour
+//     backgroundColour = new backgroundColour(Gdx.files.internal("images/atlantisBasicBackground.png"));
+//     backgroundColour.setColor(0, 0, 128); // r, g, b, a
+    // Background Colour
+    Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
+    Drawable backgroundColour = new TextureRegionDrawable(colour);
+    table.setBackground(backgroundColour);
 
-      // inserting home Button
-      homeButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
-      homeUp = new TextureRegionDrawable(homeButton);
-      homeDown = new TextureRegionDrawable(homeButton);
-      ImageButton homeButton = new ImageButton(homeUp,homeDown);
+    // inserting home Button
+    homeButton = new Texture(Gdx.files.internal("images/uiElements/exports/start_button_with_text.png"));
+    homeUp = new TextureRegionDrawable(homeButton);
+    homeDown = new TextureRegionDrawable(homeButton);
+    ImageButton homeButton = new ImageButton(homeUp,homeDown);
 
-      // inserting load Button
-      loadButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
-      loadUp = new TextureRegionDrawable(loadButton);
-      loadDown = new TextureRegionDrawable(loadButton);
-      ImageButton loadButton = new ImageButton(loadUp, loadDown);
+    // inserting load Button
+    loadButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    loadUp = new TextureRegionDrawable(loadButton);
+    loadDown = new TextureRegionDrawable(loadButton);
+    ImageButton loadButton = new ImageButton(loadUp, loadDown);
 
     // inserting settings Button
-    settingsButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    settingsButton = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
     settingsUp = new TextureRegionDrawable(settingsButton);
     settingsDown = new TextureRegionDrawable(settingsButton);
     ImageButton settingsButton = new ImageButton(settingsUp, settingsDown);
 
     // inserting exit Button
-    exitButton = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    exitButton = new Texture(Gdx.files.internal("images/uiElements/exports/exit_button.png"));
     exitUp = new TextureRegionDrawable(exitButton);
     exitDown = new TextureRegionDrawable(exitButton);
     ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
-    //TextButton startBtn = new TextButton("Start", skin);
+    TextButton startBtn = new TextButton("Start", skin);
     TextButton loadBtn = new TextButton("Load", skin);
     TextButton settingsBtn = new TextButton("Settings", skin);
     TextButton exitBtn = new TextButton("Exit", skin);
@@ -128,15 +133,15 @@ public class MainMenuDisplay extends UIComponent {
         });
 
 
-    table.add(title).size(1000f,400f);
+    table.add(title).size(1000f,200f);
     table.row();
-    table.add(homeButton).padTop(15f);
+    table.add(homeButton);
     table.row();
-    table.add(loadButton).padTop(15f);
+    table.add(loadButton);
     table.row();
-    table.add(settingsButton).padTop(15f);
+    table.add(settingsButton);
     table.row();
-    table.add(exitButton).padTop(15f);
+    table.add(exitButton);
 
     stage.addActor(table);
   }

@@ -3,11 +3,14 @@ package com.deco2800.game.components.settingsmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.GdxGame;
 import com.deco2800.game.GdxGame.ScreenType;
@@ -50,6 +53,7 @@ public class SettingsMenuDisplay extends UIComponent {
     Table settingsTable = makeSettingsTable();
     Table menuBtns = makeMenuBtns();
 
+
     rootTable = new Table();
     rootTable.setFillParent(true);
 
@@ -60,6 +64,10 @@ public class SettingsMenuDisplay extends UIComponent {
 
     rootTable.row();
     rootTable.add(menuBtns).fillX();
+
+    Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
+    Drawable backgroundColour = new TextureRegionDrawable(colour);
+    rootTable.setBackground(backgroundColour);
 
     stage.addActor(rootTable);
   }
