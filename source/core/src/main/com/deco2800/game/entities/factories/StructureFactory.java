@@ -34,15 +34,14 @@ public class StructureFactory {
   /**
    * Creates a wall entity.
    *
-   * //@param target entity to chase
-   * @return entity
+   * @return specialised Wall entity
    */
   public static Entity createWall(String texture) {
     Entity wall = createBaseStructure(texture);
-    BaseEntityConfig config = configs.wall;
+    BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(50, 10));
+            .addComponent(new HealthBarComponent(75, 10));
     return wall;
   }
 
@@ -57,10 +56,9 @@ public class StructureFactory {
     BaseEntityConfig config = configs.tower1;
 
     tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(50, 10));
+            .addComponent(new HealthBarComponent(75, 10));
     return tower1;
   }
-
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
