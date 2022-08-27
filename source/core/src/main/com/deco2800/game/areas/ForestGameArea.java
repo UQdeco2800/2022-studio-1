@@ -226,20 +226,21 @@ public class ForestGameArea extends GameArea {
 
 
   /**
-   *removes an entity at a specific tile coordinate
-   *@param removeTile The tile where environment entities is removed
+   * removes an entity at a specific tile coordinate
+   * goes through areaEntities to find entity in that position
+   * check if entity is an environment object
+   * put inside separate list first to avoid ConcurrentModificationException
+   * @param removeTile The tile where environment entities is removed
+   * @return a tuple containing resource type and its value
    */
   public ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> removeEnvironmentalObject(GridPoint2 removeTile) {
     Vector2 removeLoc = terrain.tileToWorldPosition(removeTile);
     List<Entity> found = new ArrayList<Entity>();
     ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> values =
             new ValueTuple<>(EnvironmentalComponent.ResourceTypes.NONE, 0);
-    //go through areaEntities to find entity in that position
     for (Entity entity : this.areaEntities) {
       if(entity.getPosition() == removeLoc &&
-              //check if entity is an environment object
               entity.getComponent(EnvironmentalComponent.class) != null) {
-        // put inside separate list first to avoid ConcurrentModificationException
         found.add(entity);
         values = new ValueTuple<>(
                 entity.getComponent(EnvironmentalComponent.class).getType(),
