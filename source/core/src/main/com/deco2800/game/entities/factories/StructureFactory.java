@@ -46,6 +46,21 @@ public class StructureFactory {
     return wall;
   }
 
+  /**
+   * Creates a tower1 entity.
+   *
+   * //@param target entity to chase
+   * @return entity
+   */
+  public static Entity createTower1(String texture) {
+    Entity tower1 = createBaseStructure(texture);
+    BaseEntityConfig config = configs.tower1;
+
+    tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(50, 10));
+    return tower1;
+  }
+
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
