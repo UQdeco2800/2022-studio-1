@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.entities.factories.NPCFactory;
@@ -224,25 +225,34 @@ public class ForestGameArea extends GameArea {
 
 
 
-  /*removes an entity at a specific tile coordinate
-   *@param removeTile The tile where environment entities is removed
+  /**
+   * removes an entity at a specific tile coordinate
+   * goes through areaEntities to find entity in that position
+   * check if entity is an environment object
+   * put inside separate list first to avoid ConcurrentModificationException
+   * @param removeTile The tile where environment entities is removed
+   * @return a tuple containing resource type and its value
    */
-  private void removeEnvironmentalObject(GridPoint2 removeTile) {
+  public ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> removeEnvironmentalObject(GridPoint2 removeTile) {
     Vector2 removeLoc = terrain.tileToWorldPosition(removeTile);
     List<Entity> found = new ArrayList<Entity>();
-    //go through areaEntities to find entity in that position
+    ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> values =
+            new ValueTuple<>(EnvironmentalComponent.ResourceTypes.NONE, 0);
     for (Entity entity : this.areaEntities) {
       if(entity.getPosition() == removeLoc &&
-              //check if entity is an environment object
               entity.getComponent(EnvironmentalComponent.class) != null) {
-        // put inside separate list first to avoid ConcurrentModificationException
         found.add(entity);
+        values = new ValueTuple<>(
+                entity.getComponent(EnvironmentalComponent.class).getType(),
+                entity.getComponent(EnvironmentalComponent.class).getResourceAmount()
+        );
       }
     }
     this.areaEntities.removeAll(found);
     for (Entity entity : found) {
       entity.dispose();
     }
+    return values;
   }
 
   private Entity spawnPlayer() {
