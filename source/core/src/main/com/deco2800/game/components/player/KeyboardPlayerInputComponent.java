@@ -1,5 +1,6 @@
 package com.deco2800.game.components.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
@@ -105,11 +106,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   }
 
   private void triggerBuildEvent() {
-    EntityService entityService = ServiceLocator.getEntityService();
+    GridPoint2 mousePos = new GridPoint2(Gdx.input.getX(), Gdx.input.getY());
     GridPoint2 minPos = new GridPoint2(30, 30);
     GridPoint2 maxPos = new GridPoint2(60,60);
     GridPoint2 tilePos = new GridPoint2(RandomUtils.random(minPos,maxPos));
-    Vector2 worldPos = new Vector2((tilePos.x + tilePos.y) * 0.5f / 2, (tilePos.y - tilePos.x) * 0.5f / 2);
+    Vector2 worldPos = new Vector2((mousePos.x + mousePos.y) * 0.5f / 2, (mousePos.y - mousePos.x) * 0.5f / 2);
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall("images/wallTransparent.png"));
     ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(worldPos);

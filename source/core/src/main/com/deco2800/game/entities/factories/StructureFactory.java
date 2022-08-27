@@ -29,8 +29,6 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
 
-
-
   /**
    * Creates a wall entity.
    *
