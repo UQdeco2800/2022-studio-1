@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
-public class ShopExitDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(ShopExitDisplay.class);
+public class ShopBuidlingDisplay extends UIComponent {
+    private static final Logger logger = LoggerFactory.getLogger(ShopBuidlingDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
 
@@ -35,10 +35,6 @@ public class ShopExitDisplay extends UIComponent {
     private Texture buildingTexture;
 
     private Label buildingTitle;
-
-    private Image artefactBtn;
-    private Texture artefactTexture;
-    private Label artefactTitle;
 
     private Image stoneFrame;
     private Texture stoneTexture;
@@ -61,19 +57,11 @@ public class ShopExitDisplay extends UIComponent {
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
         buildingBtn = new Image(buildingTexture);
-        buildingBtn.setPosition(500,450);
-        buildingBtn.setSize(300,300);
+        buildingBtn.setPosition(740,430);
+        buildingBtn.setSize(350,350);
         String buildingText = "Buildings";
         buildingTitle = new Label(buildingText, skin, "large");
-        buildingTitle.setPosition(585,445);
-
-        artefactTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-        artefactBtn = new Image(artefactTexture);
-        artefactBtn.setPosition(1000,450);
-        artefactBtn.setSize(300,300);
-        String artefactText = "Artefacts";
-        artefactTitle = new Label(artefactText, skin, "large");
-        artefactTitle.setPosition(1085,445);
+        buildingTitle.setPosition(570,750);
 
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
@@ -93,8 +81,6 @@ public class ShopExitDisplay extends UIComponent {
         stage.addActor(shop_background);
         stage.addActor(buildingBtn);
         stage.addActor(buildingTitle);
-        stage.addActor(artefactBtn);
-        stage.addActor(artefactTitle);
         stage.addActor(stoneFrame);
         stage.addActor(goldFrame);
 
