@@ -147,7 +147,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
     GridPoint2 minPos = new GridPoint2(50, 50);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(25, 25);
+    GridPoint2 maxPos = terrain.getMapBounds(0).sub(45, 45);
 
     for (int i = 0; i < numObjects; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
