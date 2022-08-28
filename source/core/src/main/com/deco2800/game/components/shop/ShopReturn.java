@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +40,10 @@ public class ShopReturn extends UIComponent {
     private Texture artefactTexture;
     private Label artefactTitle;
 
-    private Image stoneFrame;
+    private TextButton stoneFrame;
     private Texture stoneTexture;
 
-    private Image goldFrame;
+    private TextButton goldFrame;
     private Texture goldTexture;
 
     @Override
@@ -62,7 +64,7 @@ public class ShopReturn extends UIComponent {
         buildingBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("BUILLLLLLLLD");
+                logger.debug("Building SHopping Time!");
                 entity.getEvents().trigger("buildShop");
             }
         });
@@ -79,8 +81,8 @@ public class ShopReturn extends UIComponent {
         artefactBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("BUILLLLLLLLD");
-                entity.getEvents().trigger("buildShop");
+                logger.debug("Artefact Shopping Time!");
+                entity.getEvents().trigger("artefactShop");
             }
         });
         artefactBtn.setPosition(width * 0.50f, height * 0.20f);
@@ -88,20 +90,33 @@ public class ShopReturn extends UIComponent {
         artefactTitle = new Label(artefactText, skin, "large");
         artefactTitle.setPosition(1085, 225);
 
-        stoneTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        stoneFrame = new Image(stoneTexture);
+        stoneTexture = new Texture(Gdx.files.internal("images/border_stone.png"));
+        TextureRegionDrawable stone = new TextureRegionDrawable(stoneTexture);
+        // TODO change gold coins to stone count in inventory when available
+        stoneFrame = ShopUtils.createImageTextButton(
+                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
+                skin.getColor("black"),
+                "title", 1f, stone, stone, skin, true);
+        stoneFrame.setTransform(true);
+        stoneFrame.getLabel().setScale(3f);
         stoneFrame.setSize(200, 200);
         stoneFrame.setPosition(1100, 700);
         stoneFrame.setColor(216, 189, 151, 10);
 
-        goldTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        goldFrame = new Image(goldTexture);
+        goldTexture = new Texture(Gdx.files.internal("images/border_coin.png"));
+        TextureRegionDrawable coin = new TextureRegionDrawable(goldTexture);
+        goldFrame = ShopUtils.createImageTextButton(
+                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
+                skin.getColor("black"),
+                "title", 1f, coin, coin, skin, true);
+        goldFrame.setTransform(true);
+        goldFrame.getLabel().setScale(3f);
         goldFrame.setSize(200, 200);
         goldFrame.setPosition(1100, 780);
-        returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
+        returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnUp = new TextureRegionDrawable(returnTexture);
         returnDown = new TextureRegionDrawable(returnTexture);
-        TextButton backBtn = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "button", 1f, returnDown,
+        TextButton backBtn = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, returnDown,
                 returnUp,
                 skin, false);
         backBtn.setPosition(width * 0.85f, height * 0.85f);

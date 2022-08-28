@@ -35,11 +35,11 @@ public class MainGameActions extends Component {
 
   private void openShop() {
     logger.info("Entering shop");
-    game.setScreen(GdxGame.ScreenType.SHOP);
+    game.setScreen(AtlantisSinks.ScreenType.SHOP);
   }
 
   private void openBuildingShop() {
     logger.info("Entering Building Shop");
-    game.setScreen(GdxGame.ScreenType.BUILD_SHOP);
+    game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP);
   }
 }

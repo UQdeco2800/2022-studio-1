@@ -12,6 +12,7 @@ import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopActions;
+import com.deco2800.game.components.shop.ShopArtefactDisplay;
 import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.components.shop.ShopComponent;
 import com.deco2800.game.components.shop.ShopExitDisplay;
@@ -33,7 +34,7 @@ import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
-public class ShopBuildScreen extends ScreenAdapter {
+public class ShopArtefactScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
     private static final String[] mainGameTextures = { "images/heart.png" };
@@ -47,7 +48,7 @@ public class ShopBuildScreen extends ScreenAdapter {
     private ShopExitDisplay shopExitDisplay;
     private ShopBuildingDisplay shopBuidlingDisplay;
 
-    public ShopBuildScreen(AtlantisSinks game) {
+    public ShopArtefactScreen(AtlantisSinks game) {
         this.game = game;
 
         logger.debug("Initialising main game screen services");
@@ -144,7 +145,7 @@ public class ShopBuildScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(100))
-                .addComponent(new ShopBuildingDisplay())
+                .addComponent(new ShopArtefactDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());

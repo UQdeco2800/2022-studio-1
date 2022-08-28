@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -40,14 +40,14 @@ public class ShopScreen extends ScreenAdapter {
 
     private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
 
-    private final GdxGame game;
+    private final AtlantisSinks game;
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
 
     private ShopExitDisplay shopExitDisplay;
     private ShopBuildingDisplay shopBuidlingDisplay;
 
-    public ShopScreen(GdxGame game) {
+    public ShopScreen(AtlantisSinks game) {
         this.game = game;
 
         logger.debug("Initialising main game screen services");
@@ -139,7 +139,7 @@ public class ShopScreen extends ScreenAdapter {
         uiExit.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
-                // .addComponent(new ShopExitDisplay())
+                .addComponent(new InventoryComponent(100))
                 .addComponent(new ShopReturn())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
