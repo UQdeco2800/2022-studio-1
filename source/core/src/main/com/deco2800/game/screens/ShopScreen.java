@@ -1,5 +1,6 @@
 package com.deco2800.game.screens;
 
+import com.deco2800.game.components.player.InventoryComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,7 +123,7 @@ public class ShopScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new InventoryComponent(100))
+                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold()))
                 .addComponent(new ShopBuildingDisplay())
                 .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new Terminal())

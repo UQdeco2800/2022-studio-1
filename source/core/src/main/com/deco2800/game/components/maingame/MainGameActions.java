@@ -49,9 +49,9 @@ public class MainGameActions extends Component {
     logger.info("Exiting main game screen");
     Memento currentStatus = new Memento(playerStatus.getAll().size(),
                                         player.getComponent(InventoryComponent.class).getGold(),
-                              1000,
                                         player.getComponent(CombatStatsComponent.class).getHealth(),
-                                        player.getComponent(InventoryComponent.class).getItems());
+                                        player.getComponent(InventoryComponent.class).getItems(),
+                                        player.getComponent(CombatStatsComponent.class).getBaseAttack());
     playerStatus.add(currentStatus);
     game.setScreen(AtlantisSinks.ScreenType.SHOP, this.playerStatus);
   }

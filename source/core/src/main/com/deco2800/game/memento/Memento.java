@@ -1,17 +1,19 @@
 package com.deco2800.game.memento;
 
+import com.deco2800.game.components.shop.artefacts.Artefact;
+
 import java.util.List;
 
 public class Memento {
-    private int state, gold, totalHealth, currentHealth;
-    private List<String> items;
+    private int state, gold, attack, currentHealth;
+    private List<Artefact> items;
 
-    public Memento(int state, int gold, int totalHealth, int currentHealth, List<String> items) {
+    public Memento(int state, int gold, int currentHealth, List<Artefact> items, int attack) {
         this.state = state;
         this.gold = gold;
-        this.totalHealth = totalHealth;
         this.currentHealth = currentHealth;
         this.items = items;
+        this.attack = attack;
     }
 
     public int getState(){
@@ -22,29 +24,14 @@ public class Memento {
         return gold;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-    public int getTotalHealth() {
-        return totalHealth;
-    }
-
-    public void setTotalHealth(int health) {
-        this.totalHealth = health;
-    }
-
     public int getCurrentHealth() {
         return currentHealth;
     }
 
-    public void setCurrentHealth(int health) {
-        this.currentHealth = health;
+    public int getAttack() {
+        return attack;
     }
-    public List<String> getItemList() {
+    public List<Artefact> getItemList() {
         return items;
-    }
-
-    public void setItems(List<String> items) {
-        this.items = items;
     }
 }

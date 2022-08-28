@@ -96,7 +96,7 @@ public class ShopBuildingDisplay extends UIComponent {
         float width = stage.getWidth();
         float height = stage.getHeight();
 
-        returnShopTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Setting_Off_Button.png"));
+        returnShopTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnShopBtn = new Image(returnShopTexture);
         returnShopBtn.setSize(85, 85);
         returnShopBtn.setPosition(415, 860);
@@ -212,6 +212,7 @@ public class ShopBuildingDisplay extends UIComponent {
                         if (entity.getComponent(InventoryComponent.class).hasGold(current.artefact.getPrice())) {
                             logger.info("Sufficient Gold");
                             entity.getComponent(InventoryComponent.class).addGold(-1 * current.artefact.getPrice());
+                            entity.getComponent(InventoryComponent.class).addItems(current.artefact);
                         } else {
                             logger.info("Insufficient gold!");
                         }
@@ -237,7 +238,7 @@ public class ShopBuildingDisplay extends UIComponent {
         swordTitle.setPosition(870, 700);
 
         // Triggers an event when the button is pressed.
-        returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
+        returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnUp = new TextureRegionDrawable(returnTexture);
         returnDown = new TextureRegionDrawable(returnTexture);
         TextButton backBtn = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "button", 1f, returnDown,

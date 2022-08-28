@@ -1,6 +1,7 @@
 package com.deco2800.game.components.player;
 
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.shop.artefacts.Artefact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private int gold;
-  private List<String> items = new ArrayList<>();
+  private List<Artefact> items = new ArrayList<>();
 
   public InventoryComponent(int gold) {
     setGold(gold);
@@ -62,15 +63,15 @@ public class InventoryComponent extends Component {
     setGold(this.gold + gold);
   }
 
-  public void setItems(List<String> items) {
+  public void setItems(List<Artefact> items) {
     this.items = items;
   }
 
-  public void addItems(String item) {
+  public void addItems(Artefact item) {
     this.items.add(item);
   }
 
-  public List<String> getItems() {
+  public List<Artefact> getItems() {
     return this.items;
   }
 }

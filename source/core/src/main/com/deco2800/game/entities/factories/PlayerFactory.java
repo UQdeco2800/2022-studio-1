@@ -63,6 +63,7 @@ public class PlayerFactory {
       Memento lastStatus = playerStatus.get(playerStatus.getAll().size() - 1);
       Entity player = createPlayer();
       player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
+      player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());
       player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
       player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
       return player;
