@@ -98,17 +98,17 @@ public class EnvironmentalCollision {
         float y = terrain.tileToWorldPosition(xPotential, yPotential).y;
 
         //x,y positions of potential entity
-        float potentialEntityTop = y + potentialEntity.getScale().y / 2 ;
-        float potentialEntityBottom = y - potentialEntity.getScale().y / 2 ;
-        float potentialEntityRight = x + potentialEntity.getScale().x / 2 ;
+        float potentialEntityTop = y + potentialEntity.getScale().y / 2;
+        float potentialEntityBottom = y - potentialEntity.getScale().y / 2;
+        float potentialEntityRight = x + potentialEntity.getScale().x / 2;
         float potentialEntityLeft = x - potentialEntity.getScale().x / 2;
 
         for (Entity entity: entityMap.values()) {
             //x,y positions of current entity
             float placedRight = entity.getCenterPosition().x + entity.getScale().x / 2;
             float placedLeft = entity.getCenterPosition().x - entity.getScale().x / 2;
-            float placedTop = entity.getCenterPosition().y + entity.getScale().y / 2 ;
-            float placedBottom = entity.getCenterPosition().y - entity.getScale().y / 2 ;
+            float placedTop = entity.getCenterPosition().y + entity.getScale().y / 2;
+            float placedBottom = entity.getCenterPosition().y - entity.getScale().y / 2;
 
             //check if collision occurs with current entity
             if (!(potentialEntityRight <  placedLeft || potentialEntityLeft > placedRight)
@@ -136,7 +136,6 @@ public class EnvironmentalCollision {
 
         if (tileMapping.containsKey(tile)) {
             return tileMapping.get(tile).get(0);
-        } else {
         }
         return false;
     }
