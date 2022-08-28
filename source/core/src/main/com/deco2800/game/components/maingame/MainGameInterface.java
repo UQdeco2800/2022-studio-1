@@ -40,16 +40,16 @@ public class MainGameInterface extends UIComponent {
 
 
         //Entering the Shop Button
-        Texture shopTexture = new Texture(Gdx.files.internal("images/uiElements/exports/store.png"));
+        Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
         TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
         TextureRegionDrawable downShop = new TextureRegionDrawable(shopTexture);
         ImageButton shopButton = new ImageButton(upShop,downShop);
 
 
         //Entering the Inventory Button -- need to add the inventory button
-        Texture inventoryTexture = new Texture(Gdx.files.internal("images/uiElements/exports/inventory.png"));
-        TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
+        Texture inventoryTexture = new Texture(Gdx.files.internal("images/inventory.png"));
         TextureRegionDrawable downInventory = new TextureRegionDrawable(inventoryTexture);
+        TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
         ImageButton inventoryButton = new ImageButton(upInventory,downInventory);
 
         // the building button
@@ -59,10 +59,11 @@ public class MainGameInterface extends UIComponent {
         ImageButton buildingButton = new ImageButton(upBuilding,downBuilding);
 
         //the achievements button
-        Texture achievementsTexture = new Texture(Gdx.files.internal("images/uiElements/exports/achievements.png"));
+        Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
         TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
         TextureRegionDrawable downAchievements = new TextureRegionDrawable(achievementsTexture);
         ImageButton achievementsButton = new ImageButton(upAchievements,downAchievements);
+
 
         // Triggers an event when the button is pressed.
         inventoryButton.addListener(
@@ -101,10 +102,10 @@ public class MainGameInterface extends UIComponent {
         //adding building button to the right
         rightSideTable.add(buildingButton).right().bottom();
         //adding shop button to the left
-        leftSideTable.add(shopButton).left().bottom();
+        leftSideTable.add(shopButton).left().bottom().size(180f,180f);
         //adding settings to the left
         leftSideTable.add(achievementsButton).left().bottom();
-/
+
 
         stage.addActor(leftSideTable);
         stage.addActor(rightSideTable);
