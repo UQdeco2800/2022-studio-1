@@ -4,6 +4,9 @@ import com.deco2800.game.components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A component intended to be used by the player to track their inventory.
  *
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private int gold;
+  private List<String> items = new ArrayList<>();
 
   public InventoryComponent(int gold) {
     setGold(gold);
@@ -56,5 +60,17 @@ public class InventoryComponent extends Component {
    */
   public void addGold(int gold) {
     setGold(this.gold + gold);
+  }
+
+  public void setItems(List<String> items) {
+    this.items = items;
+  }
+
+  public void addItems(String item) {
+    this.items.add(item);
+  }
+
+  public List<String> getItems() {
+    return this.items;
   }
 }

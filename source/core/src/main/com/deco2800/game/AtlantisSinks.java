@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.screens.MainMenuScreen;
 import com.deco2800.game.screens.SettingsScreen;
@@ -31,7 +32,7 @@ public class AtlantisSinks extends Game {
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
-    setScreen(ScreenType.MAIN_MENU);
+    setScreen(ScreenType.MAIN_MENU, null);
   }
 
   /**
@@ -48,7 +49,7 @@ public class AtlantisSinks extends Game {
    * 
    * @param screenType screen type
    */
-  public void setScreen(ScreenType screenType) {
+  public void setScreen(ScreenType screenType, CareTaker playerStatus) {
     logger.info("Setting game screen to {}", screenType);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
@@ -60,7 +61,7 @@ public class AtlantisSinks extends Game {
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType));
+    setScreen(newScreen(screenType, playerStatus));
   }
 
   @Override
@@ -75,16 +76,16 @@ public class AtlantisSinks extends Game {
    * @param screenType screen type
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType) {
+  private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
-        return new MainGameScreen(this);
+        return new MainGameScreen(this, playerStatus);
       case SETTINGS:
         return new SettingsScreen(this);
       case SHOP:
-        return new ShopScreen(this);
+        return new ShopScreen(this, playerStatus);
       default:
         return null;
     }

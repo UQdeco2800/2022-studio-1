@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.GameArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.maingame.MainGameInterface;
@@ -27,7 +28,7 @@ import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.deco2800.game.memento.CareTaker;
 /**
  * The game screen containing the main game.
  *
@@ -52,10 +53,17 @@ public class MainGameScreen extends ScreenAdapter {
   private final AtlantisSinks game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
+  private CareTaker playerStatus;
+  private ForestGameArea forestGameArea;
 
-  public MainGameScreen(AtlantisSinks game) {
+  public MainGameScreen(AtlantisSinks game, CareTaker playerStatus) {
     this.game = game;
 
+    if (playerStatus == null) {
+      this.playerStatus = new CareTaker();
+    } else {
+      this.playerStatus = playerStatus;
+    }
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -74,12 +82,18 @@ public class MainGameScreen extends ScreenAdapter {
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
-    createUI();
+
 
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
+    this.forestGameArea = new ForestGameArea(terrainFactory, playerStatus);
     forestGameArea.create();
+    createUI();
+
+    if (playerStatus.getAll().size() != 0) {
+      System.out.println(playerStatus.get(playerStatus.getAll().size() - 1).getItemList());
+      System.out.println(playerStatus.get(playerStatus.getAll().size() - 1).getGold());
+    }
   }
 
   @Override
@@ -145,13 +159,12 @@ public class MainGameScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game))
+        .addComponent(new MainGameActions(this.game, this.playerStatus, forestGameArea.getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
-
     ServiceLocator.getEntityService().register(ui);
   }
 }

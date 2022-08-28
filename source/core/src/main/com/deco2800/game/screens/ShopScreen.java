@@ -4,7 +4,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.shop.ShopActions;
@@ -15,6 +14,7 @@ import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
@@ -37,9 +37,11 @@ public class ShopScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
+    private CareTaker playerStatus;
 
-    public ShopScreen(AtlantisSinks game) {
+    public ShopScreen(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
+        this.playerStatus = playerStatus;
 
         logger.debug("Initialising main game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -129,7 +131,7 @@ public class ShopScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game))
+                .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new ShopBuidlingDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)

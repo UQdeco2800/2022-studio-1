@@ -9,6 +9,8 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.PlayerConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
@@ -54,6 +56,18 @@ public class PlayerFactory {
     return player;
   }
 
+  public static Entity loadPlayer(CareTaker playerStatus) {
+    if (playerStatus.getAll().size() == 0) {
+      return createPlayer();
+    } else {
+      Memento lastStatus = playerStatus.get(playerStatus.getAll().size() - 1);
+      Entity player = createPlayer();
+      player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
+      player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
+      player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
+      return player;
+    }
+  }
   private PlayerFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }

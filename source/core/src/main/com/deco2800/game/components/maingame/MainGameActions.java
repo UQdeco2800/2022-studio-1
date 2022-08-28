@@ -1,7 +1,14 @@
 package com.deco2800.game.components.maingame;
 
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.input.InputComponent;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import com.deco2800.game.rendering.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +20,13 @@ import org.slf4j.LoggerFactory;
 public class MainGameActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
   private AtlantisSinks game;
+  private CareTaker playerStatus;
+  private Entity player;
   private Renderer renderer;
 
-  public MainGameActions(AtlantisSinks game) {
+  public MainGameActions(AtlantisSinks game, CareTaker playerStatus, Entity player) {
+    this.playerStatus = playerStatus;
+    this.player = player;
     this.game = game;
   }
 
@@ -30,12 +41,18 @@ public class MainGameActions extends Component {
    */
   private void onExit() {
     logger.info("Exiting main game screen");
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, null);
   }
 
 
   private void openShop() {
     logger.info("Exiting main game screen");
-    game.setScreen(AtlantisSinks.ScreenType.SHOP);
+    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+                                        player.getComponent(InventoryComponent.class).getGold(),
+                              1000,
+                                        player.getComponent(CombatStatsComponent.class).getHealth(),
+                                        player.getComponent(InventoryComponent.class).getItems());
+    playerStatus.add(currentStatus);
+    game.setScreen(AtlantisSinks.ScreenType.SHOP, this.playerStatus);
   }
 }

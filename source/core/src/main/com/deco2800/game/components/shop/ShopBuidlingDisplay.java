@@ -182,7 +182,7 @@ public class ShopBuidlingDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Buy button clicked");
-                        entity.getEvents().trigger("exit");
+                        entity.getEvents().trigger("buy");
                     }
                 });
         table2.add(buyBtn).padBottom(10f).padRight(10f);

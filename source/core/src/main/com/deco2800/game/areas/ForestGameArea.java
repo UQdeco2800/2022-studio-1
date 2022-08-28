@@ -3,6 +3,7 @@ package com.deco2800.game.areas;
 
 import com.deco2800.game.entities.factories.StructureFactory;
 
+import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,14 +79,15 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestMusic = {backgroundMusic};
   private EnvironmentalCollision entityMapping;
-
+  private CareTaker playerStatus;
 
   private final TerrainFactory terrainFactory;
 
   private Entity player;
 
-  public ForestGameArea(TerrainFactory terrainFactory) {
+  public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
     super();
+    this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
   }
 
@@ -106,17 +108,22 @@ public class ForestGameArea extends GameArea {
 
     spawnWall(60,60);
 
-    player = spawnPlayer();
+    this.player = spawnPlayer();
 
     spawnEnvironmentalObjects();
 
     playMusic();
+
   }
 
   private void displayUI() {
     Entity ui = new Entity();
     ui.addComponent(new GameAreaDisplay("Box Forest"));
     spawnEntity(ui);
+  }
+
+  public Entity getPlayer() {
+    return this.player;
   }
 
   private void spawnTerrain() {
@@ -255,7 +262,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.createPlayer();
+    Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }

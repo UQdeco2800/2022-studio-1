@@ -22,14 +22,29 @@ public class Memento {
         return gold;
     }
 
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
     public int getTotalHealth() {
         return totalHealth;
+    }
+
+    public void setTotalHealth(int health) {
+        this.totalHealth = health;
     }
 
     public int getCurrentHealth() {
         return currentHealth;
     }
+
+    public void setCurrentHealth(int health) {
+        this.currentHealth = health;
+    }
     public List<String> getItemList() {
         return items;
+    }
+
+    public void setItems(List<String> items) {
+        this.items = items;
     }
 }
