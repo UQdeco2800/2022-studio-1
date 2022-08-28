@@ -46,6 +46,32 @@ public class StructureFactory {
     return wall;
   }
 
+  /**
+   * Creates a crystal entity.
+   *
+   * //@param target entity to chase
+   * @return entity
+   */
+  public static Entity createCrystal(String texture) {
+    Entity crystal = createBaseStructure(texture);
+    BaseEntityConfig config = configs.crystal;
+
+    crystal.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10));
+    return crystal;
+  }
+
+//  private int health;
+//
+//  public static Entity createCrystal() {
+//    Entity crystal =
+//            new Entity()
+//                    .addComponent(new TextureRenderComponent("images/tree.png"))
+//                    .addComponent(new PhysicsComponent())
+//                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+//                    .addComponent(new CombatStatsComponent(100));
+//    return crystal;
+//  }
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
