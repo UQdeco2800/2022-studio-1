@@ -96,7 +96,14 @@ public class MainGameInterface extends UIComponent {
 
 
         //insert shop linkage here
-
+        shopButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Load button clicked");
+                        entity.getEvents().trigger("shop");
+                    }
+                });
 
         rightSideTable.add(inventoryButton).right().bottom().size(100f, 100f);
         //adding building button to the right
