@@ -44,8 +44,7 @@ public class MainGameScreen extends ScreenAdapter {
           "images/healthBar.png",
           "images/uiElements/exports/crystal.png",
           "images/uiElements/exports/stone.png",
-          "images/anim_demo/demo.png",
-          "atlantisBasicBackground.png"
+          "images/atlantisBasicBackground.png"
   };
 
   private static final String[] mainGameTextureAtlases = {

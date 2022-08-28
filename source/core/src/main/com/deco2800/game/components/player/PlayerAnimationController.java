@@ -15,16 +15,9 @@ public class PlayerAnimationController extends Component {
     super.create();
     animator = this.entity.getComponent(AnimationRenderComponent.class);
     entity.getEvents().addListener("anim_player", this::animate);
-    entity.getEvents().addListener("anim_player_leaf", this::animate_leaf);
   }
 
   void animate() {
-    System.out.println("Succesfully reached");
     animator.startAnimation("box_boy");
-  }
-
-  void animate_leaf() {
-    System.out.println("Succesfully reached1");
-    animator.startAnimation("box_boy_leaf");
   }
 }
