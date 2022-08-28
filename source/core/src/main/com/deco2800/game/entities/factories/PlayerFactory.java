@@ -16,6 +16,10 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.deco2800.game.components.player.PlayerAnimationController;
 
 /**
  * Factory to create a player entity.
@@ -35,6 +39,10 @@ public class PlayerFactory {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
+    AnimationRenderComponent player_animator = new AnimationRenderComponent( ServiceLocator.getResourceService().getAsset("images/anim_demo/demo.atlas", TextureAtlas.class));
+    player_animator.addAnimation("box_boy", 1f, Animation.PlayMode.LOOP);
+    player_animator.addAnimation("box_boy_leaf", 0.5f, Animation.PlayMode.LOOP);
+
     Entity player =
         new Entity()
             .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
@@ -46,6 +54,8 @@ public class PlayerFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(new InventoryComponent(stats.gold))
             .addComponent(inputComponent)
+            .addComponent(player_animator)
+            .addComponent(new PlayerAnimationController())
             .addComponent(new PlayerStatsDisplay());
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
