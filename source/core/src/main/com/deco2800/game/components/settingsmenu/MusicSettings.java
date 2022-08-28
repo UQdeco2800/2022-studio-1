@@ -7,23 +7,22 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MusicSettings extends UIComponent {
-    private final GdxGame game;
     private static final Logger logger = LoggerFactory.getLogger(MusicSettings.class);
 
     private Table musicTable;
     private Boolean musicStatus;
 
-    public MusicSettings(GdxGame game) {
+    public MusicSettings(AtlantisSinks game) {
         super();
-        this.game = game;
     }
+
 
     @Override
     public void create() {
