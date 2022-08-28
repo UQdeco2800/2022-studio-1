@@ -2,7 +2,7 @@ package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
@@ -21,10 +21,10 @@ import org.slf4j.LoggerFactory;
 public class SettingsScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(SettingsScreen.class);
 
-  private final GdxGame game;
+  private final AtlantisSinks game;
   private final Renderer renderer;
 
-  public SettingsScreen(GdxGame game) {
+  public SettingsScreen(AtlantisSinks game) {
     this.game = game;
 
     logger.debug("Initialising settings screen services");

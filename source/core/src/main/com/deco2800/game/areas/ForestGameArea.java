@@ -1,10 +1,8 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.deco2800.game.entities.EntityService;
+
 import com.deco2800.game.entities.factories.StructureFactory;
-import com.deco2800.game.input.InputComponent;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.entities.factories.NPCFactory;
@@ -37,11 +36,11 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
 
-  private static final int MAX_ENVIRONMENTAL_OBJECTS = 20;
+  private static final int MAX_ENVIRONMENTAL_OBJECTS = 10;
   private static final int MIN_NUM_TREES = 3;
-  private static final int MAX_NUM_TREES = 12;
-  private static final int MIN_NUM_ROCKS = 5;
-  private static final int MAX_NUM_ROCKS = 8;
+  private static final int MAX_NUM_TREES = 6;
+  private static final int MIN_NUM_ROCKS = 2;
+  private static final int MAX_NUM_ROCKS = 4;
 
   private static final String[] forestTextures = {
 
@@ -146,7 +145,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
     GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(2, 2);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
 
     for (int i = 0; i < numObjects; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -173,9 +172,19 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createRock();
       }
 
+      int counter = 0;
       //check for possible collision and reroll location until valid
-      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)) {
+      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+              || entityMapping.isNearWater(randomPos.x, randomPos.y) ) {
         randomPos = RandomUtils.random(minPos, maxPos);
+
+        //safety to avoid infinite looping on loading screen.
+        //If cant spawn the object then space has ran out on map
+        if (counter > 1000) {
+          return;
+        }
+
+        counter++;
       }
 
       this.entityMapping.addEntity(envObj);
@@ -192,6 +201,7 @@ public class ForestGameArea extends GameArea {
 
     //semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
+
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
 
@@ -212,25 +222,34 @@ public class ForestGameArea extends GameArea {
 
 
 
-  /*removes an entity at a specific tile coordinate
-   *@param removeTile The tile where environment entities is removed
+  /**
+   * removes an entity at a specific tile coordinate
+   * goes through areaEntities to find entity in that position
+   * check if entity is an environment object
+   * put inside separate list first to avoid ConcurrentModificationException
+   * @param removeTile The tile where environment entities is removed
+   * @return a tuple containing resource type and its value
    */
-  private void removeEnvironmentalObject(GridPoint2 removeTile) {
+  public ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> removeEnvironmentalObject(GridPoint2 removeTile) {
     Vector2 removeLoc = terrain.tileToWorldPosition(removeTile);
     List<Entity> found = new ArrayList<Entity>();
-    //go through areaEntities to find entity in that position
+    ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> values =
+            new ValueTuple<>(EnvironmentalComponent.ResourceTypes.NONE, 0);
     for (Entity entity : this.areaEntities) {
       if(entity.getPosition() == removeLoc &&
-              //check if entity is an environment object
               entity.getComponent(EnvironmentalComponent.class) != null) {
-        // put inside separate list first to avoid ConcurrentModificationException
         found.add(entity);
+        values = new ValueTuple<>(
+                entity.getComponent(EnvironmentalComponent.class).getType(),
+                entity.getComponent(EnvironmentalComponent.class).getResourceAmount()
+        );
       }
     }
     this.areaEntities.removeAll(found);
     for (Entity entity : found) {
       entity.dispose();
     }
+    return values;
   }
 
   private Entity spawnPlayer() {
