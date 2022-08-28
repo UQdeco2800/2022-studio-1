@@ -1,6 +1,14 @@
 package com.deco2800.game.components.shop.artefacts;
 
-/** Abstract building class used to create diffrent child building types */
+/** Abstract building class used to create diffrent child building types
+ * @param name:              the name of the building
+* @param price:             the price in stone of the building
+* @param description:       what the building does
+* @param attackMultiplier:  a decimal to increase attack (>= 1.00)
+* @param defenceMultiplier: a decimal to increase defence (>= 1.00)
+* @param texture:           image associated with the stone
+* @param categoryTexture:   image with category board
+ */
 public abstract class ShopBuilding {
     protected String name;
     protected int price;
@@ -26,7 +34,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building name
      * 
-     * @return: String
+     * @return String
      */
     public String getName() {
         return this.name;
@@ -35,7 +43,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building price
      * 
-     * @return: int
+     * @return int
      */
     public int getPrice() {
         return this.price;
@@ -44,7 +52,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building description
      * 
-     * @return: String
+     * @return String
      */
     public String getDescription() {
         return this.description;
@@ -53,7 +61,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building attack multiplier
      * 
-     * @return: double
+     * @return double
      */
     public double getAttackMultiplier() {
         return this.attackMultiplier;
@@ -62,7 +70,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building defence multiplier
      * 
-     * @return: double
+     * @return double
      */
     public double getDefenceMultiplier() {
         return this.defenceMultiplier;
@@ -71,7 +79,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building texture file
      * 
-     * @return: String
+     * @return String
      */
     public String getTexture() {
         return this.texture;
@@ -80,7 +88,7 @@ public abstract class ShopBuilding {
     /**
      * Getter for building category texture file
      * 
-     * @return: String
+     * @return String
      */
     public String getCategoryTexture() {
         return this.categoryTexture;

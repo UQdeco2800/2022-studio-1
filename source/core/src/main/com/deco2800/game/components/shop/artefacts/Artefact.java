@@ -10,7 +10,15 @@ public abstract class Artefact {
     protected String texture;
     protected String categoryTexture;
 
-    /** Artefact class constructor */
+    /**
+     * @param name:              the name of the artefact
+     * @param price:             the price in gold coin of the artefact
+     * @param description:       what the artefact does
+     * @param attackMultiplier:  a decimal to increase attack (>= 1.00)
+     * @param defenceMultiplier: a decimal to increase defence (>= 1.00)
+     * @param texture:           image associated with the Artefact
+     * @param categoryTexture:   image with category board
+     */
     public Artefact(String name, int price, String description, double attackMultiplier, double defenceMultiplier,
             String texture,
             String categoryTexture) {
@@ -26,7 +34,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact name
      * 
-     * @return: String
+     * @return String name of artefact
      */
     public String getName() {
         return this.name;
@@ -35,7 +43,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact price
      * 
-     * @return: int
+     * @return int price of artefact
      */
     public int getPrice() {
         return this.price;
@@ -44,7 +52,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact description
      * 
-     * @return: String
+     * @return String description
      */
     public String getDescription() {
         return this.description;
@@ -53,7 +61,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact attack multiplier
      * 
-     * @return: double
+     * @return double attack multiplier
      */
     public double getAttackMultiplier() {
         return this.attackMultiplier;
@@ -62,7 +70,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact defence multiplier
      * 
-     * @return: double
+     * @return double defence multiplier
      */
     public double getDefenceMultiplier() {
         return this.defenceMultiplier;
@@ -71,7 +79,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact texture file
      * 
-     * @return: String
+     * @return Texture
      */
     public String getTexture() {
         return this.texture;
@@ -80,7 +88,7 @@ public abstract class Artefact {
     /**
      * Getter for artefact category texture file
      * 
-     * @return: String
+     * @return CategoryTexture
      */
     public String getCategoryTexture() {
         return this.categoryTexture;
