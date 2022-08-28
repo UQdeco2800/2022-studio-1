@@ -1,9 +1,11 @@
 package com.deco2800.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.GdxGame;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -11,35 +13,58 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopBuildingDisplay;
+import com.deco2800.game.components.shop.ShopComponent;
+import com.deco2800.game.components.shop.ShopExitDisplay;
+import com.deco2800.game.components.shop.ShopReturn;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
+import com.deco2800.game.physics.PhysicsEngine;
+import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
+import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
 public class ShopScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ShopScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
+
+    private static final String[] mainGameTextures = { "images/heart.png" };
+
+    private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
+
     private final GdxGame game;
     private final Renderer renderer;
-    private static final String[] mainMenuTextures = { "images/box_boy_title.png" };
+    private final PhysicsEngine physicsEngine;
+
+    private ShopExitDisplay shopExitDisplay;
+    private ShopBuildingDisplay shopBuidlingDisplay;
 
     public ShopScreen(GdxGame game) {
         this.game = game;
 
-        logger.debug("Initialising main menu screen services");
+        logger.debug("Initialising main game screen services");
+        ServiceLocator.registerTimeSource(new GameTime());
+
+        PhysicsService physicsService = new PhysicsService();
+        ServiceLocator.registerPhysicsService(physicsService);
+        physicsEngine = physicsService.getPhysics();
+
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
+        renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
+        renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
         loadAssets();
         createUI();
@@ -49,10 +74,17 @@ public class ShopScreen extends ScreenAdapter {
 
     }
 
+    public void create() {
+        shopExitDisplay = new ShopExitDisplay();
+        shopBuidlingDisplay = new ShopBuildingDisplay();
+    }
+
     @Override
     public void render(float delta) {
+        physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
+        selectShopInterface().create();
     }
 
     @Override
@@ -88,14 +120,22 @@ public class ShopScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainMenuTextures);
+        resourceService.loadTextures(mainGameTextures);
         ServiceLocator.getResourceService().loadAll();
     }
 
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainMenuTextures);
+        resourceService.unloadAssets(mainGameTextures);
+    }
+
+    private UIComponent selectShopInterface() {
+        if (ShopComponent.stageFlag == ShopComponent.buidlingInterface) {
+            createUI();
+            return new ShopBuildingDisplay();
+        }
+        return new ShopExitDisplay();
     }
 
     /**
@@ -113,10 +153,14 @@ public class ShopScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(100))
-                .addComponent(new ShopBuildingDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
+        if (ShopComponent.stageFlag == ShopComponent.buidlingInterface) {
+            ui.addComponent(new ShopBuildingDisplay());
+        } else {
+            ui.addComponent(new ShopReturn());
+        }
 
         ServiceLocator.getEntityService().register(ui);
     }

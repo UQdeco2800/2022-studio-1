@@ -73,6 +73,7 @@ public class ShopBuildingDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+
         addActors();
         entity.getEvents().addListener("updateHealth", this::setLabel);
     }
