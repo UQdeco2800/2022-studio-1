@@ -215,6 +215,7 @@ public class SettingsMenuDisplay extends UIComponent {
 
   private void exitMenu() {
     game.setScreen(ScreenType.MAIN_MENU);
+    logger.getName();
 
   }
 

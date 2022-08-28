@@ -56,7 +56,7 @@ public class MainGameExitDisplay extends UIComponent {
       });
 
     //Entering the system button
-    Texture settingTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/settingsGame.png"));
+    Texture settingTexture = new Texture(Gdx.files.internal("images/settingsGame.png"));
     TextureRegionDrawable upSetting = new TextureRegionDrawable(settingTexture);
     TextureRegionDrawable downSetting = new TextureRegionDrawable(settingTexture);
     ImageButton settingsButton = new ImageButton(upSetting,downSetting);

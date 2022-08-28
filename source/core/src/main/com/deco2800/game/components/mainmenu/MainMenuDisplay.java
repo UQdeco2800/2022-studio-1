@@ -19,23 +19,6 @@ public class MainMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table rootTable;
-  private TextureRegionDrawable homeUp;
-  private TextureRegionDrawable homeDown;
-  private Texture homeButton;
-
-  private TextureRegionDrawable loadUp;
-  private TextureRegionDrawable loadDown;
-  private Texture loadButton;
-
-  private TextureRegionDrawable settingsUp;
-  private TextureRegionDrawable settingsDown;
-  private Texture settingsButton;
-
-  private TextureRegionDrawable exitUp;
-
-  private TextureRegionDrawable exitDown;
-
-  private Texture exitButton;
 
 
   @Override
@@ -65,21 +48,21 @@ public class MainMenuDisplay extends UIComponent {
 
 
     // inserting home Button
-    homeButton = new Texture(Gdx.files.internal("images/uiElements/exports/start_button.png"));
-    homeUp = new TextureRegionDrawable(homeButton);
-    homeDown = new TextureRegionDrawable(homeButton);
-    ImageButton homeButton = new ImageButton(homeUp,homeDown);
+    Texture homeButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/start_button.png"));
+    TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
+    TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
+    ImageButton homeButton = new ImageButton(homeUp, homeDown);
 
     // inserting settings Button
-    settingsButton = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
-    settingsUp = new TextureRegionDrawable(settingsButton);
-    settingsDown = new TextureRegionDrawable(settingsButton);
+    Texture settingsButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
+    TextureRegionDrawable settingsUp = new TextureRegionDrawable(settingsButton1);
+    TextureRegionDrawable settingsDown = new TextureRegionDrawable(settingsButton1);
     ImageButton settingsButton = new ImageButton(settingsUp, settingsDown);
 
     // inserting exit Button
-    exitButton = new Texture(Gdx.files.internal("images/uiElements/exports/exit_button.png"));
-    exitUp = new TextureRegionDrawable(exitButton);
-    exitDown = new TextureRegionDrawable(exitButton);
+    Texture exitButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/exit_button.png"));
+    TextureRegionDrawable exitUp = new TextureRegionDrawable(exitButton1);
+    TextureRegionDrawable exitDown = new TextureRegionDrawable(exitButton1);
     ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
 //    TextButton startBtn = new TextButton("Start", skin);
