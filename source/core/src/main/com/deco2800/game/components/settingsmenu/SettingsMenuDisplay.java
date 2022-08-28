@@ -65,6 +65,7 @@ public class SettingsMenuDisplay extends UIComponent {
     rootTable.row();
     rootTable.add(menuBtns).fillX();
 
+    //Background for page
     Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
     Drawable backgroundColour = new TextureRegionDrawable(colour);
     rootTable.setBackground(backgroundColour);
