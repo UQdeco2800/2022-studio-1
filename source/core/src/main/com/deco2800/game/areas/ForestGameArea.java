@@ -146,8 +146,8 @@ public class ForestGameArea extends GameArea {
    * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
-    GridPoint2 minPos = new GridPoint2(50, 50);
-    GridPoint2 maxPos = terrain.getMapBounds(0).sub(45, 45);
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
 
     for (int i = 0; i < numObjects; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -183,15 +183,14 @@ public class ForestGameArea extends GameArea {
         //safety to avoid infinite looping on loading screen.
         //If cant spawn the object then space has ran out on map
         if (counter > 1000) {
-          System.out.println("clash");
           return;
         }
 
         counter++;
       }
 
-      spawnEntityAt(envObj, randomPos, true, true);
       this.entityMapping.addEntity(envObj);
+      spawnEntityAt(envObj, randomPos, false, false);
     }
   }
 
