@@ -320,7 +320,6 @@ public class ShopBuildingDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        table.clear();
         stage.clear();
         super.dispose();
     }

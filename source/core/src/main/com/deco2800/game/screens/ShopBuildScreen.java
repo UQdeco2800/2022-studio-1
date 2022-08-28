@@ -33,7 +33,7 @@ import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
-public class ShopScreen extends ScreenAdapter {
+public class ShopBuildScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
     private static final String[] mainGameTextures = { "images/heart.png" };
@@ -47,7 +47,7 @@ public class ShopScreen extends ScreenAdapter {
     private ShopExitDisplay shopExitDisplay;
     private ShopBuildingDisplay shopBuidlingDisplay;
 
-    public ShopScreen(GdxGame game) {
+    public ShopBuildScreen(GdxGame game) {
         this.game = game;
 
         logger.debug("Initialising main game screen services");
@@ -74,12 +74,16 @@ public class ShopScreen extends ScreenAdapter {
 
     }
 
+    public void create() {
+        shopExitDisplay = new ShopExitDisplay();
+        shopBuidlingDisplay = new ShopBuildingDisplay();
+    }
+
     @Override
     public void render(float delta) {
         physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
-        // new ShopExitDisplay().create();
     }
 
     @Override
@@ -135,16 +139,16 @@ public class ShopScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-        Entity uiExit = new Entity();
-        uiExit.addComponent(new InputDecorator(stage, 10))
+        Entity uiBuilding = new Entity();
+        uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
-                // .addComponent(new ShopExitDisplay())
-                .addComponent(new ShopReturn())
+                .addComponent(new InventoryComponent(100))
+                .addComponent(new ShopBuildingDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiExit);
+        ServiceLocator.getEntityService().register(uiBuilding);
 
     }
 }

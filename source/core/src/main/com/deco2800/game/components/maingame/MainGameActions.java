@@ -7,7 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class listens to events relevant to the Main Game Screen and does something when one of the
+ * This class listens to events relevant to the Main Game Screen and does
+ * something when one of the
  * events is triggered.
  */
 public class MainGameActions extends Component {
@@ -35,7 +36,12 @@ public class MainGameActions extends Component {
   }
 
   private void openShop() {
-    logger.info("Exiting main game screen");
+    logger.info("Entering shop");
     game.setScreen(GdxGame.ScreenType.SHOP);
+  }
+
+  private void openBuildingShop() {
+    logger.info("Entering Building Shop");
+    game.setScreen(GdxGame.ScreenType.BUILD_SHOP);
   }
 }
