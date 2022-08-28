@@ -1,5 +1,8 @@
 package com.deco2800.game.screens;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -7,7 +10,7 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.shop.ShopActions;
-import com.deco2800.game.components.shop.ShopBuidlingDisplay;
+import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -24,8 +27,6 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ShopScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
@@ -36,29 +37,20 @@ public class ShopScreen extends ScreenAdapter {
 
     private final AtlantisSinks game;
     private final Renderer renderer;
-    private final PhysicsEngine physicsEngine;
+    private static final String[] mainMenuTextures = { "images/box_boy_title.png" };
     private CareTaker playerStatus;
 
     public ShopScreen(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
         this.playerStatus = playerStatus;
 
-        logger.debug("Initialising main game screen services");
-        ServiceLocator.registerTimeSource(new GameTime());
-
-        PhysicsService physicsService = new PhysicsService();
-        ServiceLocator.registerPhysicsService(physicsService);
-        physicsEngine = physicsService.getPhysics();
-
+        logger.debug("Initialising main menu screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
-
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
-        renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
-        renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
         loadAssets();
         createUI();
@@ -70,7 +62,6 @@ public class ShopScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
     }
@@ -108,14 +99,14 @@ public class ShopScreen extends ScreenAdapter {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadTextures(mainGameTextures);
+        resourceService.loadTextures(mainMenuTextures);
         ServiceLocator.getResourceService().loadAll();
     }
 
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.unloadAssets(mainGameTextures);
+        resourceService.unloadAssets(mainMenuTextures);
     }
 
     /**
@@ -131,8 +122,9 @@ public class ShopScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
+                .addComponent(new InventoryComponent(100))
+                .addComponent(new ShopBuildingDisplay())
                 .addComponent(new ShopActions(this.game, playerStatus))
-                .addComponent(new ShopBuidlingDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
