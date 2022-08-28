@@ -3,12 +3,12 @@ package com.deco2800.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopBuidlingDisplay;
-import com.deco2800.game.components.shop.ShopExitDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -34,11 +34,11 @@ public class ShopScreen extends ScreenAdapter {
 
     private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
 
-    private final GdxGame game;
+    private final AtlantisSinks game;
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
 
-    public ShopScreen(GdxGame game) {
+    public ShopScreen(AtlantisSinks game) {
         this.game = game;
 
         logger.debug("Initialising main game screen services");

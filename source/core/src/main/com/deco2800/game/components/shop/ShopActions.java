@@ -1,6 +1,6 @@
 package com.deco2800.game.components.shop;
 
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.rendering.Renderer;
 import org.slf4j.Logger;
@@ -12,11 +12,11 @@ import org.slf4j.LoggerFactory;
  */
 public class ShopActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(ShopActions.class);
-    private GdxGame game;
+    private AtlantisSinks game;
 
     private Renderer renderer;
 
-    public ShopActions(GdxGame game) {
+    public ShopActions(AtlantisSinks game) {
         this.game = game;
     }
 
@@ -30,7 +30,7 @@ public class ShopActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting shop screen");
-        game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
 }

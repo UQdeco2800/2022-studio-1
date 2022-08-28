@@ -99,7 +99,7 @@ public class ShopExitDisplay extends UIComponent {
         stage.addActor(goldFrame);
 
         // Triggers an event when the button is pressed.
-        returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
+        returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnUp = new TextureRegionDrawable(returnTexture);
         returnDown = new TextureRegionDrawable(returnTexture);
         ImageButton backBtn = new ImageButton(returnUp,returnDown);

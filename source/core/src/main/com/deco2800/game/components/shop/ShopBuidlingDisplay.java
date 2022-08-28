@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class ShopBuidlingDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopBuidlingDisplay.class);
     private static final float Z_INDEX = 2f;
-    private Table table;
+    private Table table1, table2;
 
     private TextureRegionDrawable returnUp;
 
@@ -57,6 +57,10 @@ public class ShopBuidlingDisplay extends UIComponent {
     private Texture buyTexture;
     private Label buyTitle;
 
+    private Texture buyItemTexture;
+    private TextureRegionDrawable buyUp;
+    private TextureRegionDrawable buyDown;
+
     private Image sword;
     private Texture swordTexture;
     private Label swordTitle;
@@ -70,9 +74,13 @@ public class ShopBuidlingDisplay extends UIComponent {
     }
 
     private void addActors() {
-        table = new Table();
-        table.top().right();
-        table.setFillParent(true);
+        table1 = new Table();
+        table1.top().right();
+        table1.setFillParent(true);
+
+        table2 = new Table();
+        table2.bottom().right();
+        table2.setFillParent(true);
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
         buildingItem = new Image(buildingTexture);
@@ -82,7 +90,7 @@ public class ShopBuidlingDisplay extends UIComponent {
         buildingTitle = new Label(buildingText, skin, "large");
         buildingTitle.setPosition(570,750);
 
-        returnShopTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Setting_Off_Button.png"));
+        returnShopTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnShopBtn = new Image(returnShopTexture);
         returnShopBtn.setSize(85,85);
         returnShopBtn.setPosition(415,860);
@@ -150,7 +158,7 @@ public class ShopBuidlingDisplay extends UIComponent {
         stage.addActor(swordTitle);
 
         // Triggers an event when the button is pressed.
-        returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
+        returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnUp = new TextureRegionDrawable(returnTexture);
         returnDown = new TextureRegionDrawable(returnTexture);
         ImageButton backBtn = new ImageButton(returnUp,returnDown);
@@ -162,8 +170,23 @@ public class ShopBuidlingDisplay extends UIComponent {
                         entity.getEvents().trigger("exit");
                     }
                 });
-        table.add(backBtn).padTop(10f).padRight(10f);
-        stage.addActor(table);
+        table1.add(backBtn).padTop(10f).padRight(10f);
+        stage.addActor(table1);
+
+        buyItemTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        buyUp = new TextureRegionDrawable(buyItemTexture);
+        buyDown = new TextureRegionDrawable(buyItemTexture);
+        ImageButton buyBtn = new ImageButton(buyUp,buyDown);
+        buyBtn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Buy button clicked");
+                        entity.getEvents().trigger("exit");
+                    }
+                });
+        table2.add(buyBtn).padBottom(10f).padRight(10f);
+        stage.addActor(table2);
     }
 
     @Override
@@ -178,7 +201,7 @@ public class ShopBuidlingDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        table.clear();
+        table1.clear();
         super.dispose();
     }
 }

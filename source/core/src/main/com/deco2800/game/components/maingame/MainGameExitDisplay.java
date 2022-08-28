@@ -41,7 +41,7 @@ public class MainGameExitDisplay extends UIComponent {
 
 
     TextButton mainMenuBtn = new TextButton("Exit", skin);
-    tex = new Texture(Gdx.files.internal("images/uiElements/buttons/Shop_Button.png"));
+    tex = new Texture(Gdx.files.internal("images/Shop.png"));
     up = new TextureRegionDrawable(tex);
     down = new TextureRegionDrawable(tex);
     ImageButton shopBtn = new ImageButton(up,down);
