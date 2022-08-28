@@ -2,6 +2,10 @@
   "wall": {
     "health": 40,
     "baseAttack": 0
+  },
+  "crystal": {
+    "health": 100,
+    "baseAttack": 0
   }
 }
 

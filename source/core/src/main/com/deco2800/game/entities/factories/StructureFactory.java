@@ -14,6 +14,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Factory to create structure entities with predefined components.
@@ -58,20 +59,10 @@ public class StructureFactory {
 
     crystal.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10));
+
+    ServiceLocator.getEntityService().registerNamed("crystal", crystal);
     return crystal;
   }
-
-//  private int health;
-//
-//  public static Entity createCrystal() {
-//    Entity crystal =
-//            new Entity()
-//                    .addComponent(new TextureRenderComponent("images/tree.png"))
-//                    .addComponent(new PhysicsComponent())
-//                    .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-//                    .addComponent(new CombatStatsComponent(100));
-//    return crystal;
-//  }
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
