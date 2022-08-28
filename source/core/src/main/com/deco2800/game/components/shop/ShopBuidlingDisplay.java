@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.GdxGame;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -20,12 +23,6 @@ import org.slf4j.LoggerFactory;
 public class ShopBuidlingDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopBuidlingDisplay.class);
     private static final float Z_INDEX = 2f;
-    private Table table;
-
-    private TextureRegionDrawable returnUp;
-
-    private TextureRegionDrawable returnDown;
-    private Texture returnTexture;
 
     private Texture shopTexture;
 
@@ -63,6 +60,7 @@ public class ShopBuidlingDisplay extends UIComponent {
 
 
 
+
     @Override
     public void create() {
         super.create();
@@ -70,10 +68,6 @@ public class ShopBuidlingDisplay extends UIComponent {
     }
 
     private void addActors() {
-        table = new Table();
-        table.top().right();
-        table.setFillParent(true);
-
         buildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
         buildingItem = new Image(buildingTexture);
         buildingItem.setPosition(740,430);
@@ -86,6 +80,13 @@ public class ShopBuidlingDisplay extends UIComponent {
         returnShopBtn = new Image(returnShopTexture);
         returnShopBtn.setSize(85,85);
         returnShopBtn.setPosition(415,860);
+        returnShopBtn.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                ShopComponent.stageFlag = ShopComponent.shopInterface;
+                return true;
+            }
+        });
 
         shopTexture = new Texture(Gdx.files.internal("images/shop-interface.png"));
         shop_background = new Image(shopTexture);
@@ -148,22 +149,6 @@ public class ShopBuidlingDisplay extends UIComponent {
         stage.addActor(buyTitle);
         stage.addActor(sword);
         stage.addActor(swordTitle);
-
-        // Triggers an event when the button is pressed.
-        returnTexture = new Texture(Gdx.files.internal("images/uiElements/buttons/Home_Button.png"));
-        returnUp = new TextureRegionDrawable(returnTexture);
-        returnDown = new TextureRegionDrawable(returnTexture);
-        ImageButton backBtn = new ImageButton(returnUp,returnDown);
-        backBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Exit button clicked");
-                        entity.getEvents().trigger("exit");
-                    }
-                });
-        table.add(backBtn).padTop(10f).padRight(10f);
-        stage.addActor(table);
     }
 
     @Override
@@ -178,7 +163,6 @@ public class ShopBuidlingDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        table.clear();
         super.dispose();
     }
 }
