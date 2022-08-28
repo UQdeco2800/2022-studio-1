@@ -23,10 +23,6 @@ public class MainGameExitDisplay extends UIComponent {
   private static final float Z_INDEX = 2f;
   private Table table;
 
-  private TextureRegionDrawable up;
-  private TextureRegionDrawable down;
-  private Texture tex;
-
 
   @Override
   public void create() {
@@ -41,12 +37,6 @@ public class MainGameExitDisplay extends UIComponent {
 
 
     TextButton mainMenuBtn = new TextButton("Exit", skin);
-    tex = new Texture(Gdx.files.internal("images/Shop.png"));
-    up = new TextureRegionDrawable(tex);
-    down = new TextureRegionDrawable(tex);
-    ImageButton shopBtn = new ImageButton(up,down);
-    //TextButton mainMenuBtn = new TextButton("Exit", skin);
-
 
     //Entering the back button
     Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
@@ -66,18 +56,8 @@ public class MainGameExitDisplay extends UIComponent {
         }
 
         });
-    shopBtn.addListener(
-            new ChangeListener() {
-              @Override
-              public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Load button clicked");
-                entity.getEvents().trigger("shop");
-              }
-            });
 
     table.add(mainMenuBtn).padTop(10f).padRight(10f);
-    table.row();
-    table.add(shopBtn).padTop(15f);
 
     //Entering the system button
     Texture settingTexture = new Texture(Gdx.files.internal("images/settingsGame.png"));
