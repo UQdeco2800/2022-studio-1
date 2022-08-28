@@ -14,6 +14,7 @@ import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.utils.math.Vector2Utils;
+import com.deco2800.game.components.CombatStatsComponent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -91,6 +92,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.B:
         triggerBuildEvent();
         return true;
+      case Keys.O:
+        triggerCrystalAttacked();
+        return true;
       default:
         return false;
     }
@@ -115,5 +119,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
     ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(worldPos);
     ServiceLocator.getEntityService().update();
+  }
+
+  // Attacked crystal
+  private void triggerCrystalAttacked() {
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+    int health = combatStatsComponent.getHealth();
+    combatStatsComponent.setHealth(health - 10);
   }
 }
