@@ -13,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.deco2800.game.GdxGame;
-import com.deco2800.game.GdxGame.ScreenType;
+import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.AtlantisSinks.ScreenType;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.files.UserSettings.DisplaySettings;
 import com.deco2800.game.services.ServiceLocator;
@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class SettingsMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(SettingsMenuDisplay.class);
-  private final GdxGame game;
+  private final AtlantisSinks game;
 
   private Table rootTable;
   private TextField fpsText;
@@ -40,10 +40,8 @@ public class SettingsMenuDisplay extends UIComponent {
   private Slider uiScaleSlider;
   private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
 
-  //private Boolean musicStatus;
-  //private Boolean soundEffectStatus;
 
-  public SettingsMenuDisplay(GdxGame game) {
+  public SettingsMenuDisplay(AtlantisSinks game) {
     super();
     this.game = game;
   }
