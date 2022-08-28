@@ -34,8 +34,8 @@ public class StructureFactory {
    *
    * @return specialised Wall entity
    */
-  public static Entity createWall(String texture) {
-    Entity wall = createBaseStructure(texture);
+  public static Entity createWall() {
+    Entity wall = createBaseStructure("images/wallTransparent.png");
     BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
