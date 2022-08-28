@@ -1,6 +1,7 @@
 package com.deco2800.game.areas;
 
 
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.factories.StructureFactory;
 
 import org.slf4j.Logger;
@@ -275,12 +276,13 @@ public class ForestGameArea extends GameArea {
 
   private void spawnCrystal(int x_pos, int y_pos) {
     Entity newCrystal = StructureFactory.createCrystal("images/crystal.png");
+    ServiceLocator.getEntityService().registerNamed("crystal",newCrystal);
     while (this.entityMapping.wouldCollide(newCrystal, x_pos, y_pos)) {
       x_pos++;
     }
     this.entityMapping.addEntity(newCrystal);
     spawnEntityAt(newCrystal, new GridPoint2(x_pos, y_pos), true, true);
-
+    System.out.println(newCrystal.getComponent(CombatStatsComponent.class).getHealth());
   }
 
   private void playMusic() {

@@ -112,6 +112,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Vector2 worldPos = new Vector2((tilePos.x + tilePos.y) * 0.5f / 2, (tilePos.y - tilePos.x) * 0.5f / 2);
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall("images/wallTransparent.png"));
+
     ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(worldPos);
     ServiceLocator.getEntityService().update();
   }

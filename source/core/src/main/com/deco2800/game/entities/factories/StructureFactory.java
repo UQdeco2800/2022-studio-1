@@ -31,6 +31,8 @@ public class StructureFactory {
 
 
 
+
+
   /**
    * Creates a wall entity.
    *
@@ -56,7 +58,7 @@ public class StructureFactory {
     Entity crystal = createBaseStructure(texture);
     BaseEntityConfig config = configs.crystal;
 
-    crystal.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+    crystal.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
             .addComponent(new HealthBarComponent(100, 10));
     return crystal;
   }
