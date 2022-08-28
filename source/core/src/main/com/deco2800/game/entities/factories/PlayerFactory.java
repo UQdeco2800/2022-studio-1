@@ -40,12 +40,11 @@ public class PlayerFactory {
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
     AnimationRenderComponent player_animator = new AnimationRenderComponent( ServiceLocator.getResourceService().getAsset("images/anim_demo/demo.atlas", TextureAtlas.class));
-    player_animator.addAnimation("box_boy", 1f, Animation.PlayMode.LOOP);
-    player_animator.addAnimation("box_boy_leaf", 0.5f, Animation.PlayMode.LOOP);
+    player_animator.addAnimation("box_boy", 0.1f, Animation.PlayMode.LOOP);
 
     Entity player =
         new Entity()
-            .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+            .addComponent(player_animator)
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
@@ -53,14 +52,13 @@ public class PlayerFactory {
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(new InventoryComponent(stats.gold))
-            .addComponent(inputComponent)
-            .addComponent(player_animator)
+            .addComponent(inputComponent)            
             .addComponent(new PlayerAnimationController())
             .addComponent(new PlayerStatsDisplay());
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(TextureRenderComponent.class).scaleEntity();
+    player.getComponent(AnimationRenderComponent.class).scaleEntity();
     return player;
   }
 
