@@ -7,6 +7,7 @@ import com.deco2800.game.GdxGame;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.components.maingame.MainGameInterface;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -37,7 +38,14 @@ import org.slf4j.LoggerFactory;
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
-  private static final String[] mainGameTextures = { "images/heart.png" };
+  private static final String[] mainGameTextures = {
+          "images/uiElements/exports/heart.png",
+          "images/uiElements/exports/coin.png",
+          "images/healthBar.png",
+          "images/uiElements/exports/crystal.png",
+          "images/uiElements/exports/stone.png",
+          "atlantisBasicBackground.png"
+  };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
 
@@ -139,6 +147,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new PerformanceDisplay())
         .addComponent(new MainGameActions(this.game))
         .addComponent(new MainGameExitDisplay())
+        .addComponent(new MainGameInterface())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
