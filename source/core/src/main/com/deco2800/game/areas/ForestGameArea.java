@@ -2,10 +2,9 @@ package com.deco2800.game.areas;
 
 
 import com.deco2800.game.entities.factories.StructureFactory;
-
+import com.deco2800.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
@@ -15,14 +14,12 @@ import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.utils.math.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +200,6 @@ public class ForestGameArea extends GameArea {
 
     //semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
-
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
 
