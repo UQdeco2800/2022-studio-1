@@ -93,6 +93,14 @@ public class CollisionEffectComponent extends Component {
         }
     }
 
+    /**
+     * honestly just put this in to test.
+     * @return whether this component uses AoE or collision
+     */
+    public boolean isAoe() {
+        return this.AoE;
+    }
+
     public void setKnockbackForce(float knockbackForce) {
         this.knockbackForce = knockbackForce;
     }
