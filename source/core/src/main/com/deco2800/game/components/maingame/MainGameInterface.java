@@ -97,14 +97,14 @@ public class MainGameInterface extends UIComponent {
         //insert shop linkage here
 
 
-        rightSideTable.add(inventoryButton).right().bottom().size(100f, 100f);
+        rightSideTable.add(inventoryButton).right().bottom();
         //adding building button to the right
         rightSideTable.add(buildingButton).right().bottom();
         //adding shop button to the left
-        leftSideTable.add(shopButton).left().bottom().size(200f, 200f);
+        leftSideTable.add(shopButton).left().bottom();
         //adding settings to the left
-        leftSideTable.add(achievementsButton).left().bottom().size(100f,100f);
-
+        leftSideTable.add(achievementsButton).left().bottom();
+/
 
         stage.addActor(leftSideTable);
         stage.addActor(rightSideTable);

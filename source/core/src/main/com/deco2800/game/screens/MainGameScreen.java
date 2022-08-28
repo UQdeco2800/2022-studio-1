@@ -39,11 +39,11 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
   private static final String[] mainGameTextures = {
-          "images/heart.png",
-          "images/coin.png",
+          "images/uiElements/exports/heart.png",
+          "images/uiElements/exports/coin.png",
           "images/healthBar.png",
-          "images/crystal.png",
-          "images/stone.png",
+          "images/uiElements/exports/crystal.png",
+          "images/uiElements/exports/stone.png",
           "atlantisBasicBackground.png"
   };
 

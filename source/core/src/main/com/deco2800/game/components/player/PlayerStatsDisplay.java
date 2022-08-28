@@ -48,8 +48,7 @@ public class PlayerStatsDisplay extends UIComponent {
     table.padTop(45f).padLeft(5f);
 
     //Coin image
-    float coinSideLenghth =30f;
-    coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/coin.png", Texture.class));
+    coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/coin.png", Texture.class));
 
     //Coin text - set as 0, for placeholder
     int coin = 0;
@@ -57,8 +56,7 @@ public class PlayerStatsDisplay extends UIComponent {
     coinLabel = new Label(coinText, skin, "large");
 
     // Heart image
-    float heartSideLength = 30f;
-    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/heart.png", Texture.class));
+    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
     //Health Bar Image
     healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
@@ -66,15 +64,13 @@ public class PlayerStatsDisplay extends UIComponent {
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
 
     //Crystal image
-    float crystalSideLength =30f;
-    crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/crystal.png", Texture.class));
+    crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
     //Crystal bar
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
 
     //Stone image
-    float stoneSize =30f;
-    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/stone.png", Texture.class));
+    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stone.png", Texture.class));
 
     //Stone text. 0 as an initial set up
     int stone = 0;
@@ -85,16 +81,16 @@ public class PlayerStatsDisplay extends UIComponent {
 
 
 
-    table.add(heartImage).size(heartSideLength).pad(5);
+    table.add(heartImage).pad(5);
     table.add(healthBarImage).size(200f, 30f).pad(5);
     table.row();
-    table.add(crystalImage).size(crystalSideLength);
+    table.add(crystalImage);
     table.add(crystalBarImage).size(200f,30f).pad(5);
     table.row();
-    table.add(coinImage).size(coinSideLenghth);
+    table.add(coinImage);
     table.add(coinLabel);
     table.row();
-    table.add(stoneCurrencyImage).size(stoneSize);
+    table.add(stoneCurrencyImage);
     table.add(stoneCurrencyLabel);
     table.row();
     stage.addActor(table);
