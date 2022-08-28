@@ -11,13 +11,13 @@ public abstract class Artefact {
     protected String categoryTexture;
 
     /**
-     * @param name:              the name of the artefact
-     * @param price:             the price in gold coin of the artefact
-     * @param description:       what the artefact does
-     * @param attackMultiplier:  a decimal to increase attack (>= 1.00)
-     * @param defenceMultiplier: a decimal to increase defence (>= 1.00)
-     * @param texture:           image associated with the Artefact
-     * @param categoryTexture:   image with category board
+     * @param name              the name of the artefact
+     * @param price             the price in gold coin of the artefact
+     * @param description       what the artefact does
+     * @param attackMultiplier  a decimal to increase attack (>= 1.00)
+     * @param defenceMultiplier a decimal to increase defence (>= 1.00)
+     * @param texture           image associated with the Artefact
+     * @param categoryTexture   image with category board
      */
     public Artefact(String name, int price, String description, double attackMultiplier, double defenceMultiplier,
             String texture,
