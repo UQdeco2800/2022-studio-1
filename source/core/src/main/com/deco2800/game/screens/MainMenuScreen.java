@@ -2,7 +2,7 @@ package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.mainmenu.MainMenuActions;
 import com.deco2800.game.components.mainmenu.MainMenuDisplay;
 import com.deco2800.game.entities.Entity;
@@ -22,11 +22,14 @@ import org.slf4j.LoggerFactory;
  */
 public class MainMenuScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuScreen.class);
-  private final GdxGame game;
+  private final AtlantisSinks game;
   private final Renderer renderer;
-  private static final String[] mainMenuTextures = {"images/box_boy_title.png"};
 
-  public MainMenuScreen(GdxGame game) {
+  private static final String[] mainMenuTextures = {
+          "images/uiElements/exports/title.png"
+  };
+
+  public MainMenuScreen(AtlantisSinks game) {
     this.game = game;
 
     logger.debug("Initialising main menu screen services");

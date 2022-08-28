@@ -24,9 +24,9 @@ public class MainGameExitDisplay extends UIComponent {
   private Table table;
 
   private TextureRegionDrawable up;
-
   private TextureRegionDrawable down;
   private Texture tex;
+
 
   @Override
   public void create() {
@@ -45,6 +45,16 @@ public class MainGameExitDisplay extends UIComponent {
     up = new TextureRegionDrawable(tex);
     down = new TextureRegionDrawable(tex);
     ImageButton shopBtn = new ImageButton(up,down);
+    //TextButton mainMenuBtn = new TextButton("Exit", skin);
+
+
+    //Entering the back button
+    Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+    TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+    TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+    ImageButton backButton = new ImageButton(upBack,downBack);
+
+
 
     // Triggers an event when the button is pressed.
     mainMenuBtn.addListener(
@@ -54,6 +64,7 @@ public class MainGameExitDisplay extends UIComponent {
           logger.debug("Exit button clicked");
           entity.getEvents().trigger("exit");
         }
+
         });
     shopBtn.addListener(
             new ChangeListener() {
@@ -63,9 +74,31 @@ public class MainGameExitDisplay extends UIComponent {
                 entity.getEvents().trigger("shop");
               }
             });
+
     table.add(mainMenuBtn).padTop(10f).padRight(10f);
     table.row();
     table.add(shopBtn).padTop(15f);
+
+    //Entering the system button
+    Texture settingTexture = new Texture(Gdx.files.internal("images/settingsGame.png"));
+    TextureRegionDrawable upSetting = new TextureRegionDrawable(settingTexture);
+    TextureRegionDrawable downSetting = new TextureRegionDrawable(settingTexture);
+    ImageButton settingsButton = new ImageButton(upSetting,downSetting);
+
+    //Settings Button
+    settingsButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Settings button clicked on game page");
+                logger.info("Game paused");
+                entity.getEvents().trigger("setting game page");
+              }
+            });
+
+    table.add(settingsButton).size(50f).pad(5);
+    table.add(backButton).size(50f).pad(5);
+    table.row();
     stage.addActor(table);
   }
 

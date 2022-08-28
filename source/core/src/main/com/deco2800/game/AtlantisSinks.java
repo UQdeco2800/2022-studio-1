@@ -20,8 +20,8 @@ import static com.badlogic.gdx.Gdx.app;
  * similarly to a finite state
  * machine (See the State Pattern).
  */
-public class GdxGame extends Game {
-  private static final Logger logger = LoggerFactory.getLogger(GdxGame.class);
+public class AtlantisSinks extends Game {
+  private static final Logger logger = LoggerFactory.getLogger(AtlantisSinks.class);
 
   @Override
   public void create() {

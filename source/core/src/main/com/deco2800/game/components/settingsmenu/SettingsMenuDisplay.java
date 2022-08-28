@@ -3,14 +3,17 @@ package com.deco2800.game.components.settingsmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.deco2800.game.GdxGame;
-import com.deco2800.game.GdxGame.ScreenType;
+import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.AtlantisSinks.ScreenType;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.files.UserSettings.DisplaySettings;
 import com.deco2800.game.services.ServiceLocator;
@@ -25,7 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SettingsMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(SettingsMenuDisplay.class);
-  private final GdxGame game;
+  private final AtlantisSinks game;
 
   private Table rootTable;
   private TextField fpsText;
@@ -34,7 +37,7 @@ public class SettingsMenuDisplay extends UIComponent {
   private Slider uiScaleSlider;
   private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
 
-  public SettingsMenuDisplay(GdxGame game) {
+  public SettingsMenuDisplay(AtlantisSinks game) {
     super();
     this.game = game;
   }
@@ -50,6 +53,7 @@ public class SettingsMenuDisplay extends UIComponent {
     Table settingsTable = makeSettingsTable();
     Table menuBtns = makeMenuBtns();
 
+
     rootTable = new Table();
     rootTable.setFillParent(true);
 
@@ -60,6 +64,11 @@ public class SettingsMenuDisplay extends UIComponent {
 
     rootTable.row();
     rootTable.add(menuBtns).fillX();
+
+    //Background for page
+    Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
+    Drawable backgroundColour = new TextureRegionDrawable(colour);
+    rootTable.setBackground(backgroundColour);
 
     stage.addActor(rootTable);
   }
@@ -158,10 +167,15 @@ public class SettingsMenuDisplay extends UIComponent {
   }
 
   private Table makeMenuBtns() {
-    TextButton exitBtn = new TextButton("Exit", skin);
+    //TextButton exitBtn = new TextButton("Exit", skin);
+    Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+    TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+    TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+    ImageButton backButton = new ImageButton(upBack,downBack);
+
     TextButton applyBtn = new TextButton("Apply", skin);
 
-    exitBtn.addListener(
+    backButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -180,7 +194,7 @@ public class SettingsMenuDisplay extends UIComponent {
         });
 
     Table table = new Table();
-    table.add(exitBtn).expandX().left().pad(0f, 15f, 15f, 0f);
+    table.add(backButton).expandX().left().pad(0f, 15f, 15f, 0f).size(60f);
     table.add(applyBtn).expandX().right().pad(0f, 0f, 15f, 15f);
     return table;
   }
@@ -202,6 +216,8 @@ public class SettingsMenuDisplay extends UIComponent {
 
   private void exitMenu() {
     game.setScreen(ScreenType.MAIN_MENU);
+    logger.getName();
+
   }
 
   private Integer parseOrNull(String num) {
