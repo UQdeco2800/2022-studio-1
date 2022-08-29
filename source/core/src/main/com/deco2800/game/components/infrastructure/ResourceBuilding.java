@@ -3,7 +3,7 @@ package com.deco2800.game.components.infrastructure;
 /**
  * Resource building is a type of building used to generate resources for the player
  */
-public class ResourceBuilding extends Infrastructure {
+public class ResourceBuilding {
     /**
      * The rate at which this building produces a resource
      */
