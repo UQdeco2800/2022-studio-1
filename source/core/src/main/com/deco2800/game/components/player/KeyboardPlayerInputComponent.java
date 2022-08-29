@@ -23,6 +23,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
 
   private boolean buildState = false;
+  private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
 
@@ -97,6 +98,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.U:
         triggerCrystalUpgrade();
         return true;
+      case Keys.N:
+        toggleResourceBuildState();
+        return true;
       default:
         return false;
     }
@@ -135,6 +139,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           triggerBuildEvent();
         }*/
         triggerBuildEvent("wall");
+      }
+      if (resourceBuildState) {
+        triggerBuildEvent("stone quarry");
       }
     }
     return true;
@@ -184,7 +191,24 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Toggles the build state of the player
    */
   private void toggleBuildState() {
-    buildState = !buildState;
+    if (resourceBuildState) {
+      toggleResourceBuildState();
+      buildState = true;
+    } else {
+      buildState = !buildState;
+    }
+  }
+
+  /**
+   * Toggles resource building placement mode
+   */
+  private void toggleResourceBuildState() {
+    if (buildState) {
+      toggleBuildState();
+      resourceBuildState = true;
+    } else {
+      resourceBuildState = !resourceBuildState;
+    }
   }
 
   /**
@@ -201,6 +225,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     entityName = name + entityName;
     if (name == "wall") {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+    } else if (name == "stone quarry") {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
     }
   }
@@ -224,5 +251,4 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
     System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
-
 }

@@ -44,4 +44,16 @@ public class ResourceBuilding {
     public ResourceType getType() {
         return type;
     }
+
+
+    /**
+    public void collectResources() {
+        int gold = getGold;
+        InventoryComponent.class.
+        InventoryComponent.addStone(productionRate);
+        player.addStone(productionRate);
+        entity().getComponent(InventoryComponent.class).addStone(productionRate);
+
+    }
+    */
 }
