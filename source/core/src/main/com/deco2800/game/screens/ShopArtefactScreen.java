@@ -1,6 +1,7 @@
 package com.deco2800.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,10 +48,10 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
     private ShopExitDisplay shopExitDisplay;
     private ShopBuildingDisplay shopBuidlingDisplay;
-
-    public ShopArtefactScreen(AtlantisSinks game) {
+    private CareTaker playerStatus;
+    public ShopArtefactScreen(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
-
+        this.playerStatus = playerStatus;
         logger.debug("Initialising main game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
 
@@ -143,7 +144,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game))
+                .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new InventoryComponent(100))
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new Terminal())

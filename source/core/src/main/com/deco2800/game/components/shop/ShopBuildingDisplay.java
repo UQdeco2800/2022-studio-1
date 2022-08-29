@@ -221,7 +221,6 @@ public class ShopBuildingDisplay extends UIComponent {
                         if (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice())) {
                             logger.info("Sufficient Gold");
                             entity.getComponent(InventoryComponent.class).addGold(-1 * current.t.getPrice());
-                            entity.getComponent(InventoryComponent.class).addItems(current.t);
                         } else {
                             logger.info("Insufficient gold!");
                         }

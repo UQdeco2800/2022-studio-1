@@ -138,8 +138,8 @@ public class ShopScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-        Entity ui = new Entity();
-        ui.addComponent(new InputDecorator(stage, 10))
+        Entity uiExit = new Entity();
+        uiExit.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold()))
                 .addComponent(new ShopBuildingDisplay())
