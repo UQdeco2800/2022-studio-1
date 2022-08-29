@@ -13,6 +13,7 @@ import com.deco2800.game.components.tasks.ChaseTask;
 import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
+import com.deco2800.game.entities.configs.EnemyConfig;
 import com.deco2800.game.entities.configs.GhostKingConfig;
 import com.deco2800.game.entities.configs.NPCConfigs;
 import com.deco2800.game.files.FileLoader;
@@ -94,7 +95,7 @@ public class NPCFactory {
   }
   public static Entity createPirateCrabEnemy(Entity target) {
     Entity pirateCrabEnemy = createBaseNPC(target);
-    BaseEntityConfig config = configs.giantCrab;
+    EnemyConfig config = configs.pirateCrab;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
 
 
