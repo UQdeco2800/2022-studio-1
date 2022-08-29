@@ -20,8 +20,16 @@ import com.deco2800.game.services.ServiceLocator;
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
-  private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(4, 4);
+  private static GridPoint2 island_size = new GridPoint2(4, 4);
   private static final int CLIFF_HEIGHT = 1;
+
+  private TerrainTile grassTile;
+  private TerrainTile waterTile;
+  private TerrainTile cliffTile;
+  private TerrainTile cliffRightTile;
+  private TerrainTile cliffLeftTile;
+
+  private TiledMap tiledMap;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -104,16 +112,16 @@ public class TerrainFactory {
   private TiledMap createForestDemoTiles(
       GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion cliff, TextureRegion cliffLeft,
       TextureRegion cliffRight) {
-    TiledMap tiledMap = new TiledMap();
-    TerrainTile grassTile = new TerrainTile(grass);
-    TerrainTile waterTile = new TerrainTile(water);
-    TerrainTile cliffTile = new TerrainTile(cliff);
-    TerrainTile cliffRightTile = new TerrainTile(cliffRight);
-    TerrainTile cliffLeftTile = new TerrainTile(cliffLeft);
+    tiledMap = new TiledMap();
+    grassTile = new TerrainTile(grass);
+    waterTile = new TerrainTile(water);
+    cliffTile = new TerrainTile(cliff);
+    cliffRightTile = new TerrainTile(cliffRight);
+    cliffLeftTile = new TerrainTile(cliffLeft);
     TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
     // Create base grass
-    fillTiles(layer, INITIAL_ISLAND_SIZE, MAP_SIZE, waterTile, grassTile, cliffTile, cliffRightTile, cliffLeftTile);
+    fillTiles(layer, island_size, MAP_SIZE, waterTile, grassTile, cliffTile, cliffRightTile, cliffLeftTile);
 
     tiledMap.getLayers().add(layer);
     return tiledMap;
@@ -202,6 +210,19 @@ public class TerrainFactory {
         }
       }
     }
+  }
+
+  public void expandIsland(TiledMapTileLayer layer, int amount) {
+    island_size.x += amount;
+    island_size.y += amount;
+
+    int waterWidth = (int) Math.floor((MAP_SIZE.x - island_size.x) / 2);
+    int waterHeight = (int) Math.floor((MAP_SIZE.y - island_size.y) / 2);
+
+    GridPoint2 waterDimensions = new GridPoint2(waterWidth, waterHeight);
+
+    fillLand(layer, island_size, MAP_SIZE, waterDimensions, grassTile);
+    fillCliffs(layer, island_size, MAP_SIZE, waterDimensions, cliffTile, cliffRightTile, cliffLeftTile);
   }
 
   /**

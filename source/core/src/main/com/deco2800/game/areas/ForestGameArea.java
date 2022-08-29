@@ -1,13 +1,11 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.deco2800.game.entities.factories.StructureFactory;
-import com.deco2800.game.input.InputComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -15,7 +13,6 @@ import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 
 import com.deco2800.game.entities.factories.ObstacleFactory;
@@ -31,7 +28,6 @@ import java.util.List;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
 
-  private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
@@ -86,6 +82,7 @@ public class ForestGameArea extends GameArea {
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
     this.terrainFactory = terrainFactory;
+
   }
 
   /**
@@ -122,7 +119,8 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    spawnEntity(new Entity().addComponent(terrain));
+    Entity mapEntity = new Entity().addComponent(terrain);
+    spawnEntity(mapEntity);
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -251,6 +249,10 @@ public class ForestGameArea extends GameArea {
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
+  }
+
+  public void expandIsland(int amount) {
+    terrainFactory.expandIsland((TiledMapTileLayer) terrain.getMap().getLayers().get(0), amount);
   }
 
   private void loadAssets() {
