@@ -67,7 +67,7 @@ public class ForestGameArea extends GameArea {
           "images/waterDirtMerged.png",
           "images/trial3GrassTile.png",
           "images/rock_placeholder_image.png",
-          "images/wallTransparent.png"
+          "images/wallTransparent.png",
           "images/pirate_crab_NE.png",
           "images/pirate_crab_NW.png",
           "images/pirate_crab_SE.png",
