@@ -38,7 +38,7 @@ public class EnvironmentalComponent extends Component {
      * and when a player walks through it, their speed is reduced by 40%
      */
     public enum EnvironmentalObstacle {
-        UNDEFINED( ResourceTypes.NONE, 0),
+        UNDEFINED(ResourceTypes.NONE, 0),
         TREE(ResourceTypes.WOOD, 10),
         ROCK(ResourceTypes.STONE, 20),
         SPIKY_BUSH(ResourceTypes.WOOD, 20),

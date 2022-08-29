@@ -57,17 +57,22 @@ public class ForestGameArea extends GameArea {
     "images/iso_grass_1.png",
     "images/iso_grass_2.png",
     "images/iso_grass_3.png",
-    "images/rock_placeholder_image.png",
-    "images/vine_placeholder.png",
-    "images/spiky_bush_placeholder.png",
-    "images/speed_tower_placeholder.png",
-    "images/knockback_tower_placeholder.png",
     "images/water version 2.png",
     "images/fullSizedDirt.png",
     "images/waterDirtMerged.png",
     "images/trial3GrassTile.png",
-    "images/rock_placeholder_image.png",
-              "images/wallTransparent.png"
+    "images/wallTransparent.png",
+    "images/landscape_objects/almond-tree-60x62.png",
+    "images/landscape_objects/fig-tree-60x62.png",
+    "images/landscape_objects/limestone-boulder-60x60.png",
+    "images/landscape_objects/marble-stone-60x40.png",
+    "images/landscape_objects/vines.png",
+    "images/landscape_objects/cypress-tree-60x100.png",
+    "images/landscape_objects/geyser.png",
+    "images/landscape_objects/billboard.png",
+    "images/landscape_objects/chalice.png",
+    "images/landscape_objects/pillar.png",
+    "images/landscape_objects/wooden-fence-60x60.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -160,13 +165,13 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createVine();
           break;
         case SPIKY_BUSH:
-          envObj = ObstacleFactory.createSpikyBush();
+          envObj = ObstacleFactory.createSpikyTree();
           break;
         case SPEED_ARTEFACT:
           envObj = ObstacleFactory.createAoeSpeedArtefact();
           break;
         case KNOCKBACK_TOWER:
-          envObj = ObstacleFactory.createKnockbackTower();
+          envObj = ObstacleFactory.createBillboard();
           break;
         case ROCK:
           //falls through to default
