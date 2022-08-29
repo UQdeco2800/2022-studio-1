@@ -1,7 +1,6 @@
 package com.deco2800.game.memento;
 
 import com.deco2800.game.components.shop.artefacts.Artefact;
-
 import java.util.List;
 
 /**

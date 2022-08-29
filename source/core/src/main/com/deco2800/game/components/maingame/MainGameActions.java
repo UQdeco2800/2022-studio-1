@@ -7,7 +7,6 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
-import com.deco2800.game.rendering.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,6 @@ public class MainGameActions extends Component {
   private AtlantisSinks game;
   private CareTaker playerStatus;
   private Entity player;
-  private Renderer renderer;
 
   public MainGameActions(AtlantisSinks game, CareTaker playerStatus, Entity player) {
     this.playerStatus = playerStatus;

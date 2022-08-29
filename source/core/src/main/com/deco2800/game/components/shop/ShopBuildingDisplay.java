@@ -4,25 +4,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.BestLog;
-import com.deco2800.game.components.shop.artefacts.BestSword;
 import com.deco2800.game.components.shop.artefacts.BetterLog;
-import com.deco2800.game.components.shop.artefacts.BetterSword;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.artefacts.StandardLog;
-import com.deco2800.game.components.shop.artefacts.StandardSword;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
 /**
@@ -90,7 +88,7 @@ public class ShopBuildingDisplay extends UIComponent {
 
     private void addActors() {
 
-        stock = new <ShopBuilding>StockList();
+        stock = new StockList();
         stock.add(new StandardLog());
         stock.add(new BetterLog());
         stock.add(new BestLog());
@@ -106,8 +104,7 @@ public class ShopBuildingDisplay extends UIComponent {
 
         stoneTexture = new Texture(Gdx.files.internal("images/border_stone.png"));
         TextureRegionDrawable stone = new TextureRegionDrawable(stoneTexture);
-        // TODO change gold coins to stone count in inventory when available, to track player states,
-        //  adding an integer property to track stone count in memento is recommended
+        // TODO change gold coins to stone count in inventory when available
         stoneFrame = ShopUtils.createImageTextButton(
                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
                 skin.getColor("black"),
@@ -180,8 +177,7 @@ public class ShopBuildingDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Right button clicked");
-                        // entity.getEvents().trigger("right");
-                        Node temp = current;
+                        Node<ShopBuilding> temp = current;
                         current = stock.head.next;
                         stock.head = stock.head.next;
                         stock.tail = temp;
@@ -200,7 +196,7 @@ public class ShopBuildingDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Left button clicked");
                         // entity.getEvents().trigger("right");
-                        Node temp = current;
+                        Node<ShopBuilding> temp = current;
                         current = stock.head.prev;
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
@@ -212,7 +208,7 @@ public class ShopBuildingDisplay extends UIComponent {
                                 new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
                     }
                 });
-        // TODO change to stone once implemented
+
         buyButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -222,6 +218,9 @@ public class ShopBuildingDisplay extends UIComponent {
                         if (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice())) {
                             logger.info("Sufficient Gold");
                             entity.getComponent(InventoryComponent.class).addGold(-1 * current.t.getPrice());
+                            Sound coinSound = ServiceLocator.getResourceService().getAsset("sounds/coin.mp3",
+                                    Sound.class);
+                            coinSound.play();
                         } else {
                             logger.info("Insufficient gold!");
                         }
@@ -250,11 +249,28 @@ public class ShopBuildingDisplay extends UIComponent {
         returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         returnUp = new TextureRegionDrawable(returnTexture);
         returnDown = new TextureRegionDrawable(returnTexture);
-        TextButton backBtn = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, returnDown,
+
+        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+        TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+        ImageButton backButton = new ImageButton(upBack, downBack);
+        backButton.setSize(50, 50);
+        // backButton.setScale(0.5f);
+        backButton.setPosition(width * 0f, height * 0.9f);
+        backButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Exit button clicked");
+                        entity.getEvents().trigger("exit");
+                    }
+                });
+
+        TextButton exitButton = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, returnDown,
                 returnUp,
                 skin, false);
-        backBtn.setPosition(width * 0.85f, height * 0.85f);
-        backBtn.addListener(
+        exitButton.setPosition(width * 0.85f, height * 0.85f);
+        exitButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -268,9 +284,8 @@ public class ShopBuildingDisplay extends UIComponent {
         title.setFontScale(4f);
         title.setColor(skin.getColor("black"));
 
-        stage.addActor(backBtn);
-
         stage.addActor(title);
+        stage.addActor(backButton);
 
         stage.addActor(goldFrame);
         stage.addActor(stoneFrame);
@@ -283,36 +298,14 @@ public class ShopBuildingDisplay extends UIComponent {
 
         rightButton.setPosition(width * 0.70f, height * 0.45f);
         stage.addActor(rightButton);
-        // priceDisplay.setOrigin(0, 0);
         priceDisplay.setPosition(width * 0.05f, height * 0.0f);
 
         stage.addActor(priceDisplay);
-        // descriptionDisplay.setOrigin(0, 0);
         descriptionDisplay.setPosition(width * 0.24f, height * -0.15f);
         stage.addActor(descriptionDisplay);
-        // buyButton.setOrigin(0, 0);
         buyButton.setPosition(width * 0.78f, height * 0.0f);
         stage.addActor(buyButton);
-
-        /*
-         * table.add(buildingItem);
-         * table.add(buildingTitle);
-         * table.add(stoneFrame);
-         * table.add(goldFrame);
-         * table.add(returnShopBtn);
-         * table.add(buildingDescriptionFrame);
-         * table.add(descriptionTitle);
-         * table.add(price);
-         * table.add(priceTitle);
-         * table.add(buyBtn);
-         * table.add(buyTitle);
-         * table.add(sword);
-         * table.add(swordTitle);
-         */
-
-        // stage.addActor(table);
-        // priceTitle.setAlignment(Align.center);
-        // stage.addActor(priceDisplay);
+        stage.addActor(exitButton);
 
     }
 

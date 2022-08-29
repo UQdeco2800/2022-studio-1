@@ -1,7 +1,6 @@
 package com.deco2800.game.screens;
 
 import com.deco2800.game.components.player.InventoryComponent;
-import com.badlogic.gdx.Gdx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,9 +11,6 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.shop.ShopActions;
-import com.deco2800.game.components.shop.ShopBuildingDisplay;
-import com.deco2800.game.components.shop.ShopComponent;
-import com.deco2800.game.components.shop.ShopExitDisplay;
 import com.deco2800.game.components.shop.ShopReturn;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
@@ -30,7 +26,6 @@ import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
@@ -45,8 +40,6 @@ public class ShopScreen extends ScreenAdapter {
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
     private CareTaker playerStatus;
-    private ShopExitDisplay shopExitDisplay;
-    private ShopBuildingDisplay shopBuidlingDisplay;
 
     public ShopScreen(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
