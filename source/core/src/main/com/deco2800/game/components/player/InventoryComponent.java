@@ -1,23 +1,29 @@
 package com.deco2800.game.components.player;
 
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.shop.artefacts.Artefact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A component intended to be used by the player to track their inventory.
  *
- * Currently only stores the gold and stone amount but can be extended for more advanced functionality such as storing items.
+ * Currently only stores the gold and stone amount but can be extended for more
+ * advanced functionality such as storing items.
  * Can also be used as a more generic component for other entities.
  */
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private int gold;
   private int stone;
+  private List<Artefact> items = new ArrayList<>();
 
-  public InventoryComponent(int gold) { //need to update constructor to take multiple ints
+  public InventoryComponent(int gold, int stone) { // need to update constructor to take multiple ints
     setGold(gold);
-    setStone(gold);
+    setStone(stone);
   }
 
   /**
@@ -41,6 +47,7 @@ public class InventoryComponent extends Component {
 
   /**
    * Returns if the player has a certain amount of gold.
+   * 
    * @param gold required amount of gold
    * @return player has greater than or equal to the required amount of gold
    */
@@ -50,12 +57,13 @@ public class InventoryComponent extends Component {
 
   /**
    * Returns if the player has a certain amount of stone.
+   * 
    * @param stone required amount of stone
    * @return player has greater than or equal to the required amount of stone
    */
   public Boolean hasStone(int stone) {
     return this.stone >= stone;
-}
+  }
 
   /**
    * Sets the player's gold. Gold has a minimum bound of 0.
@@ -87,14 +95,28 @@ public class InventoryComponent extends Component {
 
   /**
    * Adds to the player's gold. The amount added can be negative.
+   * 
    * @param gold gold to add
    */
   public void addGold(int gold) {
     setGold(this.gold + gold);
   }
 
+  public void setItems(List<Artefact> items) {
+    this.items = items;
+  }
+
+  public void addItems(Artefact item) {
+    this.items.add(item);
+  }
+
+  public List<Artefact> getItems() {
+    return this.items;
+  }
+
   /**
    * Adds to the player's stone. The amount added can be negative.
+   * 
    * @param stone stone to add
    */
   public void addStone(int stone) {
