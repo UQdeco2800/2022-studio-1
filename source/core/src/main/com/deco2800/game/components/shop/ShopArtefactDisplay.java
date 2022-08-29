@@ -31,7 +31,7 @@ public class ShopArtefactDisplay extends UIComponent {
     private float width;
     private float height;
 
-    private StockList<Artefact> stock;
+    private CircularLinkedList<Artefact> stock;
     private Node<Artefact> current;
 
     private Texture leftTexture;
@@ -70,7 +70,7 @@ public class ShopArtefactDisplay extends UIComponent {
         height = stage.getHeight();
 
         // Create linked list of the available shop stock
-        stock = new StockList<Artefact>();
+        stock = new CircularLinkedList<Artefact>();
         stock.add(new StandardSword());
         stock.add(new BetterSword());
         stock.add(new BestSword());

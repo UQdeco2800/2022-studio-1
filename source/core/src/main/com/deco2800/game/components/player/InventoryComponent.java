@@ -21,9 +21,9 @@ public class InventoryComponent extends Component {
   private int stone;
   private List<Artefact> items = new ArrayList<>();
 
-  public InventoryComponent(int gold) { // need to update constructor to take multiple ints
+  public InventoryComponent(int gold, int stone) { // need to update constructor to take multiple ints
     setGold(gold);
-    setStone(gold);
+    setStone(stone);
   }
 
   /**

@@ -41,18 +41,19 @@ public class MainGameActions extends Component {
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, null);
   }
 
-
   /**
-   * swaps screen to the shop screen, saves player's current status to the caretaker to retrieve when entering shop
+   * swaps screen to the shop screen, saves player's current status to the
+   * caretaker to retrieve when entering shop
    * screen
    */
   private void openShop() {
     logger.info("Exiting main game screen");
     Memento currentStatus = new Memento(playerStatus.getAll().size(),
-                                        player.getComponent(InventoryComponent.class).getGold(),
-                                        player.getComponent(CombatStatsComponent.class).getHealth(),
-                                        player.getComponent(InventoryComponent.class).getItems(),
-                                        player.getComponent(CombatStatsComponent.class).getBaseAttack());
+        player.getComponent(InventoryComponent.class).getGold(),
+        player.getComponent(InventoryComponent.class).getStone(),
+        player.getComponent(CombatStatsComponent.class).getHealth(),
+        player.getComponent(InventoryComponent.class).getItems(),
+        player.getComponent(CombatStatsComponent.class).getBaseAttack());
     playerStatus.add(currentStatus);
     game.setScreen(AtlantisSinks.ScreenType.SHOP, this.playerStatus);
   }

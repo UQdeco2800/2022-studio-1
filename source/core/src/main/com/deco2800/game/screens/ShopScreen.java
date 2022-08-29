@@ -18,7 +18,6 @@ import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.GameTime;
@@ -37,11 +36,8 @@ public class ShopScreen extends ScreenAdapter {
         this.game = game;
         this.playerStatus = playerStatus;
 
-        logger.debug("Initialising main game screen services");
+        logger.debug("Initialising shop screen services");
         ServiceLocator.registerTimeSource(new GameTime());
-
-        PhysicsService physicsService = new PhysicsService();
-        ServiceLocator.registerPhysicsService(physicsService);
 
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
@@ -116,7 +112,8 @@ public class ShopScreen extends ScreenAdapter {
         Entity uiExit = new Entity();
         uiExit.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold()))
+                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
+                        playerStatus.get(playerStatus.getAll().size() - 1).getStone()))
                 .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new ShopReturn())
                 .addComponent(new CommonShopComponents())

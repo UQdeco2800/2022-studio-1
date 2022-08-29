@@ -51,7 +51,7 @@ public class CommonShopComponents extends UIComponent {
         stoneUp = new TextureRegionDrawable(stoneTexture);
         // TODO change gold coins to stone count in inventory when available
         stoneFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
+                Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ",
                 skin.getColor("black"),
                 "title", 1f, stoneUp, stoneUp, skin, true);
         stoneFrame.setTransform(true);

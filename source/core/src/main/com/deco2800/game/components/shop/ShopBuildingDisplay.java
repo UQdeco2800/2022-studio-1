@@ -31,7 +31,7 @@ public class ShopBuildingDisplay extends UIComponent {
     private float width;
     private float height;
 
-    private StockList<ShopBuilding> stock;
+    private CircularLinkedList<ShopBuilding> stock;
     private Node<ShopBuilding> current;
 
     private Texture leftTexture;
@@ -70,7 +70,7 @@ public class ShopBuildingDisplay extends UIComponent {
         height = stage.getHeight();
 
         // Create linked list of the available shop stock
-        stock = new StockList<ShopBuilding>();
+        stock = new CircularLinkedList<ShopBuilding>();
         stock.add(new StandardLog());
         stock.add(new BetterLog());
         stock.add(new BestLog());

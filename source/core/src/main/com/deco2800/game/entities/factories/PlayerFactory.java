@@ -22,33 +22,33 @@ import com.deco2800.game.services.ServiceLocator;
 /**
  * Factory to create a player entity.
  *
- * <p>Predefined player properties are loaded from a config stored as a json file and should have
+ * <p>
+ * Predefined player properties are loaded from a config stored as a json file
+ * and should have
  * the properties stores in 'PlayerConfig'.
  */
 public class PlayerFactory {
-  private static final PlayerConfig stats =
-      FileLoader.readClass(PlayerConfig.class, "configs/player.json");
+  private static final PlayerConfig stats = FileLoader.readClass(PlayerConfig.class, "configs/player.json");
 
   /**
    * Create a player entity.
+   * 
    * @return entity
    */
   public static Entity createPlayer() {
-    InputComponent inputComponent =
-        ServiceLocator.getInputService().getInputFactory().createForPlayer();
+    InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    Entity player =
-        new Entity()
-            .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions())
-            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
-            .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new InventoryComponent(stats.gold))
-            .addComponent(inputComponent)
-            .addComponent(new PlayerStatsDisplay());
+    Entity player = new Entity()
+        .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
+        .addComponent(new PhysicsComponent())
+        .addComponent(new ColliderComponent())
+        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
+        .addComponent(new PlayerActions())
+        .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
+        .addComponent(new HealthBarComponent(100, 10))
+        .addComponent(new InventoryComponent(stats.gold, stats.gold)) // need to change to stone
+        .addComponent(inputComponent)
+        .addComponent(new PlayerStatsDisplay());
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
@@ -69,6 +69,7 @@ public class PlayerFactory {
       return player;
     }
   }
+
   private PlayerFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
