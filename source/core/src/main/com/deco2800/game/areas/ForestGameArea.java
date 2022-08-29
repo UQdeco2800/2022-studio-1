@@ -52,7 +52,7 @@ public class ForestGameArea extends GameArea {
       "images/iso_grass_1.png",
       "images/iso_grass_2.png",
       "images/iso_grass_3.png",
-      "images/waterVersion2.png",
+      "images/waterFinalVersion.png",
       "images/fullSizedDirt.png",
       "images/waterDirtMerged.png",
       "images/trial3GrassTile.png",
