@@ -1,23 +1,22 @@
 package com.deco2800.game.components.shop;
 
-import com.deco2800.game.components.shop.artefacts.Artefact;
+class Node<T> {
+    T t;
+    Node<T> next;
+    Node<T> prev;
 
-public class StockList {
-    public class Node {
-        Artefact artefact;
-        Node next;
-        Node prev;
-
-        public Node(Artefact artefact) {
-            this.artefact = artefact;
-        }
+    public Node(T t) {
+        this.t = t;
     }
+}
 
-    public Node head = null;
-    public Node tail = null;
+class StockList<T> {
 
-    public void add(Artefact artefact) {
-        Node newNode = new Node(artefact);
+    public Node<T> head = null;
+    public Node<T> tail = null;
+
+    public void add(T t) {
+        Node<T> newNode = new Node<T>(t);
         if (head == null) {
             head = newNode;
             tail = newNode;

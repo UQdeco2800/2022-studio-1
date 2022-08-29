@@ -27,8 +27,8 @@ public class ShopUtils {
             TextureRegionDrawable up,
             Skin skin, Boolean isDisabled) {
         TextButtonStyle style = new TextButtonStyle(up, down, up, skin.getFont(textString));
-        style.font.setColor(color);
         TextButton button = new TextButton(text, style);
+        button.getLabel().setColor(color);
         button.setTransform(true);
         button.setOrigin(0, 0);
         button.setScale(scale);

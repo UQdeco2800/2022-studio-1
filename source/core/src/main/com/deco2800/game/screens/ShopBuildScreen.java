@@ -1,6 +1,5 @@
 package com.deco2800.game.screens;
 
-import com.deco2800.game.components.player.InventoryComponent;
 import com.badlogic.gdx.Gdx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.components.shop.ShopComponent;
@@ -22,7 +22,6 @@ import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
@@ -34,7 +33,7 @@ import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
-public class ShopScreen extends ScreenAdapter {
+public class ShopBuildScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
     private static final String[] mainGameTextures = { "images/heart.png" };
@@ -44,14 +43,12 @@ public class ShopScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
-    private CareTaker playerStatus;
 
     private ShopExitDisplay shopExitDisplay;
     private ShopBuildingDisplay shopBuidlingDisplay;
 
-    public ShopScreen(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopBuildScreen(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
 
         logger.debug("Initialising main game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -77,12 +74,16 @@ public class ShopScreen extends ScreenAdapter {
 
     }
 
+    public void create() {
+        shopExitDisplay = new ShopExitDisplay();
+        shopBuidlingDisplay = new ShopBuildingDisplay();
+    }
+
     @Override
     public void render(float delta) {
         physicsEngine.update();
         ServiceLocator.getEntityService().update();
         renderer.render();
-        // new ShopExitDisplay().create();
     }
 
     @Override
@@ -138,17 +139,16 @@ public class ShopScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-        Entity ui = new Entity();
-        ui.addComponent(new InputDecorator(stage, 10))
+        Entity uiBuilding = new Entity();
+        uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold()))
+                .addComponent(new ShopActions(this.game))
+                .addComponent(new InventoryComponent(100))
                 .addComponent(new ShopBuildingDisplay())
-                .addComponent(new ShopActions(this.game, playerStatus))
-                .addComponent(new ShopReturn())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiExit);
+        ServiceLocator.getEntityService().register(uiBuilding);
 
     }
 }

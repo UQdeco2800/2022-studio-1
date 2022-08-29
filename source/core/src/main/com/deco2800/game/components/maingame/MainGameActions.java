@@ -14,7 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class listens to events relevant to the Main Game Screen and does something when one of the
+ * This class listens to events relevant to the Main Game Screen and does
+ * something when one of the
  * events is triggered.
  */
 public class MainGameActions extends Component {
@@ -27,7 +28,6 @@ public class MainGameActions extends Component {
   public MainGameActions(AtlantisSinks game, CareTaker playerStatus, Entity player) {
     this.playerStatus = playerStatus;
     this.player = player;
-    this.game = game;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class MainGameActions extends Component {
 
 
   private void openShop() {
-    logger.info("Exiting main game screen");
+    logger.info("Entering shop");
     Memento currentStatus = new Memento(playerStatus.getAll().size(),
                                         player.getComponent(InventoryComponent.class).getGold(),
                                         player.getComponent(CombatStatsComponent.class).getHealth(),
@@ -54,5 +54,10 @@ public class MainGameActions extends Component {
                                         player.getComponent(CombatStatsComponent.class).getBaseAttack());
     playerStatus.add(currentStatus);
     game.setScreen(AtlantisSinks.ScreenType.SHOP, this.playerStatus);
+  }
+
+  private void openBuildingShop() {
+    logger.info("Entering Building Shop");
+    game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, this.playerStatus);
   }
 }
