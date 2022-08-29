@@ -45,6 +45,10 @@ public class MainGameActions extends Component {
   }
 
 
+  /**
+   * swaps screen to the shop screen, saves player's current status to the caretaker to retrieve when entering shop
+   * screen
+   */
   private void openShop() {
     logger.info("Exiting main game screen");
     Memento currentStatus = new Memento(playerStatus.getAll().size(),

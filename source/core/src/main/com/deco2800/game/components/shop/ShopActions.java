@@ -32,7 +32,7 @@ public class ShopActions extends Component {
     }
 
     /**
-     * Swaps to the Main Menu screen.
+     * Swaps to the Main game screen. updates player status before exiting the shop
      */
     private void onExit() {
         logger.info("Exiting shop screen");

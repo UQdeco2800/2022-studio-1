@@ -32,6 +32,7 @@ public class AtlantisSinks extends Game {
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
+    // start of the game, sets playerStatus to null to create a new caretaker object in the first mainGameScreen
     setScreen(ScreenType.MAIN_MENU, null);
   }
 
@@ -76,6 +77,7 @@ public class AtlantisSinks extends Game {
    * Create a new screen of the provided type.
    * 
    * @param screenType screen type
+   * @param playerStatus caretaker object for main_game screen and shop screen to maintain player states
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {
