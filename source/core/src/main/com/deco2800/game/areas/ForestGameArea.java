@@ -106,10 +106,13 @@ public class ForestGameArea extends GameArea {
     //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
+<<<<<<< HEAD
     spawnWall(50,50);
 
     spawnCrystal(60, 60);
 
+=======
+>>>>>>> origin/main
     player = spawnPlayer();
 
     spawnEnvironmentalObjects();
@@ -265,7 +268,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnWall(int x_pos, int y_pos) {
-    Entity newWall = StructureFactory.createWall("images/wallTransparent.png");
+    Entity newWall = StructureFactory.createWall();
     while (this.entityMapping.wouldCollide(newWall, x_pos, y_pos)) {
       x_pos++;
     }
@@ -276,14 +279,14 @@ public class ForestGameArea extends GameArea {
 
   private void spawnCrystal(int x_pos, int y_pos) {
     Entity newCrystal = StructureFactory.createCrystal("images/crystal.png");
-    ServiceLocator.getEntityService().registerNamed("crystal",newCrystal);
+    //ServiceLocator.getEntityService().registerNamed("crystal",newCrystal);
     while (this.entityMapping.wouldCollide(newCrystal, x_pos, y_pos)) {
       x_pos++;
     }
     this.entityMapping.addEntity(newCrystal);
     spawnEntityAt(newCrystal, new GridPoint2(x_pos, y_pos), true, true);
-    System.out.println(newCrystal.getComponent(CombatStatsComponent.class).getHealth());
   }
+
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);

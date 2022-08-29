@@ -6,6 +6,10 @@
   "crystal": {
     "health": 1000,
     "baseAttack": 0
+  },
+  "tower1": {
+    "health": 200,
+    "baseAttack": 10
   }
 }
 

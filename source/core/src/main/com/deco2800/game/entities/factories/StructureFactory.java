@@ -31,22 +31,33 @@ public class StructureFactory {
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
 
 
-
-
-
   /**
    * Creates a wall entity.
+   *
+   * @return specialised Wall entity
+   */
+  public static Entity createWall() {
+    Entity wall = createBaseStructure("images/wallTransparent.png");
+    BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
+
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return wall;
+  }
+
+  /**
+   * Creates a tower1 entity.
    *
    * //@param target entity to chase
    * @return entity
    */
-  public static Entity createWall(String texture) {
-    Entity wall = createBaseStructure(texture);
-    BaseEntityConfig config = configs.wall;
+  public static Entity createTower1(String texture) {
+    Entity tower1 = createBaseStructure(texture);
+    BaseEntityConfig config = configs.tower1;
 
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(50, 10));
-    return wall;
+    tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return tower1;
   }
 
   /**
