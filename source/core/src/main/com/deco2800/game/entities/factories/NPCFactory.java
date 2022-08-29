@@ -1,5 +1,6 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -22,6 +23,7 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
 /**
@@ -90,7 +92,22 @@ public class NPCFactory {
     ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
     return ghostKing;
   }
+  public static Entity createPirateCrabEnemy(Entity target) {
+    Entity pirateCrabEnemy = createBaseNPC(target);
+    BaseEntityConfig config = configs.giantCrab;
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
 
+
+    pirateCrabEnemy
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent);
+
+
+    pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+
+    return pirateCrabEnemy;
+  }
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
    *

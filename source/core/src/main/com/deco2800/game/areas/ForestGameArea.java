@@ -44,30 +44,34 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestTextures = {
 
-    "images/box_boy_leaf.png",
-    "images/tree.png",
-    "images/ghost_king.png",
-    "images/ghost_1.png",
-    "images/grass_1.png",
-    "images/grass_2.png",
-    "images/grass_3.png",
-    "images/hex_grass_1.png",
-    "images/hex_grass_2.png",
-    "images/hex_grass_3.png",
-    "images/iso_grass_1.png",
-    "images/iso_grass_2.png",
-    "images/iso_grass_3.png",
-    "images/rock_placeholder_image.png",
-    "images/vine_placeholder.png",
-    "images/spiky_bush_placeholder.png",
-    "images/speed_tower_placeholder.png",
-    "images/knockback_tower_placeholder.png",
-    "images/water version 2.png",
-    "images/fullSizedDirt.png",
-    "images/waterDirtMerged.png",
-    "images/trial3GrassTile.png",
-    "images/rock_placeholder_image.png",
-              "images/wallTransparent.png"
+          "images/box_boy_leaf.png",
+          "images/tree.png",
+          "images/ghost_king.png",
+          "images/ghost_1.png",
+          "images/grass_1.png",
+          "images/grass_2.png",
+          "images/grass_3.png",
+          "images/hex_grass_1.png",
+          "images/hex_grass_2.png",
+          "images/hex_grass_3.png",
+          "images/iso_grass_1.png",
+          "images/iso_grass_2.png",
+          "images/iso_grass_3.png",
+          "images/rock_placeholder_image.png",
+          "images/vine_placeholder.png",
+          "images/spiky_bush_placeholder.png",
+          "images/speed_tower_placeholder.png",
+          "images/knockback_tower_placeholder.png",
+          "images/water version 2.png",
+          "images/fullSizedDirt.png",
+          "images/waterDirtMerged.png",
+          "images/trial3GrassTile.png",
+          "images/rock_placeholder_image.png",
+          "images/wallTransparent.png",
+          "images/pirate_crab_NE.png",
+          "images/pirate_crab_NW.png",
+          "images/pirate_crab_SE.png",
+          "images/pirate_crab_SW.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -105,6 +109,8 @@ public class ForestGameArea extends GameArea {
     this.entityMapping = new EnvironmentalCollision(terrain);
 
     player = spawnPlayer();
+
+    spawnPirateCrabEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -257,7 +263,23 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
+  private void spawnPirateCrabEnemy(){
+    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+    GridPoint2 minPos = new GridPoint2(0,0);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
+    GridPoint2 randomPos = RandomUtils.random(minPos,maxPos);
+    int counter = 0;
+    while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
+           ||entityMapping.isNearWater(randomPos.x, randomPos.y)){
+      randomPos = RandomUtils.random(minPos,maxPos);
+      if (counter > 1000){
+        return;
+      }
+      counter++;
+    }
 
+    spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
+  }
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
