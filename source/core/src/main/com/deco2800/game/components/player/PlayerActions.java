@@ -65,6 +65,8 @@ public class PlayerActions extends Component {
   void walk(Vector2 direction) {
     this.walkDirection = direction;
     moving = true;
+    Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/grass_footstep_single.mp3", Sound.class);
+    walkSound.play();
   }
 
   /**
@@ -80,7 +82,7 @@ public class PlayerActions extends Component {
    * Makes the player attack.
    */
   void attack() {
-    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
+    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
     attackSound.play();
   }
 
