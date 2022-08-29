@@ -110,6 +110,8 @@ public class ForestGameArea extends GameArea {
 
     player = spawnPlayer();
 
+    spawnPirateCrabEnemy();
+
     spawnEnvironmentalObjects();
 
     playMusic();
@@ -261,7 +263,23 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
+  private void spawnPirateCrabEnemy(){
+    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+    GridPoint2 minPos = new GridPoint2(0,0);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
+    GridPoint2 randomPos = RandomUtils.random(minPos,maxPos);
+    int counter = 0;
+    while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
+           ||entityMapping.isNearWater(randomPos.x, randomPos.y)){
+      randomPos = RandomUtils.random(minPos,maxPos);
+      if (counter > 1000){
+        return;
+      }
+      counter++;
+    }
 
+    spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
+  }
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
