@@ -1,5 +1,8 @@
 package com.deco2800.game.components.shop.artefacts;
 
+/**
+ * StandardLog child class of ShopBuilding
+ */
 public class StandardLog extends ShopBuilding {
     static String NAME = "Standard Log";
     static int PRICE = 5;

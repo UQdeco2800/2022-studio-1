@@ -1,5 +1,8 @@
 package com.deco2800.game.components.shop.artefacts;
 
+/**
+ * BestSword child class of Artefact
+ */
 public class BestSword extends Artefact {
     static String NAME = "Best Sword";
     static int PRICE = 20;
