@@ -14,7 +14,6 @@ public class ResourceBuilding {
     private final ResourceType type;
 
     public ResourceBuilding(int health, int productionRate, ResourceType type) {
-        super(health);
         this.productionRate = productionRate;
         this.type = type;
     }
