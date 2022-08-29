@@ -77,7 +77,8 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
-  private static final String[] forestSounds = { "sounds/sword_swing.mp3", "sounds/grass_footstep_single.mp3", "sounds/hurt.mp3"};
+  private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
+  public static final String[] walkSound = {"sounds/grass_footstep_single.mp3"};
   private static final String backgroundMusic = "sounds/dusk.mp3";
 
   private static final String[] forestMusic = {backgroundMusic};
@@ -316,6 +317,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
+    resourceService.loadSounds(walkSound);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -330,6 +332,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
+    resourceService.unloadAssets(walkSound);
     resourceService.unloadAssets(forestMusic);
   }
 
