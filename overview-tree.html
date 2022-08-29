@@ -57,14 +57,15 @@ loadScripts(document, 'script');</script>
 <li><a href="com/deco2800/game/areas/terrain/package-tree.html">com.deco2800.game.areas.terrain</a>, </li>
 <li><a href="com/deco2800/game/components/package-tree.html">com.deco2800.game.components</a>, </li>
 <li><a href="com/deco2800/game/components/camera/package-tree.html">com.deco2800.game.components.camera</a>, </li>
-<li><a href="com/deco2800/game/components/Enviromental/package-tree.html">com.deco2800.game.components.Enviromental</a>, </li>
+<li><a href="com/deco2800/game/components/Environmental/package-tree.html">com.deco2800.game.components.Environmental</a>, </li>
 <li><a href="com/deco2800/game/components/gamearea/package-tree.html">com.deco2800.game.components.gamearea</a>, </li>
-<li><a href="com/deco2800/game/components/infrastructure/package-tree.html">com.deco2800.game.components.infrastructure</a>, </li>
 <li><a href="com/deco2800/game/components/maingame/package-tree.html">com.deco2800.game.components.maingame</a>, </li>
 <li><a href="com/deco2800/game/components/mainmenu/package-tree.html">com.deco2800.game.components.mainmenu</a>, </li>
 <li><a href="com/deco2800/game/components/npc/package-tree.html">com.deco2800.game.components.npc</a>, </li>
 <li><a href="com/deco2800/game/components/player/package-tree.html">com.deco2800.game.components.player</a>, </li>
 <li><a href="com/deco2800/game/components/settingsmenu/package-tree.html">com.deco2800.game.components.settingsmenu</a>, </li>
+<li><a href="com/deco2800/game/components/shop/package-tree.html">com.deco2800.game.components.shop</a>, </li>
+<li><a href="com/deco2800/game/components/shop/artefacts/package-tree.html">com.deco2800.game.components.shop.artefacts</a>, </li>
 <li><a href="com/deco2800/game/components/tasks/package-tree.html">com.deco2800.game.components.tasks</a>, </li>
 <li><a href="com/deco2800/game/concurrency/package-tree.html">com.deco2800.game.concurrency</a>, </li>
 <li><a href="com/deco2800/game/entities/package-tree.html">com.deco2800.game.entities</a>, </li>
@@ -93,8 +94,17 @@ loadScripts(document, 'script');</script>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
 <li class="circle">com.deco2800.game.physics.raycast.<a href="com/deco2800/game/physics/raycast/AllHitCallback.html" class="type-name-link" title="class in com.deco2800.game.physics.raycast">AllHitCallback</a> (implements com.badlogic.gdx.physics.box2d.RayCastCallback)</li>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/Artefact.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">Artefact</a>
+<ul>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/BestSword.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">BestSword</a></li>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/BetterSword.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">BetterSword</a></li>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/StandardSword.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">StandardSword</a></li>
+</ul>
+</li>
 <li class="circle">com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/BaseEntityConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">BaseEntityConfig</a>
 <ul>
+<li class="circle">com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/CrystalConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">CrystalConfig</a></li>
+<li class="circle">com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/EnemyConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">EnemyConfig</a></li>
 <li class="circle">com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/GhostKingConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">GhostKingConfig</a></li>
 <li class="circle">com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/PlayerConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">PlayerConfig</a></li>
 </ul>
@@ -110,8 +120,9 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/HitboxComponent.html" class="type-name-link" title="class in com.deco2800.game.physics.components">HitboxComponent</a></li>
 </ul>
 </li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.html" class="type-name-link" title="class in com.deco2800.game.components.Environmental">CollisionEffectComponent</a></li>
 <li class="circle">com.deco2800.game.components.<a href="com/deco2800/game/components/CombatStatsComponent.html" class="type-name-link" title="class in com.deco2800.game.components">CombatStatsComponent</a></li>
-<li class="circle">com.deco2800.game.components.Enviromental.<a href="com/deco2800/game/components/Enviromental/EnvironmentalComponent.html" class="type-name-link" title="class in com.deco2800.game.components.Enviromental">EnvironmentalComponent</a></li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.html" class="type-name-link" title="class in com.deco2800.game.components.Environmental">EnvironmentalComponent</a></li>
 <li class="circle">com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/GhostAnimationController.html" class="type-name-link" title="class in com.deco2800.game.components.npc">GhostAnimationController</a></li>
 <li class="circle">com.deco2800.game.input.<a href="com/deco2800/game/input/InputComponent.html" class="type-name-link" title="class in com.deco2800.game.input">InputComponent</a> (implements com.badlogic.gdx.input.GestureDetector.GestureListener, com.badlogic.gdx.InputProcessor)
 <ul>
@@ -139,20 +150,28 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">com.deco2800.game.components.gamearea.<a href="com/deco2800/game/components/gamearea/GameAreaDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.gamearea">GameAreaDisplay</a></li>
 <li class="circle">com.deco2800.game.components.maingame.<a href="com/deco2800/game/components/maingame/MainGameExitDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.maingame">MainGameExitDisplay</a></li>
+<li class="circle">com.deco2800.game.components.maingame.<a href="com/deco2800/game/components/maingame/MainGameInterface.html" class="type-name-link" title="class in com.deco2800.game.components.maingame">MainGameInterface</a></li>
 <li class="circle">com.deco2800.game.components.mainmenu.<a href="com/deco2800/game/components/mainmenu/MainMenuDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.mainmenu">MainMenuDisplay</a></li>
+<li class="circle">com.deco2800.game.components.settingsmenu.<a href="com/deco2800/game/components/settingsmenu/MusicSettings.html" class="type-name-link" title="class in com.deco2800.game.components.settingsmenu">MusicSettings</a></li>
 <li class="circle">com.deco2800.game.components.gamearea.<a href="com/deco2800/game/components/gamearea/PerformanceDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.gamearea">PerformanceDisplay</a></li>
 <li class="circle">com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/PlayerStatsDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.player">PlayerStatsDisplay</a></li>
 <li class="circle">com.deco2800.game.components.settingsmenu.<a href="com/deco2800/game/components/settingsmenu/SettingsMenuDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.settingsmenu">SettingsMenuDisplay</a></li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopArtefactDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopArtefactDisplay</a></li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopBuildingDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopBuildingDisplay</a></li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopExitDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopExitDisplay</a></li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopReturn.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopReturn</a></li>
 <li class="circle">com.deco2800.game.ui.terminal.<a href="com/deco2800/game/ui/terminal/TerminalDisplay.html" class="type-name-link" title="class in com.deco2800.game.ui.terminal">TerminalDisplay</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopActions.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopActions</a></li>
 <li class="circle">com.deco2800.game.ui.terminal.<a href="com/deco2800/game/ui/terminal/Terminal.html" class="type-name-link" title="class in com.deco2800.game.ui.terminal">Terminal</a></li>
 <li class="circle">com.deco2800.game.components.<a href="com/deco2800/game/components/TouchAttackComponent.html" class="type-name-link" title="class in com.deco2800.game.components">TouchAttackComponent</a></li>
 </ul>
 </li>
 <li class="circle">com.deco2800.game.components.<a href="com/deco2800/game/components/ComponentType.html" class="type-name-link" title="class in com.deco2800.game.components">ComponentType</a></li>
+<li class="circle">com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalFactory.html" class="type-name-link" title="class in com.deco2800.game.entities.factories">CrystalFactory</a></li>
 <li class="circle">com.deco2800.game.ui.terminal.commands.<a href="com/deco2800/game/ui/terminal/commands/DebugCommand.html" class="type-name-link" title="class in com.deco2800.game.ui.terminal.commands">DebugCommand</a> (implements com.deco2800.game.ui.terminal.commands.<a href="com/deco2800/game/ui/terminal/commands/Command.html" title="interface in com.deco2800.game.ui.terminal.commands">Command</a>)</li>
 <li class="circle">com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/DebugRenderer.html" class="type-name-link" title="class in com.deco2800.game.rendering">DebugRenderer</a></li>
 <li class="circle">com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/DefaultTask.html" class="type-name-link" title="class in com.deco2800.game.ai.tasks">DefaultTask</a> (implements com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/Task.html" title="interface in com.deco2800.game.ai.tasks">Task</a>)
@@ -166,11 +185,12 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.deco2800.game.utils.<a href="com/deco2800/game/utils/DrawableUtil.html" class="type-name-link" title="class in com.deco2800.game.utils">DrawableUtil</a></li>
 <li class="circle">com.deco2800.game.entities.<a href="com/deco2800/game/entities/Entity.html" class="type-name-link" title="class in com.deco2800.game.entities">Entity</a></li>
 <li class="circle">com.deco2800.game.entities.<a href="com/deco2800/game/entities/EntityService.html" class="type-name-link" title="class in com.deco2800.game.entities">EntityService</a></li>
+<li class="circle">com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/EnvironmentalCollision.html" class="type-name-link" title="class in com.deco2800.game.areas.terrain">EnvironmentalCollision</a></li>
 <li class="circle">com.deco2800.game.events.<a href="com/deco2800/game/events/EventHandler.html" class="type-name-link" title="class in com.deco2800.game.events">EventHandler</a></li>
 <li class="circle">com.deco2800.game.files.<a href="com/deco2800/game/files/FileLoader.html" class="type-name-link" title="class in com.deco2800.game.files">FileLoader</a></li>
 <li class="circle">com.badlogic.gdx.Game (implements com.badlogic.gdx.ApplicationListener)
 <ul>
-<li class="circle">com.deco2800.game.<a href="com/deco2800/game/GdxGame.html" class="type-name-link" title="class in com.deco2800.game">GdxGame</a></li>
+<li class="circle">com.deco2800.game.<a href="com/deco2800/game/AtlantisSinks.html" class="type-name-link" title="class in com.deco2800.game">AtlantisSinks</a></li>
 </ul>
 </li>
 <li class="circle">com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameArea.html" class="type-name-link" title="class in com.deco2800.game.areas">GameArea</a> (implements com.badlogic.gdx.utils.Disposable)
@@ -180,16 +200,6 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">com.deco2800.game.services.<a href="com/deco2800/game/services/GameTime.html" class="type-name-link" title="class in com.deco2800.game.services">GameTime</a></li>
 <li class="circle">com.deco2800.game.utils.math.<a href="com/deco2800/game/utils/math/GridPoint2Utils.html" class="type-name-link" title="class in com.deco2800.game.utils.math">GridPoint2Utils</a></li>
-<li class="circle">com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/Infrastructure.html" class="type-name-link" title="class in com.deco2800.game.components.infrastructure">Infrastructure</a>
-<ul>
-<li class="circle">com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/DefensiveTower.html" class="type-name-link" title="class in com.deco2800.game.components.infrastructure">DefensiveTower</a>
-<ul>
-<li class="circle">com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/Tower1.html" class="type-name-link" title="class in com.deco2800.game.components.infrastructure">Tower1</a></li>
-</ul>
-</li>
-<li class="circle">com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/Wall.html" class="type-name-link" title="class in com.deco2800.game.components.infrastructure">Wall</a></li>
-</ul>
-</li>
 <li class="circle">com.deco2800.game.input.<a href="com/deco2800/game/input/InputFactory.html" class="type-name-link" title="class in com.deco2800.game.input">InputFactory</a>
 <ul>
 <li class="circle">com.deco2800.game.input.<a href="com/deco2800/game/input/KeyboardInputFactory.html" class="type-name-link" title="class in com.deco2800.game.input">KeyboardInputFactory</a></li>
@@ -219,17 +229,32 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.deco2800.game.screens.<a href="com/deco2800/game/screens/MainGameScreen.html" class="type-name-link" title="class in com.deco2800.game.screens">MainGameScreen</a></li>
 <li class="circle">com.deco2800.game.screens.<a href="com/deco2800/game/screens/MainMenuScreen.html" class="type-name-link" title="class in com.deco2800.game.screens">MainMenuScreen</a></li>
 <li class="circle">com.deco2800.game.screens.<a href="com/deco2800/game/screens/SettingsScreen.html" class="type-name-link" title="class in com.deco2800.game.screens">SettingsScreen</a></li>
+<li class="circle">com.deco2800.game.screens.<a href="com/deco2800/game/screens/ShopArtefactScreen.html" class="type-name-link" title="class in com.deco2800.game.screens">ShopArtefactScreen</a></li>
+<li class="circle">com.deco2800.game.screens.<a href="com/deco2800/game/screens/ShopBuildScreen.html" class="type-name-link" title="class in com.deco2800.game.screens">ShopBuildScreen</a></li>
+<li class="circle">com.deco2800.game.screens.<a href="com/deco2800/game/screens/ShopScreen.html" class="type-name-link" title="class in com.deco2800.game.screens">ShopScreen</a></li>
 </ul>
 </li>
 <li class="circle">com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" class="type-name-link" title="class in com.deco2800.game.services">ServiceLocator</a></li>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/ShopBuilding.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>
+<ul>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/BestLog.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">BestLog</a></li>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/BetterLog.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">BetterLog</a></li>
+<li class="circle">com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/StandardLog.html" class="type-name-link" title="class in com.deco2800.game.components.shop.artefacts">StandardLog</a></li>
+</ul>
+</li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopComponent.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopComponent</a></li>
+<li class="circle">com.deco2800.game.components.shop.<a href="com/deco2800/game/components/shop/ShopUtils.html" class="type-name-link" title="class in com.deco2800.game.components.shop">ShopUtils</a></li>
 <li class="circle">com.deco2800.game.physics.raycast.<a href="com/deco2800/game/physics/raycast/SingleHitCallback.html" class="type-name-link" title="class in com.deco2800.game.physics.raycast">SingleHitCallback</a> (implements com.badlogic.gdx.physics.box2d.RayCastCallback)</li>
 <li class="circle">com.deco2800.game.utils.<a href="com/deco2800/game/utils/SortedIntMap.html" class="type-name-link" title="class in com.deco2800.game.utils">SortedIntMap</a>&lt;V&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;)</li>
 <li class="circle">com.deco2800.game.utils.<a href="com/deco2800/game/utils/StringDecorator.html" class="type-name-link" title="class in com.deco2800.game.utils">StringDecorator</a>&lt;T&gt;</li>
+<li class="circle">com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">StructureConfig</a></li>
+<li class="circle">com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" class="type-name-link" title="class in com.deco2800.game.entities.factories">StructureFactory</a></li>
 <li class="circle">com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainFactory.html" class="type-name-link" title="class in com.deco2800.game.areas.terrain">TerrainFactory</a></li>
 <li class="circle">com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainTile.html" class="type-name-link" title="class in com.deco2800.game.areas.terrain">TerrainTile</a> (implements com.badlogic.gdx.maps.tiled.TiledMapTile)</li>
 <li class="circle">com.deco2800.game.files.<a href="com/deco2800/game/files/UserSettings.html" class="type-name-link" title="class in com.deco2800.game.files">UserSettings</a></li>
 <li class="circle">com.deco2800.game.files.<a href="com/deco2800/game/files/UserSettings.DisplaySettings.html" class="type-name-link" title="class in com.deco2800.game.files">UserSettings.DisplaySettings</a></li>
 <li class="circle">com.deco2800.game.files.<a href="com/deco2800/game/files/UserSettings.Settings.html" class="type-name-link" title="class in com.deco2800.game.files">UserSettings.Settings</a></li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/ValueTuple.html" class="type-name-link" title="class in com.deco2800.game.components.Environmental">ValueTuple</a>&lt;ResourceTypes,<wbr>Integer&gt;</li>
 <li class="circle">com.deco2800.game.utils.math.<a href="com/deco2800/game/utils/math/Vector2Utils.html" class="type-name-link" title="class in com.deco2800.game.utils.math">Vector2Utils</a></li>
 </ul>
 </li>
@@ -268,9 +293,12 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Enum.html" class="type-name-link external-link" title="class or interface in java.lang">Enum</a>&lt;E&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;T&gt;, java.lang.constant.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/constant/Constable.html" title="class or interface in java.lang.constant" class="external-link">Constable</a>, java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
-<li class="circle">com.deco2800.game.components.Enviromental.<a href="com/deco2800/game/components/Enviromental/EnvironmentalComponent.EnvironmentalType.html" class="type-name-link" title="enum class in com.deco2800.game.components.Enviromental">EnvironmentalComponent.EnvironmentalType</a></li>
+<li class="circle">com.deco2800.game.<a href="com/deco2800/game/AtlantisSinks.ScreenType.html" class="type-name-link" title="enum class in com.deco2800.game">AtlantisSinks.ScreenType</a></li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.CollisionEffect.html" class="type-name-link" title="enum class in com.deco2800.game.components.Environmental">CollisionEffectComponent.CollisionEffect</a></li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.EffectTarget.html" class="type-name-link" title="enum class in com.deco2800.game.components.Environmental">CollisionEffectComponent.EffectTarget</a></li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.EnvironmentalObstacle.html" class="type-name-link" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.EnvironmentalObstacle</a></li>
+<li class="circle">com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.ResourceTypes.html" class="type-name-link" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.ResourceTypes</a></li>
 <li class="circle">com.deco2800.game.files.<a href="com/deco2800/game/files/FileLoader.Location.html" class="type-name-link" title="enum class in com.deco2800.game.files">FileLoader.Location</a></li>
-<li class="circle">com.deco2800.game.<a href="com/deco2800/game/GdxGame.ScreenType.html" class="type-name-link" title="enum class in com.deco2800.game">GdxGame.ScreenType</a></li>
 <li class="circle">com.deco2800.game.input.<a href="com/deco2800/game/input/InputFactory.InputType.html" class="type-name-link" title="enum class in com.deco2800.game.input">InputFactory.InputType</a></li>
 <li class="circle">com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/PhysicsComponent.AlignX.html" class="type-name-link" title="enum class in com.deco2800.game.physics.components">PhysicsComponent.AlignX</a></li>
 <li class="circle">com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/PhysicsComponent.AlignY.html" class="type-name-link" title="enum class in com.deco2800.game.physics.components">PhysicsComponent.AlignY</a></li>

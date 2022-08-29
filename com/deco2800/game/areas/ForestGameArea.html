@@ -50,7 +50,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -91,6 +91,15 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second even-row-color"><code><a href="#walkSound" class="member-name-link">walkSound</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.deco2800.game.areas.GameArea">Fields inherited from class&nbsp;com.deco2800.game.areas.<a href="GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></h3>
 <code><a href="GameArea.html#areaEntities">areaEntities</a>, <a href="GameArea.html#terrain">terrain</a></code></div>
@@ -131,6 +140,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose of all internal entities in the area</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../components/Environmental/ValueTuple.html" title="class in com.deco2800.game.components.Environmental">ValueTuple</a>&lt;<a href="../components/Environmental/EnvironmentalComponent.ResourceTypes.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.ResourceTypes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeEnvironmentalObject(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">removeEnvironmentalObject</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;removeTile)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">removes an entity at a specific tile coordinate
+ goes through areaEntities to find entity in that position
+ check if entity is an environment object
+ put inside separate list first to avoid ConcurrentModificationException</div>
+</div>
 </div>
 </div>
 </div>
@@ -146,6 +163,20 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="walkSound">
+<h3>walkSound</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">walkSound</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -174,6 +205,22 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="GameArea.html#create()">create</a></code>&nbsp;in class&nbsp;<code><a href="GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="removeEnvironmentalObject(com.badlogic.gdx.math.GridPoint2)">
+<h3>removeEnvironmentalObject</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../components/Environmental/ValueTuple.html" title="class in com.deco2800.game.components.Environmental">ValueTuple</a>&lt;<a href="../components/Environmental/EnvironmentalComponent.ResourceTypes.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.ResourceTypes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">removeEnvironmentalObject</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;removeTile)</span></div>
+<div class="block">removes an entity at a specific tile coordinate
+ goes through areaEntities to find entity in that position
+ check if entity is an environment object
+ put inside separate list first to avoid ConcurrentModificationException</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>removeTile</code> - The tile where environment entities is removed</dd>
+<dt>Returns:</dt>
+<dd>a tuple containing resource type and its value</dd>
 </dl>
 </section>
 </li>

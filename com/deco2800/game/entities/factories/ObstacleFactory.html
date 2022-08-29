@@ -95,14 +95,34 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createAoeSpeedArtefact()" class="member-name-link">createAoeSpeedArtefact</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">creates an AOE artefact that changes player speed in an area of effect around the artefact.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createKnockbackTower()" class="member-name-link">createKnockbackTower</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a Knockback tower entity, which knocks players back on contact</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createRock()" class="member-name-link">createRock</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a rock entity.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTree()" class="member-name-link">createTree</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createSpikyBush()" class="member-name-link">createSpikyBush</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a spiky bush entity, which damages players and knocks them back on contact</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTree()" class="member-name-link">createTree</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a tree entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createVine()" class="member-name-link">createVine</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a vine entity, which slows players down</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWall(float,float)" class="member-name-link">createWall</a><wbr>(float&nbsp;width,
@@ -145,6 +165,50 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a rock entity.
  Placeholder image from:
  <a href='https://www.freepik.com/vectors/sea-monster'>Sea monster vector created by macrovector - www.freepik.com</a></div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createVine()">
+<h3>createVine</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createVine</span>()</div>
+<div class="block">Creates a vine entity, which slows players down</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createSpikyBush()">
+<h3>createSpikyBush</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createSpikyBush</span>()</div>
+<div class="block">Creates a spiky bush entity, which damages players and knocks them back on contact</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createKnockbackTower()">
+<h3>createKnockbackTower</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createKnockbackTower</span>()</div>
+<div class="block">Creates a Knockback tower entity, which knocks players back on contact</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createAoeSpeedArtefact()">
+<h3>createAoeSpeedArtefact</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createAoeSpeedArtefact</span>()</div>
+<div class="block">creates an AOE artefact that changes player speed in an area of effect around the artefact.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>entity</dd>
