@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
@@ -90,6 +91,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.B:
         toggleBuildState();
         return true;
+      case Keys.O:
+        triggerCrystalAttacked();
+        return true;
+      case Keys.U:
+        triggerCrystalUpgrade();
+        return true;
       default:
         return false;
     }
@@ -127,7 +134,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         if (isClear || numWall == 0) {
           triggerBuildEvent();
         }*/
-        triggerBuildEvent();
+        triggerBuildEvent("wall");
       }
     }
     return true;
@@ -183,7 +190,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /**
    * Builds a structure at mouse position
    */
-  private void triggerBuildEvent() {
+  private void triggerBuildEvent(String name) {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -191,8 +198,31 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     mousePosV2.x -= 0.5;
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
-    entityName = "wall" + entityName;
-    ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
-    ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+    entityName = name + entityName;
+    if (name == "wall") {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+    }
   }
+
+  /**
+   * Damages crystal to imitate crystal being attacked (for testing purposes)
+   */
+  private void triggerCrystalAttacked() {
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+    int health = combatStatsComponent.getHealth();
+    combatStatsComponent.setHealth(health - 10);
+  }
+
+  /**
+   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
+   */
+  private void triggerCrystalUpgrade() {
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    crystal.getComponent(CombatStatsComponent.class).upgrade();
+    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+  }
+
 }
