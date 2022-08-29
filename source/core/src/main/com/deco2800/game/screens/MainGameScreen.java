@@ -59,11 +59,13 @@ public class MainGameScreen extends ScreenAdapter {
   public MainGameScreen(AtlantisSinks game, CareTaker playerStatus) {
     this.game = game;
 
+    // creates new caretaker if no caretaker object exists
     if (playerStatus == null) {
       this.playerStatus = new CareTaker();
     } else {
       this.playerStatus = playerStatus;
     }
+
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -89,11 +91,6 @@ public class MainGameScreen extends ScreenAdapter {
     this.forestGameArea = new ForestGameArea(terrainFactory, playerStatus);
     forestGameArea.create();
     createUI();
-
-    if (playerStatus.getAll().size() != 0) {
-      System.out.println(playerStatus.get(playerStatus.getAll().size() - 1).getItemList());
-      System.out.println(playerStatus.get(playerStatus.getAll().size() - 1).getGold());
-    }
   }
 
   @Override
