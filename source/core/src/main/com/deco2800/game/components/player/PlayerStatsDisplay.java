@@ -90,10 +90,10 @@ public class PlayerStatsDisplay extends UIComponent {
     table.add(crystalBarImage).size(200f,30f).pad(5);
     table.row();
     table.add(coinImage);
-    table.add(coinLabel);
+    table.add(coinLabel).left().pad(0,0,0,0);
     table.row();
     table.add(stoneCurrencyImage);
-    table.add(stoneCurrencyLabel);
+    table.add(stoneCurrencyLabel).left().pad(0,0,0,0);
     table.row();
     stage.addActor(table);
   }
