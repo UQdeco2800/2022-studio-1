@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * the caretaker object records and stores the player state into the internal player for the engine to retrieve in the
+ * the caretaker object records and stores the player state into the internal memory for the engine to retrieve in the
  * future
  */
 public class CareTaker {
