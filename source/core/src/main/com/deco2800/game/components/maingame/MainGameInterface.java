@@ -1,6 +1,5 @@
 package com.deco2800.game.components.maingame;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -38,32 +37,29 @@ public class MainGameInterface extends UIComponent {
         leftSideTable.bottom().left();
         leftSideTable.setFillParent(true);
 
-
-        //Entering the Shop Button
+        // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
         TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
         TextureRegionDrawable downShop = new TextureRegionDrawable(shopTexture);
-        ImageButton shopButton = new ImageButton(upShop,downShop);
+        ImageButton shopButton = new ImageButton(upShop, downShop);
 
-
-        //Entering the Inventory Button -- need to add the inventory button
+        // Entering the Inventory Button -- need to add the inventory button
         Texture inventoryTexture = new Texture(Gdx.files.internal("images/inventory.png"));
         TextureRegionDrawable downInventory = new TextureRegionDrawable(inventoryTexture);
         TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
-        ImageButton inventoryButton = new ImageButton(upInventory,downInventory);
+        ImageButton inventoryButton = new ImageButton(upInventory, downInventory);
 
         // the building button
         Texture buildingTexture = new Texture(Gdx.files.internal("images/Building_Button.png"));
         TextureRegionDrawable upBuilding = new TextureRegionDrawable(buildingTexture);
         TextureRegionDrawable downBuilding = new TextureRegionDrawable(buildingTexture);
-        ImageButton buildingButton = new ImageButton(upBuilding,downBuilding);
+        ImageButton buildingButton = new ImageButton(upBuilding, downBuilding);
 
-        //the achievements button
+        // the achievements button
         Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
         TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
         TextureRegionDrawable downAchievements = new TextureRegionDrawable(achievementsTexture);
-        ImageButton achievementsButton = new ImageButton(upAchievements,downAchievements);
-
+        ImageButton achievementsButton = new ImageButton(upAchievements, downAchievements);
 
         // Triggers an event when the button is pressed.
         inventoryButton.addListener(
@@ -75,7 +71,7 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
-        //Trigger for an achievement
+        // Trigger for an achievement
         achievementsButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -94,18 +90,23 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
-
-        //insert shop linkage here
-
+        // trigger for shop button
+        shopButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Shop button clicked");
+                        entity.getEvents().trigger("shop");
+                    }
+                });
 
         rightSideTable.add(inventoryButton).right().bottom().size(100f, 100f);
-        //adding building button to the right
+        // adding building button to the right
         rightSideTable.add(buildingButton).right().bottom();
-        //adding shop button to the left
-        leftSideTable.add(shopButton).left().bottom().size(180f,180f);
-        //adding settings to the left
-        leftSideTable.add(achievementsButton).left().bottom().size(100f,100f);
-
+        // adding shop button to the left
+        leftSideTable.add(shopButton).left().bottom().size(180f, 180f);
+        // adding settings to the left
+        leftSideTable.add(achievementsButton).left().bottom().size(100f, 100f);
 
         stage.addActor(leftSideTable);
         stage.addActor(rightSideTable);
@@ -128,5 +129,3 @@ public class MainGameInterface extends UIComponent {
         super.dispose();
     }
 }
-
-

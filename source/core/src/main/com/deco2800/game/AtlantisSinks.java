@@ -7,6 +7,9 @@ import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.screens.MainMenuScreen;
 import com.deco2800.game.screens.SettingsScreen;
+import com.deco2800.game.screens.ShopArtefactScreen;
+import com.deco2800.game.screens.ShopBuildScreen;
+import com.deco2800.game.screens.ShopScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +59,8 @@ public class AtlantisSinks extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
+    } else if (screenType == ScreenType.SHOP) {
+      Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
@@ -82,13 +87,19 @@ public class AtlantisSinks extends Game {
         return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
+      case SHOP:
+        return new ShopScreen(this);
+      case BUILD_SHOP:
+        return new ShopBuildScreen(this);
+      case ARTEFACT_SHOP:
+        return new ShopArtefactScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS
+    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP
   }
 
   /**
