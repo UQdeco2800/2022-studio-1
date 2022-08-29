@@ -95,8 +95,6 @@ public class NPCFactory {
   public static Entity createPirateCrabEnemy(Entity target) {
     Entity pirateCrabEnemy = createBaseNPC(target);
     BaseEntityConfig config = configs.giantCrab;
-
-    //String path= ServiceLocator.getResourceService().getAsset(,Texture.class).toString();//
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
 
 
