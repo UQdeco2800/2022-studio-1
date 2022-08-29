@@ -20,8 +20,8 @@ import com.deco2800.game.services.ServiceLocator;
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
-  private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(6, 6);
-  private static final int CLIFF_HEIGHT = 2;
+  private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(4, 4);
+  private static final int CLIFF_HEIGHT = 1;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -43,6 +43,7 @@ public class TerrainFactory {
    */
   public TerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
     this.camera = (OrthographicCamera) cameraComponent.getCamera();
+    this.camera.zoom += 0.2;
     this.orientation = orientation;
   }
 
@@ -157,12 +158,6 @@ public class TerrainFactory {
       GridPoint2 waterDimensions,
       TerrainTile cliffTile,
       TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
-    // layer.setCell(waterDimensions.x, waterDimensions.y - 1, leftCorner);
-    // layer.setCell(waterDimensions.x + 1, waterDimensions.y - 2, leftCorner2);
-    // layer.setCell(waterDimensions.x + islandSize.x + 1, waterDimensions.y +
-    // islandSize.y, rightCorner);
-    // layer.setCell(waterDimensions.x + islandSize.x + 2, waterDimensions.y +
-    // islandSize.y - 1, rightCorner2);
 
     // Cliff Edges
     for (int i = 0; i < CLIFF_HEIGHT; i++) {
@@ -173,26 +168,25 @@ public class TerrainFactory {
       cornerRight.setTile(cliffRightTile);
 
       layer.setCell(waterDimensions.x + i, waterDimensions.y - (i + 1), cornerLeft);
-      layer.setCell(waterDimensions.x + islandSize.x + i + 1, waterDimensions.y + islandSize.y - i, cornerRight);
+      layer.setCell(waterDimensions.x + islandSize.x + i, waterDimensions.y + islandSize.y - i - 1, cornerRight);
     }
 
-    for (int x = waterDimensions.x + 1; x <= waterDimensions.x + islandSize.x + 1; x++) {
-      Cell cell = new Cell();
-      Cell lowerCell = new Cell();
-      cell.setTile(cliffTile);
-      lowerCell.setTile(cliffTile);
-      layer.setCell(x, waterDimensions.y - 1, cell);
-      layer.setCell(x + 1, waterDimensions.y - 2, cell);
+    // Add Cliffs -- left side
+    for (int x = waterDimensions.x + 1; x <= waterDimensions.x + islandSize.x; x++) {
+      for (int i = 0; i < CLIFF_HEIGHT; i++) {
+        Cell cell = new Cell();
+        cell.setTile(cliffTile);
+        layer.setCell(x + i, waterDimensions.y - (1 + i), cell);
+      }
     }
 
     // Add Cliffs -- right side
-    for (int y = waterDimensions.y; y < waterDimensions.y + islandSize.y; y++) {
-      Cell cell = new Cell();
-      Cell lowerCell = new Cell();
-      cell.setTile(cliffTile);
-      lowerCell.setTile(cliffTile);
-      layer.setCell(waterDimensions.x + islandSize.x + 1, y, cell);
-      layer.setCell(waterDimensions.x + islandSize.x + 2, y - 1, cell);
+    for (int y = waterDimensions.y; y < waterDimensions.y + islandSize.y - 1; y++) {
+      for (int i = 0; i < CLIFF_HEIGHT; i++) {
+        Cell cell = new Cell();
+        cell.setTile(cliffTile);
+        layer.setCell(waterDimensions.x + islandSize.x + i, y - i, cell);
+      }
     }
 
   }

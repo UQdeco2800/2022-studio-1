@@ -39,7 +39,7 @@ public class MainGameScreen extends ScreenAdapter {
 
   private static final String[] mainGameTextures = { "images/heart.png" };
 
-  private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(180f, 0f);
 
   private final GdxGame game;
   private final Renderer renderer;
