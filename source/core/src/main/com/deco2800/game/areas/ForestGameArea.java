@@ -1,7 +1,5 @@
 package com.deco2800.game.areas;
 
-
-
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.components.CombatStatsComponent;
@@ -41,53 +39,52 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_ROCKS = 3;
 
   private static final String[] forestTextures = {
-    "images/box_boy_leaf.png",
-    "images/tree.png",
-    "images/ghost_king.png",
-    "images/ghost_1.png",
-    "images/grass_1.png",
-    "images/grass_2.png",
-    "images/grass_3.png",
-    "images/hex_grass_1.png",
-    "images/hex_grass_2.png",
-    "images/hex_grass_3.png",
-    "images/iso_grass_1.png",
-    "images/iso_grass_2.png",
-    "images/iso_grass_3.png",
-    "images/water version 2.png",
-    "images/fullSizedDirt.png",
-    "images/waterDirtMerged.png",
-    "images/trial3GrassTile.png",
-    "images/wallTransparent.png",
-    "images/landscape_objects/almond-tree-60x62.png",
-    "images/landscape_objects/fig-tree-60x62.png",
-    "images/landscape_objects/limestone-boulder-60x60.png",
-    "images/landscape_objects/marble-stone-60x40.png",
-    "images/landscape_objects/vines.png",
-    "images/landscape_objects/cypress-tree-60x100.png",
-    "images/landscape_objects/geyser.png",
-    "images/landscape_objects/billboard.png",
-    "images/landscape_objects/chalice.png",
-    "images/landscape_objects/pillar.png",
-    "images/landscape_objects/wooden-fence-60x60.png",
-    "images/pirate_crab_NE.png",
-    "images/pirate_crab_NW.png",
-    "images/pirate_crab_SE.png",
-    "images/pirate_crab_SW.png",
-    "images/crystal.png",
-    "images/stoneQuarryTest.png"
+      "images/box_boy_leaf.png",
+      "images/tree.png",
+      "images/ghost_king.png",
+      "images/ghost_1.png",
+      "images/grass_1.png",
+      "images/grass_2.png",
+      "images/grass_3.png",
+      "images/hex_grass_1.png",
+      "images/hex_grass_2.png",
+      "images/hex_grass_3.png",
+      "images/iso_grass_1.png",
+      "images/iso_grass_2.png",
+      "images/iso_grass_3.png",
+      "images/water version 2.png",
+      "images/fullSizedDirt.png",
+      "images/waterDirtMerged.png",
+      "images/trial3GrassTile.png",
+      "images/wallTransparent.png",
+      "images/landscape_objects/almond-tree-60x62.png",
+      "images/landscape_objects/fig-tree-60x62.png",
+      "images/landscape_objects/limestone-boulder-60x60.png",
+      "images/landscape_objects/marble-stone-60x40.png",
+      "images/landscape_objects/vines.png",
+      "images/landscape_objects/cypress-tree-60x100.png",
+      "images/landscape_objects/geyser.png",
+      "images/landscape_objects/billboard.png",
+      "images/landscape_objects/chalice.png",
+      "images/landscape_objects/pillar.png",
+      "images/landscape_objects/wooden-fence-60x60.png",
+      "images/pirate_crab_NE.png",
+      "images/pirate_crab_NW.png",
+      "images/pirate_crab_SE.png",
+      "images/pirate_crab_SW.png",
+      "images/crystal.png",
+      "images/stoneQuarryTest.png"
   };
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
   private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
-  public static final String[] walkSound = {"sounds/footsteps_grass_single.mp3"};
+  public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
 
-  private static final String[] forestMusic = {backgroundMusic};
+  private static final String[] forestMusic = { backgroundMusic };
   private EnvironmentalCollision entityMapping;
-
 
   private final TerrainFactory terrainFactory;
 
@@ -111,10 +108,11 @@ public class ForestGameArea extends GameArea {
 
     spawnTerrain();
 
-    //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
+    // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
+    // objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
-    crystal = spawnCrystal(60, 60);
+    crystal = spawnCrystal(59, 59);
 
     player = spawnPlayer();
 
@@ -154,8 +152,10 @@ public class ForestGameArea extends GameArea {
 
   /**
    * spawns environmental objects based off semi-random bounds
+   * 
    * @param numObjects the number of objects to be spawned
-   * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
+   * @param type       the type of object, from
+   *                   EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
     GridPoint2 minPos = new GridPoint2(46, 48);
@@ -194,19 +194,19 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createWoodenFence();
           break;
         case ROCK:
-          //falls through to default
+          // falls through to default
         default:
           envObj = ObstacleFactory.createRock();
       }
 
       int counter = 0;
-      //check for possible collision and reroll location until valid
+      // check for possible collision and reroll location until valid
       while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
-              || entityMapping.isNearWater(randomPos.x, randomPos.y) ) {
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
 
-        //safety to avoid infinite looping on loading screen.
-        //If cant spawn the object then space has ran out on map
+        // safety to avoid infinite looping on loading screen.
+        // If cant spawn the object then space has ran out on map
         if (counter > 1000) {
           return;
         }
@@ -227,7 +227,7 @@ public class ForestGameArea extends GameArea {
   private void spawnEnvironmentalObjects() {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
 
-    //semi random rocks and trees
+    // semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
@@ -236,8 +236,8 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
     objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
 
-    //Remaining number of objects can be spawned off raw percentage?
-    //placeholder functions below:
+    // Remaining number of objects can be spawned off raw percentage?
+    // placeholder functions below:
     int numVines = objectsRemaining;
     spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalObstacle.VINE);
     objectsRemaining = objectsRemaining - numVines;
@@ -249,29 +249,27 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
   }
 
-
-
   /**
    * removes an entity at a specific tile coordinate
    * goes through areaEntities to find entity in that position
    * check if entity is an environment object
    * put inside separate list first to avoid ConcurrentModificationException
+   * 
    * @param removeTile The tile where environment entities is removed
    * @return a tuple containing resource type and its value
    */
   public ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> removeEnvironmentalObject(GridPoint2 removeTile) {
     Vector2 removeLoc = terrain.tileToWorldPosition(removeTile);
     List<Entity> found = new ArrayList<Entity>();
-    ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> values =
-            new ValueTuple<>(EnvironmentalComponent.ResourceTypes.NONE, 0);
+    ValueTuple<EnvironmentalComponent.ResourceTypes, Integer> values = new ValueTuple<>(
+        EnvironmentalComponent.ResourceTypes.NONE, 0);
     for (Entity entity : this.areaEntities) {
-      if(entity.getPosition() == removeLoc &&
-              entity.getComponent(EnvironmentalComponent.class) != null) {
+      if (entity.getPosition() == removeLoc &&
+          entity.getComponent(EnvironmentalComponent.class) != null) {
         found.add(entity);
         values = new ValueTuple<>(
-                entity.getComponent(EnvironmentalComponent.class).getType(),
-                entity.getComponent(EnvironmentalComponent.class).getResourceAmount()
-        );
+            entity.getComponent(EnvironmentalComponent.class).getType(),
+            entity.getComponent(EnvironmentalComponent.class).getResourceAmount());
       }
     }
     this.areaEntities.removeAll(found);
@@ -300,25 +298,25 @@ public class ForestGameArea extends GameArea {
   /**
    * Spawns a Pirate Crab entity at a randomised position within the game world
    */
-  private void spawnPirateCrabEnemy(){
+  private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
 
-    GridPoint2 minPos = new GridPoint2(0,0);
+    GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0);
-    GridPoint2 randomPos = RandomUtils.random(minPos,maxPos);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
     int counter = 0;
 
     while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
-           ||entityMapping.isNearWater(randomPos.x, randomPos.y)){
-      randomPos = RandomUtils.random(minPos,maxPos);
-      if (counter > 1000){
+        || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+      randomPos = RandomUtils.random(minPos, maxPos);
+      if (counter > 1000) {
         return;
       }
       counter++;
     }
 
-    spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
+    spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
   }
 
   private void playMusic() {

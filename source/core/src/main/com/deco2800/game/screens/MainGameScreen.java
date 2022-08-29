@@ -47,7 +47,7 @@ public class MainGameScreen extends ScreenAdapter {
           "atlantisBasicBackground.png"
   };
 
-  private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(180f, 0f);
 
   private final AtlantisSinks game;
   private final Renderer renderer;
