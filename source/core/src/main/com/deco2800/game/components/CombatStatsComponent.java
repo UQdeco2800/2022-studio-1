@@ -2,6 +2,8 @@ package com.deco2800.game.components;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.badlogic.gdx.audio.Sound;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Component used to store information related to combat such as health, attack, etc. Any entities
@@ -87,5 +89,7 @@ public class CombatStatsComponent extends Component {
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+    Sound playerDamageSound = ServiceLocator.getResourceService().getAsset("sounds/hurt.mp3", Sound.class);
+    playerDamageSound.play();
   }
 }
