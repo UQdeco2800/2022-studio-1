@@ -44,30 +44,30 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestTextures = {
 
-    "images/box_boy_leaf.png",
-    "images/tree.png",
-    "images/ghost_king.png",
-    "images/ghost_1.png",
-    "images/grass_1.png",
-    "images/grass_2.png",
-    "images/grass_3.png",
-    "images/hex_grass_1.png",
-    "images/hex_grass_2.png",
-    "images/hex_grass_3.png",
-    "images/iso_grass_1.png",
-    "images/iso_grass_2.png",
-    "images/iso_grass_3.png",
-    "images/rock_placeholder_image.png",
-    "images/vine_placeholder.png",
-    "images/spiky_bush_placeholder.png",
-    "images/speed_tower_placeholder.png",
-    "images/knockback_tower_placeholder.png",
-    "images/water version 2.png",
-    "images/fullSizedDirt.png",
-    "images/waterDirtMerged.png",
-    "images/trial3GrassTile.png",
-    "images/rock_placeholder_image.png",
-              "images/wallTransparent.png"
+      "images/box_boy_leaf.png",
+      "images/tree.png",
+      "images/ghost_king.png",
+      "images/ghost_1.png",
+      "images/grass_1.png",
+      "images/grass_2.png",
+      "images/grass_3.png",
+      "images/hex_grass_1.png",
+      "images/hex_grass_2.png",
+      "images/hex_grass_3.png",
+      "images/iso_grass_1.png",
+      "images/iso_grass_2.png",
+      "images/iso_grass_3.png",
+      "images/rock_placeholder_image.png",
+      "images/vine_placeholder.png",
+      "images/spiky_bush_placeholder.png",
+      "images/speed_tower_placeholder.png",
+      "images/knockback_tower_placeholder.png",
+      "images/water version 2.png",
+      "images/fullSizedDirt.png",
+      "images/waterDirtMerged.png",
+      "images/trial3GrassTile.png",
+      "images/rock_placeholder_image.png",
+      "images/wallTransparent.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -76,9 +76,8 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestSounds = { "sounds/Impact4.ogg" };
   private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
 
-  private static final String[] forestMusic = {backgroundMusic};
+  private static final String[] forestMusic = { backgroundMusic };
   private EnvironmentalCollision entityMapping;
-
 
   private final TerrainFactory terrainFactory;
 
@@ -101,10 +100,11 @@ public class ForestGameArea extends GameArea {
 
     spawnTerrain();
 
-    //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
+    // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
+    // objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
-    spawnWall(60,60);
+    spawnWall(60, 60);
 
     player = spawnPlayer();
 
@@ -141,8 +141,10 @@ public class ForestGameArea extends GameArea {
 
   /**
    * spawns environmental objects based off semi-random bounds
+   * 
    * @param numObjects the number of objects to be spawned
-   * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
+   * @param type       the type of object, from
+   *                   EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
     GridPoint2 minPos = new GridPoint2(0, 0);
@@ -168,12 +170,12 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createKnockbackTower();
           break;
         case ROCK:
-          //falls through to default
+          // falls through to default
         default:
           envObj = ObstacleFactory.createRock();
       }
 
-      //check for possible collision and reroll location until valid
+      // check for possible collision and reroll location until valid
       while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
       }
@@ -190,7 +192,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnvironmentalObjects() {
 
-    //semi random rocks and trees
+    // semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
@@ -199,8 +201,8 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
     objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
 
-    //Remaining number of objects can be spawned off raw percentage?
-    //placeholder functions below:
+    // Remaining number of objects can be spawned off raw percentage?
+    // placeholder functions below:
     int numVines = objectsRemaining;
     spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalObstacle.VINE);
     objectsRemaining = objectsRemaining - numVines;
@@ -210,19 +212,19 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
   }
 
-
-
-  /*removes an entity at a specific tile coordinate
-   *@param removeTile The tile where environment entities is removed
+  /*
+   * removes an entity at a specific tile coordinate
+   * 
+   * @param removeTile The tile where environment entities is removed
    */
   private void removeEnvironmentalObject(GridPoint2 removeTile) {
     Vector2 removeLoc = terrain.tileToWorldPosition(removeTile);
     List<Entity> found = new ArrayList<Entity>();
-    //go through areaEntities to find entity in that position
+    // go through areaEntities to find entity in that position
     for (Entity entity : this.areaEntities) {
-      if(entity.getPosition() == removeLoc &&
-              //check if entity is an environment object
-              entity.getComponent(EnvironmentalComponent.class) != null) {
+      if (entity.getPosition() == removeLoc &&
+      // check if entity is an environment object
+          entity.getComponent(EnvironmentalComponent.class) != null) {
         // put inside separate list first to avoid ConcurrentModificationException
         found.add(entity);
       }

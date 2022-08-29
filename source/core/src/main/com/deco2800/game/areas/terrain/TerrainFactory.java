@@ -21,6 +21,7 @@ import com.deco2800.game.services.ServiceLocator;
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
   private static final GridPoint2 INITIAL_ISLAND_SIZE = new GridPoint2(6, 6);
+  private static final int CLIFF_HEIGHT = 2;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -156,18 +157,24 @@ public class TerrainFactory {
       GridPoint2 waterDimensions,
       TerrainTile cliffTile,
       TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
-    Cell leftCorner = new Cell();
-    Cell leftCorner2 = new Cell();
-    leftCorner.setTile(cliffLeftTile);
-    leftCorner2.setTile(cliffLeftTile);
-    Cell rightCorner = new Cell();
-    Cell rightCorner2 = new Cell();
-    rightCorner.setTile(cliffRightTile);
-    rightCorner2.setTile(cliffRightTile);
-    layer.setCell(waterDimensions.x, waterDimensions.y - 1, leftCorner);
-    layer.setCell(waterDimensions.x + 1, waterDimensions.y - 2, leftCorner2);
-    layer.setCell(waterDimensions.x + islandSize.x + 1, waterDimensions.y + islandSize.y, rightCorner);
-    layer.setCell(waterDimensions.x + islandSize.x + 2, waterDimensions.y + islandSize.y - 1, rightCorner2);
+    // layer.setCell(waterDimensions.x, waterDimensions.y - 1, leftCorner);
+    // layer.setCell(waterDimensions.x + 1, waterDimensions.y - 2, leftCorner2);
+    // layer.setCell(waterDimensions.x + islandSize.x + 1, waterDimensions.y +
+    // islandSize.y, rightCorner);
+    // layer.setCell(waterDimensions.x + islandSize.x + 2, waterDimensions.y +
+    // islandSize.y - 1, rightCorner2);
+
+    // Cliff Edges
+    for (int i = 0; i < CLIFF_HEIGHT; i++) {
+      Cell cornerLeft = new Cell();
+      Cell cornerRight = new Cell();
+
+      cornerLeft.setTile(cliffLeftTile);
+      cornerRight.setTile(cliffRightTile);
+
+      layer.setCell(waterDimensions.x + i, waterDimensions.y - (i + 1), cornerLeft);
+      layer.setCell(waterDimensions.x + islandSize.x + i + 1, waterDimensions.y + islandSize.y - i, cornerRight);
+    }
 
     for (int x = waterDimensions.x + 1; x <= waterDimensions.x + islandSize.x + 1; x++) {
       Cell cell = new Cell();
