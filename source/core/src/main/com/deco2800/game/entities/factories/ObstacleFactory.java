@@ -23,7 +23,6 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    //TODO CHECK THIS WORKS LMAO - WHOLE WAY DOWN THE PAGE
     String[] sprites = {"images/landscape_objects/almond-tree-60x62.png", "images/landscape_objects/fig-tree-60x62.png"};
     int index = (int) ((Math.random() * (sprites.length)));
     return createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
@@ -92,14 +91,23 @@ public class ObstacleFactory {
     artefact.addComponent(new HitboxComponent());
     artefact.getComponent(HitboxComponent.class).setAsBox(aoeSize);
     artefact.getComponent(CollisionEffectComponent.class).setAoe(true);
+    artefact.getComponent(CollisionEffectComponent.class).setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
     return artefact;
   }
 
+  /**
+   * creates a pillar entity
+   * @return entity
+   */
   public static Entity createPillar() {
     return createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR,
             3f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
+  /**
+   * creates a wooden fence entity
+   * @return entity
+   */
   public static Entity createWoodenFence() {
     return createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
             0.8f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
@@ -126,7 +134,7 @@ public class ObstacleFactory {
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);
-    PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY); //todo ask logan about this lol
+    PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
     return environmentalObject;
   }
 
