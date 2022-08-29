@@ -13,10 +13,20 @@ public class CombatStatsComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
   private int baseAttack;
+  private int level;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+  }
+
+  /**
+   * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
+   */
+  public CombatStatsComponent(int health, int baseAttack, int level) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setLevel(level);
   }
 
   /**
@@ -37,6 +47,8 @@ public class CombatStatsComponent extends Component {
     return health;
   }
 
+  public int getLevel(){ return level; }
+
   /**
    * Sets the entity's health. Health has a minimum bound of 0.
    *
@@ -50,6 +62,14 @@ public class CombatStatsComponent extends Component {
     }
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
+    }
+  }
+
+  public void setLevel(int level) {
+      this.level = level;
+
+    if (entity != null) {
+      entity.getEvents().trigger("updateLevel", this.level);
     }
   }
 
@@ -88,4 +108,13 @@ public class CombatStatsComponent extends Component {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
   }
+
+  /**
+   * Upgrades the level of the entity (mainly Crystal) and increases its health
+   */
+  public void upgrade(){
+    setLevel(this.level+1);
+    addHealth(100);
+  }
+
 }

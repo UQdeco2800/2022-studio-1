@@ -69,6 +69,8 @@ public class PlayerStatsDisplay extends UIComponent {
     //Crystal bar
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
 
+
+
     //Stone image
     stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stone.png", Texture.class));
 
@@ -88,10 +90,11 @@ public class PlayerStatsDisplay extends UIComponent {
     table.add(crystalBarImage).size(200f,30f).pad(5);
     table.row();
     table.add(coinImage);
-    table.add(coinLabel);
+    table.add(coinLabel).pad(0,0,0,0).left();
     table.row();
     table.add(stoneCurrencyImage);
-    table.add(stoneCurrencyLabel);
+    table.add(stoneCurrencyLabel).pad(0,0,0,0).left();
+    
     table.row();
     stage.addActor(table);
   }

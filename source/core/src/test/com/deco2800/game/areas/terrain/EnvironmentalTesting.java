@@ -21,26 +21,28 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @ExtendWith(GameExtension.class)
 class EnvironmentalTesting {
 
     @Test
     void createdEnvironmentalTree() {
-        EnvironmentalComponent tree = new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE);
+        EnvironmentalComponent tree = new EnvironmentalComponent()
+                .setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE);
         assertEquals(tree.getType(), EnvironmentalComponent.ResourceTypes.WOOD);
     }
 
     @Test
     void assertCorrectEnvironmentalType() {
-        EnvironmentalComponent tree = new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE);
+        EnvironmentalComponent tree = new EnvironmentalComponent()
+                .setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE);
         assertTrue(tree.getObstacle() instanceof EnvironmentalComponent.EnvironmentalObstacle);
     }
 
     @Test
     void assertValuesGreaterZeroEnvironmentalObjects() {
         EnvironmentalComponent component = new EnvironmentalComponent();
-        for (EnvironmentalComponent.EnvironmentalObstacle obstacle: EnvironmentalComponent.EnvironmentalObstacle.values()) {
+        for (EnvironmentalComponent.EnvironmentalObstacle obstacle : EnvironmentalComponent.EnvironmentalObstacle
+                .values()) {
             component.setObstacle(obstacle);
             assertTrue(component.getResourceAmount() >= 0);
         }
@@ -49,7 +51,8 @@ class EnvironmentalTesting {
     @Test
     void assertValuesCorrectTypeEnvironmentalObject() {
         EnvironmentalComponent component = new EnvironmentalComponent();
-        for (EnvironmentalComponent.EnvironmentalObstacle obstacle: EnvironmentalComponent.EnvironmentalObstacle.values()) {
+        for (EnvironmentalComponent.EnvironmentalObstacle obstacle : EnvironmentalComponent.EnvironmentalObstacle
+                .values()) {
             component.setObstacle(obstacle);
             assertTrue(component.getType() instanceof EnvironmentalComponent.ResourceTypes);
         }
@@ -58,15 +61,15 @@ class EnvironmentalTesting {
     @Test
     void assertSetAoeNullProtection() {
         ServiceLocator.registerPhysicsService(new PhysicsService());
-       Entity entity = new Entity()
+        Entity entity = new Entity()
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent())
                 .addComponent(new EnvironmentalComponent())
                 .addComponent(new CollisionEffectComponent(CollisionEffectComponent.CollisionEffect.DIVERT, 0.5f));
-       entity.create();
-       CollisionEffectComponent cec = entity.getComponent(CollisionEffectComponent.class);
-       cec.setAoe(true);
-       assertEquals(cec.isAoe(), false);
+        entity.create();
+        CollisionEffectComponent cec = entity.getComponent(CollisionEffectComponent.class);
+        cec.setAoe(true);
+        assertEquals(cec.isAoe(), false);
     }
 
     @Test
@@ -82,13 +85,13 @@ class EnvironmentalTesting {
 
         entity.getEvents().trigger("collisionStart", entityFixture, targetFixture);
 
-        //account for floating point errors
+        // account for floating point errors
         assertTrue(initialSpeed.x * 0.5f - target.getComponent(PlayerActions.class).getPlayerSpeed().x < 0.001f);
         assertTrue(initialSpeed.y * 0.5f - target.getComponent(PlayerActions.class).getPlayerSpeed().y < 0.001f);
 
         entity.getEvents().trigger("collisionEnd", entityFixture, targetFixture);
 
-        assertTrue(initialSpeed.x - target.getComponent(PlayerActions.class).getPlayerSpeed().x  < 0.001f);
+        assertTrue(initialSpeed.x - target.getComponent(PlayerActions.class).getPlayerSpeed().x < 0.001f);
         assertTrue(initialSpeed.y - target.getComponent(PlayerActions.class).getPlayerSpeed().y < 0.001f);
     }
 
@@ -105,6 +108,7 @@ class EnvironmentalTesting {
         assertEquals(0, target.getComponent(CombatStatsComponent.class).getHealth());
 
     }
+
     @Test
     void assertEffectTargetWorks() {
         ServiceLocator.registerPhysicsService(new PhysicsService());
@@ -112,7 +116,8 @@ class EnvironmentalTesting {
         Entity entity = createCollisionObject(CollisionEffectComponent.CollisionEffect.DAMAGE);
         Entity player = createPlayer();
         Entity npc = createNpc();
-        entity.getComponent(CollisionEffectComponent.class).setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
+        entity.getComponent(CollisionEffectComponent.class)
+                .setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
 
         Fixture entityFixture = entity.getComponent(ColliderComponent.class).getFixture();
         Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
@@ -155,22 +160,25 @@ class EnvironmentalTesting {
         return object;
     }
 
-
     @Test
     void assertCollisionAddWorksEnvironmentalObject() {
 
         ServiceLocator.registerResourceService(new ResourceService());
 
-        Entity tree = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-        Entity rock = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
-        Entity vine = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
+        Entity tree = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
+        Entity rock = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
+        Entity vine = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
 
-        EnvironmentalCollision collision = new EnvironmentalCollision(new TerrainComponent(null, null, null, null, 1f));
+        EnvironmentalCollision collision = new EnvironmentalCollision(
+                new TerrainComponent(null, null, null, null, 1f, null));
         collision.addEntity(tree);
         collision.addEntity(rock);
         collision.addEntity(vine);
 
-        //only 1 is expected as hashmap is used.
+        // only 1 is expected as hashmap is used.
         assertEquals(1, collision.getEntities().size());
     }
 
@@ -179,11 +187,15 @@ class EnvironmentalTesting {
 
         ServiceLocator.registerResourceService(new ResourceService());
 
-        Entity tree = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-        Entity rock = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
-        Entity vine = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
+        Entity tree = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
+        Entity rock = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
+        Entity vine = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
 
-        EnvironmentalCollision collision = new EnvironmentalCollision(new TerrainComponent(null, null, null, null, 1f));
+        EnvironmentalCollision collision = new EnvironmentalCollision(
+                new TerrainComponent(null, null, null, null, 1f, null));
         tree.setPosition(10, 10);
         collision.addEntity(tree);
         rock.setPosition(20, 20);
@@ -197,46 +209,58 @@ class EnvironmentalTesting {
     @Test
     void assertCollisionTrueSingleEnvironmentalObject() {
 
-    ServiceLocator.registerResourceService(new ResourceService());
+        ServiceLocator.registerResourceService(new ResourceService());
 
-        Entity tree = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-        Entity rock = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
-        Entity vine = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
+        Entity tree = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
+        Entity rock = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
+        Entity vine = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
 
-        EnvironmentalCollision collision = new EnvironmentalCollision(new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f));
+        EnvironmentalCollision collision = new EnvironmentalCollision(
+                new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f,
+                        null));
 
         collision.addEntity(tree);
 
         assertTrue(collision.wouldCollide(rock, 0, 0));
     }
 
-
     @Test
     void assertCollisionFalseSingleEnvironmentalObject() {
 
         ServiceLocator.registerResourceService(new ResourceService());
 
-        Entity tree = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-        Entity rock = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
-        Entity vine = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
+        Entity tree = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
+        Entity rock = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
+        Entity vine = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.VINE));
 
-        EnvironmentalCollision collision = new EnvironmentalCollision(new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f));
+        EnvironmentalCollision collision = new EnvironmentalCollision(
+                new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f,
+                        null));
 
         collision.addEntity(tree);
 
         assertFalse(collision.wouldCollide(rock, 10, 10));
     }
 
-
     @Test
     void assertCollisionXSlightlyOffSingleEnvironmentalObject() {
 
         ServiceLocator.registerResourceService(new ResourceService());
 
-        Entity tree = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-        Entity rock = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
+        Entity tree = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
+        Entity rock = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
 
-        EnvironmentalCollision collision = new EnvironmentalCollision(new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f));
+        EnvironmentalCollision collision = new EnvironmentalCollision(
+                new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f,
+                        null));
 
         collision.addEntity(tree);
 
@@ -248,14 +272,17 @@ class EnvironmentalTesting {
 
         ServiceLocator.registerResourceService(new ResourceService());
 
-        Entity tree = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-        Entity rock = new Entity().addComponent( new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
+        Entity tree = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
+        Entity rock = new Entity().addComponent(
+                new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.ROCK));
 
-        EnvironmentalCollision collision = new EnvironmentalCollision(new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f));
+        EnvironmentalCollision collision = new EnvironmentalCollision(
+                new TerrainComponent(null, new TiledMap(), null, TerrainComponent.TerrainOrientation.ISOMETRIC, 0.5f,
+                        null));
 
         collision.addEntity(tree);
 
         assertTrue(collision.wouldCollide(rock, 0, 1));
     }
 }
-
