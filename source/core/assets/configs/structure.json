@@ -1,0 +1,12 @@
+{
+  "wall": {
+    "health": 40,
+    "baseAttack": 0
+  },
+
+  "tower1": {
+    "health": 200,
+    "baseAttack": 10
+  }
+}
+

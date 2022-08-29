@@ -1,10 +1,18 @@
 package com.deco2800.game.components.player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+
 
 /**
  * Input handler for the player for keyboard and touch (mouse) input.
@@ -12,6 +20,10 @@ import com.deco2800.game.utils.math.Vector2Utils;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
+
+  private boolean buildState = false;
+
+  private boolean buildEvent = false;
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -75,9 +87,82 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.sub(Vector2Utils.RIGHT);
         triggerWalkEvent();
         return true;
+      case Keys.B:
+        toggleBuildState();
+        return true;
       default:
         return false;
     }
+  }
+
+  /** @see InputProcessor#touchDown(int, int, int, int) */
+  @Override
+  public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+    if (pointer == Input.Buttons.LEFT) {
+      if (buildState) {
+        buildEvent = true;
+        /* Expiremental for wall removal
+        boolean isClear = false;
+        int numWall = -1;
+        Map<String, Entity> allEntities = ServiceLocator.getEntityService().getAllNamedEntities();
+        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+        for (Map.Entry<String, Entity> es : allEntities.entrySet()) {
+          if (es.getKey().startsWith("wall")) {
+            Vector2 wallPosition = es.getValue().getPosition();
+            if (mousePosV2.x >= wallPosition.x && mousePosV2.y >= wallPosition.y) {
+              if (mousePosV2.x <= wallPosition.x + 1 && mousePosV2.y <= wallPosition.y + 1) {
+                es.getValue().dispose();
+                buildEvent = false;
+                isClear = false;
+              }
+            } else {
+              isClear = true;
+            }
+          }
+          numWall++;
+        }
+        if (isClear || numWall == 0) {
+          triggerBuildEvent();
+        }*/
+        triggerBuildEvent();
+      }
+    }
+    return true;
+  }
+
+  /** @see InputProcessor#touchDragged(int, int, int) */
+  @Override
+  public boolean touchDragged (int screenX, int screenY, int pointer) {
+    if (buildState) {
+      if (buildEvent) {
+        if (pointer == Input.Buttons.LEFT) {
+          Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+          CameraComponent camComp = camera.getComponent(CameraComponent.class);
+          Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+          Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+          mousePosV2.x -= 0.5;
+          mousePosV2.y -= 0.5;
+          ServiceLocator.getEntityService().getLastEntity().setPosition(mousePosV2);
+        }
+      }
+    }
+    return true;
+  }
+
+  /** @see InputProcessor#touchUp(int, int, int, int) */
+  @Override
+  public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    if (buildState) {
+      if (buildEvent) {
+        if (pointer == Input.Buttons.LEFT) {
+          buildEvent = false;
+        }
+      }
+    }
+    return true;
   }
 
   private void triggerWalkEvent() {
@@ -86,5 +171,28 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     } else {
       entity.getEvents().trigger("walk", walkDirection);
     }
+  }
+
+  /**
+   * Toggles the build state of the player
+   */
+  private void toggleBuildState() {
+    buildState = !buildState;
+  }
+
+  /**
+   * Builds a structure at mouse position
+   */
+  private void triggerBuildEvent() {
+    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    mousePosV2.x -= 0.5;
+    mousePosV2.y -= 0.5;
+    String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
+    entityName = "wall" + entityName;
+    ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
+    ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
   }
 }

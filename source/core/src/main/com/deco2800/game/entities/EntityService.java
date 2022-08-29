@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class EntityService {
   private static final Logger logger = LoggerFactory.getLogger(EntityService.class);
-  private static final int INITIAL_CAPACITY = 16;
+  private static final int INITIAL_CAPACITY = 40;
 
   private final Array<Entity> entities = new Array<>(false, INITIAL_CAPACITY);
 
@@ -51,6 +51,23 @@ public class EntityService {
   public Entity getNamedEntity(String name) {
     return this.namedEntities.get(name);
   }
+
+  /**
+   * Returns the last registered entity
+   * @return the last registered entity or null
+   */
+  public Entity getLastEntity() {
+    return this.entities.get(this.entities.size-1);
+  }
+
+  /**
+   * Returns all registered entities
+   * @return all registered entities or null
+   */
+  public Map<String, Entity> getAllNamedEntities() {
+    return this.namedEntities;
+  }
+
 
   /**
    * Unregister an entity with the entity service. The entity will be removed and stop updating.
