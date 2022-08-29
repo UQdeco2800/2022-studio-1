@@ -64,7 +64,7 @@ public class Originator {
     /**
      * saves the amount of stone that the player currently have
      * 
-     * @param gold - amount of stone that the player current holds
+     * @param stone - amount of stone that the player current holds
      */
     public void setStone(int stone) {
         this.stone = stone;
