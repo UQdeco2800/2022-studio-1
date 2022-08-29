@@ -38,7 +38,7 @@ public class ObstacleFactory {
     String[] sprites = {"images/landscape_objects/limestone-boulder-60x60.png", "images/landscape_objects/marble-stone-60x40.png"};
     int index = (int) ((Math.random() * (sprites.length)));
     return createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+            0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
   /**
@@ -47,7 +47,7 @@ public class ObstacleFactory {
    */
   public static Entity createVine() {
     return createEnvironmentalObject("images/landscape_objects/vines.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
+            2f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
   }
 
   /**
@@ -64,8 +64,8 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createGeyser() {
-    return createEnvironmentalObject("images/landscape_objects/geyser.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 0.5f);
+    return createEnvironmentalObject("images/landscape_objects/geyser.png", EnvironmentalComponent.EnvironmentalObstacle.GEYSER,
+            1f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 0.5f);
   }
 
   /**
@@ -74,7 +74,7 @@ public class ObstacleFactory {
    */
   public static Entity createBillboard() {
     return createEnvironmentalObject("images/landscape_objects/billboard.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
+            3f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
   }
 
   /**
@@ -83,7 +83,7 @@ public class ObstacleFactory {
    */
   public static Entity createAoeSpeedArtefact() {
     Entity artefact = createEnvironmentalObject("images/landscape_objects/chalice.png", EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
-            0.3f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
+            0.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
     Vector2 aoeSize = new Vector2();
     Vector2 size = artefact.getScale();
     //sets aoe to twice the scale of the object
@@ -96,13 +96,13 @@ public class ObstacleFactory {
   }
 
   public static Entity createPillar() {
-    return createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.ROCK,
-            2.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    return createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR,
+            3f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
   public static Entity createWoodenFence() {
-    return createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.TREE,
-            2.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    return createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
+            0.8f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
 

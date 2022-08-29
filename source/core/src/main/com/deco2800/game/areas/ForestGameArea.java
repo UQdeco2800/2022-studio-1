@@ -173,6 +173,15 @@ public class ForestGameArea extends GameArea {
         case KNOCKBACK_TOWER:
           envObj = ObstacleFactory.createBillboard();
           break;
+        case STONE_PILLAR:
+          envObj = ObstacleFactory.createPillar();
+          break;
+        case GEYSER:
+          envObj = ObstacleFactory.createGeyser();
+          break;
+        case WOODEN_FENCE:
+          envObj = ObstacleFactory.createWoodenFence();
+          break;
         case ROCK:
           //falls through to default
         default:
@@ -225,6 +234,9 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.GEYSER);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
   }
 
 

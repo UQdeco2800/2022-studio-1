@@ -44,7 +44,10 @@ public class EnvironmentalComponent extends Component {
         SPIKY_BUSH(ResourceTypes.WOOD, 20),
         KNOCKBACK_TOWER(ResourceTypes.GOLD, 20),
         SPEED_ARTEFACT(ResourceTypes.GOLD, 1),
-        VINE(ResourceTypes.NONE, 0);
+        VINE(ResourceTypes.NONE, 0),
+        STONE_PILLAR(ResourceTypes.STONE, 30),
+        GEYSER(ResourceTypes.STONE, 10),
+        WOODEN_FENCE(ResourceTypes.WOOD, 5);
 
         private int resourceValue;
         private ResourceTypes type;
