@@ -1,8 +1,11 @@
 package com.deco2800.game.areas;
 
 
+
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.utils.math.RandomUtils;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.entities.factories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
@@ -16,8 +19,6 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 
-import com.deco2800.game.entities.factories.ObstacleFactory;
-import com.deco2800.game.entities.factories.PlayerFactory;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -69,14 +70,21 @@ public class ForestGameArea extends GameArea {
     "images/landscape_objects/billboard.png",
     "images/landscape_objects/chalice.png",
     "images/landscape_objects/pillar.png",
-    "images/landscape_objects/wooden-fence-60x60.png"
+    "images/landscape_objects/wooden-fence-60x60.png",
+    "images/pirate_crab_NE.png",
+    "images/pirate_crab_NW.png",
+    "images/pirate_crab_SE.png",
+    "images/pirate_crab_SW.png",
+    "images/crystal.png"
+
   };
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
-  private static final String[] forestSounds = { "sounds/Impact4.ogg" };
-  private static final String backgroundMusic = "sounds/BGM_03_mp3.mp3";
+  private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
+  public static final String[] walkSound = {"sounds/footsteps_grass_single.mp3"};
+  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
 
   private static final String[] forestMusic = {backgroundMusic};
   private EnvironmentalCollision entityMapping;
@@ -106,9 +114,11 @@ public class ForestGameArea extends GameArea {
     //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
-    spawnWall(60,60);
+    spawnCrystal(60, 60);
 
     player = spawnPlayer();
+
+    spawnPirateCrabEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -277,16 +287,31 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-  private void spawnWall(int x_pos, int y_pos) {
-    Entity newWall = StructureFactory.createWall("images/wallTransparent.png");
-    while (this.entityMapping.wouldCollide(newWall, x_pos, y_pos)) {
+  private void spawnCrystal(int x_pos, int y_pos) {
+    Entity crystal = CrystalFactory.createCrystal();
+    while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
-    this.entityMapping.addEntity(newWall);
-    spawnEntityAt(newWall, new GridPoint2(x_pos, y_pos), true, true);
-
+    this.entityMapping.addEntity(crystal);
+    spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
   }
 
+  private void spawnPirateCrabEnemy(){
+    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+    GridPoint2 minPos = new GridPoint2(0,0);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
+    GridPoint2 randomPos = RandomUtils.random(minPos,maxPos);
+    int counter = 0;
+    while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
+           ||entityMapping.isNearWater(randomPos.x, randomPos.y)){
+      randomPos = RandomUtils.random(minPos,maxPos);
+      if (counter > 1000){
+        return;
+      }
+      counter++;
+    }
+        spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
+  }
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
@@ -300,6 +325,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(forestSounds);
+    resourceService.loadSounds(walkSound);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -314,6 +340,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(forestSounds);
+    resourceService.unloadAssets(walkSound);
     resourceService.unloadAssets(forestMusic);
   }
 

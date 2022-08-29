@@ -8,9 +8,10 @@
     "baseAttack": 25,
     "spookyFactor": 7
   },
-  "giantCrab": {
+  "pirateCrab": {
     "health": 50,
-    "baseAttack": 10
+    "baseAttack": 10,
+    "gold": 10
   }
 }
 
