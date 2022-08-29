@@ -34,7 +34,8 @@ public class AtlantisSinks extends Game {
     // Sets background to light yellow
     Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
-    // start of the game, sets playerStatus to null to create a new caretaker object in the first mainGameScreen
+    // start of the game, sets playerStatus to null to create a new caretaker object
+    // in the first mainGameScreen
     setScreen(ScreenType.MAIN_MENU, null);
   }
 
@@ -61,7 +62,8 @@ public class AtlantisSinks extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
-    } else if (screenType == ScreenType.SHOP) {
+    } else if (screenType == ScreenType.SHOP | screenType == ScreenType.BUILD_SHOP
+        | screenType == ScreenType.ARTEFACT_SHOP) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
@@ -78,8 +80,9 @@ public class AtlantisSinks extends Game {
   /**
    * Create a new screen of the provided type.
    * 
-   * @param screenType screen type
-   * @param playerStatus caretaker object for main_game screen and shop screen to maintain player states
+   * @param screenType   screen type
+   * @param playerStatus caretaker object for main_game screen and shop screen to
+   *                     maintain player states
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {

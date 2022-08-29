@@ -19,7 +19,7 @@ public class ShopActions extends Component {
     private AtlantisSinks game;
     private CareTaker playerStatus;
     private Renderer renderer;
-    
+
     public ShopActions(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
         this.playerStatus = playerStatus;
@@ -28,6 +28,7 @@ public class ShopActions extends Component {
     @Override
     public void create() {
         entity.getEvents().addListener("exit", this::onExit);
+        entity.getEvents().addListener("mainShop", this::onMainShop);
         entity.getEvents().addListener("buildShop", this::onBuildShop);
         entity.getEvents().addListener("artefactShop", this::onArtefactShop);
     }
@@ -43,6 +44,14 @@ public class ShopActions extends Component {
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
+    }
+
+    /**
+     * Swaps to the Main Shop screen.
+     */
+    private void onMainShop() {
+        logger.info("Entering main shop screen");
+        game.setScreen(AtlantisSinks.ScreenType.SHOP, playerStatus);
     }
 
     /**

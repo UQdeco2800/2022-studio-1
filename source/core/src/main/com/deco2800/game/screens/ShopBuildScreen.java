@@ -11,6 +11,7 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.entities.Entity;
@@ -135,6 +136,7 @@ public class ShopBuildScreen extends ScreenAdapter {
                 .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold()))
                 .addComponent(new ShopBuildingDisplay())
+                .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
