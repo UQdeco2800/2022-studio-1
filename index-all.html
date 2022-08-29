@@ -916,6 +916,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Exit the game.</div>
 </dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainFactory.html#expandIsland(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,int)" class="member-name-link">expandIsland(TiledMapTileLayer, int)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainFactory.html" title="class in com.deco2800.game.areas.terrain">TerrainFactory</a></dt>
+<dd>
+<div class="block">Adds a new ring of playable land around the island and generates
+ cliffs</div>
+</dd>
 <dt><a href="com/deco2800/game/files/FileLoader.Location.html#EXTERNAL" class="member-name-link">EXTERNAL</a> - Enum constant in enum class com.deco2800.game.files.<a href="com/deco2800/game/files/FileLoader.Location.html" title="enum class in com.deco2800.game.files">FileLoader.Location</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -932,6 +937,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/files/FileLoader.html#%3Cinit%3E()" class="member-name-link">FileLoader()</a> - Constructor for class com.deco2800.game.files.<a href="com/deco2800/game/files/FileLoader.html" title="class in com.deco2800.game.files">FileLoader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/files/FileLoader.Location.html" class="type-name-link" title="enum class in com.deco2800.game.files">FileLoader.Location</a> - Enum Class in <a href="com/deco2800/game/files/package-summary.html">com.deco2800.game.files</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainFactory.html#fillCliffs(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile,com.deco2800.game.areas.terrain.TerrainTile,com.deco2800.game.areas.terrain.TerrainTile)" class="member-name-link">fillCliffs(TiledMapTileLayer, GridPoint2, GridPoint2, GridPoint2, TerrainTile, TerrainTile, TerrainTile)</a> - Static method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainFactory.html" title="class in com.deco2800.game.areas.terrain">TerrainFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainFactory.html#fillLand(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile)" class="member-name-link">fillLand(TiledMapTileLayer, GridPoint2, GridPoint2, GridPoint2, TerrainTile)</a> - Static method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainFactory.html" title="class in com.deco2800.game.areas.terrain">TerrainFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainFactory.html#fillWater(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile)" class="member-name-link">fillWater(TiledMapTileLayer, GridPoint2, GridPoint2, GridPoint2, TerrainTile)</a> - Static method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainFactory.html" title="class in com.deco2800.game.areas.terrain">TerrainFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/terrain/EnvironmentalCollision.html#findClosetEntity(int,int)" class="member-name-link">findClosetEntity(int, int)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/EnvironmentalCollision.html" title="class in com.deco2800.game.areas.terrain">EnvironmentalCollision</a></dt>
 <dd>
@@ -1123,6 +1134,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Get the input factory to create input handlers</div>
 </dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#getInputService()" class="member-name-link">getInputService()</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#getIslandSize()" class="member-name-link">getIslandSize()</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/EntityService.html#getLastEntity()" class="member-name-link">getLastEntity()</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></dt>
 <dd>
@@ -2135,6 +2148,11 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:S">S</h2>
 <dl class="index">
+<dt><a href="com/deco2800/game/areas/terrain/TerrainFactory.html#scaleDownIsland(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,int)" class="member-name-link">scaleDownIsland(TiledMapTileLayer, int)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainFactory.html" title="class in com.deco2800.game.areas.terrain">TerrainFactory</a></dt>
+<dd>
+<div class="block">Remove rings of land around the island, ensuring that the new
+ island size is greater than or equal to the initial island size</div>
+</dd>
 <dt><a href="com/deco2800/game/rendering/AnimationRenderComponent.html#scaleEntity()" class="member-name-link">scaleEntity()</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/AnimationRenderComponent.html" title="class in com.deco2800.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
 <div class="block">Scale the entity to a width of 1 and a height matching the texture's ratio</div>
@@ -2255,6 +2273,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the entity's health.</div>
 </dd>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainTile.html#setId(int)" class="member-name-link">setId(int)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#setIslandSize(int,int)" class="member-name-link">setIslandSize(int, int)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.html#setKnockbackForce(float)" class="member-name-link">setKnockbackForce(float)</a> - Method in class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.html" title="class in com.deco2800.game.components.Environmental">CollisionEffectComponent</a></dt>
 <dd>&nbsp;</dd>
@@ -2574,7 +2594,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Render a tiled terrain for a given tiled map and orientation.</div>
 </dd>
-<dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#%3Cinit%3E(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation,float)" class="member-name-link">TerrainComponent(OrthographicCamera, TiledMap, TiledMapRenderer, TerrainComponent.TerrainOrientation, float)</a> - Constructor for class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#%3Cinit%3E(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.badlogic.gdx.math.GridPoint2)" class="member-name-link">TerrainComponent(OrthographicCamera, TiledMap, TiledMapRenderer, TerrainComponent.TerrainOrientation, float, GridPoint2)</a> - Constructor for class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.TerrainOrientation.html" class="type-name-link" title="enum class in com.deco2800.game.areas.terrain">TerrainComponent.TerrainOrientation</a> - Enum Class in <a href="com/deco2800/game/areas/terrain/package-summary.html">com.deco2800.game.areas.terrain</a></dt>
 <dd>&nbsp;</dd>

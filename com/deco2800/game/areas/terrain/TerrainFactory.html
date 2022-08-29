@@ -123,7 +123,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
@@ -133,6 +133,43 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createTerrain(com.deco2800.game.areas.terrain.TerrainFactory.TerrainType)" class="member-name-link">createTerrain</a><wbr>(<a href="TerrainFactory.TerrainType.html" title="enum class in com.deco2800.game.areas.terrain">TerrainFactory.TerrainType</a>&nbsp;terrainType)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Create a terrain of the given type, using the orientation of the factory.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expandIsland(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,int)" class="member-name-link">expandIsland</a><wbr>(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ int&nbsp;amount)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a new ring of playable land around the island and generates
+ cliffs</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fillCliffs(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile,com.deco2800.game.areas.terrain.TerrainTile,com.deco2800.game.areas.terrain.TerrainTile)" class="member-name-link">fillCliffs</a><wbr>(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ com.badlogic.gdx.math.GridPoint2&nbsp;islandSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;waterDimensions,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;cliffTile,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;cliffRightTile,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;cliffLeftTile)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fillLand(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile)" class="member-name-link">fillLand</a><wbr>(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ com.badlogic.gdx.math.GridPoint2&nbsp;islandSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;waterDimensions,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;land)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fillWater(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile)" class="member-name-link">fillWater</a><wbr>(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ com.badlogic.gdx.math.GridPoint2&nbsp;islandSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;waterDimensions,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;water)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scaleDownIsland(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,int)" class="member-name-link">scaleDownIsland</a><wbr>(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ int&nbsp;amount)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Remove rings of land around the island, ensuring that the new
+ island size is greater than or equal to the initial island size</div>
 </div>
 </div>
 </div>
@@ -195,6 +232,66 @@ loadScripts(document, 'script');</script>
 <dd><code>terrainType</code> - Terrain to create</dd>
 <dt>Returns:</dt>
 <dd>Terrain component which renders the terrain</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="fillLand(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile)">
+<h3>fillLand</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">fillLand</span><wbr><span class="parameters">(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ com.badlogic.gdx.math.GridPoint2&nbsp;islandSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;waterDimensions,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;land)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="fillCliffs(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile,com.deco2800.game.areas.terrain.TerrainTile,com.deco2800.game.areas.terrain.TerrainTile)">
+<h3>fillCliffs</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">fillCliffs</span><wbr><span class="parameters">(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ com.badlogic.gdx.math.GridPoint2&nbsp;islandSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;waterDimensions,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;cliffTile,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;cliffRightTile,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;cliffLeftTile)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="fillWater(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.badlogic.gdx.math.GridPoint2,com.deco2800.game.areas.terrain.TerrainTile)">
+<h3>fillWater</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">fillWater</span><wbr><span class="parameters">(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ com.badlogic.gdx.math.GridPoint2&nbsp;islandSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;mapSize,
+ com.badlogic.gdx.math.GridPoint2&nbsp;waterDimensions,
+ <a href="TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a>&nbsp;water)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="expandIsland(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,int)">
+<h3>expandIsland</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">expandIsland</span><wbr><span class="parameters">(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ int&nbsp;amount)</span></div>
+<div class="block">Adds a new ring of playable land around the island and generates
+ cliffs</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>layer</code> - TiledMapTileLayer containing the map</dd>
+<dd><code>amount</code> - number of rings to add</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="scaleDownIsland(com.badlogic.gdx.maps.tiled.TiledMapTileLayer,int)">
+<h3>scaleDownIsland</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">scaleDownIsland</span><wbr><span class="parameters">(com.badlogic.gdx.maps.tiled.TiledMapTileLayer&nbsp;layer,
+ int&nbsp;amount)</span></div>
+<div class="block">Remove rings of land around the island, ensuring that the new
+ island size is greater than or equal to the initial island size</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>layer</code> - TiledMapTileLayer containing the map</dd>
+<dd><code>amount</code> - number of rings to remove</dd>
 </dl>
 </section>
 </li>
