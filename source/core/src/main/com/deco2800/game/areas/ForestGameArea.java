@@ -1,12 +1,7 @@
 package com.deco2800.game.areas;
 
-<<<<<<< HEAD
-import com.deco2800.game.entities.factories.StructureFactory;
-=======
-
 import com.deco2800.game.entities.factories.StructureFactory;
 
->>>>>>> main
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -181,13 +176,13 @@ public class ForestGameArea extends GameArea {
       }
 
       int counter = 0;
-      //check for possible collision and reroll location until valid
+      // check for possible collision and reroll location until valid
       while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
-              || entityMapping.isNearWater(randomPos.x, randomPos.y) ) {
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
 
-        //safety to avoid infinite looping on loading screen.
-        //If cant spawn the object then space has ran out on map
+        // safety to avoid infinite looping on loading screen.
+        // If cant spawn the object then space has ran out on map
         if (counter > 1000) {
           System.out.println("clash");
           return;

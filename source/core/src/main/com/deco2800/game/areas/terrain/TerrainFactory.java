@@ -93,7 +93,7 @@ public class TerrainFactory {
     TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, water, cliff, cliffLeft,
         cliffRight);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
-    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size);
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
@@ -212,6 +212,13 @@ public class TerrainFactory {
     }
   }
 
+  /**
+   * Adds a new ring of playable land around the island and generates
+   * cliffs
+   *
+   * @param layer  TiledMapTileLayer containing the map
+   * @param amount number of rings to add
+   */
   public void expandIsland(TiledMapTileLayer layer, int amount) {
     island_size.x += amount;
     island_size.y += amount;
@@ -223,6 +230,27 @@ public class TerrainFactory {
 
     fillLand(layer, island_size, MAP_SIZE, waterDimensions, grassTile);
     fillCliffs(layer, island_size, MAP_SIZE, waterDimensions, cliffTile, cliffRightTile, cliffLeftTile);
+  }
+
+  /**
+   * Remove rings of land around the island, ensuring that the new
+   * island size is greater than or equal to the initial island size
+   *
+   * @param layer  TiledMapTileLayer containing the map
+   * @param amount number of rings to remove
+   */
+  public void scaleDownIsland(TiledMapTileLayer layer, int amount) {
+    if (island_size.x - amount < 3 || island_size.y < 3) {
+      return;
+    }
+
+    int waterWidth = (int) Math.floor((MAP_SIZE.x - island_size.x) / 2);
+    int waterHeight = (int) Math.floor((MAP_SIZE.y - island_size.y) / 2);
+
+    GridPoint2 waterDimensions = new GridPoint2(waterWidth, waterHeight);
+
+    expandIsland(layer, 0 - amount);
+    fillWater(layer, island_size, MAP_SIZE, waterDimensions, waterTile);
   }
 
   /**
