@@ -2,6 +2,7 @@ package com.deco2800.game.components.shop;
 
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Originator;
@@ -19,7 +20,8 @@ public class ShopActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(ShopActions.class);
     private AtlantisSinks game;
     private CareTaker playerStatus;
-
+    private Renderer renderer;
+    
     public ShopActions(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
         this.playerStatus = playerStatus;
