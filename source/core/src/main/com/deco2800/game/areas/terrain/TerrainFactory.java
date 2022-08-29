@@ -71,7 +71,7 @@ public class TerrainFactory {
             resourceService.getAsset("images/trial3GrassTile.png", Texture.class));
 
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/water version 2.png", Texture.class));
+            resourceService.getAsset("images/waterVersion2.png", Texture.class));
         TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/fullSizedDirt.png", Texture.class));
         TextureRegion isoCliffLeft = new TextureRegion(
             resourceService.getAsset("images/waterDirtMerged.png", Texture.class));
