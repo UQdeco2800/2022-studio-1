@@ -15,10 +15,7 @@ import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 
 /**
@@ -251,10 +248,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
-    if (name == "wall") {
+    if (Objects.equals(name, "wall")) {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-    } else if (name == "stone quarry") {
+    } else if (Objects.equals(name, "stone quarry")) {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
     }
