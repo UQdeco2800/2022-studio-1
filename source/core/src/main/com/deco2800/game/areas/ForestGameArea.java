@@ -1,7 +1,8 @@
 package com.deco2800.game.areas;
 
 
-import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.entities.factories.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +16,8 @@ import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 
-import com.deco2800.game.entities.factories.ObstacleFactory;
-import com.deco2800.game.entities.factories.PlayerFactory;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -71,7 +69,9 @@ public class ForestGameArea extends GameArea {
           "images/pirate_crab_NE.png",
           "images/pirate_crab_NW.png",
           "images/pirate_crab_SE.png",
-          "images/pirate_crab_SW.png"
+          "images/pirate_crab_SW.png",
+          "images/crystal.png",
+
   };
 
   private static final String[] forestTextureAtlases = {
@@ -107,6 +107,10 @@ public class ForestGameArea extends GameArea {
 
     //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
+
+    spawnWall(50,50);
+
+    spawnCrystal(60, 60);
 
     player = spawnPlayer();
 
@@ -263,6 +267,26 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
+
+  private void spawnWall(int x_pos, int y_pos) {
+    Entity newWall = StructureFactory.createWall();
+    while (this.entityMapping.wouldCollide(newWall, x_pos, y_pos)) {
+      x_pos++;
+    }
+    this.entityMapping.addEntity(newWall);
+    spawnEntityAt(newWall, new GridPoint2(x_pos, y_pos), true, true);
+
+  }
+
+  private void spawnCrystal(int x_pos, int y_pos) {
+    Entity crystal = CrystalFactory.createCrystal();
+    while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
+      x_pos++;
+    }
+    this.entityMapping.addEntity(crystal);
+    spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
+  }
+
   private void spawnPirateCrabEnemy(){
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
     GridPoint2 minPos = new GridPoint2(0,0);
@@ -277,8 +301,7 @@ public class ForestGameArea extends GameArea {
       }
       counter++;
     }
-
-    spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
+        spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
   }
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);

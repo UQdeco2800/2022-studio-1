@@ -69,6 +69,8 @@ public class PlayerStatsDisplay extends UIComponent {
     //Crystal bar
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
 
+
+
     //Stone image
     stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stone.png", Texture.class));
 
