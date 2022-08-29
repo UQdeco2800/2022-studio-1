@@ -124,20 +124,40 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds to the player's gold.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGold()" class="member-name-link">getGold</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addStone(int)" class="member-name-link">addStone</a><wbr>(int&nbsp;stone)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds to the player's stone.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGold()" class="member-name-link">getGold</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the player's gold.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStone()" class="member-name-link">getStone</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the player's stone.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasGold(int)" class="member-name-link">hasGold</a><wbr>(int&nbsp;gold)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns if the player has a certain amount of gold.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGold(int)" class="member-name-link">setGold</a><wbr>(int&nbsp;gold)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStone(int)" class="member-name-link">hasStone</a><wbr>(int&nbsp;stone)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns if the player has a certain amount of stone.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGold(int)" class="member-name-link">setGold</a><wbr>(int&nbsp;gold)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the player's gold.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStone(int)" class="member-name-link">setStone</a><wbr>(int&nbsp;stone)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the player's stone.</div>
 </div>
 </div>
 </div>
@@ -185,6 +205,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="getStone()">
+<h3>getStone</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getStone</span>()</div>
+<div class="block">Returns the player's stone.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity's health</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="hasGold(int)">
 <h3>hasGold</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">hasGold</span><wbr><span class="parameters">(int&nbsp;gold)</span></div>
@@ -194,6 +225,19 @@ loadScripts(document, 'script');</script>
 <dd><code>gold</code> - required amount of gold</dd>
 <dt>Returns:</dt>
 <dd>player has greater than or equal to the required amount of gold</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hasStone(int)">
+<h3>hasStone</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">hasStone</span><wbr><span class="parameters">(int&nbsp;stone)</span></div>
+<div class="block">Returns if the player has a certain amount of stone.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stone</code> - required amount of stone</dd>
+<dt>Returns:</dt>
+<dd>player has greater than or equal to the required amount of stone</dd>
 </dl>
 </section>
 </li>
@@ -209,6 +253,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="setStone(int)">
+<h3>setStone</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStone</span><wbr><span class="parameters">(int&nbsp;stone)</span></div>
+<div class="block">Sets the player's stone. Stone has a minimum bound of 0.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stone</code> - currency stone</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="addGold(int)">
 <h3>addGold</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addGold</span><wbr><span class="parameters">(int&nbsp;gold)</span></div>
@@ -216,6 +271,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>gold</code> - gold to add</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addStone(int)">
+<h3>addStone</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addStone</span><wbr><span class="parameters">(int&nbsp;stone)</span></div>
+<div class="block">Adds to the player's stone. The amount added can be negative.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stone</code> - stone to add</dd>
 </dl>
 </section>
 </li>
