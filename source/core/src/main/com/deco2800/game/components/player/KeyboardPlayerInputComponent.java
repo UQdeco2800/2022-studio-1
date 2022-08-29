@@ -134,7 +134,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         if (isClear || numWall == 0) {
           triggerBuildEvent();
         }*/
-        triggerBuildEvent();
+        triggerBuildEvent("wall");
       }
     }
     return true;
@@ -190,7 +190,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /**
    * Builds a structure at mouse position
    */
-  private void triggerBuildEvent() {
+  private void triggerBuildEvent(String name) {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -198,9 +198,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     mousePosV2.x -= 0.5;
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
-    entityName = "wall" + entityName;
-    ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
-    ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+    entityName = name + entityName;
+    if (name == "wall") {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+    }
   }
 
   /**
