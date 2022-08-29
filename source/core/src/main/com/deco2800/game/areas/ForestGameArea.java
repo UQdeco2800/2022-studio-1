@@ -92,6 +92,7 @@ public class ForestGameArea extends GameArea {
   private final TerrainFactory terrainFactory;
 
   private Entity player;
+  private Entity crystal;
 
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
@@ -113,7 +114,7 @@ public class ForestGameArea extends GameArea {
     //EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
-    spawnCrystal(60, 60);
+    crystal = spawnCrystal(60, 60);
 
     player = spawnPlayer();
 
@@ -286,13 +287,14 @@ public class ForestGameArea extends GameArea {
     return newPlayer;
   }
 
-  private void spawnCrystal(int x_pos, int y_pos) {
+  private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal();
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
     this.entityMapping.addEntity(crystal);
     spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
+    return crystal;
   }
 
   private void spawnPirateCrabEnemy(){
