@@ -14,6 +14,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Factory to create structure entities with predefined components.
@@ -28,6 +29,7 @@ import com.deco2800.game.rendering.TextureRenderComponent;
 public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
+
 
   /**
    * Creates a wall entity.
