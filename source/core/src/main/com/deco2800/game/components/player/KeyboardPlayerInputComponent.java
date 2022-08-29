@@ -18,6 +18,7 @@ import com.deco2800.game.utils.math.Vector2Utils;
 import java.util.*;
 
 
+
 /**
  * Input handler for the player for keyboard and touch (mouse) input.
  * This input handler only uses keyboard input.
@@ -208,6 +209,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.epsilonEquals(Vector2.Zero)) {
       entity.getEvents().trigger("walkStop");
     } else {
+      entity.getEvents().trigger("anim_player");
       entity.getEvents().trigger("walk", walkDirection);
     }
   }

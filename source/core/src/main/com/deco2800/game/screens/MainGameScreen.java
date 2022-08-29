@@ -44,10 +44,13 @@ public class MainGameScreen extends ScreenAdapter {
           "images/healthBar.png",
           "images/uiElements/exports/crystal.png",
           "images/uiElements/exports/stone.png",
-          "atlantisBasicBackground.png"
+          "images/atlantisBasicBackground.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(180f, 0f);
+
+  private static final String[] mainGameTextureAtlases = {
+    "images/anim_demo/demo.atlas"};
 
   private final AtlantisSinks game;
   private final Renderer renderer;
@@ -133,6 +136,7 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(mainGameTextures);
+    resourceService.loadTextureAtlases(mainGameTextureAtlases);
     ServiceLocator.getResourceService().loadAll();
   }
 
@@ -140,6 +144,7 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(mainGameTextures);
+    resourceService.unloadAssets(mainGameTextureAtlases);
   }
 
   /**
