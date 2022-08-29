@@ -1,7 +1,15 @@
 package com.deco2800.game.components.shop.artefacts;
 
-/** Abstract Artefact class used to create diffrent child artefact types */
-public abstract class Artefact {
+/** Abstract building class used to create diffrent child building types
+ * @param name:              the name of the building
+* @param price:             the price in stone of the building
+* @param description:       what the building does
+* @param attackMultiplier:  a decimal to increase attack (>= 1.00)
+* @param defenceMultiplier: a decimal to increase defence (>= 1.00)
+* @param texture:           image associated with the stone
+* @param categoryTexture:   image with category board
+ */
+public abstract class ShopBuilding {
     protected String name;
     protected int price;
     protected String description;
@@ -10,16 +18,8 @@ public abstract class Artefact {
     protected String texture;
     protected String categoryTexture;
 
-    /**
-     * @param name:              the name of the artefact
-     * @param price:             the price in gold coin of the artefact
-     * @param description:       what the artefact does
-     * @param attackMultiplier:  a decimal to increase attack (>= 1.00)
-     * @param defenceMultiplier: a decimal to increase defence (>= 1.00)
-     * @param texture:           image associated with the Artefact
-     * @param categoryTexture:   image with category board
-     */
-    public Artefact(String name, int price, String description, double attackMultiplier, double defenceMultiplier,
+    /** building class constructor */
+    public ShopBuilding(String name, int price, String description, double attackMultiplier, double defenceMultiplier,
             String texture,
             String categoryTexture) {
         this.name = name;
@@ -32,63 +32,63 @@ public abstract class Artefact {
     }
 
     /**
-     * Getter for artefact name
+     * Getter for building name
      * 
-     * @return String name of artefact
+     * @return String
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Getter for artefact price
+     * Getter for building price
      * 
-     * @return int price of artefact
+     * @return int
      */
     public int getPrice() {
         return this.price;
     }
 
     /**
-     * Getter for artefact description
+     * Getter for building description
      * 
-     * @return String description
+     * @return String
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Getter for artefact attack multiplier
+     * Getter for building attack multiplier
      * 
-     * @return double attack multiplier
+     * @return double
      */
     public double getAttackMultiplier() {
         return this.attackMultiplier;
     }
 
     /**
-     * Getter for artefact defence multiplier
+     * Getter for building defence multiplier
      * 
-     * @return double defence multiplier
+     * @return double
      */
     public double getDefenceMultiplier() {
         return this.defenceMultiplier;
     }
 
     /**
-     * Getter for artefact texture file
+     * Getter for building texture file
      * 
-     * @return Texture
+     * @return String
      */
     public String getTexture() {
         return this.texture;
     }
 
     /**
-     * Getter for artefact category texture file
+     * Getter for building category texture file
      * 
-     * @return CategoryTexture
+     * @return String
      */
     public String getCategoryTexture() {
         return this.categoryTexture;

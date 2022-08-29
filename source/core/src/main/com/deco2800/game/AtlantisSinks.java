@@ -8,6 +8,8 @@ import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.screens.MainMenuScreen;
 import com.deco2800.game.screens.SettingsScreen;
+import com.deco2800.game.screens.ShopArtefactScreen;
+import com.deco2800.game.screens.ShopBuildScreen;
 import com.deco2800.game.screens.ShopScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,13 +92,17 @@ public class AtlantisSinks extends Game {
         return new SettingsScreen(this);
       case SHOP:
         return new ShopScreen(this, playerStatus);
+      case BUILD_SHOP:
+        return new ShopBuildScreen(this);
+      case ARTEFACT_SHOP:
+        return new ShopArtefactScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP
+    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP
   }
 
   /**

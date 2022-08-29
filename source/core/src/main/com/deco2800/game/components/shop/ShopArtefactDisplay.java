@@ -16,24 +16,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.artefacts.Artefact;
-import com.deco2800.game.components.shop.artefacts.BestLog;
 import com.deco2800.game.components.shop.artefacts.BestSword;
-import com.deco2800.game.components.shop.artefacts.BetterLog;
 import com.deco2800.game.components.shop.artefacts.BetterSword;
-import com.deco2800.game.components.shop.artefacts.ShopBuilding;
-import com.deco2800.game.components.shop.artefacts.StandardLog;
 import com.deco2800.game.components.shop.artefacts.StandardSword;
 import com.deco2800.game.ui.UIComponent;
 
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
-public class ShopBuildingDisplay extends UIComponent {
+public class ShopArtefactDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopBuildingDisplay.class);
     private static final float Z_INDEX = 2f;
 
-    private StockList<ShopBuilding> stock;
-    private Node<ShopBuilding> current;
+    private StockList<Artefact> stock;
+    private Node<Artefact> current;
 
     private TextureRegionDrawable returnUp;
 
@@ -90,10 +86,10 @@ public class ShopBuildingDisplay extends UIComponent {
 
     private void addActors() {
 
-        stock = new <ShopBuilding>StockList();
-        stock.add(new StandardLog());
-        stock.add(new BetterLog());
-        stock.add(new BestLog());
+        stock = new StockList<Artefact>();
+        stock.add(new StandardSword());
+        stock.add(new BetterSword());
+        stock.add(new BestSword());
         current = stock.head;
 
         float width = stage.getWidth();
