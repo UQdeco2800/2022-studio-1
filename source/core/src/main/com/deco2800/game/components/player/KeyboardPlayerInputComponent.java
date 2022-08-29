@@ -15,10 +15,7 @@ import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 
 /**
@@ -29,6 +26,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
 
   private boolean buildState = false;
+  private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
 
@@ -105,6 +103,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.U:
         triggerCrystalUpgrade();
         return true;
+      case Keys.N:
+        toggleResourceBuildState();
+        return true;
       default:
         return false;
     }
@@ -118,13 +119,16 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall", "tower1"});
+          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall", "tower1", "stone quarry"});
         } else {
           isClear = true;
         }
         if (isClear) {
           triggerBuildEvent("tower1");
         }
+      }
+      if (resourceBuildState) {
+        triggerBuildEvent("stone quarry");
       }
     }
     return true;
@@ -212,7 +216,24 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Toggles the build state of the player
    */
   private void toggleBuildState() {
-    buildState = !buildState;
+    if (resourceBuildState) {
+      toggleResourceBuildState();
+      buildState = true;
+    } else {
+      buildState = !buildState;
+    }
+  }
+
+  /**
+   * Toggles resource building placement mode
+   */
+  private void toggleResourceBuildState() {
+    if (buildState) {
+      toggleBuildState();
+      resourceBuildState = true;
+    } else {
+      resourceBuildState = !resourceBuildState;
+    }
   }
 
   /**
@@ -227,12 +248,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
-    if (name == "wall") {
+
+    if (Objects.equals(name, "wall")) {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
-    } else if (name == "tower1") {
+    } else if (Objects.equals(name, "stone quarry")) {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      structureRects.put(entityName, rectangle);
+    } else if (Objects.equals(name, "tower1")) {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createTower1());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
@@ -248,6 +275,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
+    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+
   }
 
   /**
@@ -259,5 +288,4 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
     System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
-
 }

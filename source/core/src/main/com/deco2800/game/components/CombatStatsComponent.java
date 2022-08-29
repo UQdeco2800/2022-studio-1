@@ -21,7 +21,7 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Combat Stats Component with extra parameter level to enable levelling up og entities (mainly Crystal)
+   * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
    */
   public CombatStatsComponent(int health, int baseAttack, int level) {
     setHealth(health);

@@ -27,7 +27,7 @@ import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.deco2800.game.memento.CareTaker;
 /**
  * The game screen containing the main game.
  *
@@ -47,14 +47,23 @@ public class MainGameScreen extends ScreenAdapter {
           "atlantisBasicBackground.png"
   };
 
-  private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(180f, 0f);
 
   private final AtlantisSinks game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
+  private CareTaker playerStatus;
+  private ForestGameArea forestGameArea;
 
-  public MainGameScreen(AtlantisSinks game) {
+  public MainGameScreen(AtlantisSinks game, CareTaker playerStatus) {
     this.game = game;
+
+    // creates new caretaker if no caretaker object exists
+    if (playerStatus == null) {
+      this.playerStatus = new CareTaker();
+    } else {
+      this.playerStatus = playerStatus;
+    }
 
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
@@ -74,12 +83,13 @@ public class MainGameScreen extends ScreenAdapter {
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
-    createUI();
+
 
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    ForestGameArea forestGameArea = new ForestGameArea(terrainFactory);
+    this.forestGameArea = new ForestGameArea(terrainFactory, playerStatus);
     forestGameArea.create();
+    createUI();
   }
 
   @Override
@@ -145,13 +155,12 @@ public class MainGameScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game))
+        .addComponent(new MainGameActions(this.game, this.playerStatus, forestGameArea.getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
-
     ServiceLocator.getEntityService().register(ui);
   }
 }

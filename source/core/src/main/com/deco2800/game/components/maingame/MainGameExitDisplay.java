@@ -3,11 +3,9 @@ package com.deco2800.game.components.maingame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.ui.UIComponent;
@@ -21,6 +19,7 @@ public class MainGameExitDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table table;
+
 
   @Override
   public void create() {
@@ -40,6 +39,8 @@ public class MainGameExitDisplay extends UIComponent {
     TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
     TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
     ImageButton backButton = new ImageButton(upBack, downBack);
+
+
 
     // Triggers an event when the button is pressed.
     backButton.addListener(

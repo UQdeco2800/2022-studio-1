@@ -26,6 +26,8 @@ public class HealthBarComponent extends RenderComponent {
     private float entityWidthScale;
     private float entityHeightScale;
 
+    private RenderUtil renderUtil;
+
     /**
      *
      * Constructs a new health bar
@@ -54,10 +56,30 @@ public class HealthBarComponent extends RenderComponent {
         progressBar.setAnimateDuration(0.0f);
         progressBar.setValue(1f);
         progressBar.setAnimateDuration(0.25f);
+        renderUtil = RenderUtil.getInstance();
     }
 
     public void setCombatStatsComponent(CombatStatsComponent combatStatsComponent) {
         this.combatStatsComponent = combatStatsComponent;
+    }
+
+    /**
+     * Returns the progress bar that represents the heath bar percentage to
+     * being displayed
+     *
+     * @return the progress bar representing health
+     */
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    /**
+     * For setting a renderUtil if instantiated as a mock or otherwise
+     *
+     * @param renderUtil the instance to use
+     */
+    public void setRenderUtil(RenderUtil renderUtil) {
+        this.renderUtil = renderUtil;
     }
 
     /**
@@ -73,7 +95,7 @@ public class HealthBarComponent extends RenderComponent {
         this.progressBar.setPosition(pos.x, pos.y);
         this.setCombatStatsComponent(this.getEntity().getComponent(CombatStatsComponent.class));
         this.fullHealth = this.combatStatsComponent.getHealth();
-        this.pixelsPerUnit = RenderUtil.getPixelsPerUnit();
+        this.pixelsPerUnit = renderUtil.getPixelsPerUnit();
         this.entityWidthScale = this.getEntity().getScale().x;
         this.entityHeightScale = this.getEntity().getScale().y;
     }
@@ -97,9 +119,11 @@ public class HealthBarComponent extends RenderComponent {
         this.progressBar.setPosition(healthBarXPos , healthBarYPos);
 
         /* We need to temporarily render in pixels */
-        RenderUtil.renderInPixels(batch, () -> {
-            this.progressBar.draw(batch, 1);
-        });
+        if (batch != null) {
+            renderUtil.renderInPixels(batch, () -> {
+                this.progressBar.draw(batch, 1);
+            });
+        }
     }
 
 

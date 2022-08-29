@@ -51,7 +51,7 @@ public class PlayerStatsDisplay extends UIComponent {
     coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/coin.png", Texture.class));
 
     //Coin text - set as 0, for placeholder
-    int coin = 0;
+    int coin = entity.getComponent(InventoryComponent.class).getGold();
     CharSequence coinText = String.format("x %d", coin);
     coinLabel = new Label(coinText, skin, "large");
 
@@ -90,10 +90,11 @@ public class PlayerStatsDisplay extends UIComponent {
     table.add(crystalBarImage).size(200f,30f).pad(5);
     table.row();
     table.add(coinImage);
-    table.add(coinLabel);
+    table.add(coinLabel).pad(0,0,0,0).left();
     table.row();
     table.add(stoneCurrencyImage);
-    table.add(stoneCurrencyLabel);
+    table.add(stoneCurrencyLabel).pad(0,0,0,0).left();
+    
     table.row();
     stage.addActor(table);
   }
