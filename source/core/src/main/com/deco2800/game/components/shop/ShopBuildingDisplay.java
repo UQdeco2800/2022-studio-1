@@ -106,7 +106,8 @@ public class ShopBuildingDisplay extends UIComponent {
 
         stoneTexture = new Texture(Gdx.files.internal("images/border_stone.png"));
         TextureRegionDrawable stone = new TextureRegionDrawable(stoneTexture);
-        // TODO change gold coins to stone count in inventory when available
+        // TODO change gold coins to stone count in inventory when available, to track player states,
+        //  adding an integer property to track stone count in memento is recommended
         stoneFrame = ShopUtils.createImageTextButton(
                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
                 skin.getColor("black"),
@@ -211,7 +212,7 @@ public class ShopBuildingDisplay extends UIComponent {
                                 new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
                     }
                 });
-
+        // TODO change to stone once implemented
         buyButton.addListener(
                 new ChangeListener() {
                     @Override
