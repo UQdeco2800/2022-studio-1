@@ -61,6 +61,20 @@ public class StructureFactory {
   }
 
   /**
+   * Creates a Stone Quarry entity
+   *
+   * @return stone quarry entity
+   */
+  public static Entity createStoneQuarry() {
+    Entity stoneQuarry = createBaseStructure("images/stoneQuarryTest.png");
+    BaseEntityConfig config = configs.stoneQuarry;
+
+    stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return stoneQuarry;
+  }
+
+  /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
    *
    * @return entity
