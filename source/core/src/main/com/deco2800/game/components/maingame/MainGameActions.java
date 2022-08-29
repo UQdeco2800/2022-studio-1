@@ -1,12 +1,10 @@
 package com.deco2800.game.components.maingame;
 
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
 import com.deco2800.game.rendering.Renderer;

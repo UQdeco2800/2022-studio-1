@@ -1,11 +1,9 @@
 package com.deco2800.game.components.shop;
 
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.memento.Memento;
 import com.deco2800.game.memento.Originator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +19,6 @@ public class ShopActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(ShopActions.class);
     private AtlantisSinks game;
     private CareTaker playerStatus;
-
-    private Renderer renderer;
 
     public ShopActions(AtlantisSinks game, CareTaker playerStatus) {
         this.game = game;
@@ -47,7 +43,6 @@ public class ShopActions extends Component {
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
     /**
@@ -55,7 +50,7 @@ public class ShopActions extends Component {
      */
     private void onBuildShop() {
         logger.info("Entering Build shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP);
+        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, playerStatus);
     }
 
     /**
@@ -63,6 +58,6 @@ public class ShopActions extends Component {
      */
     private void onArtefactShop() {
         logger.info("Entering Artefact shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP);
+        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP, playerStatus);
     }
 }

@@ -93,9 +93,9 @@ public class AtlantisSinks extends Game {
       case SHOP:
         return new ShopScreen(this, playerStatus);
       case BUILD_SHOP:
-        return new ShopBuildScreen(this);
+        return new ShopBuildScreen(this, playerStatus);
       case ARTEFACT_SHOP:
-        return new ShopArtefactScreen(this);
+        return new ShopArtefactScreen(this, playerStatus);
       default:
         return null;
     }
