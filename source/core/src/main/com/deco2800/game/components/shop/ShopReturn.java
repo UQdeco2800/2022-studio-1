@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,25 +19,18 @@ public class ShopReturn extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopReturn.class);
     private static final float Z_INDEX = 2f;
 
-    private TextureRegionDrawable returnUp;
-
-    private TextureRegionDrawable returnDown;
-    private Texture returnTexture;
+    private float width;
+    private float height;
 
     private TextButton buildingBtn;
+    private TextureRegionDrawable buildingUp;
     private Texture buildingTexture;
-
     private Label buildingTitle;
 
+    private TextureRegionDrawable artUp;
     private TextButton artefactBtn;
     private Texture artefactTexture;
     private Label artefactTitle;
-
-    private TextButton stoneFrame;
-    private Texture stoneTexture;
-
-    private TextButton goldFrame;
-    private Texture goldTexture;
 
     @Override
     public void create() {
@@ -47,18 +39,17 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-
-        float width = stage.getWidth();
-        float height = stage.getHeight();
+        width = stage.getWidth();
+        height = stage.getHeight();
         buildingTexture = new Texture(Gdx.files.internal("images/building-category-button.png"));
-        TextureRegionDrawable buildingUp = new TextureRegionDrawable(buildingTexture);
+        buildingUp = new TextureRegionDrawable(buildingTexture);
         buildingBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 6f,
                 buildingUp, buildingUp,
                 skin, false);
         buildingBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                logger.debug("Building SHopping Time!");
+                logger.debug("Building Shopping Time!");
                 entity.getEvents().trigger("buildShop");
             }
         });
@@ -68,7 +59,7 @@ public class ShopReturn extends UIComponent {
         buildingTitle.setPosition(505, 225);
 
         artefactTexture = new Texture(Gdx.files.internal("images/category-button-standard.png"));
-        TextureRegionDrawable artUp = new TextureRegionDrawable(artefactTexture);
+        artUp = new TextureRegionDrawable(artefactTexture);
         artefactBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 6f,
                 artUp, artUp,
                 skin, false);
@@ -84,59 +75,10 @@ public class ShopReturn extends UIComponent {
         artefactTitle = new Label(artefactText, skin, "large");
         artefactTitle.setPosition(1085, 225);
 
-        stoneTexture = new Texture(Gdx.files.internal("images/border_stone.png"));
-        TextureRegionDrawable stone = new TextureRegionDrawable(stoneTexture);
-        // TODO change gold coins to stone count in inventory when available
-        stoneFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
-                skin.getColor("black"),
-                "title", 1f, stone, stone, skin, true);
-        stoneFrame.setTransform(true);
-        stoneFrame.getLabel().setScale(3f);
-        stoneFrame.setSize(200, 200);
-        stoneFrame.setPosition(1100, 700);
-        stoneFrame.setColor(216, 189, 151, 10);
-
-        goldTexture = new Texture(Gdx.files.internal("images/border_coin.png"));
-        TextureRegionDrawable coin = new TextureRegionDrawable(goldTexture);
-        goldFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
-                skin.getColor("black"),
-                "title", 1f, coin, coin, skin, true);
-        goldFrame.setTransform(true);
-        goldFrame.getLabel().setScale(3f);
-        goldFrame.setSize(200, 200);
-        goldFrame.setPosition(1100, 780);
-        returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
-        returnUp = new TextureRegionDrawable(returnTexture);
-        returnDown = new TextureRegionDrawable(returnTexture);
-        TextButton backBtn = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, returnDown,
-                returnUp,
-                skin, false);
-        backBtn.setPosition(width * 0.85f, height * 0.85f);
-        backBtn.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Exit button clicked");
-                        entity.getEvents().trigger("exit");
-                    }
-                });
-
-        Label title = new Label("SHOP", skin, "title");
-        title.setPosition(width * 0.05f, height * 0.90f);
-        title.setFontScale(4f);
-        title.setColor(skin.getColor("black"));
-
-        stage.addActor(backBtn);
-        stage.addActor(title);
-
         stage.addActor(buildingBtn);
         stage.addActor(buildingTitle);
         stage.addActor(artefactBtn);
         stage.addActor(artefactTitle);
-        stage.addActor(stoneFrame);
-        stage.addActor(goldFrame);
     }
 
     @Override
