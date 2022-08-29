@@ -295,12 +295,18 @@ public class ForestGameArea extends GameArea {
     return crystal;
   }
 
+  /**
+   * Spawns a Pirate Crab entity at a randomised position within the game world
+   */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+
     GridPoint2 minPos = new GridPoint2(0, 0);
     GridPoint2 maxPos = terrain.getMapBounds(0);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
     int counter = 0;
+
     while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
         || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
       randomPos = RandomUtils.random(minPos, maxPos);
@@ -309,6 +315,7 @@ public class ForestGameArea extends GameArea {
       }
       counter++;
     }
+
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
   }
 
