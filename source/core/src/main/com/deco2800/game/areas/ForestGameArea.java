@@ -74,7 +74,8 @@ public class ForestGameArea extends GameArea {
     "images/pirate_crab_NW.png",
     "images/pirate_crab_SE.png",
     "images/pirate_crab_SW.png",
-    "images/crystal.png"
+    "images/crystal.png",
+    "images/stoneQuarryTest.png"
   };
 
   private static final String[] forestTextureAtlases = {
