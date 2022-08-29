@@ -78,8 +78,8 @@ public class ForestGameArea extends GameArea {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
   private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
-  public static final String[] walkSound = {"sounds/grass_footstep_single.mp3"};
-  private static final String backgroundMusic = "sounds/dusk.mp3";
+  public static final String[] walkSound = {"sounds/footsteps_grass_single.mp3"};
+  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
 
   private static final String[] forestMusic = {backgroundMusic};
   private EnvironmentalCollision entityMapping;
