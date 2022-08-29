@@ -46,6 +46,7 @@ public class StructureFactory {
     return wall;
   }
 
+
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
    *
