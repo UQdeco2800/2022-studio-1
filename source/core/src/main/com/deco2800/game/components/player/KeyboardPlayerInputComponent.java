@@ -118,12 +118,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall"});
+          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall", "tower1"});
         } else {
           isClear = true;
         }
         if (isClear) {
-          triggerBuildEvent("wall");
+          triggerBuildEvent("tower1");
         }
       }
     }
@@ -229,6 +229,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     entityName = name + entityName;
     if (name == "wall") {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      structureRects.put(entityName, rectangle);
+    } else if (name == "tower1") {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createTower1());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
