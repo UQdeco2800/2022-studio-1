@@ -33,11 +33,11 @@ public class ForestGameArea extends GameArea {
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
 
-  private static final int MAX_ENVIRONMENTAL_OBJECTS = 10;
+  private static final int MAX_ENVIRONMENTAL_OBJECTS = 7;
   private static final int MIN_NUM_TREES = 3;
-  private static final int MAX_NUM_TREES = 6;
+  private static final int MAX_NUM_TREES = 5;
   private static final int MIN_NUM_ROCKS = 2;
-  private static final int MAX_NUM_ROCKS = 4;
+  private static final int MAX_NUM_ROCKS = 3;
 
   private static final String[] forestTextures = {
 
@@ -148,7 +148,7 @@ public class ForestGameArea extends GameArea {
    * @param type the type of object, from EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
-    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 minPos = new GridPoint2(46, 48);
     GridPoint2 maxPos = terrain.getMapBounds(0);
 
     for (int i = 0; i < numObjects; i++) {
@@ -168,9 +168,13 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createAoeSpeedArtefact();
           break;
         case KNOCKBACK_TOWER:
+          minPos = new GridPoint2(50, 50);
+          maxPos = new GridPoint2(60, 60);
           envObj = ObstacleFactory.createBillboard();
           break;
         case STONE_PILLAR:
+          minPos = new GridPoint2(50, 50);
+          maxPos = new GridPoint2(65, 65);
           envObj = ObstacleFactory.createPillar();
           break;
         case GEYSER:
@@ -201,7 +205,7 @@ public class ForestGameArea extends GameArea {
       }
 
       this.entityMapping.addEntity(envObj);
-      spawnEntityAt(envObj, randomPos, false, false);
+      spawnEntityAt(envObj, randomPos, true, true);
     }
   }
 
@@ -211,6 +215,7 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
 
     //semi random rocks and trees
     int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
@@ -229,10 +234,9 @@ public class ForestGameArea extends GameArea {
 
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
+    spawnEnvironmentalObject(2, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.GEYSER);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
   }
 
 
