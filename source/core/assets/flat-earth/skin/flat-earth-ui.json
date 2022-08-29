@@ -15,19 +15,20 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	font_large: {
 		file: fonts/pixel_26.fnt
 	}
-}
+},
+
 com.badlogic.gdx.graphics.Color: {
 	black: {
 		r: 0
 		g: 0
 		b: 0
-		a: 1
+		a: 9
 	}
 	color: {
 		r: 0.3372549
 		g: 0.8
 		b: 0.44705883
-		a: 1
+		a: 9
 	}
 	gray: {
 		r: 0.5
@@ -339,7 +340,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	}
 	large: {
 		font: font_large,
-		fontColor: black
+		fontColor: black,
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {

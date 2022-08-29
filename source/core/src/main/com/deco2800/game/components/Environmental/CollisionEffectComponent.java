@@ -15,7 +15,7 @@ import com.deco2800.game.physics.components.PhysicsMovementComponent;
 
 /**
  * class containing collision effects defined by the CollisionEffect enum
- * Entities implementing this must also implement ColliderComponent, PhysicsComponent & EnvironmentalComponent
+ * Entities implementing this must also implement ColliderComponent, PhysicsComponent and EnvironmentalComponent
  * To make the effect AoE, a hitboxcomponent must also be added (change the size of hitboxcomponent to change AoE)
  * At this stage, only speed is supported as an AoE effect
  * By default, collision effects impact both players and NPCs. Use SetEffectTarget() to change this.
@@ -91,6 +91,14 @@ public class CollisionEffectComponent extends Component {
             //do nothing if there's not hitbox - otherwise there will be null pointer issues when collisions happen
             this.AoE = AoE;
         }
+    }
+
+    /**
+     * honestly just put this in to test.
+     * @return whether this component uses AoE or collision
+     */
+    public boolean isAoe() {
+        return this.AoE;
     }
 
     public void setKnockbackForce(float knockbackForce) {

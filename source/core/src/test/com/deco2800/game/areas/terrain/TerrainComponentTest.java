@@ -26,10 +26,11 @@ class TerrainComponentTest {
 
   @Test
   void shouldConvertPositionIsometric() {
+    //had to change test to satisfy new tile dimensions
     TerrainComponent component = makeComponent(TerrainOrientation.ISOMETRIC, 3f);
     assertEquals(new Vector2(0f, 0f), component.tileToWorldPosition(0, 0));
-    assertEquals(new Vector2(9f, 3f), component.tileToWorldPosition(2, 4));
-    assertEquals(new Vector2(-12f, 3f), component.tileToWorldPosition(-5, -3));
+    assertEquals(new Vector2(9f, 3f / 2), component.tileToWorldPosition(2, 4));
+    assertEquals(new Vector2(-12f, 3f /2), component.tileToWorldPosition(-5, -3));
   }
 
   @Test
