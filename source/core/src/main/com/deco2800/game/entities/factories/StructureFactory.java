@@ -67,7 +67,7 @@ public class StructureFactory {
    */
   public static Entity createStoneQuarry() {
     Entity stoneQuarry = createBaseStructure("images/stoneQuarryTest.png");
-    BaseEntityConfig config = configs.stoneQuarry;
+    BaseEntityConfig config = configs.tower1;
 
     stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(75, 10));
