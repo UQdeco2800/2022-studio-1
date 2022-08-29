@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g3d.particles.values.GradientColorValue;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.deco2800.game.extensions.GameExtension;
@@ -39,6 +41,7 @@ class TerrainComponentTest {
     OrthographicCamera camera = mock(OrthographicCamera.class);
     TiledMap map = mock(TiledMap.class);
     TiledMapRenderer mapRenderer = mock(TiledMapRenderer.class);
-    return new TerrainComponent(camera, map, mapRenderer, orientation, tileSize);
+    GridPoint2 islandSize = new GridPoint2(30, 30);
+    return new TerrainComponent(camera, map, mapRenderer, orientation, tileSize, islandSize);
   }
 }
