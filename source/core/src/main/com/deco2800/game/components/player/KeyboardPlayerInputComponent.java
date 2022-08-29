@@ -7,12 +7,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
-import com.deco2800.game.components.CombatStatsComponent;
 
 
 /**
@@ -93,6 +93,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.O:
         triggerCrystalAttacked();
+        return true;
+      case Keys.U:
+        triggerCrystalUpgrade();
         return true;
       default:
         return false;
@@ -195,20 +198,29 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     mousePosV2.x -= 0.5;
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
-    ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall("images/wallTransparent.png"));
-
-    ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(worldPos);
-    ServiceLocator.getEntityService().update();
     entityName = "wall" + entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
     ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
   }
 
-  // Attacked crystal
+  /**
+   * Damages crystal to imitate crystal being attacked (for testing purposes)
+   */
   private void triggerCrystalAttacked() {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
   }
+
+  /**
+   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
+   */
+  private void triggerCrystalUpgrade() {
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    crystal.getComponent(CombatStatsComponent.class).upgrade();
+    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+  }
+
 }

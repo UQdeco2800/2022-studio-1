@@ -20,6 +20,9 @@ public class CombatStatsComponent extends Component {
     setBaseAttack(baseAttack);
   }
 
+  /**
+   * Combat Stats Component with extra parameter level to enable levelling up og entities (mainly Crystal)
+   */
   public CombatStatsComponent(int health, int baseAttack, int level) {
     setHealth(health);
     setBaseAttack(baseAttack);
@@ -106,10 +109,12 @@ public class CombatStatsComponent extends Component {
     setHealth(newHealth);
   }
 
+  /**
+   * Upgrades the level of the entity (mainly Crystal) and increases its health
+   */
   public void upgrade(){
     setLevel(this.level+1);
     addHealth(100);
-    //System.out.println(entity.getComponent(CombatStatsComponent.class).getHealth());
-
   }
+
 }

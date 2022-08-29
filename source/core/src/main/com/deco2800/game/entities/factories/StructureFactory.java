@@ -61,23 +61,6 @@ public class StructureFactory {
   }
 
   /**
-   * Creates a crystal entity.
-   *
-   * //@param target entity to chase
-   * @return entity
-   */
-  public static Entity createCrystal(String texture) {
-    Entity crystal = createBaseStructure(texture);
-    BaseEntityConfig config = configs.crystal;
-
-    crystal.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
-            .addComponent(new HealthBarComponent(100, 10));
-
-    ServiceLocator.getEntityService().registerNamed("crystal", crystal);
-    return crystal;
-  }
-
-  /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
    *
    * @return entity
