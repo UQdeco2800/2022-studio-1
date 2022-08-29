@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
@@ -13,6 +14,11 @@ import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 /**
@@ -25,6 +31,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private boolean buildState = false;
 
   private boolean buildEvent = false;
+
+  private SortedMap<String, Rectangle> structureRects = new TreeMap<>();
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -108,36 +116,55 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (pointer == Input.Buttons.LEFT) {
       if (buildState) {
         buildEvent = true;
-        /* Expiremental for wall removal
         boolean isClear = false;
-        int numWall = -1;
-        Map<String, Entity> allEntities = ServiceLocator.getEntityService().getAllNamedEntities();
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        for (Map.Entry<String, Entity> es : allEntities.entrySet()) {
-          if (es.getKey().startsWith("wall")) {
-            Vector2 wallPosition = es.getValue().getPosition();
-            if (mousePosV2.x >= wallPosition.x && mousePosV2.y >= wallPosition.y) {
-              if (mousePosV2.x <= wallPosition.x + 1 && mousePosV2.y <= wallPosition.y + 1) {
-                es.getValue().dispose();
-                buildEvent = false;
-                isClear = false;
-              }
-            } else {
-              isClear = true;
-            }
-          }
-          numWall++;
+        if (!structureRects.isEmpty()) {
+          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall"});
+        } else {
+          isClear = true;
         }
-        if (isClear || numWall == 0) {
-          triggerBuildEvent();
-        }*/
-        triggerBuildEvent("wall");
+        if (isClear) {
+          triggerBuildEvent("wall");
+        }
       }
     }
     return true;
+  }
+
+  /**
+   * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
+   * @param screenX The x coordinate, origin is in the upper left corner
+   * @param screenY The y coordinate, origin is in the upper left corner
+   * @param names List of all the names of all the structures to check if they were clicked
+   * @return true if the point (screenX, screenY) is clear of structures else return false
+   *
+   */
+  private boolean handleClickedStructures(int screenX, int screenY, String[] names) {
+    String clickedStructure = "";
+    boolean isClear = false;
+    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
+      for (String n : names) {
+        if (es.getKey().startsWith(n)) {
+          if (es.getValue().contains(mousePosV2)) {
+            ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
+            clickedStructure = es.getKey();
+            buildEvent = false;
+            isClear = false;
+          } else {
+            isClear = true;
+          }
+        } else {
+          isClear = true;
+        }
+      }
+    }
+    if (!clickedStructure.equals("")) {
+      structureRects.remove(clickedStructure);
+    }
+    return isClear;
   }
 
   /** @see InputProcessor#touchDragged(int, int, int) */
@@ -153,6 +180,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           mousePosV2.x -= 0.5;
           mousePosV2.y -= 0.5;
           ServiceLocator.getEntityService().getLastEntity().setPosition(mousePosV2);
+          structureRects.get(structureRects.lastKey()).setPosition(mousePosV2);
         }
       }
     }
@@ -202,6 +230,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (name == "wall") {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      structureRects.put(entityName, rectangle);
     }
   }
 
