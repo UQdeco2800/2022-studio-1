@@ -7,7 +7,6 @@ import com.deco2800.game.entities.factories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -28,6 +27,7 @@ import java.util.List;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
 
+  private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
@@ -94,7 +94,6 @@ public class ForestGameArea extends GameArea {
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
     this.terrainFactory = terrainFactory;
-
   }
 
   /**
@@ -113,7 +112,7 @@ public class ForestGameArea extends GameArea {
     // objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
-    crystal = spawnCrystal(60, 60);
+    crystal = spawnCrystal(59, 59);
 
     player = spawnPlayer();
 
@@ -133,8 +132,7 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    Entity mapEntity = new Entity().addComponent(terrain);
-    spawnEntity(mapEntity);
+    spawnEntity(new Entity().addComponent(terrain));
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -319,10 +317,6 @@ public class ForestGameArea extends GameArea {
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
-  }
-
-  public void expandIsland(int amount) {
-    terrainFactory.expandIsland((TiledMapTileLayer) terrain.getMap().getLayers().get(0), amount);
   }
 
   private void loadAssets() {
