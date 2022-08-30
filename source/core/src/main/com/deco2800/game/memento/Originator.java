@@ -142,7 +142,6 @@ public class Originator {
      * @param memento - the memento of the previous player state to read from
      */
     public void getStateFromMemento(Memento memento) {
-        state = memento.getState();
         gold = memento.getGold();
         stone = memento.getStone();
         currentHealth = memento.getCurrentHealth();
