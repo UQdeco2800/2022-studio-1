@@ -16,8 +16,11 @@ public class TerrainTile implements TiledMapTile {
   private float offsetX;
   private float offsetY;
 
-  public TerrainTile(TextureRegion textureRegion) {
+  private final String name;
+
+  public TerrainTile(TextureRegion textureRegion, String name) {
     this.textureRegion = textureRegion;
+    this.name = name;
   }
 
   @Override
@@ -28,6 +31,10 @@ public class TerrainTile implements TiledMapTile {
   @Override
   public void setId(int id) {
     this.id = id;
+  }
+
+  public String getName() {
+    return this.name;
   }
 
   @Override
