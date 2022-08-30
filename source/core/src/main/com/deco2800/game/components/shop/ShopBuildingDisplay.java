@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -36,9 +37,12 @@ public class ShopBuildingDisplay extends UIComponent {
     Table table5;
     Table table6;
     Table table7;
+    Table table8;
 
     private CircularLinkedList<ShopBuilding> stock;
     private Node<ShopBuilding> current;
+
+    Label subtitle;
 
     private Texture leftTexture;
     private TextureRegionDrawable left;
@@ -96,9 +100,13 @@ public class ShopBuildingDisplay extends UIComponent {
         table6.setFillParent(true);
         table6.right().bottom().padRight(250);
 
-        Table table7 = new Table();
+        table7 = new Table();
         table7.setFillParent(true);
         table7.top().left().padLeft(10).padTop(40);
+
+        table8 = new Table();
+        table8.setFillParent(true);
+        table8.top().left().padLeft(75).padTop(115);
 
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<ShopBuilding>();
@@ -221,6 +229,10 @@ public class ShopBuildingDisplay extends UIComponent {
                     }
                 });
 
+        subtitle = new Label("BUILDINGS", skin, "title");
+        subtitle.setFontScale(1f);
+        subtitle.setColor(skin.getColor("black"));
+
         // Add items to the stage
         table3.add(leftButton).width(100).height(100);
         table2.add(currentItem).width(450).height(450);
@@ -229,6 +241,7 @@ public class ShopBuildingDisplay extends UIComponent {
         table1.add(descriptionDisplay).width(450).height(450);
         table6.add(buyButton).width(300).height(300);
         table7.add(backButton).width(50).height(50);
+        table8.add(subtitle);
         stage.addActor(table1);
         stage.addActor(table2);
         stage.addActor(table3);
@@ -236,6 +249,7 @@ public class ShopBuildingDisplay extends UIComponent {
         stage.addActor(table5);
         stage.addActor(table6);
         stage.addActor(table7);
+        stage.addActor(table8);
 
     }
 
@@ -259,6 +273,7 @@ public class ShopBuildingDisplay extends UIComponent {
         table5.clear();
         table6.clear();
         table7.clear();
+        table8.clear();
         stage.clear();
         super.dispose();
     }
