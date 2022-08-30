@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.rendering.RenderComponent;
 
 /**
- * Render a tiled terrain for a given tiled map and orientation. A terrain is a map of tiles that
- * shows the 'ground' in the game. Enabling/disabling this component will show/hide the terrain.
+ * Render a tiled terrain for a given tiled map and orientation. A terrain is a
+ * map of tiles that
+ * shows the 'ground' in the game. Enabling/disabling this component will
+ * show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
   private static final int TERRAIN_LAYER = 0;
@@ -21,18 +23,21 @@ public class TerrainComponent extends RenderComponent {
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
   private final float tileSize;
+  private GridPoint2 island_size;
 
   public TerrainComponent(
       OrthographicCamera camera,
       TiledMap map,
       TiledMapRenderer renderer,
       TerrainOrientation orientation,
-      float tileSize) {
+      float tileSize,
+      GridPoint2 island_size) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
     this.tileSize = tileSize;
     this.tiledMapRenderer = renderer;
+    this.island_size = island_size;
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -59,12 +64,21 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public GridPoint2 getMapBounds(int layer) {
-    TiledMapTileLayer terrainLayer = (TiledMapTileLayer)tiledMap.getLayers().get(layer);
+    TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
     return new GridPoint2(terrainLayer.getWidth(), terrainLayer.getHeight());
   }
 
   public TiledMap getMap() {
     return tiledMap;
+  }
+
+  public void setIslandSize(int x, int y) {
+    this.island_size.x = x;
+    this.island_size.y = y;
+  }
+
+  public GridPoint2 getIslandSize() {
+    return this.island_size;
   }
 
   @Override
@@ -77,6 +91,11 @@ public class TerrainComponent extends RenderComponent {
   public void dispose() {
     tiledMap.dispose();
     super.dispose();
+  }
+
+  public TiledMapTileLayer getTileMapTileLayer(int layer) {
+    TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
+    return  terrainLayer;
   }
 
   @Override

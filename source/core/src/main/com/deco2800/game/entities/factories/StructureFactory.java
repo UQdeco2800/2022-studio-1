@@ -15,6 +15,10 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
 
 /**
  * Factory to create structure entities with predefined components.
@@ -30,15 +34,14 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
 
-
   /**
    * Creates a wall entity.
    *
    * @return specialised Wall entity
    */
   public static Entity createWall() {
-    Entity wall = createBaseStructure("images/wallTransparent.png");
-    BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
+    Entity wall = createBaseStructure("images/wall-right.png");
+    BaseEntityConfig config = configs.wall;
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(75, 10));
@@ -51,8 +54,8 @@ public class StructureFactory {
    * //@param target entity to chase
    * @return entity
    */
-  public static Entity createTower1(String texture) {
-    Entity tower1 = createBaseStructure(texture);
+  public static Entity createTower1() {
+    Entity tower1 = createBaseStructure("images/mini_tower.png");
     BaseEntityConfig config = configs.tower1;
 
     tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -66,20 +69,27 @@ public class StructureFactory {
    * @return stone quarry entity
    */
   public static Entity createStoneQuarry() {
-    Entity stoneQuarry = createBaseStructure("images/stoneQuarryTest.png");
+
+    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/res_bul_1.atlas", TextureAtlas.class));
+    bul_animator.addAnimation("bul_1", 0.5f, Animation.PlayMode.LOOP);
+
+    Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/res_bul_1.atlas");
     BaseEntityConfig config = configs.stoneQuarry;
 
     stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(bul_animator)
             .addComponent(new HealthBarComponent(75, 10));
+    stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
+    bul_animator.startAnimation("bul_1");
     return stoneQuarry;
   }
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
-   *
-   * @return entity
+   * @param texture image representation for created structure
+   * @return structure entity
    */
-  private static Entity createBaseStructure(String texture) {
+  public static Entity createBaseStructure(String texture) {
     /* //This is where the defence (aiming and shooting) tasks will be added
     AITaskComponent aiComponent =
         new AITaskComponent()
@@ -91,7 +101,7 @@ public class StructureFactory {
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
             //.addComponent(aiComponent);
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
@@ -99,6 +109,21 @@ public class StructureFactory {
     PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
     return structure;
   }
+
+  private static Entity createBaseStructure_forAnim(String texture) {
+     Entity structure =
+        new Entity()
+            .addComponent(new PhysicsComponent())
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
+            //.addComponent(aiComponent);
+
+    structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
+    PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
+    return structure;
+  }
+
 
   private StructureFactory() {
     throw new IllegalStateException("Instantiating static util class");

@@ -94,6 +94,13 @@ public class NPCFactory {
     ghostKing.getComponent(AnimationRenderComponent.class).scaleEntity();
     return ghostKing;
   }
+
+  /**
+   * Creates a pirate Crab entity
+   *
+   * @param target entity to chase
+   * @return Entity
+   */
   public static Entity createPirateCrabEnemy(Entity target) {
     Entity pirateCrabEnemy = createBaseNPC(target);
     EnemyConfig config = configs.pirateCrab;
@@ -125,6 +132,7 @@ public class NPCFactory {
 
     return ElectricEelEnemy;
   }
+
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
    *

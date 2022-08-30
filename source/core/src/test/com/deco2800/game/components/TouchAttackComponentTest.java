@@ -10,6 +10,7 @@ import com.deco2800.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import util.EntityUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,8 +24,8 @@ class TouchAttackComponentTest {
   @Test
   void shouldAttack() {
     short targetLayer = (1 << 3);
-    Entity entity = createAttacker(targetLayer);
-    Entity target = createTarget(targetLayer);
+    Entity entity = EntityUtil.createAttacker(targetLayer);
+    Entity target = EntityUtil.createTarget(targetLayer);
 
     Fixture entityFixture = entity.getComponent(HitboxComponent.class).getFixture();
     Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
@@ -37,8 +38,8 @@ class TouchAttackComponentTest {
   void shouldNotAttackOtherLayer() {
     short targetLayer = (1 << 3);
     short attackLayer = (1 << 4);
-    Entity entity = createAttacker(attackLayer);
-    Entity target = createTarget(targetLayer);
+    Entity entity = EntityUtil.createAttacker(attackLayer);
+    Entity target = EntityUtil.createTarget(targetLayer);
 
     Fixture entityFixture = entity.getComponent(HitboxComponent.class).getFixture();
     Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
@@ -50,7 +51,7 @@ class TouchAttackComponentTest {
   @Test
   void shouldNotAttackWithoutCombatComponent() {
     short targetLayer = (1 << 3);
-    Entity entity = createAttacker(targetLayer);
+    Entity entity = EntityUtil.createAttacker(targetLayer);
     // Target does not have a combat component
     Entity target =
         new Entity()
@@ -65,24 +66,5 @@ class TouchAttackComponentTest {
     entity.getEvents().trigger("collisionStart", entityFixture, targetFixture);
   }
 
-  Entity createAttacker(short targetLayer) {
-    Entity entity =
-        new Entity()
-            .addComponent(new TouchAttackComponent(targetLayer))
-            .addComponent(new CombatStatsComponent(0, 10))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new HitboxComponent());
-    entity.create();
-    return entity;
-  }
 
-  Entity createTarget(short layer) {
-    Entity target =
-        new Entity()
-            .addComponent(new CombatStatsComponent(10, 0))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new HitboxComponent().setLayer(layer));
-    target.create();
-    return target;
-  }
 }

@@ -23,6 +23,7 @@ public class PlayerActions extends Component {
 
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
+  private Vector2 faceDirecetion = Vector2.X.cpy();
   private boolean moving = false;
 
   @Override
@@ -64,6 +65,7 @@ public class PlayerActions extends Component {
    */
   void walk(Vector2 direction) {
     this.walkDirection = direction;
+    this.faceDirecetion = direction;
     moving = true;
     Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
     walkSound.play();
@@ -84,6 +86,7 @@ public class PlayerActions extends Component {
   void attack() {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
     attackSound.play();
+
   }
 
 }
