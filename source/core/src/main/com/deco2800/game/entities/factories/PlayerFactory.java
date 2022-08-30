@@ -35,7 +35,7 @@ public class PlayerFactory {
     InputComponent inputComponent =
         ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    TextureRenderComponent playerTexture = new TextureRenderComponent("images/box_boy_leaf.png");
+    TextureRenderComponent playerTexture = new TextureRenderComponent("images/Centaur_left.png");
 
     Entity player =
         new Entity()
