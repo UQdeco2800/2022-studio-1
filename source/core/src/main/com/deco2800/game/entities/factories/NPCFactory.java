@@ -1,5 +1,7 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +14,7 @@ import com.deco2800.game.components.tasks.ChaseTask;
 import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
+import com.deco2800.game.entities.configs.EnemyConfig;
 import com.deco2800.game.entities.configs.GhostKingConfig;
 import com.deco2800.game.entities.configs.NPCConfigs;
 import com.deco2800.game.files.FileLoader;
@@ -22,6 +25,7 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
 /**
@@ -92,6 +96,45 @@ public class NPCFactory {
   }
 
   /**
+   * Creates a pirate Crab entity
+   *
+   * @param target entity to chase
+   * @return Entity
+   */
+  public static Entity createPirateCrabEnemy(Entity target) {
+    Entity pirateCrabEnemy = createBaseNPC(target);
+    EnemyConfig config = configs.pirateCrab;
+
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
+
+    // Add combat stats, health bar and texture renderer to the pirate crab entity
+    pirateCrabEnemy
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent);
+
+
+    pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+
+    return pirateCrabEnemy;
+  }
+
+  public static Entity createElectricEelEnemy(Entity target) {
+    Entity ElectricEelEnemy = createBaseRangeNPC(target);
+    EnemyConfig config = configs.ElectricEel;
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ElectricEel.png");
+
+    ElectricEelEnemy
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent);
+
+    ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+
+    return ElectricEelEnemy;
+  }
+
+  /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
    *
    * @return entity
@@ -109,6 +152,31 @@ public class NPCFactory {
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
             .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
             .addComponent(aiComponent);
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+    return npc;
+  }
+
+  /**
+   * Creates a Ranged NPC to be used as an enemy. This uses different AI component values
+   * to create different enemy behaviour
+   *
+   * @return entity
+   */
+  private static Entity createBaseRangeNPC(Entity target) {
+    //Vector2 RangeHitbox = new Vector2(2f, 1f);
+    AITaskComponent aiComponent =
+            new AITaskComponent()
+                    .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
+                    .addTask(new ChaseTask(target, 10, 8f, 10f));
+    Entity npc =
+            new Entity()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.RangeNPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;

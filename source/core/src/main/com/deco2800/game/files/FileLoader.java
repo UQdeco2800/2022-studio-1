@@ -26,6 +26,7 @@ public class FileLoader {
    * @return instance of class, may be null
    */
   public static <T> T readClass(Class<T> type, String filename) {
+
     return readClass(type, filename, Location.INTERNAL);
   }
 
@@ -69,6 +70,7 @@ public class FileLoader {
    * @param filename File to write to.
    */
   public static void writeClass(Object object, String filename) {
+
     writeClass(object, filename, Location.EXTERNAL);
   }
 

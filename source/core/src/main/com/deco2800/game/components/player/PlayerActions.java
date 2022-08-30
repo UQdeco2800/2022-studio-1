@@ -1,9 +1,15 @@
 package com.deco2800.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.GameArea;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -12,10 +18,12 @@ import com.deco2800.game.services.ServiceLocator;
  * and when triggered should call methods within this class.
  */
 public class PlayerActions extends Component {
-  private static final Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(3f, 3f); //Metres per second
 
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
+  private Vector2 faceDirecetion = Vector2.X.cpy();
   private boolean moving = false;
 
   @Override
@@ -31,6 +39,14 @@ public class PlayerActions extends Component {
     if (moving) {
       updateSpeed();
     }
+  }
+
+  public Vector2 getPlayerSpeed() {
+    return MAX_SPEED;
+  }
+
+  public void resetPlayerSpeed() {
+    MAX_SPEED = DEFAULT_MAX_SPEED;
   }
 
   private void updateSpeed() {
@@ -49,7 +65,10 @@ public class PlayerActions extends Component {
    */
   void walk(Vector2 direction) {
     this.walkDirection = direction;
+    this.faceDirecetion = direction;
     moving = true;
+    Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
+    walkSound.play();
   }
 
   /**
@@ -65,7 +84,9 @@ public class PlayerActions extends Component {
    * Makes the player attack.
    */
   void attack() {
-    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/Impact4.ogg", Sound.class);
+    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
     attackSound.play();
+
   }
+
 }

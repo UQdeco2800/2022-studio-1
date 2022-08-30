@@ -1,7 +1,8 @@
 package com.deco2800.game.components.mainmenu;
 
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,9 +12,9 @@ import org.slf4j.LoggerFactory;
  */
 public class MainMenuActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuActions.class);
-  private GdxGame game;
+  private AtlantisSinks game;
 
-  public MainMenuActions(GdxGame game) {
+  public MainMenuActions(AtlantisSinks game) {
     this.game = game;
   }
 
@@ -30,7 +31,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(GdxGame.ScreenType.MAIN_GAME);
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, new CareTaker());
   }
 
   /**
@@ -54,6 +55,6 @@ public class MainMenuActions extends Component {
    */
   private void onSettings() {
     logger.info("Launching settings screen");
-    game.setScreen(GdxGame.ScreenType.SETTINGS);
+    game.setScreen(AtlantisSinks.ScreenType.SETTINGS, null);
   }
 }
