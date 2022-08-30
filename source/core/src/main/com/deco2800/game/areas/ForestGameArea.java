@@ -1,5 +1,7 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.components.CombatStatsComponent;
@@ -140,14 +142,72 @@ public class ForestGameArea extends GameArea {
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-    spawnWorldBorders(worldBounds, tileBounds);
+    spawnWorldBorders();
   }
 
-  private void spawnWorldBorders(Vector2 worldBounds, GridPoint2 tileBounds) {
-    /*
-     * Entity leftWall = ObstacleFactory.createWall(15.5f, 0.5f);
-     * spawnEntityAt(leftWall, new GridPoint2(45, 45), false, false);
-     */
+  private void spawnWorldBorders() {
+    GridPoint2 mapSize = terrainFactory.getMapSize();
+
+    TiledMapTileLayer tiledMapTileLayer = terrain.getTileMapTileLayer(0);
+
+    for (int x = 1; x < mapSize.x - 1; x++) {
+      for (int y = 1; y < mapSize.y - 1; y++) {
+        TerrainTile tile = (TerrainTile) tiledMapTileLayer.getCell(x, y).getTile();
+
+        TerrainTile above = (TerrainTile) tiledMapTileLayer.getCell(x, y + 1).getTile();
+        TerrainTile below = (TerrainTile) tiledMapTileLayer.getCell(x, y - 1).getTile();
+        TerrainTile left = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y).getTile();
+        TerrainTile right = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y).getTile();
+        TerrainTile rightAbove = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y + 1).getTile();
+        TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y - 1).getTile();
+        TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
+        TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
+        if (tile.getName() == "grass") {
+          System.out.println("Left " + left.getName());
+          System.out.println("Right " + right.getName());
+          System.out.println("Above " + above.getName());
+          System.out.println("Below " + below.getName());
+          System.out.println("Right Above " + rightAbove.getName());
+          System.out.println("Right Below " + rightBelow.getName());
+          System.out.println("Left Above " + leftAbove.getName());
+          System.out.println("Left Below " + leftBelow.getName());
+        }
+        if (tile.getName() == "grass") {
+          if (above.getName() == "water") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x, y + 1), false, false);
+          }
+          if (below.getName() == "cliff" || below.getName() == "cliffLeft") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x, y - 1), false, false);
+          }
+          if (left.getName() == "water") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x - 1, y), false, false);
+          }
+          if (right.getName() == "cliff" || right.getName() == "cliffRight") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x + 1, y), false, false);
+          }
+          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight" || rightAbove.getName() == "cliff") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x + 1, y + 1), false, false);
+          }
+          if (rightBelow.getName() == "cliff") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x + 1, y - 1), false, false);
+          }
+          if (leftAbove.getName() == "water") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x - 1, y + 1), false, false);
+          }
+          if (leftBelow.getName() == "water" || leftBelow.getName() == "cliff" || leftBelow.getName() == "cliffLeft") {
+            Entity wall = ObstacleFactory.createWall(1f, 1f);
+            spawnEntityAt(wall, new GridPoint2(x - 1, y - 1), false, false);
+          }
+        }
+      }
+    }
   }
 
   /**

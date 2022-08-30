@@ -136,11 +136,11 @@ public class TerrainFactory {
       GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion cliff, TextureRegion cliffLeft,
       TextureRegion cliffRight) {
     tiledMap = new TiledMap();
-    grassTile = new TerrainTile(grass);
-    waterTile = new TerrainTile(water);
-    cliffTile = new TerrainTile(cliff);
-    cliffRightTile = new TerrainTile(cliffRight);
-    cliffLeftTile = new TerrainTile(cliffLeft);
+    grassTile = new TerrainTile(grass, "grass");
+    waterTile = new TerrainTile(water, "water");
+    cliffTile = new TerrainTile(cliff, "cliff");
+    cliffRightTile = new TerrainTile(cliffRight, "cliffRight");
+    cliffLeftTile = new TerrainTile(cliffLeft, "cliffLeft");
     TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
     // Create base grass
