@@ -378,6 +378,10 @@ public class ForestGameArea extends GameArea {
 
     int counter = 0;
 
+    /*
+    * Try randomising coordinates until valid ones are found, if more than 1000 attempts fail then no valid
+    * coordinates were found and the enemy will not be spawned
+    *  */
     while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
         || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
       randomPos = RandomUtils.random(minPos, maxPos);
