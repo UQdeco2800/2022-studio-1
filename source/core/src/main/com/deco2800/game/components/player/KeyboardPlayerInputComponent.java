@@ -161,6 +161,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (anyStructureHit) {
       buildEvent = false;
       isClear = false;
+
       structureRects.remove(clickedStructure);
     } else {
       isClear = true;

@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.ui.UIComponent;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +22,9 @@ public class CommonShopComponents extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(CommonShopComponents.class);
     private static final float Z_INDEX = 2f;
 
-    private float width;
-    private float height;
+    Table table1;
+    Table table2;
+    Table table3;
 
     private Label title;
 
@@ -44,8 +47,18 @@ public class CommonShopComponents extends UIComponent {
     }
 
     private void addActors() {
-        width = stage.getWidth();
-        height = stage.getHeight();
+
+        table1 = new Table();
+        table1.setFillParent(true);
+        table1.top().left();
+
+        table2 = new Table();
+        table2.setFillParent(true);
+        table2.top().right();
+
+        table3 = new Table();
+        table3.setFillParent(true);
+        table3.top().right().padTop(150).padRight(250);
 
         stoneTexture = new Texture(Gdx.files.internal("images/border_stone.png"));
         stoneUp = new TextureRegionDrawable(stoneTexture);
@@ -53,11 +66,8 @@ public class CommonShopComponents extends UIComponent {
         stoneFrame = ShopUtils.createImageTextButton(
                 Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ",
                 skin.getColor("black"),
-                "title", 1f, stoneUp, stoneUp, skin, true);
-        stoneFrame.setTransform(true);
-        stoneFrame.getLabel().setScale(3f);
-        stoneFrame.setSize(200, 200);
-        stoneFrame.setPosition(1100, 700);
+                "button", 1f, stoneUp, stoneUp, skin, true);
+
         stoneFrame.setColor(216, 189, 151, 10);
 
         goldTexture = new Texture(Gdx.files.internal("images/border_coin.png"));
@@ -65,17 +75,14 @@ public class CommonShopComponents extends UIComponent {
         goldFrame = ShopUtils.createImageTextButton(
                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
                 skin.getColor("black"),
-                "title", 1f, goldUp, goldUp, skin, true);
-        goldFrame.setTransform(true);
-        goldFrame.getLabel().setScale(3f);
-        goldFrame.setSize(200, 200);
-        goldFrame.setPosition(1100, 780);
+                "button", 1f, goldUp, goldUp, skin, true);
+
         exitTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         exitUp = new TextureRegionDrawable(exitTexture);
         exitButton = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, exitUp,
                 exitUp,
                 skin, false);
-        exitButton.setPosition(width * 0.85f, height * 0.85f);
+
         exitButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -86,13 +93,16 @@ public class CommonShopComponents extends UIComponent {
                 });
 
         title = new Label("SHOP", skin, "title");
-        title.setPosition(width * 0.05f, height * 0.90f);
-        title.setFontScale(4f);
+        title.setFontScale(3f);
         title.setColor(skin.getColor("black"));
-        stage.addActor(title);
-        stage.addActor(stoneFrame);
-        stage.addActor(goldFrame);
-        stage.addActor(exitButton);
+        table1.add(title).pad(10, 75, 0, 0);
+        table3.add(stoneFrame).width(200).height(150);// .pad(250, 0, 0, 400);
+        table3.row();
+        table3.add(goldFrame).width(200).height(150);// pad(250, 0, 0, 400);
+        table2.add(exitButton).top().right().pad(10);
+        stage.addActor(table3);
+        stage.addActor(table1);
+        stage.addActor(table2);
     }
 
     @Override

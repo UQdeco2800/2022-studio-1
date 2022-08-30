@@ -34,7 +34,6 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
 
-
   /**
    * Creates a wall entity.
    *
@@ -42,7 +41,7 @@ public class StructureFactory {
    */
   public static Entity createWall() {
     Entity wall = createBaseStructure("images/wall-right.png");
-    BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
+    BaseEntityConfig config = configs.wall;
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(75, 10));
@@ -87,10 +86,10 @@ public class StructureFactory {
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
-   *
-   * @return entity
+   * @param texture image representation for created structure
+   * @return structure entity
    */
-  private static Entity createBaseStructure(String texture) {
+  public static Entity createBaseStructure(String texture) {
     /* //This is where the defence (aiming and shooting) tasks will be added
     AITaskComponent aiComponent =
         new AITaskComponent()
