@@ -18,6 +18,10 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.deco2800.game.components.player.PlayerAnimationController;
 
 /**
  * Factory to create a player entity.
@@ -38,21 +42,26 @@ public class PlayerFactory {
   public static Entity createPlayer() {
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    Entity player = new Entity()
-        .addComponent(new TextureRenderComponent("images/box_boy_leaf.png"))
-        .addComponent(new PhysicsComponent())
-        .addComponent(new ColliderComponent())
-        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-        .addComponent(new PlayerActions())
-        .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
-        .addComponent(new HealthBarComponent(100, 10))
-        .addComponent(new InventoryComponent(stats.gold, stats.gold)) // need to change to stone
-        .addComponent(inputComponent)
-        .addComponent(new PlayerStatsDisplay());
+    AnimationRenderComponent player_animator = new AnimationRenderComponent( ServiceLocator.getResourceService().getAsset("images/anim_demo/demo.atlas", TextureAtlas.class));
+    player_animator.addAnimation("box_boy", 0.1f, Animation.PlayMode.LOOP);
+
+    Entity player =
+        new Entity()
+            .addComponent(player_animator)
+            .addComponent(new PhysicsComponent())
+            .addComponent(new ColliderComponent())
+            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
+            .addComponent(new PlayerActions())
+            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(new InventoryComponent(stats.gold, stats.stone))
+            .addComponent(inputComponent)            
+            .addComponent(new PlayerAnimationController())
+            .addComponent(new PlayerStatsDisplay());
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(TextureRenderComponent.class).scaleEntity();
+    player.getComponent(AnimationRenderComponent.class).scaleEntity();
     return player;
   }
 
