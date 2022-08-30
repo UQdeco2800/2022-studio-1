@@ -172,16 +172,7 @@ public class ForestGameArea extends GameArea {
         TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y - 1).getTile();
         TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
         TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
-        if (tile.getName() == "grass") {
-          System.out.println("Left " + left.getName());
-          System.out.println("Right " + right.getName());
-          System.out.println("Above " + above.getName());
-          System.out.println("Below " + below.getName());
-          System.out.println("Right Above " + rightAbove.getName());
-          System.out.println("Right Below " + rightBelow.getName());
-          System.out.println("Left Above " + leftAbove.getName());
-          System.out.println("Left Below " + leftBelow.getName());
-        }
+
         if (tile.getName() == "grass") {
           if (above.getName() == "water") {
             Entity wall = ObstacleFactory.createWall(1f, 1f);
