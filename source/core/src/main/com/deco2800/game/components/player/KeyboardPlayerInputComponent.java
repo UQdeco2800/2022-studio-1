@@ -14,6 +14,7 @@ import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.*;
 
@@ -153,9 +154,16 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
       if (es.getValue().contains(mousePosV2)) {
-        ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
         clickedStructure = es.getKey();
-        anyStructureHit = true;
+        if (clickedStructure.contains("stonequarry")) {
+          PlayerStatsDisplay.stoneCount += 100;
+          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
+          resourceBuildState = false;
+          return false;
+        } else {
+          ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
+          anyStructureHit = true;
+        }
       }
     }
     if (anyStructureHit) {
