@@ -103,9 +103,10 @@ public class NPCFactory {
   public static Entity createPirateCrabEnemy(Entity target) {
     Entity pirateCrabEnemy = createBaseNPC(target);
     EnemyConfig config = configs.pirateCrab;
+
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
 
-
+    // Add combat stats, health bar and texture renderer to the pirate crab entity
     pirateCrabEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
