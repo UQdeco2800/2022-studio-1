@@ -87,11 +87,6 @@ public class PlayerActions extends Component {
     Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
     attackSound.play();
 
-
-    
-
-    
-
   }
 
 }

@@ -5,6 +5,7 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.PlayerConfig;
 import com.deco2800.game.files.FileLoader;
@@ -57,7 +58,8 @@ public class PlayerFactory {
             .addComponent(new InventoryComponent(stats.gold, stats.stone))
             .addComponent(inputComponent)            
             .addComponent(new PlayerAnimationController())
-            .addComponent(new PlayerStatsDisplay());
+            .addComponent(new PlayerStatsDisplay())
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
