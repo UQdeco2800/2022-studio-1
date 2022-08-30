@@ -106,7 +106,7 @@ public class ShopArtefactDisplay extends UIComponent {
 
         table8 = new Table();
         table8.setFillParent(true);
-        table8.top().left().padLeft(75).padTop(100);
+        table8.top().left().padLeft(75).padTop(115);
 
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<Artefact>();
