@@ -186,41 +186,37 @@ public class ForestGameArea extends GameArea {
 
         if (tile.getName() == "grass") {
           if (above.getName() == "water") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x, y + 1), false, false);
+            createBorderWall(x, y + 1);
           }
           if (below.getName() == "cliff" || below.getName() == "cliffLeft") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x, y - 1), false, false);
+            createBorderWall(x, y - 1);
           }
           if (left.getName() == "water") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x - 1, y), false, false);
+            createBorderWall(x -1 , y);
           }
           if (right.getName() == "cliff" || right.getName() == "cliffRight") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x + 1, y), false, false);
+            createBorderWall(x + 1, y );
           }
-          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight"
-              || rightAbove.getName() == "cliff") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x + 1, y + 1), false, false);
+          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight" || rightAbove.getName() == "cliff") {
+            createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName() == "cliff") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x + 1, y - 1), false, false);
+            createBorderWall(x + 1, y - 1);
           }
           if (leftAbove.getName() == "water") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x - 1, y + 1), false, false);
+            createBorderWall(x -1 , y + 1);
           }
           if (leftBelow.getName() == "water" || leftBelow.getName() == "cliff" || leftBelow.getName() == "cliffLeft") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x - 1, y - 1), false, false);
+            createBorderWall(x -1, y + 1);
           }
         }
       }
     }
+  }
+
+  private void createBorderWall(int x, int y) {
+    Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+    spawnEntityAt(wall, new GridPoint2(x, y), false, false);
   }
 
   /**
