@@ -60,6 +60,7 @@ public class ForestGameArea extends GameArea {
       "images/iso_grass_1.png",
       "images/iso_grass_2.png",
       "images/iso_grass_3.png",
+      "images/500_grassTile.png",
       "images/waterFinalVersion.png",
       "images/fullSizedDirt.png",
       "images/waterDirtMerged.png",
@@ -82,8 +83,8 @@ public class ForestGameArea extends GameArea {
       "images/pirate_crab_SW.png",
       "images/crystal.png",
       "images/stoneQuarryTest.png",
-        "images/wall-right.png",
-        "images/mini_tower.png",
+      "images/wall-right.png",
+      "images/mini_tower.png",
   };
 
   private static final String[] forestTextureAtlases = {
@@ -195,7 +196,8 @@ public class ForestGameArea extends GameArea {
             Entity wall = ObstacleFactory.createWall(1f, 1f);
             spawnEntityAt(wall, new GridPoint2(x + 1, y), false, false);
           }
-          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight" || rightAbove.getName() == "cliff") {
+          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight"
+              || rightAbove.getName() == "cliff") {
             Entity wall = ObstacleFactory.createWall(1f, 1f);
             spawnEntityAt(wall, new GridPoint2(x + 1, y + 1), false, false);
           }

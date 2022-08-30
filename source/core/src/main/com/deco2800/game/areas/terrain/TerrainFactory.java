@@ -68,7 +68,7 @@ public class TerrainFactory {
     switch (terrainType) {
       case FOREST_DEMO_ISO:
         TextureRegion isoGrass = new TextureRegion(
-            resourceService.getAsset("images/trial3GrassTile.png", Texture.class));
+            resourceService.getAsset("images/500_grassTile.png", Texture.class));
 
         TextureRegion isoWater = new TextureRegion(
             resourceService.getAsset("images/waterFinalVersion.png", Texture.class));
