@@ -2,6 +2,7 @@ package com.deco2800.game.memento;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.BestSword;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Or;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,12 @@ class OriginatorTest {
         assertEquals(100, test.getAttack());
     }
 
+    @Test
+    void shouldSaveStone() {
+        Originator test = new Originator(1);
+        test.setStone(100);
+        assertEquals(100, test.getStone());
+    }
     @Test
     void shouldSaveEmptyItemList() {
         Originator test = new Originator(1);
