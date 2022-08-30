@@ -43,7 +43,7 @@ public class MainGameScreen extends ScreenAdapter {
           "images/uiElements/exports/coin.png",
           "images/healthBar.png",
           "images/uiElements/exports/crystal.png",
-          "images/uiElements/exports/stone.png",
+          "images/uiElements/exports/stoneSuperior.png",
           "images/atlantisBasicBackground.png"
   };
 

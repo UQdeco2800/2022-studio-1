@@ -71,7 +71,7 @@ public class StructureFactory {
    */
   public static Entity createStoneQuarry() {
 
-    AnimationRenderComponent bul_animator = new AnimationRenderComponent( ServiceLocator.getResourceService().getAsset("images/anim_demo/res_bul_1.atlas", TextureAtlas.class));
+    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/res_bul_1.atlas", TextureAtlas.class));
     bul_animator.addAnimation("bul_1", 0.5f, Animation.PlayMode.LOOP);
 
     Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/res_bul_1.atlas");
@@ -112,12 +112,7 @@ public class StructureFactory {
   }
 
   private static Entity createBaseStructure_forAnim(String texture) {
-    /* //This is where the defence (aiming and shooting) tasks will be added
-    AITaskComponent aiComponent =
-        new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new ChaseTask(target, 10, 3f, 4f));*/
-    Entity structure =
+     Entity structure =
         new Entity()
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
