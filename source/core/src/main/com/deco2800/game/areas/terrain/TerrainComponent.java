@@ -93,6 +93,11 @@ public class TerrainComponent extends RenderComponent {
     super.dispose();
   }
 
+  public TiledMapTileLayer getTileMapTileLayer(int layer) {
+    TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
+    return  terrainLayer;
+  }
+
   @Override
   public float getZIndex() {
     return 0f;
