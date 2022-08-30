@@ -20,7 +20,7 @@ import com.deco2800.game.services.ServiceLocator;
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
-  private static GridPoint2 island_size = new GridPoint2(10, 10);
+  private static GridPoint2 island_size = new GridPoint2(20, 20);
   private static final int CLIFF_HEIGHT = 1;
 
   private TerrainTile grassTile;
@@ -79,7 +79,7 @@ public class TerrainFactory {
             resourceService.getAsset("images/500_waterAndDirtFullTile.png", Texture.class));
         isoCliffRight.flip(true, false);
 
-        return createForestDemoTerrain(0.5f, isoGrass, isoWater, isoCliff, isoCliffLeft,
+        return createForestDemoTerrain(1f, isoGrass, isoWater, isoCliff, isoCliffLeft,
             isoCliffRight);
       default:
         return null;
