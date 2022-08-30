@@ -21,7 +21,7 @@ public class InventoryComponent extends Component {
   private int stone;
   private List<Artefact> items = new ArrayList<>();
 
-  public InventoryComponent(int gold, int stone) { // need to update constructor to take multiple ints
+  public InventoryComponent(int gold, int stone) {
     setGold(gold);
     setStone(stone);
   }
@@ -102,6 +102,15 @@ public class InventoryComponent extends Component {
     setGold(this.gold + gold);
   }
 
+  /**
+   * Adds to the player's stone. The amount added can be negative.
+   *
+   * @param stone stone to add
+   */
+  public void addStone(int stone) {
+    setStone(this.stone + stone);
+  }
+
   public void setItems(List<Artefact> items) {
     this.items = items;
   }
@@ -112,14 +121,5 @@ public class InventoryComponent extends Component {
 
   public List<Artefact> getItems() {
     return this.items;
-  }
-
-  /**
-   * Adds to the player's stone. The amount added can be negative.
-   * 
-   * @param stone stone to add
-   */
-  public void addStone(int stone) {
-    setStone(this.stone + stone);
   }
 }

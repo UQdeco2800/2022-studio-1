@@ -1,9 +1,12 @@
 package com.deco2800.game.components.infrastructure;
 
+import com.deco2800.game.components.Component;
+import com.deco2800.game.components.player.InventoryComponent;
+
 /**
  * Resource building is a type of building used to generate resources for the player
  */
-public class ResourceBuilding {
+public class ResourceBuilding extends Component {
     /**
      * The rate at which this building produces a resource
      */
@@ -45,15 +48,10 @@ public class ResourceBuilding {
         return type;
     }
 
-
     /**
+     * Retrieves the resources produced and adds them to the players inventory.
+     */
     public void collectResources() {
-        int gold = getGold;
-        InventoryComponent.class.
-        InventoryComponent.addStone(productionRate);
-        player.addStone(productionRate);
-        entity().getComponent(InventoryComponent.class).addStone(productionRate);
-
+        entity.getComponent(InventoryComponent.class).addStone(productionRate);
     }
-    */
 }
