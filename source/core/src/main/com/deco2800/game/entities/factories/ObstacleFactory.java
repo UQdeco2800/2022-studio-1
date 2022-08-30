@@ -23,19 +23,21 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    return createEnvironmentalObject("images/tree.png", EnvironmentalComponent.EnvironmentalObstacle.TREE,
+    String[] sprites = {"images/landscape_objects/almond-tree-60x62.png", "images/landscape_objects/fig-tree-60x62.png"};
+    int index = (int) ((Math.random() * (sprites.length)));
+    return createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
             2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
   /**
    * Creates a rock entity.
-   * Placeholder image from:
-   * <a href='https://www.freepik.com/vectors/sea-monster'>Sea monster vector created by macrovector - www.freepik.com</a>
    * @return entity
    */
   public static Entity createRock() {
-    return createEnvironmentalObject("images/rock_placeholder_image.png", EnvironmentalComponent.EnvironmentalObstacle.ROCK,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    String[] sprites = {"images/landscape_objects/limestone-boulder-60x60.png", "images/landscape_objects/marble-stone-60x40.png"};
+    int index = (int) ((Math.random() * (sprites.length)));
+    return createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
+            0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
   }
 
   /**
@@ -43,26 +45,35 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createVine() {
-    return createEnvironmentalObject("images/vine_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
+    return createEnvironmentalObject("images/landscape_objects/vines.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
+            2f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
   }
 
   /**
-   * Creates a spiky bush entity, which damages players and knocks them back on contact
+   * Creates a spiky tree entity, which damages players and knocks them back on contact
    * @return entity
    */
-  public static Entity createSpikyBush() {
-    return createEnvironmentalObject("images/spiky_bush_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 1f);
+  public static Entity createSpikyTree() {
+    return createEnvironmentalObject("images/landscape_objects/cypress-tree-60x100.png", EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
+            2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 1f);
   }
 
   /**
-   * Creates a Knockback tower entity, which knocks players back on contact
+   * Creates a geyser, which damages and knocks back the player
    * @return entity
    */
-  public static Entity createKnockbackTower() {
-    return createEnvironmentalObject("images/knockback_tower_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
+  public static Entity createGeyser() {
+    return createEnvironmentalObject("images/landscape_objects/geyser.png", EnvironmentalComponent.EnvironmentalObstacle.GEYSER,
+            1f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 0.5f);
+  }
+
+  /**
+   * Creates a Billboard entity, which knocks players back on contact
+   * @return entity
+   */
+  public static Entity createBillboard() {
+    return createEnvironmentalObject("images/landscape_objects/billboard.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
+            3f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
   }
 
   /**
@@ -70,18 +81,38 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createAoeSpeedArtefact() {
-    Entity artefact = createEnvironmentalObject("images/speed_tower_placeholder.png", EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
-            1, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
+    Entity artefact = createEnvironmentalObject("images/landscape_objects/chalice.png", EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
+            0.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
     Vector2 aoeSize = new Vector2();
     Vector2 size = artefact.getScale();
     //sets aoe to twice the scale of the object
-    aoeSize.x = size.x * 2;
-    aoeSize.y = size.y * 2;
+    aoeSize.x = size.x * 4;
+    aoeSize.y = size.y * 4;
     artefact.addComponent(new HitboxComponent());
     artefact.getComponent(HitboxComponent.class).setAsBox(aoeSize);
     artefact.getComponent(CollisionEffectComponent.class).setAoe(true);
+    artefact.getComponent(CollisionEffectComponent.class).setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
     return artefact;
   }
+
+  /**
+   * creates a pillar entity
+   * @return entity
+   */
+  public static Entity createPillar() {
+    return createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR,
+            3f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+  }
+
+  /**
+   * creates a wooden fence entity
+   * @return entity
+   */
+  public static Entity createWoodenFence() {
+    return createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
+            0.8f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+  }
+
 
   /**
    * Create an environmental entity based off the given parameters.

@@ -14,6 +14,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Factory to create structure entities with predefined components.
@@ -30,22 +31,48 @@ public class StructureFactory {
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
 
 
-
   /**
    * Creates a wall entity.
+   *
+   * @return specialised Wall entity
+   */
+  public static Entity createWall() {
+    Entity wall = createBaseStructure("images/wall-right.png");
+    BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
+
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return wall;
+  }
+
+  /**
+   * Creates a tower1 entity.
    *
    * //@param target entity to chase
    * @return entity
    */
-  public static Entity createWall(String texture) {
-    Entity wall = createBaseStructure(texture);
-    BaseEntityConfig config = configs.wall;
+  public static Entity createTower1() {
+    Entity tower1 = createBaseStructure("images/mini_tower.png");
+    BaseEntityConfig config = configs.tower1;
 
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(50, 10));
-    return wall;
+    tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return tower1;
   }
 
+  /**
+   * Creates a Stone Quarry entity
+   *
+   * @return stone quarry entity
+   */
+  public static Entity createStoneQuarry() {
+    Entity stoneQuarry = createBaseStructure("images/stoneQuarryTest.png");
+    BaseEntityConfig config = configs.stoneQuarry;
+
+    stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return stoneQuarry;
+  }
 
   /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
@@ -64,7 +91,7 @@ public class StructureFactory {
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
             //.addComponent(aiComponent);
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);

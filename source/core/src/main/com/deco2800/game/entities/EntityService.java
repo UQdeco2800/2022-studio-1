@@ -53,6 +53,23 @@ public class EntityService {
   }
 
   /**
+   * Returns the last registered entity
+   * @return the last registered entity or null
+   */
+  public Entity getLastEntity() {
+    return this.entities.get(this.entities.size-1);
+  }
+
+  /**
+   * Returns all registered entities
+   * @return all registered entities or null
+   */
+  public Map<String, Entity> getAllNamedEntities() {
+    return this.namedEntities;
+  }
+
+
+  /**
    * Unregister an entity with the entity service. The entity will be removed and stop updating.
    * @param entity entity to be removed.
    */
