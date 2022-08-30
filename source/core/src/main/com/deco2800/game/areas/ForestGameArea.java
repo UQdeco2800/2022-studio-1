@@ -41,8 +41,6 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_ROCKS = 3;
 
   private static final String[] forestTextures = {
-
-<<<<<<< HEAD
           "images/box_boy_leaf.png",
           "images/tree.png",
           "images/ghost_king.png",
@@ -72,44 +70,19 @@ public class ForestGameArea extends GameArea {
           "images/pirate_crab_SE.png",
           "images/pirate_crab_SW.png",
           "images/crystal.png",
+          "images/ElectricEel.png",
           "images/stoneQuarryTest.png",
-=======
-    "images/box_boy_leaf.png",
-    "images/tree.png",
-    "images/ghost_king.png",
-    "images/ghost_1.png",
-    "images/grass_1.png",
-    "images/grass_2.png",
-    "images/grass_3.png",
-    "images/hex_grass_1.png",
-    "images/hex_grass_2.png",
-    "images/hex_grass_3.png",
-    "images/iso_grass_1.png",
-    "images/iso_grass_2.png",
-    "images/iso_grass_3.png",
-    "images/water version 2.png",
-    "images/fullSizedDirt.png",
-    "images/waterDirtMerged.png",
-    "images/trial3GrassTile.png",
-    "images/wallTransparent.png",
-    "images/landscape_objects/almond-tree-60x62.png",
-    "images/landscape_objects/fig-tree-60x62.png",
-    "images/landscape_objects/limestone-boulder-60x60.png",
-    "images/landscape_objects/marble-stone-60x40.png",
-    "images/landscape_objects/vines.png",
-    "images/landscape_objects/cypress-tree-60x100.png",
-    "images/landscape_objects/geyser.png",
-    "images/landscape_objects/billboard.png",
-    "images/landscape_objects/chalice.png",
-    "images/landscape_objects/pillar.png",
-    "images/landscape_objects/wooden-fence-60x60.png",
-    "images/pirate_crab_NE.png",
-    "images/pirate_crab_NW.png",
-    "images/pirate_crab_SE.png",
-    "images/pirate_crab_SW.png",
-    "images/crystal.png"
->>>>>>> origin
-
+          "images/landscape_objects/pillar.png",
+          "images/landscape_objects/vines.png",
+          "images/landscape_objects/geyser.png",
+          "images/landscape_objects/limestone-boulder-60x60.png",
+          "images/landscape_objects/marble-stone-60x40.png",
+          "images/landscape_objects/almond-tree-60x62.png",
+          "images/landscape_objects/fig-tree-60x62.png",
+          "images/landscape_objects/cypress-tree-60x100.png",
+          "images/landscape_objects/chalice.png",
+          "images/landscape_objects/wooden-fence-60x60.png",
+          "images/landscape_objects/billboard.png",
   };
 
   private static final String[] forestTextureAtlases = {
@@ -152,6 +125,8 @@ public class ForestGameArea extends GameArea {
     player = spawnPlayer();
 
     spawnPirateCrabEnemy();
+
+    spawnElectricEelEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -344,6 +319,24 @@ public class ForestGameArea extends GameArea {
       counter++;
     }
         spawnEntityAt(pirateCrabEnemy,randomPos,true,true);
+  }
+
+  private void spawnElectricEelEnemy(){
+    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player);
+    GridPoint2 minPos = new GridPoint2(0,0);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
+    GridPoint2 randomPos = RandomUtils.random(minPos,maxPos);
+
+    while (true){
+      randomPos = RandomUtils.random(minPos,maxPos);
+      if (this.entityMapping.wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
+              ||entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+        continue;
+      } else {
+        break;
+      }
+    }
+    spawnEntityAt(ElectricEelEnemy,randomPos,true,true);
   }
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
