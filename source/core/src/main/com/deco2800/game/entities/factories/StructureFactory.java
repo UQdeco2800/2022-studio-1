@@ -37,7 +37,7 @@ public class StructureFactory {
    * @return specialised Wall entity
    */
   public static Entity createWall() {
-    Entity wall = createBaseStructure("images/wallTransparent.png");
+    Entity wall = createBaseStructure("images/wall-right.png");
     BaseEntityConfig config = configs.wall; //For some reason it errors if I use configs.wall :o
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -51,13 +51,27 @@ public class StructureFactory {
    * //@param target entity to chase
    * @return entity
    */
-  public static Entity createTower1(String texture) {
-    Entity tower1 = createBaseStructure(texture);
+  public static Entity createTower1() {
+    Entity tower1 = createBaseStructure("images/mini_tower.png");
     BaseEntityConfig config = configs.tower1;
 
     tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(75, 10));
     return tower1;
+  }
+
+  /**
+   * Creates a Stone Quarry entity
+   *
+   * @return stone quarry entity
+   */
+  public static Entity createStoneQuarry() {
+    Entity stoneQuarry = createBaseStructure("images/stoneQuarryTest.png");
+    BaseEntityConfig config = configs.stoneQuarry;
+
+    stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(75, 10));
+    return stoneQuarry;
   }
 
   /**
@@ -77,7 +91,7 @@ public class StructureFactory {
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
             //.addComponent(aiComponent);
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);

@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -22,161 +22,125 @@ import com.deco2800.game.components.shop.artefacts.StandardSword;
 import com.deco2800.game.ui.UIComponent;
 
 /**
- * Displays a button to exit the Main Game screen to the Main Menu screen.
+ * Displays UI specific to the ShopArtefactScreen
  */
 public class ShopArtefactDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(ShopBuildingDisplay.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShopArtefactDisplay.class);
     private static final float Z_INDEX = 2f;
 
-    private StockList<Artefact> stock;
+    private float width;
+    private float height;
+
+    private CircularLinkedList<Artefact> stock;
     private Node<Artefact> current;
 
-    private TextureRegionDrawable returnUp;
-
-    private TextureRegionDrawable returnDown;
-    private Texture returnTexture;
-
     private Texture leftTexture;
+    private TextureRegionDrawable left;
+    private Button leftButton;
 
-    private TextButton stoneFrame;
-    private Texture stoneTexture;
-
-    private TextButton goldFrame;
-    private Texture goldTexture;
+    private Texture rightTexture;
+    private TextureRegionDrawable right;
+    private Button rightButton;
 
     private Image currentItem;
     private Texture currentTexture;
 
-    private Image returnShopBtn;
-    private Texture returnShopTexture;
+    private Texture goldenCategoryTexture;
+    private TextureRegionDrawable goldenDrawable;
+    private Texture brownCategoryTexture;
+    private TextureRegionDrawable brownDrawable;
 
-    private Image buildingDescriptionFrame;
-    private Texture buildingDescriptionTexture;
-    private Label descriptionTitle;
-
-    private Image price;
-    private Texture priceTexture;
-    private String priceTitle = "100";
-
-    private Image buyBtn;
-    private Texture buyTexture;
-    private Label buyTitle;
-
-    private Image sword;
-    private Texture swordTexture;
-    private Label swordTitle;
-
+    private TextButton descriptionDisplay;
+    private TextButton buyButton;
     private TextButton priceDisplay;
+
+    private Texture backTexture;
+    private TextureRegionDrawable upBack;
+    private ImageButton backButton;
 
     @Override
     public void create() {
         super.create();
-
         addActors();
-        entity.getEvents().addListener("updateHealth", this::setLabel);
-    }
-
-    public void setLabel(String string) {
-        logger.info("50 50 50");
-        this.priceTitle = string;
-        this.priceDisplay.setText(priceTitle);
-        // create();
-        // entity.getEvents().trigger("exit");
     }
 
     private void addActors() {
 
-        stock = new StockList<Artefact>();
+        width = stage.getWidth();
+        height = stage.getHeight();
+
+        // Create linked list of the available shop stock
+        stock = new CircularLinkedList<Artefact>();
         stock.add(new StandardSword());
         stock.add(new BetterSword());
         stock.add(new BestSword());
         current = stock.head;
 
-        float width = stage.getWidth();
-        float height = stage.getHeight();
-
-        returnShopTexture = new Texture(Gdx.files.internal("images/coin.png"));
-        returnShopBtn = new Image(returnShopTexture);
-        returnShopBtn.setSize(85, 85);
-        returnShopBtn.setPosition(415, 860);
-
-        stoneTexture = new Texture(Gdx.files.internal("images/border_stone.png"));
-        TextureRegionDrawable stone = new TextureRegionDrawable(stoneTexture);
-        // TODO change gold coins to stone count in inventory when available
-        stoneFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
-                skin.getColor("black"),
-                "title", 1f, stone, stone, skin, true);
-        stoneFrame.setTransform(true);
-        stoneFrame.getLabel().setScale(3f);
-        stoneFrame.setSize(200, 200);
-        stoneFrame.setPosition(1100, 700);
-        stoneFrame.setColor(216, 189, 151, 10);
-
-        goldTexture = new Texture(Gdx.files.internal("images/border_coin.png"));
-        TextureRegionDrawable coin = new TextureRegionDrawable(goldTexture);
-        goldFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
-                skin.getColor("black"),
-                "title", 1f, coin, coin, skin, true);
-        goldFrame.setTransform(true);
-        goldFrame.getLabel().setScale(3f);
-        goldFrame.setSize(200, 200);
-        goldFrame.setPosition(1100, 780);
-
+        // Create the current artefact to display
         currentTexture = new Texture(Gdx.files.internal(current.t.getCategoryTexture()));
         currentItem = new Image(currentTexture);
         currentItem.setScale(6f);
 
-        buildingDescriptionTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        buildingDescriptionFrame = new Image(buildingDescriptionTexture);
-        buildingDescriptionFrame.setSize(350, 320);
-        buildingDescriptionFrame.setPosition(740, 230);
-        String descriptionText = "Defense against enemies";
-        descriptionTitle = new Label(descriptionText, skin, "small");
-        descriptionTitle.setPosition(800, 400);
-
+        // Create textures for arrows, price, descrition and buy button
+        brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
-        Texture rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
-        priceTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        price = new Image(priceTexture);
-        price.setScale(4f);
-        TextureRegionDrawable s = new TextureRegionDrawable(priceTexture);
-        TextureRegionDrawable pressed = new TextureRegionDrawable(buildingDescriptionTexture);
-        TextureRegionDrawable left = new TextureRegionDrawable(leftTexture);
-        TextureRegionDrawable right = new TextureRegionDrawable(rightTexture);
-        Button leftButton = new Button(left);
+        rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
+        goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
+        brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+        left = new TextureRegionDrawable(leftTexture);
+        right = new TextureRegionDrawable(rightTexture);
+
+        // create left button
+        leftButton = new Button(left);
         leftButton.setTransform(true);
         leftButton.setOrigin(0, 0);
         leftButton.setScale(0.15f);
-        Button rightButton = new Button(right);
+
+        // create right button
+        rightButton = new Button(right);
         rightButton.setTransform(true);
         rightButton.setOrigin(0, 0);
         rightButton.setScale(0.15f);
+
+        // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
                 Integer.toString(current.t.getPrice()), skin.getColor("black"),
                 "button", 3f,
-                s, s,
+                goldenDrawable, goldenDrawable,
                 skin,
                 true);
-        TextButton descriptionDisplay = ShopUtils.createImageTextButton(
+
+        // create description sticker
+        descriptionDisplay = ShopUtils.createImageTextButton(
                 current.t.getName() + "\n" + current.t.getDescription(),
                 skin.getColor("black"),
                 "button", 3f,
-                pressed, pressed, skin,
+                brownDrawable, brownDrawable, skin,
                 true);
         descriptionDisplay.getLabel().setFontScale(0.5f);
         descriptionDisplay.setScaleY(6f);
-        TextButton buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 3f, pressed, s,
+
+        // create buy button
+        buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 3f,
+                brownDrawable, goldenDrawable,
                 skin,
                 false);
+
+        // create the back button
+        backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        upBack = new TextureRegionDrawable(backTexture);
+        backButton = new ImageButton(upBack, upBack);
+        backButton.setSize(50, 50);
+        backButton.setPosition(width * 0.01f, height * 0.9f);
+
+        // Add listeners to relevant buttons
         rightButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Right button clicked");
-                        // entity.getEvents().trigger("right");
-                        Node temp = current;
+                        Node<Artefact> temp = current;
                         current = stock.head.next;
                         stock.head = stock.head.next;
                         stock.tail = temp;
@@ -194,8 +158,7 @@ public class ShopArtefactDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Left button clicked");
-                        // entity.getEvents().trigger("right");
-                        Node temp = current;
+                        Node<Artefact> temp = current;
                         current = stock.head.prev;
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
@@ -217,58 +180,26 @@ public class ShopArtefactDisplay extends UIComponent {
                         if (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice())) {
                             logger.info("Sufficient Gold");
                             entity.getComponent(InventoryComponent.class).addGold(-1 * current.t.getPrice());
+                            Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
+                            coinSound.play();
                         } else {
                             logger.info("Insufficient gold!");
                         }
-                        goldFrame.setText(
+                        entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ");
                     }
                 });
 
-        buyTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        buyBtn = new Image(buyTexture);
-        buyBtn.setSize(200, 280);
-        buyBtn.setPosition(1090, 250);
-        String buyText = "BUY";
-        buyTitle = new Label(buyText, skin, "large");
-        buyTitle.setPosition(1170, 390);
-
-        swordTexture = new Texture(Gdx.files.internal("images/shop-sword.png"));
-        sword = new Image(swordTexture);
-        sword.setSize(200, 200);
-        sword.setPosition(820, 500);
-        String swordText = "Sword";
-        swordTitle = new Label(swordText, skin, "large");
-        swordTitle.setPosition(870, 700);
-
-        // Triggers an event when the button is pressed.
-        returnTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
-        returnUp = new TextureRegionDrawable(returnTexture);
-        returnDown = new TextureRegionDrawable(returnTexture);
-        TextButton backBtn = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, returnDown,
-                returnUp,
-                skin, false);
-        backBtn.setPosition(width * 0.85f, height * 0.85f);
-        backBtn.addListener(
+        backButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Exit button clicked");
-                        entity.getEvents().trigger("exit");
+                        logger.debug("Back button clicked");
+                        entity.getEvents().trigger("mainShop");
                     }
                 });
 
-        Label title = new Label("SHOP", skin, "title");
-        title.setPosition(width * 0.05f, height * 0.90f);
-        title.setFontScale(4f);
-        title.setColor(skin.getColor("black"));
-
-        stage.addActor(backBtn);
-
-        stage.addActor(title);
-
-        stage.addActor(goldFrame);
-        stage.addActor(stoneFrame);
+        // Add items to the stage
 
         leftButton.setPosition(width * 0.30f, height * 0.45f);
         stage.addActor(leftButton);
@@ -278,36 +209,14 @@ public class ShopArtefactDisplay extends UIComponent {
 
         rightButton.setPosition(width * 0.70f, height * 0.45f);
         stage.addActor(rightButton);
-        // priceDisplay.setOrigin(0, 0);
         priceDisplay.setPosition(width * 0.05f, height * 0.0f);
 
         stage.addActor(priceDisplay);
-        // descriptionDisplay.setOrigin(0, 0);
         descriptionDisplay.setPosition(width * 0.24f, height * -0.15f);
         stage.addActor(descriptionDisplay);
-        // buyButton.setOrigin(0, 0);
         buyButton.setPosition(width * 0.78f, height * 0.0f);
         stage.addActor(buyButton);
-
-        /*
-         * table.add(buildingItem);
-         * table.add(buildingTitle);
-         * table.add(stoneFrame);
-         * table.add(goldFrame);
-         * table.add(returnShopBtn);
-         * table.add(buildingDescriptionFrame);
-         * table.add(descriptionTitle);
-         * table.add(price);
-         * table.add(priceTitle);
-         * table.add(buyBtn);
-         * table.add(buyTitle);
-         * table.add(sword);
-         * table.add(swordTitle);
-         */
-
-        // stage.addActor(table);
-        // priceTitle.setAlignment(Align.center);
-        // stage.addActor(priceDisplay);
+        stage.addActor(backButton);
 
     }
 
