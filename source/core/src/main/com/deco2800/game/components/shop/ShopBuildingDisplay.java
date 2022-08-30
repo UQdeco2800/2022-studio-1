@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -28,8 +29,13 @@ public class ShopBuildingDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopBuildingDisplay.class);
     private static final float Z_INDEX = 2f;
 
-    private float width;
-    private float height;
+    Table table1;
+    Table table2;
+    Table table3;
+    Table table4;
+    Table table5;
+    Table table6;
+    Table table7;
 
     private CircularLinkedList<ShopBuilding> stock;
     private Node<ShopBuilding> current;
@@ -66,8 +72,33 @@ public class ShopBuildingDisplay extends UIComponent {
 
     private void addActors() {
 
-        width = stage.getWidth();
-        height = stage.getHeight();
+        table1 = new Table();
+        table1.setFillParent(true);
+        table1.center().bottom().padBottom(-75);
+
+        table2 = new Table();
+        table2.setFillParent(true);
+        table2.center().padTop(100);
+
+        table3 = new Table();
+        table3.setFillParent(true);
+        table3.center().left().padLeft(350).padTop(100);
+
+        table4 = new Table();
+        table4.setFillParent(true);
+        table4.center().right().padRight(350).padTop(100);
+
+        table5 = new Table();
+        table5.setFillParent(true);
+        table5.left().bottom().padLeft(250);
+
+        table6 = new Table();
+        table6.setFillParent(true);
+        table6.right().bottom().padRight(250);
+
+        Table table7 = new Table();
+        table7.setFillParent(true);
+        table7.top().left().padLeft(10).padTop(40);
 
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<ShopBuilding>();
@@ -79,7 +110,6 @@ public class ShopBuildingDisplay extends UIComponent {
         // Create the current artefact to display
         currentTexture = new Texture(Gdx.files.internal(current.t.getCategoryTexture()));
         currentItem = new Image(currentTexture);
-        currentItem.setScale(6f);
 
         // Create textures for arrows, price, descrition and buy button
         brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
@@ -94,19 +124,15 @@ public class ShopBuildingDisplay extends UIComponent {
         // create left button
         leftButton = new Button(left);
         leftButton.setTransform(true);
-        leftButton.setOrigin(0, 0);
-        leftButton.setScale(0.15f);
 
         // create right button
         rightButton = new Button(right);
         rightButton.setTransform(true);
-        rightButton.setOrigin(0, 0);
-        rightButton.setScale(0.15f);
 
         // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
                 Integer.toString(current.t.getPrice()), skin.getColor("black"),
-                "button", 3f,
+                "button", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
                 true);
@@ -115,14 +141,12 @@ public class ShopBuildingDisplay extends UIComponent {
         descriptionDisplay = ShopUtils.createImageTextButton(
                 current.t.getName() + "\n" + current.t.getDescription(),
                 skin.getColor("black"),
-                "button", 3f,
+                "button", 1f,
                 brownDrawable, brownDrawable, skin,
                 true);
-        descriptionDisplay.getLabel().setFontScale(0.5f);
-        descriptionDisplay.setScaleY(6f);
 
         // create buy button
-        buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 3f,
+        buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
                 brownDrawable, goldenDrawable,
                 skin,
                 false);
@@ -131,8 +155,6 @@ public class ShopBuildingDisplay extends UIComponent {
         backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
         upBack = new TextureRegionDrawable(backTexture);
         backButton = new ImageButton(upBack, upBack);
-        backButton.setSize(50, 50);
-        backButton.setPosition(width * 0.01f, height * 0.9f);
 
         // Add listeners to relevant buttons
         rightButton.addListener(
@@ -200,23 +222,20 @@ public class ShopBuildingDisplay extends UIComponent {
                 });
 
         // Add items to the stage
-
-        leftButton.setPosition(width * 0.30f, height * 0.45f);
-        stage.addActor(leftButton);
-
-        currentItem.setPosition(width * 0.33f, height * 0.27f);
-        stage.addActor(currentItem);
-
-        rightButton.setPosition(width * 0.70f, height * 0.45f);
-        stage.addActor(rightButton);
-        priceDisplay.setPosition(width * 0.05f, height * 0.0f);
-
-        stage.addActor(priceDisplay);
-        descriptionDisplay.setPosition(width * 0.24f, height * -0.15f);
-        stage.addActor(descriptionDisplay);
-        buyButton.setPosition(width * 0.78f, height * 0.0f);
-        stage.addActor(buyButton);
-        stage.addActor(backButton);
+        table3.add(leftButton).width(100).height(100);
+        table2.add(currentItem).width(450).height(450);
+        table4.add(rightButton).width(100).height(100);
+        table5.add(priceDisplay).width(300).height(300);
+        table1.add(descriptionDisplay).width(450).height(450);
+        table6.add(buyButton).width(300).height(300);
+        table7.add(backButton).width(50).height(50);
+        stage.addActor(table1);
+        stage.addActor(table2);
+        stage.addActor(table3);
+        stage.addActor(table4);
+        stage.addActor(table5);
+        stage.addActor(table6);
+        stage.addActor(table7);
 
     }
 
@@ -233,6 +252,13 @@ public class ShopBuildingDisplay extends UIComponent {
 
     @Override
     public void dispose() {
+        table1.clear();
+        table2.clear();
+        table3.clear();
+        table4.clear();
+        table5.clear();
+        table6.clear();
+        table7.clear();
         stage.clear();
         super.dispose();
     }

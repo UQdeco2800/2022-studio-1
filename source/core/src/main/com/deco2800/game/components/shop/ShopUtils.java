@@ -28,7 +28,7 @@ public class ShopUtils {
         button.setOrigin(0, 0);
         button.setScale(scale);
         button.setDisabled(isDisabled);
-        button.padBottom(3 * scale);
+        button.padBottom(20);
         return button;
     }
 }
