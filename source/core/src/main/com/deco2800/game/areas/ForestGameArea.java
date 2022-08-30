@@ -87,6 +87,7 @@ public class ForestGameArea extends GameArea {
       "images/stoneQuarryTest.png",
       "images/wall-right.png",
       "images/mini_tower.png",
+      "images/ElectricEel.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -132,6 +133,8 @@ public class ForestGameArea extends GameArea {
     this.player = spawnPlayer();
 
     spawnPirateCrabEnemy();
+
+    spawnElectricEelEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -392,6 +395,24 @@ public class ForestGameArea extends GameArea {
     }
 
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
+  }
+
+  private void spawnElectricEelEnemy() {
+    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player);
+    GridPoint2 minPos = new GridPoint2(0, 0);
+    GridPoint2 maxPos = terrain.getMapBounds(0);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    while (true) {
+      randomPos = RandomUtils.random(minPos, maxPos);
+      if (this.entityMapping.wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+        continue;
+      } else {
+        break;
+      }
+    }
+    spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
 
   private void playMusic() {
