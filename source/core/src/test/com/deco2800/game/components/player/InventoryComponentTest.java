@@ -38,4 +38,34 @@ class InventoryComponentTest {
     inventory.addGold(-20);
     assertEquals(80, inventory.getGold());
   }
+
+  @Test
+  void shouldSetGetStone() {
+    InventoryComponent inventory = new InventoryComponent(100, 100);
+    assertEquals(100, inventory.getStone());
+
+    inventory.setStone(150);
+    assertEquals(150, inventory.getStone());
+
+    inventory.setStone(-50);
+    assertEquals(0, inventory.getStone());
+  }
+
+  @Test
+  void shouldCheckHasStone() {
+    InventoryComponent inventory = new InventoryComponent(150, 150);
+    assertTrue(inventory.hasStone(100));
+    assertFalse(inventory.hasStone(200));
+  }
+
+  @Test
+  void shouldAddStone() {
+    InventoryComponent inventory = new InventoryComponent(100, 150);
+    inventory.addStone(-500);
+    assertEquals(0, inventory.getStone());
+
+    inventory.addStone(100);
+    inventory.addStone(-20);
+    assertEquals(80, inventory.getStone());
+  }
 }

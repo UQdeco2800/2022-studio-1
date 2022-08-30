@@ -42,6 +42,7 @@ public class ShopActions extends Component {
         currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
+        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
         playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
     }
@@ -55,6 +56,7 @@ public class ShopActions extends Component {
         currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
+        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
         playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.SHOP, playerStatus);
     }
@@ -64,11 +66,6 @@ public class ShopActions extends Component {
      */
     private void onBuildShop() {
         logger.info("Entering Build shop screen");
-        Originator currentStatus = new Originator(playerStatus.getAll().size());
-        currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
-        currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
-        currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
-        playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, playerStatus);
     }
 
@@ -77,11 +74,6 @@ public class ShopActions extends Component {
      */
     private void onArtefactShop() {
         logger.info("Entering Artefact shop screen");
-        Originator currentStatus = new Originator(playerStatus.getAll().size());
-        currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
-        currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
-        currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
-        playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP, playerStatus);
     }
 }

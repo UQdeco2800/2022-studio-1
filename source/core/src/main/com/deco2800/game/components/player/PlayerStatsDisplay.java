@@ -75,7 +75,7 @@ public class PlayerStatsDisplay extends UIComponent {
     stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stone.png", Texture.class));
 
     //Stone text. 0 as an initial set up
-    int stone = 0;
+    int stone = entity.getComponent(InventoryComponent.class).getStone();
     CharSequence stoneCount = String.format("x %d", stone);
     stoneCurrencyLabel = new Label(stoneCount, skin, "large");
 
