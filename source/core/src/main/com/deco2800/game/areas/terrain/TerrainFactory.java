@@ -86,6 +86,18 @@ public class TerrainFactory {
     }
   }
 
+  /**
+   * Initializes renderer and calls createForestDemoTiles to create
+   * tiledMap.
+   * 
+   * @param tileWorldSize size of tiles in terms of world units
+   * @param grass         Grass texture
+   * @param water         Water texture
+   * @param cliff         Cliff texture
+   * @param cliffLeft     Cliff edge left texture
+   * @param cliffRight    Cliff edge right texture
+   * @return new TerrainComponent
+   */
   private TerrainComponent createForestDemoTerrain(
       float tileWorldSize, TextureRegion grass, TextureRegion water,
       TextureRegion cliff, TextureRegion cliffLeft, TextureRegion cliffRight) {
@@ -109,6 +121,17 @@ public class TerrainFactory {
     }
   }
 
+  /**
+   * Creates new TiledMap and calls fillTiles to generate the base layer for it
+   * 
+   * @param tileSize   size of tiles
+   * @param grass      grass texture
+   * @param water      water texture
+   * @param cliff      cliff texture
+   * @param cliffLeft  cliff edge left texture
+   * @param cliffRight cliff edge right texture
+   * @return new TiledMap with the generated map contained
+   */
   private TiledMap createForestDemoTiles(
       GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion cliff, TextureRegion cliffLeft,
       TextureRegion cliffRight) {
@@ -138,6 +161,18 @@ public class TerrainFactory {
     }
   }
 
+  /**
+   * Calls fill functions to generate the map
+   * 
+   * @param layer          map layer to add to
+   * @param islandSize     size of the island in tiles
+   * @param mapSize        size of the map in tiles
+   * @param water          water tile
+   * @param land           land tile
+   * @param cliffTile      cliff tile
+   * @param cliffRightTile cliff edge right tile
+   * @param cliffLeftTile  cliff edge left tile
+   */
   private static void fillTiles(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize, TerrainTile water,
       TerrainTile land, TerrainTile cliffTile, TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
 
@@ -151,6 +186,15 @@ public class TerrainFactory {
     fillWater(layer, islandSize, mapSize, waterDimensions, water);
   }
 
+  /**
+   * Fills grass layer of island based on dimensions of island
+   * 
+   * @param layer           map layer to add to
+   * @param islandSize      island size in tiles
+   * @param mapSize         map size in tiles
+   * @param waterDimensions tile distances from edge of map to island
+   * @param land            land tile
+   */
   public static void fillLand(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
       GridPoint2 waterDimensions, TerrainTile land) {
     for (int x = waterDimensions.x; x < islandSize.x + waterDimensions.x; x++) {
@@ -162,6 +206,18 @@ public class TerrainFactory {
     }
   }
 
+  /**
+   * Generates cliff tiles and cliff edge tiles based on island size
+   * and cliff height.
+   * 
+   * @param layer           map layer to add to
+   * @param islandSize      island size in tiles
+   * @param mapSize         map size in tiles
+   * @param waterDimensions tile distances from edge of map to island
+   * @param cliffTile       cliff tile
+   * @param cliffRightTile  cliff edge right tile
+   * @param cliffLeftTile   cliff edge left tile
+   */
   public static void fillCliffs(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
       GridPoint2 waterDimensions,
       TerrainTile cliffTile,
@@ -199,6 +255,15 @@ public class TerrainFactory {
 
   }
 
+  /**
+   * Fills remaining empty cells with water
+   * 
+   * @param layer           map layer to add to
+   * @param islandSize      island size in tiles
+   * @param mapSize         map size in tiles
+   * @param waterDimensions tile distances from edge of map to island
+   * @param water           water tile
+   */
   public static void fillWater(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
       GridPoint2 waterDimensions, TerrainTile water) {
     for (int x = 0; x < mapSize.x; x++) {
