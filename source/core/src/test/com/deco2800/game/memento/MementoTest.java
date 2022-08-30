@@ -49,4 +49,10 @@ class MementoTest {
         Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
         assertEquals(5, test.getAttack());
     }
+
+    @Test
+    void shouldGetStone() {
+        Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
+        assertEquals(3, test.getStone());
+    }
 }

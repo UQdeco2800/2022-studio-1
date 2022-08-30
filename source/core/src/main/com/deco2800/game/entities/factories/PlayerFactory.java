@@ -75,6 +75,7 @@ public class PlayerFactory {
       player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());
       player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
       player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
+      player.getComponent(InventoryComponent.class).setStone(lastStatus.getStone());
       return player;
     }
   }
