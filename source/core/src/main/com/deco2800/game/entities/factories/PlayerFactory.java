@@ -45,7 +45,7 @@ public class PlayerFactory {
 
     TextureRenderComponent player_start = new TextureRenderComponent("images/Centaur_left.png");
     AnimationRenderComponent player_animator = new AnimationRenderComponent( ServiceLocator.getResourceService().getAsset("images/anim_demo/demo.atlas", TextureAtlas.class));
-    player_animator.addAnimation("Centaur_left", 0.1f, Animation.PlayMode.LOOP);
+    player_animator.addAnimation("Centaur", 0.1f, Animation.PlayMode.LOOP);
 
     Entity player =
         new Entity()
