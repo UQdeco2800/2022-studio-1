@@ -119,16 +119,17 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall", "tower1", "stone quarry"});
+          isClear = handleClickedStructures(screenX, screenY);
         } else {
           isClear = true;
         }
         if (isClear) {
-          triggerBuildEvent("tower1");
+          if (resourceBuildState) {
+            triggerBuildEvent("stonequarry");
+          } else {
+            triggerBuildEvent("wall");
+          }
         }
-      }
-      if (resourceBuildState) {
-        triggerBuildEvent("stone quarry");
       }
     }
     return true;
@@ -138,35 +139,30 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
    * @param screenX The x coordinate, origin is in the upper left corner
    * @param screenY The y coordinate, origin is in the upper left corner
-   * @param names List of all the names of all the structures to check if they were clicked
    * @return true if the point (screenX, screenY) is clear of structures else return false
    *
    */
-  private boolean handleClickedStructures(int screenX, int screenY, String[] names) {
+  private boolean handleClickedStructures(int screenX, int screenY) {
     String clickedStructure = "";
-    boolean isClear = false;
+    boolean isClear;
+    boolean anyStructureHit = false;
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
-      for (String n : names) {
-        if (es.getKey().startsWith(n)) {
-          if (es.getValue().contains(mousePosV2)) {
-            ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
-            clickedStructure = es.getKey();
-            buildEvent = false;
-            isClear = false;
-          } else {
-            isClear = true;
-          }
-        } else {
-          isClear = true;
-        }
+      if (es.getValue().contains(mousePosV2)) {
+        ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
+        clickedStructure = es.getKey();
+        anyStructureHit = true;
       }
     }
-    if (!clickedStructure.equals("")) {
+    if (anyStructureHit) {
+      buildEvent = false;
+      isClear = false;
       structureRects.remove(clickedStructure);
+    } else {
+      isClear = true;
     }
     return isClear;
   }
@@ -216,24 +212,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Toggles the build state of the player
    */
   private void toggleBuildState() {
-    if (resourceBuildState) {
-      toggleResourceBuildState();
-      buildState = true;
-    } else {
-      buildState = !buildState;
-    }
+    buildState = !buildState;
   }
 
   /**
    * Toggles resource building placement mode
    */
   private void toggleResourceBuildState() {
-    if (buildState) {
-      toggleBuildState();
-      resourceBuildState = true;
-    } else {
-      resourceBuildState = !resourceBuildState;
-    }
+    resourceBuildState = !resourceBuildState;
   }
 
   /**
@@ -254,7 +240,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "stone quarry")) {
+    } else if (Objects.equals(name, "stonequarry")) {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
