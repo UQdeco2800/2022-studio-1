@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
@@ -20,12 +21,15 @@ public class PlayerStatsDisplay extends UIComponent {
   private Label coinLabel;
   private Image crystalImage;
   private Image crystalBarImage;
+  private Label crystalLabel;
 
   private Image stoneCurrencyImage;
   //private Label stoneCurrencyLabel;
   public static Label stoneCurrencyLabel;
 
   public static int stoneCount = 0;
+  Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -36,7 +40,11 @@ public class PlayerStatsDisplay extends UIComponent {
     addActors();
     //will be used to update health
     //entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+    crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
+
   }
+
+
 
   /**
    * Creates actors and positions them on the stage using a table.
@@ -69,7 +77,10 @@ public class PlayerStatsDisplay extends UIComponent {
 
     //Crystal bar
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
-
+    //crystal health text
+    int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
+    CharSequence healthText = String.format("%d", crystalHealth);
+    crystalLabel = new Label(healthText, skin, "large");
 
 
     //Stone image
@@ -89,6 +100,7 @@ public class PlayerStatsDisplay extends UIComponent {
     table.row();
     table.add(crystalImage);
     table.add(crystalBarImage).size(200f,30f).pad(5);
+    table.add(crystalLabel);
     table.row();
     table.add(coinImage);
     table.add(coinLabel).pad(0,0,0,0).left();
@@ -105,6 +117,10 @@ public class PlayerStatsDisplay extends UIComponent {
     // draw is handled by the stage
   }
 
+  public void updateCrystalHealthUI(int health) {
+    CharSequence text = String.format("%d", health);
+    crystalLabel.setText(text);
+  }
 
 
   @Override
