@@ -10,7 +10,7 @@ class Node<T> {
     }
 }
 
-class StockList<T> {
+class CircularLinkedList<T> {
 
     public Node<T> head = null;
     public Node<T> tail = null;

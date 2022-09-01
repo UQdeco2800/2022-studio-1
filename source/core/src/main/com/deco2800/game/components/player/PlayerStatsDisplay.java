@@ -22,9 +22,10 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image crystalBarImage;
 
   private Image stoneCurrencyImage;
-  private Label stoneCurrencyLabel;
+  //private Label stoneCurrencyLabel;
+  public static Label stoneCurrencyLabel;
 
-
+  public static int stoneCount = 0;
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -51,7 +52,7 @@ public class PlayerStatsDisplay extends UIComponent {
     coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/coin.png", Texture.class));
 
     //Coin text - set as 0, for placeholder
-    int coin = 0;
+    int coin = entity.getComponent(InventoryComponent.class).getGold();
     CharSequence coinText = String.format("x %d", coin);
     coinLabel = new Label(coinText, skin, "large");
 
@@ -72,12 +73,12 @@ public class PlayerStatsDisplay extends UIComponent {
 
 
     //Stone image
-    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stone.png", Texture.class));
+    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stoneSuperior.png", Texture.class));
 
     //Stone text. 0 as an initial set up
-    int stone = 0;
-    CharSequence stoneCount = String.format("x %d", stone);
-    stoneCurrencyLabel = new Label(stoneCount, skin, "large");
+    int stone = entity.getComponent(InventoryComponent.class).getStone();
+   // CharSequence stoneCount = String.format("x %d", stone);
+    stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
 
 

@@ -14,8 +14,10 @@ import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.*;
+
 
 
 /**
@@ -119,16 +121,17 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          isClear = handleClickedStructures(screenX, screenY, new String[]{"wall"});
+          isClear = handleClickedStructures(screenX, screenY);
         } else {
           isClear = true;
         }
         if (isClear) {
-          triggerBuildEvent("wall");
+          if (resourceBuildState) {
+            triggerBuildEvent("stonequarry");
+          } else {
+            triggerBuildEvent("wall");
+          }
         }
-      }
-      if (resourceBuildState) {
-        triggerBuildEvent("stone quarry");
       }
     }
     return true;
@@ -138,35 +141,38 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
    * @param screenX The x coordinate, origin is in the upper left corner
    * @param screenY The y coordinate, origin is in the upper left corner
-   * @param names List of all the names of all the structures to check if they were clicked
    * @return true if the point (screenX, screenY) is clear of structures else return false
    *
    */
-  private boolean handleClickedStructures(int screenX, int screenY, String[] names) {
+  private boolean handleClickedStructures(int screenX, int screenY) {
     String clickedStructure = "";
-    boolean isClear = false;
+    boolean isClear;
+    boolean anyStructureHit = false;
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
-      for (String n : names) {
-        if (es.getKey().startsWith(n)) {
-          if (es.getValue().contains(mousePosV2)) {
-            ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
-            clickedStructure = es.getKey();
-            buildEvent = false;
-            isClear = false;
-          } else {
-            isClear = true;
-          }
+      if (es.getValue().contains(mousePosV2)) {
+        clickedStructure = es.getKey();
+        if (clickedStructure.contains("stonequarry")) {
+          PlayerStatsDisplay.stoneCount += 100;
+          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
+          resourceBuildState = false;
+          return false;
         } else {
-          isClear = true;
+          ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
+          anyStructureHit = true;
         }
       }
     }
-    if (!clickedStructure.equals("")) {
+    if (anyStructureHit) {
+      buildEvent = false;
+      isClear = false;
+
       structureRects.remove(clickedStructure);
+    } else {
+      isClear = true;
     }
     return isClear;
   }
@@ -208,6 +214,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.epsilonEquals(Vector2.Zero)) {
       entity.getEvents().trigger("walkStop");
     } else {
+      entity.getEvents().trigger("anim_player");
       entity.getEvents().trigger("walk", walkDirection);
     }
   }
@@ -216,24 +223,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Toggles the build state of the player
    */
   private void toggleBuildState() {
-    if (resourceBuildState) {
-      toggleResourceBuildState();
-      buildState = true;
-    } else {
-      buildState = !buildState;
-    }
+    buildState = !buildState;
   }
 
   /**
    * Toggles resource building placement mode
    */
   private void toggleResourceBuildState() {
-    if (buildState) {
-      toggleBuildState();
-      resourceBuildState = true;
-    } else {
-      resourceBuildState = !resourceBuildState;
-    }
+    resourceBuildState = !resourceBuildState;
   }
 
   /**
@@ -248,15 +245,23 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
+
     if (Objects.equals(name, "wall")) {
       ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-    } else if (Objects.equals(name, "stone quarry")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-    }
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
+    } else if (Objects.equals(name, "stonequarry")) {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      structureRects.put(entityName, rectangle);
+    } else if (Objects.equals(name, "tower1")) {
+      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createTower1());
+      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      structureRects.put(entityName, rectangle);
+    }
   }
 
   /**

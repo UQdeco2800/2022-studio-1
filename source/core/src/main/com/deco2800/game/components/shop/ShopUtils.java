@@ -1,15 +1,10 @@
 package com.deco2800.game.components.shop;
 
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.components.shop.artefacts.Artefact;
-
-import net.dermetfan.gdx.physics.box2d.PositionController.P;
 
 public class ShopUtils {
     /**
@@ -33,7 +28,7 @@ public class ShopUtils {
         button.setOrigin(0, 0);
         button.setScale(scale);
         button.setDisabled(isDisabled);
-        button.padBottom(3 * scale);
+        button.padBottom(20);
         return button;
     }
 }
