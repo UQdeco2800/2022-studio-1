@@ -137,6 +137,8 @@ public class StructureFactory {
 
   /**
    * Builds a structure at mouse position
+   * @param name name of the structure in game entity list
+   * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    */
   public static void triggerBuildEvent(String name, SortedMap<String, Rectangle> structureRects) {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -170,7 +172,11 @@ public class StructureFactory {
    * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
    * @param screenX The x coordinate, origin is in the upper left corner
    * @param screenY The y coordinate, origin is in the upper left corner
-   * @return true if the point (screenX, screenY) is clear of structures else return false
+   * @param structureRects map of all structure selection rectangles to the structure name in game entity list
+   * @param resourceBuildState true if building resource building false otherwise
+   * @param buildEvent true if currently in a build event false otherwise
+   * @return list of booleans[]{true if the point (screenX, screenY) is clear of structures else return false,
+   *                            resourceBuildState, buildEvent}
    *
    */
   public static boolean[] handleClickedStructures(int screenX, int screenY, SortedMap<String, Rectangle> structureRects, boolean resourceBuildState, boolean buildEvent) {
@@ -208,6 +214,7 @@ public class StructureFactory {
 
   /**
    * Toggles the build state of the player
+   * @param buildState true if currently in build state false otherwise
    */
   public static boolean toggleBuildState(boolean buildState) {
     buildState = !buildState;
@@ -216,6 +223,7 @@ public class StructureFactory {
 
   /**
    * Toggles resource building placement mode
+   * @param resourceBuildState true if building resource building false otherwise
    */
   public static boolean toggleResourceBuildState(boolean resourceBuildState) {
     resourceBuildState = !resourceBuildState;
