@@ -12,6 +12,11 @@
     "health": 50,
     "baseAttack": 10,
     "gold": 10
+  },
+  "ElectricEel": {
+    "health": 30,
+    "baseAttack": 20,
+    "gold": 20
   }
 }
 

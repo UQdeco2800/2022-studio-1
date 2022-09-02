@@ -7,4 +7,6 @@ public class NPCConfigs {
   public BaseEntityConfig ghost = new BaseEntityConfig();
   public GhostKingConfig ghostKing = new GhostKingConfig();
   public EnemyConfig pirateCrab = new EnemyConfig();
+
+  public EnemyConfig ElectricEel = new EnemyConfig();
 }

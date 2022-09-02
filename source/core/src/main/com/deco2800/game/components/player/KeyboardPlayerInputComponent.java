@@ -97,7 +97,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerWalkEvent();
         return true;
       case Keys.B:
-        toggleBuildState();
+        buildState = StructureFactory.toggleBuildState(buildState);
         return true;
       case Keys.O:
         triggerCrystalAttacked();
@@ -106,7 +106,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalUpgrade();
         return true;
       case Keys.N:
-        toggleResourceBuildState();
+        resourceBuildState = StructureFactory.toggleResourceBuildState(resourceBuildState);
         return true;
       default:
         return false;
@@ -121,15 +121,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          isClear = handleClickedStructures(screenX, screenY);
+          boolean[] updatedValues = StructureFactory.handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
+          isClear = updatedValues[0];
+          resourceBuildState = updatedValues[1];
+          buildEvent = updatedValues[2];
         } else {
           isClear = true;
         }
         if (isClear) {
           if (resourceBuildState) {
-            triggerBuildEvent("stonequarry");
+            StructureFactory.triggerBuildEvent("stonequarry", structureRects);
           } else {
-            triggerBuildEvent("wall");
+            StructureFactory.triggerBuildEvent("wall", structureRects);
           }
         }
       }
@@ -137,45 +140,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
-  /**
-   * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
-   * @param screenX The x coordinate, origin is in the upper left corner
-   * @param screenY The y coordinate, origin is in the upper left corner
-   * @return true if the point (screenX, screenY) is clear of structures else return false
-   *
-   */
-  private boolean handleClickedStructures(int screenX, int screenY) {
-    String clickedStructure = "";
-    boolean isClear;
-    boolean anyStructureHit = false;
-    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
-      if (es.getValue().contains(mousePosV2)) {
-        clickedStructure = es.getKey();
-        if (clickedStructure.contains("stonequarry")) {
-          PlayerStatsDisplay.stoneCount += 100;
-          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
-          resourceBuildState = false;
-          return false;
-        } else {
-          ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
-          anyStructureHit = true;
-        }
-      }
-    }
-    if (anyStructureHit) {
-      buildEvent = false;
-      isClear = false;
 
-      structureRects.remove(clickedStructure);
-    } else {
-      isClear = true;
-    }
-    return isClear;
-  }
 
   /** @see InputProcessor#touchDragged(int, int, int) */
   @Override
@@ -214,53 +179,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (walkDirection.epsilonEquals(Vector2.Zero)) {
       entity.getEvents().trigger("walkStop");
     } else {
-      entity.getEvents().trigger("anim_player");
       entity.getEvents().trigger("walk", walkDirection);
-    }
-  }
-
-  /**
-   * Toggles the build state of the player
-   */
-  private void toggleBuildState() {
-    buildState = !buildState;
-  }
-
-  /**
-   * Toggles resource building placement mode
-   */
-  private void toggleResourceBuildState() {
-    resourceBuildState = !resourceBuildState;
-  }
-
-  /**
-   * Builds a structure at mouse position
-   */
-  private void triggerBuildEvent(String name) {
-    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    mousePosV2.x -= 0.5;
-    mousePosV2.y -= 0.5;
-    String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
-    entityName = name + entityName;
-
-    if (Objects.equals(name, "wall")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createWall());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "stonequarry")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createStoneQuarry());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "tower1")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, StructureFactory.createTower1());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
     }
   }
 

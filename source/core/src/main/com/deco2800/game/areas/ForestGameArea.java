@@ -60,6 +60,9 @@ public class ForestGameArea extends GameArea {
       "images/iso_grass_1.png",
       "images/iso_grass_2.png",
       "images/iso_grass_3.png",
+      "images/500_grassTile.png",
+      "images/500_waterFullTile.png",
+      "images/500_waterAndDirtFullTile.png",
       "images/waterFinalVersion.png",
       "images/fullSizedDirt.png",
       "images/waterDirtMerged.png",
@@ -82,8 +85,9 @@ public class ForestGameArea extends GameArea {
       "images/pirate_crab_SW.png",
       "images/crystal.png",
       "images/stoneQuarryTest.png",
-        "images/wall-right.png",
-        "images/mini_tower.png",
+      "images/wall-right.png",
+      "images/mini_tower.png",
+      "images/ElectricEel.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -124,11 +128,13 @@ public class ForestGameArea extends GameArea {
     // objects are created
     this.entityMapping = new EnvironmentalCollision(terrain);
 
-    crystal = spawnCrystal(59, 59);
+    crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
 
     spawnPirateCrabEnemy();
+
+    spawnElectricEelEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -180,40 +186,37 @@ public class ForestGameArea extends GameArea {
 
         if (tile.getName() == "grass") {
           if (above.getName() == "water") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x, y + 1), false, false);
+            createBorderWall(x, y + 1);
           }
           if (below.getName() == "cliff" || below.getName() == "cliffLeft") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x, y - 1), false, false);
+            createBorderWall(x, y - 1);
           }
           if (left.getName() == "water") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x - 1, y), false, false);
+            createBorderWall(x -1 , y);
           }
           if (right.getName() == "cliff" || right.getName() == "cliffRight") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x + 1, y), false, false);
+            createBorderWall(x + 1, y );
           }
           if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight" || rightAbove.getName() == "cliff") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x + 1, y + 1), false, false);
+            createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName() == "cliff") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x + 1, y - 1), false, false);
+            createBorderWall(x + 1, y - 1);
           }
           if (leftAbove.getName() == "water") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x - 1, y + 1), false, false);
+            createBorderWall(x -1 , y + 1);
           }
           if (leftBelow.getName() == "water" || leftBelow.getName() == "cliff" || leftBelow.getName() == "cliffLeft") {
-            Entity wall = ObstacleFactory.createWall(1f, 1f);
-            spawnEntityAt(wall, new GridPoint2(x - 1, y - 1), false, false);
+            createBorderWall(x -1, y + 1);
           }
         }
       }
     }
+  }
+
+  private void createBorderWall(int x, int y) {
+    Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+    spawnEntityAt(wall, new GridPoint2(x, y), false, false);
   }
 
   /**
@@ -224,8 +227,11 @@ public class ForestGameArea extends GameArea {
    *                   EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
-    GridPoint2 minPos = new GridPoint2(46, 48);
-    GridPoint2 maxPos = terrain.getMapBounds(0);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+        terrainFactory.getIslandSize().x + waterWidth - 4);
 
     for (int i = 0; i < numObjects; i++) {
       GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
@@ -244,13 +250,9 @@ public class ForestGameArea extends GameArea {
           envObj = ObstacleFactory.createAoeSpeedArtefact();
           break;
         case KNOCKBACK_TOWER:
-          minPos = new GridPoint2(50, 50);
-          maxPos = new GridPoint2(60, 60);
           envObj = ObstacleFactory.createBillboard();
           break;
         case STONE_PILLAR:
-          minPos = new GridPoint2(50, 50);
-          maxPos = new GridPoint2(65, 65);
           envObj = ObstacleFactory.createPillar();
           break;
         case GEYSER:
@@ -367,12 +369,20 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
 
-    GridPoint2 minPos = new GridPoint2(0, 0);
-    GridPoint2 maxPos = terrain.getMapBounds(0);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+        terrainFactory.getIslandSize().x + waterWidth - 4);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
     int counter = 0;
 
+    /*
+     * Try randomising coordinates until valid ones are found, if more than 1000
+     * attempts fail then no valid
+     * coordinates were found and the enemy will not be spawned
+     */
     while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
         || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
       randomPos = RandomUtils.random(minPos, maxPos);
@@ -383,6 +393,27 @@ public class ForestGameArea extends GameArea {
     }
 
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
+  }
+
+  private void spawnElectricEelEnemy() {
+    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+        terrainFactory.getIslandSize().x + waterWidth - 4);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    while (true) {
+      randomPos = RandomUtils.random(minPos, maxPos);
+      if (this.entityMapping.wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+        continue;
+      } else {
+        break;
+      }
+    }
+    spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
 
   private void playMusic() {

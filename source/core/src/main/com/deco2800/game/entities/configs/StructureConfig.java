@@ -1,7 +1,5 @@
 package com.deco2800.game.entities.configs;
 
-import com.badlogic.gdx.utils.compression.lzma.Base;
-
 /**
  * Defines all structure configs to be loaded by the Structure Factory.
  */
