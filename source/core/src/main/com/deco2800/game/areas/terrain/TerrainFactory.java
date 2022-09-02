@@ -20,7 +20,7 @@ import com.deco2800.game.services.ServiceLocator;
 /** Factory for creating game terrains. */
 public class TerrainFactory {
   private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
-  private static GridPoint2 island_size = new GridPoint2(5, 5);
+  private static GridPoint2 island_size = new GridPoint2(20, 20);
   private static final int CLIFF_HEIGHT = 1;
 
   private TerrainTile grassTile;
@@ -68,18 +68,18 @@ public class TerrainFactory {
     switch (terrainType) {
       case FOREST_DEMO_ISO:
         TextureRegion isoGrass = new TextureRegion(
-            resourceService.getAsset("images/trial3GrassTile.png", Texture.class));
+            resourceService.getAsset("images/500_grassTile.png", Texture.class));
 
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/water version 2.png", Texture.class));
+            resourceService.getAsset("images/500_waterFullTile.png", Texture.class));
         TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/fullSizedDirt.png", Texture.class));
         TextureRegion isoCliffLeft = new TextureRegion(
-            resourceService.getAsset("images/waterDirtMerged.png", Texture.class));
+            resourceService.getAsset("images/500_waterAndDirtFullTile.png", Texture.class));
         TextureRegion isoCliffRight = new TextureRegion(
-            resourceService.getAsset("images/waterDirtMerged.png", Texture.class));
+            resourceService.getAsset("images/500_waterAndDirtFullTile.png", Texture.class));
         isoCliffRight.flip(true, false);
 
-        return createForestDemoTerrain(3f, isoGrass, isoWater, isoCliff, isoCliffLeft,
+        return createForestDemoTerrain(1f, isoGrass, isoWater, isoCliff, isoCliffLeft,
             isoCliffRight);
       default:
         return null;
@@ -113,11 +113,11 @@ public class TerrainFactory {
       GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion cliff, TextureRegion cliffLeft,
       TextureRegion cliffRight) {
     tiledMap = new TiledMap();
-    grassTile = new TerrainTile(grass);
-    waterTile = new TerrainTile(water);
-    cliffTile = new TerrainTile(cliff);
-    cliffRightTile = new TerrainTile(cliffRight);
-    cliffLeftTile = new TerrainTile(cliffLeft);
+    grassTile = new TerrainTile(grass, "grass");
+    waterTile = new TerrainTile(water, "water");
+    cliffTile = new TerrainTile(cliff, "cliff");
+    cliffRightTile = new TerrainTile(cliffRight, "cliffRight");
+    cliffLeftTile = new TerrainTile(cliffLeft, "cliffLeft");
     TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
     // Create base grass
@@ -160,6 +160,14 @@ public class TerrainFactory {
         layer.setCell(x, y, cell);
       }
     }
+  }
+
+  public GridPoint2 getMapSize() {
+    return MAP_SIZE;
+  }
+
+  public GridPoint2 getIslandSize() {
+    return island_size;
   }
 
   public static void fillCliffs(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,

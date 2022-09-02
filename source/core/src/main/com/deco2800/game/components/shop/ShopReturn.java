@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,8 +20,8 @@ public class ShopReturn extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopReturn.class);
     private static final float Z_INDEX = 2f;
 
-    private float width;
-    private float height;
+    Table table1;
+    Table table2;
 
     private TextButton buildingBtn;
     private TextureRegionDrawable buildingUp;
@@ -39,11 +40,20 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-        width = stage.getWidth();
-        height = stage.getHeight();
+
+        table1 = new Table();
+        table1.setFillParent(true);
+        table1.center().left();
+        table1.padLeft(400).padTop(100);
+
+        table2 = new Table();
+        table2.setFillParent(true);
+        table2.center().right();
+        table2.padRight(400).padTop(100);
+
         buildingTexture = new Texture(Gdx.files.internal("images/building-category-button.png"));
         buildingUp = new TextureRegionDrawable(buildingTexture);
-        buildingBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 6f,
+        buildingBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 1f,
                 buildingUp, buildingUp,
                 skin, false);
         buildingBtn.addListener(new ChangeListener() {
@@ -53,14 +63,12 @@ public class ShopReturn extends UIComponent {
                 entity.getEvents().trigger("buildShop");
             }
         });
-        buildingBtn.setPosition(width * 0.15f, height * 0.20f);
         String buildingText = "Buildings";
         buildingTitle = new Label(buildingText, skin, "large");
-        buildingTitle.setPosition(505, 225);
 
         artefactTexture = new Texture(Gdx.files.internal("images/category-button-standard.png"));
         artUp = new TextureRegionDrawable(artefactTexture);
-        artefactBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 6f,
+        artefactBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 1f,
                 artUp, artUp,
                 skin, false);
         artefactBtn.addListener(new ChangeListener() {
@@ -70,15 +78,19 @@ public class ShopReturn extends UIComponent {
                 entity.getEvents().trigger("artefactShop");
             }
         });
-        artefactBtn.setPosition(width * 0.50f, height * 0.20f);
         String artefactText = "Artefacts";
         artefactTitle = new Label(artefactText, skin, "large");
-        artefactTitle.setPosition(1085, 225);
 
-        stage.addActor(buildingBtn);
-        stage.addActor(buildingTitle);
-        stage.addActor(artefactBtn);
-        stage.addActor(artefactTitle);
+        table1.add(buildingBtn).width(350).height(350);
+        table1.row();
+        table1.add(buildingTitle);
+        table2.add(artefactBtn).width(350).height(350);
+        table2.row();
+        table2.add(artefactTitle);
+
+        stage.addActor(table1);
+        stage.addActor(table2);
+
     }
 
     @Override
@@ -93,6 +105,9 @@ public class ShopReturn extends UIComponent {
 
     @Override
     public void dispose() {
+        table1.clear();
+        table2.clear();
+        stage.clear();
         super.dispose();
     }
 }

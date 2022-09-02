@@ -5,6 +5,7 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.PlayerConfig;
 import com.deco2800.game.files.FileLoader;
@@ -18,10 +19,7 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.rendering.AnimationRenderComponent;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.deco2800.game.components.player.PlayerAnimationController;
+
 
 /**
  * Factory to create a player entity.
@@ -42,12 +40,11 @@ public class PlayerFactory {
   public static Entity createPlayer() {
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    AnimationRenderComponent player_animator = new AnimationRenderComponent( ServiceLocator.getResourceService().getAsset("images/anim_demo/demo.atlas", TextureAtlas.class));
-    player_animator.addAnimation("box_boy", 0.1f, Animation.PlayMode.LOOP);
-
+    TextureRenderComponent player_start = new TextureRenderComponent("images/Centaur_left.png");
+    
     Entity player =
         new Entity()
-            .addComponent(player_animator)
+            .addComponent(player_start)
             .addComponent(new PhysicsComponent())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
@@ -55,13 +52,13 @@ public class PlayerFactory {
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(new InventoryComponent(stats.gold, stats.stone))
-            .addComponent(inputComponent)            
-            .addComponent(new PlayerAnimationController())
-            .addComponent(new PlayerStatsDisplay());
+            .addComponent(inputComponent)
+            .addComponent(new PlayerStatsDisplay())
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
 
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(AnimationRenderComponent.class).scaleEntity();
+    player.getComponent(TextureRenderComponent.class).scaleEntity();
     return player;
   }
 
