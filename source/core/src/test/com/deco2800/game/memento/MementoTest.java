@@ -56,9 +56,4 @@ class MementoTest {
         assertEquals(3, test.getStone());
     }
 
-    @Test
-    void shouldGetWood() {
-        Memento test = new Memento(1, 2, 3, 4, 5, new ArrayList<>(), 5);
-        assertEquals(4, test.getWood());
-    }
 }

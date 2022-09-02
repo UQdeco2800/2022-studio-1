@@ -53,6 +53,15 @@ public class Originator {
     }
 
     /**
+     * saves the amount of gold that the player currently have
+     * 
+     * @param gold - amount of gold that the player current holds
+     */
+    public void setWood(int wood) {
+        this.wood = wood;
+    }
+
+    /**
      * retrieve the stone status for player
      * 
      * @return amount of stone currently held by the player
