@@ -93,9 +93,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,java.util.List,int)" class="member-name-link">Memento</a><wbr>(int&nbsp;state,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,int,java.util.List,int)" class="member-name-link">Memento</a><wbr>(int&nbsp;state,
  int&nbsp;gold,
  int&nbsp;stone,
+ int&nbsp;wood,
  int&nbsp;currentHealth,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../components/shop/artefacts/Artefact.html" title="class in com.deco2800.game.components.shop.artefacts">Artefact</a>&gt;&nbsp;items,
  int&nbsp;attack)</code></div>
@@ -146,6 +147,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">retrieve the stone amount saved in the memento</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWood()" class="member-name-link">getWood</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">retrieve the wood amount saved in the memento</div>
+</div>
 </div>
 </div>
 </div>
@@ -164,11 +170,12 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int,int,int,java.util.List,int)">
+<section class="detail" id="&lt;init&gt;(int,int,int,int,int,java.util.List,int)">
 <h3>Memento</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Memento</span><wbr><span class="parameters">(int&nbsp;state,
  int&nbsp;gold,
  int&nbsp;stone,
+ int&nbsp;wood,
  int&nbsp;currentHealth,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../components/shop/artefacts/Artefact.html" title="class in com.deco2800.game.components.shop.artefacts">Artefact</a>&gt;&nbsp;items,
  int&nbsp;attack)</span></div>
@@ -178,6 +185,7 @@ loadScripts(document, 'script');</script>
 <dd><code>state</code> - - the id of the saved memento</dd>
 <dd><code>gold</code> - - amount of gold that the player currently holds</dd>
 <dd><code>stone</code> - - amount of stone that the player currently holds</dd>
+<dd><code>wood</code> - - amount of wood that the player currently holds</dd>
 <dd><code>currentHealth</code> - - amount of health that the player currently has</dd>
 <dd><code>items</code> - - list of items the player have</dd>
 <dd><code>attack</code> - - base attack value of the player (including weapon
@@ -223,6 +231,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>- stone amount</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getWood()">
+<h3>getWood</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWood</span>()</div>
+<div class="block">retrieve the wood amount saved in the memento</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>- wood amount</dd>
 </dl>
 </section>
 </li>
