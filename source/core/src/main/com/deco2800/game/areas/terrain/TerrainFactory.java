@@ -19,8 +19,8 @@ import com.deco2800.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private static final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
-  private static GridPoint2 island_size = new GridPoint2(20, 20);
+  private final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
+  private GridPoint2 island_size = new GridPoint2(20, 20);
   private static final int CLIFF_HEIGHT = 1;
 
   private TerrainTile grassTile;
@@ -316,6 +316,14 @@ public class TerrainFactory {
 
     expandIsland(layer, 0 - amount);
     fillWater(layer, island_size, MAP_SIZE, waterDimensions, waterTile);
+  }
+
+  public GridPoint2 getIslandSize() {
+    return this.island_size;
+  }
+
+  public GridPoint2 getMapSize() {
+    return MAP_SIZE;
   }
 
   /**
