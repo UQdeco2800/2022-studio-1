@@ -119,6 +119,31 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a wall entity.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleClickedStructures(int,int,java.util.SortedMap,boolean,boolean)" class="member-name-link">handleClickedStructures</a><wbr>(int&nbsp;screenX,
+ int&nbsp;screenY,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects,
+ boolean&nbsp;resourceBuildState,
+ boolean&nbsp;buildEvent)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Checks if a structure on the map has been clicked.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleBuildState(boolean)" class="member-name-link">toggleBuildState</a><wbr>(boolean&nbsp;buildState)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Toggles the build state of the player</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleResourceBuildState(boolean)" class="member-name-link">toggleResourceBuildState</a><wbr>(boolean&nbsp;resourceBuildState)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Toggles resource building placement mode</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#triggerBuildEvent(java.lang.String,java.util.SortedMap)" class="member-name-link">triggerBuildEvent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Builds a structure at mouse position</div>
+</div>
 </div>
 </div>
 </div>
@@ -182,6 +207,46 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>structure entity</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="triggerBuildEvent(java.lang.String,java.util.SortedMap)">
+<h3>triggerBuildEvent</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerBuildEvent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects)</span></div>
+<div class="block">Builds a structure at mouse position</div>
+</section>
+</li>
+<li>
+<section class="detail" id="handleClickedStructures(int,int,java.util.SortedMap,boolean,boolean)">
+<h3>handleClickedStructures</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean[]</span>&nbsp;<span class="element-name">handleClickedStructures</span><wbr><span class="parameters">(int&nbsp;screenX,
+ int&nbsp;screenY,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects,
+ boolean&nbsp;resourceBuildState,
+ boolean&nbsp;buildEvent)</span></div>
+<div class="block">Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>screenX</code> - The x coordinate, origin is in the upper left corner</dd>
+<dd><code>screenY</code> - The y coordinate, origin is in the upper left corner</dd>
+<dt>Returns:</dt>
+<dd>true if the point (screenX, screenY) is clear of structures else return false</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toggleBuildState(boolean)">
+<h3>toggleBuildState</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">toggleBuildState</span><wbr><span class="parameters">(boolean&nbsp;buildState)</span></div>
+<div class="block">Toggles the build state of the player</div>
+</section>
+</li>
+<li>
+<section class="detail" id="toggleResourceBuildState(boolean)">
+<h3>toggleResourceBuildState</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">toggleResourceBuildState</span><wbr><span class="parameters">(boolean&nbsp;resourceBuildState)</span></div>
+<div class="block">Toggles resource building placement mode</div>
 </section>
 </li>
 </ul>
