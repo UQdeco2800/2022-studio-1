@@ -5,9 +5,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
@@ -70,7 +72,8 @@ public class StructureFactory {
     BaseEntityConfig config = configs.tower1;
 
     tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(75, 10));
+            .addComponent(new HealthBarComponent(75, 10))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
     return tower1;
   }
 
