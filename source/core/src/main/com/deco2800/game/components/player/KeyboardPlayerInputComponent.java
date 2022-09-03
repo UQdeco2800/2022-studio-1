@@ -132,7 +132,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           if (resourceBuildState) {
             StructureFactory.triggerBuildEvent("stonequarry", structureRects);
           } else {
-            StructureFactory.triggerBuildEvent("wall", structureRects);
+            StructureFactory.triggerBuildEvent("tower1", structureRects);
           }
         }
       }

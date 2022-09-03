@@ -1,12 +1,9 @@
 package com.deco2800.game.components;
-
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.physics.PhysicsLayer;
+import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
@@ -42,7 +39,7 @@ public class RangeAttackComponent extends Component{
     /*
      * Function which attacks the given target and applies knockback
      */
-    private void attackTarget(Entity target) {
+    private void attackTarget() {
         //attack target
         CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
         if (targetStats != null) {
@@ -65,18 +62,25 @@ public class RangeAttackComponent extends Component{
     */
     public void update() {
         if (targetAcquired) {
-            if (getDistanceToTarget(target) <= this.range) {
-                attackTarget(target);
+            if (getDistanceToTarget(this.target) <= this.range) {
+                attackTarget();
             } else {
                 //Toggle targetAcquired, and set acquired target to null
                 toggleTargetAcquired();
                 this.target = null;
             }
         } else {
-            for (Entity entity : ServiceLocator.getEntityService().getAllNamedEntities().values()) {    
-                if (getDistanceToTarget(entity) <= this.range) {
-                    this.target = entity; //Set target
-                    attackTarget(target);
+            for (Entity entity : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
+                ColliderComponent colliderComponent = entity.getComponent(ColliderComponent.class);
+                if (colliderComponent != null) {    
+                    if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+
+                        if (getDistanceToTarget(entity) <= this.range) { //Check range to target
+                            this.target = entity; //Set target
+                            attackTarget();
+                        }
+                    }
+
                 }
             }
         }
