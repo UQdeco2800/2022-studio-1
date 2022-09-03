@@ -1,5 +1,11 @@
 package com.deco2800.game.services;
 
+import com.deco2800.game.concurrency.JobSystem;
+import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.services.configs.DayNightCycleConfig;
+
+import java.util.concurrent.CompletableFuture;
+
 /**
  * Service for managing the Day and Night cycle of the game.
  */
@@ -9,10 +15,19 @@ public class DayNightCycleService {
     private int currentDayNumber;
     private long currentDayMillis;
 
+    private boolean isPaused;
+
+    private boolean isStarted;
+
+    private DayNightCycleConfig config;
+
     public DayNightCycleService(GameTime timer) {
         this.ended = false;
+        this.isStarted = false;
+        this.isPaused = false;
         this.currentDayNumber = 1;
         this.currentDayMillis = timer.getTime();
+        this.config = FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json");
     }
 
     /*
@@ -53,13 +68,28 @@ public class DayNightCycleService {
      */
     public void start() {
 
+        if (this.isStarted && !this.isPaused) {
+            throw new IllegalStateException("The timer has already been started");
+        }
+
+        if (this.isPaused) {
+            // Resuming a timer
+            this.isPaused = false;
+            return; // Avoid running another async job
+        }
+
+        CompletableFuture<Void> job = JobSystem.launch(() -> {
+            this.isStarted = true;
+            this.run();
+            return null;
+        });
     }
 
     /**
      * Pauses the timer for the day night cycle.
      */
     public void pause() {
-
+        this.isPaused = true;
     }
 
     /**
@@ -67,5 +97,21 @@ public class DayNightCycleService {
      */
     public void run() {
 
+        while (true) {
+
+            if (!isPaused) {
+                //TODO: progress cycle to next
+            }
+
+            /**
+             * TODO: Sleep the amount of current cycle before heading to next cycle
+             * Change current cycle.
+             *
+             *
+             *
+             */
+        }
     }
+
+
 }
