@@ -379,6 +379,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/package-summary.html">com.deco2800.game.services</a> - package com.deco2800.game.services</dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/configs/package-summary.html">com.deco2800.game.services.configs</a> - package com.deco2800.game.services.configs</dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ui/package-summary.html">com.deco2800.game.ui</a> - package com.deco2800.game.ui</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ui/terminal/package-summary.html">com.deco2800.game.ui.terminal</a> - package com.deco2800.game.ui.terminal</dt>
@@ -673,6 +675,22 @@ loadScripts(document, 'script');</script>
 <dl class="index">
 <dt><a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.CollisionEffect.html#DAMAGE" class="member-name-link">DAMAGE</a> - Enum constant in enum class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.CollisionEffect.html" title="enum class in com.deco2800.game.components.Environmental">CollisionEffectComponent.CollisionEffect</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/configs/DayNightCycleConfig.html#dawnLength" class="member-name-link">dawnLength</a> - Variable in class com.deco2800.game.services.configs.<a href="com/deco2800/game/services/configs/DayNightCycleConfig.html" title="class in com.deco2800.game.services.configs">DayNightCycleConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/configs/DayNightCycleConfig.html#dayLength" class="member-name-link">dayLength</a> - Variable in class com.deco2800.game.services.configs.<a href="com/deco2800/game/services/configs/DayNightCycleConfig.html" title="class in com.deco2800.game.services.configs">DayNightCycleConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/configs/DayNightCycleConfig.html" class="type-name-link" title="class in com.deco2800.game.services.configs">DayNightCycleConfig</a> - Class in <a href="com/deco2800/game/services/configs/package-summary.html">com.deco2800.game.services.configs</a></dt>
+<dd>
+<div class="block">Defines a set of properties stored in config file to be loaded by the Day Night Cycle Service.</div>
+</dd>
+<dt><a href="com/deco2800/game/services/configs/DayNightCycleConfig.html#%3Cinit%3E()" class="member-name-link">DayNightCycleConfig()</a> - Constructor for class com.deco2800.game.services.configs.<a href="com/deco2800/game/services/configs/DayNightCycleConfig.html" title="class in com.deco2800.game.services.configs">DayNightCycleConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html" class="type-name-link" title="class in com.deco2800.game.services">DayNightCycleService</a> - Class in <a href="com/deco2800/game/services/package-summary.html">com.deco2800.game.services</a></dt>
+<dd>
+<div class="block">Service for managing the Day and Night cycle of the game.</div>
+</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#%3Cinit%3E(com.deco2800.game.services.GameTime)" class="member-name-link">DayNightCycleService(GameTime)</a> - Constructor for class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ui/terminal/commands/DebugCommand.html" class="type-name-link" title="class in com.deco2800.game.ui.terminal.commands">DebugCommand</a> - Class in <a href="com/deco2800/game/ui/terminal/commands/package-summary.html">com.deco2800.game.ui.terminal.commands</a></dt>
 <dd>
 <div class="block">A command for toggling debug mode on and off.</div>
@@ -861,6 +879,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Draw a rectangle</div>
 </dd>
+<dt><a href="com/deco2800/game/services/configs/DayNightCycleConfig.html#duskLength" class="member-name-link">duskLength</a> - Variable in class com.deco2800.game.services.configs.<a href="com/deco2800/game/services/configs/DayNightCycleConfig.html" title="class in com.deco2800.game.services.configs">DayNightCycleConfig</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
@@ -1137,6 +1157,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/rendering/AnimationRenderComponent.html#getCurrentAnimation()" class="member-name-link">getCurrentAnimation()</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/AnimationRenderComponent.html" title="class in com.deco2800.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
 <div class="block">Get the name of the animation currently being played.</div>
+</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#getCurrentDayMillis()" class="member-name-link">getCurrentDayMillis()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>
+<div class="block">Returns the current number of milliseconds since the current day night cycle started.</div>
+</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#getCurrentDayNumber()" class="member-name-link">getCurrentDayNumber()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>
+<div class="block">Returns the current day number.</div>
 </dd>
 <dt><a href="com/deco2800/game/memento/Memento.html#getCurrentHealth()" class="member-name-link">getCurrentHealth()</a> - Method in class com.deco2800.game.memento.<a href="com/deco2800/game/memento/Memento.html" title="class in com.deco2800.game.memento">Memento</a></dt>
 <dd>
@@ -1524,6 +1552,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Whether the animator has added the given animation.</div>
 </dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#hasEnded()" class="member-name-link">hasEnded()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>
+<div class="block">Returns whether the current day night cycle has ended.</div>
+</dd>
 <dt><a href="com/deco2800/game/components/player/InventoryComponent.html#hasGold(int)" class="member-name-link">hasGold(int)</a> - Method in class com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/InventoryComponent.html" title="class in com.deco2800.game.components.player">InventoryComponent</a></dt>
 <dd>
 <div class="block">Returns if the player has a certain amount of gold.</div>
@@ -1904,6 +1936,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/shop/artefacts/ShopBuilding.html#name" class="member-name-link">name</a> - Variable in class com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/ShopBuilding.html" title="class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/configs/DayNightCycleConfig.html#nightLength" class="member-name-link">nightLength</a> - Variable in class com.deco2800.game.services.configs.<a href="com/deco2800/game/services/configs/DayNightCycleConfig.html" title="class in com.deco2800.game.services.configs">DayNightCycleConfig</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.CollisionEffect.html#NONE" class="member-name-link">NONE</a> - Enum constant in enum class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.CollisionEffect.html" title="enum class in com.deco2800.game.components.Environmental">CollisionEffectComponent.CollisionEffect</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.ResourceTypes.html#NONE" class="member-name-link">NONE</a> - Enum constant in enum class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.ResourceTypes.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.ResourceTypes</a></dt>
@@ -1984,6 +2018,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/screens/ShopScreen.html#pause()" class="member-name-link">pause()</a> - Method in class com.deco2800.game.screens.<a href="com/deco2800/game/screens/ShopScreen.html" title="class in com.deco2800.game.screens">ShopScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#pause()" class="member-name-link">pause()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>
+<div class="block">Pauses the timer for the day night cycle.</div>
+</dd>
 <dt><a href="com/deco2800/game/components/gamearea/PerformanceDisplay.html" class="type-name-link" title="class in com.deco2800.game.components.gamearea">PerformanceDisplay</a> - Class in <a href="com/deco2800/game/components/gamearea/package-summary.html">com.deco2800.game.components.gamearea</a></dt>
 <dd>
 <div class="block">Displays performance stats about the game for debugging purposes.</div>
@@ -2328,6 +2366,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.EnvironmentalObstacle.html#ROCK" class="member-name-link">ROCK</a> - Enum constant in enum class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.EnvironmentalObstacle.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.EnvironmentalObstacle</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#run()" class="member-name-link">run()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>
+<div class="block">Main loop for the service that updates the game status.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:S">S</h2>
 <dl class="index">
@@ -2727,6 +2769,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/components/tasks/WanderTask.html#start()" class="member-name-link">start()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/WanderTask.html" title="class in com.deco2800.game.components.tasks">WanderTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/DayNightCycleService.html#start()" class="member-name-link">start()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
+<dd>
+<div class="block">Starts the day night cycle for the game.</div>
+</dd>
 <dt><a href="com/deco2800/game/rendering/AnimationRenderComponent.html#startAnimation(java.lang.String)" class="member-name-link">startAnimation(String)</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/AnimationRenderComponent.html" title="class in com.deco2800.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
 <div class="block">Start playback of an animation.</div>
