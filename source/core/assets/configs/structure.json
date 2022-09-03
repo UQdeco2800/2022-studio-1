@@ -5,7 +5,7 @@
   },
   "tower1": {
     "health": 200,
-    "baseAttack": 10
+    "baseAttack": 1
   },
   "stoneQuarry": {
     "health": 50,

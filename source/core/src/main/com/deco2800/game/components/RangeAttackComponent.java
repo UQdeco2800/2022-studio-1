@@ -1,4 +1,6 @@
 package com.deco2800.game.components;
+import java.util.concurrent.TimeUnit;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.entities.Entity;
@@ -63,7 +65,9 @@ public class RangeAttackComponent extends Component{
     public void update() {
         if (targetAcquired) {
             if (getDistanceToTarget(this.target) <= this.range) {
-                attackTarget();
+                while (getDistanceToTarget(entity) <= this.range) {
+                    attackTarget();
+                }
             } else {
                 //Toggle targetAcquired, and set acquired target to null
                 toggleTargetAcquired();
@@ -74,10 +78,12 @@ public class RangeAttackComponent extends Component{
                 ColliderComponent colliderComponent = entity.getComponent(ColliderComponent.class);
                 if (colliderComponent != null) {    
                     if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
-
                         if (getDistanceToTarget(entity) <= this.range) { //Check range to target
+                            toggleTargetAcquired();
                             this.target = entity; //Set target
-                            attackTarget();
+                            while (getDistanceToTarget(entity) <= this.range) {
+                                attackTarget();
+                            }
                         }
                     }
 
