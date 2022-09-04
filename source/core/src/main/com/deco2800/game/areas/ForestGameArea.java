@@ -3,6 +3,7 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.services.GameTime;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.factories.*;
@@ -414,6 +415,22 @@ public class ForestGameArea extends GameArea {
       }
     }
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
+  }
+
+  private void spawnStarFish() {
+    Entity startFishEnemy = NPCFactory.createStarFish(player);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+            terrainFactory.getIslandSize().x + waterWidth - 4);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    /**
+    while (getCurrentCycleStatus().equal("NIGHT")) {
+
+    } */
+    spawnEntityAt(startFishEnemy, randomPos, true, true);
   }
 
   private void playMusic() {
