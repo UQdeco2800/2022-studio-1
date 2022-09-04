@@ -237,4 +237,29 @@ public class StructureFactory {
   private StructureFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
+
+  /*
+   * Function which handles the refund of player's resources should they sell a building. 
+   * @param type : the type of the building to refund
+   */
+  public void handleRefund(String type) {
+    return;
+    //TODO
+  }
+
+  /*
+   * Function which handles the destruction / sale of building. 
+   * @param state : true if building has been sold, false if building has otherwise been destroyed
+   * 
+   * In future could be expanded by using Enums vs boolean
+   *  
+   */
+  public void handleBuildingDestruction(Boolean state, Map.Entry<String, Rectangle> rectangle, 
+  SortedMap<String, Rectangle> structureRects) {
+    if (state) {
+      handleRefund(rectangle.getKey());
+    }
+    ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey()).dispose();
+    structureRects.remove(rectangle.getKey());
+  }
 }

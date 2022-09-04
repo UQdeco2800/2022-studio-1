@@ -8,6 +8,8 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
 
+
+//--------------------Implement using raycast--------------------
 public class RangeAttackComponent extends Component{
     private short targetLayer;
     private float knockbackForce = 0f;
@@ -73,13 +75,13 @@ public class RangeAttackComponent extends Component{
             for (Entity entity : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
                 ColliderComponent colliderComponent = entity.getComponent(ColliderComponent.class);
                 if (colliderComponent != null) {    
-                    if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+                     if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
 
                         if (getDistanceToTarget(entity) <= this.range) { //Check range to target
                             this.target = entity; //Set target
                             attackTarget();
                         }
-                    }
+                     }
 
                 }
             }
