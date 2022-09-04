@@ -5,8 +5,12 @@ import com.deco2800.game.services.configs.DayNightCycleConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InOrder;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,41 +23,61 @@ public class DayNightCycleServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        ServiceLocator.registerTimeSource(new GameTime());
-        var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
-        dayNightCycleService = Mockito.spy(new DayNightCycleService(gameTime, config));
         config = new DayNightCycleConfig();
         config.dawnLength = 500;
         config.dayLength = 2000;
         config.duskLength = 500;
         config.nightLength = 3000;
+        config.maxDays = 1;
+        ServiceLocator.registerTimeSource(new GameTime());
+        var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
+        dayNightCycleService = Mockito.spy(new DayNightCycleService(gameTime, config));
     }
 
     @Test
-    public void shouldAdvanceToDayWhenAtDawn() throws InterruptedException {
+    public void shouldAdvanceToDayWhenAtDawn() {
 
+        dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+                (DayNightCycleStatus partOfDay) -> {
+            if (partOfDay == DayNightCycleStatus.DAY && dayNightCycleService.getLastCycleStatus() == DayNightCycleStatus.DAWN) {
+                dayNightCycleService.stop();
+               Mockito.verify(dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.DAY);
+            }
+        });
         assertEquals(DayNightCycleStatus.DAWN, dayNightCycleService.getCurrentCycleStatus());
-        this.dayNightCycleService.start();
-        Mockito.verify(this.dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.DAY);
+        this.dayNightCycleService.start().join();
     }
 
     @Test void shouldCompleteFullCyclePassingThroughAllPartsOfDay() {
-        this.dayNightCycleService.start();
-        InOrder inOrder = Mockito.inOrder(this.dayNightCycleService);
+        List<DayNightCycleStatus> partsOfDay = new ArrayList<>();
 
-        inOrder.verify(this.dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.DAWN);
-        inOrder.verify(this.dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.DAY);
-        inOrder.verify(this.dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.DUSK);
-        inOrder.verify(this.dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.NIGHT);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+                (DayNightCycleStatus day) -> {
+                    partsOfDay.add(day);
+                });
+        this.dayNightCycleService.start().join();
+
+        // Test that the day parts are DAWN,DAY,DUSK,NIGHT as specified in Enum skipping NONE
+        int i = 0;
+        for (var value : Arrays.stream(DayNightCycleStatus.values()).skip(1).toArray()) {
+            assertEquals(value, partsOfDay.get(i));
+                i++;
+        }
     }
 
     @Test
-    public void shouldCompleteFullDayRestartingAtDawn () throws InterruptedException {
-        this.dayNightCycleService.start();
-        // Wait long enough for day cycle to complete
-        Thread.sleep(config.dawnLength + config.dayLength + config.duskLength + config.nightLength);
-        this.dayNightCycleService.pause();
-        assertEquals(DayNightCycleStatus.DAWN, this.dayNightCycleService.getCurrentCycleStatus());
+    public void shouldCompleteFullDayRestartingAtDawn () {
+        this.config.maxDays = 2; // override default from 1 to 2
+        AtomicInteger daysCount = new AtomicInteger(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+                (Integer day) -> {
+            System.out.println("Called!");
+        });
+
+        //this.dayNightCycleService.start().join();
+
+        assertEquals(2, daysCount.get());
+
     }
 
 }
