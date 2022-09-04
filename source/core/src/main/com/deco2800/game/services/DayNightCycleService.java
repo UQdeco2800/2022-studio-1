@@ -3,6 +3,8 @@ package com.deco2800.game.services;
 import com.deco2800.game.concurrency.JobSystem;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -10,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
  * Service for managing the Day and Night cycle of the game.
  */
 public class DayNightCycleService {
+    private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
     //private CycleStatus currentCycleStatus;
     private int currentDayNumber;
@@ -20,14 +23,17 @@ public class DayNightCycleService {
     private boolean isStarted;
 
     private DayNightCycleConfig config;
+    private GameTime timer;
 
     public DayNightCycleService(GameTime timer) {
         this.ended = false;
+        //this.currentCycleStatus = CycleStatus.DAWN;
         this.isStarted = false;
         this.isPaused = false;
-        this.currentDayNumber = 1;
+        this.currentDayNumber = 0;
         this.currentDayMillis = timer.getTime();
         this.config = FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json");
+        this.timer =  timer;
     }
 
     /*
@@ -81,9 +87,21 @@ public class DayNightCycleService {
         this.isStarted = true;
 
         CompletableFuture<Void> job = JobSystem.launch(() -> {
-            this.run();
+            try {
+                this.run();
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage());
+            }
+
             return null;
         });
+    }
+
+    /**
+     * Stops the day night cycle timer for the game.
+     */
+    public void stop() {
+        this.ended = true;
     }
 
     /**
@@ -96,12 +114,46 @@ public class DayNightCycleService {
     /**
      * Main loop for the service that updates the game status.
      */
-    public void run() {
+    public void run() throws InterruptedException {
 
-        while (true) {
+        while (!this.ended) {
 
-            if (!isPaused) {
+            if (!this.isPaused) {
                 //TODO: progress cycle to next
+
+                // Definitely a better way to do this but this works for now
+                this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
+                        config.duskLength + config.dayLength + config.dawnLength));
+
+                //if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == CycleStatus.DAWN) {
+                if (this.currentDayMillis >= config.dawnLength) {
+                    //this.currentCycleStatus = CycleStatus.DAY;
+                //} else if (this.currentDayMillis >= config.dayLength + config.dawnLength &&
+                //        this.currentCycleStatus == CycleStatus.DAY) {
+                } else if (this.currentDayMillis >= config.dayLength + config.dawnLength) {
+                    //this.currentCycleStatus = CycleStatus.DUSK;
+                //} else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength
+                //        && this.currentCycleStatus == CycleStatus.DUSK) {
+                } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength) {
+                    //this.currentCycleStatus = CycleStatus.NIGHT;
+                    // Notify entities it is now NIGHT
+                //} else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
+                //        config.dawnLength && this.currentCycleStatus == CycleStatus.NIGHT) {
+                } else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
+                        config.dawnLength) {
+                    // Check if number of days == max number of days
+                    if (this.currentDayNumber == config.maxDays - 1) {
+                        // End the game
+                        this.stop();
+                        return;
+                    }
+
+                    //this.currentCycleStatus = CycleStatus.DAWN;
+                    // Notify entities that it is now DAY
+                    this.currentDayNumber++;
+
+                    this.currentDayMillis = 0;
+                }
             }
 
             /**
@@ -111,6 +163,7 @@ public class DayNightCycleService {
              *
              *
              */
+            Thread.sleep(1000);
         }
     }
 
