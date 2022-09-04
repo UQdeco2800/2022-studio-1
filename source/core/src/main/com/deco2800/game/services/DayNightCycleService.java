@@ -38,7 +38,7 @@ public class DayNightCycleService {
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
         this.events = new EventHandler(); //
         this.ended = false;
-        //this.currentCycleStatus = CycleStatus.DAWN;
+        this.currentCycleStatus = DayNightCycleStatus.NONE;
         this.isStarted = false;
         this.isPaused = false;
         this.currentDayNumber = 0;
@@ -109,6 +109,7 @@ public class DayNightCycleService {
         }
 
         this.isStarted = true;
+        this.currentCycleStatus = DayNightCycleStatus.DAWN;
 
         return JobSystem.launch(() -> {
             try {
@@ -150,35 +151,28 @@ public class DayNightCycleService {
                         config.duskLength + config.dayLength + config.dawnLength));
 
                 if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.DAWN) {
-                    if (this.currentDayMillis >= config.dawnLength) {
-                        this.setPartOfDayTo(DayNightCycleStatus.DAY);
-                    } else if (this.currentDayMillis >= config.dayLength + config.dawnLength &&
-                            this.currentCycleStatus == DayNightCycleStatus.DAY) {
-                    } else if (this.currentDayMillis >= config.dayLength + config.dawnLength) {
-                        this.setPartOfDayTo(DayNightCycleStatus.DUSK);
-                    } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength
-                            && this.currentCycleStatus == DayNightCycleStatus.DUSK) {
-                    } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength) {
-                         this.setPartOfDayTo(DayNightCycleStatus.NIGHT);
-                        // Notify entities it is now NIGHT
-                    } else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
-                            config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
-                    } else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
-                            config.dawnLength) {
-                        // Check if number of days == max number of days
-                        if (this.currentDayNumber == config.maxDays - 1) {
-                            // End the game
-                            this.stop();
-                            break;
-                        }
-
-                        this.setPartOfDayTo(DayNightCycleStatus.DAWN);
-                        this.currentDayNumber++;
-                        // Notify entities that it is now DAY
-                        events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
-
-                        this.currentDayMillis = 0;
+                    this.currentCycleStatus = DayNightCycleStatus.DAY;
+                } else if (this.currentDayMillis >= config.dayLength + config.dawnLength &&
+                        this.currentCycleStatus == DayNightCycleStatus.DAY) {
+                    this.currentCycleStatus = DayNightCycleStatus.DUSK;
+                } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength
+                        && this.currentCycleStatus == DayNightCycleStatus.DUSK) {
+                    this.currentCycleStatus = DayNightCycleStatus.NIGHT;
+                    // Notify entities it is now NIGHT
+                } else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
+                        config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
+                    // Check if number of days == max number of days
+                    if (this.currentDayNumber == config.maxDays - 1) {
+                        // End the game
+                        this.stop();
+                        return;
                     }
+
+                    this.currentCycleStatus = DayNightCycleStatus.DAWN;
+                    // Notify entities that it is now DAY
+                    this.currentDayNumber++;
+
+                    this.currentDayMillis = 0;
                 }
             }
         }
