@@ -10,9 +10,11 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(GameExtension.class)
 public class DayNightCycleServiceTest {
@@ -24,10 +26,10 @@ public class DayNightCycleServiceTest {
     @BeforeEach
     void beforeEach() {
         config = new DayNightCycleConfig();
-        config.dawnLength = 500;
-        config.dayLength = 2000;
-        config.duskLength = 500;
-        config.nightLength = 3000;
+        config.dawnLength = 100;
+        config.dayLength = 400;
+        config.duskLength = 100;
+        config.nightLength = 500;
         config.maxDays = 1;
         ServiceLocator.registerTimeSource(new GameTime());
         var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
@@ -44,7 +46,7 @@ public class DayNightCycleServiceTest {
                Mockito.verify(dayNightCycleService).setPartOfDayTo(DayNightCycleStatus.DAY);
             }
         });
-        assertEquals(DayNightCycleStatus.DAWN, dayNightCycleService.getCurrentCycleStatus());
+        assertEquals(DayNightCycleStatus.NONE, dayNightCycleService.getCurrentCycleStatus());
         this.dayNightCycleService.start().join();
     }
 
@@ -68,16 +70,42 @@ public class DayNightCycleServiceTest {
     @Test
     public void shouldCompleteFullDayRestartingAtDawn () {
         this.config.maxDays = 2; // override default from 1 to 2
-        AtomicInteger daysCount = new AtomicInteger(0);
+        AtomicBoolean dayPassed = new AtomicBoolean(false);
         this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
                 (Integer day) -> {
-            System.out.println("Called!");
+            dayPassed.set(true);
         });
-
-        //this.dayNightCycleService.start().join();
-
-        assertEquals(2, daysCount.get());
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+                (DayNightCycleStatus dayPart) -> {
+            if (dayPassed.get() && this.dayNightCycleService.getCurrentCycleStatus() == DayNightCycleStatus.DAWN) {
+                this.dayNightCycleService.stop();
+                // There would now be two dawns
+                Mockito.verify(dayNightCycleService, Mockito.atLeast(2)).setPartOfDayTo(DayNightCycleStatus.DAWN);
+            }
+        });
+        this.dayNightCycleService.start().join();
 
     }
+
+    @Test
+    public void shouldStopWhenDaysAreCompleted() {
+        this.config.maxDays = 3;
+        this.dayNightCycleService.start().join();
+        assertTrue(this.dayNightCycleService.hasEnded());
+    }
+
+    @Test void shouldGoThroughAllNumberOfDays() {
+        this.config.maxDays = 3;
+        AtomicInteger days = new AtomicInteger(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+                (Integer dayNumber) -> {
+            days.incrementAndGet();
+        });
+        dayNightCycleService.start().join();
+
+        assertEquals(3, dayNightCycleService.getCurrentDayNumber());
+        assertEquals(this.config.maxDays, days.get());
+    }
+
 
 }
