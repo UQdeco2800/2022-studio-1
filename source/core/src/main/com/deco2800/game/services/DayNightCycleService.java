@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public class DayNightCycleService {
     private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
-    //private CycleStatus currentCycleStatus;
+    private DayNightCycleStatus currentCycleStatus;
     private int currentDayNumber;
     private long currentDayMillis;
 
@@ -27,7 +27,7 @@ public class DayNightCycleService {
 
     public DayNightCycleService(GameTime timer) {
         this.ended = false;
-        //this.currentCycleStatus = CycleStatus.DAWN;
+        this.currentCycleStatus = DayNightCycleStatus.NONE;
         this.isStarted = false;
         this.isPaused = false;
         this.currentDayNumber = 0;
@@ -36,11 +36,15 @@ public class DayNightCycleService {
         this.timer =  timer;
     }
 
-    /*
-     * public CycleStatus getCurrentCycleStatus() {
-     *     return this.currentCycleStatus;
-     * }
+    /**
+     * Returns the current status of the day night cycle.
+     *
+     * @return DayNightCycleStatus
      */
+    public DayNightCycleStatus getCurrentCycleStatus() {
+        return this.currentCycleStatus;
+    }
+
 
     /**
      * Returns the current day number.
@@ -85,6 +89,7 @@ public class DayNightCycleService {
         }
 
         this.isStarted = true;
+        this.currentCycleStatus = DayNightCycleStatus.DAWN;
 
         CompletableFuture<Void> job = JobSystem.launch(() -> {
             try {
@@ -125,22 +130,17 @@ public class DayNightCycleService {
                 this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
                         config.duskLength + config.dayLength + config.dawnLength));
 
-                //if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == CycleStatus.DAWN) {
-                if (this.currentDayMillis >= config.dawnLength) {
-                    //this.currentCycleStatus = CycleStatus.DAY;
-                //} else if (this.currentDayMillis >= config.dayLength + config.dawnLength &&
-                //        this.currentCycleStatus == CycleStatus.DAY) {
-                } else if (this.currentDayMillis >= config.dayLength + config.dawnLength) {
-                    //this.currentCycleStatus = CycleStatus.DUSK;
-                //} else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength
-                //        && this.currentCycleStatus == CycleStatus.DUSK) {
-                } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength) {
-                    //this.currentCycleStatus = CycleStatus.NIGHT;
+                if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.DAWN) {
+                    this.currentCycleStatus = DayNightCycleStatus.DAY;
+                } else if (this.currentDayMillis >= config.dayLength + config.dawnLength &&
+                        this.currentCycleStatus == DayNightCycleStatus.DAY) {
+                    this.currentCycleStatus = DayNightCycleStatus.DUSK;
+                } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength
+                        && this.currentCycleStatus == DayNightCycleStatus.DUSK) {
+                    this.currentCycleStatus = DayNightCycleStatus.NIGHT;
                     // Notify entities it is now NIGHT
-                //} else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
-                //        config.dawnLength && this.currentCycleStatus == CycleStatus.NIGHT) {
                 } else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
-                        config.dawnLength) {
+                        config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
                     // Check if number of days == max number of days
                     if (this.currentDayNumber == config.maxDays - 1) {
                         // End the game
@@ -148,7 +148,7 @@ public class DayNightCycleService {
                         return;
                     }
 
-                    //this.currentCycleStatus = CycleStatus.DAWN;
+                    this.currentCycleStatus = DayNightCycleStatus.DAWN;
                     // Notify entities that it is now DAY
                     this.currentDayNumber++;
 
