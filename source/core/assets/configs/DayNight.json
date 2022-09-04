@@ -1,0 +1,7 @@
+{
+  "dawnLength": 1000,
+  "dayLength": 10000,
+  "duskLength": 1000,
+  "nightLength": 6000,
+  "maxDays": 4
+}

@@ -24,6 +24,13 @@ class OriginatorTest {
     }
 
     @Test
+    void shouldSaveWood() {
+        Originator test = new Originator(1);
+        test.setWood(100);
+        assertEquals(100, test.getWood());
+    }
+
+    @Test
     void shouldSaveHealth() {
         Originator test = new Originator(1);
         test.setCurrentHealth(100);

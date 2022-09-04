@@ -28,6 +28,7 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.deco2800.game.memento.CareTaker;
+
 /**
  * The game screen containing the main game.
  *
@@ -39,18 +40,18 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
   private static final String[] mainGameTextures = {
-          "images/uiElements/exports/heart.png",
-          "images/uiElements/exports/coin.png",
-          "images/healthBar.png",
-          "images/uiElements/exports/crystal.png",
-          "images/uiElements/exports/stoneSuperior.png",
-          "images/atlantisBasicBackground.png"
+      "images/uiElements/exports/heart.png",
+      "images/uiElements/exports/coin.png",
+      "images/healthBar.png",
+      "images/uiElements/exports/crystal.png",
+      "images/uiElements/exports/stoneSuperior.png",
+      "images/atlantisBasicBackground.png"
   };
 
-  private static final Vector2 CAMERA_POSITION = new Vector2(180f, 0f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
 
   private static final String[] mainGameTextureAtlases = {
-    "images/anim_demo/demo.atlas","images/anim_demo/res_bul_1.atlas"};
+      "images/anim_demo/res_bul_1.atlas" };
 
   private final AtlantisSinks game;
   private final Renderer renderer;
@@ -86,7 +87,6 @@ public class MainGameScreen extends ScreenAdapter {
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
 
     loadAssets();
-
 
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
