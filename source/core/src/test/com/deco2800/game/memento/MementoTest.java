@@ -13,26 +13,26 @@ class MementoTest {
 
     @Test
     void shouldGetState() {
-        Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
+        Memento test = new Memento(1, 2, 3, 4,5, new ArrayList<>(), 5);
         assertEquals(1, test.getState());
     }
 
     @Test
     void shouldGetGold() {
-        Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
+        Memento test = new Memento(1, 2, 3, 4,5, new ArrayList<>(), 5);
         assertEquals(2, test.getGold());
     }
 
     @Test
     void shouldGetHealth() {
-        Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
+        Memento test = new Memento(1, 2, 3, 4, 4, new ArrayList<>(), 5);
         assertEquals(4, test.getCurrentHealth());
     }
 
     @Test
     void shouldGetEmptyItem() {
         List<Artefact> item = new ArrayList<>();
-        Memento test = new Memento(1, 2, 3, 4, item, 5);
+        Memento test = new Memento(1, 2, 3, 4, 5, item, 5);
         assertTrue(item.equals(test.getItemList()));
     }
 
@@ -40,19 +40,20 @@ class MementoTest {
     void shouldGetItemList() {
         List<Artefact> item = new ArrayList<>();
         item.add(new BestSword());
-        Memento test = new Memento(1, 2, 3, 4, item, 5);
+        Memento test = new Memento(1, 2, 3, 4, 5, item, 5);
         assertTrue(item.equals(test.getItemList()));
     }
 
     @Test
     void shouldGetAttack() {
-        Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
+        Memento test = new Memento(1, 2, 3, 4, 5, new ArrayList<>(), 5);
         assertEquals(5, test.getAttack());
     }
 
     @Test
     void shouldGetStone() {
-        Memento test = new Memento(1, 2, 3, 4, new ArrayList<>(), 5);
+        Memento test = new Memento(1, 2, 3, 4, 5, new ArrayList<>(), 5);
         assertEquals(3, test.getStone());
     }
+
 }

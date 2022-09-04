@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Originator {
     private static final Logger logger = LoggerFactory.getLogger(Originator.class);
-    protected int state, gold, stone, currentHealth, attack;
+    protected int state, gold, stone, wood, currentHealth, attack;
     protected List<Artefact> items;
 
     /**
@@ -53,12 +53,30 @@ public class Originator {
     }
 
     /**
+     * saves the amount of gold that the player currently have
+     * 
+     * @param wood - amount of gold that the player current holds
+     */
+    public void setWood(int wood) {
+        this.wood = wood;
+    }
+
+    /**
      * retrieve the stone status for player
      * 
      * @return amount of stone currently held by the player
      */
     public int getStone() {
         return stone;
+    }
+
+    /**
+     * retrieve the wood status for player
+     * 
+     * @return amount of wood currently held by the player
+     */
+    public int getWood() {
+        return wood;
     }
 
     /**
@@ -133,7 +151,7 @@ public class Originator {
      * @return - the new memento generated from the current originator
      */
     public Memento saveStateToMemento() {
-        return new Memento(state, gold, stone, currentHealth, items, attack);
+        return new Memento(state, gold, stone, wood, currentHealth, items, attack);
     }
 
     /**
@@ -144,6 +162,7 @@ public class Originator {
     public void getStateFromMemento(Memento memento) {
         gold = memento.getGold();
         stone = memento.getStone();
+        wood = memento.getWood();
         currentHealth = memento.getCurrentHealth();
         items = memento.getItemList();
     }
@@ -151,6 +170,6 @@ public class Originator {
     @Override
     public String toString() {
         return "State " + state + " : Current Health = " + currentHealth + ", Base Attack Value: " + attack +
-                ", gold: " + gold + " , stone: " + stone + " , items in inventory: " + items;
+                ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood + " , items in inventory: " + items;
     }
 }
