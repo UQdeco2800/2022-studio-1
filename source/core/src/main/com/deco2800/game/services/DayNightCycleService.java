@@ -70,7 +70,8 @@ public class DayNightCycleService {
      * @return int
      */
     public int getCurrentDayNumber() {
-        return this.currentDayNumber;
+        // days begin at 0
+        return this.currentDayNumber + 1;
     }
 
     /**
@@ -109,7 +110,7 @@ public class DayNightCycleService {
         }
 
         this.isStarted = true;
-        this.currentCycleStatus = DayNightCycleStatus.DAWN;
+        this.setPartOfDayTo(DayNightCycleStatus.DAWN);
 
         return JobSystem.launch(() -> {
             try {
@@ -144,20 +145,19 @@ public class DayNightCycleService {
         while (!this.ended) {
 
             if (!this.isPaused) {
-                //TODO: progress cycle to next
 
                 // Definitely a better way to do this but this works for now
                 this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
                         config.duskLength + config.dayLength + config.dawnLength));
 
                 if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.DAWN) {
-                    this.currentCycleStatus = DayNightCycleStatus.DAY;
+                    this.setPartOfDayTo(DayNightCycleStatus.DAY);
                 } else if (this.currentDayMillis >= config.dayLength + config.dawnLength &&
                         this.currentCycleStatus == DayNightCycleStatus.DAY) {
-                    this.currentCycleStatus = DayNightCycleStatus.DUSK;
+                    this.setPartOfDayTo(DayNightCycleStatus.DUSK);
                 } else if (this.currentDayMillis >= config.duskLength + config.dayLength + config.dawnLength
                         && this.currentCycleStatus == DayNightCycleStatus.DUSK) {
-                    this.currentCycleStatus = DayNightCycleStatus.NIGHT;
+                    this.setPartOfDayTo(DayNightCycleStatus.NIGHT);
                     // Notify entities it is now NIGHT
                 } else if (this.currentDayMillis >= config.nightLength + config.duskLength + config.dayLength +
                         config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
@@ -165,12 +165,14 @@ public class DayNightCycleService {
                     if (this.currentDayNumber == config.maxDays - 1) {
                         // End the game
                         this.stop();
+                        events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
                         return;
                     }
 
-                    this.currentCycleStatus = DayNightCycleStatus.DAWN;
+                    this.setPartOfDayTo(DayNightCycleStatus.DAWN);
                     // Notify entities that it is now DAY
                     this.currentDayNumber++;
+                    events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
 
                     this.currentDayMillis = 0;
                 }
@@ -198,19 +200,6 @@ public class DayNightCycleService {
      */
     public EventHandler getEvents() {
         return events;
-    }
-
-    public  static void main(String... args) {
-        var config = new DayNightCycleConfig();
-        config.dawnLength = 500;
-        config.dayLength = 2000;
-        config.duskLength = 500;
-        config.nightLength = 3000;
-        config.maxDays = 1;
-        ServiceLocator.registerTimeSource(new GameTime());
-        var gameTime = ServiceLocator.getTimeSource();
-        var dayNightCycleService = new DayNightCycleService(gameTime, config);
-        dayNightCycleService.start().join();
     }
 
 
