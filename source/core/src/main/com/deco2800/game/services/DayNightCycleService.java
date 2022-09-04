@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
  * Service for managing the Day and Night cycle of the game.
  */
 public class DayNightCycleService {
-    private boolean ended;
+    private volatile boolean ended;
     //private CycleStatus currentCycleStatus;
     private int currentDayNumber;
     private long currentDayMillis;
@@ -78,8 +78,9 @@ public class DayNightCycleService {
             return; // Avoid running another async job
         }
 
+        this.isStarted = true;
+
         CompletableFuture<Void> job = JobSystem.launch(() -> {
-            this.isStarted = true;
             this.run();
             return null;
         });
