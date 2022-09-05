@@ -41,18 +41,53 @@ public class DayNightCycleService {
 
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
         this.events = new EventHandler(); //
+
         this.ended = false;
-        this.currentCycleStatus = DayNightCycleStatus.NONE;
         this.isStarted = false;
         this.isPaused = false;
+
+        this.currentCycleStatus = DayNightCycleStatus.NONE;
+
         this.totalDurationPaused = 0;
         this.currentDayNumber = 0;
         this.currentDayMillis = timer.getTime();
+
         this.config = config;
         this.timer = timer;
     }
 
+    /**
+     * Returns whether the current day night cycle has ended.
+     *
+     * @return boolean
+     */
+    public boolean hasEnded() {
+        return this.ended;
+    }
 
+    /**
+     * Returns whether the day night cycle service has been started
+     *
+     * @return boolean
+     */
+    public boolean hasStarted() {
+        return this.isStarted;
+    }
+
+    /**
+     * Returns whether the day night cycle is paused.
+     *
+     * @return boolean
+     */
+    public boolean isPaused() {
+        return this.isPaused;
+    }
+
+    /**
+     * Returns the current status of the day night cycle.
+     *
+     * @return DayNightCycleStatus
+     */
     public DayNightCycleStatus getCurrentCycleStatus() {
         return this.currentCycleStatus;
     }
@@ -68,6 +103,23 @@ public class DayNightCycleService {
         return this.lastCycleStatus;
     }
 
+    /**
+     * Returns the last time game time that the timer was paused.
+     *
+     * @return long
+     */
+    public long getTimePaused() {
+        return this.timePaused;
+    }
+
+    /**
+     * Returns total amount of time that the timer has been paused for.
+     *
+     * @return long
+     */
+    public long getTotalDurationPaused() {
+        return this.totalDurationPaused;
+    }
 
     /**
      * Returns the current day number.
@@ -86,15 +138,6 @@ public class DayNightCycleService {
      */
     public long getCurrentDayMillis() {
         return this.currentDayMillis;
-    }
-
-    /**
-     * Returns whether the current day night cycle has ended.
-     *
-     * @return boolean
-     */
-    public boolean hasEnded() {
-        return this.ended;
     }
 
     /**
