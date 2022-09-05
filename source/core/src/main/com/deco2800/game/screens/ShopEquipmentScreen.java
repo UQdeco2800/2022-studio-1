@@ -1,6 +1,6 @@
 package com.deco2800.game.screens;
 
-import com.deco2800.game.components.shop.ShopEquipment;
+import com.deco2800.game.components.shop.ShopEquipmentDisplay;
 import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,6 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
-import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -137,7 +136,7 @@ public class ShopEquipmentScreen extends ScreenAdapter {
                 .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
                         playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
-                .addComponent(new ShopEquipment())
+                .addComponent(new ShopEquipmentDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
