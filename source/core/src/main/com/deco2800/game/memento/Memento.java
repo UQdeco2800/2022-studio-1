@@ -69,7 +69,7 @@ public class Memento {
      * @return - wood amount
      */
     public int getWood() {
-        return gold;
+        return wood;
     }
 
     /**

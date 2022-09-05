@@ -40,7 +40,7 @@ public class CrystalFactory {
                         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                         // I've just moved the hitbox component onto the obstacle layer for now because when it was on
                         // the NPC layer the player character was attacking it feel free to change this later
-                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.OBSTACLE))
+                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
