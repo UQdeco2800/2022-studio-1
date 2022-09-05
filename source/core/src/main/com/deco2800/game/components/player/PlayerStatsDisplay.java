@@ -10,6 +10,9 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A ui component for displaying player stats, e.g. health.
  */
@@ -24,12 +27,12 @@ public class PlayerStatsDisplay extends UIComponent {
   private Label crystalLabel;
 
   private Image stoneCurrencyImage;
-  //private Label stoneCurrencyLabel;
-  public static Label stoneCurrencyLabel;
+  private static Label stoneCurrencyLabel;
 
-  public static int stoneCount = 0;
+  private static int stoneCount = 0;
   Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
 
+  //Entity resourceBuilding = ServiceLocator.getEntityService().getNamedEntity("stoneQuarry");
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -47,7 +50,6 @@ public class PlayerStatsDisplay extends UIComponent {
 //    }
 
   }
-
 
 
   /**
@@ -93,6 +95,7 @@ public class PlayerStatsDisplay extends UIComponent {
     //Stone text. 0 as an initial set up
     int stone = entity.getComponent(InventoryComponent.class).getStone();
    // CharSequence stoneCount = String.format("x %d", stone);
+
     stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
 
@@ -126,6 +129,20 @@ public class PlayerStatsDisplay extends UIComponent {
     crystalLabel.setText(text);
   }
 
+  public static void updateStoneCountUI() {
+    int stone = 0;
+    HashMap<String, Entity> namedEntities = (HashMap<String, Entity>) ServiceLocator.getEntityService().getAllNamedEntities();
+    int quarryCount = 0;
+    for (Map.Entry<String, Entity> entry : namedEntities.entrySet()) {
+        if (entry.getKey().contains("stoneQuarry")) {
+          quarryCount += 1;
+        }
+    }
+    stone = stoneCount + quarryCount * 100;
+    stoneCount = stone;
+    CharSequence count = String.format("%d", stone);
+    stoneCurrencyLabel.setText(count);
+  }
 
   @Override
   public void dispose() {
