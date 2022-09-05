@@ -126,7 +126,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentCycleStatus()" class="member-name-link">getCurrentCycleStatus</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the current status of the day night cycle.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentDayMillis()" class="member-name-link">getCurrentDayMillis</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -149,15 +151,35 @@ loadScripts(document, 'script');</script>
 
  NOTE: helps with testing behaviour</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="GameTime.html" title="class in com.deco2800.game.services">GameTime</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTimer()" class="member-name-link">getTimer</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTimePaused()" class="member-name-link">getTimePaused</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the last time game time that the timer was paused.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="GameTime.html" title="class in com.deco2800.game.services">GameTime</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTimer()" class="member-name-link">getTimer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the game timer</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTotalDurationPaused()" class="member-name-link">getTotalDurationPaused</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns total amount of time that the timer has been paused for.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasEnded()" class="member-name-link">hasEnded</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns whether the current day night cycle has ended.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStarted()" class="member-name-link">hasStarted</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns whether the day night cycle service has been started</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPaused()" class="member-name-link">isPaused</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns whether the day night cycle is paused.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
@@ -253,9 +275,47 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="hasEnded()">
+<h3>hasEnded</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEnded</span>()</div>
+<div class="block">Returns whether the current day night cycle has ended.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>boolean</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hasStarted()">
+<h3>hasStarted</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasStarted</span>()</div>
+<div class="block">Returns whether the day night cycle service has been started</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>boolean</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isPaused()">
+<h3>isPaused</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPaused</span>()</div>
+<div class="block">Returns whether the day night cycle is paused.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>boolean</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getCurrentCycleStatus()">
 <h3>getCurrentCycleStatus</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a></span>&nbsp;<span class="element-name">getCurrentCycleStatus</span>()</div>
+<div class="block">Returns the current status of the day night cycle.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>DayNightCycleStatus</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -268,6 +328,28 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>last part of day</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getTimePaused()">
+<h3>getTimePaused</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">getTimePaused</span>()</div>
+<div class="block">Returns the last time game time that the timer was paused.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>long</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getTotalDurationPaused()">
+<h3>getTotalDurationPaused</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">getTotalDurationPaused</span>()</div>
+<div class="block">Returns total amount of time that the timer has been paused for.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>long</dd>
 </dl>
 </section>
 </li>
@@ -290,17 +372,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>long</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="hasEnded()">
-<h3>hasEnded</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEnded</span>()</div>
-<div class="block">Returns whether the current day night cycle has ended.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>boolean</dd>
 </dl>
 </section>
 </li>
