@@ -3,6 +3,13 @@ size: 4096, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
+default
+  rotate: false
+  xy: 0, 2
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 0
 stqu
   rotate: false
   xy: 0, 2

@@ -81,17 +81,17 @@ public class StructureFactory {
    */
   public static Entity createStoneQuarry() {
 
-    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/res_bul_1.atlas", TextureAtlas.class));
-    bul_animator.addAnimation("bul_1", 0.5f, Animation.PlayMode.LOOP);
+    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/stonequarr.atlas", TextureAtlas.class));
+    bul_animator.addAnimation("stqu", 0.5f, Animation.PlayMode.LOOP);
 
-    Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/res_bul_1.atlas");
+    Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/stonequarr.atlas");
     BaseEntityConfig config = configs.stoneQuarry;
 
     stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(bul_animator)
             .addComponent(new HealthBarComponent(75, 10));
     stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
-    bul_animator.startAnimation("bul_1");
+    bul_animator.startAnimation("stqu");
     return stoneQuarry;
   }
 
