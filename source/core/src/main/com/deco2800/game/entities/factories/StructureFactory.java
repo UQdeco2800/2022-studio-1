@@ -153,7 +153,7 @@ public class StructureFactory {
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "stonequarry")) {
+    } else if (Objects.equals(name, "stoneQuarry")) {
       ServiceLocator.getEntityService().registerNamed(entityName, createStoneQuarry());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
@@ -184,9 +184,8 @@ public class StructureFactory {
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
       if (es.getValue().contains(mousePosV2)) {
         clickedStructure = es.getKey();
-        if (clickedStructure.contains("stonequarry")) {
-          PlayerStatsDisplay.stoneCount += 100;
-          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
+        if (clickedStructure.contains("stoneQuarry")) {
+          PlayerStatsDisplay.updateStoneCountUI();
           resourceBuildState = false;
           return new boolean[]{false, resourceBuildState, buildEvent};
         } else {

@@ -184,29 +184,29 @@ public class ForestGameArea extends GameArea {
         TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
         TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
 
-        if (tile.getName() == "grass") {
-          if (above.getName() == "water") {
+        if (tile.getName().equals("grass")) {
+          if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
           }
-          if (below.getName() == "cliff" || below.getName() == "cliffLeft") {
+          if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
             createBorderWall(x, y - 1);
           }
-          if (left.getName() == "water") {
+          if (left.getName().equals("water")) {
             createBorderWall(x -1 , y);
           }
-          if (right.getName() == "cliff" || right.getName() == "cliffRight") {
+          if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y );
           }
-          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight" || rightAbove.getName() == "cliff") {
+          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight") || rightAbove.getName().equals("cliff")) {
             createBorderWall(x + 1, y + 1);
           }
-          if (rightBelow.getName() == "cliff") {
+          if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
           }
-          if (leftAbove.getName() == "water") {
+          if (leftAbove.getName().equals("water")) {
             createBorderWall(x -1 , y + 1);
           }
-          if (leftBelow.getName() == "water" || leftBelow.getName() == "cliff" || leftBelow.getName() == "cliffLeft") {
+          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff") || leftBelow.getName().equals("cliffLeft")) {
             createBorderWall(x -1, y + 1);
           }
         }

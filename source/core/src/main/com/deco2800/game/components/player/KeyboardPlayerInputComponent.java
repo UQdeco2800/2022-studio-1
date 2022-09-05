@@ -130,7 +130,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
         if (isClear) {
           if (resourceBuildState) {
-            StructureFactory.triggerBuildEvent("stonequarry", structureRects);
+            StructureFactory.triggerBuildEvent("stoneQuarry", structureRects);
           } else {
             StructureFactory.triggerBuildEvent("wall", structureRects);
           }
@@ -191,7 +191,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 
   }
 
@@ -201,7 +201,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private void triggerCrystalUpgrade() {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     crystal.getComponent(CombatStatsComponent.class).upgrade();
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
 }
