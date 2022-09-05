@@ -24,6 +24,8 @@ public class ServiceLocator {
   private static InputService inputService;
   private static ResourceService resourceService;
 
+  private static DayNightCycleService dayNightCycleService;
+
 
   public static EntityService getEntityService() {
     return entityService;
@@ -47,6 +49,10 @@ public class ServiceLocator {
 
   public static ResourceService getResourceService() {
     return resourceService;
+  }
+
+  public static DayNightCycleService getDayNightCycleService () {
+    return dayNightCycleService;
   }
 
   public static void registerEntityService(EntityService service) {
@@ -79,6 +85,11 @@ public class ServiceLocator {
     resourceService = source;
   }
 
+  public static void registerDayNightCycleService(DayNightCycleService source) {
+    logger.debug("Registering day night cycle service {}", source);
+    dayNightCycleService = source;
+  }
+
   public static void clear() {
     entityService = null;
     renderService = null;
@@ -86,6 +97,7 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
+    dayNightCycleService = null;
   }
 
   private ServiceLocator() {
