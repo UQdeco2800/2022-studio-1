@@ -67,13 +67,42 @@ public class StructureFactory {
    * //@param target entity to chase
    * @return entity
    */
-  public static Entity createTower1() {
-    Entity tower1 = createBaseStructure("images/mini_tower.png");
-    BaseEntityConfig config = configs.tower1;
+  public static Entity createTower1(int level) {
+    //@TODO Change string constant 
+    String TOWER1I = "images/mini_tower.png";
+    String TOWER1II = "images/mini_tower.png";
+    String TOWER1III = "images/mini_tower.png";
+    Entity tower1;
+    BaseEntityConfig config;
 
-    tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(75, 10))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+    tower1 = createBaseStructure("images/mini_tower.png");
+    switch(level) {
+      case 1: //Represents the base level structure
+        tower1 = createBaseStructure("images/mini_tower.png");
+        config = configs.tower1;
+    
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
+                .addComponent(new HealthBarComponent(75, 10))
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+        return tower1;
+      
+      case 2: //Represents the first upgraded version of the tower
+        tower1 = createBaseStructure(TOWER1I);
+        config = configs.tower1I;
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
+                .addComponent(new HealthBarComponent(75, 10))
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+        return tower1;
+
+        case 3: //Represents the second upgraded version of the tower
+          tower1 = createBaseStructure(TOWER1II);
+          config = configs.tower1II;
+          tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
+                  .addComponent(new HealthBarComponent(75, 10))
+                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+          return tower1;
+    }
+    //should never run    
     return tower1;
   }
 
@@ -164,7 +193,7 @@ public class StructureFactory {
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
     } else if (Objects.equals(name, "tower1")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, createTower1());
+      ServiceLocator.getEntityService().registerNamed(entityName, createTower1(1));
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
@@ -261,5 +290,40 @@ public class StructureFactory {
     }
     ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey()).dispose();
     structureRects.remove(rectangle.getKey());
+  }
+
+  /*
+   * Function which handles upgrading buildings. Does so by first obtaining and storing building state, 
+   * removing building and replacing with upgraded version.
+   * 
+   * @param rectangle: Entry from structureRects indicating building to upgrade
+   * 
+   */
+  public void upgradeStructure(Map.Entry<String, Rectangle> rectangle) {
+    //Store rectangle location, name, level
+    Vector2 location = ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey()).getPosition();
+    String rectangleName = rectangle.getKey();
+    int level = ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey())
+        .getComponent(CombatStatsComponent.class).getLevel();
+
+    //Remove building entity
+    ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey()).dispose();
+
+    //Upgrade depending on building
+    if (rectangleName.contains("wall")) {
+      
+    } else if (rectangleName.contains("tower1")) {
+        switch(level) {
+          //Only two possible upgrades 1->2 and 2->3
+          case 1: 
+            ServiceLocator.getEntityService().registerNamed(rectangleName, createTower1(2));
+            ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
+          case 2:
+            ServiceLocator.getEntityService().registerNamed(rectangleName, createTower1(3));
+            ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
+        }
+
+    } 
+
   }
 }
