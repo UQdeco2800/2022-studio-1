@@ -141,13 +141,6 @@ public class DayNightCycleService {
     public void pause() {
         this.isPaused = true;
         this.timePaused = this.currentDayMillis;
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("Time Paused: " + this.timePaused);
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
     }
 
     /**
