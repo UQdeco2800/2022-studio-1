@@ -103,7 +103,7 @@ public class ShopReturn extends UIComponent {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 logger.debug("Equipment Shopping Time!");
-                entity.getEvents().trigger("artefactShop");
+                entity.getEvents().trigger("equipmentShop");
             }
         });
         String equipmentText = "Equipments";

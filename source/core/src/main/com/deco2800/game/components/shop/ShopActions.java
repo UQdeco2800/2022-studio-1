@@ -31,6 +31,7 @@ public class ShopActions extends Component {
         entity.getEvents().addListener("mainShop", this::onMainShop);
         entity.getEvents().addListener("buildShop", this::onBuildShop);
         entity.getEvents().addListener("artefactShop", this::onArtefactShop);
+        entity.getEvents().addListener("equipmentShop", this::onEquipmentShop);
     }
 
     /**
@@ -75,5 +76,13 @@ public class ShopActions extends Component {
     private void onArtefactShop() {
         logger.info("Entering Artefact shop screen");
         game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP, playerStatus);
+    }
+
+    /**
+     * Swaps to the Equipment Shop screen.
+     */
+    private void onEquipmentShop() {
+        logger.info("Entering Equipment shop screen");
+        game.setScreen(AtlantisSinks.ScreenType.EQUIPMENT_SHOP, playerStatus);
     }
 }
