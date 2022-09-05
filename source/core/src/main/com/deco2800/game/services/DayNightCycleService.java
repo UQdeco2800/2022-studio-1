@@ -26,12 +26,16 @@ public class DayNightCycleService {
     private int currentDayNumber;
     private long currentDayMillis;
 
+    private long timePaused;
+
+    private long totalDurationPaused;
+
     private boolean isPaused;
 
     private boolean isStarted;
 
-    private DayNightCycleConfig config;
-    private GameTime timer;
+    private final DayNightCycleConfig config;
+    private final GameTime timer;
 
     private EventHandler events;
 
@@ -41,6 +45,7 @@ public class DayNightCycleService {
         this.currentCycleStatus = DayNightCycleStatus.NONE;
         this.isStarted = false;
         this.isPaused = false;
+        this.totalDurationPaused = 0;
         this.currentDayNumber = 0;
         this.currentDayMillis = timer.getTime();
         this.config = config;
@@ -93,6 +98,15 @@ public class DayNightCycleService {
     }
 
     /**
+     * Returns the game timer
+     *
+     * @return GameTime
+     */
+    public GameTime getTimer() {
+        return this.timer;
+    }
+
+    /**
      * Starts the day night cycle for the game.
      *
      * @return a future that can be used to join.
@@ -135,20 +149,26 @@ public class DayNightCycleService {
      */
     public void pause() {
         this.isPaused = true;
+        this.timePaused = this.currentDayMillis;
     }
 
     /**
      * Main loop for the service that updates the game status.
      */
     public void run() throws InterruptedException {
+        long durationPaused = 0;
 
         while (!this.ended) {
 
             if (!this.isPaused) {
+                if (durationPaused != 0) {
+                    this.totalDurationPaused += durationPaused;
+                    durationPaused = 0;
+                }
 
                 // Definitely a better way to do this but this works for now
                 this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
-                        config.duskLength + config.dayLength + config.dawnLength));
+                        config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused;
 
                 if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.DAWN) {
                     this.setPartOfDayTo(DayNightCycleStatus.DAY);
@@ -176,6 +196,9 @@ public class DayNightCycleService {
 
                     this.currentDayMillis = 0;
                 }
+            } else {
+                // Keep track of how long the game has been paused this time.
+                durationPaused = this.timer.getTimeSince(this.timePaused);
             }
         }
     }
