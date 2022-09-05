@@ -5,7 +5,23 @@
   },
   "tower1": {
     "health": 200,
-    "baseAttack": 1
+    "baseAttack": 10
+  },
+  "tower1I": {
+    "health" : 300,
+    "baseAttack" : 12
+  },
+  "tower1II": {
+    "health" : 400,
+    "baseAttack" : 14
+  },
+  "tower1III": {
+    "health" : 500,
+    "baseAttack" : 16
+  },
+  "trap": {
+    "health" : 150,
+    "baseAttack" : 100
   },
   "stoneQuarry": {
     "health": 50,

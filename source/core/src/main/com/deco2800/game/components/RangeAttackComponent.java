@@ -1,5 +1,4 @@
 package com.deco2800.game.components;
-import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,6 +8,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
+
 
 public class RangeAttackComponent extends Component{
     private short targetLayer;
@@ -62,6 +62,7 @@ public class RangeAttackComponent extends Component{
     * if target acquired check distance, if distances < range attack
     * if target outside range, negate TargetAcquired, check for new targets
     */
+    @Override
     public void update() {
         if (targetAcquired) {
             if (getDistanceToTarget(this.target) <= this.range) {
@@ -85,7 +86,7 @@ public class RangeAttackComponent extends Component{
                                 attackTarget();
                             }
                         }
-                    }
+                     }
 
                 }
             }
