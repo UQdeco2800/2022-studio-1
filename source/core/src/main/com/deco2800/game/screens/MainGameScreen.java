@@ -89,7 +89,9 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-    ServiceLocator.getRenderService().setDayNightCycleComponent(new DayNightCycleComponent());
+    var dayNightCycleComponent = new DayNightCycleComponent();
+    ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
+    ServiceLocator.getInputService().register(dayNightCycleComponent);
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
