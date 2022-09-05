@@ -2,6 +2,7 @@ package com.deco2800.game.components.maingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.deco2800.game.ui.UIComponent;
@@ -9,6 +10,7 @@ import com.deco2800.game.ui.UIComponent;
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
+    private Table BuildingUI;
 
     @Override
     public void create() {
@@ -18,7 +20,11 @@ public class MainGameBuildingInterface extends UIComponent {
 
     private void addActors() {
         // add popup
+
+
+
         //event handlers
+
         //table
 
     }
