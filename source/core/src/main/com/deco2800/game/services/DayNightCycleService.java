@@ -94,7 +94,7 @@ public class DayNightCycleService {
 
     /**
      * Used to get the last part of day before the current one
-     *
+     * <p>
      * NOTE: helps with testing behaviour
      *
      * @return last part of day
@@ -243,6 +243,8 @@ public class DayNightCycleService {
                 // Keep track of how long the game has been paused this time.
                 durationPaused = this.timer.getTimeSince(this.timePaused);
             }
+
+            Thread.sleep(100);
         }
     }
 
