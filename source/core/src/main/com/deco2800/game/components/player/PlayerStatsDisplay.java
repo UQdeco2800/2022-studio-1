@@ -42,6 +42,10 @@ public class PlayerStatsDisplay extends UIComponent {
     //entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
     crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
 
+//    if(crystal.getComponent(CombatStatsComponent.class).getHealth() == 900){
+//      healthBarImage.remove();
+//    }
+
   }
 
 

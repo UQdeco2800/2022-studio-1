@@ -18,6 +18,6 @@ public class PlayerAnimationController extends Component {
   }
 
   void animate() {
-    animator.startAnimation("box_boy");
+    //animator.startAnimation("box_boy");
   }
 }
