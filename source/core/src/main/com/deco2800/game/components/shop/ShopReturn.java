@@ -22,6 +22,7 @@ public class ShopReturn extends UIComponent {
 
     Table table1;
     Table table2;
+    Table table3;
 
     private TextButton buildingBtn;
     private TextureRegionDrawable buildingUp;
@@ -32,6 +33,11 @@ public class ShopReturn extends UIComponent {
     private TextButton artefactBtn;
     private Texture artefactTexture;
     private Label artefactTitle;
+
+    private TextureRegionDrawable equipmentUp;
+    private TextButton equipmentBtn;
+    private Texture equipmentTexture;
+    private Label equipmentTitle;
 
     @Override
     public void create() {
@@ -50,6 +56,11 @@ public class ShopReturn extends UIComponent {
         table2.setFillParent(true);
         table2.center().right();
         table2.padRight(400).padTop(100);
+
+        table3 = new Table();
+        table3.setFillParent(true);
+        table3.center();
+        table3.padTop(100);
 
         buildingTexture = new Texture(Gdx.files.internal("images/building-category-button.png"));
         buildingUp = new TextureRegionDrawable(buildingTexture);
@@ -81,16 +92,36 @@ public class ShopReturn extends UIComponent {
         String artefactText = "Artefacts";
         artefactTitle = new Label(artefactText, skin, "large");
 
+        equipmentTexture = new Texture(Gdx.files.internal("images/category-button-standard"
+                + ".png"));
+        equipmentUp = new TextureRegionDrawable(equipmentTexture);
+        equipmentBtn = ShopUtils.createImageTextButton("", skin.getColor("black"),
+                "button", 1f,
+                equipmentUp, equipmentUp,
+                skin, false);
+        equipmentBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("Equipment Shopping Time!");
+                entity.getEvents().trigger("artefactShop");
+            }
+        });
+        String equipmentText = "Equipments";
+        equipmentTitle = new Label(equipmentText, skin, "large");
+
         table1.add(buildingBtn).width(350).height(350);
         table1.row();
         table1.add(buildingTitle);
         table2.add(artefactBtn).width(350).height(350);
         table2.row();
         table2.add(artefactTitle);
+        table3.add(equipmentBtn).width(350).height(350);
+        table3.row();
+        table3.add(equipmentTitle);
 
         stage.addActor(table1);
         stage.addActor(table2);
-
+        stage.addActor(table3);
     }
 
     @Override
@@ -107,6 +138,7 @@ public class ShopReturn extends UIComponent {
     public void dispose() {
         table1.clear();
         table2.clear();
+        table3.clear();
         stage.clear();
         super.dispose();
     }
