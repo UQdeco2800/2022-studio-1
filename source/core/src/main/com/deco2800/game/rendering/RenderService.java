@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.utils.SortedIntMap;
 
 /**
@@ -15,6 +16,8 @@ public class RenderService implements Disposable {
   private static final int INITIAL_CAPACITY = 4;
   private Stage stage;
   private DebugRenderer debugRenderer;
+
+  private DayNightCycleComponent dayNightCycleComponent;
 
   /**
    * Map from layer to list of renderables, allows us to render each layer in the correct order
@@ -60,6 +63,11 @@ public class RenderService implements Disposable {
 
       for (Renderable renderable : layer) {
         renderable.render(batch);
+        if (dayNightCycleComponent != null) {
+          if (AtlantisSinks.gameRunning) {
+            dayNightCycleComponent.render(batch);
+          }
+        }
       }
     }
   }
@@ -68,6 +76,9 @@ public class RenderService implements Disposable {
     this.stage = stage;
   }
 
+  public void setDayNightCycleComponent(DayNightCycleComponent dayNightCycleComponent) {
+    this.dayNightCycleComponent = dayNightCycleComponent;
+  }
   public Stage getStage() {
     return stage;
   }

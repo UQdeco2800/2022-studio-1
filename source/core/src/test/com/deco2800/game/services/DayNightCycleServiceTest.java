@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -50,7 +51,8 @@ public class DayNightCycleServiceTest {
         this.dayNightCycleService.start().join();
     }
 
-    @Test void shouldCompleteFullCyclePassingThroughAllPartsOfDay() {
+    @Test
+    public void shouldCompleteFullCyclePassingThroughAllPartsOfDay() {
         List<DayNightCycleStatus> partsOfDay = new ArrayList<>();
 
         this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
@@ -94,7 +96,8 @@ public class DayNightCycleServiceTest {
         assertTrue(this.dayNightCycleService.hasEnded());
     }
 
-    @Test void shouldGoThroughAllNumberOfDays() {
+    @Test
+    public void shouldGoThroughAllNumberOfDays() {
         this.config.maxDays = 3;
         AtomicInteger days = new AtomicInteger(0);
         this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
@@ -107,5 +110,81 @@ public class DayNightCycleServiceTest {
         assertEquals(this.config.maxDays, days.get());
     }
 
+    @Test
+    public void shouldStopDayTimeWhenPaused() {
+        this.dayNightCycleService.start();
+        this.dayNightCycleService.pause();
 
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
+
+        assertTrue(this.dayNightCycleService.getTimer().getTime() > 300);
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 300);
+    }
+
+    @Test
+    public void shouldResumeDayTimeWhenResumed() {
+        CompletableFuture<Object> job = this.dayNightCycleService.start();
+        this.dayNightCycleService.pause();
+
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 1000);
+
+        this.dayNightCycleService.start();
+        job.join();
+
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() > 1000);
+    }
+
+    @Test
+    public void shouldResumeDayTimeAfterBeingPausedAndResumedMultipleTimes() {
+        CompletableFuture<Object> job = this.dayNightCycleService.start();
+        this.dayNightCycleService.pause();
+
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 300);
+
+        this.dayNightCycleService.start();
+
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
+
+        this.dayNightCycleService.pause();
+
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
+
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 400);
+
+        this.dayNightCycleService.start();
+
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
+
+        this.dayNightCycleService.pause();
+
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
+
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 700);
+
+        this.dayNightCycleService.start();
+
+        job.join();
+
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() > 1000);
+    }
 }
