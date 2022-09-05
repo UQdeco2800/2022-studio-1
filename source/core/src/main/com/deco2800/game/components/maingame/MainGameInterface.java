@@ -48,7 +48,6 @@ public class MainGameInterface extends UIComponent {
         TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
         ImageButton inventoryButton = new ImageButton(upInventory, downInventory);
 
-
         // the achievements button
         Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
         TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
