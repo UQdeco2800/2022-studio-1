@@ -21,13 +21,11 @@ import com.deco2800.game.services.ServiceLocator;
 public class TerrainFactory {
   private final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
   private GridPoint2 island_size = new GridPoint2(20, 20);
-  private static final int CLIFF_HEIGHT = 1;
+  private static final int SAND_SIZE = 2;
 
   private TerrainTile grassTile;
   private TerrainTile waterTile;
-  private TerrainTile cliffTile;
-  private TerrainTile cliffRightTile;
-  private TerrainTile cliffLeftTile;
+  private TerrainTile sandTile;
 
   private TiledMap tiledMap;
 
@@ -68,19 +66,13 @@ public class TerrainFactory {
     switch (terrainType) {
       case FOREST_DEMO_ISO:
         TextureRegion isoGrass = new TextureRegion(
-            resourceService.getAsset("images/500_grassTile.png", Texture.class));
+            resourceService.getAsset("images/grassTest.png", Texture.class));
 
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/500_waterFullTile.png", Texture.class));
-        TextureRegion isoCliff = new TextureRegion(resourceService.getAsset("images/fullSizedDirt.png", Texture.class));
-        TextureRegion isoCliffLeft = new TextureRegion(
-            resourceService.getAsset("images/500_waterAndDirtFullTile.png", Texture.class));
-        TextureRegion isoCliffRight = new TextureRegion(
-            resourceService.getAsset("images/500_waterAndDirtFullTile.png", Texture.class));
-        isoCliffRight.flip(true, false);
+            resourceService.getAsset("images/waterTest.png", Texture.class));
+        TextureRegion isoSand = new TextureRegion(resourceService.getAsset("images/sandTest.png", Texture.class));
 
-        return createForestDemoTerrain(1f, isoGrass, isoWater, isoCliff, isoCliffLeft,
-            isoCliffRight);
+        return createForestDemoTerrain(1f, isoGrass, isoWater, isoSand);
       default:
         return null;
     }
@@ -93,17 +85,14 @@ public class TerrainFactory {
    * @param tileWorldSize size of tiles in terms of world units
    * @param grass         Grass texture
    * @param water         Water texture
-   * @param cliff         Cliff texture
-   * @param cliffLeft     Cliff edge left texture
-   * @param cliffRight    Cliff edge right texture
+   * @param sand          Sand texture
    * @return new TerrainComponent
    */
   private TerrainComponent createForestDemoTerrain(
       float tileWorldSize, TextureRegion grass, TextureRegion water,
-      TextureRegion cliff, TextureRegion cliffLeft, TextureRegion cliffRight) {
-    GridPoint2 tilePixelSize = new GridPoint2(grass.getRegionWidth(), grass.getRegionHeight());
-    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, water, cliff, cliffLeft,
-        cliffRight);
+      TextureRegion sand) {
+    GridPoint2 tilePixelSize = new GridPoint2(water.getRegionWidth(), water.getRegionHeight());
+    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, water, sand);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size);
   }
@@ -124,27 +113,22 @@ public class TerrainFactory {
   /**
    * Creates new TiledMap and calls fillTiles to generate the base layer for it
    * 
-   * @param tileSize   size of tiles
-   * @param grass      grass texture
-   * @param water      water texture
-   * @param cliff      cliff texture
-   * @param cliffLeft  cliff edge left texture
-   * @param cliffRight cliff edge right texture
+   * @param tileSize size of tiles
+   * @param grass    grass texture
+   * @param water    water texture
+   * @param sand     sand texture
    * @return new TiledMap with the generated map contained
    */
   private TiledMap createForestDemoTiles(
-      GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion cliff, TextureRegion cliffLeft,
-      TextureRegion cliffRight) {
+      GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion sand) {
     tiledMap = new TiledMap();
     grassTile = new TerrainTile(grass, "grass");
     waterTile = new TerrainTile(water, "water");
-    cliffTile = new TerrainTile(cliff, "cliff");
-    cliffRightTile = new TerrainTile(cliffRight, "cliffRight");
-    cliffLeftTile = new TerrainTile(cliffLeft, "cliffLeft");
+    sandTile = new TerrainTile(sand, "cliff");
     TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
     // Create base grass
-    fillTiles(layer, island_size, MAP_SIZE, waterTile, grassTile, cliffTile, cliffRightTile, cliffLeftTile);
+    fillTiles(layer, island_size, MAP_SIZE, waterTile, grassTile, sandTile);
 
     tiledMap.getLayers().add(layer);
     return tiledMap;
@@ -174,15 +158,17 @@ public class TerrainFactory {
    * @param cliffLeftTile  cliff edge left tile
    */
   private static void fillTiles(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize, TerrainTile water,
-      TerrainTile land, TerrainTile cliffTile, TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
+      TerrainTile land, TerrainTile sand) {
 
     int waterWidth = (int) Math.floor((mapSize.x - islandSize.x) / 2);
     int waterHeight = (int) Math.floor((mapSize.y - islandSize.y) / 2);
 
     GridPoint2 waterDimensions = new GridPoint2(waterWidth, waterHeight);
 
+    fillSand(layer, islandSize, mapSize, waterDimensions, sand);
+
     fillLand(layer, islandSize, mapSize, waterDimensions, land);
-    fillCliffs(layer, islandSize, mapSize, waterDimensions, cliffTile, cliffRightTile, cliffLeftTile);
+
     fillWater(layer, islandSize, mapSize, waterDimensions, water);
   }
 
@@ -214,42 +200,37 @@ public class TerrainFactory {
    * @param islandSize      island size in tiles
    * @param mapSize         map size in tiles
    * @param waterDimensions tile distances from edge of map to island
-   * @param cliffTile       cliff tile
-   * @param cliffRightTile  cliff edge right tile
-   * @param cliffLeftTile   cliff edge left tile
+   * @param sandTile        sandTile
    */
-  public static void fillCliffs(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
+  public static void fillSand(TiledMapTileLayer layer, GridPoint2 islandSize, GridPoint2 mapSize,
       GridPoint2 waterDimensions,
-      TerrainTile cliffTile,
-      TerrainTile cliffRightTile, TerrainTile cliffLeftTile) {
+      TerrainTile sandTile) {
 
-    // Cliff Edges
-    for (int i = 0; i < CLIFF_HEIGHT; i++) {
-      Cell cornerLeft = new Cell();
-      Cell cornerRight = new Cell();
+    // Add Sand along x axis: bottom left and top right of island
 
-      cornerLeft.setTile(cliffLeftTile);
-      cornerRight.setTile(cliffRightTile);
+    for (int x = waterDimensions.x - SAND_SIZE; x < waterDimensions.x + islandSize.x + SAND_SIZE; x++) {
+      for (int i = 0; i < SAND_SIZE; i++) {
+        Cell bLeft = new Cell();
+        bLeft.setTile(sandTile);
+        layer.setCell(x, waterDimensions.y - (1 + i), bLeft);
 
-      layer.setCell(waterDimensions.x + i, waterDimensions.y - (i + 1), cornerLeft);
-      layer.setCell(waterDimensions.x + islandSize.x + i, waterDimensions.y + islandSize.y - i - 1, cornerRight);
-    }
-
-    // Add Cliffs -- left side
-    for (int x = waterDimensions.x + 1; x <= waterDimensions.x + islandSize.x; x++) {
-      for (int i = 0; i < CLIFF_HEIGHT; i++) {
-        Cell cell = new Cell();
-        cell.setTile(cliffTile);
-        layer.setCell(x + i, waterDimensions.y - (1 + i), cell);
+        Cell tRight = new Cell();
+        tRight.setTile(sandTile);
+        layer.setCell(x, waterDimensions.y + islandSize.y + i, tRight);
       }
     }
 
-    // Add Cliffs -- right side
-    for (int y = waterDimensions.y; y < waterDimensions.y + islandSize.y - 1; y++) {
-      for (int i = 0; i < CLIFF_HEIGHT; i++) {
-        Cell cell = new Cell();
-        cell.setTile(cliffTile);
-        layer.setCell(waterDimensions.x + islandSize.x + i, y - i, cell);
+    // Add Sand along y axis: botoom right and top left of island
+
+    for (int y = waterDimensions.y; y < waterDimensions.y + islandSize.y; y++) {
+      for (int i = 0; i < SAND_SIZE; i++) {
+        Cell tLeft = new Cell();
+        tLeft.setTile(sandTile);
+        layer.setCell(waterDimensions.x - (1 + i), y, tLeft);
+
+        Cell bRight = new Cell();
+        bRight.setTile(sandTile);
+        layer.setCell(waterDimensions.x + islandSize.y + i, y, bRight);
       }
     }
 
@@ -294,7 +275,7 @@ public class TerrainFactory {
     GridPoint2 waterDimensions = new GridPoint2(waterWidth, waterHeight);
 
     fillLand(layer, island_size, MAP_SIZE, waterDimensions, grassTile);
-    fillCliffs(layer, island_size, MAP_SIZE, waterDimensions, cliffTile, cliffRightTile, cliffLeftTile);
+    fillSand(layer, island_size, MAP_SIZE, waterDimensions, sandTile);
   }
 
   /**
