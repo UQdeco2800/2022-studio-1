@@ -115,7 +115,14 @@ public class DayNightCycleServiceTest {
         this.dayNightCycleService.start();
         this.dayNightCycleService.pause();
 
-        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 1000);
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            System.err.println(e.getMessage());
+        }
+
+        assertTrue(this.dayNightCycleService.getTimer().getTime() > 300);
+        assertTrue(this.dayNightCycleService.getCurrentDayMillis() < 300);
     }
 
     @Test

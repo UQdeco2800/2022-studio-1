@@ -98,6 +98,15 @@ public class DayNightCycleService {
     }
 
     /**
+     * Returns the game timer
+     *
+     * @return GameTime
+     */
+    public GameTime getTimer() {
+        return this.timer;
+    }
+
+    /**
      * Starts the day night cycle for the game.
      *
      * @return a future that can be used to join.
