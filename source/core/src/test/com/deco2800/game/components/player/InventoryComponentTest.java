@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class InventoryComponentTest {
   @Test
   void shouldSetGetGold() {
-    InventoryComponent inventory = new InventoryComponent(100, 100);
+    InventoryComponent inventory = new InventoryComponent(100, 100, 100);
     assertEquals(100, inventory.getGold());
 
     inventory.setGold(150);
@@ -23,14 +23,14 @@ class InventoryComponentTest {
 
   @Test
   void shouldCheckHasGold() {
-    InventoryComponent inventory = new InventoryComponent(150, 150);
+    InventoryComponent inventory = new InventoryComponent(150, 150, 150);
     assertTrue(inventory.hasGold(100));
     assertFalse(inventory.hasGold(200));
   }
 
   @Test
   void shouldAddGold() {
-    InventoryComponent inventory = new InventoryComponent(100, 150);
+    InventoryComponent inventory = new InventoryComponent(100, 150, 150);
     inventory.addGold(-500);
     assertEquals(0, inventory.getGold());
 
@@ -41,7 +41,7 @@ class InventoryComponentTest {
 
   @Test
   void shouldSetGetStone() {
-    InventoryComponent inventory = new InventoryComponent(100, 100);
+    InventoryComponent inventory = new InventoryComponent(100, 100, 100);
     assertEquals(100, inventory.getStone());
 
     inventory.setStone(150);
@@ -53,14 +53,14 @@ class InventoryComponentTest {
 
   @Test
   void shouldCheckHasStone() {
-    InventoryComponent inventory = new InventoryComponent(150, 150);
+    InventoryComponent inventory = new InventoryComponent(150, 150, 150);
     assertTrue(inventory.hasStone(100));
     assertFalse(inventory.hasStone(200));
   }
 
   @Test
   void shouldAddStone() {
-    InventoryComponent inventory = new InventoryComponent(100, 150);
+    InventoryComponent inventory = new InventoryComponent(100, 150, 150);
     inventory.addStone(-500);
     assertEquals(0, inventory.getStone());
 

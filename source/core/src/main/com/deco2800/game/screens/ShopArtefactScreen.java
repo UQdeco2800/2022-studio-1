@@ -116,7 +116,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
-                        playerStatus.get(playerStatus.getAll().size() - 1).getStone()))
+                        playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
