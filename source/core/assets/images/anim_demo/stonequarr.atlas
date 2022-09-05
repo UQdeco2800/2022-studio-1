@@ -1,0 +1,54 @@
+stonequarr.png
+size: 4096, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+stqu
+  rotate: false
+  xy: 0, 2
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 0
+stqu
+  rotate: false
+  xy: 1058, 2
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 1
+stqu
+  rotate: false
+  xy: 2116, 2
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 2
+stqu
+  rotate: false
+  xy: 0, 653
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 3
+stqu
+  rotate: false
+  xy: 1058, 653
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 4
+stqu
+  rotate: false
+  xy: 2116, 653
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 5
+stqu
+  rotate: false
+  xy: 0, 1304
+  size: 1056, 649
+  orig: 1100, 1100
+  offset: 22, 220
+  index: 6
