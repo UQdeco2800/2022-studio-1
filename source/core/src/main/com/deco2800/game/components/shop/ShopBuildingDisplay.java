@@ -207,7 +207,7 @@ public class ShopBuildingDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Buy button clicked");
 
-                        if (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice())) {
+                        if (entity.getComponent(InventoryComponent.class).hasStone(current.t.getPrice())) {
                             logger.info("Sufficient stone");
                             entity.getComponent(InventoryComponent.class).addStone(-1 * current.t.getPrice());
                             Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
