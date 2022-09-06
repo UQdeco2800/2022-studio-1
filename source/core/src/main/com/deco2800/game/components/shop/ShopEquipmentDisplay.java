@@ -22,7 +22,7 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.ui.UIComponent;
 
 /**
- * Displays UI specific to the ShopArtefactScreen
+ * Displays UI specific to the ShopEquipmentScreen
  */
 public class ShopEquipmentDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopEquipmentDisplay.class);
