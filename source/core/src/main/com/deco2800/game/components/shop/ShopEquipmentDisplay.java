@@ -1,6 +1,7 @@
 package com.deco2800.game.components.shop;
 
 import com.deco2800.game.components.shop.artefacts.*;
+import net.dermetfan.gdx.physics.box2d.PositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +25,7 @@ import com.deco2800.game.ui.UIComponent;
  * Displays UI specific to the ShopArtefactScreen
  */
 public class ShopEquipmentDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(
-            ShopEquipmentDisplay.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShopEquipmentDisplay.class);
     private static final float Z_INDEX = 2f;
 
     Table table1;
@@ -206,15 +206,15 @@ public class ShopEquipmentDisplay extends UIComponent {
                         logger.info("Buy button clicked");
 
                         if (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice())) {
-                            logger.info("Sufficient stone");
-                            entity.getComponent(InventoryComponent.class).addStone(-1 * current.t.getPrice());
-                            Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
-                            rockSound.play();
+                            logger.info("Sufficient Gold");
+                            entity.getComponent(InventoryComponent.class).addGold(-1 * current.t.getPrice());
+                            Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
+                            coinSound.play();
                         } else {
-                            logger.info("Insufficient stone!");
+                            logger.info("Insufficient gold!");
                         }
-                        entity.getComponent(CommonShopComponents.class).getStoneButton().setText(
-                                Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ");
+                        entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
+                                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ");
                     }
                 });
 
@@ -227,7 +227,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                     }
                 });
 
-        subtitle = new Label("BUILDINGS", skin, "title");
+        subtitle = new Label("ARTEFACTS", skin, "title");
         subtitle.setFontScale(1f);
         subtitle.setColor(skin.getColor("black"));
 
