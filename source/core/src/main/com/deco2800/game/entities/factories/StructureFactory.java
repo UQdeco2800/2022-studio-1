@@ -198,18 +198,18 @@ public static Entity createTrap() {
     entityName = name + entityName;
 
     if (Objects.equals(name, "wall")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, createWall());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      ServiceLocator.getStructureService().registerNamed(entityName, createWall());
+      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
     } else if (Objects.equals(name, "stonequarry")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, createStoneQuarry());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      ServiceLocator.getStructureService().registerNamed(entityName, createStoneQuarry());
+      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
     } else if (Objects.equals(name, "tower1")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, createTower1(1));
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+      ServiceLocator.getStructureService().registerNamed(entityName, createTower1(1));
+      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
     }
@@ -243,7 +243,7 @@ public static Entity createTrap() {
           resourceBuildState = false;
           return new boolean[]{false, resourceBuildState, buildEvent};
         } else {
-          ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
+          ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
           anyStructureHit = true;
         }
       }
@@ -303,7 +303,7 @@ public static Entity createTrap() {
     if (state) {
       handleRefund(rectangle.getKey());
     }
-    ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey()).dispose();
+    ServiceLocator.getStructureService().getNamedEntity(rectangle.getKey()).dispose();
     structureRects.remove(rectangle.getKey());
   }
 
