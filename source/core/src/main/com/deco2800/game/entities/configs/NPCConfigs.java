@@ -8,5 +8,6 @@ public class NPCConfigs {
   public GhostKingConfig ghostKing = new GhostKingConfig();
   public EnemyConfig pirateCrab = new EnemyConfig();
   public EnemyConfig ElectricEel = new EnemyConfig();
+  // starfish config
   public EnemyConfig starFish = new EnemyConfig();
 }
