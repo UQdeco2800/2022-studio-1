@@ -227,7 +227,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                     }
                 });
 
-        subtitle = new Label("ARTEFACTS", skin, "title");
+        subtitle = new Label("Equipment", skin, "title");
         subtitle.setFontScale(1f);
         subtitle.setColor(skin.getColor("black"));
 
