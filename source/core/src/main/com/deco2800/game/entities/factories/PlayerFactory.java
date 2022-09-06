@@ -62,11 +62,11 @@ public class PlayerFactory {
     return player;
   }
 
-  public static Entity loadPlayer(CareTaker playerStatus) {
-    if (playerStatus.getAll().size() == 0) {
+  public static Entity loadPlayer() {
+    if (CareTaker.getInstance().getLast() == null) {
       return createPlayer();
     } else {
-      Memento lastStatus = playerStatus.get(playerStatus.getAll().size() - 1);
+      Memento lastStatus = CareTaker.getInstance().getLast();
       Entity player = createPlayer();
       player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
       player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());

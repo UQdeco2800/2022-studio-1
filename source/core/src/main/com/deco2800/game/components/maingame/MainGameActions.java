@@ -18,11 +18,9 @@ import org.slf4j.LoggerFactory;
 public class MainGameActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
   private AtlantisSinks game;
-  private CareTaker playerStatus;
   private Entity player;
 
-  public MainGameActions(AtlantisSinks game, CareTaker playerStatus, Entity player) {
-    this.playerStatus = playerStatus;
+  public MainGameActions(AtlantisSinks game, Entity player) {
     this.player = player;
     this.game = game;
   }
@@ -38,7 +36,7 @@ public class MainGameActions extends Component {
    */
   private void onExit() {
     logger.info("Exiting main game screen");
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, null);
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
   }
 
   /**
@@ -48,7 +46,8 @@ public class MainGameActions extends Component {
    */
   private void openShop() {
     logger.info("Exiting main game screen");
-    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+    CareTaker playerStatus = CareTaker.getInstance();
+    Memento currentStatus = new Memento(playerStatus.size(),
         player.getComponent(InventoryComponent.class).getGold(),
         player.getComponent(InventoryComponent.class).getStone(),
         player.getComponent(InventoryComponent.class).getWood(),
@@ -56,11 +55,7 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getItems(),
         player.getComponent(CombatStatsComponent.class).getBaseAttack());
     playerStatus.add(currentStatus);
-    game.setScreen(AtlantisSinks.ScreenType.SHOP, this.playerStatus);
+    game.setScreen(AtlantisSinks.ScreenType.SHOP);
   }
 
-  private void openBuildingShop() {
-    logger.info("Entering Building Shop");
-    game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, this.playerStatus);
-  }
 }

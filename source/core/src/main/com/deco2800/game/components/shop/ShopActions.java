@@ -17,12 +17,12 @@ import org.slf4j.LoggerFactory;
 public class ShopActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(ShopActions.class);
     private AtlantisSinks game;
-    private CareTaker playerStatus;
     private Renderer renderer;
+    private CareTaker playerStatus;
 
-    public ShopActions(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopActions(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
+        this.playerStatus = CareTaker.getInstance();
     }
 
     @Override
@@ -39,13 +39,13 @@ public class ShopActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting shop screen");
-        Originator currentStatus = new Originator(playerStatus.getAll().size());
-        currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
+        Originator currentStatus = new Originator(playerStatus.size());
+        currentStatus.getStateFromMemento(playerStatus.getLast());
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
         playerStatus.add(currentStatus.saveStateToMemento());
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
     /**
@@ -53,13 +53,13 @@ public class ShopActions extends Component {
      */
     private void onMainShop() {
         logger.info("Entering main shop screen");
-        Originator currentStatus = new Originator(playerStatus.getAll().size());
-        currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
+        Originator currentStatus = new Originator(playerStatus.size());
+        currentStatus.getStateFromMemento(playerStatus.getLast());
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
         playerStatus.add(currentStatus.saveStateToMemento());
-        game.setScreen(AtlantisSinks.ScreenType.SHOP, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.SHOP);
     }
 
     /**
@@ -67,7 +67,7 @@ public class ShopActions extends Component {
      */
     private void onBuildShop() {
         logger.info("Entering Build shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP);
     }
 
     /**
@@ -75,7 +75,7 @@ public class ShopActions extends Component {
      */
     private void onArtefactShop() {
         logger.info("Entering Artefact shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP);
     }
 
     /**
@@ -83,6 +83,6 @@ public class ShopActions extends Component {
      */
     private void onEquipmentShop() {
         logger.info("Entering Equipment shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.EQUIPMENT_SHOP, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.EQUIPMENT_SHOP);
     }
 }

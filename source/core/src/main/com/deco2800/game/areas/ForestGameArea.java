@@ -99,16 +99,14 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestMusic = { backgroundMusic };
   private EnvironmentalCollision entityMapping;
-  private CareTaker playerStatus;
 
   private final TerrainFactory terrainFactory;
 
   private Entity player;
   private Entity crystal;
 
-  public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
+  public ForestGameArea(TerrainFactory terrainFactory) {
     super();
-    this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
   }
 
@@ -348,7 +346,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+    Entity newPlayer = PlayerFactory.loadPlayer();
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }

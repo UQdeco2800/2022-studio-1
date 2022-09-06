@@ -31,7 +31,7 @@ public class AtlantisSinks extends Game {
 
     // start of the game, sets playerStatus to null to create a new caretaker object
     // in the first mainGameScreen
-    setScreen(ScreenType.MAIN_MENU, null);
+    setScreen(ScreenType.MAIN_MENU);
   }
 
   /**
@@ -48,7 +48,7 @@ public class AtlantisSinks extends Game {
    * 
    * @param screenType screen type
    */
-  public void setScreen(ScreenType screenType, CareTaker playerStatus) {
+  public void setScreen(ScreenType screenType) {
     logger.info("Setting game screen to {}", screenType);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
@@ -63,7 +63,7 @@ public class AtlantisSinks extends Game {
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType, playerStatus));
+    setScreen(newScreen(screenType));
   }
 
   @Override
@@ -76,26 +76,24 @@ public class AtlantisSinks extends Game {
    * Create a new screen of the provided type.
    * 
    * @param screenType   screen type
-   * @param playerStatus caretaker object for main_game screen and shop screen to
-   *                     maintain player states
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {
+  private Screen newScreen(ScreenType screenType) {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
-        return new MainGameScreen(this, playerStatus);
+        return new MainGameScreen(this);
       case SETTINGS:
         return new SettingsScreen(this);
       case SHOP:
-        return new ShopScreen(this, playerStatus);
+        return new ShopScreen(this);
       case BUILD_SHOP:
-        return new ShopBuildScreen(this, playerStatus);
+        return new ShopBuildScreen(this);
       case ARTEFACT_SHOP:
-        return new ShopArtefactScreen(this, playerStatus);
+        return new ShopArtefactScreen(this);
       case EQUIPMENT_SHOP:
-        return new ShopEquipmentScreen(this, playerStatus);
+        return new ShopEquipmentScreen(this);
       default:
         return null;
     }

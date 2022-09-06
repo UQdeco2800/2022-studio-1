@@ -17,6 +17,7 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.AtlantisSinks.ScreenType;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.files.UserSettings.DisplaySettings;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.utils.StringDecorator;
@@ -223,7 +224,8 @@ public class SettingsMenuDisplay extends UIComponent {
   }
 
   private void exitMenu() {
-    game.setScreen(ScreenType.MAIN_MENU, null);
+    CareTaker.deleteAll();
+    game.setScreen(ScreenType.MAIN_MENU);
     logger.getName();
 
   }
