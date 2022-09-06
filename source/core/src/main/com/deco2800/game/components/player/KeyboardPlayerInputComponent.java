@@ -201,6 +201,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private void triggerCrystalUpgrade() {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     crystal.getComponent(CombatStatsComponent.class).upgrade();
+    
 //    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 //    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
