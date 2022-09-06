@@ -2,8 +2,9 @@ package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.deco2800.game.GdxGame;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
+import com.deco2800.game.components.settingsmenu.MusicSettings;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -21,10 +22,10 @@ import org.slf4j.LoggerFactory;
 public class SettingsScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(SettingsScreen.class);
 
-  private final GdxGame game;
+  private final AtlantisSinks game;
   private final Renderer renderer;
 
-  public SettingsScreen(GdxGame game) {
+  public SettingsScreen(AtlantisSinks game) {
     this.game = game;
 
     logger.debug("Initialising settings screen services");
@@ -69,6 +70,7 @@ public class SettingsScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
     ui.addComponent(new SettingsMenuDisplay(game)).addComponent(new InputDecorator(stage, 10));
+    ui.addComponent(new MusicSettings(game)).addComponent(new InputDecorator(stage, 9));
     ServiceLocator.getEntityService().register(ui);
   }
 }

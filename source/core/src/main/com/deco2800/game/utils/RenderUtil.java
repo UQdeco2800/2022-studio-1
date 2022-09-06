@@ -10,6 +10,10 @@ import com.deco2800.game.services.ServiceLocator;
  */
 public class RenderUtil {
 
+    private static RenderUtil instance = null;
+
+    private RenderUtil () {
+    }
 
     /**
      *
@@ -19,7 +23,7 @@ public class RenderUtil {
      * @param batch the batch to draw onto
      * @param runnable a callback method that includes draw calls
      */
-    public static void renderInPixels(Batch batch, Runnable runnable) {
+    public  void renderInPixels(Batch batch, Runnable runnable) {
         float screenHeight = getScreenHeight();
         float viewportHeight = getCameraComponent().getCamera().viewportHeight;
 
@@ -36,7 +40,7 @@ public class RenderUtil {
      *
      * @return the screen height in pixels
      */
-    public static int getScreenHeight() {
+    public  int getScreenHeight() {
        return ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
     }
 
@@ -46,7 +50,7 @@ public class RenderUtil {
      *
      * @return the located camera component
      */
-    public static CameraComponent getCameraComponent() {
+    public  CameraComponent getCameraComponent() {
         var cameraEntity = ServiceLocator.getEntityService().getNamedEntity("camera");
         return cameraEntity.getComponent(CameraComponent.class);
     }
@@ -56,8 +60,16 @@ public class RenderUtil {
      *
      * @return pixels per unit
      */
-    public static float getPixelsPerUnit() {
+    public  float getPixelsPerUnit() {
         float viewportHeight = getCameraComponent().getCamera().viewportHeight; // in units
         return getScreenHeight() /viewportHeight;
+    }
+
+    public static RenderUtil getInstance() {
+        if (instance == null) {
+            instance = new RenderUtil();
+        }
+
+        return instance;
     }
 }

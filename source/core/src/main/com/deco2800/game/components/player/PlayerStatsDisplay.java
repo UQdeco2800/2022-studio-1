@@ -6,8 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A ui component for displaying player stats, e.g. health.
@@ -20,11 +24,15 @@ public class PlayerStatsDisplay extends UIComponent {
   private Label coinLabel;
   private Image crystalImage;
   private Image crystalBarImage;
+  private Label crystalLabel;
 
   private Image stoneCurrencyImage;
-  private Label stoneCurrencyLabel;
+  private static Label stoneCurrencyLabel;
 
+  private static int stoneCount = 0;
+  Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
 
+  //Entity resourceBuilding = ServiceLocator.getEntityService().getNamedEntity("stoneQuarry");
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -35,7 +43,14 @@ public class PlayerStatsDisplay extends UIComponent {
     addActors();
     //will be used to update health
     //entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+    crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
+
+//    if(crystal.getComponent(CombatStatsComponent.class).getHealth() == 900){
+//      healthBarImage.remove();
+//    }
+
   }
+
 
   /**
    * Creates actors and positions them on the stage using a table.
@@ -48,17 +63,15 @@ public class PlayerStatsDisplay extends UIComponent {
     table.padTop(45f).padLeft(5f);
 
     //Coin image
-    float coinSideLenghth =30f;
-    coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/coin.png", Texture.class));
+    coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/coin.png", Texture.class));
 
     //Coin text - set as 0, for placeholder
-    int coin = 0;
+    int coin = entity.getComponent(InventoryComponent.class).getGold();
     CharSequence coinText = String.format("x %d", coin);
     coinLabel = new Label(coinText, skin, "large");
 
     // Heart image
-    float heartSideLength = 30f;
-    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/heart.png", Texture.class));
+    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
     //Health Bar Image
     healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
@@ -66,36 +79,42 @@ public class PlayerStatsDisplay extends UIComponent {
     int health = entity.getComponent(CombatStatsComponent.class).getHealth();
 
     //Crystal image
-    float crystalSideLength =30f;
-    crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/crystal.png", Texture.class));
+    crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
     //Crystal bar
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
+    //crystal health text
+    int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
+    CharSequence healthText = String.format("%d", crystalHealth);
+    crystalLabel = new Label(healthText, skin, "large");
+
 
     //Stone image
-    float stoneSize =30f;
-    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/stone.png", Texture.class));
+    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stoneSuperior.png", Texture.class));
 
     //Stone text. 0 as an initial set up
-    int stone = 0;
-    CharSequence stoneCount = String.format("x %d", stone);
-    stoneCurrencyLabel = new Label(stoneCount, skin, "large");
+    int stone = entity.getComponent(InventoryComponent.class).getStone();
+   // CharSequence stoneCount = String.format("x %d", stone);
+
+    stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
 
 
 
 
-    table.add(heartImage).size(heartSideLength).pad(5);
+    table.add(heartImage).pad(5);
     table.add(healthBarImage).size(200f, 30f).pad(5);
     table.row();
-    table.add(crystalImage).size(crystalSideLength);
+    table.add(crystalImage);
     table.add(crystalBarImage).size(200f,30f).pad(5);
+    table.add(crystalLabel);
     table.row();
-    table.add(coinImage).size(coinSideLenghth);
-    table.add(coinLabel);
+    table.add(coinImage);
+    table.add(coinLabel).pad(0,0,0,0).left();
     table.row();
-    table.add(stoneCurrencyImage).size(stoneSize);
-    table.add(stoneCurrencyLabel);
+    table.add(stoneCurrencyImage);
+    table.add(stoneCurrencyLabel).pad(0,0,0,0).left();
+    
     table.row();
     stage.addActor(table);
   }
@@ -105,7 +124,25 @@ public class PlayerStatsDisplay extends UIComponent {
     // draw is handled by the stage
   }
 
+  public void updateCrystalHealthUI(int health) {
+    CharSequence text = String.format("%d", health);
+    crystalLabel.setText(text);
+  }
 
+  public static void updateStoneCountUI() {
+    int stone = 0;
+    HashMap<String, Entity> namedEntities = (HashMap<String, Entity>) ServiceLocator.getEntityService().getAllNamedEntities();
+    int quarryCount = 0;
+    for (Map.Entry<String, Entity> entry : namedEntities.entrySet()) {
+        if (entry.getKey().contains("stoneQuarry")) {
+          quarryCount += 1;
+        }
+    }
+    stone = stoneCount + quarryCount * 100;
+    stoneCount = stone;
+    CharSequence count = String.format("%d", stone);
+    stoneCurrencyLabel.setText(count);
+  }
 
   @Override
   public void dispose() {
