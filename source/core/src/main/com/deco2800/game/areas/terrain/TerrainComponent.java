@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -25,6 +28,10 @@ public class TerrainComponent extends RenderComponent {
   private final float tileSize;
   private GridPoint2 island_size;
 
+  private final SpriteBatch batchedMapTileSpriteBatch;
+  
+  private final DayNightCycleComponent dayNightCycleComponent;
+
   public TerrainComponent(
       OrthographicCamera camera,
       TiledMap map,
@@ -38,6 +45,9 @@ public class TerrainComponent extends RenderComponent {
     this.tileSize = tileSize;
     this.tiledMapRenderer = renderer;
     this.island_size = island_size;
+    this.batchedMapTileSpriteBatch = (SpriteBatch) ((BatchTiledMapRenderer) renderer).getBatch();
+    // Assuming render service is created first. otherwise day/night shader will not be applied
+    this.dayNightCycleComponent = ServiceLocator.getRenderService().getDayNightCycleComponent();
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -84,6 +94,10 @@ public class TerrainComponent extends RenderComponent {
   @Override
   public void draw(SpriteBatch batch) {
     tiledMapRenderer.setView(camera);
+    // render night affect (using tiledmapRenderer batch)
+    if (dayNightCycleComponent != null) {
+      dayNightCycleComponent.render(batchedMapTileSpriteBatch);
+    }
     tiledMapRenderer.render();
   }
 
