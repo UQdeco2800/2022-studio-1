@@ -6,7 +6,7 @@ package com.deco2800.game.components.shop.artefacts;
 public class Potion extends Equipment {
     static String NAME = "Potion";
     static int PRICE = 20;
-    static String DESCRIPTION = "Restore the main character's health value";
+    static String DESCRIPTION = "Restore health value";
     static double ATTACKMULTI = 0.00;
     static double DEFENCEMULTI = 0.00;
     static double RESTOREHEALTH = 20.00;

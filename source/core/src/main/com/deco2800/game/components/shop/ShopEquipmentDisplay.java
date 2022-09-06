@@ -1,5 +1,6 @@
 package com.deco2800.game.components.shop;
 
+import com.deco2800.game.components.shop.artefacts.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.shop.artefacts.BestLog;
-import com.deco2800.game.components.shop.artefacts.BetterLog;
-import com.deco2800.game.components.shop.artefacts.ShopBuilding;
-import com.deco2800.game.components.shop.artefacts.StandardLog;
 import com.deco2800.game.ui.UIComponent;
 
 /**
@@ -40,8 +37,8 @@ public class ShopEquipmentDisplay extends UIComponent {
     Table table7;
     Table table8;
 
-    private CircularLinkedList<ShopBuilding> stock;
-    private Node<ShopBuilding> current;
+    private CircularLinkedList<Equipment> stock;
+    private Node<Equipment> current;
 
     Label subtitle;
 
@@ -110,14 +107,14 @@ public class ShopEquipmentDisplay extends UIComponent {
         table8.top().left().padLeft(75).padTop(115);
 
         // Create linked list of the available shop stock
-        stock = new CircularLinkedList<ShopBuilding>();
-        stock.add(new StandardLog());
-        stock.add(new BetterLog());
-        stock.add(new BestLog());
+        stock = new CircularLinkedList<Equipment>();
+        stock.add(new Shield());
+        stock.add(new Potion());
+        stock.add(new Bow());
         current = stock.head;
 
         // Create the current artefact to display
-        currentTexture = new Texture(Gdx.files.internal(current.t.getCategoryTexture()));
+        currentTexture = new Texture(Gdx.files.internal(current.t.getTexture()));
         currentItem = new Image(currentTexture);
 
         // Create textures for arrows, price, descrition and buy button
@@ -171,7 +168,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Right button clicked");
-                        Node<ShopBuilding> temp = current;
+                        Node<Equipment> temp = current;
                         current = stock.head.next;
                         stock.head = stock.head.next;
                         stock.tail = temp;
@@ -180,7 +177,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                         descriptionDisplay
                                 .setText(current.t.getName() + "\n" + current.t.getDescription());
                         currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
+                                new Texture(Gdx.files.internal(current.t.getTexture()))));
                     }
                 });
 
@@ -189,7 +186,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Left button clicked");
-                        Node<ShopBuilding> temp = current;
+                        Node<Equipment> temp = current;
                         current = stock.head.prev;
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
@@ -198,7 +195,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                         descriptionDisplay
                                 .setText(current.t.getName() + "\n" + current.t.getDescription());
                         currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
+                                new Texture(Gdx.files.internal(current.t.getTexture()))));
                     }
                 });
 

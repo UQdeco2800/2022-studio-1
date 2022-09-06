@@ -6,7 +6,7 @@ package com.deco2800.game.components.shop.artefacts;
 public class Shield extends Equipment {
     static String NAME = "Shield";
     static int PRICE = 10;
-    static String DESCRIPTION = "Increase the main character's defense power";
+    static String DESCRIPTION = "Increase defense power";
     static double ATTACKMULTI = 0.00;
     static double DEFENCEMULTI = 3.00;
     static double RESTOREHEALTH = 0.00;
