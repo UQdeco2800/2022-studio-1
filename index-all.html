@@ -552,7 +552,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a crystal entity.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/NPCFactory.html#createElectricEelEnemy(com.deco2800.game.entities.Entity)" class="member-name-link">createElectricEelEnemy(Entity)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/NPCFactory.html" title="class in com.deco2800.game.entities.factories">NPCFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/NPCFactory.html#createElectricEelEnemy(com.deco2800.game.entities.Entity,com.deco2800.game.entities.Entity)" class="member-name-link">createElectricEelEnemy(Entity, Entity)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/NPCFactory.html" title="class in com.deco2800.game.entities.factories">NPCFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/input/InputFactory.html#createForCamera()" class="member-name-link">createForCamera()</a> - Method in class com.deco2800.game.input.<a href="com/deco2800/game/input/InputFactory.html" title="class in com.deco2800.game.input">InputFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -1388,6 +1388,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/ai/tasks/PriorityTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in interface com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/PriorityTask.html" title="interface in com.deco2800.game.ai.tasks">PriorityTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/ChaseTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/ChaseTask.html" title="class in com.deco2800.game.components.tasks">ChaseTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/tasks/RangedMovementTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/RangedMovementTask.html" title="class in com.deco2800.game.components.tasks">RangedMovementTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/WanderTask.html#getPriority()" class="member-name-link">getPriority()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/WanderTask.html" title="class in com.deco2800.game.components.tasks">WanderTask</a></dt>
 <dd>&nbsp;</dd>
@@ -2235,6 +2237,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/utils/math/RandomUtils.html" class="type-name-link" title="class in com.deco2800.game.utils.math">RandomUtils</a> - Class in <a href="com/deco2800/game/utils/math/package-summary.html">com.deco2800.game.utils.math</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/tasks/RangedMovementTask.html" class="type-name-link" title="class in com.deco2800.game.components.tasks">RangedMovementTask</a> - Class in <a href="com/deco2800/game/components/tasks/package-summary.html">com.deco2800.game.components.tasks</a></dt>
+<dd>
+<div class="block">Chases a target entity until they get too far away or line of sight is lost</div>
+</dd>
+<dt><a href="com/deco2800/game/components/tasks/RangedMovementTask.html#%3Cinit%3E(com.deco2800.game.entities.Entity,int,float,float,float)" class="member-name-link">RangedMovementTask(Entity, int, float, float, float)</a> - Constructor for class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/RangedMovementTask.html" title="class in com.deco2800.game.components.tasks">RangedMovementTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/physics/PhysicsLayer.html#RangeNPC" class="member-name-link">RangeNPC</a> - Static variable in class com.deco2800.game.physics.<a href="com/deco2800/game/physics/PhysicsLayer.html" title="class in com.deco2800.game.physics">PhysicsLayer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/physics/PhysicsEngine.html#raycast(com.badlogic.gdx.math.Vector2,com.badlogic.gdx.math.Vector2,short,com.deco2800.game.physics.raycast.RaycastHit)" class="member-name-link">raycast(Vector2, Vector2, short, RaycastHit)</a> - Method in class com.deco2800.game.physics.<a href="com/deco2800/game/physics/PhysicsEngine.html" title="class in com.deco2800.game.physics">PhysicsEngine</a></dt>
@@ -2845,6 +2853,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/MovementTask.html#start()" class="member-name-link">start()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/MovementTask.html" title="class in com.deco2800.game.components.tasks">MovementTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/tasks/RangedMovementTask.html#start()" class="member-name-link">start()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/RangedMovementTask.html" title="class in com.deco2800.game.components.tasks">RangedMovementTask</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/WaitTask.html#start()" class="member-name-link">start()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/WaitTask.html" title="class in com.deco2800.game.components.tasks">WaitTask</a></dt>
 <dd>
 <div class="block">Start waiting from now until duration has passed.</div>
@@ -2884,6 +2894,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/components/tasks/ChaseTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/ChaseTask.html" title="class in com.deco2800.game.components.tasks">ChaseTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/MovementTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/MovementTask.html" title="class in com.deco2800.game.components.tasks">MovementTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/tasks/RangedMovementTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/RangedMovementTask.html" title="class in com.deco2800.game.components.tasks">RangedMovementTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/DayNightCycleService.html#stop()" class="member-name-link">stop()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
 <dd>
@@ -3184,6 +3196,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/components/tasks/ChaseTask.html#update()" class="member-name-link">update()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/ChaseTask.html" title="class in com.deco2800.game.components.tasks">ChaseTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/MovementTask.html#update()" class="member-name-link">update()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/MovementTask.html" title="class in com.deco2800.game.components.tasks">MovementTask</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/tasks/RangedMovementTask.html#update()" class="member-name-link">update()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/RangedMovementTask.html" title="class in com.deco2800.game.components.tasks">RangedMovementTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/tasks/WaitTask.html#update()" class="member-name-link">update()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/WaitTask.html" title="class in com.deco2800.game.components.tasks">WaitTask</a></dt>
 <dd>&nbsp;</dd>
