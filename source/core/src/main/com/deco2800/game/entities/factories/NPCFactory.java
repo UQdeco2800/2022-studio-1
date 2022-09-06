@@ -120,8 +120,8 @@ public class NPCFactory {
     return pirateCrabEnemy;
   }
 
-  public static Entity createElectricEelEnemy(Entity target) {
-    Entity ElectricEelEnemy = createBaseRangeNPC(target);
+  public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
+    Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ElectricEel.png");
 
@@ -164,11 +164,12 @@ public class NPCFactory {
    *
    * @return entity
    */
-  private static Entity createBaseRangeNPC(Entity target) {
+  private static Entity createBaseRangeNPC(Entity target, Entity crystal) {
     //Vector2 RangeHitbox = new Vector2(2f, 1f);
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
+                    .addTask(new RangedMovementTask(crystal, 20, 2f, 4f, 6f))
                     .addTask(new RangedMovementTask(target, 10, 2f, 4f, 6f));
     Entity npc =
             new Entity()
