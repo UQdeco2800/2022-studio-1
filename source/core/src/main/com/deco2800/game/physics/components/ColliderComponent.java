@@ -196,6 +196,22 @@ public class ColliderComponent extends Component {
   }
 
   /**
+   * Set specific layers it collides with, used in collision logic
+   * @param tangibleMask Bitmask of {@link PhysicsLayer} this collider belongs to
+   * @return self
+   */
+  public ColliderComponent setTangible(short tangibleMask) {
+    if (fixture == null) {
+      fixtureDef.filter.maskBits = tangibleMask;
+    } else {
+      Filter filter = fixture.getFilterData();
+      filter.maskBits = tangibleMask;
+      fixture.setFilterData(filter);
+    }
+    return this;
+  }
+
+  /**
    * @return The {@link PhysicsLayer} this collider belongs to
    */
   public short getLayer() {
