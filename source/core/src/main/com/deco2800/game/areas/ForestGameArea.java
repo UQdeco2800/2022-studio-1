@@ -418,25 +418,25 @@ public class ForestGameArea extends GameArea {
   }
 
   //Spawn the starfish as ranged enemy
-  private void spawnStarfish() {
-    Entity starfish = NPCFactory.createStarFish(player);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    //Get the position from 2D coordinates
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-            terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
-    //Condition for enemy only spawn at night
-    /**
-    while (getCurrentCycleStatus().equal("NIGHT")) {
-
-    } */
-
-    //Create the starfish entity
-    spawnEntityAt(starfish, randomPos, true, true);
-  }
+//  private void spawnStarfish() {
+//    Entity starfish = NPCFactory.createStarFish(player);
+//    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+//
+//    //Get the position from 2D coordinates
+//    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+//    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+//            terrainFactory.getIslandSize().x + waterWidth - 4);
+//    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+//
+//    //Condition for enemy only spawn at night
+//    /**
+//    while (getCurrentCycleStatus().equal("NIGHT")) {
+//
+//    } */
+//
+//    //Create the starfish entity
+//    spawnEntityAt(starfish, randomPos, true, true);
+//  }
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
