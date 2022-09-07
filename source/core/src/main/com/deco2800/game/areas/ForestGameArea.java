@@ -3,6 +3,9 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.rendering.DayNightCycleComponent;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.factories.*;
@@ -131,8 +134,14 @@ public class ForestGameArea extends GameArea {
     crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
+//    ServiceLocator.getDayNightCycleService().getEvents().addListener("dayPassed",
+//            this::spawnSetCrabs);
+//
+//    ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
+//            this::spawnSetCrabs);
 
     spawnPirateCrabEnemy();
+    count = 5;
 
     spawnMeleeBoss();
 
@@ -365,9 +374,34 @@ public class ForestGameArea extends GameArea {
     return crystal;
   }
 
+  private void spawnSetCrabs(DayNightCycleStatus status) {
+    spawnPirateCrabEnemy();
+  }
 
+
+  /**
+   * Spawn the boss
+   */
   private void spawnMeleeBoss() {
     Entity boss = NPCFactory.createMeleeBoss(player);
+    spawnEnemy(boss);
+  }
+  public int count = 0;
+  /**
+   * Spawns a Pirate Crab entity at a randomised position within the game world
+   */
+  private void spawnPirateCrabEnemy() {
+    System.out.println(count);
+    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+
+    spawnEnemy(pirateCrabEnemy);
+  }
+
+  /**
+   * Spawns an enemy on the map
+   * @param entity the entity to spawn
+   */
+  private void spawnEnemy(Entity entity) {
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -375,43 +409,11 @@ public class ForestGameArea extends GameArea {
             terrainFactory.getIslandSize().x + waterWidth - 4);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
-    int count = 0;
-    while (this.entityMapping.wouldCollide(boss, randomPos.x, randomPos.y)
-            || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
-      randomPos = RandomUtils.random(minPos, maxPos);
-      if (count > 1000) {
-        return;
-      }
-      count++;
-    }
-
-    spawnEntityAt(boss, randomPos, true, true);
-  }
-
-
-
-  /**
-   * Spawns a Pirate Crab entity at a randomised position within the game world
-   */
-  private void spawnPirateCrabEnemy() {
-    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
-
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
     int counter = 0;
 
-    /*
-     * Try randomising coordinates until valid ones are found, if more than 1000
-     * attempts fail then no valid
-     * coordinates were found and the enemy will not be spawned
-     */
-    while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
-        || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+    //find a valid position and exit after 1000 attempts
+    while (this.entityMapping.wouldCollide(entity, randomPos.x, randomPos.y)
+            || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
       randomPos = RandomUtils.random(minPos, maxPos);
       if (counter > 1000) {
         return;
@@ -419,7 +421,8 @@ public class ForestGameArea extends GameArea {
       counter++;
     }
 
-    spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
+    spawnEntityAt(entity, randomPos, true, true);
+
   }
 
   private void spawnElectricEelEnemy() {

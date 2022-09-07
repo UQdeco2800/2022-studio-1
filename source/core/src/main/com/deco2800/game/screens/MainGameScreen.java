@@ -96,7 +96,7 @@ public class MainGameScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
-
+    ServiceLocator.getDayNightCycleService().start();
     loadAssets();
 
     logger.debug("Initialising main game screen entities");
@@ -104,7 +104,7 @@ public class MainGameScreen extends ScreenAdapter {
     this.forestGameArea = new ForestGameArea(terrainFactory, playerStatus);
     forestGameArea.create();
     createUI();
-    ServiceLocator.getDayNightCycleService().start();
+
   }
 
   @Override

@@ -8,5 +8,5 @@ import com.badlogic.gdx.math.Vector2;
 public class MeleeBossConfig extends BaseEntityConfig {
     public int health = 10;
     public int baseAttack = 2;
-    public Vector2 speed = new Vector2(0.5f, 0.5f);
+    public Vector2 speed = new Vector2(0.1f, 0.1f);
 }

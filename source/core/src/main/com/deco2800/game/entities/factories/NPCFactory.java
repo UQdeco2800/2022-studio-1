@@ -147,7 +147,8 @@ public class NPCFactory {
     boss
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent);
+            .addComponent(textureRenderComponent)
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f));
 
     boss.getComponent(TextureRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
