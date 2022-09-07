@@ -125,27 +125,6 @@ public static Entity createTrap() {
   }
 
   /**
-   * Creates a Stone Quarry entity
-   *
-   * @return stone quarry entity
-   */
-  public static Entity createStoneQuarry() {
-
-    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/res_bul_1.atlas", TextureAtlas.class));
-    bul_animator.addAnimation("bul_1", 0.5f, Animation.PlayMode.LOOP);
-
-    Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/res_bul_1.atlas");
-    BaseEntityConfig config = configs.stoneQuarry;
-
-    stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(bul_animator)
-            .addComponent(new HealthBarComponent(75, 10));
-    stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
-    bul_animator.startAnimation("bul_1");
-    return stoneQuarry;
-  }
-
-  /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
    * @param texture image representation for created structure
    * @return structure entity
@@ -170,114 +149,11 @@ public static Entity createTrap() {
     return structure;
   }
 
-  private static Entity createBaseStructure_forAnim(String texture) {
-     Entity structure =
-        new Entity()
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
-            //.addComponent(aiComponent);
 
-    structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-    PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
-    return structure;
-  }
 
-  /**
-   * Builds a structure at mouse position
-   * @param name name of the structure in game entity list
-   * @param structureRects map of all structure selection rectangles to the structure name in game entity list
-   */
-  public static void triggerBuildEvent(String name, SortedMap<String, Rectangle> structureRects) {
-    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    mousePosV2.x -= 0.5;
-    mousePosV2.y -= 0.5;
-    String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
-    entityName = name + entityName;
 
-    if (Objects.equals(name, "wall")) {
-      ServiceLocator.getStructureService().registerNamed(entityName, createWall());
-      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "stonequarry")) {
-      ServiceLocator.getStructureService().registerNamed(entityName, createStoneQuarry());
-      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "tower1")) {
-      ServiceLocator.getStructureService().registerNamed(entityName, createTower1(1));
-      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    }
-  }
 
-  /**
-   * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
-   * @param screenX The x coordinate, origin is in the upper left corner
-   * @param screenY The y coordinate, origin is in the upper left corner
-   * @param structureRects map of all structure selection rectangles to the structure name in game entity list
-   * @param resourceBuildState true if building resource building false otherwise
-   * @param buildEvent true if currently in a build event false otherwise
-   * @return list of booleans[]{true if the point (screenX, screenY) is clear of structures else return false,
-   *                            resourceBuildState, buildEvent}
-   *
-   */
-  public static boolean[] handleClickedStructures(int screenX, int screenY, SortedMap<String, Rectangle> structureRects, boolean resourceBuildState, boolean buildEvent) {
-    String clickedStructure = "";
-    boolean isClear;
-    boolean anyStructureHit = false;
-    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
-      if (es.getValue().contains(mousePosV2)) {
-        clickedStructure = es.getKey();
-        if (clickedStructure.contains("stonequarry")) {
-          PlayerStatsDisplay.stoneCount += 100;
-          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
-          resourceBuildState = false;
-          return new boolean[]{false, resourceBuildState, buildEvent};
-        } else {
-          ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
-          anyStructureHit = true;
-        }
-      }
-    }
-    if (anyStructureHit) {
-      buildEvent = false;
-      isClear = false;
 
-      structureRects.remove(clickedStructure);
-    } else {
-      isClear = true;
-    }
-    return new boolean[]{isClear, resourceBuildState, buildEvent};
-  }
-
-  /**
-   * Toggles the build state of the player
-   * @param buildState true if currently in build state false otherwise
-   */
-  public static boolean toggleBuildState(boolean buildState) {
-    buildState = !buildState;
-    return  buildState;
-  }
-
-  /**
-   * Toggles resource building placement mode
-   * @param resourceBuildState true if building resource building false otherwise
-   */
-  public static boolean toggleResourceBuildState(boolean resourceBuildState) {
-    resourceBuildState = !resourceBuildState;
-    return resourceBuildState;
-  }
 
 
   private StructureFactory() {
