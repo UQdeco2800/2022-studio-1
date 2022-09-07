@@ -10,6 +10,7 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.maingame.MainGameInterface;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -89,7 +90,9 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
-    ServiceLocator.getRenderService().setDayNightCycleComponent(new DayNightCycleComponent());
+    var dayNightCycleComponent = new DayNightCycleComponent();
+    ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
+    ServiceLocator.getInputService().register(dayNightCycleComponent);
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -173,6 +176,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameActions(this.game, this.playerStatus, forestGameArea.getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
+        .addComponent(new MainGameBuildingInterface())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
