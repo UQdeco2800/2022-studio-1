@@ -75,27 +75,6 @@ public class StructureFactory {
   }
 
   /**
-   * Creates a Stone Quarry entity
-   *
-   * @return stone quarry entity
-   */
-  public static Entity createStoneQuarry() {
-
-    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/stonequarr.atlas", TextureAtlas.class));
-    bul_animator.addAnimation("stqu", 0.5f, Animation.PlayMode.LOOP);
-
-    Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/stonequarr.atlas");
-    BaseEntityConfig config = configs.stoneQuarry;
-
-    stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(bul_animator)
-            .addComponent(new HealthBarComponent(75, 10));
-    stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
-    bul_animator.startAnimation("stqu");
-    return stoneQuarry;
-  }
-
-  /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
    * @param texture image representation for created structure
    * @return structure entity
@@ -121,20 +100,6 @@ public class StructureFactory {
     return structure;
   }
 
-  private static Entity createBaseStructure_forAnim(String texture) {
-     Entity structure =
-        new Entity()
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
-            //.addComponent(aiComponent);
-
-    structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-    PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
-    return structure;
-  }
-
   /**
    * Builds a structure at mouse position
    */
@@ -150,11 +115,6 @@ public class StructureFactory {
 
     if (Objects.equals(name, "wall")) {
       ServiceLocator.getEntityService().registerNamed(entityName, createWall());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "stoneQuarry")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, createStoneQuarry());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
