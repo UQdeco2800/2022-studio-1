@@ -396,7 +396,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnElectricEelEnemy() {
-    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player);
+    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
