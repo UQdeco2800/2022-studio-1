@@ -4,7 +4,9 @@ package com.deco2800.game.components.maingame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.components.player.PlayerStatsDisplay.*;
@@ -20,7 +22,9 @@ public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table BuildingUI;
+    private Label buildingName;
 
+    public boolean visability;
 
 
     @Override
@@ -30,18 +34,27 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     private void addActors() {
+        visability = false;
+
         BuildingUI = new Table();
         BuildingUI.padBottom(100f).setFillParent(true);
         BuildingUI.center();
+        BuildingUI.setSize(500f,1000f);
+        BuildingUI.setVisible(visability);
 
         // add popup
         //insert pop up texture
+        Texture colour = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         //insert pop up label (with name of the building)
+        String buildingType = "Get Building type here";
+        buildingName = new Label(buildingType, skin, "large");
 
         //Health bar of building, love heart png
 
         // Insert building info label
+
 
         //upgrade button
         Texture homeButton1 = new Texture(Gdx.files.internal("images/Home_Button.png"));
@@ -82,8 +95,12 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
         //table
-        BuildingUI.add(upgradeButton).size(400f,200f).center();
-        BuildingUI.add(sellButton).size(400f,200f).center();
+        BuildingUI.setBackground(backgroundColour);
+        BuildingUI.add(buildingName);
+        BuildingUI.add(upgradeButton).size(200f, 100f).center();
+        BuildingUI.add(sellButton).size(200f, 100f).center();
+
+
         stage.addActor(BuildingUI);
 
     }
