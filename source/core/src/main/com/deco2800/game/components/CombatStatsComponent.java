@@ -1,5 +1,8 @@
 package com.deco2800.game.components;
 
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,8 +116,17 @@ public class CombatStatsComponent extends Component {
    * Upgrades the level of the entity (mainly Crystal) and increases its health
    */
   public void upgrade(){
-    setLevel(this.level+1);
-    addHealth(100);
+    if(this.level <= 5) {
+      addHealth((1000-this.health)+(50*this.level));
+      setLevel(this.level + 1);
+    } else System.out.println("Crystal has reached max level");
+
+//    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+//    crystal.dispose();
+//    CrystalFactory.createCrystal();
+
+
+
   }
 
 }

@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -20,6 +22,7 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image coinImage;
   private Label coinLabel;
   private Image crystalImage;
+  private ProgressBar progressBar;
   private Image crystalBarImage;
   private Label crystalLabel;
 
@@ -74,12 +77,13 @@ public class PlayerStatsDisplay extends UIComponent {
     //Health Bar Image
     healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
     // Health text level - grabbing percentile - to populate health bar
-    int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+    //int health = entity.getComponent(CombatStatsComponent.class).getHealth();
 
     //Crystal image
     crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
     //Crystal bar
+    progressBar = crystal.getComponent(HealthBarComponent.class).getProgressBar();
     crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
     //crystal health text
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
@@ -103,7 +107,9 @@ public class PlayerStatsDisplay extends UIComponent {
     table.add(healthBarImage).size(200f, 30f).pad(5);
     table.row();
     table.add(crystalImage);
-    table.add(crystalBarImage).size(200f,30f).pad(5);
+    //table.add(crystalBarImage).size(190f,30f).pad(5);
+    table.stack(crystalBarImage,progressBar).size(190f,30f).pad(5);
+    //table.add(progressBar).size(190f,30f).pad(5);
     table.add(crystalLabel);
     table.row();
     table.add(coinImage);
@@ -134,8 +140,10 @@ public class PlayerStatsDisplay extends UIComponent {
     coinLabel.remove();
     coinImage.remove();
     healthBarImage.remove();
-    crystalBarImage.remove();
+//    crystalBarImage.remove();
     crystalImage.remove();
+    crystalLabel.remove();
+    progressBar.remove();
     stoneCurrencyImage.remove();
     stoneCurrencyLabel.remove();
   }

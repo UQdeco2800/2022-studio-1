@@ -38,13 +38,11 @@ public class CrystalFactory {
                         .addComponent(new TextureRenderComponent("images/crystal.png"))
                         .addComponent(new PhysicsComponent())
                         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-                        // I've just moved the hitbox component onto the obstacle layer for now because when it was on
-                        // the NPC layer the player character was attacking it feel free to change this later
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
-                .addComponent(new HealthBarComponent(100, 10));
+                .addComponent(new HealthBarComponent(50, 15));
         ServiceLocator.getEntityService().registerNamed("crystal", crystal);
 
 
