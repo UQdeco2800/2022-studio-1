@@ -99,7 +99,7 @@ public class ForestGameArea extends GameArea {
   // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String[] forestMusic = {backgroundMusic};
-  private EnvironmentalCollision entityMapping;
+  // private EnvironmentalCollision entityMapping;
   private CareTaker playerStatus;
 
   private final TerrainFactory terrainFactory;
