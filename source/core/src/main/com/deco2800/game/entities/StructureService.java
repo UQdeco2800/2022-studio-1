@@ -32,6 +32,7 @@ public class StructureService extends EntityService{
 
   private final Map<String, Entity> namedStructureEntities = new HashMap<>();
 
+
   /**
    * Register a new entity with the entity service. The entity will be created and start updating.
    * @param entity new entity.
@@ -165,15 +166,11 @@ public class StructureService extends EntityService{
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
       if (es.getValue().contains(mousePosV2)) {
         clickedStructure = es.getKey();
-        if (clickedStructure.contains("stonequarry")) {
-          PlayerStatsDisplay.stoneCount += 100;
-          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
-          resourceBuildState = false;
-          return new boolean[]{false, resourceBuildState, buildEvent};
-        } else {
-          ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
-          anyStructureHit = true;
-        }
+        ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
+        anyStructureHit = true;
+        //This block of code executes when the user clicks a structure
+      } else {
+        //This block of code executes when the user clicks, and it is not a structure
       }
     }
     if (anyStructureHit) {

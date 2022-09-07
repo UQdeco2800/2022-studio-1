@@ -130,7 +130,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
         if (isClear) {
           if (resourceBuildState) {
-            ServiceLocator.getStructureService().triggerBuildEvent("stonequarry", structureRects);
+            ServiceLocator.getStructureService().triggerBuildEvent("wall", structureRects);
           } else {
             ServiceLocator.getStructureService().triggerBuildEvent("tower1", structureRects);
           }
