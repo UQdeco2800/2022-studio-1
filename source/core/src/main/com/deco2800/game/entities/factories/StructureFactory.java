@@ -9,6 +9,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
@@ -188,7 +189,11 @@ public class StructureFactory {
           PlayerStatsDisplay.updateStoneCountUI();
           resourceBuildState = false;
           return new boolean[]{false, resourceBuildState, buildEvent};
-        } else {
+        } else if (clickedStructure.contains("Building")) {
+          new MainGameBuildingInterface().makeUIPopUp(true);
+
+        }
+        else {
           ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
           anyStructureHit = true;
         }
