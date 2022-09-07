@@ -2,12 +2,15 @@ package com.deco2800.game.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.DrawableUtil;
 import com.deco2800.game.utils.RenderUtil;
+
+import java.util.Objects;
 
 
 /**
@@ -46,21 +49,23 @@ public class HealthBarComponent extends RenderComponent {
                 false,
                 new ProgressBar.ProgressBarStyle());
 
-        if(this.entity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
-            progressBar.getStyle().background = DrawableUtil
-                    .getRectangularColouredDrawable(width, height, Color.BROWN);
-            progressBar.getStyle().knob = DrawableUtil
-                    .getRectangularColouredDrawable(0, height, Color.VIOLET);
-            progressBar.getStyle().knobBefore = DrawableUtil
-                    .getRectangularColouredDrawable(width, height, Color.VIOLET);
-        } else {
+        // if statement to customise crystal health bar
+
+//        if(this.entity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
+//            progressBar.getStyle().background = DrawableUtil
+//                    .getRectangularColouredDrawable(width, height, Color.BROWN);
+//            progressBar.getStyle().knob = DrawableUtil
+//                    .getRectangularColouredDrawable(0, height, Color.VIOLET);
+//            progressBar.getStyle().knobBefore = DrawableUtil
+//                    .getRectangularColouredDrawable(width, height, Color.VIOLET);
+//        } else {
             progressBar.getStyle().background = DrawableUtil
                     .getRectangularColouredDrawable(width, height, Color.RED);
             progressBar.getStyle().knob = DrawableUtil
                     .getRectangularColouredDrawable(0, height, Color.GREEN);
             progressBar.getStyle().knobBefore = DrawableUtil
                     .getRectangularColouredDrawable(width, height, Color.GREEN);
-        }
+//        }
         progressBar.setWidth(width);
         progressBar.setHeight(height);
 
@@ -126,15 +131,18 @@ public class HealthBarComponent extends RenderComponent {
         /* We need these calculations to correctly position the health bar at the top of entity */
 
         // Added if statement to not display health bar on top of crystal
-        if(this.entity != ServiceLocator.getEntityService().getNamedEntity("crystal")) {
+        //System.out.println(this.entity.getPosition());
 
-            float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
-                    - (this.healthBarWidth / 2f);
-            float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
-            this.progressBar.setPosition(healthBarXPos, healthBarYPos);
+        if (this.entity!= null) {
+            if (!Objects.equals(this.entity.getPosition(), new Vector2(60, 0))) {
 
+                float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
+                        - (this.healthBarWidth / 2f);
+                float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
+                this.progressBar.setPosition(healthBarXPos, healthBarYPos);
+
+            }
         }
-
         /* We need to temporarily render in pixels */
         if (batch != null) {
             renderUtil.renderInPixels(batch, () -> {

@@ -117,7 +117,8 @@ public class CombatStatsComponent extends Component {
    */
   public void upgrade(){
     if(this.level <= 5) {
-      addHealth((1000-this.health)+(50*this.level));
+      //addHealth((1000-this.health)+(50*this.level));
+      setHealth(this.health+50);
       setLevel(this.level + 1);
     } else System.out.println("Crystal has reached max level");
 
