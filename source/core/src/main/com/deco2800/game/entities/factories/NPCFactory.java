@@ -136,7 +136,7 @@ public class NPCFactory {
 
   public static Entity createStarFish(Entity target) {
     Entity starFish = createBaseRangeNPC(target);
-    EnemyConfig config = configs.starFish;
+    EnemyConfig config = configs.starfish;
 
     /** AnimationRenderComponent animator =
             new AnimationRenderComponent(

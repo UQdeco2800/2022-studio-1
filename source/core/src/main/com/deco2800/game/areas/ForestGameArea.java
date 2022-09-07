@@ -417,8 +417,8 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
 
-  private void spawnStarFish() {
-    Entity startFishEnemy = NPCFactory.createStarFish(player);
+  private void spawnStarfish() {
+    Entity starfish = NPCFactory.createStarFish(player);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -430,7 +430,7 @@ public class ForestGameArea extends GameArea {
     while (getCurrentCycleStatus().equal("NIGHT")) {
 
     } */
-    spawnEntityAt(startFishEnemy, randomPos, true, true);
+    spawnEntityAt(starfish, randomPos, true, true);
   }
 
   private void playMusic() {
