@@ -417,6 +417,7 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
 
+  //spawn the star fish enemy
   private void spawnStarfish() {
     Entity starfish = NPCFactory.createStarFish(player);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
