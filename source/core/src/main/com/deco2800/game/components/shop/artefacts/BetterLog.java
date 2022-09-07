@@ -1,5 +1,8 @@
 package com.deco2800.game.components.shop.artefacts;
 
+/**
+ * BetterLog child class of ShopBuilding
+ */
 public class BetterLog extends ShopBuilding {
     static String NAME = "Better Log";
     static int PRICE = 10;

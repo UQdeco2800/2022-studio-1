@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -22,6 +23,8 @@ import com.deco2800.game.utils.StringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Settings menu display and logic. If you bork the settings, they can be changed manually in
  * DECO2800Game/settings.json under your home directory (This is C:/users/[username] on Windows).
@@ -36,6 +39,7 @@ public class SettingsMenuDisplay extends UIComponent {
   private CheckBox vsyncCheck;
   private Slider uiScaleSlider;
   private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
+
 
   public SettingsMenuDisplay(AtlantisSinks game) {
     super();
@@ -54,6 +58,7 @@ public class SettingsMenuDisplay extends UIComponent {
     Table menuBtns = makeMenuBtns();
 
 
+
     rootTable = new Table();
     rootTable.setFillParent(true);
 
@@ -63,7 +68,10 @@ public class SettingsMenuDisplay extends UIComponent {
     rootTable.add(settingsTable).expandX().expandY();
 
     rootTable.row();
+
+    rootTable.row();
     rootTable.add(menuBtns).fillX();
+
 
     //Background for page
     Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
@@ -215,7 +223,7 @@ public class SettingsMenuDisplay extends UIComponent {
   }
 
   private void exitMenu() {
-    game.setScreen(ScreenType.MAIN_MENU);
+    game.setScreen(ScreenType.MAIN_MENU, null);
     logger.getName();
 
   }

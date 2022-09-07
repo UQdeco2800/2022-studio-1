@@ -6,4 +6,5 @@ package com.deco2800.game.entities.configs;
 public class StructureConfig {
   public BaseEntityConfig wall = new BaseEntityConfig();
   public BaseEntityConfig tower1 = new BaseEntityConfig();
+  public BaseEntityConfig stoneQuarry = new BaseEntityConfig();
 }

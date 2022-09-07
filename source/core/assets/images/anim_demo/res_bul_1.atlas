@@ -1,0 +1,40 @@
+res_bul_1.png
+size: 484, 1196
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default
+  rotate: false
+  xy: 1, 1
+  size: 482, 297
+  orig: 500, 500
+  offset: 9, 99
+  index: 0
+bul_1
+  rotate: false
+  xy: 1, 1
+  size: 482, 297
+  orig: 500, 500
+  offset: 9, 99
+  index: 0
+bul_1
+  rotate: false
+  xy: 1, 300
+  size: 482, 297
+  orig: 500, 500
+  offset: 9, 99
+  index: 1
+bul_2
+  rotate: false
+  xy: 1, 599
+  size: 482, 297
+  orig: 500, 500
+  offset: 9, 99
+  index: 2
+bul_3
+  rotate: false
+  xy: 1, 898
+  size: 482, 297
+  orig: 500, 500
+  offset: 9, 99
+  index: 3
