@@ -422,6 +422,7 @@ public class ForestGameArea extends GameArea {
     Entity starfish = NPCFactory.createStarFish(player);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
+    //Get the position from 2D coordinates
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
     GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
             terrainFactory.getIslandSize().x + waterWidth - 4);
@@ -432,6 +433,8 @@ public class ForestGameArea extends GameArea {
     while (getCurrentCycleStatus().equal("NIGHT")) {
 
     } */
+
+    //Create the starfish entity
     spawnEntityAt(starfish, randomPos, true, true);
   }
 
