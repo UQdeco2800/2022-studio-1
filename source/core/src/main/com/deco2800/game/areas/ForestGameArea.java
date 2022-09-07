@@ -159,7 +159,10 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    spawnEntity(new Entity().addComponent(terrain));
+    Entity terrainEntity = new Entity().addComponent(terrain);
+
+    areaEntities.add(terrainEntity);
+    ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -196,22 +199,24 @@ public class ForestGameArea extends GameArea {
             createBorderWall(x, y - 1);
           }
           if (left.getName().equals("water")) {
-            createBorderWall(x -1 , y);
+            createBorderWall(x - 1, y);
           }
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
-            createBorderWall(x + 1, y );
+            createBorderWall(x + 1, y);
           }
-          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight") || rightAbove.getName().equals("cliff")) {
+          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
+              || rightAbove.getName().equals("cliff")) {
             createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
           }
           if (leftAbove.getName().equals("water")) {
-            createBorderWall(x -1 , y + 1);
+            createBorderWall(x - 1, y + 1);
           }
-          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff") || leftBelow.getName().equals("cliffLeft")) {
-            createBorderWall(x -1, y + 1);
+          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
+              || leftBelow.getName().equals("cliffLeft")) {
+            createBorderWall(x - 1, y + 1);
           }
         }
       }
@@ -420,26 +425,28 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
 
-  //Spawn the starfish as ranged enemy
-  private void spawnStarfish() {
-    Entity starfish = NPCFactory.createStarFish(player);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    //Get the position from 2D coordinates
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-            terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
-    //Condition for enemy only spawn at night
-    /**
-    while (getCurrentCycleStatus().equal("NIGHT")) {
-
-    } */
-
-    //Create the starfish entity
-    spawnEntityAt(starfish, randomPos, true, true);
-  }
+  // Spawn the starfish as ranged enemy
+  // private void spawnStarfish() {
+  // Entity starfish = NPCFactory.createStarFish(player);
+  // int waterWidth = (terrain.getMapBounds(0).x -
+  // terrainFactory.getIslandSize().x) / 2;
+  //
+  // //Get the position from 2D coordinates
+  // GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+  // GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x +
+  // waterWidth - 4,
+  // terrainFactory.getIslandSize().x + waterWidth - 4);
+  // GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+  //
+  // //Condition for enemy only spawn at night
+  // /**
+  // while (getCurrentCycleStatus().equal("NIGHT")) {
+  //
+  // } */
+  //
+  // //Create the starfish entity
+  // spawnEntityAt(starfish, randomPos, true, true);
+  // }
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
