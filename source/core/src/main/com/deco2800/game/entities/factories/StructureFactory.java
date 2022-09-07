@@ -151,7 +151,6 @@ public class StructureFactory {
           return new boolean[]{false, resourceBuildState, buildEvent};
         } else if (clickedStructure.contains("Building")) {
           new MainGameBuildingInterface().makeUIPopUp(true);
-
         }
         else {
           ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
