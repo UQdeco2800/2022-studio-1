@@ -134,6 +134,8 @@ public class ForestGameArea extends GameArea {
 
     spawnPirateCrabEnemy();
 
+    spawnMeleeBoss();
+
     spawnElectricEelEnemy();
 
     spawnEnvironmentalObjects();
@@ -362,6 +364,31 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
     return crystal;
   }
+
+
+  private void spawnMeleeBoss() {
+    Entity boss = NPCFactory.createMeleeBoss(player);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+            terrainFactory.getIslandSize().x + waterWidth - 4);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    int count = 0;
+    while (this.entityMapping.wouldCollide(boss, randomPos.x, randomPos.y)
+            || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+      randomPos = RandomUtils.random(minPos, maxPos);
+      if (count > 1000) {
+        return;
+      }
+      count++;
+    }
+
+    spawnEntityAt(boss, randomPos, true, true);
+  }
+
+
 
   /**
    * Spawns a Pirate Crab entity at a randomised position within the game world

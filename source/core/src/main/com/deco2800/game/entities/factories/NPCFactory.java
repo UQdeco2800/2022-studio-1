@@ -13,10 +13,7 @@ import com.deco2800.game.components.npc.GhostAnimationController;
 import com.deco2800.game.components.tasks.ChaseTask;
 import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.configs.BaseEntityConfig;
-import com.deco2800.game.entities.configs.EnemyConfig;
-import com.deco2800.game.entities.configs.GhostKingConfig;
-import com.deco2800.game.entities.configs.NPCConfigs;
+import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -113,7 +110,6 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent);
 
-
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return pirateCrabEnemy;
@@ -132,6 +128,31 @@ public class NPCFactory {
     ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return ElectricEelEnemy;
+  }
+
+
+  /**
+   * Creates a melee boss entity
+   *
+   * @param target entity to chase
+   * @return Entity
+   */
+  public static Entity createMeleeBoss(Entity target) {
+    Entity boss = createBaseNPC(target);
+    MeleeBossConfig config = configs.meleeBossEnemy;
+
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ghost.png");
+
+    // Add combat stats, health bar and texture renderer to the pirate crab entity
+    boss
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent);
+
+    boss.getComponent(TextureRenderComponent.class).scaleEntity();
+    boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
+
+    return boss;
   }
 
   /**
