@@ -3,9 +3,13 @@ package com.deco2800.game.entities;
 import com.badlogic.gdx.utils.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.badlogic.gdx.math.Rectangle;
+
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Provides a global access point for entities to register themselves. This allows for iterating
@@ -103,5 +107,23 @@ public class StructureService extends EntityService{
     for (Entity entity : structureEntities) {
       entity.dispose();
     }
+  }
+
+  /**
+   * Method stub for returning a given entity's name
+   * @param entity
+   */
+  public String getName(Entity entity) {
+    return "";
+  }
+
+  /**
+   * Method stub for returning structureRects map
+   */
+  public SortedMap<String, Rectangle> getStructureRects() {
+      
+    SortedMap<String, Rectangle> structureRects = new TreeMap<>();
+    return structureRects;
+
   }
 }

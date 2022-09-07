@@ -78,7 +78,7 @@ public class RangeAttackComponent extends Component{
             for (Entity entity : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
                 ColliderComponent colliderComponent = entity.getComponent(ColliderComponent.class);
                 if (colliderComponent != null) {    
-                    if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+                   // if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
                         if (getDistanceToTarget(entity) <= this.range) { //Check range to target
                             toggleTargetAcquired();
                             this.target = entity; //Set target
@@ -86,7 +86,7 @@ public class RangeAttackComponent extends Component{
                                 attackTarget();
                             }
                         }
-                     }
+                     //}
 
                 }
             }

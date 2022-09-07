@@ -14,6 +14,7 @@ import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
@@ -32,6 +33,7 @@ import org.w3c.dom.css.Rect;
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 /**
@@ -47,7 +49,7 @@ import java.util.SortedMap;
 public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
-
+  private static int REFUNDMULTIPLIER = 80;
   /**
    * Creates a wall entity.
    *
@@ -286,7 +288,7 @@ public static Entity createTrap() {
    * Function which handles the refund of player's resources should they sell a building. 
    * @param type : the type of the building to refund
    */
-  public void handleRefund(String type) {
+  public static void handleRefund(String type, int refundMultiplier) {
     return;
     //TODO
   }
@@ -298,14 +300,31 @@ public static Entity createTrap() {
    * In future could be expanded by using Enums vs boolean
    *  
    */
-  public void handleBuildingDestruction(Boolean state, Map.Entry<String, Rectangle> rectangle, 
-  SortedMap<String, Rectangle> structureRects) {
-    if (state) {
-      handleRefund(rectangle.getKey());
-    }
-    ServiceLocator.getStructureService().getNamedEntity(rectangle.getKey()).dispose();
-    structureRects.remove(rectangle.getKey());
+  public static void handleBuildingDestruction(Entity structure) {
+    int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
+    //Get structureRects from structureService
+    SortedMap<String, Rectangle> structureRects = new TreeMap<>();
+    //Iterate through structure list and obtain matching rectangle 
+    for (Map.Entry<String, Rectangle> rectangle : structureRects.entrySet()){
+        if (rectangle.getKey().contains(ServiceLocator.getStructureService().getName(structure))){
+          switch(buildingHealth) {
+            case 0: //Building destroyed
+            ServiceLocator.getStructureService().getNamedEntity(rectangle.getKey()).dispose();
+            structureRects.remove(rectangle.getKey());
+
+            default: 
+              int health = structure.getComponent(CombatStatsComponent.class).getHealth();
+              int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
+              int refundMultiplier = REFUNDMULTIPLIER * (health / maxHealth) ;
+              handleRefund(rectangle.getKey(), refundMultiplier);
+          }
+        }
+    }           
+
+
   }
+
+
 
   /**
    * Function which handles upgrading buildings. Does so by first obtaining and storing building state, 
