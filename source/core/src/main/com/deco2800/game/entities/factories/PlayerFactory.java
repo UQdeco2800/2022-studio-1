@@ -51,8 +51,8 @@ public class PlayerFactory {
             .addComponent(new PlayerActions())
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new InventoryComponent(stats.gold, stats.stone))
-            .addComponent(inputComponent)
+            .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood))
+            .addComponent(inputComponent)            
             .addComponent(new PlayerStatsDisplay())
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
 

@@ -113,7 +113,7 @@ public class ShopScreen extends ScreenAdapter {
         uiExit.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
-                        playerStatus.get(playerStatus.getAll().size() - 1).getStone()))
+                        playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
                 .addComponent(new ShopActions(this.game, playerStatus))
                 .addComponent(new ShopReturn())
                 .addComponent(new CommonShopComponents())
