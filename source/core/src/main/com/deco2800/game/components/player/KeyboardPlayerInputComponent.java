@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
@@ -97,7 +98,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerWalkEvent();
         return true;
       case Keys.B:
-        buildState = StructureFactory.toggleBuildState(buildState);
+        buildState = ResourceBuildingFactory.toggleBuildState(buildState);
         return true;
       case Keys.O:
         triggerCrystalAttacked();
@@ -106,7 +107,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalUpgrade();
         return true;
       case Keys.N:
-        resourceBuildState = StructureFactory.toggleResourceBuildState(resourceBuildState);
+        resourceBuildState = ResourceBuildingFactory.toggleResourceBuildState(resourceBuildState);
         return true;
       default:
         return false;
@@ -121,7 +122,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          boolean[] updatedValues = StructureFactory.handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
+          boolean[] updatedValues = ResourceBuildingFactory.handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
           isClear = updatedValues[0];
           resourceBuildState = updatedValues[1];
           buildEvent = updatedValues[2];
@@ -130,7 +131,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
         if (isClear) {
           if (resourceBuildState) {
-            StructureFactory.triggerBuildEvent("stonequarry", structureRects);
+            ResourceBuildingFactory.triggerBuildEvent("stoneQuarry", structureRects);
           } else {
             StructureFactory.triggerBuildEvent("wall", structureRects);
           }
@@ -191,7 +192,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 
   }
 
@@ -201,7 +202,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private void triggerCrystalUpgrade() {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     crystal.getComponent(CombatStatsComponent.class).upgrade();
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
 }

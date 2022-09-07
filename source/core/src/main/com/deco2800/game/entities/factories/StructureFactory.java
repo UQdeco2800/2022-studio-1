@@ -9,6 +9,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
@@ -75,27 +76,6 @@ public class StructureFactory {
   }
 
   /**
-   * Creates a Stone Quarry entity
-   *
-   * @return stone quarry entity
-   */
-  public static Entity createStoneQuarry() {
-
-    AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/res_bul_1.atlas", TextureAtlas.class));
-    bul_animator.addAnimation("bul_1", 0.5f, Animation.PlayMode.LOOP);
-
-    Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/res_bul_1.atlas");
-    BaseEntityConfig config = configs.stoneQuarry;
-
-    stoneQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(bul_animator)
-            .addComponent(new HealthBarComponent(75, 10));
-    stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
-    bul_animator.startAnimation("bul_1");
-    return stoneQuarry;
-  }
-
-  /**
    * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
    * @param texture image representation for created structure
    * @return structure entity
@@ -121,20 +101,6 @@ public class StructureFactory {
     return structure;
   }
 
-  private static Entity createBaseStructure_forAnim(String texture) {
-     Entity structure =
-        new Entity()
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
-            //.addComponent(aiComponent);
-
-    structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-    PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
-    return structure;
-  }
-
   /**
    * Builds a structure at mouse position
    */
@@ -150,11 +116,6 @@ public class StructureFactory {
 
     if (Objects.equals(name, "wall")) {
       ServiceLocator.getEntityService().registerNamed(entityName, createWall());
-      ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "stonequarry")) {
-      ServiceLocator.getEntityService().registerNamed(entityName, createStoneQuarry());
       ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
       Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       structureRects.put(entityName, rectangle);
@@ -184,12 +145,15 @@ public class StructureFactory {
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
       if (es.getValue().contains(mousePosV2)) {
         clickedStructure = es.getKey();
-        if (clickedStructure.contains("stonequarry")) {
-          PlayerStatsDisplay.stoneCount += 100;
-          PlayerStatsDisplay.stoneCurrencyLabel.setText(PlayerStatsDisplay.stoneCount);
+        if (clickedStructure.contains("stoneQuarry")) {
+          PlayerStatsDisplay.updateStoneCountUI();
           resourceBuildState = false;
           return new boolean[]{false, resourceBuildState, buildEvent};
-        } else {
+        } else if (clickedStructure.contains("Building")) {
+          new MainGameBuildingInterface().makeUIPopUp(true);
+
+        }
+        else {
           ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
           anyStructureHit = true;
         }

@@ -31,6 +31,7 @@ public class MainGameActions extends Component {
   public void create() {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
+    entity.getEvents().addListener("settings", this::onSettings);
   }
 
   /**
@@ -39,6 +40,14 @@ public class MainGameActions extends Component {
   private void onExit() {
     logger.info("Exiting main game screen");
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, null);
+  }
+
+  /**
+   * Swaps to Settings screen
+   */
+  private void onSettings() {
+    logger.info("Launching settings screen");
+    game.setScreen(AtlantisSinks.ScreenType.SETTINGS, null);
   }
 
   /**
