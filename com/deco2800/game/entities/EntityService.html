@@ -74,6 +74,10 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">com.deco2800.game.entities.EntityService</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EntityService</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
@@ -110,24 +114,44 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addEntity(com.deco2800.game.entities.Entity)" class="member-name-link">addEntity</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;newEntity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a new entity to hashtable</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose all entities.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findClosetEntity(int,int)" class="member-name-link">findClosetEntity</a><wbr>(int&nbsp;x,
+ int&nbsp;y)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Finds the closet entity based off euclidean distance from a given x,y point</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllNamedEntities()" class="member-name-link">getAllNamedEntities</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns all registered entities</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastEntity()" class="member-name-link">getLastEntity</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntities()" class="member-name-link">getEntities</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastEntity()" class="member-name-link">getLastEntity</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the last registered entity</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNamedEntity(java.lang.String)" class="member-name-link">getNamedEntity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNamedEntity(java.lang.String)" class="member-name-link">getNamedEntity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a registered named entity</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isNearWater(int,int)" class="member-name-link">isNearWater</a><wbr>(int&nbsp;x,
+ int&nbsp;y)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks the current tile and all tiles around it for a water tile.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#register(com.deco2800.game.entities.Entity)" class="member-name-link">register</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</code></div>
@@ -149,6 +173,14 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update all registered entities.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wouldCollide(com.deco2800.game.entities.Entity,int,int)" class="member-name-link">wouldCollide</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;potentialEntity,
+ int&nbsp;xPotential,
+ int&nbsp;yPotential)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Calculates if the given entity will collide with already existing entities
+ Still in testing phase.</div>
 </div>
 </div>
 </div>
@@ -263,6 +295,80 @@ loadScripts(document, 'script');</script>
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
 <div class="block">Dispose all entities.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getEntities()">
+<h3>getEntities</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</span>&nbsp;<span class="element-name">getEntities</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Collection of entities stored on the map</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addEntity(com.deco2800.game.entities.Entity)">
+<h3>addEntity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addEntity</span><wbr><span class="parameters">(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;newEntity)</span></div>
+<div class="block">Adds a new entity to hashtable</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>newEntity</code> - new entity to be added to the environment</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="findClosetEntity(int,int)">
+<h3>findClosetEntity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">findClosetEntity</span><wbr><span class="parameters">(int&nbsp;x,
+ int&nbsp;y)</span></div>
+<div class="block">Finds the closet entity based off euclidean distance from a given x,y point</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - cell cord</dd>
+<dd><code>y</code> - cell cord</dd>
+<dt>Returns:</dt>
+<dd>Entity closet</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="wouldCollide(com.deco2800.game.entities.Entity,int,int)">
+<h3>wouldCollide</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">wouldCollide</span><wbr><span class="parameters">(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;potentialEntity,
+ int&nbsp;xPotential,
+ int&nbsp;yPotential)</span></div>
+<div class="block">Calculates if the given entity will collide with already existing entities
+ Still in testing phase. Uses the scale x and scale y of the entity to determine collision/hitbox
+ size
+
+ Due to isometric view world positions must be used thus the conversion from cell coordinates</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>potentialEntity</code> - The new entity to be added to the map</dd>
+<dd><code>xPotential</code> - the proposed x cell position of the entity</dd>
+<dd><code>yPotential</code> - the proposed y cell position of the entity</dd>
+<dt>Returns:</dt>
+<dd>true if a collision would occur else false</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isNearWater(int,int)">
+<h3>isNearWater</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isNearWater</span><wbr><span class="parameters">(int&nbsp;x,
+ int&nbsp;y)</span></div>
+<div class="block">Checks the current tile and all tiles around it for a water tile. Returns true
+  if near water. This is necessary as world pos doesnt perfectly allign to cell positions
+  therefore a buffer must be introduced</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - the tile's x cord</dd>
+<dd><code>y</code> - the tile's y cord</dd>
+<dt>Returns:</dt>
+<dd>true if near water else false</dd>
+</dl>
 </section>
 </li>
 </ul>

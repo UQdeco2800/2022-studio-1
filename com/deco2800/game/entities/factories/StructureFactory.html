@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
@@ -105,39 +105,35 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a generic Structure to be used as a base entity by more specific Structure creation methods.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTower1()" class="member-name-link">createTower1</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTower1(int)" class="member-name-link">createTower1</a><wbr>(int&nbsp;level)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a tower1 entity.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWall()" class="member-name-link">createWall</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTrap()" class="member-name-link">createTrap</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a trap entity</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createWall()" class="member-name-link">createWall</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a wall entity.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleClickedStructures(int,int,java.util.SortedMap,boolean,boolean)" class="member-name-link">handleClickedStructures</a><wbr>(int&nbsp;screenX,
- int&nbsp;screenY,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects,
- boolean&nbsp;resourceBuildState,
- boolean&nbsp;buildEvent)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Checks if a structure on the map has been clicked.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleBuildState(boolean)" class="member-name-link">toggleBuildState</a><wbr>(boolean&nbsp;buildState)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Toggles the build state of the player</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleResourceBuildState(boolean)" class="member-name-link">toggleResourceBuildState</a><wbr>(boolean&nbsp;resourceBuildState)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Toggles resource building placement mode</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#triggerBuildEvent(java.lang.String,java.util.SortedMap)" class="member-name-link">triggerBuildEvent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleBuildingDestruction(com.deco2800.game.entities.Entity)" class="member-name-link">handleBuildingDestruction</a><wbr>(<a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;structure)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Builds a structure at mouse position</div>
+<div class="block">Function which handles the destruction / sale of building.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleRefund(java.lang.String,int)" class="member-name-link">handleRefund</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
+ int&nbsp;refundMultiplier)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Function which handles the refund of player's resources should they sell a building.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upgradeStructure(java.util.Map.Entry)" class="member-name-link">upgradeStructure</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;rectangle)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Function which handles upgrading buildings.</div>
 </div>
 </div>
 </div>
@@ -168,12 +164,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="createTower1()">
+<section class="detail" id="createTrap()">
+<h3>createTrap</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createTrap</span>()</div>
+<div class="block">Creates a trap entity</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createTower1(int)">
 <h3>createTower1</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createTower1</span>()</div>
-<div class="block">Creates a tower1 entity.
-
- //@param target entity to chase</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createTower1</span><wbr><span class="parameters">(int&nbsp;level)</span></div>
+<div class="block">Creates a tower1 entity.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>entity</dd>
@@ -194,43 +199,40 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="triggerBuildEvent(java.lang.String,java.util.SortedMap)">
-<h3>triggerBuildEvent</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerBuildEvent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects)</span></div>
-<div class="block">Builds a structure at mouse position</div>
-</section>
-</li>
-<li>
-<section class="detail" id="handleClickedStructures(int,int,java.util.SortedMap,boolean,boolean)">
-<h3>handleClickedStructures</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean[]</span>&nbsp;<span class="element-name">handleClickedStructures</span><wbr><span class="parameters">(int&nbsp;screenX,
- int&nbsp;screenY,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects,
- boolean&nbsp;resourceBuildState,
- boolean&nbsp;buildEvent)</span></div>
-<div class="block">Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game</div>
+<section class="detail" id="handleRefund(java.lang.String,int)">
+<h3>handleRefund</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handleRefund</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
+ int&nbsp;refundMultiplier)</span></div>
+<div class="block">Function which handles the refund of player's resources should they sell a building.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>screenX</code> - The x coordinate, origin is in the upper left corner</dd>
-<dd><code>screenY</code> - The y coordinate, origin is in the upper left corner</dd>
-<dt>Returns:</dt>
-<dd>true if the point (screenX, screenY) is clear of structures else return false</dd>
+<dd><code>type</code> - : the type of the building to refund</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="toggleBuildState(boolean)">
-<h3>toggleBuildState</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">toggleBuildState</span><wbr><span class="parameters">(boolean&nbsp;buildState)</span></div>
-<div class="block">Toggles the build state of the player</div>
+<section class="detail" id="handleBuildingDestruction(com.deco2800.game.entities.Entity)">
+<h3>handleBuildingDestruction</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handleBuildingDestruction</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;structure)</span></div>
+<div class="block">Function which handles the destruction / sale of building.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>structure</code> - : true if building has been sold, false if building has otherwise been destroyed
+ 
+ In future could be expanded by using Enums vs boolean</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="toggleResourceBuildState(boolean)">
-<h3>toggleResourceBuildState</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">toggleResourceBuildState</span><wbr><span class="parameters">(boolean&nbsp;resourceBuildState)</span></div>
-<div class="block">Toggles resource building placement mode</div>
+<section class="detail" id="upgradeStructure(java.util.Map.Entry)">
+<h3>upgradeStructure</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upgradeStructure</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;rectangle)</span></div>
+<div class="block">Function which handles upgrading buildings. Does so by first obtaining and storing building state, 
+ removing building and replacing with upgraded version.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rectangle</code> - : Entry from structureRects indicating building to upgrade</dd>
+</dl>
 </section>
 </li>
 </ul>
