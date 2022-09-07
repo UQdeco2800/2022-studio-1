@@ -417,7 +417,7 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
 
-  //spawn the star fish enemy
+  //Spawn the starfish as ranged enemy
   private void spawnStarfish() {
     Entity starfish = NPCFactory.createStarFish(player);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
@@ -427,6 +427,7 @@ public class ForestGameArea extends GameArea {
             terrainFactory.getIslandSize().x + waterWidth - 4);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
 
+    //Condition for enemy only spawn at night
     /**
     while (getCurrentCycleStatus().equal("NIGHT")) {
 
