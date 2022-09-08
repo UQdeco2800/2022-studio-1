@@ -6,14 +6,6 @@
   "tower1": {
     "health": 200,
     "baseAttack": 10
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> origin/UI-interfaces
->>>>>>> origin/structures
   },
   "tower1I": {
     "health" : 300,
@@ -34,6 +26,5 @@
   "stoneQuarry": {
     "health": 50,
     "baseAttack": 0
-
   }
 }
