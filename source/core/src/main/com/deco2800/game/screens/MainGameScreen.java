@@ -35,6 +35,8 @@ import com.deco2800.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+
 /**
  * The game screen containing the main game.
  *
@@ -183,6 +185,6 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
-    ServiceLocator.getEntityService().register(ui);
+    ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }
