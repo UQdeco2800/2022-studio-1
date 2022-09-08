@@ -8,7 +8,9 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
@@ -149,11 +151,29 @@ public static Entity createTrap() {
 
   /**
    * Function which handles the refund of player's resources should they sell a building. 
-   * @param type : the type of the building to refund
+   * 
+   * Refunds 80% of the buildings original cost * <Percentage of buildings health compared to max health>
+   * 
+   * @param Entity : the building to refund
    */
-  public static void handleRefund(String type, int refundMultiplier) {
-    return;
-    //TODO
+  public static void handleRefund(Entity structure, int refundMultiplier) {
+    //Iterate through Entity list to obtain PLAYER
+    for (Entity player : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
+      HitboxComponent hitboxComponent = player.getComponent(HitboxComponent.class);
+      if (hitboxComponent != null) {    
+        if (hitboxComponent.getLayer() == PhysicsLayer.PLAYER) {  //Check entity is the PLAYER
+          //Get the cost of the building
+          int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+          int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+          int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+
+          //Add (<resource> * refundMultiplier) to PLAYER's inventory
+          player.getComponent(InventoryComponent.class).addGold(gold * refundMultiplier);
+          player.getComponent(InventoryComponent.class).addStone(stone * refundMultiplier);
+          player.getComponent(InventoryComponent.class).addWood(wood * refundMultiplier);
+        }
+      }
+    }
   }
 
   /**
@@ -179,15 +199,13 @@ public static Entity createTrap() {
               int health = structure.getComponent(CombatStatsComponent.class).getHealth();
               int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
               int refundMultiplier = REFUNDMULTIPLIER * (health / maxHealth) ;
-              handleRefund(rectangle.getKey(), refundMultiplier);
+              handleRefund(structure, refundMultiplier);
           }
         }
     }           
 
 
   }
-
-
 
   /**
    * Function which handles upgrading buildings. Does so by first obtaining and storing building state, 
