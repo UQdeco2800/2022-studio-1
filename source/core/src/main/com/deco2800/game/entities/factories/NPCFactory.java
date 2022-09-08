@@ -150,7 +150,6 @@ public class NPCFactory {
 
     boss.getComponent(TextureRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
-    boss.addComponent(new Removal());
 
     return boss;
   }
