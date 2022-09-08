@@ -139,7 +139,7 @@ public class ShopBuildingDisplay extends UIComponent {
 
         // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
-                Integer.toString(current.t.getPrice()), skin.getColor("black"),
+                "Stone: " + Integer.toString(current.t.getStonePrice()) + " Wood: " + Integer.toString(current.t.getWoodPrice()), skin.getColor("black"),
                 "button", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
@@ -175,7 +175,7 @@ public class ShopBuildingDisplay extends UIComponent {
                         stock.head = stock.head.next;
                         stock.tail = temp;
 
-                        priceDisplay.setText(Integer.toString(current.t.getPrice()));
+                        priceDisplay.setText(Integer.toString(current.t.getStonePrice()));
                         descriptionDisplay
                                 .setText(current.t.getName() + "\n" + current.t.getDescription());
                         currentItem.setDrawable(new TextureRegionDrawable(
@@ -193,7 +193,7 @@ public class ShopBuildingDisplay extends UIComponent {
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
 
-                        priceDisplay.setText(Integer.toString(current.t.getPrice()));
+                        priceDisplay.setText(Integer.toString(current.t.getStonePrice()));
                         descriptionDisplay
                                 .setText(current.t.getName() + "\n" + current.t.getDescription());
                         currentItem.setDrawable(new TextureRegionDrawable(
@@ -207,9 +207,11 @@ public class ShopBuildingDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Buy button clicked");
 
-                        if (entity.getComponent(InventoryComponent.class).hasStone(current.t.getPrice())) {
+                        if (entity.getComponent(InventoryComponent.class).hasStone(current.t.getStonePrice()) &&
+                                entity.getComponent(InventoryComponent.class).hasWood(current.t.getWoodPrice())) {
                             logger.info("Sufficient stone");
-                            entity.getComponent(InventoryComponent.class).addStone(-1 * current.t.getPrice());
+                            entity.getComponent(InventoryComponent.class).addWood(-1 * current.t.getWoodPrice());
+                            entity.getComponent(InventoryComponent.class).addStone(-1 * current.t.getStonePrice());
                             Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
                             rockSound.play();
                         } else {

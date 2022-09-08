@@ -5,7 +5,8 @@ package com.deco2800.game.components.shop.artefacts;
  */
 public class StandardLog extends ShopBuilding {
     static String NAME = "Standard Log";
-    static int PRICE = 5;
+    static int STONEPRICE = 1;
+    static int WOODPRICE = 100;
     static String DESCRIPTION = "Increases defence by 10%";
     static double ATTACKMULTI = 1.00;
     static double DEFENCEMULTI = 1.10;
@@ -16,6 +17,6 @@ public class StandardLog extends ShopBuilding {
      * 
      */
     public StandardLog() {
-        super(NAME, PRICE, DESCRIPTION, ATTACKMULTI, DEFENCEMULTI, texture, categoryTexture);
+        super(NAME, STONEPRICE, WOODPRICE,DESCRIPTION, ATTACKMULTI, DEFENCEMULTI, texture, categoryTexture);
     }
 }

@@ -4,27 +4,29 @@ package com.deco2800.game.components.shop.artefacts;
  * Abstract building class used to create diffrent child building types*/
 public abstract class ShopBuilding {
      protected String name;
-     protected int price;
+     protected int Stoneprice;
+    protected int Woodprice;
      protected String description;
      protected double attackMultiplier;
      protected double defenceMultiplier;
      protected String texture;
-    protected String categoryTexture;
+     protected String categoryTexture;
 
     /** building class constructor
     * @param name              the name of the building
-    * @param price             the price in stone of the building
+    * @param Stoneprice             the Stoneprice in stone of the building
     * @param description       what the building does
     * @param attackMultiplier  a decimal to increase attack (>= 1.00)
     * @param defenceMultiplier a decimal to increase defence (>= 1.00)
     * @param texture           image associated with the stone
     * @param categoryTexture   image with category board
     */
-    public ShopBuilding(String name, int price, String description, double attackMultiplier, double defenceMultiplier,
+    public ShopBuilding(String name, int Stoneprice, int WoodPrice, String description, double attackMultiplier, double defenceMultiplier,
             String texture,
             String categoryTexture) {
         this.name = name;
-        this.price = price;
+        this.Stoneprice = Stoneprice;
+        this.Woodprice = WoodPrice;
         this.description = description;
         this.attackMultiplier = attackMultiplier;
         this.defenceMultiplier = defenceMultiplier;
@@ -46,8 +48,17 @@ public abstract class ShopBuilding {
      * 
      * @return int
      */
-    public int getPrice() {
-        return this.price;
+    public int getStonePrice() {
+        return this.Stoneprice;
+    }
+
+    /**
+     * Getter for building price
+     *
+     * @return int
+     */
+    public int getWoodPrice() {
+        return this.Woodprice;
     }
 
     /**
