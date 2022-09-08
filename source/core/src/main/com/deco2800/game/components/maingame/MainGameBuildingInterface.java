@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -21,13 +22,16 @@ import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table BuildingUI;
     private Label buildingName;
 
-    public boolean visability;
+    private boolean visability;
+
 
 
     @Override
@@ -36,14 +40,30 @@ public class MainGameBuildingInterface extends UIComponent {
         addActors();
     }
 
-    private void addActors() {
-        Table rootTable = new Table();
-        float x = 10f;
-        float y = 10f;
-        rootTable.setPosition(x,y);
-        rootTable.add(makeUIPopUp(false));
+    public void addActors() {
+//        Table rootTable = new Table();
+//        rootTable.add(makeTable(false));
+//        float x = 500f;
+//        float y = 500f;
+//        rootTable.setPosition(x,y);
+////        rootTable.add(makeUIPopUp(false));
+//        stage.addActor(rootTable);
+    }
 
-        stage.addActor(rootTable);
+    public Table makeTable(Boolean val) {
+        Table t = new Table();
+        t.setVisible(val);
+        Label l = new Label("Hello world", skin, "large");
+        t.add(l);
+        t.setPosition(500f, 500f);
+        stage.addActor(t);
+        return t;
+    }
+
+    public void setTableVisibility(Table table, Boolean state) {
+        table.remove();
+        //table.setVisible(state);
+        //stage.addActor(table);
     }
 
     public Table makeUIPopUp(Boolean value) {
@@ -122,11 +142,9 @@ public class MainGameBuildingInterface extends UIComponent {
         BuildingUI.row();
         BuildingUI.add(upgradeButton).size(200f, 100f).center();
         BuildingUI.add(sellButton).size(200f, 100f).center();
-
+        stage.addActor(BuildingUI);
 
         return BuildingUI;
-
-
     }
 
     @Override
