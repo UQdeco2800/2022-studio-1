@@ -2,12 +2,8 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.TerrainTile;
-import com.deco2800.game.entities.factories.StructureFactory;
-import com.deco2800.game.rendering.DayNightCycleComponent;
-import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
-import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
