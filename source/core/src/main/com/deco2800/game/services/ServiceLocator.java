@@ -24,14 +24,8 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-
-
-  private static DayNightCycleService dayNightCycleService;
-
   private static StructureService structureService;
-
-
-
+  private static DayNightCycleService dayNightCycleService;
   public static EntityService getEntityService() {
     return entityService;
   }
@@ -56,12 +50,12 @@ public class ServiceLocator {
     return resourceService;
   }
 
-
+  public static StructureService getStructureService() { return structureService; }
   public static DayNightCycleService getDayNightCycleService () {
     return dayNightCycleService;
   }
 
-  public static StructureService getStructureService() { return structureService; }
+
 
 
   public static void registerEntityService(EntityService service) {
@@ -94,16 +88,14 @@ public class ServiceLocator {
     resourceService = source;
   }
 
-
-  public static void registerDayNightCycleService(DayNightCycleService source) {
-    logger.debug("Registering day night cycle service {}", source);
-    dayNightCycleService = source;
-  }
-
-  public static void registerStructureService(StructureService source) {
+  public static void registerStructureService( StructureService source) {
     logger.debug("Registering structure service {}", source);
     structureService = source;
+  }
 
+    public static void registerDayNightCycleService(DayNightCycleService source) {
+    logger.debug("Registering day night cycle service {}", source);
+    dayNightCycleService = source;
   }
 
   public static void clear() {

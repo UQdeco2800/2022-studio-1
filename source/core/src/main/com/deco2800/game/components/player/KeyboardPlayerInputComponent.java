@@ -98,9 +98,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerWalkEvent();
         return true;
       case Keys.B:
-
         buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-
         return true;
       case Keys.O:
         triggerCrystalAttacked();
@@ -109,9 +107,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalUpgrade();
         return true;
       case Keys.N:
-
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
-
         return true;
       default:
         return false;
@@ -126,9 +122,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-
           boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
-
           isClear = updatedValues[0];
           resourceBuildState = updatedValues[1];
           buildEvent = updatedValues[2];
@@ -161,7 +155,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
           mousePosV2.x -= 0.5;
           mousePosV2.y -= 0.5;
-          ServiceLocator.getEntityService().getLastEntity().setPosition(mousePosV2);
+          ServiceLocator.getStructureService().getLastEntity().setPosition(mousePosV2);
           structureRects.get(structureRects.lastKey()).setPosition(mousePosV2);
         }
       }

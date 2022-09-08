@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.physics.BodyUserData;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.HitboxComponent;
@@ -69,12 +70,9 @@ public class TrapComponent extends Component {
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
     //Remove Trap from map
+    StructureFactory.handleBuildingDestruction(this.getEntity());
     this.getEntity().getComponent(CombatStatsComponent.class).setHealth(0);
-    }
 
-    @Override
-    public void update() {
-        
     }
 }
 
