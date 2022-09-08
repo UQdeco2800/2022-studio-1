@@ -1,6 +1,7 @@
 package com.deco2800.game.memento;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.BestSword;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.matchers.Or;
 
@@ -65,5 +66,33 @@ class OriginatorTest {
         item.add(new BestSword());
         test.setItems(item);
         assertTrue(item.equals(test.getItemList()));
+    }
+
+    @Test
+    void shouldSaveWeapon() {
+        Originator test = new Originator(1);
+        test.setWeapon(Equipments.AXE);
+        assertEquals(Equipments.AXE, test.getWeapon());
+    }
+
+    @Test
+    void shouldSaveChestplate() {
+        Originator test = new Originator(1);
+        test.setChestplate(Equipments.LV1_CHESTPLATE);
+        assertEquals(Equipments.LV1_CHESTPLATE, test.getChestplate());
+    }
+
+    @Test
+    void shouldSaveHelmet() {
+        Originator test = new Originator(1);
+        test.setHelmet(Equipments.LV1_HELMET);
+        assertEquals(Equipments.LV1_HELMET, test.getHelmet());
+    }
+
+    @Test
+    void shouldSaveDefense() {
+        Originator test = new Originator(1);
+        test.setDefense(10);
+        assertEquals(10, test.getDefense());
     }
 }
