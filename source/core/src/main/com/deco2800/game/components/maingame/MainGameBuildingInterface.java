@@ -38,8 +38,8 @@ public class MainGameBuildingInterface extends UIComponent {
 
     private void addActors() {
         Table rootTable = new Table();
-        float x = 10f;
-        float y = 10f;
+        float x = 1000f;
+        float y = 1000f;
         rootTable.setPosition(x,y);
         rootTable.add(makeUIPopUp(false));
 
