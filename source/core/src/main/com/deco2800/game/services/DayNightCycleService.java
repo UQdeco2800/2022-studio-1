@@ -1,5 +1,6 @@
 package com.deco2800.game.services;
 
+import com.badlogic.gdx.Gdx;
 import com.deco2800.game.concurrency.JobSystem;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
@@ -228,14 +229,20 @@ public class DayNightCycleService {
                     if (this.currentDayNumber == config.maxDays - 1) {
                         // End the game
                         this.stop();
-                        events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+
+                        Gdx.app.postRunnable(() -> {
+                            events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                        });
                         return;
                     }
 
                     this.setPartOfDayTo(DayNightCycleStatus.DAWN);
                     // Notify entities that it is now DAY
                     this.currentDayNumber++;
-                    events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                    Gdx.app.postRunnable(() -> {
+                        events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                    });
+
 
                     this.currentDayMillis = 0;
                 }
@@ -258,7 +265,9 @@ public class DayNightCycleService {
         this.lastCycleStatus = currentCycleStatus;
         this.currentCycleStatus = nextPartOfDay;
         // helps with testing
-        this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
+        Gdx.app.postRunnable(() -> {
+            this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
+        });
     }
 
     /**
