@@ -136,7 +136,7 @@ public class StructureService extends EntityService{
     uiIsVisible = !uiIsVisible;
   }
 
-   /** Builds a structure at mouse position
+  /** Builds a structure at mouse position
    * @param name name of the structure in game entity list
    * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    */
@@ -226,7 +226,7 @@ public class StructureService extends EntityService{
     resourceBuildState = !resourceBuildState;
     return resourceBuildState;
   }
-  
+
   /**
    * Method stub for returning a given entity's name
    * @param entity
@@ -239,7 +239,7 @@ public class StructureService extends EntityService{
    * Method stub for returning structureRects map
    */
   public SortedMap<String, Rectangle> getStructureRects() {
-      
+
     SortedMap<String, Rectangle> structureRects = new TreeMap<>();
     return structureRects;
 

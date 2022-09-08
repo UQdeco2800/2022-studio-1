@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.AtlantisSinks.ScreenType;
+import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.files.UserSettings.DisplaySettings;
 import com.deco2800.game.services.ServiceLocator;
@@ -55,6 +56,8 @@ public class SettingsMenuDisplay extends UIComponent {
 
   private void addActors() {
     Label title = new Label("Settings", skin,"title");
+    title.setFontScale(2f);
+
     Table settingsTable = makeSettingsTable();
     Table menuBtns = makeMenuBtns();
 
@@ -62,12 +65,10 @@ public class SettingsMenuDisplay extends UIComponent {
     rootTable = new Table();
     rootTable.setFillParent(true);
 
-    rootTable.add(title).expandX().top().padTop(20f);
-
-    rootTable.row().padTop(30f);
-    rootTable.add(settingsTable).expandX().expandY();
+    rootTable.add(title).expandX().top().padTop(85f);
 
     rootTable.row();
+    rootTable.add(settingsTable).expandX().expandY().top().padTop(150f);
 
     rootTable.row();
     rootTable.add(menuBtns).fillX();
@@ -76,10 +77,6 @@ public class SettingsMenuDisplay extends UIComponent {
     Texture colour = new Texture(Gdx.files.internal("images/uiElements/startscreen/settingsbackgroundsprint2.png"));
     Drawable backgroundColour = new TextureRegionDrawable(colour);
     rootTable.setBackground(backgroundColour);
-    //Background for page
-    //Texture colour = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
-    // Drawable backgroundColour = new TextureRegionDrawable(colour);
-    //rootTable.setBackground(backgroundColour);
 
     stage.addActor(rootTable);
   }
@@ -111,6 +108,16 @@ public class SettingsMenuDisplay extends UIComponent {
     displayModeSelect.setItems(getDisplayModes(selectedMonitor));
     displayModeSelect.setSelected(getActiveMode(displayModeSelect.getItems()));
 
+    //Music Button
+    Texture musicTexture = new Texture(Gdx.files.internal("images/uiElements/exports/music_on.png"));
+    TextureRegionDrawable music = new TextureRegionDrawable(musicTexture);
+    ImageButton musicButton = new ImageButton(music,music);
+
+    //FX Button
+    Texture fxTexture = new Texture(Gdx.files.internal("images/uiElements/exports/fx_on.png"));
+    TextureRegionDrawable fx = new TextureRegionDrawable(fxTexture);
+    ImageButton fxButton = new ImageButton(fx,fx);
+
     // Position Components on table
     Table table = new Table();
 
@@ -136,6 +143,10 @@ public class SettingsMenuDisplay extends UIComponent {
     table.row().padTop(10f);
     table.add(displayModeLabel).right().padRight(15f);
     table.add(displayModeSelect).left();
+
+    table.row().padTop(15f);
+    table.add(fxButton).right().padRight(15f);
+    table.add(musicButton).left();
 
     // Events on inputs
     uiScaleSlider.addListener(
@@ -180,11 +191,14 @@ public class SettingsMenuDisplay extends UIComponent {
   private Table makeMenuBtns() {
     //TextButton exitBtn = new TextButton("Exit", skin);
     Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
-    TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
-    TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
-    ImageButton backButton = new ImageButton(upBack,downBack);
+    TextureRegionDrawable back = new TextureRegionDrawable(backTexture);
+    ImageButton backButton = new ImageButton(back,back);
 
-    TextButton applyBtn = new TextButton("Apply", skin);
+    Texture applyTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
+    TextureRegionDrawable apply = new TextureRegionDrawable(applyTexture);
+    TextButton applyButton = ShopUtils.createImageTextButton("APPLY", skin.getColor("black"), "title", 1f, apply,
+            apply, skin, false);
+    applyButton.padBottom(0);
 
     backButton.addListener(
         new ChangeListener() {
@@ -195,7 +209,7 @@ public class SettingsMenuDisplay extends UIComponent {
           }
         });
 
-    applyBtn.addListener(
+    applyButton.addListener(
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -205,8 +219,8 @@ public class SettingsMenuDisplay extends UIComponent {
         });
 
     Table table = new Table();
-    table.add(backButton).expandX().left().pad(0f, 15f, 15f, 0f).size(60f);
-    table.add(applyBtn).expandX().right().pad(0f, 0f, 15f, 15f);
+    table.add(backButton).expandX().left().pad(0f, 25f, 15f, 0f).size(80f);
+    table.add(applyButton).expandX().right().pad(0f, 0f, 15f, 25f);
     return table;
   }
 
