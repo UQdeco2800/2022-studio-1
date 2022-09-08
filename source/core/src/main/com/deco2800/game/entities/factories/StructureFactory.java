@@ -6,9 +6,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.RangeAttackComponent;
+import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
+import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -45,7 +49,7 @@ public class StructureFactory {
    */
   public static Entity createWall() {
     Entity wall = createBaseStructure("images/wall-right.png");
-    BaseEntityConfig config = configs.wall;
+    BaseStructureConfig config = configs.wall;
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(75, 10));
@@ -60,7 +64,7 @@ public class StructureFactory {
 public static Entity createTrap() {
   //TODO change trap texture
   Entity trap = createBaseStructure("images/wall-right.png");
-  BaseEntityConfig config = configs.trap;
+  BaseStructureConfig config = configs.trap;
 
   trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
           .addComponent(new HealthBarComponent(75, 10))
@@ -79,7 +83,7 @@ public static Entity createTrap() {
     String TOWER1II = "images/mini_tower.png";
     String TOWER1III = "images/mini_tower.png";
     Entity tower1;
-    BaseEntityConfig config;
+    BaseStructureConfig config;
 
     tower1 = createBaseStructure("images/mini_tower.png");
     switch(level) {
@@ -89,7 +93,8 @@ public static Entity createTrap() {
     
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
                 .addComponent(new HealthBarComponent(75, 10))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                .addComponent(new ResourceCostComponent(config.gold));
         return tower1;
       
       case 2: //Represents the first upgraded version of the tower
@@ -97,7 +102,8 @@ public static Entity createTrap() {
         config = configs.tower1I;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
                 .addComponent(new HealthBarComponent(75, 10))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                .addComponent(new ResourceCostComponent(config.gold));
         return tower1;
 
         case 3: //Represents the second upgraded version of the tower
@@ -105,7 +111,8 @@ public static Entity createTrap() {
           config = configs.tower1II;
           tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
                   .addComponent(new HealthBarComponent(75, 10))
-                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f));
+                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                  .addComponent(new ResourceCostComponent(config.gold, config.stone));
           return tower1;
     }
     //should never run    
@@ -144,11 +151,29 @@ public static Entity createTrap() {
 
   /**
    * Function which handles the refund of player's resources should they sell a building. 
-   * @param type : the type of the building to refund
+   * 
+   * Refunds 80% of the buildings original cost * <Percentage of buildings health compared to max health>
+   * 
+   * @param Entity : the building to refund
    */
-  public static void handleRefund(String type, int refundMultiplier) {
-    return;
-    //TODO
+  public static void handleRefund(Entity structure, int refundMultiplier) {
+    //Iterate through Entity list to obtain PLAYER
+    for (Entity player : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
+      HitboxComponent hitboxComponent = player.getComponent(HitboxComponent.class);
+      if (hitboxComponent != null) {    
+        if (hitboxComponent.getLayer() == PhysicsLayer.PLAYER) {  //Check entity is the PLAYER
+          //Get the cost of the building
+          int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+          int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+          int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+
+          //Add (<resource> * refundMultiplier) to PLAYER's inventory
+          player.getComponent(InventoryComponent.class).addGold(gold * refundMultiplier);
+          player.getComponent(InventoryComponent.class).addStone(stone * refundMultiplier);
+          player.getComponent(InventoryComponent.class).addWood(wood * refundMultiplier);
+        }
+      }
+    }
   }
 
   /**
@@ -174,15 +199,13 @@ public static Entity createTrap() {
               int health = structure.getComponent(CombatStatsComponent.class).getHealth();
               int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
               int refundMultiplier = REFUNDMULTIPLIER * (health / maxHealth) ;
-              handleRefund(rectangle.getKey(), refundMultiplier);
+              handleRefund(structure, refundMultiplier);
           }
         }
     }           
 
 
   }
-
-
 
   /**
    * Function which handles upgrading buildings. Does so by first obtaining and storing building state, 
