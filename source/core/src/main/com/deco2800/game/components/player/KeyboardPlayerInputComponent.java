@@ -155,7 +155,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
           mousePosV2.x -= 0.5;
           mousePosV2.y -= 0.5;
-          ServiceLocator.getEntityService().getLastEntity().setPosition(mousePosV2);
+          ServiceLocator.getStructureService().getLastEntity().setPosition(mousePosV2);
           structureRects.get(structureRects.lastKey()).setPosition(mousePosV2);
         }
       }
