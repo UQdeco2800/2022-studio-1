@@ -106,7 +106,9 @@ public class CommonShopComponents extends UIComponent {
         title.setColor(skin.getColor("black"));
         table1.add(title).pad(10, 75, 0, 0);
         table3.add(stoneFrame).width(200).height(150);// .pad(250, 0, 0, 400);
+        table3.row();
         table3.add(goldFrame).width(200).height(150);// pad(250, 0, 0, 400);
+        table3.row();
         table3.add(woodFrame).width(200).height(150);// pad(250, 0, 0, 400);
         table2.add(exitButton).top().right().pad(10);
         stage.addActor(table3);
