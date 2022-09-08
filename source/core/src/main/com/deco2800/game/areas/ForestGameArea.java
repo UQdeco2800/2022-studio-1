@@ -113,6 +113,11 @@ public class ForestGameArea extends GameArea {
     super();
     this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
+    //ServiceLocator.getDayNightCycleService().getEvents().addListener("dayPassed",
+    //        this::spawnSetCrabs);
+
+    ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
+            this::spawnSetCrabs);
   }
 
   /**
@@ -134,11 +139,6 @@ public class ForestGameArea extends GameArea {
     crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
-//    ServiceLocator.getDayNightCycleService().getEvents().addListener("dayPassed",
-//            this::spawnSetCrabs);
-//
-//    ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
-//            this::spawnSetCrabs);
 
     spawnPirateCrabEnemy();
     count = 5;
@@ -374,8 +374,18 @@ public class ForestGameArea extends GameArea {
     return crystal;
   }
 
-  private void spawnSetCrabs(DayNightCycleStatus status) {
-    spawnPirateCrabEnemy();
+  private void spawnSetCrabs(DayNightCycleStatus partOfDay) {
+    switch (partOfDay){
+      case DAWN:
+        break;
+      case DAY:
+        break;
+      case DUSK:
+        break;
+      case NIGHT:
+        spawnPirateCrabEnemy();
+        break;
+    }
   }
 
 
