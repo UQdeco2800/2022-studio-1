@@ -41,23 +41,6 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     public void addActors() {
-//        Table rootTable = new Table();
-//        rootTable.add(makeTable(false));
-//        float x = 500f;
-//        float y = 500f;
-//        rootTable.setPosition(x,y);
-////        rootTable.add(makeUIPopUp(false));
-//        stage.addActor(rootTable);
-    }
-
-    public Table makeTable(Boolean val) {
-        Table t = new Table();
-        t.setVisible(val);
-        Label l = new Label("Hello world", skin, "large");
-        t.add(l);
-        t.setPosition(500f, 500f);
-        stage.addActor(t);
-        return t;
     }
 
     public void setTableVisibility(Table table, Boolean state) {
@@ -66,13 +49,28 @@ public class MainGameBuildingInterface extends UIComponent {
         //stage.addActor(table);
     }
 
-    public Table makeUIPopUp(Boolean value) {
+    public Table makeUIPopUp(Boolean value, float x, float y) {
+        float uiWidth = 800f;
+        float uiHeight = 400f;
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+
+
+        x = (float) (x - 0.5 * uiWidth);
+        x = Math.max(x, 0f);
+        x = Math.min(x, screenWidth - uiWidth);
+
+        y = screenHeight - y;
+        y = Math.min(y, screenHeight - uiHeight);
+
+        System.out.println(x);
+        System.out.println(y);
+
         visability = value;
 
         BuildingUI = new Table();
-        BuildingUI.padBottom(100f);
-        BuildingUI.center();
-        BuildingUI.setSize(500f,1000f);
+        BuildingUI.setSize(uiWidth,uiHeight);
+        BuildingUI.setPosition(x, y);
 
         BuildingUI.setVisible(visability);
 
