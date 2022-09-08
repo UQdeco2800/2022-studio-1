@@ -97,7 +97,7 @@ public class DayNightCycleServiceTest {
     }
 
     @Test
-    public void shouldGoThroughAllNumberOfDays() {
+    public void shouldGoThroughAllNumberOfDays() throws InterruptedException {
         this.config.maxDays = 3;
         AtomicInteger days = new AtomicInteger(0);
         this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
@@ -105,6 +105,7 @@ public class DayNightCycleServiceTest {
             days.incrementAndGet();
         });
         dayNightCycleService.start().join();
+        Thread.sleep(300); // fixes flakyness
 
         assertEquals(3, dayNightCycleService.getCurrentDayNumber());
         assertEquals(this.config.maxDays, days.get());
