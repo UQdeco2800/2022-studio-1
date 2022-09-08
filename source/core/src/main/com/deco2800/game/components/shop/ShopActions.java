@@ -44,7 +44,6 @@ public class ShopActions extends Component {
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
-        currentStatus.setWood(entity.getComponent(InventoryComponent.class).getWood());
         playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
@@ -59,7 +58,6 @@ public class ShopActions extends Component {
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
-        currentStatus.setWood(entity.getComponent(InventoryComponent.class).getWood());
         playerStatus.add(currentStatus.saveStateToMemento());
         game.setScreen(AtlantisSinks.ScreenType.SHOP);
     }
