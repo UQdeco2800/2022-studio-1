@@ -102,6 +102,7 @@ public class MainGameBuildingInterface extends UIComponent {
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, true);
 
+
         // sell button
         TextButton sellButton = ShopUtils.createImageTextButton(
                 "Sell for:",
@@ -132,14 +133,21 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
         //table
+        Table buildingHealthInfo = new Table();
+        buildingHealthInfo.add(heartImage).size(50f);
+        buildingHealthInfo.add(healthBarImage).size(200f,30f);
+
+        Table coinRelatedButton = new Table();
+        coinRelatedButton.add(upgradeButton).size(200f, 50f).center().padRight(10f);
+        coinRelatedButton.add(sellButton).size(200f, 50f).center();
+
         BuildingUI.setBackground(backgroundColour);
-        BuildingUI.add(buildingName);
+        BuildingUI.add(buildingName).pad(10f);
         BuildingUI.row();
-        BuildingUI.add(heartImage).size(30f);
-        BuildingUI.add(healthBarImage).size(100f,30f);
+        BuildingUI.add(buildingHealthInfo).padBottom(10f);
         BuildingUI.row();
-        BuildingUI.add(upgradeButton).size(200f, 100f).center();
-        BuildingUI.add(sellButton).size(200f, 100f).center();
+        BuildingUI.add(coinRelatedButton);
+
         stage.addActor(BuildingUI);
 
         return BuildingUI;
