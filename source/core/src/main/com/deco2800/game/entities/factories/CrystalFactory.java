@@ -43,7 +43,8 @@ public class CrystalFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.OBSTACLE))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
+                        0, crystalStats.level))
                 .addComponent(new HealthBarComponent(100, 10));
         ServiceLocator.getEntityService().registerNamed("crystal", crystal);
 

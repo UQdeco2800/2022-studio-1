@@ -14,16 +14,22 @@ public class CombatStatsComponent extends Component {
   private int health;
   private int baseAttack;
   private int level;
+  private int defense;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
   }
 
+  public CombatStatsComponent(int health, int baseAttack, int defense) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setBaseDefense(defense);
+  }
   /**
    * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
    */
-  public CombatStatsComponent(int health, int baseAttack, int level) {
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
     setHealth(health);
     setBaseAttack(baseAttack);
     setLevel(level);
@@ -117,4 +123,10 @@ public class CombatStatsComponent extends Component {
     addHealth(100);
   }
 
+  public void setBaseDefense(int defense) {
+    this.defense = defense;
+  }
+  public int getBaseDefense() {
+    return defense;
+  }
 }

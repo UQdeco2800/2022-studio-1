@@ -36,6 +36,7 @@ public class MainGameActions extends Component {
    */
   private void onExit() {
     logger.info("Exiting main game screen");
+    CareTaker.deleteAll();
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
   }
 
@@ -53,7 +54,11 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getWood(),
         player.getComponent(CombatStatsComponent.class).getHealth(),
         player.getComponent(InventoryComponent.class).getItems(),
-        player.getComponent(CombatStatsComponent.class).getBaseAttack());
+        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+        player.getComponent(InventoryComponent.class).getWeapon(),
+        player.getComponent(InventoryComponent.class).getChestplate(),
+        player.getComponent(InventoryComponent.class).getHelmet());
     playerStatus.add(currentStatus);
     game.setScreen(AtlantisSinks.ScreenType.SHOP);
   }

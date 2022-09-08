@@ -2,6 +2,7 @@ package com.deco2800.game.memento;
 
 import java.util.List;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,10 @@ import org.slf4j.LoggerFactory;
  */
 public class Originator {
     private static final Logger logger = LoggerFactory.getLogger(Originator.class);
-    protected int state, gold, stone, wood, currentHealth, attack;
+    protected int state, gold, stone, wood, currentHealth, attack, defense;
+    protected Equipments weapon;
+    protected Equipments chestplate;
+    protected Equipments helmet;
     protected List<Artefact> items;
 
     /**
@@ -32,6 +36,30 @@ public class Originator {
 
     public int getState() {
         return state;
+    }
+
+    public Equipments getWeapon() {
+        return weapon;
+    }
+
+    public Equipments getChestplate() {
+        return chestplate;
+    }
+
+    public Equipments getHelmet() {
+        return helmet;
+    }
+
+    public void setWeapon(Equipments weapon) {
+        this.weapon = weapon;
+    }
+
+    public void setChestplate(Equipments chestplate) {
+        this.chestplate = chestplate;
+    }
+
+    public void setHelmet(Equipments helmet) {
+        this.helmet = helmet;
     }
 
     /**
@@ -108,6 +136,13 @@ public class Originator {
         return attack;
     }
 
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
     /**
      * returns the current health of the player
      * 
@@ -151,7 +186,7 @@ public class Originator {
      * @return - the new memento generated from the current originator
      */
     public Memento saveStateToMemento() {
-        return new Memento(state, gold, stone, wood, currentHealth, items, attack);
+        return new Memento(state, gold, stone, wood, currentHealth, items, attack, defense, weapon, chestplate, helmet);
     }
 
     /**
@@ -165,11 +200,18 @@ public class Originator {
         wood = memento.getWood();
         currentHealth = memento.getCurrentHealth();
         items = memento.getItemList();
+        attack = memento.getAttack();
+        defense = memento.getDefense();
+        weapon = memento.getWeapon();
+        chestplate = memento.getChestplate();
+        helmet = memento.getHelmet();
     }
 
     @Override
     public String toString() {
-        return "State " + state + " : Current Health = " + currentHealth + ", Base Attack Value: " + attack +
-                ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood + " , items in inventory: " + items;
+        return "State " + state + " : Current Health = " + currentHealth + ", Attack Value: " + attack +
+                ", Defense Value: " + defense + ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood +
+                " , items in inventory: " + items + ", weapon: " + weapon + ", chestplate: " + chestplate +
+                ", helmet: " + helmet;
     }
 }

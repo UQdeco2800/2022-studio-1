@@ -2,6 +2,7 @@ package com.deco2800.game.components.player;
 
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,12 +21,52 @@ public class InventoryComponent extends Component {
   private int gold;
   private int stone;
   private int wood;
+  private Equipments weapon;
+  private Equipments helmet;
+  private Equipments chestplate;
+
   private List<Artefact> items = new ArrayList<>();
+
+  public InventoryComponent(int gold, int stone, int wood,
+                            Equipments weapon, Equipments chestplate, Equipments helmet) {
+    setGold(gold);
+    setStone(stone);
+    setWood(wood);
+    setWeapon(weapon);
+    setHelmet(helmet);
+    setChestplate(chestplate);
+  }
 
   public InventoryComponent(int gold, int stone, int wood) {
     setGold(gold);
     setStone(stone);
     setWood(wood);
+    setWeapon(weapon);
+    setHelmet(helmet);
+    setChestplate(chestplate);
+  }
+  public void setWeapon(Equipments weapon) {
+    this.weapon = weapon;
+  }
+
+  public void setHelmet(Equipments helmet) {
+    this.helmet = helmet;
+  }
+
+  public void setChestplate(Equipments chestplate) {
+    this.chestplate = chestplate;
+  }
+
+  public Equipments getWeapon() {
+    return this.weapon;
+  }
+
+  public Equipments getHelmet() {
+    return this.helmet;
+  }
+
+  public Equipments getChestplate() {
+    return this.chestplate;
   }
 
   /**

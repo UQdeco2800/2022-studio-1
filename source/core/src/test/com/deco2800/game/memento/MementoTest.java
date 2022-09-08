@@ -13,7 +13,8 @@ class MementoTest {
 
     @Test
     void shouldGetState() {
-        Memento test = new Memento(1, 2, 3, 4,5, new ArrayList<>(), 5);
+        Memento test = new Memento(1, 2, 3, 4,5, new ArrayList<>(), 5, 6,
+                null, null, null);
         assertEquals(1, test.getState());
     }
 
