@@ -3,7 +3,10 @@ package com.deco2800.game.components.maingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -14,9 +17,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.deco2800.game.components.shop.ShopUtils;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
 
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
@@ -24,7 +30,8 @@ public class MainGameBuildingInterface extends UIComponent {
     private Table BuildingUI;
     private Label buildingName;
 
-    public boolean visability;
+    private boolean visability;
+
 
 
     @Override
@@ -33,13 +40,40 @@ public class MainGameBuildingInterface extends UIComponent {
         addActors();
     }
 
-    private void addActors() {
-        visability = false;
+    public void addActors() {
+//        Table rootTable = new Table();
+//        rootTable.add(makeTable(false));
+//        float x = 500f;
+//        float y = 500f;
+//        rootTable.setPosition(x,y);
+////        rootTable.add(makeUIPopUp(false));
+//        stage.addActor(rootTable);
+    }
+
+    public Table makeTable(Boolean val) {
+        Table t = new Table();
+        t.setVisible(val);
+        Label l = new Label("Hello world", skin, "large");
+        t.add(l);
+        t.setPosition(500f, 500f);
+        stage.addActor(t);
+        return t;
+    }
+
+    public void setTableVisibility(Table table, Boolean state) {
+        table.remove();
+        //table.setVisible(state);
+        //stage.addActor(table);
+    }
+
+    public Table makeUIPopUp(Boolean value) {
+        visability = value;
 
         BuildingUI = new Table();
-        BuildingUI.padBottom(100f).setFillParent(true);
+        BuildingUI.padBottom(100f);
         BuildingUI.center();
         BuildingUI.setSize(500f,1000f);
+
         BuildingUI.setVisible(visability);
 
         // add popup
@@ -51,9 +85,14 @@ public class MainGameBuildingInterface extends UIComponent {
         String buildingType = "Get Building type here";
         buildingName = new Label(buildingType, skin, "large");
 
-        //Health bar of building, love heart png
+        // Insert building health image and bar
+        // Heart image
+        Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
-        // Insert building info label
+        //Health Bar Image
+        Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
+        // Health text level - grabbing percentile - to populate health bar
+        // will need to talk to team 7 about the building health
 
 
         //upgrade button
@@ -97,12 +136,15 @@ public class MainGameBuildingInterface extends UIComponent {
         //table
         BuildingUI.setBackground(backgroundColour);
         BuildingUI.add(buildingName);
+        BuildingUI.row();
+        BuildingUI.add(heartImage).size(30f);
+        BuildingUI.add(healthBarImage).size(100f,30f);
+        BuildingUI.row();
         BuildingUI.add(upgradeButton).size(200f, 100f).center();
         BuildingUI.add(sellButton).size(200f, 100f).center();
-
-
         stage.addActor(BuildingUI);
 
+        return BuildingUI;
     }
 
     @Override

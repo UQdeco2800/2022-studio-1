@@ -1,6 +1,7 @@
 package com.deco2800.game.services;
 
 import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
@@ -23,10 +24,8 @@ public class ServiceLocator {
   private static GameTime timeSource;
   private static InputService inputService;
   private static ResourceService resourceService;
-
+  private static StructureService structureService;
   private static DayNightCycleService dayNightCycleService;
-
-
   public static EntityService getEntityService() {
     return entityService;
   }
@@ -51,9 +50,13 @@ public class ServiceLocator {
     return resourceService;
   }
 
+  public static StructureService getStructureService() { return structureService; }
   public static DayNightCycleService getDayNightCycleService () {
     return dayNightCycleService;
   }
+
+
+
 
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
@@ -85,7 +88,12 @@ public class ServiceLocator {
     resourceService = source;
   }
 
-  public static void registerDayNightCycleService(DayNightCycleService source) {
+  public static void registerStructureService( StructureService source) {
+    logger.debug("Registering structure service {}", source);
+    structureService = source;
+  }
+
+    public static void registerDayNightCycleService(DayNightCycleService source) {
     logger.debug("Registering day night cycle service {}", source);
     dayNightCycleService = source;
   }
