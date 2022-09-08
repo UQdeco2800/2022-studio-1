@@ -175,7 +175,7 @@ public class ShopBuildingDisplay extends UIComponent {
                         stock.head = stock.head.next;
                         stock.tail = temp;
 
-                        priceDisplay.setText(Integer.toString(current.t.getStonePrice()));
+                        priceDisplay.setText("Stone: " + Integer.toString(current.t.getStonePrice()) + " Wood: " + Integer.toString(current.t.getWoodPrice()));
                         descriptionDisplay
                                 .setText(current.t.getName() + "\n" + current.t.getDescription());
                         currentItem.setDrawable(new TextureRegionDrawable(
@@ -193,7 +193,7 @@ public class ShopBuildingDisplay extends UIComponent {
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
 
-                        priceDisplay.setText(Integer.toString(current.t.getStonePrice()));
+                        priceDisplay.setText("Stone: " + Integer.toString(current.t.getStonePrice()) + " Wood: " + Integer.toString(current.t.getWoodPrice()));
                         descriptionDisplay
                                 .setText(current.t.getName() + "\n" + current.t.getDescription());
                         currentItem.setDrawable(new TextureRegionDrawable(

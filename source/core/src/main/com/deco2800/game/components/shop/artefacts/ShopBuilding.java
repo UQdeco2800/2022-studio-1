@@ -5,7 +5,7 @@ package com.deco2800.game.components.shop.artefacts;
 public abstract class ShopBuilding {
      protected String name;
      protected int Stoneprice;
-    protected int Woodprice;
+     protected int Woodprice;
      protected String description;
      protected double attackMultiplier;
      protected double defenceMultiplier;
@@ -21,12 +21,12 @@ public abstract class ShopBuilding {
     * @param texture           image associated with the stone
     * @param categoryTexture   image with category board
     */
-    public ShopBuilding(String name, int Stoneprice, int WoodPrice, String description, double attackMultiplier, double defenceMultiplier,
+    public ShopBuilding(String name, int Stoneprice, int Woodprice, String description, double attackMultiplier, double defenceMultiplier,
             String texture,
             String categoryTexture) {
         this.name = name;
         this.Stoneprice = Stoneprice;
-        this.Woodprice = WoodPrice;
+        this.Woodprice = Woodprice;
         this.description = description;
         this.attackMultiplier = attackMultiplier;
         this.defenceMultiplier = defenceMultiplier;
@@ -57,9 +57,7 @@ public abstract class ShopBuilding {
      *
      * @return int
      */
-    public int getWoodPrice() {
-        return this.Woodprice;
-    }
+    public int getWoodPrice() {return this.Woodprice; }
 
     /**
      * Getter for building description
