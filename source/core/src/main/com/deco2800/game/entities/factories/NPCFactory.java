@@ -189,16 +189,15 @@ public class NPCFactory {
     //Vector2 RangeHitbox = new Vector2(2f, 1f);
     AITaskComponent aiComponent =
             new AITaskComponent()
-                    .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                    .addTask(new RangedMovementTask(crystal, 20, 2f, 4f, 6f))
-                    .addTask(new RangedMovementTask(target, 10, 2f, 4f, 6f));
+                    .addTask(new RangedMovementTask(crystal, 10, 2f, 20f, 30f))
+                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 5f));
     Entity npc =
             new Entity()
                     .addComponent(new PhysicsComponent())
                     .addComponent(new PhysicsMovementComponent())
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.RangeNPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.RangeNPC))
                     .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
