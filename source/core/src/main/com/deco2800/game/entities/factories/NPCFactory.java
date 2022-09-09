@@ -5,10 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.GhostAnimationController;
 import com.deco2800.game.components.tasks.*;
+import com.deco2800.game.components.tasks.ChaseTask;
+import com.deco2800.game.components.tasks.RangedMovementTask;
+import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.files.FileLoader;
@@ -112,8 +116,8 @@ public class NPCFactory {
     return pirateCrabEnemy;
   }
 
-  public static Entity createElectricEelEnemy(Entity target) {
-    Entity ElectricEelEnemy = createBaseRangeNPC(target);
+  public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
+    Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ElectricEel.png");
 
@@ -126,6 +130,7 @@ public class NPCFactory {
 
     return ElectricEelEnemy;
   }
+
 
 
   /**
@@ -145,13 +150,17 @@ public class NPCFactory {
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent)
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f));
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
+            .addComponent(new EffectNearBy(true, true, true));
 
     boss.getComponent(TextureRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
 
+
     return boss;
   }
+
+
 
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
@@ -184,12 +193,13 @@ public class NPCFactory {
    *
    * @return entity
    */
-  private static Entity createBaseRangeNPC(Entity target) {
+  private static Entity createBaseRangeNPC(Entity target, Entity crystal) {
     //Vector2 RangeHitbox = new Vector2(2f, 1f);
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                    .addTask(new ChaseTask(target, 10, 8f, 10f));
+                    .addTask(new RangedMovementTask(crystal, 20, 2f, 4f, 6f))
+                    .addTask(new RangedMovementTask(target, 10, 2f, 4f, 6f));
     Entity npc =
             new Entity()
                     .addComponent(new PhysicsComponent())
