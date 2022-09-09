@@ -219,6 +219,8 @@ public class ShopBuildingDisplay extends UIComponent {
                         }
                         entity.getComponent(CommonShopComponents.class).getStoneButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ");
+                        entity.getComponent(CommonShopComponents.class).getWoodButton().setText(
+                                Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ");
                     }
                 });
 
