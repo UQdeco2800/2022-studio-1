@@ -10,6 +10,7 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.maingame.MainGameInterface;
+import com.deco2800.game.components.tasks.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -49,6 +50,7 @@ public class MainGameScreen extends ScreenAdapter {
       "images/healthBar.png",
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
+          "images/clock.png",
       "images/atlantisBasicBackground.png"
   };
 
@@ -177,7 +179,8 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameInterface())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+        .addComponent(new TerminalDisplay())
+            .addComponent(new DayNightClockComponent());
     ServiceLocator.getEntityService().register(ui);
   }
 }
