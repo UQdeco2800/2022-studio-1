@@ -9,4 +9,5 @@ public class NPCConfigs {
   public EnemyConfig pirateCrab = new EnemyConfig();
   public MeleeBossConfig meleeBossEnemy = new MeleeBossConfig();
   public EnemyConfig ElectricEel = new EnemyConfig();
+  public EnemyConfig starfish = new EnemyConfig();
 }

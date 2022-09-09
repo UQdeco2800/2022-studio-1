@@ -62,12 +62,12 @@ public class RenderService implements Disposable {
       layer.sort();
 
       for (Renderable renderable : layer) {
-        renderable.render(batch);
         if (dayNightCycleComponent != null) {
           if (AtlantisSinks.gameRunning) {
             dayNightCycleComponent.render(batch);
           }
         }
+        renderable.render(batch);
       }
     }
   }
@@ -79,6 +79,11 @@ public class RenderService implements Disposable {
   public void setDayNightCycleComponent(DayNightCycleComponent dayNightCycleComponent) {
     this.dayNightCycleComponent = dayNightCycleComponent;
   }
+
+  public DayNightCycleComponent getDayNightCycleComponent() {
+    return dayNightCycleComponent;
+  }
+
   public Stage getStage() {
     return stage;
   }
