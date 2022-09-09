@@ -41,23 +41,6 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     public void addActors() {
-//        Table rootTable = new Table();
-//        rootTable.add(makeTable(false));
-//        float x = 500f;
-//        float y = 500f;
-//        rootTable.setPosition(x,y);
-////        rootTable.add(makeUIPopUp(false));
-//        stage.addActor(rootTable);
-    }
-
-    public Table makeTable(Boolean val) {
-        Table t = new Table();
-        t.setVisible(val);
-        Label l = new Label("Hello world", skin, "large");
-        t.add(l);
-        t.setPosition(500f, 500f);
-        stage.addActor(t);
-        return t;
     }
 
     public void setTableVisibility(Table table, Boolean state) {
@@ -66,13 +49,28 @@ public class MainGameBuildingInterface extends UIComponent {
         //stage.addActor(table);
     }
 
-    public Table makeUIPopUp(Boolean value) {
+    public Table makeUIPopUp(Boolean value, float x, float y) {
+        float uiWidth = 800f;
+        float uiHeight = 400f;
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+
+
+        x = (float) (x - 0.5 * uiWidth);
+        x = Math.max(x, 0f);
+        x = Math.min(x, screenWidth - uiWidth);
+
+        y = screenHeight - y;
+        y = Math.min(y, screenHeight - uiHeight);
+
+        System.out.println(x);
+        System.out.println(y);
+
         visability = value;
 
         BuildingUI = new Table();
-        BuildingUI.padBottom(100f);
-        BuildingUI.center();
-        BuildingUI.setSize(500f,1000f);
+        BuildingUI.setSize(uiWidth,uiHeight);
+        BuildingUI.setPosition(x, y);
 
         BuildingUI.setVisible(visability);
 
@@ -82,7 +80,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         //insert pop up label (with name of the building)
-        String buildingType = "Get Building type here";
+        String buildingType = "Building Name";
         buildingName = new Label(buildingType, skin, "large");
 
         // Insert building health image and bar
@@ -103,6 +101,7 @@ public class MainGameBuildingInterface extends UIComponent {
                 "Upgrade for:",
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, true);
+
 
         // sell button
         TextButton sellButton = ShopUtils.createImageTextButton(
@@ -134,14 +133,32 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
         //table
+        Table buildingInfo = new Table();
+        buildingInfo.add(buildingName).center();
+
+        Table healthInfo = new Table();
+        healthInfo.add(heartImage);
+        healthInfo.add(healthBarImage).size(200f,30f);
+
+        Table leftTable = new Table();
+        leftTable.padBottom(30f);
+        leftTable.row();
+        leftTable.add(buildingInfo);
+        leftTable.row();
+        leftTable.add(healthInfo);
+
+
+        Table rightTable = new Table();
+        rightTable.padBottom(30f);
+        rightTable.add(sellButton).size(200f, 40f).center().padBottom(10f);
+        rightTable.row();
+        rightTable.add(upgradeButton).size(200f, 40f).center().padBottom(10f);
+
         BuildingUI.setBackground(backgroundColour);
-        BuildingUI.add(buildingName);
-        BuildingUI.row();
-        BuildingUI.add(heartImage).size(30f);
-        BuildingUI.add(healthBarImage).size(100f,30f);
-        BuildingUI.row();
-        BuildingUI.add(upgradeButton).size(200f, 100f).center();
-        BuildingUI.add(sellButton).size(200f, 100f).center();
+        BuildingUI.add(leftTable);
+        BuildingUI.add(rightTable);
+
+
         stage.addActor(BuildingUI);
 
         return BuildingUI;

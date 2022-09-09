@@ -8,7 +8,6 @@
     "health": 200,
     "baseAttack": 10,
     "gold": 30
-
   },
   "tower1I": {
     "health" : 300,
