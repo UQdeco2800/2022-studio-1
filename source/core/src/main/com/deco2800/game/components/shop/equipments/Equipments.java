@@ -25,8 +25,7 @@ public enum Equipments {
             case LV1_HELMET -> "configs/equipments/DummyArmor.json";
             case LV2_HELMET -> "configs/equipments/DummyArmor.json";
             case LV3_HELMET -> "configs/equipments/DummyArmor.json";
-
-            default -> null;
         };
     }
+
 }

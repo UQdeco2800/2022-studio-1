@@ -3,8 +3,8 @@ package com.deco2800.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.files.UserSettings;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.screens.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class AtlantisSinks extends Game {
   private static final Logger logger = LoggerFactory.getLogger(AtlantisSinks.class);
+  private ScreenType screenType;
 
   @Override
   public void create() {
@@ -79,6 +80,7 @@ public class AtlantisSinks extends Game {
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType) {
+    this.screenType = screenType;
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
@@ -109,5 +111,9 @@ public class AtlantisSinks extends Game {
    */
   public void exit() {
     app.exit();
+  }
+
+  public ScreenType getScreenType() {
+    return screenType;
   }
 }

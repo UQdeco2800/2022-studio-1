@@ -71,9 +71,15 @@ public class PlayerFactory {
       Entity player = createPlayer();
       player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
       player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());
+      player.getComponent(CombatStatsComponent.class).setBaseDefense(lastStatus.getDefense());
       player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
       player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
       player.getComponent(InventoryComponent.class).setStone(lastStatus.getStone());
+      player.getComponent(InventoryComponent.class).setWood(lastStatus.getWood());
+      player.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
+      player.getComponent(InventoryComponent.class).setChestplate(lastStatus.getChestplate());
+      player.getComponent(InventoryComponent.class).setHelmet(lastStatus.getHelmet());
+
       return player;
     }
   }

@@ -1,5 +1,6 @@
 package com.deco2800.game.screens;
 
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.shop.ShopEquipmentDisplay;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
@@ -134,8 +135,10 @@ public class ShopEquipmentScreen extends ScreenAdapter {
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
-                .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood()))
+                .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood(),
+                        lastStatus.getWeapon(), lastStatus.getChestplate(), lastStatus.getHelmet()))
+                .addComponent(new CombatStatsComponent(lastStatus.getCurrentHealth(), lastStatus.getAttack(),
+                        lastStatus.getDefense()))
                 .addComponent(new ShopEquipmentDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())

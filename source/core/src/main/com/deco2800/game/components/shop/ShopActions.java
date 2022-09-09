@@ -1,6 +1,7 @@
 package com.deco2800.game.components.shop;
 
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -39,12 +40,7 @@ public class ShopActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting shop screen");
-        Originator currentStatus = new Originator(playerStatus.size());
-        currentStatus.getStateFromMemento(playerStatus.getLast());
-        currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
-        currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
-        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
-        playerStatus.add(currentStatus.saveStateToMemento());
+        saveStatus();
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
@@ -53,15 +49,25 @@ public class ShopActions extends Component {
      */
     private void onMainShop() {
         logger.info("Entering main shop screen");
+        saveStatus();
+        game.setScreen(AtlantisSinks.ScreenType.SHOP);
+    }
+
+    private void saveStatus() {
         Originator currentStatus = new Originator(playerStatus.size());
         currentStatus.getStateFromMemento(playerStatus.getLast());
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
+        if (game.getScreenType() == AtlantisSinks.ScreenType.EQUIPMENT_SHOP) {
+            currentStatus.setDefense(entity.getComponent(CombatStatsComponent.class).getBaseDefense());
+            currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getBaseAttack());
+            currentStatus.setWeapon(entity.getComponent(InventoryComponent.class).getWeapon());
+            currentStatus.setChestplate(entity.getComponent(InventoryComponent.class).getChestplate());
+            currentStatus.setHelmet(entity.getComponent(InventoryComponent.class).getHelmet());
+        }
         playerStatus.add(currentStatus.saveStateToMemento());
-        game.setScreen(AtlantisSinks.ScreenType.SHOP);
     }
-
     /**
      * Swaps to the Building Shop screen.
      */

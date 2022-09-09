@@ -41,9 +41,6 @@ public class InventoryComponent extends Component {
     setGold(gold);
     setStone(stone);
     setWood(wood);
-    setWeapon(weapon);
-    setHelmet(helmet);
-    setChestplate(chestplate);
   }
   public void setWeapon(Equipments weapon) {
     this.weapon = weapon;

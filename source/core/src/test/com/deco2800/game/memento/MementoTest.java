@@ -30,7 +30,7 @@ class MementoTest {
     void shouldGetHealth() {
         Memento test = new Memento(1, 2, 3, 4,5, new ArrayList<>(), 5, 6,
                 null, null, null);
-        assertEquals(4, test.getCurrentHealth());
+        assertEquals(5, test.getCurrentHealth());
     }
 
     @Test
