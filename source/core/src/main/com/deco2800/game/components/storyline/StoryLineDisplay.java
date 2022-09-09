@@ -36,6 +36,9 @@ public class StoryLineDisplay extends UIComponent {
         rootTable.setFillParent(true);
 
         Table mainTable = new Table();
+        Table skipTable = new Table();
+        //skipTable.setFillParent(true);
+        skipTable.padLeft(1400).padTop(900);
         /*
         Image title =
                 new Image(
@@ -44,15 +47,15 @@ public class StoryLineDisplay extends UIComponent {
         */
 
         // Background Colour
-        Texture back = new Texture(Gdx.files.internal("images/macWallpaper.png"));
+        Texture back = new Texture(Gdx.files.internal("test/files/storylineBackground.png"));
         Drawable storybackgroundTexture = new TextureRegionDrawable(back);
         rootTable.setBackground(storybackgroundTexture);
 
         // inserting home Button
-        Texture homeButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/start_button.png"));
+        Texture homeButton1 = new Texture(Gdx.files.internal("test/files/skipButton.png"));
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
-        ImageButton homeButton = new ImageButton(homeUp, homeDown);
+        ImageButton skipButton = new ImageButton(homeUp, homeDown);
 
 //    TextButton startBtn = new TextButton("Start", skin);
 //    TextButton loadBtn = new TextButton("Load", skin);
@@ -60,23 +63,17 @@ public class StoryLineDisplay extends UIComponent {
 //    TextButton exitBtn = new TextButton("Exit", skin);
 
         // Triggers an event when the button is pressed
-        homeButton.addListener(
+        skipButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Start button clicked");
+                        logger.debug("Skip button clicked");
                         entity.getEvents().trigger("skip");
                     }
                 });
-/*
-        mainTable.add(title).padBottom(50f);
-        mainTable.row();
 
-*/
-        mainTable.add(homeButton);
-
-        rootTable.add(mainTable).expandX();
-        rootTable.row();
+        skipTable.add(skipButton).width(275).height(150);
+        rootTable.add(skipTable);
 
         stage.addActor(rootTable);
     }
