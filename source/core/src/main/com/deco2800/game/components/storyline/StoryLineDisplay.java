@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A ui component for displaying the Main menu.
+ * An ui component for displaying the storyline.
  */
 public class StoryLineDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(com.deco2800.game.components.storyline.StoryLineDisplay.class);
@@ -35,27 +35,20 @@ public class StoryLineDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setFillParent(true);
 
-        Table mainTable = new Table();
+        //Table mainTable = new Table();
         Table skipTable = new Table();
-        //skipTable.setFillParent(true);
         skipTable.padLeft(1400).padTop(900);
-
-        Image dummyChar =
-                new Image(
-                        ServiceLocator.getResourceService()
-                                .getAsset("images/uiElements/exports/title.png", Texture.class));
-
 
         // Background Colour
         Texture storylineGradient = new Texture(Gdx.files.internal("test/files/storylineBackground.png"));
         Drawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
         rootTable.setBackground(storyBackgroundTexture);
 
-        // inserting home Button
-        Texture homeButton1 = new Texture(Gdx.files.internal("test/files/skipButton.png"));
-        TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
-        TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
-        ImageButton skipButton = new ImageButton(homeUp, homeDown);
+        // inserting skip Button
+        Texture skipButton1 = new Texture(Gdx.files.internal("test/files/skipButton.png"));
+        TextureRegionDrawable skipUp = new TextureRegionDrawable(skipButton1);
+        TextureRegionDrawable skipDown = new TextureRegionDrawable(skipButton1);
+        ImageButton skipButton = new ImageButton(skipUp, skipDown);
 
         // Triggers an event when the button is pressed
         skipButton.addListener(

@@ -73,7 +73,6 @@ public class StoryLineScreen extends ScreenAdapter{
         ServiceLocator.getRenderService().dispose();
         ServiceLocator.getEntityService().dispose();
         ServiceLocator.clear();
-        //game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, null);
     }
 
     private void loadAssets() {
@@ -90,7 +89,7 @@ public class StoryLineScreen extends ScreenAdapter{
     }
 
     /**
-     * Creates the main menu's ui including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

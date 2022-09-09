@@ -41,6 +41,9 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestTextures = {
       "test/files/storylineBackground.png",
       "test/files/skipButton.png",
+      "test/files/sub1.png",
+      "test/files/sub2.png",
+      "test/files/sub3.png",
       "images/box_boy.png",
       "images/box_boy_leaf.png",
       "images/Centaur_Back_left.png",

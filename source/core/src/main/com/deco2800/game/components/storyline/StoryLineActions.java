@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class listens to events relevant to the Main Menu Screen and does something when one of the
+ * This class listens to events relevant to the story line Screen and does something when one of the
  * events is triggered.
  */
 public class StoryLineActions extends Component {
