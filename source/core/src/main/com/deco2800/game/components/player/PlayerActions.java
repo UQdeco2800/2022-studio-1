@@ -80,6 +80,8 @@ public class PlayerActions extends Component {
     updateSpeed();
     moving = false;
   }
+
+//  Entity closest = ServiceLocator.getEntityService().findClosestEntity();
   /**
    * Makes the player attack.
    */
@@ -95,54 +97,71 @@ public class PlayerActions extends Component {
       keys.add(i);
     }
 
-    if (closestToMe instanceof Enemy) {
+
       // Work out how to damage health
 //      ServiceLocator.getEntityService().getNamedEntity(closestToMe).getComponent().
-      System.out.println("I am an enemy kill me.");
-//      ServiceLocator.getEntityService().getNamedEntity("Tree").getComponent(CombatStatsComponent.class).=;
-    } else {
-      int id = closestToMe.getId();
-      for (String i : keys) {
-        if (i.contains("" + id)) {
-          String sub = i.substring(0, i.indexOf("@"));
-          switch (sub) {
-            case "Tree":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO WOOD COUNTER
-              break;
-            case "Rock":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO STONE COUNTER
-              break;
-            case "Vine":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO WOOD COUNTER
-              break;
-            case "Geyser":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO STONE COUNTER
-              break;
-            case "Fence":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO WOOD COUNTER
-              break;
-            case "Pillar":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO STONE COUNTER
-              break;
-            case "SpikeyBush":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO WOOD COUNTER
-              break;
-            case "Billboard":
-              ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-              // ADD TO WOOD COUNTER
-              break;
-          }
 
+
+//      ServiceLocator.getEntityService().getNamedEntity("Tree").getComponent(CombatStatsComponent.class).=;
+
+    int id = closestToMe.getId();
+    for (String i : keys) {
+      if (i.contains("" + id)) {
+        String sub = i.substring(0, i.indexOf("@"));
+        switch (sub) {
+          case "Tree":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO WOOD COUNTER
+            break;
+          case "Rock":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO STONE COUNTER
+            break;
+          case "Vine":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO WOOD COUNTER
+            break;
+          case "Geyser":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO STONE COUNTER
+            break;
+          case "Fence":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO WOOD COUNTER
+            break;
+          case "Pillar":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO STONE COUNTER
+            break;
+          case "SpikeyBush":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO WOOD COUNTER
+            break;
+          case "Billboard":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            // ADD TO WOOD COUNTER
+            break;
+          case "pirateCrabEnemy", "electricEelEnemy":
+            System.out.println("I am an enemy kill me.");
+            CombatStatsComponent targetStats = closestToMe.getComponent(CombatStatsComponent.class);
+            if (targetStats != null) {
+              CombatStatsComponent combatStats = new CombatStatsComponent(1, 10);
+              int targetHealth = closestToMe.getComponent(CombatStatsComponent.class).getHealth();
+              System.out.println("" + targetHealth);
+              targetStats.hit(combatStats);
+              int newHealth = closestToMe.getComponent(CombatStatsComponent.class).getHealth();
+              if (newHealth < 1) {
+                closestToMe.dispose();
+              }
+              closestToMe.getComponent(CombatStatsComponent.class).setHealth(newHealth);
+              System.out.println("" + newHealth);
+              combatStats.dispose();
+            }
         }
+
       }
     }
+
 
 
 

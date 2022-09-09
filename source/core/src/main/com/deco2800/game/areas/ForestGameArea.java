@@ -120,13 +120,13 @@ public class ForestGameArea extends GameArea {
 
     player = spawnPlayer();
 
-    spawnPirateCrabEnemy();
+//    spawnPirateCrabEnemy();
 
     spawnElectricEelEnemy();
-
-    spawnEnvironmentalObjects();
-
-    playMusic();
+//
+//    spawnEnvironmentalObjects();
+//
+//    playMusic();
 
   }
 
@@ -357,6 +357,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
 
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
@@ -387,6 +388,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
+    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -404,6 +406,7 @@ public class ForestGameArea extends GameArea {
       }
     }
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
+    entityMapping.addEntity(ElectricEelEnemy);
   }
 
   private void playMusic() {
