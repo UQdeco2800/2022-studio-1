@@ -302,7 +302,6 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
-    //spawnEnvironmentalObject(12, EnvironmentalComponent.EnvironmentalObstacle.ROCK); //todo remove this line
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
 
     // semi random rocks and trees

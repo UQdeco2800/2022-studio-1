@@ -27,6 +27,7 @@ public class MeleeAttackObstacleTask extends DefaultTask implements PriorityTask
     private Entity entity;
     private List<Entity> collisionEntities;
     private Vector2 lastPos;
+    private int hitTimer;
 
     /**
      * initialise the avoidance task. Task should get its entity registered using registerEntity() after creation
@@ -39,6 +40,7 @@ public class MeleeAttackObstacleTask extends DefaultTask implements PriorityTask
         debugRenderer = ServiceLocator.getRenderService().getDebug();
         dayNightCycleService = ServiceLocator.getDayNightCycleService();
         this.collisionEntities = new ArrayList<>();
+        resetHitTimer();
     }
 
     public void registerEntityEvents() {
@@ -57,16 +59,12 @@ public class MeleeAttackObstacleTask extends DefaultTask implements PriorityTask
         if (entity.getComponent(HitboxComponent.class).getFixture() != me) {
             return;
         }
-        //check it's the right physics layer TODO check this works - invisible wall
-/*        if (!PhysicsLayer.contains(me.getFilterData().categoryBits, other.getFilterData().categoryBits)) {
-            return;
-        }*/
 
         //set the last position for later checking (whether entity is still moving)
         lastPos = owner.getEntity().getPosition();
         Entity coll = ((BodyUserData) other.getBody().getUserData()).entity;
         if (coll.getComponent(CombatStatsComponent.class) != null
-                && coll.getComponent(AITaskComponent.class) != null) {
+                && coll.getComponent(AITaskComponent.class) == null) {
             collisionEntities.add(coll);
         }
     }
@@ -88,28 +86,21 @@ public class MeleeAttackObstacleTask extends DefaultTask implements PriorityTask
     }
 
     /**
-     * Hits the thing it's colliding with
-     * todo what if there are two?
-     */
-    @Override
-    public void start() {
-        super.start();
-        Entity target = collisionEntities.get(collisionEntities.size()-1);
-        owner.getEntity().getComponent(CombatStatsComponent.class).hit(
-                target.getComponent(CombatStatsComponent.class));
-    }
-
-    /**
      * Continually hit the target.
      * todo what if there are two?
      */
     @Override
     public void update() {
-        Entity target = collisionEntities.get(collisionEntities.size()-1);
-        owner.getEntity().getComponent(CombatStatsComponent.class).hit(
-                target.getComponent(CombatStatsComponent.class));
-        if (target.getComponent(CombatStatsComponent.class).isDead()) {
-            collisionEntities.clear();
+        hitTimer--;
+        if (hitTimer == 0) {
+            resetHitTimer();
+            for (Entity e : collisionEntities) {
+                owner.getEntity().getComponent(CombatStatsComponent.class).hit(
+                        e.getComponent(CombatStatsComponent.class));
+                if (e.getComponent(CombatStatsComponent.class).isDead()) {
+                    collisionEntities.remove(e);
+                }
+            }
         }
     }
 
@@ -138,6 +129,10 @@ public class MeleeAttackObstacleTask extends DefaultTask implements PriorityTask
             return true;
         }
         return (owner.getEntity().getPosition().dst2(lastPos) > 0.001f);
+    }
+
+    private void resetHitTimer() {
+        hitTimer = 10;
     }
 
 }

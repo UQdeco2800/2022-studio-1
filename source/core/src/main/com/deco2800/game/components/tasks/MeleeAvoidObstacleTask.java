@@ -65,7 +65,6 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         this.collisionEntities = new ArrayList<Entity>();
         //set rotation randomly to prevent identical behaviour among all entities
         this.rotation  = (int)(Math.random()*2) == 0 ? RotationDirection.LEFT  : RotationDirection.RIGHT;
-        adjusting = false;
         resetAdjustCountdown();
     }
 
@@ -139,8 +138,6 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
      */
     @Override
     public void update() {
-        movementTask.setTarget(target.getPosition());
-        movementTask.update();
         if (movementTask.getStatus() != Status.ACTIVE) {
             movementTask.start();
         }
@@ -164,7 +161,6 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         if (adjusting) {
             adjustCountdown--;
             if (adjustCountdown == 0) {
-                adjusting = false;
                 resetAdjustCountdown();
             }
         }
@@ -194,13 +190,10 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         movementTask.stop();
     }
 
-    /**
-     * reset the adjust countdown. Helper method so if I change numbers I don't have to change them twice
-     */
     private void resetAdjustCountdown() {
         adjustCountdown = 10;
+        adjusting = false;
     }
-
     /**
      * get the priority of the task when active. Should be superseded by the meleeAttackTargetTask
      * @return active priority
