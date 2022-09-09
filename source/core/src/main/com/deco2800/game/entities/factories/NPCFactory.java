@@ -135,26 +135,26 @@ public class NPCFactory {
     return ElectricEelEnemy;
   }
 
-//  public static Entity createStarFish(Entity target) {
-//    Entity starFish = createBaseRangeNPC(target);
-//    EnemyConfig config = configs.starfish;
-//
-//    /** AnimationRenderComponent animator =
-//            new AnimationRenderComponent(
-//                    ServiceLocator.getResourceService()
-//                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-//    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-//    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-//
-//    starFish
-//            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-//            .addComponent(animator)
-//            .addComponent(new HealthBarComponent(100, 10))
-//            .addComponent(new GhostAnimationController()); */
-//
-//    starFish.getComponent(AnimationRenderComponent.class).scaleEntity();
-//    return starFish;
-//  }
+  // Create starfish as a new entity
+  public static Entity createStarFish(Entity target, Entity crystal) {
+    Entity starfish = createBaseRangeNPC(target, crystal);
+    EnemyConfig config = configs.starfish;
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
+    /** AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService()
+                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    */
+    starfish
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent);
+
+    starfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    return starfish;
+  }
 
 
   /**
