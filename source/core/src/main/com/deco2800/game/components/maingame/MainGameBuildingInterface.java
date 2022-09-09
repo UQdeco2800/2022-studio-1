@@ -80,7 +80,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         //insert pop up label (with name of the building)
-        String buildingType = "Get Building type here";
+        String buildingType = "Building Name";
         buildingName = new Label(buildingType, skin, "large");
 
         // Insert building health image and bar
@@ -133,20 +133,31 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
         //table
-        Table buildingHealthInfo = new Table();
-        buildingHealthInfo.add(heartImage).size(50f);
-        buildingHealthInfo.add(healthBarImage).size(200f,30f);
+        Table buildingInfo = new Table();
+        buildingInfo.add(buildingName).center();
 
-        Table coinRelatedButton = new Table();
-        coinRelatedButton.add(upgradeButton).size(200f, 50f).center().padRight(10f);
-        coinRelatedButton.add(sellButton).size(200f, 50f).center();
+        Table healthInfo = new Table();
+        healthInfo.add(heartImage);
+        healthInfo.add(healthBarImage).size(200f,30f);
+
+        Table leftTable = new Table();
+        leftTable.padBottom(30f);
+        leftTable.row();
+        leftTable.add(buildingInfo);
+        leftTable.row();
+        leftTable.add(healthInfo);
+
+
+        Table rightTable = new Table();
+        rightTable.padBottom(30f);
+        rightTable.add(sellButton).size(200f, 40f).center().padBottom(10f);
+        rightTable.row();
+        rightTable.add(upgradeButton).size(200f, 40f).center().padBottom(10f);
 
         BuildingUI.setBackground(backgroundColour);
-        BuildingUI.add(buildingName).pad(10f);
-        BuildingUI.row();
-        BuildingUI.add(buildingHealthInfo).padBottom(10f);
-        BuildingUI.row();
-        BuildingUI.add(coinRelatedButton);
+        BuildingUI.add(leftTable);
+        BuildingUI.add(rightTable);
+
 
         stage.addActor(BuildingUI);
 
