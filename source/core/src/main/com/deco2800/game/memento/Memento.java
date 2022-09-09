@@ -11,7 +11,7 @@ import java.util.List;
  * state should be saved into another memento
  */
 public class Memento {
-    private int state, gold, stone, attack, currentHealth;
+    private int state, gold, stone, wood, attack, currentHealth;
     private List<Artefact> items;
 
     /**
@@ -20,15 +20,17 @@ public class Memento {
      * @param state         - the id of the saved memento
      * @param gold          - amount of gold that the player currently holds
      * @param stone         - amount of stone that the player currently holds
+     * @param wood         - amount of wood that the player currently holds
      * @param currentHealth - amount of health that the player currently has
      * @param items         - list of items the player have
      * @param attack        - base attack value of the player (including weapon
      *                      boost)
      */
-    public Memento(int state, int gold, int stone, int currentHealth, List<Artefact> items, int attack) {
+    public Memento(int state, int gold, int stone, int wood, int currentHealth, List<Artefact> items, int attack) {
         this.state = state;
         this.gold = gold;
         this.stone = stone;
+        this.wood = wood;
         this.currentHealth = currentHealth;
         this.items = items;
         this.attack = attack;
@@ -59,6 +61,15 @@ public class Memento {
      */
     public int getStone() {
         return stone;
+    }
+
+    /**
+     * retrieve the wood amount saved in the memento
+     * 
+     * @return - wood amount
+     */
+    public int getWood() {
+        return wood;
     }
 
     /**

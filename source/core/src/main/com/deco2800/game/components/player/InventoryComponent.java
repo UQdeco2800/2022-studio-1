@@ -19,17 +19,19 @@ public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private int gold;
   private int stone;
+  private int wood;
   private List<Artefact> items = new ArrayList<>();
 
-  public InventoryComponent(int gold, int stone) {
+  public InventoryComponent(int gold, int stone, int wood) {
     setGold(gold);
     setStone(stone);
+    setWood(wood);
   }
 
   /**
    * Returns the player's gold.
    *
-   * @return entity's health
+   * @return entity's gold
    */
   public int getGold() {
     return this.gold;
@@ -38,11 +40,21 @@ public class InventoryComponent extends Component {
   /**
    * Returns the player's stone.
    *
-   * @return entity's health
+   * @return entity's stone
    */
 
   public int getStone() {
     return this.stone;
+  }
+
+  /**
+   * Returns the player's wood.
+   *
+   * @return entity's wood
+   */
+
+  public int getWood() {
+    return this.wood;
   }
 
   /**
@@ -63,6 +75,16 @@ public class InventoryComponent extends Component {
    */
   public Boolean hasStone(int stone) {
     return this.stone >= stone;
+  }
+
+  /**
+   * Returns if the player has a certain amount of wood.
+   * 
+   * @param wood required amount of stone
+   * @return player has greater than or equal to the required amount of wood
+   */
+  public Boolean hasWood(int wood) {
+    return this.wood >= wood;
   }
 
   /**
@@ -94,6 +116,20 @@ public class InventoryComponent extends Component {
   }
 
   /**
+   * Sets the player's wood. Stone has a minimum bound of 0.
+   *
+   * @param wood currency wood
+   */
+  public void setWood(int wood) {
+    if (wood >= 0) {
+      this.wood = wood;
+    } else {
+      this.wood = 0;
+    }
+    logger.debug("Setting wood to {}", this.wood);
+  }
+
+  /**
    * Adds to the player's gold. The amount added can be negative.
    * 
    * @param gold gold to add
@@ -109,6 +145,15 @@ public class InventoryComponent extends Component {
    */
   public void addStone(int stone) {
     setStone(this.stone + stone);
+  }
+
+  /**
+   * Adds to the player's wood. The amount added can be negative.
+   *
+   * @param wood stone to add
+   */
+  public void addWood(int wood) {
+    setWood(this.wood + wood);
   }
 
   public void setItems(List<Artefact> items) {

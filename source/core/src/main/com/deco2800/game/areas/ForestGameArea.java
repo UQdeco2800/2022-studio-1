@@ -2,9 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.TerrainTile;
-import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.utils.math.RandomUtils;
-import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 
 import com.deco2800.game.services.ResourceService;
@@ -100,7 +97,6 @@ public class ForestGameArea extends GameArea {
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
 
   private static final String[] forestMusic = { backgroundMusic };
-  private EnvironmentalCollision entityMapping;
   private CareTaker playerStatus;
 
   private final TerrainFactory terrainFactory;
@@ -128,7 +124,6 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-    this.entityMapping = new EnvironmentalCollision(terrain);
 
     crystal = spawnCrystal(60, 60);
 
@@ -157,7 +152,10 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    spawnEntity(new Entity().addComponent(terrain));
+    Entity terrainEntity = new Entity().addComponent(terrain);
+
+    areaEntities.add(terrainEntity);
+    ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -186,30 +184,31 @@ public class ForestGameArea extends GameArea {
         TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
         TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
 
-        if (tile.getName() == "grass") {
-          if (above.getName() == "water") {
+        if (tile.getName().equals("grass")) {
+          if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
           }
-          if (below.getName() == "cliff" || below.getName() == "cliffLeft") {
+          if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
             createBorderWall(x, y - 1);
           }
-          if (left.getName() == "water") {
+          if (left.getName().equals("water")) {
             createBorderWall(x - 1, y);
           }
-          if (right.getName() == "cliff" || right.getName() == "cliffRight") {
+          if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y);
           }
-          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight"
-              || rightAbove.getName() == "cliff") {
+          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
+              || rightAbove.getName().equals("cliff")) {
             createBorderWall(x + 1, y + 1);
           }
-          if (rightBelow.getName() == "cliff") {
+          if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
           }
-          if (leftAbove.getName() == "water") {
+          if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
           }
-          if (leftBelow.getName() == "water" || leftBelow.getName() == "cliff" || leftBelow.getName() == "cliffLeft") {
+          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
+              || leftBelow.getName().equals("cliffLeft")) {
             createBorderWall(x - 1, y + 1);
           }
         }
@@ -272,8 +271,8 @@ public class ForestGameArea extends GameArea {
 
       int counter = 0;
       // check for possible collision and reroll location until valid
-      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
-          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+      while (ServiceLocator.getEntityService().wouldCollide(envObj, randomPos.x, randomPos.y)
+          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
 
         // safety to avoid infinite looping on loading screen.
@@ -285,7 +284,7 @@ public class ForestGameArea extends GameArea {
         counter++;
       }
 
-      this.entityMapping.addEntity(envObj);
+      ServiceLocator.getEntityService().addEntity(envObj);
       spawnEntityAt(envObj, randomPos, true, true);
     }
   }
@@ -358,10 +357,10 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal();
-    while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
+    while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
-    this.entityMapping.addEntity(crystal);
+    ServiceLocator.getEntityService().addEntity(crystal);
     spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
     return crystal;
   }
@@ -386,8 +385,8 @@ public class ForestGameArea extends GameArea {
      * attempts fail then no valid
      * coordinates were found and the enemy will not be spawned
      */
-    while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
-        || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+    while (ServiceLocator.getEntityService().wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
+        || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
       randomPos = RandomUtils.random(minPos, maxPos);
       if (counter > 1000) {
         return;
@@ -399,7 +398,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnElectricEelEnemy() {
-    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player);
+    Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -409,8 +408,8 @@ public class ForestGameArea extends GameArea {
 
     while (true) {
       randomPos = RandomUtils.random(minPos, maxPos);
-      if (this.entityMapping.wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
-          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+      if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
+          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
         continue;
       } else {
         break;
@@ -418,6 +417,29 @@ public class ForestGameArea extends GameArea {
     }
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
   }
+
+  // Spawn the starfish as ranged enemy
+  // private void spawnStarfish() {
+  // Entity starfish = NPCFactory.createStarFish(player);
+  // int waterWidth = (terrain.getMapBounds(0).x -
+  // terrainFactory.getIslandSize().x) / 2;
+  //
+  // //Get the position from 2D coordinates
+  // GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+  // GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x +
+  // waterWidth - 4,
+  // terrainFactory.getIslandSize().x + waterWidth - 4);
+  // GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+  //
+  // //Condition for enemy only spawn at night
+  // /**
+  // while (getCurrentCycleStatus().equal("NIGHT")) {
+  //
+  // } */
+  //
+  // //Create the starfish entity
+  // spawnEntityAt(starfish, randomPos, true, true);
+  // }
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
