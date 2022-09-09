@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.GhostAnimationController;
@@ -149,34 +150,15 @@ public class NPCFactory {
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent)
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f));
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
+            .addComponent(new EffectNearBy(true, true, true));
 
     boss.getComponent(TextureRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
 
+
     return boss;
   }
-
-//  public static Entity createStarFish(Entity target) {
-//    Entity starFish = createBaseRangeNPC(target);
-//    EnemyConfig config = configs.starfish;
-//
-//    /** AnimationRenderComponent animator =
-//            new AnimationRenderComponent(
-//                    ServiceLocator.getResourceService()
-//                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-//    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-//    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-//
-//    starFish
-//            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-//            .addComponent(animator)
-//            .addComponent(new HealthBarComponent(100, 10))
-//            .addComponent(new GhostAnimationController()); */
-//
-//    starFish.getComponent(AnimationRenderComponent.class).scaleEntity();
-//    return starFish;
-//  }
 
 
   /**

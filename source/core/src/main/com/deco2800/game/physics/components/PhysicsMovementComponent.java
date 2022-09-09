@@ -22,6 +22,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
+    this.defaultMaxSpeed = new Vector2(1,1);
   }
 
   @Override
