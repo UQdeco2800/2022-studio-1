@@ -16,12 +16,14 @@ public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
+  private int baseHealth;
   private int baseAttack;
   private int level;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    this.baseHealth = health;
   }
 
   /**
@@ -29,6 +31,7 @@ public class CombatStatsComponent extends Component {
    */
   public CombatStatsComponent(int health, int baseAttack, int level) {
     setHealth(health);
+    this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
   }
@@ -141,5 +144,11 @@ public class CombatStatsComponent extends Component {
 
 
   }
-
+/**
+ * Returns the base health of the entity
+ * @return int 
+ */
+  public int getBaseHealth() {
+    return this.baseHealth;
+  }
 }

@@ -46,7 +46,6 @@ public class MainMenuDisplay extends UIComponent {
     Drawable backgroundColour = new TextureRegionDrawable(colour);
     rootTable.setBackground(backgroundColour);
 
-
     // inserting home Button
     Texture homeButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/start_button.png"));
     TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);

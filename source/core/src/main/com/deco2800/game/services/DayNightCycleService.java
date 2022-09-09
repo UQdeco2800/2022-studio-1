@@ -1,5 +1,6 @@
 package com.deco2800.game.services;
 
+import com.badlogic.gdx.Gdx;
 import com.deco2800.game.concurrency.JobSystem;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
@@ -26,35 +27,75 @@ public class DayNightCycleService {
     private int currentDayNumber;
     private long currentDayMillis;
 
+    private long timePaused;
+
+    private long totalDurationPaused;
+
     private boolean isPaused;
 
     private boolean isStarted;
 
-    private DayNightCycleConfig config;
-    private GameTime timer;
+    private final DayNightCycleConfig config;
+    private final GameTime timer;
 
     private EventHandler events;
 
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
         this.events = new EventHandler(); //
+
         this.ended = false;
-        this.currentCycleStatus = DayNightCycleStatus.NONE;
         this.isStarted = false;
         this.isPaused = false;
+
+        this.currentCycleStatus = DayNightCycleStatus.NONE;
+
+        this.totalDurationPaused = 0;
         this.currentDayNumber = 0;
         this.currentDayMillis = timer.getTime();
+
         this.config = config;
         this.timer = timer;
     }
 
+    /**
+     * Returns whether the current day night cycle has ended.
+     *
+     * @return boolean
+     */
+    public boolean hasEnded() {
+        return this.ended;
+    }
 
+    /**
+     * Returns whether the day night cycle service has been started
+     *
+     * @return boolean
+     */
+    public boolean hasStarted() {
+        return this.isStarted;
+    }
+
+    /**
+     * Returns whether the day night cycle is paused.
+     *
+     * @return boolean
+     */
+    public boolean isPaused() {
+        return this.isPaused;
+    }
+
+    /**
+     * Returns the current status of the day night cycle.
+     *
+     * @return DayNightCycleStatus
+     */
     public DayNightCycleStatus getCurrentCycleStatus() {
         return this.currentCycleStatus;
     }
 
     /**
      * Used to get the last part of day before the current one
-     *
+     * <p>
      * NOTE: helps with testing behaviour
      *
      * @return last part of day
@@ -63,6 +104,23 @@ public class DayNightCycleService {
         return this.lastCycleStatus;
     }
 
+    /**
+     * Returns the last time game time that the timer was paused.
+     *
+     * @return long
+     */
+    public long getTimePaused() {
+        return this.timePaused;
+    }
+
+    /**
+     * Returns total amount of time that the timer has been paused for.
+     *
+     * @return long
+     */
+    public long getTotalDurationPaused() {
+        return this.totalDurationPaused;
+    }
 
     /**
      * Returns the current day number.
@@ -84,12 +142,12 @@ public class DayNightCycleService {
     }
 
     /**
-     * Returns whether the current day night cycle has ended.
+     * Returns the game timer
      *
-     * @return boolean
+     * @return GameTime
      */
-    public boolean hasEnded() {
-        return this.ended;
+    public GameTime getTimer() {
+        return this.timer;
     }
 
     /**
@@ -135,20 +193,26 @@ public class DayNightCycleService {
      */
     public void pause() {
         this.isPaused = true;
+        this.timePaused = this.currentDayMillis;
     }
 
     /**
      * Main loop for the service that updates the game status.
      */
     public void run() throws InterruptedException {
+        long durationPaused = 0;
 
         while (!this.ended) {
 
             if (!this.isPaused) {
+                if (durationPaused != 0) {
+                    this.totalDurationPaused += durationPaused;
+                    durationPaused = 0;
+                }
 
                 // Definitely a better way to do this but this works for now
                 this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
-                        config.duskLength + config.dayLength + config.dawnLength));
+                        config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused;
 
                 if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.DAWN) {
                     this.setPartOfDayTo(DayNightCycleStatus.DAY);
@@ -165,18 +229,29 @@ public class DayNightCycleService {
                     if (this.currentDayNumber == config.maxDays - 1) {
                         // End the game
                         this.stop();
-                        events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+
+                        Gdx.app.postRunnable(() -> {
+                            events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                        });
                         return;
                     }
 
                     this.setPartOfDayTo(DayNightCycleStatus.DAWN);
                     // Notify entities that it is now DAY
                     this.currentDayNumber++;
-                    events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                    Gdx.app.postRunnable(() -> {
+                        events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                    });
+
 
                     this.currentDayMillis = 0;
                 }
+            } else {
+                // Keep track of how long the game has been paused this time.
+                durationPaused = this.timer.getTimeSince(this.timePaused);
             }
+
+            Thread.sleep(100);
         }
     }
 
@@ -190,7 +265,9 @@ public class DayNightCycleService {
         this.lastCycleStatus = currentCycleStatus;
         this.currentCycleStatus = nextPartOfDay;
         // helps with testing
-        this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
+        Gdx.app.postRunnable(() -> {
+            this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
+        });
     }
 
     /**
