@@ -7,10 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.components.shop.ShopUtils;
+import com.deco2800.game.components.storyline.frames.Frame;
+import com.deco2800.game.components.storyline.frames.epilogue1;
+import com.deco2800.game.components.storyline.frames.epilogue2;
+import com.deco2800.game.components.storyline.frames.epilogue3;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +27,9 @@ public class StoryLineDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(com.deco2800.game.components.storyline.StoryLineDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table rootTable;
+
+    private StoryLinkedList<Frame> frameset;
+    private Node<Frame> currentFrame;
 
 
     @Override
@@ -35,12 +43,30 @@ public class StoryLineDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setFillParent(true);
 
-        //Table mainTable = new Table();
+        Table nextTable = new Table();
+        nextTable.setFillParent(true);
+        nextTable.right().padRight(50);
+
         Table skipTable = new Table();
-        skipTable.padLeft(1400).padTop(900);
+        skipTable.setFillParent(true);
+        skipTable.right().bottom().padRight(50).padBottom(50);
+
+        Table charTable = new Table();
+        charTable.setFillParent(true);
+        charTable.center().padTop(100);
+
+        Table subsTable = new Table();
+        subsTable.setFillParent(true);
+        subsTable.center().bottom().padBottom(50);
+
+        frameset = new StoryLinkedList<>();
+        frameset.add(new epilogue1());
+        frameset.add(new epilogue2());
+        frameset.add(new epilogue3());
+        currentFrame = frameset.header;
 
         // Background Colour
-        Texture storylineGradient = new Texture(Gdx.files.internal("test/files/storylineBackground.png"));
+        Texture storylineGradient = new Texture(Gdx.files.internal(currentFrame.f.getBackground()));
         Drawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
         rootTable.setBackground(storyBackgroundTexture);
 
@@ -49,6 +75,23 @@ public class StoryLineDisplay extends UIComponent {
         TextureRegionDrawable skipUp = new TextureRegionDrawable(skipButton1);
         TextureRegionDrawable skipDown = new TextureRegionDrawable(skipButton1);
         ImageButton skipButton = new ImageButton(skipUp, skipDown);
+
+        Texture nextButton1 = new Texture(Gdx.files.internal("test/files/nextButton.png"));
+        TextureRegionDrawable nextUp = new TextureRegionDrawable(nextButton1);
+        TextureRegionDrawable nextDown = new TextureRegionDrawable(nextButton1);
+        ImageButton nextButton = new ImageButton(nextUp, nextDown);
+
+        Texture currentSubTexture = new Texture(Gdx.files.internal(currentFrame.f.getCharacters()));
+        Image sub = new Image(currentSubTexture);
+
+        Texture empty = new Texture(Gdx.files.internal("test/files/emptyDialogue.png"));
+        TextureRegionDrawable testDisplay = new TextureRegionDrawable(empty);
+        TextButton subtitlesDisplay = ShopUtils.createImageTextButton(
+                currentFrame.f.getSubtitles(),
+                skin.getColor("white"),
+                "button", 1f,
+                testDisplay, testDisplay, skin,
+                true);
 
         // Triggers an event when the button is pressed
         skipButton.addListener(
@@ -60,10 +103,39 @@ public class StoryLineDisplay extends UIComponent {
                     }
                 });
 
+        nextButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("next button clicked");
+                        if (frameset.header.next != null) {
+                            currentFrame = frameset.header.next;
+                            frameset.header = frameset.header.next;
+
+                            subtitlesDisplay.setText(currentFrame.f.getSubtitles());
+
+                            Drawable temp = new TextureRegionDrawable(new Texture(Gdx.files.internal(currentFrame.f.getBackground())));
+                            rootTable.setBackground(temp);
+
+                            sub.setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal(currentFrame.f.getCharacters()))));
+                        } else {
+                            entity.getEvents().trigger("skip");
+                        }
+
+                    }
+                });
+
+        subsTable.add(subtitlesDisplay).width(500).height(75);
+        charTable.add(sub).width(500).height(75);
         skipTable.add(skipButton).width(275).height(150);
-        rootTable.add(skipTable);
+        nextTable.add(nextButton).width(75).height(150);
+
 
         stage.addActor(rootTable);
+        stage.addActor(subsTable);
+        stage.addActor(charTable);
+        stage.addActor(nextTable);
+        stage.addActor(skipTable);
     }
 
     @Override
@@ -79,6 +151,7 @@ public class StoryLineDisplay extends UIComponent {
     @Override
     public void dispose() {
         rootTable.clear();
+
         super.dispose();
     }
 }
