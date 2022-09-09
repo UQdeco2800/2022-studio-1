@@ -121,12 +121,12 @@ public class CombatStatsComponent extends Component {
    */
   public void upgrade(){
 
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
     //crystal.dispose();
     if(this.level == 1) {
       CrystalFactory.triggerCrystal("images/crystal_level2.png");
     }
     else if(this.level == 2){
+      Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
       crystal.dispose();
       CrystalFactory.triggerCrystal("images/crystal_level3.png");
     }
@@ -137,7 +137,7 @@ public class CombatStatsComponent extends Component {
       System.out.println(this.health);
       setHealth(this.health+=50);
       setLevel(this.level + 1);
-      System.out.println(this.health);
+      //System.out.println(this.health);
     } else System.out.println("Crystal has reached max level");
 
 
