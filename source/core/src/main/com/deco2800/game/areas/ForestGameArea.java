@@ -135,7 +135,9 @@ public class ForestGameArea extends GameArea {
     crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
-
+    for (int i = 0; i < 3; i++) {
+      spawnPirateCrabEnemy();
+    }
     spawnPirateCrabEnemy();
     count = 5;
 
@@ -300,6 +302,7 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
+    //spawnEnvironmentalObject(12, EnvironmentalComponent.EnvironmentalObstacle.ROCK); //todo remove this line
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
 
     // semi random rocks and trees
@@ -308,7 +311,7 @@ public class ForestGameArea extends GameArea {
     int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
 
     int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
+    spawnEnvironmentalObject(numRocks, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
     objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
 
     // Remaining number of objects can be spawned off raw percentage?
@@ -398,7 +401,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnPirateCrabEnemy() {
     System.out.println(count);
-    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
+    Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
 
     spawnEnemy(pirateCrabEnemy);
   }

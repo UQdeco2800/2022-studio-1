@@ -8,8 +8,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.GhostAnimationController;
-import com.deco2800.game.components.tasks.ChaseTask;
-import com.deco2800.game.components.tasks.WanderTask;
+import com.deco2800.game.components.tasks.*;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.files.FileLoader;
@@ -163,7 +162,9 @@ public class NPCFactory {
     AITaskComponent aiComponent =
         new AITaskComponent()
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new ChaseTask(target, 10, 3f, 4f));
+            .addTask(new MeleePursueTask(target))
+            .addTask(new MeleeAvoidObstacleTask(target))
+            .addTask(new MeleeAttackObstacleTask(target));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
