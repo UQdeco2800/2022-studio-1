@@ -39,28 +39,23 @@ public class StoryLineDisplay extends UIComponent {
         Table skipTable = new Table();
         //skipTable.setFillParent(true);
         skipTable.padLeft(1400).padTop(900);
-        /*
-        Image title =
+
+        Image dummyChar =
                 new Image(
                         ServiceLocator.getResourceService()
                                 .getAsset("images/uiElements/exports/title.png", Texture.class));
-        */
+
 
         // Background Colour
-        Texture back = new Texture(Gdx.files.internal("test/files/storylineBackground.png"));
-        Drawable storybackgroundTexture = new TextureRegionDrawable(back);
-        rootTable.setBackground(storybackgroundTexture);
+        Texture storylineGradient = new Texture(Gdx.files.internal("test/files/storylineBackground.png"));
+        Drawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
+        rootTable.setBackground(storyBackgroundTexture);
 
         // inserting home Button
         Texture homeButton1 = new Texture(Gdx.files.internal("test/files/skipButton.png"));
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
         ImageButton skipButton = new ImageButton(homeUp, homeDown);
-
-//    TextButton startBtn = new TextButton("Start", skin);
-//    TextButton loadBtn = new TextButton("Load", skin);
-//    TextButton settingsBtn = new TextButton("Settings", skin);
-//    TextButton exitBtn = new TextButton("Exit", skin);
 
         // Triggers an event when the button is pressed
         skipButton.addListener(
