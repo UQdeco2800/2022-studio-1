@@ -46,11 +46,6 @@ public class PlayerStatsDisplay extends UIComponent {
     //will be used to update health
     //entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
     crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
-
-//    if(crystal.getComponent(CombatStatsComponent.class).getHealth() == 900){
-//      healthBarImage.remove();
-//    }
-
   }
 
 
@@ -84,10 +79,8 @@ public class PlayerStatsDisplay extends UIComponent {
     //Crystal image
     crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
-    //Crystal bar
+    //Get crystal health bar and customise
     crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
-
     progressBar = crystal.getComponent(HealthBarComponent.class).getProgressBar();
             progressBar.getStyle().background = DrawableUtil
                     .getRectangularColouredDrawable(50, 15,  Color.BROWN);

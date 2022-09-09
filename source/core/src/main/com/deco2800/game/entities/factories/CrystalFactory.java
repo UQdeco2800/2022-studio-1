@@ -45,6 +45,7 @@ public class CrystalFactory {
      */
     public static Entity createCrystal(String texture, String name) {
         Entity crystal =
+
                 new Entity()
                         .addComponent(new TextureRenderComponent(texture))
                         .addComponent(new PhysicsComponent())
@@ -65,6 +66,10 @@ public class CrystalFactory {
     }
 
 
+    /**
+     * Spawns Crystal outside of Game Area class
+     *
+     */
     public static void triggerCrystal(String texture) {
         Entity crystal = createCrystal(texture,"crystal2");
         crystal.setPosition(new Vector2(60, 0));

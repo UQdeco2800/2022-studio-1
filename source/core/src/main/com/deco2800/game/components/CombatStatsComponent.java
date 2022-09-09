@@ -114,16 +114,17 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Upgrades the level of the entity (mainly Crystal) and increases its health
+   * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
    */
   public void upgrade(){
-    //Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
+
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
     //crystal.dispose();
     if(this.level == 1) {
       CrystalFactory.triggerCrystal("images/crystal_level2.png");
     }
     else if(this.level == 2){
-      //crystal.dispose();
+      crystal.dispose();
       CrystalFactory.triggerCrystal("images/crystal_level3.png");
     }
     //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());

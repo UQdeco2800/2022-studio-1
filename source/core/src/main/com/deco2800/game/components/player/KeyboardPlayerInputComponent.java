@@ -192,7 +192,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 
   }
 
