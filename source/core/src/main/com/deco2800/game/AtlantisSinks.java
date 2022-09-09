@@ -88,6 +88,8 @@ public class AtlantisSinks extends Game {
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
+      case STORY_LINE:
+        return new StoryLineScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this, playerStatus);
       case SETTINGS:
@@ -104,7 +106,7 @@ public class AtlantisSinks extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP
+    MAIN_MENU, STORY_LINE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP
   }
 
   /**

@@ -31,7 +31,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, new CareTaker());
+    game.setScreen(AtlantisSinks.ScreenType.STORY_LINE, new CareTaker());
   }
 
   /**
