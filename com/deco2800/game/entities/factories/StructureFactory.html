@@ -125,7 +125,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Function which handles the destruction / sale of building.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleRefund(java.lang.String,int)" class="member-name-link">handleRefund</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleRefund(com.deco2800.game.entities.Entity,int)" class="member-name-link">handleRefund</a><wbr>(<a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;structure,
  int&nbsp;refundMultiplier)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Function which handles the refund of player's resources should they sell a building.</div>
@@ -199,14 +199,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="handleRefund(java.lang.String,int)">
+<section class="detail" id="handleRefund(com.deco2800.game.entities.Entity,int)">
 <h3>handleRefund</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handleRefund</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handleRefund</span><wbr><span class="parameters">(<a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;structure,
  int&nbsp;refundMultiplier)</span></div>
-<div class="block">Function which handles the refund of player's resources should they sell a building.</div>
+<div class="block">Function which handles the refund of player's resources should they sell a building. 
+ 
+ Refunds 80% of the buildings original cost</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>type</code> - : the type of the building to refund</dd>
+<dd><code>structure</code> - : the building to refund</dd>
 </dl>
 </section>
 </li>
