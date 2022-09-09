@@ -35,6 +35,8 @@ import com.deco2800.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+
 /**
  * The game screen containing the main game.
  *
@@ -95,6 +97,7 @@ public class MainGameScreen extends ScreenAdapter {
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
+
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -182,6 +185,6 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
-    ServiceLocator.getEntityService().register(ui);
+    ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }
