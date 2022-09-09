@@ -23,7 +23,6 @@ public class EnvironmentalCollision {
     public EnvironmentalCollision(TerrainComponent terrain) {
         this.entityMap = new Hashtable<>();
         this.terrain = terrain;
-
         //List object goes [isWater, isBuildable, isResource]
         tileMapping.put("images/water version 1.png", Arrays.asList(true, false, false));
         tileMapping.put("images/water version 2.png", Arrays.asList(true, false, false));
@@ -68,6 +67,7 @@ public class EnvironmentalCollision {
 
             if (currentDistance < smallestDistance) {
                 closetEntity = entity;
+                smallestDistance = (float) currentDistance;
             }
         }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.MainGameActions;
@@ -62,7 +63,6 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
   private CareTaker playerStatus;
-  private ForestGameArea forestGameArea;
 
   public MainGameScreen(AtlantisSinks game, CareTaker playerStatus) {
     this.game = game;
@@ -102,8 +102,10 @@ public class MainGameScreen extends ScreenAdapter {
 
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    this.forestGameArea = new ForestGameArea(terrainFactory, playerStatus);
-    forestGameArea.create();
+
+    // Singleton MainArea responsible for controlling current map and entities
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, playerStatus));
+
     createUI();
     ServiceLocator.getDayNightCycleService().start();
   }
@@ -173,7 +175,7 @@ public class MainGameScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game, this.playerStatus, forestGameArea.getPlayer()))
+        .addComponent(new MainGameActions(this.game, this.playerStatus, MainArea.getInstance().getGameArea().getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new MainGameBuildingInterface())

@@ -29,18 +29,15 @@ import java.util.List;
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
-
   private static final int MAX_ENVIRONMENTAL_OBJECTS = 7;
   private static final int MIN_NUM_TREES = 3;
   private static final int MAX_NUM_TREES = 5;
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
-
   private static final String[] forestTextures = {
       "images/box_boy.png",
       "images/box_boy_leaf.png",
@@ -89,22 +86,13 @@ public class ForestGameArea extends GameArea {
       "images/mini_tower.png",
       "images/ElectricEel.png"
   };
-
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
   private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
   public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
-
   private static final String[] forestMusic = { backgroundMusic };
-  private EnvironmentalCollision entityMapping;
-  private CareTaker playerStatus;
-
-  private final TerrainFactory terrainFactory;
-
-  private Entity player;
-  private Entity crystal;
 
   public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
     super();
@@ -126,11 +114,11 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-    this.entityMapping = new EnvironmentalCollision(terrain);
+    entityMapping = new EnvironmentalCollision(terrain);
 
     crystal = spawnCrystal(60, 60);
 
-    this.player = spawnPlayer();
+    player = spawnPlayer();
 
     spawnPirateCrabEnemy();
 
@@ -148,6 +136,7 @@ public class ForestGameArea extends GameArea {
     spawnEntity(ui);
   }
 
+  @Override
   public Entity getPlayer() {
     return this.player;
   }
@@ -393,6 +382,7 @@ public class ForestGameArea extends GameArea {
     }
 
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
+    entityMapping.addEntity(pirateCrabEnemy);
   }
 
   private void spawnElectricEelEnemy() {
@@ -454,4 +444,9 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     this.unloadAssets();
   }
+
+  public EnvironmentalCollision getEntityMapping() {
+    return entityMapping;
+  }
+
 }
