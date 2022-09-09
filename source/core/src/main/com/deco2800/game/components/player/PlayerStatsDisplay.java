@@ -1,5 +1,6 @@
 package com.deco2800.game.components.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -11,6 +12,7 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+import com.deco2800.game.utils.DrawableUtil;
 
 /**
  * A ui component for displaying player stats, e.g. health.
@@ -31,7 +33,7 @@ public class PlayerStatsDisplay extends UIComponent {
   public static Label stoneCurrencyLabel;
 
   public static int stoneCount = 0;
-  Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+  Entity crystal;
 
 
   /**
@@ -83,8 +85,18 @@ public class PlayerStatsDisplay extends UIComponent {
     crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
     //Crystal bar
+    crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
+
     progressBar = crystal.getComponent(HealthBarComponent.class).getProgressBar();
-    crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
+            progressBar.getStyle().background = DrawableUtil
+                    .getRectangularColouredDrawable(50, 15,  Color.BROWN);
+            progressBar.getStyle().knob = DrawableUtil
+                    .getRectangularColouredDrawable(0, 15, Color.VIOLET);
+            progressBar.getStyle().knobBefore = DrawableUtil
+                    .getRectangularColouredDrawable(50, 15, Color.VIOLET);
+
+    crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class ));
     //crystal health text
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("%d", crystalHealth);
@@ -108,7 +120,7 @@ public class PlayerStatsDisplay extends UIComponent {
     table.row();
     table.add(crystalImage);
     //table.add(crystalBarImage).size(190f,30f).pad(5);
-    table.stack(crystalBarImage,progressBar).size(190f,30f).pad(5);
+    table.stack(progressBar,crystalBarImage).size(190f,30f).pad(5);
     //table.add(progressBar).size(190f,30f).pad(5);
     table.add(crystalLabel);
     table.row();
@@ -140,7 +152,7 @@ public class PlayerStatsDisplay extends UIComponent {
     coinLabel.remove();
     coinImage.remove();
     healthBarImage.remove();
-//    crystalBarImage.remove();
+    crystalBarImage.remove();
     crystalImage.remove();
     crystalLabel.remove();
     progressBar.remove();

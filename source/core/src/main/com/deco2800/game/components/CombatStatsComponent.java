@@ -2,6 +2,7 @@ package com.deco2800.game.components;
 
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,15 +117,25 @@ public class CombatStatsComponent extends Component {
    * Upgrades the level of the entity (mainly Crystal) and increases its health
    */
   public void upgrade(){
+    //Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
+    //crystal.dispose();
+    if(this.level == 1) {
+      CrystalFactory.triggerCrystal("images/crystal_level2.png");
+    }
+    else if(this.level == 2){
+      //crystal.dispose();
+      CrystalFactory.triggerCrystal("images/crystal_level3.png");
+    }
+    //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
+    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
     if(this.level <= 5) {
       //addHealth((1000-this.health)+(50*this.level));
-      setHealth(this.health+50);
+      System.out.println(this.health);
+      setHealth(this.health+=50);
       setLevel(this.level + 1);
+      System.out.println(this.health);
     } else System.out.println("Crystal has reached max level");
 
-//    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-//    crystal.dispose();
-//    CrystalFactory.createCrystal();
 
 
 

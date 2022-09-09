@@ -1,6 +1,13 @@
 package com.deco2800.game.entities.factories;
 
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
@@ -15,7 +22,11 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.util.Objects;
+import java.util.SortedMap;
 
 /**
  * Factory to create crystal entity.
@@ -32,18 +43,18 @@ public class CrystalFactory {
      * Creates a crystal entity.
      * @return entity
      */
-    public static Entity createCrystal() {
+    public static Entity createCrystal(String texture, String name) {
         Entity crystal =
                 new Entity()
-                        .addComponent(new TextureRenderComponent("images/crystal.png"))
+                        .addComponent(new TextureRenderComponent(texture))
                         .addComponent(new PhysicsComponent())
                         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
-                .addComponent(new HealthBarComponent(50, 15));
-        ServiceLocator.getEntityService().registerNamed("crystal", crystal);
+                .addComponent(new HealthBarComponent(50, 10));
+        ServiceLocator.getEntityService().registerNamed(name, crystal);
 
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
@@ -54,8 +65,10 @@ public class CrystalFactory {
     }
 
 
-
-
+    public static void triggerCrystal(String texture) {
+        Entity crystal = createCrystal(texture,"crystal2");
+        crystal.setPosition(new Vector2(60, 0));
+    }
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");

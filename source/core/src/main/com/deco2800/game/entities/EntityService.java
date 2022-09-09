@@ -52,6 +52,10 @@ public class EntityService {
     return this.namedEntities.get(name);
   }
 
+  public void unregisterNamed(String key) {
+    this.namedEntities.remove(key);
+  }
+
   /**
    * Returns the last registered entity
    * @return the last registered entity or null
