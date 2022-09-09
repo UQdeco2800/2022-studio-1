@@ -39,6 +39,8 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_ROCKS = 3;
   private static final int MIN_NUM_CRABS = 5;
   private static final int MAX_NUM_CRABS = 9;
+  private static final int MIN_NUM_EELS = 2;
+  private static final int MAX_NUM_EELS = 6;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -113,7 +115,7 @@ public class ForestGameArea extends GameArea {
     //        this::spawnSetCrabs);
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
-            this::spawnSetCrabs);
+            this::spawnSetEnemies);
   }
 
   /**
@@ -142,7 +144,7 @@ public class ForestGameArea extends GameArea {
 
     spawnMeleeBoss();
 
-    spawnElectricEelEnemy();
+   //spawnElectricEelEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -387,7 +389,10 @@ public class ForestGameArea extends GameArea {
     return crystal;
   }
 
-  private void spawnSetCrabs(DayNightCycleStatus partOfDay) {
+  /**
+   * Spawns crabs at certain part of the day
+   */
+  private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay){
       case DAWN:
         break;
@@ -398,6 +403,9 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
+        }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
+          spawnElectricEelEnemy();
         }
         break;
     }
@@ -423,7 +431,7 @@ public class ForestGameArea extends GameArea {
   }
 
   /**
-   * Spawns an enemy on the map
+   * Spawns an enemy on the map at a random position surrounding the island
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {

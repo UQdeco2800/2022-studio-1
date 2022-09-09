@@ -41,6 +41,10 @@ class GameAreaTest {
     verify(entity).dispose();
   }
 
+  /**
+   * Checks whether entities can be spawned at a certain part of day
+   * There were many errors regarding creating entities using methods called by DayNightCycleService's listener
+   */
   @Test
     void shouldSpawnEntitiesAtNight() {
       DayNightCycleConfig config = new DayNightCycleConfig();
