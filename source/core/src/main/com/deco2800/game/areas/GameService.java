@@ -1,6 +1,7 @@
 package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.entities.Entity;
@@ -28,7 +29,15 @@ public class GameService {
     private HashMap<GridPoint2, String> uiMap = new HashMap<>();
     private HashMap<GridPoint2, String> entityMap = new HashMap<>();
     private HashMap<GridPoint2, HashMap<String, String>> mapMap = new HashMap<>();
-    private HashMap<String, String> mapFeatures = new HashMap<String, String>();
+
+    public void setUpMap (int mapSize) {
+        for (int i = 0; i < mapSize; i++) {
+            for (int j = 0; j < mapSize; j++) {
+                mapMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
+                mapMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
+            }
+        }
+    }
 
     /**
      * Register a new ui component with the ui map. The ui component will be created and start updating.
@@ -38,7 +47,7 @@ public class GameService {
      */
     public void registerUi(GridPoint2 location, String name, Entity entity) {
         logger.debug("Registering {} @ {} in ui service", name, location);
-        uiMap.put(location, name);
+        uiMap.put(location, new HashMap<String, String> mapFeatures );
         entity.create();
     }
 
