@@ -108,6 +108,7 @@ public class MainMenuDisplay extends UIComponent {
 
     mainTable.add(title).padBottom(50f);
     mainTable.row();
+    mainTable.add(homeButton);
     mainTable.row();
     mainTable.add(exitButton);
 

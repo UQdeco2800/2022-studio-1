@@ -22,6 +22,7 @@ public class AtlantisSinks extends Game {
   private static final Logger logger = LoggerFactory.getLogger(AtlantisSinks.class);
 
   public static boolean gameRunning = false;
+  public static boolean playEpilogue = true;
 
   @Override
   public void create() {
@@ -84,7 +85,6 @@ public class AtlantisSinks extends Game {
    */
   private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {
     gameRunning = screenType == ScreenType.MAIN_GAME;
-
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);

@@ -28,6 +28,7 @@ public class StoryLineActions extends Component {
      */
     private void onSkip() {
         logger.info("Start game");
+        AtlantisSinks.playEpilogue = false;
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, new CareTaker());
     }
 
