@@ -122,6 +122,7 @@ public class StoryLineDisplay extends UIComponent {
                             rootTable.setBackground(temp);
 
                             sub.setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal(currentFrame.f.getCharacters()))));
+                            skipTable.clear();
 
                         } else {
                             entity.getEvents().trigger("skip");
