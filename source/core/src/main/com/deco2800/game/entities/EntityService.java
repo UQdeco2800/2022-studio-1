@@ -85,6 +85,12 @@ public class EntityService {
     entities.removeValue(entity, true);
   }
 
+  public void removeNamedEntity (String name, Entity entity) {
+    logger.debug("Unregistering {} in entity service", entity);
+    this.namedEntities.remove(name, entity);
+    this.unregister(entity);
+  }
+
   /**
    * Update all registered entities. Should only be called from the main game loop.
    */
