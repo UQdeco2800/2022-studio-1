@@ -62,6 +62,7 @@ public class ResourceBuildingFactory {
                 .addComponent(new HealthBarComponent(75, 10));
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
+        stoneQuarry.setScale(1.5f, 1.2f);
         return stoneQuarry;
     }
 

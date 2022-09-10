@@ -152,9 +152,9 @@ public static Entity createTrap() {
   /**
    * Function which handles the refund of player's resources should they sell a building. 
    * 
-   * Refunds 80% of the buildings original cost * <Percentage of buildings health compared to max health>
+   * Refunds 80% of the buildings original cost
    * 
-   * @param Entity : the building to refund
+   * @param structure : the building to refund
    */
   public static void handleRefund(Entity structure, int refundMultiplier) {
     //Iterate through Entity list to obtain PLAYER

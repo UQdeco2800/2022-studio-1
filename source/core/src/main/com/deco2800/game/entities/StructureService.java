@@ -200,7 +200,7 @@ public class StructureService extends EntityService{
     if (anyStructureHit) {
       buildEvent = false;
       isClear = false;
-      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true);
+      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
       toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
