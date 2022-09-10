@@ -88,7 +88,11 @@ public class ForestGameArea extends GameArea {
       "images/stoneQuarryTest.png",
       "images/wall-right.png",
       "images/mini_tower.png",
-      "images/ElectricEel.png"
+      "images/Eel_Bright_SW.png",
+          "images/Eel_Bright_NE.png",
+          "images/Eel_Bright_NW.png",
+          "images/Eel_Bright_SW.png"
+
   };
 
   private static final String[] forestTextureAtlases = {
