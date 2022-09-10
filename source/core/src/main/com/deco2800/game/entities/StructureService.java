@@ -150,21 +150,24 @@ public class StructureService extends EntityService{
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
     if (!uiIsVisible) {
-      if (Objects.equals(name, "wall")) {
-        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-        structureRects.put(entityName, rectangle);
-      } else if (Objects.equals(name, "tower1")) {
-        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-        structureRects.put(entityName, rectangle);
-      } else if (Objects.equals(name, "trap")) {
-        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-        structureRects.put(entityName, rectangle);
+      System.out.println(ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y));
+      if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
+        if (Objects.equals(name, "wall")) {
+          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
+          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+          structureRects.put(entityName, rectangle);
+        } else if (Objects.equals(name, "tower1")) {
+          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
+          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+          structureRects.put(entityName, rectangle);
+        } else if (Objects.equals(name, "trap")) {
+          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
+          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+          structureRects.put(entityName, rectangle);
+        }
       }
     }
   }

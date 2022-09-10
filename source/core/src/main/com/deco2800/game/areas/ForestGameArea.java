@@ -81,7 +81,11 @@ public class ForestGameArea extends GameArea {
       "images/stoneQuarryTest.png",
       "images/wall-right.png",
       "images/mini_tower.png",
-      "images/ElectricEel.png"
+      "images/Eel_Bright_SW.png",
+          "images/Eel_Bright_NE.png",
+          "images/Eel_Bright_NW.png",
+          "images/Eel_Bright_SW.png"
+
   };
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -113,10 +117,8 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-<<<<<<< HEAD
 //    entityMapping = new EnvironmentalCollision(terrain);
-=======
->>>>>>> origin/main
+
 
     crystal = spawnCrystal(60, 60);
 
@@ -365,12 +367,8 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
-<<<<<<< HEAD
-    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
-=======
-    ServiceLocator.getEntityService().register(pirateCrabEnemy);
->>>>>>> origin/main
 
+    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -395,16 +393,13 @@ public class ForestGameArea extends GameArea {
     }
 
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
-    entityMapping.addEntity(pirateCrabEnemy);
+//    entityMapping.addEntity(pirateCrabEnemy);
   }
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
-<<<<<<< HEAD
+
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-=======
-    ServiceLocator.getEntityService().register(ElectricEelEnemy);
->>>>>>> origin/main
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -422,7 +417,7 @@ public class ForestGameArea extends GameArea {
       }
     }
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
-    entityMapping.addEntity(ElectricEelEnemy);
+//    entityMapping.addEntity(ElectricEelEnemy);
   }
 
   // Spawn the starfish as ranged enemy
@@ -487,8 +482,8 @@ public class ForestGameArea extends GameArea {
     this.unloadAssets();
   }
 
-  public EnvironmentalCollision getEntityMapping() {
-    return entityMapping;
-  }
+//  public EnvironmentalCollision getEntityMapping() {
+//    return entityMapping;
+//  }
 
 }
