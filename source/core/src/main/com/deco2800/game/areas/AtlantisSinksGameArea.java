@@ -85,7 +85,7 @@ public class AtlantisSinksGameArea extends GameArea {
     @Override
     public void create() {
         loadAssets();
-        ServiceLocator.getGameService().setupMap(120);
+        ServiceLocator.getGameService().setUpEntities(120);
         spawnTerrain();
         crystal = spawnCrystal(60, 60);
 
