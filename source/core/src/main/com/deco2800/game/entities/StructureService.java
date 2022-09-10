@@ -160,6 +160,11 @@ public class StructureService extends EntityService{
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
         Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
         structureRects.put(entityName, rectangle);
+      } else if (Objects.equals(name, "trap")) {
+        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+        structureRects.put(entityName, rectangle);
       }
     }
   }
@@ -198,6 +203,8 @@ public class StructureService extends EntityService{
       }
     }
     if (anyStructureHit) {
+      //Entity structure = ServiceLocator.getStructureService().getNamedEntity(clickedStructure);
+      //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
       table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
