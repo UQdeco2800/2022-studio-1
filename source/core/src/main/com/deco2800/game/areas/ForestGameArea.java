@@ -8,6 +8,7 @@ import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -131,9 +132,9 @@ public class ForestGameArea extends GameArea {
 
     spawnPirateCrabEnemy();
 
-    spawnElectricEelEnemy();
+    // spawnElectricEelEnemy();
 
-    spawnEnvironmentalObjects();
+    // spawnEnvironmentalObjects();
 
     playMusic();
 
@@ -371,12 +372,7 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
 
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
 
     int counter = 0;
 
@@ -385,9 +381,8 @@ public class ForestGameArea extends GameArea {
      * attempts fail then no valid
      * coordinates were found and the enemy will not be spawned
      */
-    while (ServiceLocator.getEntityService().wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
-        || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
-      randomPos = RandomUtils.random(minPos, maxPos);
+    while (ServiceLocator.getEntityService().wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)) {
+      randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
       if (counter > 1000) {
         return;
       }
@@ -399,15 +394,11 @@ public class ForestGameArea extends GameArea {
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
 
     while (true) {
-      randomPos = RandomUtils.random(minPos, maxPos);
+      randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
       if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
           || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
         continue;
