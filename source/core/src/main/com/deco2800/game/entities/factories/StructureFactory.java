@@ -245,4 +245,8 @@ public static Entity createTrap() {
     } 
 
   }
+
+  public void buildingNameConfig() {
+
+  }
 }
