@@ -123,7 +123,7 @@ public class NPCFactory {
   public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
     Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ElectricEel.png");
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
 
     ElectricEelEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -134,6 +134,28 @@ public class NPCFactory {
 
     return ElectricEelEnemy;
   }
+
+//  public static Entity createStarFish(Entity target) {
+//    Entity starFish = createBaseRangeNPC(target);
+//    EnemyConfig config = configs.starfish;
+//
+//    /** AnimationRenderComponent animator =
+//            new AnimationRenderComponent(
+//                    ServiceLocator.getResourceService()
+//                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+//    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+//    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+//
+//    starFish
+//            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+//            .addComponent(animator)
+//            .addComponent(new HealthBarComponent(100, 10))
+//            .addComponent(new GhostAnimationController()); */
+//
+//    starFish.getComponent(AnimationRenderComponent.class).scaleEntity();
+//    return starFish;
+//  }
+
 
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
