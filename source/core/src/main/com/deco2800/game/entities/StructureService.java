@@ -136,7 +136,7 @@ public class StructureService extends EntityService{
     uiIsVisible = !uiIsVisible;
   }
 
-   /** Builds a structure at mouse position
+  /** Builds a structure at mouse position
    * @param name name of the structure in game entity list
    * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    */
@@ -207,8 +207,8 @@ public class StructureService extends EntityService{
       //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
-       table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true);
-       toggleUIisVisible();
+      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
+      toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
       isClear = true;
@@ -233,7 +233,7 @@ public class StructureService extends EntityService{
     resourceBuildState = !resourceBuildState;
     return resourceBuildState;
   }
-  
+
   /**
    * Method stub for returning a given entity's name
    * @param entity
@@ -246,7 +246,7 @@ public class StructureService extends EntityService{
    * Method stub for returning structureRects map
    */
   public SortedMap<String, Rectangle> getStructureRects() {
-      
+
     SortedMap<String, Rectangle> structureRects = new TreeMap<>();
     return structureRects;
 
