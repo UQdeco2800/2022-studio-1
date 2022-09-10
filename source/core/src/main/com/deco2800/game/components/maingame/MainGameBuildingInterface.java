@@ -43,11 +43,6 @@ public class MainGameBuildingInterface extends UIComponent {
     public void addActors() {
     }
 
-    public void setTableVisibility(Table table, Boolean state) {
-        table.remove();
-        //table.setVisible(state);
-        //stage.addActor(table);
-    }
 
     public Table makeUIPopUp(Boolean value, float x, float y) {
         float uiWidth = 800f;

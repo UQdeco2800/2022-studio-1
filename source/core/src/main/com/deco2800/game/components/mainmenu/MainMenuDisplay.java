@@ -64,11 +64,6 @@ public class MainMenuDisplay extends UIComponent {
     TextureRegionDrawable exitDown = new TextureRegionDrawable(exitButton1);
     ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
-//    TextButton startBtn = new TextButton("Start", skin);
-//    TextButton loadBtn = new TextButton("Load", skin);
-//    TextButton settingsBtn = new TextButton("Settings", skin);
-//    TextButton exitBtn = new TextButton("Exit", skin);
-
     // Triggers an event when the button is pressed
     homeButton.addListener(
         new ChangeListener() {
@@ -79,14 +74,6 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
-//    loadButton.addListener(
-//        new ChangeListener() {
-//          @Override
-//          public void changed(ChangeEvent changeEvent, Actor actor) {
-//            logger.debug("Load button clicked");
-//            entity.getEvents().trigger("load");
-//          }
-//        });
 
     settingsButton.addListener(
         new ChangeListener() {
