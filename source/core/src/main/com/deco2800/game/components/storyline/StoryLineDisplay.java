@@ -160,6 +160,7 @@ public class StoryLineDisplay extends UIComponent {
         subsTable.clear();
         charTable.clear();
         skipTable.clear();
+        stage.clear();
         super.dispose();
     }
 }
