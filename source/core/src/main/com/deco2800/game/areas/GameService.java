@@ -5,28 +5,30 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import javax.net.ssl.SSLEngineResult;
+import java.util.*;
 
 /**
  * Provides a global access point for entities, Ui components and initialised map to register themselves.
  * This allows for iterating over these hashmaps to perform updates each loop. Everything in the game should be
  * registered here.
  */
+
+// hasmap <locaton, hashmap<name, tile type>>
 public class GameService {
 
     private static final Logger logger = LoggerFactory.getLogger(GameService.class);
     private static final int INITIAL_CAPACITY = 40;
 
-    private Hashtable<GridPoint2, String> uiMap = new Hashtable<>();
-    private Hashtable<GridPoint2, String> entityMap = new Hashtable<>();
-    private Hashtable<GridPoint2, String> mapMap = new Hashtable<>();
+    private HashMap<GridPoint2, String> uiMap = new HashMap<>();
+    private HashMap<GridPoint2, String> entityMap = new HashMap<>();
+    private HashMap<GridPoint2, HashMap<String, String>> mapMap = new HashMap<>();
+    private HashMap<String, String> mapFeatures = new HashMap<String, String>();
 
     /**
      * Register a new ui component with the ui map. The ui component will be created and start updating.
@@ -39,6 +41,8 @@ public class GameService {
         uiMap.put(location, name);
         entity.create();
     }
+
+    // grass water cliff
 
     /**
      * Register a new entity component with the entity map. The entity component will be created and start updating.
@@ -58,9 +62,10 @@ public class GameService {
      * @param entity the entity you want to initialise
      * @param name the name of the uq component
      */
-    public void registerMap(GridPoint2 location, String name, Entity entity) {
+    public void registerMap(GridPoint2 location, String name, Entity entity, String tileType) {
         logger.debug("Registering {} @ {} in ui service", name, location);
-        mapMap.put(location, name);
+        mapMap.put(location, mapFeatures);
+        mapFeatures.put(name, tileType);
         ServiceLocator.getEntityService().registerNamed(name, entity);
     }
 
@@ -72,6 +77,33 @@ public class GameService {
         logger.debug("Unregistering {} in entity service", name);
         mapMap.remove(location, name);
         ServiceLocator.getEntityService().removeNamedEntity(name, entity);
+    }
+
+
+    /**
+     * Unregister an entity with the entity service using its name. The entity will be removed and stop updating.
+     * @param entity entity to be removed.
+     */
+    public void removeNamedEntity (GridPoint2 location, String name, Entity entity) {
+        logger.debug("Unregistering {} in entity service", entity);
+        if (uiMap.containsValue(name)) {
+            uiMap.remove(location);
+        } else if (mapMap.containsValue(name)) {
+            mapMap.remove(location);
+        } else if (entityMap.containsValue(name)) {
+            entityMap.remove(location);
+        }
+        ServiceLocator.getEntityService().removeNamedEntity(name, entity);
+    }
+
+    /**
+     * Dispose all entities.
+     */
+    public void dispose() {
+        uiMap.clear();
+        mapMap.clear();
+        entityMap.clear();
+        ServiceLocator.getEntityService().dispose();
     }
 
 
