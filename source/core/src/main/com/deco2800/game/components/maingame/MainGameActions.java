@@ -47,7 +47,15 @@ public class MainGameActions extends Component {
    */
   private void onSettings() {
     logger.info("Launching settings screen");
-    game.setScreen(AtlantisSinks.ScreenType.SETTINGS, null);
+    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+            player.getComponent(InventoryComponent.class).getGold(),
+            player.getComponent(InventoryComponent.class).getStone(),
+            player.getComponent(InventoryComponent.class).getWood(),
+            player.getComponent(CombatStatsComponent.class).getHealth(),
+            player.getComponent(InventoryComponent.class).getItems(),
+            player.getComponent(CombatStatsComponent.class).getBaseAttack());
+    playerStatus.add(currentStatus);
+    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
   }
 
   /**

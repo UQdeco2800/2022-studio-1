@@ -10,6 +10,7 @@ import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.GameTime;
@@ -25,8 +26,13 @@ public class SettingsScreen extends ScreenAdapter {
   private final AtlantisSinks game;
   private final Renderer renderer;
 
-  public SettingsScreen(AtlantisSinks game) {
+  private AtlantisSinks.ScreenType backScreen;
+  private CareTaker currentStatus;
+
+  public SettingsScreen(AtlantisSinks game, AtlantisSinks.ScreenType prevScreen, CareTaker playerStatus) {
     this.game = game;
+    backScreen = prevScreen;
+    currentStatus = playerStatus;
 
     logger.debug("Initialising settings screen services");
     ServiceLocator.registerInputService(new InputService());
@@ -69,7 +75,7 @@ public class SettingsScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new SettingsMenuDisplay(game)).addComponent(new InputDecorator(stage, 10));
+    ui.addComponent(new SettingsMenuDisplay(game, backScreen, currentStatus)).addComponent(new InputDecorator(stage, 10));
     ui.addComponent(new MusicSettings(game)).addComponent(new InputDecorator(stage, 9));
     ServiceLocator.getEntityService().register(ui);
   }

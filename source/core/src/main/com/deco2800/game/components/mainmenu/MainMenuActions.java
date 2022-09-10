@@ -55,6 +55,6 @@ public class MainMenuActions extends Component {
    */
   private void onSettings() {
     logger.info("Launching settings screen");
-    game.setScreen(AtlantisSinks.ScreenType.SETTINGS, null);
+    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_MENU, null);
   }
 }

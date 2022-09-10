@@ -136,7 +136,7 @@ public class StructureService extends EntityService{
     uiIsVisible = !uiIsVisible;
   }
 
-   /** Builds a structure at mouse position
+  /** Builds a structure at mouse position
    * @param name name of the structure in game entity list
    * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    */
@@ -157,6 +157,11 @@ public class StructureService extends EntityService{
         structureRects.put(entityName, rectangle);
       } else if (Objects.equals(name, "tower1")) {
         ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+        structureRects.put(entityName, rectangle);
+      } else if (Objects.equals(name, "trap")) {
+        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
         Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
         structureRects.put(entityName, rectangle);
@@ -198,9 +203,11 @@ public class StructureService extends EntityService{
       }
     }
     if (anyStructureHit) {
+      //Entity structure = ServiceLocator.getStructureService().getNamedEntity(clickedStructure);
+      //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
-      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true);
+      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
       toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
@@ -226,7 +233,7 @@ public class StructureService extends EntityService{
     resourceBuildState = !resourceBuildState;
     return resourceBuildState;
   }
-  
+
   /**
    * Method stub for returning a given entity's name
    * @param entity
@@ -239,7 +246,7 @@ public class StructureService extends EntityService{
    * Method stub for returning structureRects map
    */
   public SortedMap<String, Rectangle> getStructureRects() {
-      
+
     SortedMap<String, Rectangle> structureRects = new TreeMap<>();
     return structureRects;
 
