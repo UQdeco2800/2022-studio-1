@@ -128,11 +128,13 @@ public class MainGameScreen extends ScreenAdapter {
 
   @Override
   public void pause() {
+    ServiceLocator.getDayNightCycleService().pause();
     logger.info("Game paused");
   }
 
   @Override
   public void resume() {
+    ServiceLocator.getDayNightCycleService().start();
     logger.info("Game resumed");
   }
 
