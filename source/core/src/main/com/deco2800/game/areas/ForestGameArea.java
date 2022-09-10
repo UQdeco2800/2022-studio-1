@@ -39,15 +39,6 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_ROCKS = 3;
 
   private static final String[] forestTextures = {
-      "test/files/storylineBackground1.png",
-          "test/files/clearBackground.png",
-      "test/files/storylineBackground2.png",
-      "test/files/storylineBackground3.png",
-      "test/files/skipButton.png",
-      "test/files/nextButton.png",
-      "test/files/sub1.png",
-      "test/files/sub2.png",
-      "test/files/sub3.png",
       "images/box_boy.png",
       "images/box_boy_leaf.png",
       "images/Centaur_Back_left.png",

@@ -1,10 +1,21 @@
 package com.deco2800.game.components.storyline;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.deco2800.game.input.InputComponent;
 
+/**
+ * Input handler for the storyline UI for keyboard input.
+ * This input handler only uses keyboard input.
+ */
 public class StoryLineInputComponent extends InputComponent {
 
+    /**
+     * Triggers storyline UI events on specific keycodes.
+     *
+     * @return whether the input was processed
+     * @see InputProcessor#keyDown(int)
+     */
     @Override
     public boolean keyDown(int key) {
         switch (key) {
@@ -18,6 +29,12 @@ public class StoryLineInputComponent extends InputComponent {
         }
     }
 
+    /**
+     * Triggers storyline UI events on specific keycodes.
+     *
+     * @return whether the input was processed
+     * @see InputProcessor#keyUp(int)
+     */
     @Override
     public boolean keyUp(int key) {
         switch (key) {
@@ -27,8 +44,5 @@ public class StoryLineInputComponent extends InputComponent {
                 return false;
         }
     }
-
-
-
 
 }

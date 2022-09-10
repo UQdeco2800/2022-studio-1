@@ -24,8 +24,17 @@ public class StoryLineScreen extends ScreenAdapter{
     private final AtlantisSinks game;
     private final Renderer renderer;
 
+    //load all the texture images
     private static final String[] storylineTextures = {
-            "images/macWallpaper.png"
+            "test/files/storylineBackground1.png",
+            "test/files/clearBackground.png",
+            "test/files/storylineBackground2.png",
+            "test/files/storylineBackground3.png",
+            "test/files/skipButton.png",
+            "test/files/nextButton.png",
+            "test/files/sub1.png",
+            "test/files/sub2.png",
+            "test/files/sub3.png",
     };
 
     public StoryLineScreen(AtlantisSinks game) {

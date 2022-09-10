@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class StoryLineActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(com.deco2800.game.components.storyline.StoryLineActions.class);
-    private AtlantisSinks game;
-
+    private final AtlantisSinks game;
     public StoryLineActions(AtlantisSinks game) {
         this.game = game;
     }

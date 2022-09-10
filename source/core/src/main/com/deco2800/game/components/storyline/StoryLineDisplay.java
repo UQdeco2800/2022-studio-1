@@ -28,9 +28,10 @@ public class StoryLineDisplay extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table rootTable;
     private Table skipTable;
+    private Table charTable;
+    private Table subsTable;
     private TextButton subtitlesDisplay;
     private Image sub;
-
     private StoryLinkedList<Frame> frameset;
     private Node<Frame> currentFrame;
 
@@ -39,7 +40,6 @@ public class StoryLineDisplay extends UIComponent {
     public void create() {
         super.create();
         addActors();
-
     }
 
     private void addActors() {
@@ -48,48 +48,40 @@ public class StoryLineDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setFillParent(true);
 
-/*        Table nextTable = new Table();
-        nextTable.setFillParent(true);
-        nextTable.right().padRight(50);*/
-
         skipTable = new Table();
         skipTable.setFillParent(true);
         skipTable.right().bottom().padRight(50).padBottom(50);
 
-        Table charTable = new Table();
+        charTable = new Table();
         charTable.setFillParent(true);
         charTable.center().padTop(100);
 
-        Table subsTable = new Table();
+        subsTable = new Table();
         subsTable.setFillParent(true);
         subsTable.center().bottom().padBottom(50);
 
+        //load the epilogue screens
         frameset = new StoryLinkedList<>();
         frameset.add(new epilogue1());
         frameset.add(new epilogue2());
         frameset.add(new epilogue3());
         currentFrame = frameset.header;
 
-        // Background Colour
+        // load and set Background
         Texture storylineGradient = new Texture(Gdx.files.internal(currentFrame.f.getBackground()));
         TextureRegionDrawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
+        rootTable.setBackground(storyBackgroundTexture);
+
+        // create a transparent screen to act as button
+        // this allows the screens transition
         Drawable clear = new TextureRegionDrawable(new Texture(Gdx.files.internal("test/files/clearBackground.png")));
         ImageButton backButton = new ImageButton(clear, clear);
-        rootTable.setBackground(storyBackgroundTexture);
 
         // inserting skip Button
         Texture skipButton1 = new Texture(Gdx.files.internal("test/files/skipButton.png"));
         TextureRegionDrawable skipUp = new TextureRegionDrawable(skipButton1);
         TextureRegionDrawable skipDown = new TextureRegionDrawable(skipButton1);
         ImageButton skipButton = new ImageButton(skipUp, skipDown);
-
-        // interesting next button
-/*
-        Texture nextButton1 = new Texture(Gdx.files.internal("test/files/nextButton.png"));
-        TextureRegionDrawable nextUp = new TextureRegionDrawable(nextButton1);
-        TextureRegionDrawable nextDown = new TextureRegionDrawable(nextButton1);
-        ImageButton nextButton = new ImageButton(nextUp, nextDown);
-*/
 
         // load the character image
         Texture currentSubTexture = new Texture(Gdx.files.internal(currentFrame.f.getCharacters()));
@@ -115,6 +107,7 @@ public class StoryLineDisplay extends UIComponent {
                     }
                 });
 
+        // Triggers the transition to next frame when the screen is clicked
         backButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -144,24 +137,16 @@ public class StoryLineDisplay extends UIComponent {
         subsTable.add(subtitlesDisplay).width(500).height(75);
         charTable.add(sub).width(500).height(75);
         skipTable.add(skipButton).width(275).height(150);
-        //nextTable.add(nextButton).width(75).height(150);
 
         stage.addActor(rootTable);
         stage.addActor(subsTable);
         stage.addActor(charTable);
-        //stage.addActor(nextTable);
         stage.addActor(skipTable);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
         // draw is handled by the stage
-    }
-
-
-
-    public void stopChange() {
-        currentFrame = frameset.header;
     }
 
     @Override
@@ -172,7 +157,9 @@ public class StoryLineDisplay extends UIComponent {
     @Override
     public void dispose() {
         rootTable.clear();
-
+        subsTable.clear();
+        charTable.clear();
+        skipTable.clear();
         super.dispose();
     }
 }

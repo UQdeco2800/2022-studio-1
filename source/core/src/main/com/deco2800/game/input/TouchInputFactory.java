@@ -36,7 +36,9 @@ public class TouchInputFactory extends InputFactory {
     return null; // FOR MOUSE PANNING AND ZOOMING
   }
 
+  @Override
   public InputComponent createForStoryLine() {
-    return null;
+    logger.debug("Creating Storyline input handler");
+    return null; //could be used for touch screen transitions
   }
 }

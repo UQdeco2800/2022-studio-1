@@ -47,7 +47,12 @@ public class KeyboardInputFactory extends InputFactory {
         return new KeyboardCameraInputComponent();
     }
 
+    /**
+     * Creates an input handler for the Storyline
+     * @return Storyline input handler
+     */
     public InputComponent createForStoryLine() {
+        logger.debug("Creating Storyline input handler");
         return new StoryLineInputComponent();
     }
 }
