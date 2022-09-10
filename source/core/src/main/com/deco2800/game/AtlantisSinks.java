@@ -66,7 +66,19 @@ public class AtlantisSinks extends Game {
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType, playerStatus));
+    setScreen(newScreen(screenType, playerStatus, null));
+  }
+
+  public void setSettingsScreen(ScreenType prevScreen, CareTaker playerStatus) {
+    logger.info("Setting game screen to {}", ScreenType.SETTINGS);
+    Screen currentScreen = getScreen();
+    if (currentScreen != null) {
+      currentScreen.dispose();
+    }
+
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
+
+    setScreen(newScreen(ScreenType.SETTINGS, playerStatus, prevScreen));
   }
 
   @Override
@@ -83,7 +95,7 @@ public class AtlantisSinks extends Game {
    *                     maintain player states
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {
+  private Screen newScreen(ScreenType screenType, CareTaker playerStatus, ScreenType prevScreen) {
     gameRunning = screenType == ScreenType.MAIN_GAME;
     switch (screenType) {
       case MAIN_MENU:
@@ -93,7 +105,7 @@ public class AtlantisSinks extends Game {
       case MAIN_GAME:
         return new MainGameScreen(this, playerStatus);
       case SETTINGS:
-        return new SettingsScreen(this);
+        return new SettingsScreen(this, prevScreen, playerStatus);
       case SHOP:
         return new ShopScreen(this, playerStatus);
       case BUILD_SHOP:
