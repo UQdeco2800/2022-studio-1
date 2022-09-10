@@ -197,8 +197,7 @@ public class ForestGameArea extends GameArea {
           if (right.getName() == "cliff" || right.getName() == "cliffRight") {
             createBorderWall(x + 1, y);
           }
-          if (rightAbove.getName() == "water" || rightAbove.getName() == "cliffRight"
-              || rightAbove.getName() == "cliff") {
+          if (rightAbove.getName() == "water") {
             createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName() == "cliff") {
@@ -207,7 +206,7 @@ public class ForestGameArea extends GameArea {
           if (leftAbove.getName() == "water") {
             createBorderWall(x - 1, y + 1);
           }
-          if (leftBelow.getName() == "water" || leftBelow.getName() == "cliff" || leftBelow.getName() == "cliffLeft") {
+          if (leftBelow.getName() == "water") {
             createBorderWall(x - 1, y + 1);
           }
         }
