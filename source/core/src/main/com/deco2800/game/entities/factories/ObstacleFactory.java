@@ -10,6 +10,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Factory to create obstacle entities.
@@ -25,8 +26,10 @@ public class ObstacleFactory {
   public static Entity createTree() {
     String[] sprites = {"images/landscape_objects/almond-tree-60x62.png", "images/landscape_objects/fig-tree-60x62.png"};
     int index = (int) ((Math.random() * (sprites.length)));
-    return createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
+    Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
             2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    ServiceLocator.getEntityService().registerNamed("Tree@" + tree.getId(), tree);
+    return tree;
   }
 
   /**
@@ -36,8 +39,10 @@ public class ObstacleFactory {
   public static Entity createRock() {
     String[] sprites = {"images/landscape_objects/limestone-boulder-60x60.png", "images/landscape_objects/marble-stone-60x40.png"};
     int index = (int) ((Math.random() * (sprites.length)));
-    return createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
+    Entity rock = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
             0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
+    return rock;
   }
 
   /**
@@ -45,8 +50,10 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createVine() {
-    return createEnvironmentalObject("images/landscape_objects/vines.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
+    Entity vine = createEnvironmentalObject("images/landscape_objects/vines.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
             2f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
+    ServiceLocator.getEntityService().registerNamed("Vine@" + vine.getId(), vine);
+    return vine;
   }
 
   /**
@@ -54,8 +61,10 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createSpikyTree() {
-    return createEnvironmentalObject("images/landscape_objects/cypress-tree-60x100.png", EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
+    Entity spikyBush = createEnvironmentalObject("images/landscape_objects/cypress-tree-60x100.png", EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
             2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 1f);
+    ServiceLocator.getEntityService().registerNamed("SpikeyBush@" + spikyBush.getId(), spikyBush);
+    return spikyBush;
   }
 
   /**
@@ -63,8 +72,10 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createGeyser() {
-    return createEnvironmentalObject("images/landscape_objects/geyser.png", EnvironmentalComponent.EnvironmentalObstacle.GEYSER,
+    Entity geyser = createEnvironmentalObject("images/landscape_objects/geyser.png", EnvironmentalComponent.EnvironmentalObstacle.GEYSER,
             1f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 0.5f);
+    ServiceLocator.getEntityService().registerNamed("Geyser@" + geyser.getId(), geyser);
+    return geyser;
   }
 
   /**
@@ -72,8 +83,10 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createBillboard() {
-    return createEnvironmentalObject("images/landscape_objects/billboard.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
+    Entity billboard = createEnvironmentalObject("images/landscape_objects/billboard.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
             3f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
+    ServiceLocator.getEntityService().registerNamed("Billboard@" + billboard.getId(), billboard);
+    return billboard;
   }
 
   /**
@@ -100,8 +113,10 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createPillar() {
-    return createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR,
+    Entity pillar = createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR,
             3f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    ServiceLocator.getEntityService().registerNamed("Pillar@" + pillar.getId(), pillar);
+    return pillar;
   }
 
   /**
@@ -109,8 +124,10 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createWoodenFence() {
-    return createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
+    Entity fence = createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
             0.8f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    ServiceLocator.getEntityService().registerNamed("Fence@" + fence.getId(), fence);
+    return fence;
   }
 
 
