@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.SerializationException;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.files.FileLoader;
@@ -27,16 +29,29 @@ public class GameService {
     private static final int INITIAL_CAPACITY = 40;
 
     private HashMap<GridPoint2, String> uiMap = new HashMap<>();
-    private HashMap<GridPoint2, String> entityMap = new HashMap<>();
-    private HashMap<GridPoint2, HashMap<String, String>> mapMap = new HashMap<>();
+    private HashMap<GridPoint2, HashMap<String, String>> entityMap = new HashMap<>();
 
-    public void setUpMap (int mapSize) {
+    public void setUpEntities (int mapSize) {
         for (int i = 0; i < mapSize; i++) {
             for (int j = 0; j < mapSize; j++) {
-                mapMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
-                mapMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
+                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
+                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
+                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("health", null);}});
             }
         }
+    }
+
+    /**
+     * Register a new entity component with the entity map. The entity component will be created and start updating.
+     * @param location the gridpoint on where its initialised
+     * @param entity the entity you want to initialise
+     * @param name the name of the uq component
+     */
+    public void registerEntity(GridPoint2 location, String name, Entity entity) {
+        logger.debug("Registering {} @ {} in ui service", name, location);
+        entityMap.get(location).replace("name", null, name);
+        ServiceLocator.getEntityService().registerNamed(name, entity);
+        ServiceLocator.getEntityService().getLastEntity().setPosition(ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(location));
     }
 
     /**
@@ -49,33 +64,6 @@ public class GameService {
         logger.debug("Registering {} @ {} in ui service", name, location);
         uiMap.put(location, new HashMap<String, String> mapFeatures );
         entity.create();
-    }
-
-    // grass water cliff
-
-    /**
-     * Register a new entity component with the entity map. The entity component will be created and start updating.
-     * @param location the gridpoint on where its initialised
-     * @param entity the entity you want to initialise
-     * @param name the name of the uq component
-     */
-    public void registerEntity(GridPoint2 location, String name, Entity entity) {
-        logger.debug("Registering {} @ {} in ui service", name, location);
-        entityMap.put(location, name);
-        ServiceLocator.getEntityService().registerNamed(name, entity);
-    }
-
-    /**
-     * Register a new entity component with the entity map. The entity component will be created and start updating.
-     * @param location the gridpoint on where its initialised
-     * @param entity the entity you want to initialise
-     * @param name the name of the uq component
-     */
-    public void registerMap(GridPoint2 location, String name, Entity entity, String tileType) {
-        logger.debug("Registering {} @ {} in ui service", name, location);
-        mapMap.put(location, mapFeatures);
-        mapFeatures.put(name, tileType);
-        ServiceLocator.getEntityService().registerNamed(name, entity);
     }
 
     /**
@@ -97,10 +85,8 @@ public class GameService {
         logger.debug("Unregistering {} in entity service", entity);
         if (uiMap.containsValue(name)) {
             uiMap.remove(location);
-        } else if (mapMap.containsValue(name)) {
-            mapMap.remove(location);
-        } else if (entityMap.containsValue(name)) {
-            entityMap.remove(location);
+        } else if (entityMap.get(location).containsValue(name)) {
+            entityMap.get(location).remove(name);
         }
         ServiceLocator.getEntityService().removeNamedEntity(name, entity);
     }
