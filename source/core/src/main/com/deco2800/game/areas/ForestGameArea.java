@@ -132,7 +132,7 @@ public class ForestGameArea extends GameArea {
 
     spawnPirateCrabEnemy();
 
-    // spawnElectricEelEnemy();
+    spawnElectricEelEnemy();
 
     // spawnEnvironmentalObjects();
 
@@ -399,8 +399,7 @@ public class ForestGameArea extends GameArea {
 
     while (true) {
       randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
-      if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
-          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
+      if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)) {
         continue;
       } else {
         break;

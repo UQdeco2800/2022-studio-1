@@ -208,7 +208,7 @@ public class TerrainFactory {
         }
 
         if ((level.get(x).get(y) & (1 << 2)) > 0) {
-          spawnableTiles.add(new GridPoint2(x, y));
+          spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
         }
 
       }
