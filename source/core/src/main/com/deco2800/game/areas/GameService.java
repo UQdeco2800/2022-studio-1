@@ -30,7 +30,7 @@ public class GameService {
     private HashMap<GridPoint2, String> entityMap = new HashMap<>();
     private HashMap<GridPoint2, HashMap<String, String>> mapMap = new HashMap<>();
 
-    public void setUpMap (int mapSize) {
+    public void setupMap (int mapSize) {
         for (int i = 0; i < mapSize; i++) {
             for (int j = 0; j < mapSize; j++) {
                 mapMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
@@ -47,8 +47,8 @@ public class GameService {
      */
     public void registerUi(GridPoint2 location, String name, Entity entity) {
         logger.debug("Registering {} @ {} in ui service", name, location);
-        uiMap.put(location, new HashMap<String, String> mapFeatures );
-        entity.create();
+//        uiMap.put(location, new HashMap<String, String> mapFeatures );
+//        entity.create();
     }
 
     // grass water cliff
@@ -73,8 +73,6 @@ public class GameService {
      */
     public void registerMap(GridPoint2 location, String name, Entity entity, String tileType) {
         logger.debug("Registering {} @ {} in ui service", name, location);
-        mapMap.put(location, mapFeatures);
-        mapFeatures.put(name, tileType);
         ServiceLocator.getEntityService().registerNamed(name, entity);
     }
 

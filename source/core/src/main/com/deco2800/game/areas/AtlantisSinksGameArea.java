@@ -7,8 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -74,24 +76,36 @@ public class AtlantisSinksGameArea extends GameArea {
     private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
     private static final String[] gameMusic = { backgroundMusic };
 
-    public AtlantisSinksGameArea(TerrainFactory terrainFactory) {
+    public AtlantisSinksGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
         super();
+        this.playerStatus = playerStatus;
         this.terrainFactory = terrainFactory;
     }
 
     @Override
     public void create() {
         loadAssets();
+        ServiceLocator.getGameService().setupMap(120);
         spawnTerrain();
-        player = spawnPlayer(PLAYER_SPAWN);
+        crystal = spawnCrystal(60, 60);
 
+        player = spawnPlayer(PLAYER_SPAWN);
     }
 
-    private Entity spawnPlayer(GridPoint2 playerLocation, ) {
+    private Entity spawnPlayer(GridPoint2 playerLocation) {
         Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
         ServiceLocator.getGameService().registerEntity(playerLocation, "phil", newPlayer);
-        //spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
         return newPlayer;
+    }
+
+    private Entity spawnCrystal(int x_pos, int y_pos) {
+        Entity crystal = CrystalFactory.createCrystal();
+        while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
+            x_pos++;
+        }
+        ServiceLocator.getEntityService().addEntity(crystal);
+        spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
+        return crystal;
     }
 
     private void spawnTerrain() {
@@ -164,7 +178,7 @@ public class AtlantisSinksGameArea extends GameArea {
     private void createBorderWall(int x, int y) {
         //Fix this to match Luke's stuff
         Entity wall = ObstacleFactory.createWall(1f, 0.5f);
-        spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+        super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
     }
 
     private void loadAssets() {
@@ -203,23 +217,4 @@ public class AtlantisSinksGameArea extends GameArea {
         ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
         this.unloadAssets();
     }
-
-    @Override
-    protected void spawnEntityAt(
-            Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
-        Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
-        float tileSize = terrain.getTileSize();
-
-        if (centerX) {
-            worldPos.x += (tileSize / 2) - entity.getCenterPosition().x;
-        }
-        if (centerY) {
-            worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
-        }
-
-        entity.setPosition(worldPos);
-        String entityName = "tile" + tilePos.toString();
-        ServiceLocator.getGameService().registerMap(tilePos, entityName, entity);
-    }
-
 }

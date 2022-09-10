@@ -109,7 +109,7 @@ public class MainGameScreen extends ScreenAdapter {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
     // Singleton MainArea responsible for controlling current map and entities
-    MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
+    MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory, playerStatus));
 
     createUI();
     ServiceLocator.getDayNightCycleService().start();
