@@ -456,6 +456,8 @@ public class ForestGameArea extends GameArea {
         spawnNinjaStarfish();
       }
     }
+    // Register ninja starfish in the world
+    ServiceLocator.getEntityService().addEntity(ninjaStarfish);
   }
 
   private void playMusic() {
