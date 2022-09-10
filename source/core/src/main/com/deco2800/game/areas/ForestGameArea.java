@@ -349,6 +349,7 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+    ServiceLocator.getEntityService().registerNamed("player", newPlayer);;
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
