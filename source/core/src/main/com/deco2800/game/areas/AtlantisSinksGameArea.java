@@ -4,23 +4,22 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.areas.GameArea;
-import com.deco2800.game.areas.terrain.MapFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.ObstacleFactory;
+import com.deco2800.game.entities.factories.PlayerFactory;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
 
 
 public class AtlantisSinksGameArea extends GameArea {
 
     private static final Logger logger = LoggerFactory.getLogger(AtlantisSinksGameArea.class);
+    private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
 
     private static final String[] gameTextures = {
             "images/Centaur_Back_left.png",
@@ -75,23 +74,33 @@ public class AtlantisSinksGameArea extends GameArea {
     private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
     private static final String[] gameMusic = { backgroundMusic };
 
-    public AtlantisSinksGameArea(MapFactory mapFactory) {
+    public AtlantisSinksGameArea(TerrainFactory terrainFactory) {
         super();
-        this.mapFactory = mapFactory;
+        this.terrainFactory = terrainFactory;
     }
 
     @Override
     public void create() {
         loadAssets();
+        spawnTerrain();
+        player = spawnPlayer(PLAYER_SPAWN);
+
+    }
+
+    private Entity spawnPlayer(GridPoint2 playerLocation, ) {
+        Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+        ServiceLocator.getGameService().registerEntity(playerLocation, "phil", newPlayer);
+        //spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+        return newPlayer;
     }
 
     private void spawnTerrain() {
         // Background terrain
-        terrain = mapFactory.createTerrain(MapFactory.TerrainType.ATLANTIS_ISO);
-        Entity mapEntity = new Entity().addComponent(terrain);
+        terrain = terrainFactory.createTerrain(TerrainFactory.TerrainType.FOREST_DEMO_ISO);
+        Entity terrainEntity = new Entity().addComponent(terrain);
 
-        areaEntities.add(mapEntity);
-        ServiceLocator.getEntityService().registerNamed("map", mapEntity);
+        areaEntities.add(terrainEntity);
+        ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
         // Terrain walls
         float tileSize = terrain.getTileSize();
@@ -193,6 +202,24 @@ public class AtlantisSinksGameArea extends GameArea {
         super.dispose();
         ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
         this.unloadAssets();
+    }
+
+    @Override
+    protected void spawnEntityAt(
+            Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
+        Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
+        float tileSize = terrain.getTileSize();
+
+        if (centerX) {
+            worldPos.x += (tileSize / 2) - entity.getCenterPosition().x;
+        }
+        if (centerY) {
+            worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
+        }
+
+        entity.setPosition(worldPos);
+        String entityName = "tile" + tilePos.toString();
+        ServiceLocator.getGameService().registerMap(tilePos, entityName, entity);
     }
 
 }
