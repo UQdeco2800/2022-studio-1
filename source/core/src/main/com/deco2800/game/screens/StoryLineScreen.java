@@ -8,6 +8,7 @@ import com.deco2800.game.components.storyline.StoryLineDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
+import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.rendering.RenderService;
@@ -95,9 +96,11 @@ public class StoryLineScreen extends ScreenAdapter{
     private void createUI() {
         logger.debug("Creating storyline ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
+        InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForStoryLine();
         Entity ui = new Entity();
         ui.addComponent(new StoryLineDisplay())
                 .addComponent(new InputDecorator(stage, 10))
+                .addComponent(inputComponent)
                 .addComponent(new StoryLineActions(game));
         ServiceLocator.getEntityService().register(ui);
     }

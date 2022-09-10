@@ -27,6 +27,9 @@ public class StoryLineDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(com.deco2800.game.components.storyline.StoryLineDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table rootTable;
+    private Table skipTable;
+    private TextButton subtitlesDisplay;
+    private Image sub;
 
     private StoryLinkedList<Frame> frameset;
     private Node<Frame> currentFrame;
@@ -36,6 +39,7 @@ public class StoryLineDisplay extends UIComponent {
     public void create() {
         super.create();
         addActors();
+
     }
 
     private void addActors() {
@@ -44,11 +48,11 @@ public class StoryLineDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setFillParent(true);
 
-        Table nextTable = new Table();
+/*        Table nextTable = new Table();
         nextTable.setFillParent(true);
-        nextTable.right().padRight(50);
+        nextTable.right().padRight(50);*/
 
-        Table skipTable = new Table();
+        skipTable = new Table();
         skipTable.setFillParent(true);
         skipTable.right().bottom().padRight(50).padBottom(50);
 
@@ -68,7 +72,9 @@ public class StoryLineDisplay extends UIComponent {
 
         // Background Colour
         Texture storylineGradient = new Texture(Gdx.files.internal(currentFrame.f.getBackground()));
-        Drawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
+        TextureRegionDrawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
+        Drawable clear = new TextureRegionDrawable(new Texture(Gdx.files.internal("test/files/clearBackground.png")));
+        ImageButton backButton = new ImageButton(clear, clear);
         rootTable.setBackground(storyBackgroundTexture);
 
         // inserting skip Button
@@ -78,19 +84,21 @@ public class StoryLineDisplay extends UIComponent {
         ImageButton skipButton = new ImageButton(skipUp, skipDown);
 
         // interesting next button
+/*
         Texture nextButton1 = new Texture(Gdx.files.internal("test/files/nextButton.png"));
         TextureRegionDrawable nextUp = new TextureRegionDrawable(nextButton1);
         TextureRegionDrawable nextDown = new TextureRegionDrawable(nextButton1);
         ImageButton nextButton = new ImageButton(nextUp, nextDown);
+*/
 
         // load the character image
         Texture currentSubTexture = new Texture(Gdx.files.internal(currentFrame.f.getCharacters()));
-        Image sub = new Image(currentSubTexture);
+        sub = new Image(currentSubTexture);
 
         // load the empty dialogue box and populate with text
         Texture empty = new Texture(Gdx.files.internal("test/files/emptyDialogue.png"));
         TextureRegionDrawable testDisplay = new TextureRegionDrawable(empty);
-        TextButton subtitlesDisplay = ShopUtils.createImageTextButton(
+        subtitlesDisplay = ShopUtils.createImageTextButton(
                 currentFrame.f.getSubtitles(),
                 skin.getColor("white"),
                 "button", 1f,
@@ -107,7 +115,7 @@ public class StoryLineDisplay extends UIComponent {
                     }
                 });
 
-        nextButton.addListener(
+        backButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -132,21 +140,28 @@ public class StoryLineDisplay extends UIComponent {
                 });
 
         //Add items to stage
+        rootTable.add(backButton);
         subsTable.add(subtitlesDisplay).width(500).height(75);
         charTable.add(sub).width(500).height(75);
         skipTable.add(skipButton).width(275).height(150);
-        nextTable.add(nextButton).width(75).height(150);
+        //nextTable.add(nextButton).width(75).height(150);
 
         stage.addActor(rootTable);
         stage.addActor(subsTable);
         stage.addActor(charTable);
-        stage.addActor(nextTable);
+        //stage.addActor(nextTable);
         stage.addActor(skipTable);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
         // draw is handled by the stage
+    }
+
+
+
+    public void stopChange() {
+        currentFrame = frameset.header;
     }
 
     @Override
