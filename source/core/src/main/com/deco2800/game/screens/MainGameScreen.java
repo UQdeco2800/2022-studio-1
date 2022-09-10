@@ -84,6 +84,7 @@ public class MainGameScreen extends ScreenAdapter {
             FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
     ServiceLocator.registerDayNightCycleService(dayNightCycleService);
 
+
     PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
     physicsEngine = physicsService.getPhysics();
