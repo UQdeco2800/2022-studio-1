@@ -163,12 +163,13 @@ public class DayNightCycleService {
 
         if (this.isPaused) {
             // Resuming a timer
+            logger.info("Day/night cycle resumed");
             this.isPaused = false;
             return null; // Avoid running another async job
         }
 
         this.isStarted = true;
-        this.setPartOfDayTo(DayNightCycleStatus.DAWN);
+        this.setPartOfDayTo(DayNightCycleStatus.DAY);
 
         return JobSystem.launch(() -> {
             try {
@@ -194,6 +195,7 @@ public class DayNightCycleService {
     public void pause() {
         this.isPaused = true;
         this.timePaused = this.currentDayMillis;
+        logger.info("Day/night cycle paused");
     }
 
     /**
