@@ -40,6 +40,7 @@ public class StoryLineDisplay extends UIComponent {
 
     private void addActors() {
 
+        //create table and set positioning
         rootTable = new Table();
         rootTable.setFillParent(true);
 
@@ -76,14 +77,17 @@ public class StoryLineDisplay extends UIComponent {
         TextureRegionDrawable skipDown = new TextureRegionDrawable(skipButton1);
         ImageButton skipButton = new ImageButton(skipUp, skipDown);
 
+        // interesting next button
         Texture nextButton1 = new Texture(Gdx.files.internal("test/files/nextButton.png"));
         TextureRegionDrawable nextUp = new TextureRegionDrawable(nextButton1);
         TextureRegionDrawable nextDown = new TextureRegionDrawable(nextButton1);
         ImageButton nextButton = new ImageButton(nextUp, nextDown);
 
+        // load the character image
         Texture currentSubTexture = new Texture(Gdx.files.internal(currentFrame.f.getCharacters()));
         Image sub = new Image(currentSubTexture);
 
+        // load the empty dialogue box and populate with text
         Texture empty = new Texture(Gdx.files.internal("test/files/emptyDialogue.png"));
         TextureRegionDrawable testDisplay = new TextureRegionDrawable(empty);
         TextButton subtitlesDisplay = ShopUtils.createImageTextButton(
@@ -118,6 +122,7 @@ public class StoryLineDisplay extends UIComponent {
                             rootTable.setBackground(temp);
 
                             sub.setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal(currentFrame.f.getCharacters()))));
+
                         } else {
                             entity.getEvents().trigger("skip");
                         }
@@ -125,11 +130,11 @@ public class StoryLineDisplay extends UIComponent {
                     }
                 });
 
+        //Add items to stage
         subsTable.add(subtitlesDisplay).width(500).height(75);
         charTable.add(sub).width(500).height(75);
         skipTable.add(skipButton).width(275).height(150);
         nextTable.add(nextButton).width(75).height(150);
-
 
         stage.addActor(rootTable);
         stage.addActor(subsTable);

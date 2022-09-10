@@ -108,7 +108,6 @@ public class MainMenuDisplay extends UIComponent {
 
     mainTable.add(title).padBottom(50f);
     mainTable.row();
-    mainTable.add(homeButton);
     mainTable.row();
     mainTable.add(exitButton);
 
@@ -126,10 +125,6 @@ public class MainMenuDisplay extends UIComponent {
     // draw is handled by the stage
   }
 
-  @Override
-  public float getZIndex() {
-    return Z_INDEX;
-  }
 
   @Override
   public void dispose() {
