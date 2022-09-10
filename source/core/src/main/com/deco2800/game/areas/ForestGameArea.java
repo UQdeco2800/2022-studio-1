@@ -441,7 +441,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
             terrainFactory.getIslandSize().x + waterWidth - 4);
     GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);*/
-    GridPoint2 randomPos = enemySpawnPos.get(MathUtils.random(0, enemySpawnPos.size()));
+    GridPoint2 randomPos = enemySpawnPos.get(MathUtils.random(0, enemySpawnPos.size()-1));
 
     //int counter = 0;
 
