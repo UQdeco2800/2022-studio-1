@@ -1,11 +1,14 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
@@ -90,6 +93,7 @@ public class AtlantisSinksGameArea extends GameArea {
         crystal = spawnCrystal(60, 60);
 
         player = spawnPlayer(PLAYER_SPAWN);
+        player.getEvents().addListener("attack", this::attack);
     }
 
     private Entity spawnPlayer(GridPoint2 playerLocation) {
@@ -122,7 +126,7 @@ public class AtlantisSinksGameArea extends GameArea {
         GridPoint2 tileBounds = terrain.getMapBounds(0);
         Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-        spawnWorldBorders();
+//        spawnWorldBorders();
     }
 
     private void spawnWorldBorders() {
@@ -200,6 +204,34 @@ public class AtlantisSinksGameArea extends GameArea {
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
+    }
+
+    private float _map(float x, float in_min, float in_max, float out_min, float out_max) {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+
+    private GridPoint2 worldPosToTilePos(Vector2 coords) {
+        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+        Vector2 viewPortCoords = new Vector2(camComp.getCamera().viewportWidth, camComp.getCamera().viewportHeight);
+        System.out.println(viewPortCoords);
+        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        float worldWidth = terrain.getTileMapTileLayer(0).getWidth();
+        float worldHeight = terrain.getTileMapTileLayer(0).getHeight();
+        float tileWidth = terrain.getTileMapTileLayer(0).getTileWidth();
+        float tileHeight = terrain.getTileMapTileLayer(0).getTileHeight();
+        GridPoint2 tilePos = new GridPoint2();
+        return tilePos;
+    }
+
+    private void attack() {
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
+        Vector2 playerWorldPos = player.getCenterPosition();
+        System.out.println(playerWorldPos);
+        GridPoint2 playerGridPos = worldPosToTilePos(playerWorldPos);
+        System.out.println(playerGridPos);
+        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50,50)));
     }
 
     private void unloadAssets() {
