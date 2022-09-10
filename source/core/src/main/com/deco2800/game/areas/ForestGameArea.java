@@ -8,7 +8,6 @@ import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -198,8 +197,7 @@ public class ForestGameArea extends GameArea {
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y);
           }
-          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
-              || rightAbove.getName().equals("cliff")) {
+          if (rightAbove.getName() == "water") {
             createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName().equals("cliff")) {
@@ -208,8 +206,7 @@ public class ForestGameArea extends GameArea {
           if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
           }
-          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
-              || leftBelow.getName().equals("cliffLeft")) {
+          if (leftBelow.getName() == "water") {
             createBorderWall(x - 1, y + 1);
           }
         }
