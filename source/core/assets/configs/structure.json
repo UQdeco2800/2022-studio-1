@@ -1,10 +1,40 @@
 {
   "wall": {
     "health": 40,
-    "baseAttack": 0
+    "baseAttack": 0,
+    "gold": 20
   },
   "tower1": {
     "health": 200,
-    "baseAttack": 10
+    "baseAttack": 10,
+    "gold": 30
+  },
+  "tower1I": {
+    "health" : 300,
+    "baseAttack" : 12,
+    "gold": 50
+  },
+  "tower1II" : {
+    "health" : 400,
+    "baseAttack" : 14,
+    "gold" : 50,
+    "stone" : 20
+
+  },
+  "tower1III": {
+    "health" : 500,
+    "baseAttack" : 16,
+    "gold" : 70,
+    "stone" : 30
+  },
+  "trap": {
+    "health" : 150,
+    "baseAttack" : 100,
+    "gold" : 15
+  },
+  "stoneQuarry": {
+    "health": 50,
+    "baseAttack": 0
   }
 }
+

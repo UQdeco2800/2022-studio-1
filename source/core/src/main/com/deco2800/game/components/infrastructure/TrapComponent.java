@@ -1,9 +1,12 @@
-package com.deco2800.game.components;
+package com.deco2800.game.components.infrastructure;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.physics.BodyUserData;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.HitboxComponent;
@@ -17,26 +20,18 @@ import com.deco2800.game.physics.components.PhysicsComponent;
  * <p>Damage is only applied if target entity has a CombatStatsComponent. Knockback is only applied
  * if target entity has a PhysicsComponent.
  */
-public class TouchAttackComponent extends Component {
+public class TrapComponent extends Component {
   private short targetLayer;
   private float knockbackForce = 0f;
   private CombatStatsComponent combatStats;
   private HitboxComponent hitboxComponent;
 
   /**
-   * Create a component which attacks entities on collision, without knockback.
-   * @param targetLayer The physics layer of the target's collider.
-   */
-  public TouchAttackComponent(short targetLayer) {
-    this.targetLayer = targetLayer;
-  }
-
-  /**
    * Create a component which attacks entities on collision, with knockback.
    * @param targetLayer The physics layer of the target's collider.
    * @param knockback The magnitude of the knockback applied to the entity.
    */
-  public TouchAttackComponent(short targetLayer, float knockback) {
+  public TrapComponent(short targetLayer, float knockback) {
     this.targetLayer = targetLayer;
     this.knockbackForce = knockback;
   }
@@ -74,5 +69,13 @@ public class TouchAttackComponent extends Component {
       Vector2 impulse = direction.setLength(knockbackForce);
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
-  }
+    //Set health to zero and remove Trap from map
+    this.getEntity().getComponent(CombatStatsComponent.class).setHealth(0);
+    //StructureFactory.handleBuildingDestruction(this.getEntity());
+
+    }
 }
+
+
+  
+
