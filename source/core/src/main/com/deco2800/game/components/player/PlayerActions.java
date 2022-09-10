@@ -81,7 +81,6 @@ public class PlayerActions extends Component {
     moving = false;
   }
 
-//  Entity closest = ServiceLocator.getEntityService().findClosestEntity();
   /**
    * Makes the player attack.
    */
@@ -97,49 +96,18 @@ public class PlayerActions extends Component {
       keys.add(i);
     }
 
-
-      // Work out how to damage health
-//      ServiceLocator.getEntityService().getNamedEntity(closestToMe).getComponent().
-
-
-//      ServiceLocator.getEntityService().getNamedEntity("Tree").getComponent(CombatStatsComponent.class).=;
-
     int id = closestToMe.getId();
     for (String i : keys) {
       if (i.contains("" + id)) {
         String sub = i.substring(0, i.indexOf("@"));
         switch (sub) {
-          case "Tree":
+          case "Tree", "Vine", "Fence", "SpikeyBush", "Billboard":
             ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO WOOD COUNTER
+            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addWood(10);
             break;
-          case "Rock":
+          case "Rock", "Geyser", "Pillar":
             ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO STONE COUNTER
-            break;
-          case "Vine":
-            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO WOOD COUNTER
-            break;
-          case "Geyser":
-            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO STONE COUNTER
-            break;
-          case "Fence":
-            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO WOOD COUNTER
-            break;
-          case "Pillar":
-            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO STONE COUNTER
-            break;
-          case "SpikeyBush":
-            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO WOOD COUNTER
-            break;
-          case "Billboard":
-            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            // ADD TO WOOD COUNTER
+            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addStone(10);
             break;
           case "pirateCrabEnemy", "electricEelEnemy":
             System.out.println("I am an enemy kill me.");
@@ -161,9 +129,6 @@ public class PlayerActions extends Component {
 
       }
     }
-
-
-
 
   }
 

@@ -120,13 +120,13 @@ public class ForestGameArea extends GameArea {
 
     player = spawnPlayer();
 
-//    spawnPirateCrabEnemy();
+    spawnPirateCrabEnemy();
 
     spawnElectricEelEnemy();
-//
-//    spawnEnvironmentalObjects();
-//
-//    playMusic();
+
+    spawnEnvironmentalObjects();
+
+    playMusic();
 
   }
 

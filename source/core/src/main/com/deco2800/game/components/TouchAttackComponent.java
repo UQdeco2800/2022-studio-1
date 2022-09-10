@@ -43,7 +43,7 @@ public class TouchAttackComponent extends Component {
 
   @Override
   public void create() {
-//    entity.getEvents().addListener("collisionStart", this::onCollisionStart);
+    entity.getEvents().addListener("collisionStart", this::onCollisionStart);
     combatStats = entity.getComponent(CombatStatsComponent.class);
     hitboxComponent = entity.getComponent(HitboxComponent.class);
   }
