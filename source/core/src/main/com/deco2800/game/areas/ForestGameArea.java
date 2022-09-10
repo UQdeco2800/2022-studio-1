@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
@@ -36,6 +37,10 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_TREES = 5;
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
+  private static final int MIN_NUM_CRABS = 5;
+  private static final int MAX_NUM_CRABS = 9;
+  private static final int MIN_NUM_EELS = 2;
+  private static final int MAX_NUM_EELS = 6;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -100,6 +105,7 @@ public class ForestGameArea extends GameArea {
 
   private Entity player;
   private Entity crystal;
+  private List<GridPoint2> enemySpawnPos;
 
   public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
     super();
@@ -109,7 +115,7 @@ public class ForestGameArea extends GameArea {
     //        this::spawnSetCrabs);
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
-            this::spawnSetCrabs);
+            this::spawnSetEnemies);
   }
 
   /**
@@ -130,15 +136,15 @@ public class ForestGameArea extends GameArea {
     crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
-    for (int i = 0; i < 3; i++) {
-      spawnPirateCrabEnemy();
-    }
-    spawnPirateCrabEnemy();
+    //for (int i = 0; i < 4; i++) {
+    //  spawnPirateCrabEnemy();
+    //}
+    //spawnPirateCrabEnemy();
     count = 5;
 
     spawnMeleeBoss();
 
-    spawnElectricEelEnemy();
+   //spawnElectricEelEnemy();
 
     spawnEnvironmentalObjects();
 
@@ -174,6 +180,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnWorldBorders() {
+    enemySpawnPos = new ArrayList<GridPoint2>();
     GridPoint2 mapSize = terrainFactory.getMapSize();
 
     TiledMapTileLayer tiledMapTileLayer = terrain.getTileMapTileLayer(0);
@@ -191,32 +198,41 @@ public class ForestGameArea extends GameArea {
         TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
         TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
 
+        //spawns walls and sets enemy spawn locations behind borders
         if (tile.getName().equals("grass")) {
           if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
+            enemySpawnPos.add(new GridPoint2(x, y + 2));
           }
           if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
             createBorderWall(x, y - 1);
+            enemySpawnPos.add(new GridPoint2(x, y - 2));
           }
           if (left.getName().equals("water")) {
             createBorderWall(x - 1, y);
+            enemySpawnPos.add(new GridPoint2(x - 2, y));
           }
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y);
+            enemySpawnPos.add(new GridPoint2(x + 2, y));
           }
           if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
               || rightAbove.getName().equals("cliff")) {
             createBorderWall(x + 1, y + 1);
+            enemySpawnPos.add(new GridPoint2(x + 2, y + 2));
           }
           if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
+            enemySpawnPos.add(new GridPoint2(x + 2, y - 2));
           }
           if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
+            enemySpawnPos.add(new GridPoint2(x - 2, y + 2));
           }
           if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
               || leftBelow.getName().equals("cliffLeft")) {
-            createBorderWall(x - 1, y + 1);
+            createBorderWall(x - 1, y - 1);
+            enemySpawnPos.add(new GridPoint2(x - 2, y - 2));
           }
         }
       }
@@ -372,7 +388,10 @@ public class ForestGameArea extends GameArea {
     return crystal;
   }
 
-  private void spawnSetCrabs(DayNightCycleStatus partOfDay) {
+  /**
+   * Spawns crabs at certain part of the day
+   */
+  private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay){
       case DAWN:
         break;
@@ -381,7 +400,12 @@ public class ForestGameArea extends GameArea {
       case DUSK:
         break;
       case NIGHT:
-        spawnPirateCrabEnemy();
+        for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
+          spawnPirateCrabEnemy();
+        }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
+          spawnElectricEelEnemy();
+        }
         break;
     }
   }
@@ -406,33 +430,34 @@ public class ForestGameArea extends GameArea {
   }
 
   /**
-   * Spawns an enemy on the map
+   * Spawns an enemy on the map at a random position surrounding the island
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+    /*int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
     GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
             terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);*/
+    GridPoint2 randomPos = enemySpawnPos.get(MathUtils.random(0, enemySpawnPos.size()-1));
 
-    int counter = 0;
+    //int counter = 0;
 
     /*
      * Try randomising coordinates until valid ones are found, if more than 1000
      * attempts fail then no valid
      * coordinates were found and the enemy will not be spawned
      */
-    while (ServiceLocator.getEntityService().wouldCollide(entity, randomPos.x, randomPos.y)
-        || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
+    /*while (ServiceLocator.getEntityService().wouldCollide(entity, randomPos.x, randomPos.y)
+    //    || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
 
-      randomPos = RandomUtils.random(minPos, maxPos);
-      if (counter > 1000) {
-        return;
-      }
-      counter++;
-    }
+      //randomPos = RandomUtils.random(minPos, maxPos);
+      //if (counter > 1000) {
+      //  return;
+      //}
+      //counter++;
+    //}*/
 
     spawnEntityAt(entity, randomPos, true, true);
 
@@ -440,7 +465,7 @@ public class ForestGameArea extends GameArea {
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+    /*int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
     GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
@@ -456,7 +481,8 @@ public class ForestGameArea extends GameArea {
         break;
       }
     }
-    spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
+    spawnEntityAt(ElectricEelEnemy, randomPos, true, true);*/
+    spawnEnemy(ElectricEelEnemy);
   }
 
   // Spawn the starfish as ranged enemy
