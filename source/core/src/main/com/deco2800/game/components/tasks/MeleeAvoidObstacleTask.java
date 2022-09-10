@@ -92,6 +92,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
 /*        if (!PhysicsLayer.contains(me.getFilterData().categoryBits, other.getFilterData().categoryBits)) {
             return;
         }*/
+        //todo also check if it's a sensor
         Entity coll = ((BodyUserData) other.getBody().getUserData()).entity;
         if (coll.getComponent(CombatStatsComponent.class) != null) {
             return;

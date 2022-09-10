@@ -2,7 +2,7 @@ package com.deco2800.game.ai.tasks;
 
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.ComponentType;
-import com.deco2800.game.components.tasks.MeleeAttackObstacleTask;
+//import com.deco2800.game.components.tasks.MeleeAttackObstacleTask;
 import com.deco2800.game.components.tasks.MeleeAvoidObstacleTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,9 +48,9 @@ public class AITaskComponent extends Component implements TaskRunner {
         ((MeleeAvoidObstacleTask) task).registerEntityEvents();
         continue;
       }
-      if (task.getClass() == MeleeAttackObstacleTask.class){
-        ((MeleeAttackObstacleTask) task).registerEntityEvents();
-      }
+//      if (task.getClass() == MeleeAttackObstacleTask.class){
+//        ((MeleeAttackObstacleTask) task).registerEntityEvents();
+//      }
     }
   }
 
