@@ -71,7 +71,7 @@ public class TrapComponent extends Component {
     }
     //Set health to zero and remove Trap from map
     this.getEntity().getComponent(CombatStatsComponent.class).setHealth(0);
-    StructureFactory.handleBuildingDestruction(this.getEntity());
+    //StructureFactory.handleBuildingDestruction(this.getEntity());
 
     }
 }

@@ -3,6 +3,7 @@ package com.deco2800.game.entities.factories;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.RangeAttackComponent;
@@ -26,6 +27,8 @@ import com.deco2800.game.services.ServiceLocator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import javax.sound.sampled.SourceDataLine;
 
 
 /**
@@ -52,7 +55,8 @@ public class StructureFactory {
     BaseStructureConfig config = configs.wall;
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-            .addComponent(new HealthBarComponent(75, 10));
+            .addComponent(new HealthBarComponent(75, 10))
+            .addComponent(new ResourceCostComponent(config.gold));
     return wall;
   }
 
@@ -68,7 +72,8 @@ public static Entity createTrap() {
 
   trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
           .addComponent(new HealthBarComponent(75, 10))
-          .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f));
+          .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
+          .addComponent(new ResourceCostComponent(config.gold));
   return trap;
 }
 
@@ -156,24 +161,22 @@ public static Entity createTrap() {
    * 
    * @param Entity : the building to refund
    */
-  public static void handleRefund(Entity structure, int refundMultiplier) {
-    //Iterate through Entity list to obtain PLAYER
-    for (Entity player : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
-      HitboxComponent hitboxComponent = player.getComponent(HitboxComponent.class);
-      if (hitboxComponent != null) {    
-        if (hitboxComponent.getLayer() == PhysicsLayer.PLAYER) {  //Check entity is the PLAYER
-          //Get the cost of the building
-          int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
-          int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
-          int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+  public static void handleRefund(Entity structure, Float refundMultiplier) {
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+      System.out.println("Checking for inventory component");
+      System.out.println("Got inventory component");
+      //Get the cost of the building
+      int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+      int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+      int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+      System.out.println("refund: " + refundMultiplier);
+      //Add (<resource> * refundMultiplier) to PLAYER's inventory
+      System.out.println("before: " + player.getComponent(InventoryComponent.class).getGold());
 
-          //Add (<resource> * refundMultiplier) to PLAYER's inventory
-          player.getComponent(InventoryComponent.class).addGold(gold * refundMultiplier);
-          player.getComponent(InventoryComponent.class).addStone(stone * refundMultiplier);
-          player.getComponent(InventoryComponent.class).addWood(wood * refundMultiplier);
-        }
-      }
-    }
+      player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
+      System.out.println("After: " + player.getComponent(InventoryComponent.class).getGold());
+      player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
+      player.getComponent(InventoryComponent.class).addWood((int)(wood * refundMultiplier));
   }
 
   /**
@@ -183,10 +186,10 @@ public static Entity createTrap() {
    * In future could be expanded by using Enums vs boolean
    *  
    */
-  public static void handleBuildingDestruction(Entity structure) {
+  public static void handleBuildingDestruction(Entity structure, SortedMap<String, Rectangle> structureRects) {
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
     //Get structureRects from structureService
-    SortedMap<String, Rectangle> structureRects = new TreeMap<>();
+      //SortedMap<String, Rectangle> structureRects = new TreeMap<>();
     //Iterate through structure list and obtain matching rectangle 
     for (Map.Entry<String, Rectangle> rectangle : structureRects.entrySet()){
         if (rectangle.getKey().contains(ServiceLocator.getStructureService().getName(structure))){
@@ -198,7 +201,7 @@ public static Entity createTrap() {
             default: 
               int health = structure.getComponent(CombatStatsComponent.class).getHealth();
               int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
-              int refundMultiplier = REFUNDMULTIPLIER * (health / maxHealth) ;
+              Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
               handleRefund(structure, refundMultiplier);
           }
         }

@@ -203,10 +203,12 @@ public class StructureService extends EntityService{
       }
     }
     if (anyStructureHit) {
+      //Entity structure = ServiceLocator.getStructureService().getNamedEntity(clickedStructure);
+      //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
-      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true);
-      toggleUIisVisible();
+       table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true);
+       toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
       isClear = true;
