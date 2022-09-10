@@ -15,11 +15,13 @@ public class CombatStatsComponent extends Component {
   private int baseHealth;
   private int baseAttack;
   private int level;
+  private int currentAttack;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
     this.baseHealth = health;
+    this.currentAttack = baseAttack;
   }
 
   /**
@@ -30,6 +32,7 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
+    this.currentAttack = baseAttack;
   }
 
   /**
@@ -91,7 +94,15 @@ public class CombatStatsComponent extends Component {
    * @return base attack damage
    */
   public int getBaseAttack() {
-    return baseAttack;
+    return currentAttack;
+  }
+
+  public void addAttack(int attackPower) {
+    currentAttack += attackPower;
+  }
+
+  public void revertAttack() {
+    currentAttack = baseAttack;
   }
 
   /**
@@ -101,7 +112,7 @@ public class CombatStatsComponent extends Component {
    */
   public void setBaseAttack(int attack) {
     if (attack >= 0) {
-      this.baseAttack = attack;
+      this.currentAttack = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }

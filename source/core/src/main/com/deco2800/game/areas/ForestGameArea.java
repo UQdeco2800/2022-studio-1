@@ -136,10 +136,10 @@ public class ForestGameArea extends GameArea {
     crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
-    //for (int i = 0; i < 4; i++) {
-    //  spawnPirateCrabEnemy();
-    //}
-    //spawnPirateCrabEnemy();
+    for (int i = 0; i < 4; i++) {
+      spawnPirateCrabEnemy();
+    }
+    spawnPirateCrabEnemy();
     count = 5;
 
     spawnMeleeBoss();
