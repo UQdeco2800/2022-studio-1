@@ -169,7 +169,7 @@ public class DayNightCycleService {
         }
 
         this.isStarted = true;
-        this.setPartOfDayTo(DayNightCycleStatus.DAY);
+        this.setPartOfDayTo(DayNightCycleStatus.DAWN);
 
         return JobSystem.launch(() -> {
             try {
