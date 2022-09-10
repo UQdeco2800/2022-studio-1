@@ -28,7 +28,7 @@ public class InventoryComponent extends Component {
   private List<Artefact> items = new ArrayList<>();
 
   public InventoryComponent(int gold, int stone, int wood,
-                            Equipments weapon, Equipments chestplate, Equipments helmet) {
+      Equipments weapon, Equipments chestplate, Equipments helmet) {
     setGold(gold);
     setStone(stone);
     setWood(wood);
@@ -42,6 +42,7 @@ public class InventoryComponent extends Component {
     setStone(stone);
     setWood(wood);
   }
+
   public void setWeapon(Equipments weapon) {
     this.weapon = weapon;
   }

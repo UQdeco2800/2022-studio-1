@@ -3,7 +3,6 @@ package com.deco2800.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
 import org.slf4j.Logger;
@@ -76,7 +75,7 @@ public class AtlantisSinks extends Game {
   /**
    * Create a new screen of the provided type.
    * 
-   * @param screenType   screen type
+   * @param screenType screen type
    * @return new screen
    */
   private Screen newScreen(ScreenType screenType) {
