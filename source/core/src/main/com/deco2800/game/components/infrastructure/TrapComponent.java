@@ -69,9 +69,9 @@ public class TrapComponent extends Component {
       Vector2 impulse = direction.setLength(knockbackForce);
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
-    //Remove Trap from map
-    StructureFactory.handleBuildingDestruction(this.getEntity());
+    //Set health to zero and remove Trap from map
     this.getEntity().getComponent(CombatStatsComponent.class).setHealth(0);
+    StructureFactory.handleBuildingDestruction(this.getEntity());
 
     }
 }
