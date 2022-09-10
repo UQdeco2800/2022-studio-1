@@ -216,6 +216,8 @@ public class ShopBuildingDisplay extends UIComponent {
                             rockSound.play();
                         } else {
                             logger.info("Insufficient stone!");
+                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/metal.mp3"));
+                            filesound.play();
                         }
                         entity.getComponent(CommonShopComponents.class).getStoneButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ");
