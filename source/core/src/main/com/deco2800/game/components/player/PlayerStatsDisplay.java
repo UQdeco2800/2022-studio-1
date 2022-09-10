@@ -94,7 +94,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     //Stone text. 0 as an initial set up
     int stone = entity.getComponent(InventoryComponent.class).getStone();
-   // CharSequence stoneCount = String.format("x %d", stone);
+    CharSequence stoneCount = String.format("x %d", stone);
 
     stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
