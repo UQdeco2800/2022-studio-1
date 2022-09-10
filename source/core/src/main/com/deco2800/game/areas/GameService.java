@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +63,7 @@ public class GameService {
         logger.debug("Registering {} @ {} in ui service", name, location);
         mapMap.put(location, name);
         ServiceLocator.getEntityService().registerNamed(name, entity);
+
     }
 
     /**
@@ -72,6 +74,33 @@ public class GameService {
         logger.debug("Unregistering {} in entity service", name);
         mapMap.remove(location, name);
         ServiceLocator.getEntityService().removeNamedEntity(name, entity);
+    }
+
+
+    /**
+     * Unregister an entity with the entity service using its name. The entity will be removed and stop updating.
+     * @param entity entity to be removed.
+     */
+    public void removeNamedEntity (GridPoint2 location, String name, Entity entity) {
+        logger.debug("Unregistering {} in entity service", entity);
+        if (uiMap.containsValue(name)) {
+            uiMap.remove(location);
+        } else if (mapMap.containsValue(name)) {
+            mapMap.remove(location);
+        } else if (entityMap.containsValue(name)) {
+            entityMap.remove(location);
+        }
+        ServiceLocator.getEntityService().removeNamedEntity(name, entity);
+    }
+
+    /**
+     * Dispose all entities.
+     */
+    public void dispose() {
+        uiMap.clear();
+        mapMap.clear();
+        entityMap.clear();
+        ServiceLocator.getEntityService().dispose();
     }
 
 
