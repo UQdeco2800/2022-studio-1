@@ -3,7 +3,6 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.deco2800.game.areas.terrain.MapFactory;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.entities.Entity;
@@ -31,7 +30,6 @@ public abstract class GameArea implements Disposable {
   protected Entity crystal;
   protected CareTaker playerStatus;
   protected TerrainFactory terrainFactory;
-  protected MapFactory mapFactory;
 
   protected GameArea() {
     areaEntities = new ArrayList<>();
@@ -80,6 +78,7 @@ public abstract class GameArea implements Disposable {
     }
 
     entity.setPosition(worldPos);
+
     spawnEntity(entity);
   }
 
