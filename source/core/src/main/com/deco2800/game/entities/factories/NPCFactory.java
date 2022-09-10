@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.GhostAnimationController;
 import com.deco2800.game.components.tasks.ChaseTask;
@@ -26,6 +27,7 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -137,8 +139,8 @@ public class NPCFactory {
 
   // Create starfish as a new entity
   public static Entity createStarFish(Entity target, Entity crystal) {
-    Entity starfish = createBaseRangeNPC(target, crystal);
-    EnemyConfig config = configs.starfish;
+    Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
+    EnemyConfig config = configs.ninjaStarfish;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
     /** AnimationRenderComponent animator =
             new AnimationRenderComponent(
@@ -147,15 +149,15 @@ public class NPCFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     */
-    starfish
+    ninjaStarfish
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent);
+            .addComponent(textureRenderComponent)
+            .addComponent(new DayNightCycleComponent());
 
-    starfish.getComponent(TextureRenderComponent.class).scaleEntity();
-    return starfish;
+    ninjaStarfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    return ninjaStarfish;
   }
-
 
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
