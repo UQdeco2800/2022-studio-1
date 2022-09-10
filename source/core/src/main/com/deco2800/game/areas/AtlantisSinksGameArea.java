@@ -1,4 +1,198 @@
 package com.deco2800.game.areas;
 
-public class AtlantisSinksGameArea {
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.GameArea;
+import com.deco2800.game.areas.terrain.MapFactory;
+import com.deco2800.game.areas.terrain.TerrainFactory;
+import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.ObstacleFactory;
+import com.deco2800.game.services.ResourceService;
+import com.deco2800.game.services.ServiceLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+
+
+public class AtlantisSinksGameArea extends GameArea {
+
+    private static final Logger logger = LoggerFactory.getLogger(AtlantisSinksGameArea.class);
+
+    private static final String[] gameTextures = {
+            "images/Centaur_Back_left.png",
+            "images/Centaur_Back_right.png",
+            "images/Centaur_left.png",
+            "images/Centaur_right.png",
+            "images/tree.png",
+            "images/grass_1.png",
+            "images/grass_2.png",
+            "images/grass_3.png",
+            "images/hex_grass_1.png",
+            "images/hex_grass_2.png",
+            "images/hex_grass_3.png",
+            "images/iso_grass_1.png",
+            "images/iso_grass_2.png",
+            "images/iso_grass_3.png",
+            "images/500_grassTile.png",
+            "images/500_waterFullTile.png",
+            "images/500_waterAndDirtFullTile.png",
+            "images/waterFinalVersion.png",
+            "images/fullSizedDirt.png",
+            "images/waterDirtMerged.png",
+            "images/trial3GrassTile.png",
+            "images/wallTransparent.png",
+            "images/landscape_objects/almond-tree-60x62.png",
+            "images/landscape_objects/fig-tree-60x62.png",
+            "images/landscape_objects/limestone-boulder-60x60.png",
+            "images/landscape_objects/marble-stone-60x40.png",
+            "images/landscape_objects/vines.png",
+            "images/landscape_objects/cypress-tree-60x100.png",
+            "images/landscape_objects/geyser.png",
+            "images/landscape_objects/billboard.png",
+            "images/landscape_objects/chalice.png",
+            "images/landscape_objects/pillar.png",
+            "images/landscape_objects/wooden-fence-60x60.png",
+            "images/pirate_crab_NE.png",
+            "images/pirate_crab_NW.png",
+            "images/pirate_crab_SE.png",
+            "images/pirate_crab_SW.png",
+            "images/crystal.png",
+            "images/stoneQuarryTest.png",
+            "images/wall-right.png",
+            "images/mini_tower.png",
+            "images/Eel_Bright_SW.png",
+            "images/Eel_Bright_NE.png",
+            "images/Eel_Bright_NW.png",
+            "images/Eel_Bright_SW.png"
+    };
+
+    private static final String[] gameSounds = { "sounds/sword_swing.mp3" };
+    public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
+    private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
+    private static final String[] gameMusic = { backgroundMusic };
+
+    public AtlantisSinksGameArea(MapFactory mapFactory) {
+        super();
+        this.mapFactory = mapFactory;
+    }
+
+    @Override
+    public void create() {
+        loadAssets();
+    }
+
+    private void spawnTerrain() {
+        // Background terrain
+        terrain = mapFactory.createTerrain(MapFactory.TerrainType.ATLANTIS_ISO);
+        Entity mapEntity = new Entity().addComponent(terrain);
+
+        areaEntities.add(mapEntity);
+        ServiceLocator.getEntityService().registerNamed("map", mapEntity);
+
+        // Terrain walls
+        float tileSize = terrain.getTileSize();
+        System.out.println(tileSize);
+        GridPoint2 tileBounds = terrain.getMapBounds(0);
+        Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
+
+        spawnWorldBorders();
+    }
+
+    private void spawnWorldBorders() {
+        GridPoint2 mapSize = terrainFactory.getMapSize();
+
+        TiledMapTileLayer tiledMapTileLayer = terrain.getTileMapTileLayer(0);
+
+        for (int x = 1; x < mapSize.x - 1; x++) {
+            for (int y = 1; y < mapSize.y - 1; y++) {
+                TerrainTile tile = (TerrainTile) tiledMapTileLayer.getCell(x, y).getTile();
+
+                TerrainTile above = (TerrainTile) tiledMapTileLayer.getCell(x, y + 1).getTile();
+                TerrainTile below = (TerrainTile) tiledMapTileLayer.getCell(x, y - 1).getTile();
+                TerrainTile left = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y).getTile();
+                TerrainTile right = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y).getTile();
+                TerrainTile rightAbove = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y + 1).getTile();
+                TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y - 1).getTile();
+                TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
+                TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
+
+                if (tile.getName().equals("grass")) {
+                    if (above.getName().equals("water")) {
+                        createBorderWall(x, y + 1);
+                    }
+                    if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
+                        createBorderWall(x, y - 1);
+                    }
+                    if (left.getName().equals("water")) {
+                        createBorderWall(x - 1, y);
+                    }
+                    if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
+                        createBorderWall(x + 1, y);
+                    }
+                    if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
+                            || rightAbove.getName().equals("cliff")) {
+                        createBorderWall(x + 1, y + 1);
+                    }
+                    if (rightBelow.getName().equals("cliff")) {
+                        createBorderWall(x + 1, y - 1);
+                    }
+                    if (leftAbove.getName().equals("water")) {
+                        createBorderWall(x - 1, y + 1);
+                    }
+                    if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
+                            || leftBelow.getName().equals("cliffLeft")) {
+                        createBorderWall(x - 1, y + 1);
+                    }
+                }
+            }
+        }
+    }
+
+    private void createBorderWall(int x, int y) {
+        //Fix this to match Luke's stuff
+        Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+        spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+    }
+
+    private void loadAssets() {
+        logger.debug("Loading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadTextures(gameTextures);
+        resourceService.loadSounds(gameSounds);
+        resourceService.loadSounds(walkSound);
+        resourceService.loadMusic(gameMusic);
+
+        while (!resourceService.loadForMillis(10)) {
+            // This could be upgraded to a loading screen
+            logger.info("Loading... {}%", resourceService.getProgress());
+        }
+    }
+
+    private void playMusic() {
+        Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+        music.setLooping(true);
+        music.setVolume(0.3f);
+        music.play();
+    }
+
+    private void unloadAssets() {
+        logger.debug("Unloading assets");
+        ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(gameTextures);
+        resourceService.unloadAssets(gameSounds);
+        resourceService.unloadAssets(walkSound);
+        resourceService.unloadAssets(gameMusic);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+        this.unloadAssets();
+    }
+
 }
