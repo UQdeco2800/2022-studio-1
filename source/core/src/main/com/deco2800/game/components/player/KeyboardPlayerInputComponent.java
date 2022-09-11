@@ -13,6 +13,7 @@ import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
+import com.deco2800.game.memento.Originator;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 import net.dermetfan.gdx.physics.box2d.PositionController;
@@ -108,6 +109,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.O:
         triggerCrystalAttacked();
         return true;
+      case Keys.U:
+        triggerCrystalUpgrade();
+        return true;
+      case Keys.R:
+        triggerCrystalRestoreHealth();
+        return true;
       case Keys.N:
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
         return true;
@@ -146,8 +153,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     }
     return true;
   }
-
-
 
   /** @see InputProcessor#touchDragged(int, int, int) */
   @Override
@@ -197,10 +202,86 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
-    combatStatsComponent.setHealth(health - 10);
+    combatStatsComponent.setHealth(health - 30);
     //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-
   }
 
+  /**
+   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
+   */
+  private void triggerCrystalUpgrade() {
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+    int level = combatStatsComponent.getLevel();
+    combatStatsComponent.setLevel(level + 1);
+    level = combatStatsComponent.getLevel();
+    if (level == 2) {
+      combatStatsComponent.setMaxHealth(1100);
+      combatStatsComponent.setHealth(1100);
+    } else if (level == 3) {
+      combatStatsComponent.setMaxHealth(1200);
+      combatStatsComponent.setHealth(1200);
+    } else if (level == 4) {
+      combatStatsComponent.setMaxHealth(1300);
+      combatStatsComponent.setHealth(1300);
+    } else if (level == 5) {
+      combatStatsComponent.setMaxHealth(1400);
+      combatStatsComponent.setHealth(1400);
+    } else if (level > 5) {
+      System.out.println("Crystal has reached max level");
+    }
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+  }
 
+  /**
+   * Triggers crystal restore health to can be used in the shopping feature (for testing purposes)
+   */
+  private void triggerCrystalRestoreHealth() {
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+    InventoryComponent inventoryComponent = entity.getComponent(InventoryComponent.class);
+    int gold = inventoryComponent.getGold();
+    int health = combatStatsComponent.getHealth();
+    int maxHealth = combatStatsComponent.getMaxHealth();
+    if (maxHealth - health >= 50) {
+      if (gold >= 5) {
+        inventoryComponent.setGold(gold - 5);
+        combatStatsComponent.setHealth(health + 50);
+      } else {
+        System.out.println("Gold insufficient");
+      }
+    } else if (maxHealth - health >= 40) {
+      if (gold >= 4) {
+        inventoryComponent.setGold(gold - 4);
+        combatStatsComponent.setHealth(health + 40);
+      } else {
+        System.out.println("Gold insufficient");
+      }
+    } else if (maxHealth - health >= 30) {
+      if (gold >= 3) {
+        inventoryComponent.setGold(gold - 3);
+        combatStatsComponent.setHealth(health + 30);
+      } else {
+        System.out.println("Gold insufficient");
+      }
+    } else if (maxHealth - health >= 20) {
+      if (gold >= 2) {
+        inventoryComponent.setGold(gold - 2);
+        combatStatsComponent.setHealth(health + 20);
+      } else {
+        System.out.println("Gold insufficient");
+      }
+    } else if (maxHealth - health >= 10) {
+      if (gold >= 1) {
+        inventoryComponent.setGold(gold - 1);
+        combatStatsComponent.setHealth(health + 10);
+      } else {
+        System.out.println("Gold insufficient");
+      }
+    } else {
+      System.out.println("Crystal has reached max health");
+    }
+    // System.out.println(inventoryComponent.getGold());
+  }
 }
