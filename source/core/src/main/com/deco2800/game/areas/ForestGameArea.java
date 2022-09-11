@@ -3,6 +3,7 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -22,6 +23,8 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,7 +117,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestMusic = {backgroundMusic};
   // private EnvironmentalCollision entityMapping;
 
-  private CareTaker playerStatus;
+  //private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
 
@@ -122,9 +125,10 @@ public class ForestGameArea extends GameArea {
   private Entity crystal;
   private int dayNum = 0;
 
-  public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
+
+
+  public ForestGameArea(TerrainFactory terrainFactory) {
     super();
-    this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
@@ -392,7 +396,9 @@ private void spawnWorldBorders() {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+    Entity newPlayer = PlayerFactory.loadPlayer();
+    ServiceLocator.getEntityService().registerNamed("player", newPlayer);
+    
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }

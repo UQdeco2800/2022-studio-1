@@ -5,7 +5,8 @@ package com.deco2800.game.components.shop.artefacts;
  */
 public class BetterLog extends ShopBuilding {
     static String NAME = "Better Log";
-    static int PRICE = 10;
+    static int STONEPRICE = 10;
+    static int WOODPRICE = 10;
     static String DESCRIPTION = "Increases defence by 15%";
     static double ATTACKMULTI = 1.00;
     static double DEFENCEMULTI = 1.15;
@@ -16,6 +17,6 @@ public class BetterLog extends ShopBuilding {
      * 
      */
     public BetterLog() {
-        super(NAME, PRICE, DESCRIPTION, ATTACKMULTI, DEFENCEMULTI, texture, categoryTexture);
+        super(NAME, STONEPRICE, WOODPRICE,DESCRIPTION, ATTACKMULTI, DEFENCEMULTI, texture, categoryTexture);
     }
 }

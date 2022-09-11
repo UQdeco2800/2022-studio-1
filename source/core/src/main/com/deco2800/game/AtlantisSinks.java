@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.screens.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class AtlantisSinks extends Game {
   private static final Logger logger = LoggerFactory.getLogger(AtlantisSinks.class);
+  private ScreenType screenType;
 
   public static boolean gameRunning = false;
 
@@ -33,7 +33,7 @@ public class AtlantisSinks extends Game {
 
     // start of the game, sets playerStatus to null to create a new caretaker object
     // in the first mainGameScreen
-    setScreen(ScreenType.MAIN_MENU, null);
+    setScreen(ScreenType.MAIN_MENU);
   }
 
   /**
@@ -50,7 +50,7 @@ public class AtlantisSinks extends Game {
    * 
    * @param screenType screen type
    */
-  public void setScreen(ScreenType screenType, CareTaker playerStatus) {
+  public void setScreen(ScreenType screenType) {
     logger.info("Setting game screen to {}", screenType);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
@@ -65,10 +65,10 @@ public class AtlantisSinks extends Game {
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType, playerStatus, null));
+    setScreen(newScreen(screenType, null));
   }
 
-  public void setSettingsScreen(ScreenType prevScreen, CareTaker playerStatus) {
+  public void setSettingsScreen(ScreenType prevScreen) {
     logger.info("Setting game screen to {}", ScreenType.SETTINGS);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
@@ -77,7 +77,7 @@ public class AtlantisSinks extends Game {
 
     Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 
-    setScreen(newScreen(ScreenType.SETTINGS, playerStatus, prevScreen));
+    setScreen(newScreen(ScreenType.SETTINGS, prevScreen));
   }
 
   @Override
@@ -89,34 +89,36 @@ public class AtlantisSinks extends Game {
   /**
    * Create a new screen of the provided type.
    * 
-   * @param screenType   screen type
-   * @param playerStatus caretaker object for main_game screen and shop screen to
-   *                     maintain player states
+   * @param screenType screen type
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, CareTaker playerStatus, ScreenType prevScreen) {
+    
+  private Screen newScreen(ScreenType screenType, ScreenType prevScreen) {
     gameRunning = screenType == ScreenType.MAIN_GAME;
-
+    this.screenType = screenType;
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
       case MAIN_GAME:
-        return new MainGameScreen(this, playerStatus);
+        return new MainGameScreen(this);
       case SETTINGS:
-        return new SettingsScreen(this, prevScreen, playerStatus);
+        return new SettingsScreen(this, prevScreen);
       case SHOP:
-        return new ShopScreen(this, playerStatus);
+        return new ShopScreen(this);
       case BUILD_SHOP:
-        return new ShopBuildScreen(this, playerStatus);
+        return new ShopBuildScreen(this);
       case ARTEFACT_SHOP:
-        return new ShopArtefactScreen(this, playerStatus);
+        return new ShopArtefactScreen(this);
+      case EQUIPMENT_SHOP:
+        return new ShopEquipmentScreen(this);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP
+    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
+    EQUIPMENT_SHOP
   }
 
   /**
@@ -124,5 +126,9 @@ public class AtlantisSinks extends Game {
    */
   public void exit() {
     app.exit();
+  }
+
+  public ScreenType getScreenType() {
+    return screenType;
   }
 }

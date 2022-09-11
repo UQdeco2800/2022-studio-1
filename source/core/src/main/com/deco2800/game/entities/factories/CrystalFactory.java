@@ -51,7 +51,10 @@ public class CrystalFactory {
                         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
+
+
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
+                        0, crystalStats.level))
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
         crystal.setCollectable(false);
