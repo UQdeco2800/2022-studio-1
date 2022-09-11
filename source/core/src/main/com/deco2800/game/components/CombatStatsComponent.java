@@ -1,5 +1,7 @@
 package com.deco2800.game.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
@@ -125,6 +127,8 @@ public class CombatStatsComponent extends Component {
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+    hurtSound.play();
   }
 
   /**
