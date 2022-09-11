@@ -81,10 +81,12 @@ public class ForestGameArea extends GameArea {
       "images/stoneQuarryTest.png",
       "images/wall-right.png",
       "images/mini_tower.png",
+      "images/65x33_tiles/65x33v2Sand.png",
+      "images/65x33_tiles/dayWaterTile.png",
       "images/Eel_Bright_SW.png",
-          "images/Eel_Bright_NE.png",
-          "images/Eel_Bright_NW.png",
-          "images/Eel_Bright_SW.png"
+      "images/Eel_Bright_NE.png",
+      "images/Eel_Bright_NW.png",
+      "images/Eel_Bright_SW.png"
 
   };
   private static final String[] forestTextureAtlases = {
@@ -94,8 +96,6 @@ public class ForestGameArea extends GameArea {
   public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String[] forestMusic = { backgroundMusic };
-
-
 
   public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
     super();
@@ -117,8 +117,7 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-//    entityMapping = new EnvironmentalCollision(terrain);
-
+    // entityMapping = new EnvironmentalCollision(terrain);
 
     crystal = spawnCrystal(60, 60);
 
@@ -128,7 +127,7 @@ public class ForestGameArea extends GameArea {
 
     spawnElectricEelEnemy();
 
-    spawnEnvironmentalObjects();
+    // spawnEnvironmentalObjects();
 
     playMusic();
 
@@ -193,8 +192,7 @@ public class ForestGameArea extends GameArea {
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y);
           }
-          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
-              || rightAbove.getName().equals("cliff")) {
+          if (rightAbove.getName() == "water") {
             createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName().equals("cliff")) {
@@ -203,8 +201,7 @@ public class ForestGameArea extends GameArea {
           if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
           }
-          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
-              || leftBelow.getName().equals("cliffLeft")) {
+          if (leftBelow.getName() == "water") {
             createBorderWall(x - 1, y + 1);
           }
         }
@@ -347,7 +344,8 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
-    ServiceLocator.getEntityService().registerNamed("player", newPlayer);;
+    ServiceLocator.getEntityService().registerNamed("player", newPlayer);
+    ;
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
@@ -369,12 +367,8 @@ public class ForestGameArea extends GameArea {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
 
     ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
 
     int counter = 0;
 
@@ -383,9 +377,8 @@ public class ForestGameArea extends GameArea {
      * attempts fail then no valid
      * coordinates were found and the enemy will not be spawned
      */
-    while (ServiceLocator.getEntityService().wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
-        || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
-      randomPos = RandomUtils.random(minPos, maxPos);
+    while (ServiceLocator.getEntityService().wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)) {
+      randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
       if (counter > 1000) {
         return;
       }
@@ -393,31 +386,26 @@ public class ForestGameArea extends GameArea {
     }
 
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
-//    entityMapping.addEntity(pirateCrabEnemy);
+    // entityMapping.addEntity(pirateCrabEnemy);
   }
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
 
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
 
     while (true) {
-      randomPos = RandomUtils.random(minPos, maxPos);
-      if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
-          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
+      randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
+      if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)) {
         continue;
       } else {
         break;
       }
     }
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
-//    entityMapping.addEntity(ElectricEelEnemy);
+    // entityMapping.addEntity(ElectricEelEnemy);
   }
 
   // Spawn the starfish as ranged enemy
@@ -482,8 +470,8 @@ public class ForestGameArea extends GameArea {
     this.unloadAssets();
   }
 
-//  public EnvironmentalCollision getEntityMapping() {
-//    return entityMapping;
-//  }
+  // public EnvironmentalCollision getEntityMapping() {
+  // return entityMapping;
+  // }
 
 }
