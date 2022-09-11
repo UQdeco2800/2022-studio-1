@@ -109,9 +109,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.O:
         triggerCrystalAttacked();
         return true;
-      case Keys.U:
-        triggerCrystalUpgrade();
-        return true;
       case Keys.R:
         triggerCrystalRestoreHealth();
         return true;
@@ -206,33 +203,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
 
-  /**
-   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
-   */
-  private void triggerCrystalUpgrade() {
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-    int level = combatStatsComponent.getLevel();
-    combatStatsComponent.setLevel(level + 1);
-    level = combatStatsComponent.getLevel();
-    if (level == 2) {
-      combatStatsComponent.setMaxHealth(1100);
-      combatStatsComponent.setHealth(1100);
-    } else if (level == 3) {
-      combatStatsComponent.setMaxHealth(1200);
-      combatStatsComponent.setHealth(1200);
-    } else if (level == 4) {
-      combatStatsComponent.setMaxHealth(1300);
-      combatStatsComponent.setHealth(1300);
-    } else if (level == 5) {
-      combatStatsComponent.setMaxHealth(1400);
-      combatStatsComponent.setHealth(1400);
-    } else if (level > 5) {
-      System.out.println("Crystal has reached max level");
-    }
-    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
-    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-  }
 
   /**
    * Triggers crystal restore health to can be used in the shopping feature (for testing purposes)

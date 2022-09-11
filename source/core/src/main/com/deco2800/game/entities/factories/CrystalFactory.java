@@ -9,9 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.CrystalConfig;
-import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -19,11 +17,12 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
-import com.deco2800.game.services.ResourceService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
-import java.util.Objects;
-import java.util.SortedMap;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Factory to create crystal entity.
@@ -46,10 +45,6 @@ public class CrystalFactory {
                         .addComponent(new TextureRenderComponent(texture))
                         .addComponent(new PhysicsComponent())
                         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
-                        // changed it back as the crystal is needed on the player layer for AI targeting
-
-                        // I've just moved the hitbox component onto the obstacle layer for now because when it was on
-                        // the NPC layer the player character was attacking it feel free to change this later
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
@@ -93,8 +88,10 @@ public class CrystalFactory {
             ServiceLocator.getEntityService().unregisterNamed("crystal2");
         }
         if(level < 3) {
+            //upgrading only increases max health and does not impact current health
+
             crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(100*level));
-            crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
+            //crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
             crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
         } else System.out.println("Crystal has reached max level");
     }
@@ -120,6 +117,34 @@ public class CrystalFactory {
             }
         }
     }
+
+    /**
+     * Recover crystal health at dawn, day, and dusk
+     */
+    public static void recoverCrystalHealth(Entity crystal) {
+                Timer time = new Timer();
+                TimerTask recoverCrystal = new TimerTask() {
+                    @Override
+                    public void run() {
+                        DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                        System.out.println(status);
+                        switch (status){
+                            case DAWN:
+                            case DAY:
+                            case DUSK:
+                        CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+                        int health = combatStatsComponent.getHealth();
+                        combatStatsComponent.setHealth(health + 10);
+                                break;
+                            case NIGHT:
+                            case NONE:
+                                break;
+                        }
+                    }
+                };
+                time.scheduleAtFixedRate(recoverCrystal, 5000, 5000);
+    }
+
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
