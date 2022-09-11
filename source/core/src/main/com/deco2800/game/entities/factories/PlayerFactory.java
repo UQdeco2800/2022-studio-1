@@ -98,6 +98,7 @@ public class PlayerFactory {
       player.getComponent(InventoryComponent.class).setChestplate(lastStatus.getChestplate());
       player.getComponent(InventoryComponent.class).setHelmet(lastStatus.getHelmet());
 
+      player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
       return player;
     }
   }

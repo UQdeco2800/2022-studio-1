@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -21,6 +22,8 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -114,7 +117,7 @@ public class ForestGameArea extends GameArea {
   private static final String[] forestMusic = {backgroundMusic};
   // private EnvironmentalCollision entityMapping;
 
-  private EnvironmentalCollision entityMapping;
+  //private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
 

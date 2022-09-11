@@ -7,6 +7,7 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,15 +47,20 @@ public class MainGameActions extends Component {
    */
   private void onSettings() {
     logger.info("Launching settings screen");
-    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+
+    Memento currentStatus = new Memento(CareTaker.getInstance().size(),
             player.getComponent(InventoryComponent.class).getGold(),
             player.getComponent(InventoryComponent.class).getStone(),
             player.getComponent(InventoryComponent.class).getWood(),
             player.getComponent(CombatStatsComponent.class).getHealth(),
             player.getComponent(InventoryComponent.class).getItems(),
-            player.getComponent(CombatStatsComponent.class).getBaseAttack());
-    playerStatus.add(currentStatus);
-    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
+            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+            player.getComponent(InventoryComponent.class).getWeapon(),
+            player.getComponent(InventoryComponent.class).getChestplate(),
+            player.getComponent(InventoryComponent.class).getHelmet());
+    CareTaker.getInstance().add(currentStatus);
+    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME);
   }
 
   /**
@@ -64,6 +70,7 @@ public class MainGameActions extends Component {
    */
   private void openShop() {
     logger.info("Exiting main game screen");
+
     CareTaker playerStatus = CareTaker.getInstance();
     Memento currentStatus = new Memento(playerStatus.size(),
         player.getComponent(InventoryComponent.class).getGold(),
@@ -77,6 +84,7 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getChestplate(),
         player.getComponent(InventoryComponent.class).getHelmet());
     playerStatus.add(currentStatus);
+    ServiceLocator.getDayNightCycleService().pause();
     game.setScreen(AtlantisSinks.ScreenType.SHOP);
   }
 

@@ -7,6 +7,7 @@ import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

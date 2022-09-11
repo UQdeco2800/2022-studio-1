@@ -140,6 +140,14 @@ public class PlayerStatsDisplay extends UIComponent {
     crystalLabel.setText(text);
   }
 
+  public void updateResourceAmount() {
+    CharSequence gold = String.format("x %d", entity.getComponent(InventoryComponent.class).getGold());
+    coinLabel.setText(gold);
+
+    CharSequence stone = String.format("x %d", entity.getComponent(InventoryComponent.class).getStone());
+    stoneCurrencyLabel.setText(stone);
+  }
+
   public static void updateStoneCountUI() {
     int stone = 0;
     HashMap<String, Entity> namedEntities = (HashMap<String, Entity>) ServiceLocator.getEntityService().getAllNamedEntities();
