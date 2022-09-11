@@ -45,16 +45,16 @@ public class CrystalFactory {
      */
     public static Entity createCrystal(String texture, String name) {
         Entity crystal =
-
                 new Entity()
                         .addComponent(new TextureRenderComponent(texture))
                         .addComponent(new PhysicsComponent())
                         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
-
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
                 .addComponent(new HealthBarComponent(50, 10));
+        crystal.setName("crystal");
+        crystal.setCollectable(false);
         ServiceLocator.getEntityService().registerNamed("crystal", crystal);
 
 

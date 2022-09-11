@@ -141,7 +141,9 @@ public class ForestGameArea extends GameArea {
     displayUI();
 
     spawnTerrain();
+
     entityMapping = new EnvironmentalCollision(terrain);
+
     spawnEnvironmentalObjects();
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
@@ -432,6 +434,7 @@ private void spawnWorldBorders() {
    */
   private void spawnMeleeBoss() {
     Entity boss = NPCFactory.createMeleeBoss(player);
+    boss.setName("Mr. Zero");
     spawnEnemy(boss);
   }
   public int count = 0;
@@ -440,6 +443,7 @@ private void spawnWorldBorders() {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
+    pirateCrabEnemy.setName("Mr. Crabs");
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
   }
@@ -449,7 +453,7 @@ private void spawnWorldBorders() {
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {
-    ServiceLocator.getEntityService().registerNamed("PirateEnemy@" + entity.getId(), entity);
+    ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
     GridPoint2 randomPos =
             terrainFactory.getSpawnableTiles().get(MathUtils.random(0,terrainFactory.getSpawnableTiles().size()-1));
 
@@ -458,6 +462,7 @@ private void spawnWorldBorders() {
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
+    ElectricEelEnemy.setName("Mr. Electricity");
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
