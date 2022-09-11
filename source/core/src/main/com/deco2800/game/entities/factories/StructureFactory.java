@@ -54,6 +54,7 @@ public class StructureFactory {
     Entity wall = createBaseStructure("images/wall-right.png");
     BaseStructureConfig config = configs.wall;
 
+
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(75, 10))
             .addComponent(new ResourceCostComponent(config.gold));
@@ -71,6 +72,7 @@ public static Entity createTrap() {
   BaseStructureConfig config = configs.trap;
 
   trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+          .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
           .addComponent(new HealthBarComponent(75, 10))
           .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
           .addComponent(new ResourceCostComponent(config.gold));
@@ -97,7 +99,6 @@ public static Entity createTrap() {
         config = configs.tower1;
     
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
-                .addComponent(new HealthBarComponent(75, 10))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                 .addComponent(new ResourceCostComponent(config.gold));
         return tower1;
@@ -106,7 +107,6 @@ public static Entity createTrap() {
         tower1 = createBaseStructure(TOWER1I);
         config = configs.tower1I;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
-                .addComponent(new HealthBarComponent(75, 10))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                 .addComponent(new ResourceCostComponent(config.gold));
         return tower1;
@@ -115,7 +115,6 @@ public static Entity createTrap() {
           tower1 = createBaseStructure(TOWER1II);
           config = configs.tower1II;
           tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
-                  .addComponent(new HealthBarComponent(75, 10))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                   .addComponent(new ResourceCostComponent(config.gold, config.stone));
           return tower1;
@@ -243,6 +242,10 @@ public static Entity createTrap() {
         }
 
     } 
+
+  }
+
+  public void buildingNameConfig() {
 
   }
 }
