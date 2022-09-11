@@ -87,51 +87,50 @@ public class PlayerActions extends Component {
    * Makes the player attack.
    */
   void attack() {
-//    System.out.println("Attacking...");
-//    Entity current = MainArea.getInstance().getGameArea().getPlayer();
-//    Entity closestToMe =
-//            MainArea.getInstance().getGameArea().getEntityMapping().findClosetEntity((int) current.getPosition().x,
-//                    (int) current.getPosition().y);
-//
-//    ArrayList<String> keys = new ArrayList<>();
-//    for (String i : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
-//      keys.add(i);
-//    }
-//
-//    int id = closestToMe.getId();
-//    for (String i : keys) {
-//      if (i.contains("" + id)) {
-//        String sub = i.substring(0, i.indexOf("@"));
-//        switch (sub) {
-//          case "Tree", "Vine", "Fence", "SpikeyBush", "Billboard":
-//            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-//            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addWood(10);
-//            break;
-//          case "Rock", "Geyser", "Pillar":
-//            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-//            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addStone(10);
-//            break;
-//          case "pirateCrabEnemy", "electricEelEnemy":
-//            System.out.println("I am an enemy kill me.");
-//            CombatStatsComponent targetStats = closestToMe.getComponent(CombatStatsComponent.class);
-//            if (targetStats != null) {
-//              CombatStatsComponent combatStats = new CombatStatsComponent(1, 10);
-//              int targetHealth = closestToMe.getComponent(CombatStatsComponent.class).getHealth();
-//              System.out.println("" + targetHealth);
-//              targetStats.hit(combatStats);
-//              int newHealth = closestToMe.getComponent(CombatStatsComponent.class).getHealth();
-//              if (newHealth < 1) {
-//                closestToMe.dispose();
-//              }
-//              closestToMe.getComponent(CombatStatsComponent.class).setHealth(newHealth);
-//              System.out.println("" + newHealth);
-//              combatStats.dispose();
-//            }
-//        }
+     System.out.println("Attacking...");
+    Entity current = MainArea.getInstance().getGameArea().getPlayer();
+    Entity closestToMe =
+            MainArea.getInstance().getGameArea().getEntityMapping().findClosetEntity((int) current.getPosition().x,
+                    (int) current.getPosition().y);
 
-//      }
-//    }
+    ArrayList<String> keys = new ArrayList<>();
+    for (String i : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
+      keys.add(i);
     }
+
+    int id = closestToMe.getId();
+    for (String i : keys) {
+      if (i.contains("" + id)) {
+        String sub = i.substring(0, i.indexOf("@"));
+        switch (sub) {
+          case "Tree", "Vine", "Fence", "SpikeyBush", "Billboard":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addWood(10);
+            break;
+          case "Rock", "Geyser", "Pillar":
+            ServiceLocator.getEntityService().getNamedEntity(i).dispose();
+            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addStone(10);
+            break;
+          case "pirateCrabEnemy", "electricEelEnemy":
+            System.out.println("I am an enemy kill me.");
+            CombatStatsComponent targetStats = closestToMe.getComponent(CombatStatsComponent.class);
+            if (targetStats != null) {
+              CombatStatsComponent combatStats = new CombatStatsComponent(1, 10);
+              int targetHealth = closestToMe.getComponent(CombatStatsComponent.class).getHealth();
+              System.out.println("" + targetHealth);
+              targetStats.hit(combatStats);
+              int newHealth = closestToMe.getComponent(CombatStatsComponent.class).getHealth();
+              if (newHealth < 1) {
+                closestToMe.dispose();
+              }
+              closestToMe.getComponent(CombatStatsComponent.class).setHealth(newHealth);
+              System.out.println("" + newHealth);
+              combatStats.dispose();
+            }
+        }
+      }
+    }
+  }
 
 //    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
 //    attackSound.play();

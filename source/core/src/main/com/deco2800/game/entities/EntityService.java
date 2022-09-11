@@ -134,12 +134,13 @@ public class EntityService {
     float smallestDistance = 99999;
 
     for (Entity entity: entityMap.values()) {
+
       float entityX = entity.getCenterPosition().x;
       float entityY = entity.getCenterPosition().y;
 
       double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
 
-      if (currentDistance < smallestDistance) {
+      if (currentDistance < smallestDistance && (entity != ServiceLocator.getEntityService().getNamedEntity("phil") || entity != ServiceLocator.getEntityService().getNamedEntity("crystal"))) {
         closetEntity = entity;
       }
     }
@@ -229,5 +230,9 @@ public class EntityService {
       return true;
     }
     return false;
+  }
+
+  public Hashtable<Vector2, Entity> getEntityMap() {
+    return entityMap;
   }
 }

@@ -1,6 +1,7 @@
 package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
@@ -82,10 +83,9 @@ public class ForestGameArea extends GameArea {
       "images/wall-right.png",
       "images/mini_tower.png",
       "images/Eel_Bright_SW.png",
-          "images/Eel_Bright_NE.png",
-          "images/Eel_Bright_NW.png",
-          "images/Eel_Bright_SW.png"
-
+      "images/Eel_Bright_NE.png",
+      "images/Eel_Bright_NW.png",
+      "images/Eel_Bright_SW.png"
   };
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
@@ -94,8 +94,6 @@ public class ForestGameArea extends GameArea {
   public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String[] forestMusic = { backgroundMusic };
-
-
 
   public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
     super();
@@ -117,8 +115,7 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-//    entityMapping = new EnvironmentalCollision(terrain);
-
+    entityMapping = new EnvironmentalCollision(terrain);
 
     crystal = spawnCrystal(60, 60);
 
@@ -148,10 +145,7 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    Entity terrainEntity = new Entity().addComponent(terrain);
-
-    areaEntities.add(terrainEntity);
-    ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
+    spawnEntity(new Entity().addComponent(terrain));
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -188,24 +182,22 @@ public class ForestGameArea extends GameArea {
             createBorderWall(x, y - 1);
           }
           if (left.getName().equals("water")) {
-            createBorderWall(x - 1, y);
+            createBorderWall(x -1 , y);
           }
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
-            createBorderWall(x + 1, y);
+            createBorderWall(x + 1, y );
           }
-          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
-              || rightAbove.getName().equals("cliff")) {
+          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight") || rightAbove.getName().equals("cliff")) {
             createBorderWall(x + 1, y + 1);
           }
           if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
           }
           if (leftAbove.getName().equals("water")) {
-            createBorderWall(x - 1, y + 1);
+            createBorderWall(x -1 , y + 1);
           }
-          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
-              || leftBelow.getName().equals("cliffLeft")) {
-            createBorderWall(x - 1, y + 1);
+          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff") || leftBelow.getName().equals("cliffLeft")) {
+            createBorderWall(x -1, y + 1);
           }
         }
       }
@@ -267,8 +259,8 @@ public class ForestGameArea extends GameArea {
 
       int counter = 0;
       // check for possible collision and reroll location until valid
-      while (ServiceLocator.getEntityService().wouldCollide(envObj, randomPos.x, randomPos.y)
-          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
+      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
         randomPos = RandomUtils.random(minPos, maxPos);
 
         // safety to avoid infinite looping on loading screen.
@@ -280,7 +272,7 @@ public class ForestGameArea extends GameArea {
         counter++;
       }
 
-      ServiceLocator.getEntityService().addEntity(envObj);
+      this.entityMapping.addEntity(envObj);
       spawnEntityAt(envObj, randomPos, true, true);
     }
   }
@@ -347,17 +339,16 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
-    ServiceLocator.getEntityService().registerNamed("player", newPlayer);;
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal();
-    while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
+    while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
-    ServiceLocator.getEntityService().addEntity(crystal);
+    this.entityMapping.addEntity(crystal);
     spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
     return crystal;
   }
@@ -368,7 +359,6 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(player);
 
-    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -383,23 +373,20 @@ public class ForestGameArea extends GameArea {
      * attempts fail then no valid
      * coordinates were found and the enemy will not be spawned
      */
-    while (ServiceLocator.getEntityService().wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
-        || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
+    while (this.entityMapping.wouldCollide(pirateCrabEnemy, randomPos.x, randomPos.y)
+        || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
       randomPos = RandomUtils.random(minPos, maxPos);
       if (counter > 1000) {
         return;
       }
       counter++;
     }
-
+    this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEntityAt(pirateCrabEnemy, randomPos, true, true);
-//    entityMapping.addEntity(pirateCrabEnemy);
   }
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
-
-    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
     int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
 
     GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
@@ -409,39 +396,16 @@ public class ForestGameArea extends GameArea {
 
     while (true) {
       randomPos = RandomUtils.random(minPos, maxPos);
-      if (ServiceLocator.getEntityService().wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
-          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
+      if (this.entityMapping.wouldCollide(ElectricEelEnemy, randomPos.x, randomPos.y)
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
         continue;
       } else {
         break;
       }
     }
+    this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEntityAt(ElectricEelEnemy, randomPos, true, true);
-//    entityMapping.addEntity(ElectricEelEnemy);
   }
-
-  // Spawn the starfish as ranged enemy
-  // private void spawnStarfish() {
-  // Entity starfish = NPCFactory.createStarFish(player);
-  // int waterWidth = (terrain.getMapBounds(0).x -
-  // terrainFactory.getIslandSize().x) / 2;
-  //
-  // //Get the position from 2D coordinates
-  // GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-  // GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x +
-  // waterWidth - 4,
-  // terrainFactory.getIslandSize().x + waterWidth - 4);
-  // GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-  //
-  // //Condition for enemy only spawn at night
-  // /**
-  // while (getCurrentCycleStatus().equal("NIGHT")) {
-  //
-  // } */
-  //
-  // //Create the starfish entity
-  // spawnEntityAt(starfish, randomPos, true, true);
-  // }
 
   private void playMusic() {
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
@@ -482,8 +446,8 @@ public class ForestGameArea extends GameArea {
     this.unloadAssets();
   }
 
-//  public EnvironmentalCollision getEntityMapping() {
-//    return entityMapping;
-//  }
+  public EnvironmentalCollision getEntityMapping() {
+    return entityMapping;
+  }
 
 }
