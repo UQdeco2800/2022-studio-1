@@ -160,7 +160,7 @@ public class EntityService {
 
       double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
 
-      if (currentDistance < smallestDistance && (entity != ServiceLocator.getEntityService().getNamedEntity("phil") || entity != ServiceLocator.getEntityService().getNamedEntity("crystal"))) {
+      if (currentDistance < smallestDistance && (entity != ServiceLocator.getEntityService().getNamedEntity("player") || entity != ServiceLocator.getEntityService().getNamedEntity("crystal"))) {
         closetEntity = entity;
       }
     }

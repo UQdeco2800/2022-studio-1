@@ -105,11 +105,11 @@ public class PlayerActions extends Component {
         switch (sub) {
           case "Tree", "Vine", "Fence", "SpikeyBush", "Billboard":
             ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addWood(10);
+            ServiceLocator.getEntityService().getNamedEntity("player").getComponent(InventoryComponent.class).addWood(10);
             break;
           case "Rock", "Geyser", "Pillar":
             ServiceLocator.getEntityService().getNamedEntity(i).dispose();
-            ServiceLocator.getEntityService().getNamedEntity("phil").getComponent(InventoryComponent.class).addStone(10);
+            ServiceLocator.getEntityService().getNamedEntity("player").getComponent(InventoryComponent.class).addStone(10);
             break;
           case "pirateCrabEnemy", "electricEelEnemy":
             System.out.println("I am an enemy kill me.");

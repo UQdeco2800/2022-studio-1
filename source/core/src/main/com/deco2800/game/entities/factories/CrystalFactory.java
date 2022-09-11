@@ -55,7 +55,7 @@ public class CrystalFactory {
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
                 .addComponent(new HealthBarComponent(50, 10));
-        ServiceLocator.getEntityService().registerNamed(name, crystal);
+        ServiceLocator.getEntityService().registerNamed("crystal", crystal);
 
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
@@ -72,6 +72,7 @@ public class CrystalFactory {
      */
     public static void triggerCrystal(String texture) {
         Entity crystal = createCrystal(texture,"crystal2");
+        ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
         crystal.setPosition(new Vector2(60, 0));
     }
 

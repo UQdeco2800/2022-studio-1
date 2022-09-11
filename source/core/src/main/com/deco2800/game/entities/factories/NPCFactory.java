@@ -119,6 +119,7 @@ public class NPCFactory {
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
 
+
     return pirateCrabEnemy;
   }
 
