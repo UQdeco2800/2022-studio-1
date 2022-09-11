@@ -68,8 +68,7 @@ public class PlayerFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood))
             .addComponent(inputComponent)            
-            .addComponent(new PlayerStatsDisplay())
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
+            .addComponent(new PlayerStatsDisplay());
 
     player.setName("player");
     player.setCollectable(false);
