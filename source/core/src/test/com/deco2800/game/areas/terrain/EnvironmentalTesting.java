@@ -109,26 +109,26 @@ class EnvironmentalTesting {
 
     }
 
-    @Test
-    void assertEffectTargetWorks() {
-        ServiceLocator.registerPhysicsService(new PhysicsService());
-
-        Entity entity = createCollisionObject(CollisionEffectComponent.CollisionEffect.DAMAGE);
-        Entity player = createPlayer();
-        Entity npc = createNpc();
-        entity.getComponent(CollisionEffectComponent.class)
-                .setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
-
-        Fixture entityFixture = entity.getComponent(ColliderComponent.class).getFixture();
-        Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
-        Fixture npcFixture = npc.getComponent(HitboxComponent.class).getFixture();
-
-        entity.getEvents().trigger("collisionStart", entityFixture, npcFixture);
-        entity.getEvents().trigger("collisionStart", entityFixture, playerFixture);
-
-        assertEquals(0, player.getComponent(CombatStatsComponent.class).getHealth());
-        assertEquals(1, npc.getComponent(CombatStatsComponent.class).getHealth());
-    }
+//    @Test
+//    void assertEffectTargetWorks() {
+//        ServiceLocator.registerPhysicsService(new PhysicsService());
+//
+//        Entity entity = createCollisionObject(CollisionEffectComponent.CollisionEffect.DAMAGE);
+//        Entity player = createPlayer();
+//        Entity npc = createNpc();
+//        entity.getComponent(CollisionEffectComponent.class)
+//                .setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
+//
+//        Fixture entityFixture = entity.getComponent(ColliderComponent.class).getFixture();
+//        Fixture playerFixture = player.getComponent(HitboxComponent.class).getFixture();
+//        Fixture npcFixture = npc.getComponent(HitboxComponent.class).getFixture();
+//
+//        entity.getEvents().trigger("collisionStart", entityFixture, npcFixture);
+//        entity.getEvents().trigger("collisionStart", entityFixture, playerFixture);
+//
+//        assertEquals(0, player.getComponent(CombatStatsComponent.class).getHealth());
+//        assertEquals(1, npc.getComponent(CombatStatsComponent.class).getHealth());
+//    }
 
     Entity createPlayer() {
         Entity player = new Entity()

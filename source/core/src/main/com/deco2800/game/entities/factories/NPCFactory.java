@@ -117,6 +117,8 @@ public class NPCFactory {
             .addComponent(textureRenderComponent);
 
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
+
 
     return pirateCrabEnemy;
   }
@@ -132,6 +134,7 @@ public class NPCFactory {
             .addComponent(textureRenderComponent);
 
     ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
 
     return ElectricEelEnemy;
   }
@@ -145,10 +148,10 @@ public class NPCFactory {
    * @return Entity
    */
   public static Entity createMeleeBoss(Entity target) {
-    Entity boss = createBaseNPC(target);
+    Entity boss = createBaseEnemy(target);
     MeleeBossConfig config = configs.meleeBossEnemy;
 
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ghost.png");
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     boss
@@ -179,10 +182,7 @@ public class NPCFactory {
   private static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new MeleePursueTask(target))
-            .addTask(new MeleeAvoidObstacleTask(target));
-
+            .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -206,7 +206,8 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-                    .addTask(new ChaseTask(target, 10, 3f, 4f));
+                    .addTask(new MeleePursueTask(target))
+                    .addTask(new MeleeAvoidObstacleTask(target));
     Enemy enemy =
             (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())
@@ -214,6 +215,7 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                     .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
@@ -231,15 +233,15 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                    .addTask(new RangedMovementTask(crystal, 20, 2f, 4f, 6f))
-                    .addTask(new RangedMovementTask(target, 10, 2f, 4f, 6f));
+                    .addTask(new RangedMovementTask(crystal, 10, 2f, 20f, 30f))
+                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 5f));
     Enemy enemy =
             (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())
                     .addComponent(new PhysicsMovementComponent())
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.RangeNPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.RangeNPC))
                     .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);

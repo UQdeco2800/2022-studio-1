@@ -25,7 +25,6 @@ public class CommonShopComponents extends UIComponent {
     Table table1;
     Table table2;
     Table table3;
-
     private Label title;
 
     private TextureRegionDrawable stoneUp;
@@ -39,6 +38,9 @@ public class CommonShopComponents extends UIComponent {
     private TextureRegionDrawable exitUp;
     private Texture exitTexture;
     private TextButton exitButton;
+    private TextureRegionDrawable woodUp;
+    private TextButton woodFrame;
+    private Texture woodTexture;
 
     @Override
     public void create() {
@@ -77,6 +79,13 @@ public class CommonShopComponents extends UIComponent {
                 skin.getColor("black"),
                 "button", 1f, goldUp, goldUp, skin, true);
 
+        woodTexture = new Texture(Gdx.files.internal("images/border_wood.png"));
+        woodUp = new TextureRegionDrawable(woodTexture);
+        woodFrame = ShopUtils.createImageTextButton(
+                Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ",
+                skin.getColor("black"),
+                "button", 1f, woodUp, woodUp, skin, true);
+
         exitTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         exitUp = new TextureRegionDrawable(exitTexture);
         exitButton = ShopUtils.createImageTextButton("EXIT", skin.getColor("black"), "title", 1f, exitUp,
@@ -96,9 +105,9 @@ public class CommonShopComponents extends UIComponent {
         title.setFontScale(3f);
         title.setColor(skin.getColor("black"));
         table1.add(title).pad(10, 75, 0, 0);
-        table3.add(stoneFrame).width(200).height(150);// .pad(250, 0, 0, 400);
-        table3.row();
-        table3.add(goldFrame).width(200).height(150);// pad(250, 0, 0, 400);
+        table3.add(goldFrame).width(200).height(150);// .pad(250, 0, 0, 400);
+        table3.add(stoneFrame).width(200).height(150);// pad(250, 0, 0, 400);
+        table3.add(woodFrame).width(200).height(150);// pad(250, 0, 0, 400);
         table2.add(exitButton).top().right().pad(10);
         stage.addActor(table3);
         stage.addActor(table1);

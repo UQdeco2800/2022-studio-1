@@ -42,16 +42,22 @@ public class CrystalFactory {
      */
     public static Entity createCrystal(String texture, String name) {
         Entity crystal =
-
                 new Entity()
                         .addComponent(new TextureRenderComponent(texture))
                         .addComponent(new PhysicsComponent())
-                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
+                        // changed it back as the crystal is needed on the player layer for AI targeting
+
+                        // I've just moved the hitbox component onto the obstacle layer for now because when it was on
+                        // the NPC layer the player character was attacking it feel free to change this later
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level,1000))
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.defense, crystalStats.level,1000))
+
                 .addComponent(new HealthBarComponent(50, 10));
+        crystal.setName("crystal");
+        crystal.setCollectable(false);
         ServiceLocator.getEntityService().registerNamed(name, crystal);
 
 
@@ -69,16 +75,15 @@ public class CrystalFactory {
      */
     public static void triggerCrystal(String texture) {
         Entity crystal = createCrystal(texture,"crystal2");
-        //Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+        ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
         crystal.setPosition(new Vector2(60, 0));
     }
 
 
     /**
-     * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
+     * Upgrades the level of the Crystal changes its texture and increases its maximum health
      */
     public static void upgradeCrystal(Entity crystal){
-
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
         //crystal.dispose();
         if( level == 1) {
@@ -101,6 +106,9 @@ public class CrystalFactory {
 
     }
 
+    /**
+     * Determine if crystal is being clicked 
+     */
     public static void crystalClicked(int screenX, int screenY) {
         //testing crystal upgrade on click
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");

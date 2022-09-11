@@ -1,7 +1,10 @@
 package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
@@ -20,9 +23,10 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -37,10 +41,11 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
 
-  private static final int MIN_NUM_CRABS = 5;
-  private static final int MAX_NUM_CRABS = 9;
-  private static final int MIN_NUM_EELS = 2;
-  private static final int MAX_NUM_EELS = 6;
+  private static final int MIN_NUM_CRABS = 1;
+  private static final int MAX_NUM_CRABS = 3;
+  private static final int MIN_NUM_EELS = 1;
+  private static final int MAX_NUM_EELS = 1;
+  private static final int BOSS_DAY = 2;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -76,6 +81,7 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/vines.png",
       "images/landscape_objects/cypress-tree-60x100.png",
       "images/landscape_objects/geyser.png",
+      "images/boss_enemy_angle1.png",
       "images/landscape_objects/billboard.png",
       "images/landscape_objects/chalice.png",
       "images/landscape_objects/pillar.png",
@@ -96,31 +102,38 @@ public class ForestGameArea extends GameArea {
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
       "images/Eel_Bright_SW.png"
-
   };
+
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
-  private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
-  public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
-  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
-  private static final String[] forestMusic = { backgroundMusic };
 
-  private CareTaker playerStatus;
+  // Sound effect files
+  private static final String[] soundEffects = {
+    "sounds/sword_swing.mp3", "sounds/footsteps_grass_single.mp3", "sounds/hurt.mp3"
+  };
+  // Music files
+  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
+  private static final String[] forestMusic = {backgroundMusic};
+  // private EnvironmentalCollision entityMapping;
+
+  //private EnvironmentalCollision entityMapping;
+
 
   private final TerrainFactory terrainFactory;
-
   private Entity player;
   private Entity crystal;
-  private List<GridPoint2> enemySpawnPos;
+  private int dayNum = 1;
 
 
-  public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
+
+  public ForestGameArea(TerrainFactory terrainFactory) {
     super();
-    this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
 
-    ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+            (Integer dayNum) -> this.dayNum = dayNum);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
             this::spawnSetEnemies);
   }
 
@@ -130,14 +143,21 @@ public class ForestGameArea extends GameArea {
    */
   @Override
   public void create() {
+
     loadAssets();
 
     displayUI();
 
     spawnTerrain();
 
+    entityMapping = new EnvironmentalCollision(terrain);
+
+    spawnEnvironmentalObjects();
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
+
+
+
     // entityMapping = new EnvironmentalCollision(terrain);
 
     this.crystal = spawnCrystal(60, 60);
@@ -145,20 +165,9 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-
-
-
-    spawnPirateCrabEnemy();
-    count = 5;
-
-
-   //spawnElectricEelEnemy();
-
     // spawnEnvironmentalObjects();
-
     playMusic();
 
-    //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
 
 
   }
@@ -177,10 +186,7 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    Entity terrainEntity = new Entity().addComponent(terrain);
-
-    areaEntities.add(terrainEntity);
-    ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
+    spawnEntity(new Entity().addComponent(terrain));
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -191,8 +197,10 @@ public class ForestGameArea extends GameArea {
     spawnWorldBorders();
   }
 
+
 private void spawnWorldBorders() {
-    enemySpawnPos = new ArrayList<GridPoint2>();
+    ArrayList enemySpawnPos = new ArrayList<GridPoint2>();
+
     GridPoint2 mapSize = terrainFactory.getMapSize();
 
     TiledMapTileLayer tiledMapTileLayer = terrain.getTileMapTileLayer(0);
@@ -214,35 +222,27 @@ private void spawnWorldBorders() {
         if (tile.getName().equals("grass")) {
           if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
-            enemySpawnPos.add(new GridPoint2(x, y + 2));
           }
           if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
             createBorderWall(x, y - 1);
-            enemySpawnPos.add(new GridPoint2(x, y - 2));
           }
           if (left.getName().equals("water")) {
             createBorderWall(x - 1, y);
-            enemySpawnPos.add(new GridPoint2(x - 2, y));
           }
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y);
-            enemySpawnPos.add(new GridPoint2(x + 2, y));
           }
           if (rightAbove.getName() == "water") {
             createBorderWall(x + 1, y + 1);
-            enemySpawnPos.add(new GridPoint2(x + 2, y + 2));
           }
           if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
-            enemySpawnPos.add(new GridPoint2(x + 2, y - 2));
           }
           if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
-            enemySpawnPos.add(new GridPoint2(x - 2, y + 2));
           }
           if (leftBelow.getName() == "water") {
             createBorderWall(x - 1, y + 1);
-
           }
         }
       }
@@ -270,7 +270,8 @@ private void spawnWorldBorders() {
         terrainFactory.getIslandSize().x + waterWidth - 4);
 
     for (int i = 0; i < numObjects; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      // Must be maxPos, minPos NOT minPos, maxPos
+    GridPoint2 randomPos = RandomUtils.random(maxPos, minPos);
       Entity envObj;
       switch (type) {
         case TREE:
@@ -305,9 +306,9 @@ private void spawnWorldBorders() {
 
       int counter = 0;
       // check for possible collision and reroll location until valid
-      while (ServiceLocator.getEntityService().wouldCollide(envObj, randomPos.x, randomPos.y)
-          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
-        randomPos = RandomUtils.random(minPos, maxPos);
+      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+        randomPos = RandomUtils.random(maxPos, minPos);
 
         // safety to avoid infinite looping on loading screen.
         // If cant spawn the object then space has ran out on map
@@ -318,7 +319,7 @@ private void spawnWorldBorders() {
         counter++;
       }
 
-      ServiceLocator.getEntityService().addEntity(envObj);
+      this.entityMapping.addEntity(envObj);
       spawnEntityAt(envObj, randomPos, true, true);
     }
   }
@@ -384,19 +385,20 @@ private void spawnWorldBorders() {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+    Entity newPlayer = PlayerFactory.loadPlayer();
     ServiceLocator.getEntityService().registerNamed("player", newPlayer);
-    ;
+    
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
-    while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
+    while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
     ServiceLocator.getEntityService().addEntity(crystal);
+    this.entityMapping.addEntity(crystal);
     crystal.setPosition(new Vector2(60, 0));
     return crystal;
   }
@@ -419,6 +421,9 @@ private void spawnWorldBorders() {
         for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
           spawnElectricEelEnemy();
         }
+        if (dayNum == BOSS_DAY) {
+          spawnMeleeBoss();
+        }
         break;
     }
   }
@@ -429,6 +434,7 @@ private void spawnWorldBorders() {
    */
   private void spawnMeleeBoss() {
     Entity boss = NPCFactory.createMeleeBoss(player);
+    boss.setName("Mr. Zero");
     spawnEnemy(boss);
   }
   public int count = 0;
@@ -436,9 +442,9 @@ private void spawnWorldBorders() {
    * Spawns a Pirate Crab entity at a randomised position within the game world
    */
   private void spawnPirateCrabEnemy() {
-
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
-
+    pirateCrabEnemy.setName("Mr. Crabs");
+    this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
   }
 
@@ -447,18 +453,18 @@ private void spawnWorldBorders() {
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {
-
-    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + entity.getId(), entity);
-
-    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
+    ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
+    GridPoint2 randomPos =
+            terrainFactory.getSpawnableTiles().get(MathUtils.random(0,terrainFactory.getSpawnableTiles().size()-1));
 
     spawnEntityAt(entity, randomPos, true, true);
   }
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
+    ElectricEelEnemy.setName("Mr. Electricity");
+    this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
-
   }
 
   private void playMusic() {
@@ -473,8 +479,7 @@ private void spawnWorldBorders() {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
-    resourceService.loadSounds(forestSounds);
-    resourceService.loadSounds(walkSound);
+    resourceService.loadSounds(soundEffects);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -488,8 +493,7 @@ private void spawnWorldBorders() {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
-    resourceService.unloadAssets(forestSounds);
-    resourceService.unloadAssets(walkSound);
+    resourceService.unloadAssets(soundEffects);
     resourceService.unloadAssets(forestMusic);
   }
 
@@ -498,5 +502,9 @@ private void spawnWorldBorders() {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     this.unloadAssets();
+  }
+
+  public EnvironmentalCollision getEntityMapping() {
+    return entityMapping;
   }
 }

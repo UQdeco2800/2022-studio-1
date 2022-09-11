@@ -1,5 +1,7 @@
 package com.deco2800.game.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
@@ -19,6 +21,7 @@ public class CombatStatsComponent extends Component {
   private int baseHealth;
   private int baseAttack;
   private int level;
+  private int defense;
   private int currentAttack;
   private int maxHealth = 10000;
 
@@ -28,10 +31,17 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     this.currentAttack = baseAttack;
   }
+
+  public CombatStatsComponent(int health, int baseAttack, int defense) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setBaseDefense(defense);
+  }
+
   /**
    * Combat Stats Component with extra parameter level to enable levelling up of entities
    */
-  public CombatStatsComponent(int health, int baseAttack, int level) {
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
     setHealth(health);
     this.baseHealth = health;
     setBaseAttack(baseAttack);
@@ -39,14 +49,14 @@ public class CombatStatsComponent extends Component {
     this.currentAttack = baseAttack;
   }
   /**
-   * Combat Stats Component with two extra parameter level & maxHealth to enable increase of maxHealth with each level upgrade
+   * Combat Stats Component with maxHealth parameter to enable increase of maxHealth with each level upgrade independent
+   * to current health
    */
-  public CombatStatsComponent(int health, int baseAttack, int level, int maxHealth) {
+  public CombatStatsComponent(int health, int baseAttack, int defense , int level, int maxHealth) {
     setHealth(health);
-    this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
-    this.currentAttack = baseAttack;
+    setBaseDefense(defense);
     setMaxHealth(maxHealth);
   }
 
@@ -98,8 +108,15 @@ public class CombatStatsComponent extends Component {
     }
   }
 
+  /**
+   * Sets the entity's maximum health. Maximum health has a minimum bound of 0.
+   *
+   * @param maxHealth maxHealth
+   */
   public void setMaxHealth(int maxHealth) {
-    this.maxHealth = maxHealth;
+    if(maxHealth>0) {
+      this.maxHealth = maxHealth;
+    }
 
     if (entity != null) {
       entity.getEvents().trigger("updateMaxHealth", this.maxHealth);
@@ -150,13 +167,21 @@ public class CombatStatsComponent extends Component {
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+    hurtSound.play();
   }
 
+  public void setBaseDefense(int defense) {
+    this.defense = defense;
+  }
+  public int getBaseDefense() {
+    return defense;
+  }
+/**
+ * Returns the base health of the entity
+ * @return int 
+ */
 
-  /**
-   * Returns the base health of the entity
-   * @return int
-   */
   public int getBaseHealth() {
     return this.baseHealth;
   }

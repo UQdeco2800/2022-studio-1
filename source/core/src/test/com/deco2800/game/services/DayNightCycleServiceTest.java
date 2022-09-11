@@ -140,6 +140,42 @@ public class DayNightCycleServiceTest {
     }
 
     @Test
+    public void whenSendingFirstDayPassedEventDayShouldBeginAtOne() throws InterruptedException {
+        AtomicInteger dayPassed = new AtomicInteger(0);
+        AtomicBoolean firstDayPassed = new AtomicBoolean(false);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED, (Integer day) -> {
+            if (!firstDayPassed.get()) {
+                firstDayPassed.set(true);
+                dayPassed.set(day);
+            }
+        });
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(1, dayPassed.get());
+    }
+
+    @Test
+    public void shouldGoThroughCorrectSequenceOfDays() throws InterruptedException {
+        List<Integer> days = List.of(1, 2, 3);
+        List<Integer> daysPassed = new ArrayList<>();
+        this.config.maxDays = 3;
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED, (Integer day) -> {
+            daysPassed.add(day);
+        });
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300);
+
+        // Sequence should be 1,2,3
+        int i = 0;
+        for (var day : days) {
+            assertEquals(day, daysPassed.get(i));
+            i++;
+        }
+    }
+
+    @Test
     public void shouldResumeDayTimeAfterBeingPausedAndResumedMultipleTimes() {
         CompletableFuture<Object> job = this.dayNightCycleService.start();
         this.dayNightCycleService.pause();
