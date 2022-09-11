@@ -38,6 +38,7 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
 
+  //TODO: Fix Comment Array. Make HashMap<String, Component> so to be able to search for a specific component
   public Entity() {
     id = nextId;
     nextId++;

@@ -10,8 +10,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.factories.ResourceBuildingFactory;
-import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
@@ -50,22 +48,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.W:
         walkDirection.add(Vector2Utils.UP);
+        entity.getEvents().trigger("ch_dir_w");
         triggerWalkEvent();
         return true;
       case Keys.A:
         walkDirection.add(Vector2Utils.LEFT);
+        entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
         return true;
       case Keys.S:
         walkDirection.add(Vector2Utils.DOWN);
+        entity.getEvents().trigger("ch_dir_s");
         triggerWalkEvent();
         return true;
       case Keys.D:
         walkDirection.add(Vector2Utils.RIGHT);
+        entity.getEvents().trigger("ch_dir_d");
         triggerWalkEvent();
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
+        entity.getEvents().trigger("attack_anim");
         return true;
       default:
         return false;
@@ -108,6 +111,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.N:
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
+        return true;
+      case Keys.SPACE:
         return true;
       default:
         return false;
@@ -200,8 +205,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
    */
   private void triggerCrystalUpgrade() {
+    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     crystal.getComponent(CombatStatsComponent.class).upgrade();
+//    CrystalFactory.triggerCrystal();
 //    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 //    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }

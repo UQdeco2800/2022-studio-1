@@ -66,7 +66,9 @@ public class RangeAttackComponent extends Component{
     */
     @Override
     public void update() {
+        System.out.println("Running RAT");
         if (targetAcquired) {
+            System.out.println("target acquired true");
             if (getDistanceToTarget(this.target) <= this.range) {
                 while (getDistanceToTarget(entity) <= this.range) {
                     attackTarget();
@@ -77,10 +79,13 @@ public class RangeAttackComponent extends Component{
                 this.target = null;
             }
         } else {
-            for (Entity entity : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
-                ColliderComponent colliderComponent = entity.getComponent(ColliderComponent.class);
-                if (colliderComponent != null) {    
-                   // if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+            for (Entity entity : ServiceLocator.getEntityService().getEntities()) {   
+                System.out.println("Searching for target");
+
+                HitboxComponent hitboxComponent = entity.getComponent(HitboxComponent.class);
+                if (hitboxComponent != null) {    
+                    if (hitboxComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+                        System.out.println("Got target");
                         if (getDistanceToTarget(entity) <= this.range) { //Check range to target
                             toggleTargetAcquired();
                             this.target = entity; //Set target
@@ -88,7 +93,7 @@ public class RangeAttackComponent extends Component{
                                 attackTarget();
                             }
                         }
-                     //}
+                     }
 
                 }
             }
