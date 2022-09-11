@@ -29,6 +29,8 @@ public class Entity {
   private static int nextId = 0;
   private static final String EVT_NAME_POS = "setPosition";
 
+  private String name;
+
   private final int id;
   private final IntMap<Component> components;
   private final EventHandler eventHandler;
@@ -45,6 +47,14 @@ public class Entity {
 
     components = new IntMap<>(4);
     eventHandler = new EventHandler();
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return this.name;
   }
 
   /**
