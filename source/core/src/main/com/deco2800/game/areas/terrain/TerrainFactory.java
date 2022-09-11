@@ -213,10 +213,17 @@ public class TerrainFactory {
 
       }
     }
-
   }
 
-  public void fillWater(TiledMapTileLayer layer, TerrainTile waterTile) {
+  public void generateNewLevel(TiledMap tiledMap, int levelNum) {
+    GridPoint2 tileSize = new GridPoint2(waterTile.getTextureRegion().getRegionWidth(),
+        waterTile.getTextureRegion().getRegionHeight());
+    TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
+    createLevel(layer, grassTile, waterTile, sandTile, levelNum, MAP_SIZE);
+    tiledMap.getLayers().add(layer);
+  }
+
+  private void fillWater(TiledMapTileLayer layer, TerrainTile waterTile) {
     for (int x = 0; x < MAP_SIZE.x; x++) {
       for (int y = 0; y < MAP_SIZE.y; y++) {
         if (layer.getCell(x, y) == null) {

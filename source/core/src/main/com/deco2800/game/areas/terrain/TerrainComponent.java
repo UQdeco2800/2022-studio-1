@@ -28,9 +28,9 @@ public class TerrainComponent extends RenderComponent {
   private final float tileSize;
   private GridPoint2 island_size;
 
-  private  SpriteBatch batchedMapTileSpriteBatch;
-  
-  private  DayNightCycleComponent dayNightCycleComponent;
+  private SpriteBatch batchedMapTileSpriteBatch;
+
+  private DayNightCycleComponent dayNightCycleComponent;
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -48,12 +48,13 @@ public class TerrainComponent extends RenderComponent {
     if (renderer != null) {
       try {
         this.batchedMapTileSpriteBatch = (SpriteBatch) ((BatchTiledMapRenderer) renderer).getBatch();
-      } catch(ClassCastException e) {
+      } catch (ClassCastException e) {
         // issue caused when being mocked
         this.batchedMapTileSpriteBatch = null;
       }
     }
-    // Assuming render service is created first. otherwise day/night shader will not be applied
+    // Assuming render service is created first. otherwise day/night shader will not
+    // be applied
     if (ServiceLocator.getRenderService() != null) {
       this.dayNightCycleComponent = ServiceLocator.getRenderService().getDayNightCycleComponent();
     }
@@ -119,7 +120,7 @@ public class TerrainComponent extends RenderComponent {
 
   public TiledMapTileLayer getTileMapTileLayer(int layer) {
     TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
-    return  terrainLayer;
+    return terrainLayer;
   }
 
   @Override

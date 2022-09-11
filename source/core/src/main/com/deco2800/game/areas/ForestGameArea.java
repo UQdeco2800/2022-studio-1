@@ -13,8 +13,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.entities.Entity;
@@ -43,6 +45,8 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
   private static final int BOSS_DAY = 3;
+
+  private int currentMapLevel = 0;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -117,17 +121,16 @@ public class ForestGameArea extends GameArea {
   private Entity crystal;
   private int dayNum = 0;
 
-
   public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
     super();
     this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-            (Integer dayNum) -> {this.dayNum = dayNum;
-                                  System.out.println("DayNum is" + this.dayNum);});
+        this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-            this::spawnSetEnemies);
+        this::spawnSetEnemies);
+
   }
 
   /**
@@ -148,19 +151,15 @@ public class ForestGameArea extends GameArea {
 
     this.crystal = spawnCrystal(60, 60);
 
-
     this.player = spawnPlayer();
 
-
-
-   //spawnElectricEelEnemy();
+    // spawnElectricEelEnemy();
 
     // spawnEnvironmentalObjects();
 
     playMusic();
 
-    //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
-
+    // System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
 
   }
 
@@ -192,8 +191,7 @@ public class ForestGameArea extends GameArea {
     spawnWorldBorders();
   }
 
-
-private void spawnWorldBorders() {
+  private void spawnWorldBorders() {
     ArrayList enemySpawnPos = new ArrayList<GridPoint2>();
 
     GridPoint2 mapSize = terrainFactory.getMapSize();
@@ -213,7 +211,7 @@ private void spawnWorldBorders() {
         TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
         TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
 
-        //spawns walls and sets enemy spawn locations behind borders
+        // spawns walls and sets enemy spawn locations behind borders
         if (tile.getName().equals("grass")) {
           if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
@@ -244,7 +242,6 @@ private void spawnWorldBorders() {
       }
     }
   }
-
 
   private void createBorderWall(int x, int y) {
     Entity wall = ObstacleFactory.createWall(1f, 0.5f);
@@ -397,11 +394,28 @@ private void spawnWorldBorders() {
     return crystal;
   }
 
+  private void dayChange(int dayNum) {
+    this.dayNum = dayNum;
+    System.out.println("DayNum is" + this.dayNum);
+
+    int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
+
+    if (crystalHealth < 500) {
+      if (currentMapLevel == 0) {
+        // GAME OVER
+      } else {
+        currentMapLevel--;
+        terrainFactory.generateNewLevel(terrain.getMap(), currentMapLevel);
+      }
+    }
+
+  }
+
   /**
    * Spawns crabs at certain part of the day
    */
   private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
-    switch (partOfDay){
+    switch (partOfDay) {
       case DAWN:
         break;
       case DAY:
@@ -422,7 +436,6 @@ private void spawnWorldBorders() {
     }
   }
 
-
   /**
    * Spawn the boss
    */
@@ -430,7 +443,9 @@ private void spawnWorldBorders() {
     Entity boss = NPCFactory.createMeleeBoss(player);
     spawnEnemy(boss);
   }
+
   public int count = 0;
+
   /**
    * Spawns a Pirate Crab entity at a randomised position within the game world
    */
@@ -442,11 +457,13 @@ private void spawnWorldBorders() {
 
   /**
    * Spawns an enemy on the map at a random position surrounding the island
+   * 
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {
     ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
-    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get(MathUtils.random(0,terrainFactory.getSpawnableTiles().size()-1));
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles()
+        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles().size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
   }
