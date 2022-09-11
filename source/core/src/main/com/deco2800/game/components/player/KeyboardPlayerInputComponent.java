@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
@@ -106,9 +108,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.O:
         triggerCrystalAttacked();
         return true;
-      case Keys.U:
-        triggerCrystalUpgrade();
-        return true;
       case Keys.N:
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
         return true;
@@ -122,6 +121,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
   public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+
+    CrystalFactory.crystalClicked(screenX,screenY);
     if (pointer == Input.Buttons.LEFT) {
       if (buildState) {
         buildEvent = true;
@@ -201,15 +202,5 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   }
 
-  /**
-   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
-   */
-  private void triggerCrystalUpgrade() {
-    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-    crystal.getComponent(CombatStatsComponent.class).upgrade();
-//    CrystalFactory.triggerCrystal();
-//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
-  }
+
 }
