@@ -4,14 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
-import com.deco2800.game.ai.tasks.TaskRunner;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.BodyUserData;
-import com.deco2800.game.physics.PhysicsEngine;
-import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.HitboxComponent;
-import com.deco2800.game.rendering.DebugRenderer;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
@@ -28,10 +24,8 @@ import java.util.List;
  */
 public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask {
     private final Entity target;
-    private final PhysicsEngine physics;
-    private final DebugRenderer debugRenderer;
     private MovementTask movementTask;
-    private DayNightCycleService dayNightCycleService;
+    private final DayNightCycleService dayNightCycleService;
     private Entity entity;
     private List<Entity> collisionEntities;
     private Vector2 lastPos;
@@ -39,17 +33,14 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
     private RotationDirection rotation;
     private boolean adjusting;
     private int adjustCountdown;
-    private Vector2 buffer;
     private enum RotationDirection {
         LEFT(-1f, 1f),
         RIGHT(1f, -1f);
-        private Vector2 v;
-        private float x;
-        private float y;
+        private final float x;
+        private final float y;
         RotationDirection(float x, float y) {
             this.x = x;
             this.y = y;
-            this.v = new Vector2(x, y);
         }
     }
 
@@ -60,10 +51,8 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
      */
     public MeleeAvoidObstacleTask(Entity target) {
         this.target = target;
-        physics = ServiceLocator.getPhysicsService().getPhysics();
-        debugRenderer = ServiceLocator.getRenderService().getDebug();
         dayNightCycleService = ServiceLocator.getDayNightCycleService();
-        this.collisionEntities = new ArrayList<Entity>();
+        this.collisionEntities = new ArrayList<>();
         resetAdjustCountdown();
         currentDirection = target.getPosition();
     }
@@ -76,7 +65,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         entity = owner.getEntity();
         entity.getEvents().addListener("collisionStart", this::onCollisionStart);
         entity.getEvents().addListener("collisionEnd", this::onCollisionEnd);
-        buffer = owner.getEntity().getScale();
+        Vector2 buffer = owner.getEntity().getScale();
         buffer.x /= 2;
         buffer.y /= 2;
     }
@@ -113,9 +102,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         }
         //remove from array
         Entity coll = ((BodyUserData) other.getBody().getUserData()).entity;
-        if (collisionEntities.contains(coll)) {
-            collisionEntities.remove(coll);
-        }
+        collisionEntities.remove(coll);
     }
 
     /**
@@ -257,8 +244,8 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
 
     /**
      * convert directional vector to target point in 2d space
-     * @param direction
-     * @return
+     * @param direction to convert
+     * @return target position
      */
     private Vector2 convertDirectionToTarget(Vector2 direction) {
         return new Vector2((owner.getEntity().getPosition().x + direction.x) * 10, (owner.getEntity().getPosition().y + direction.y)*10);
