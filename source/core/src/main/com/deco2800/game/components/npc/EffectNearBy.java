@@ -25,7 +25,7 @@ public class EffectNearBy extends Component {
     private Boolean speedEnable;
     private Boolean regenEnable;
     private Boolean attackBuff;
-    private final Float RANGE = 5f;
+    private final Float RANGE = 7f;
 
     /**
      * Constructor method for effects nearby component. Tells the buff to what to affect
@@ -63,11 +63,11 @@ public class EffectNearBy extends Component {
     @Override
     public void update() {
         Collection<Entity> entities = ServiceLocator.getEntityService().getEnemyEntities();
-        //System.out.println(entities);
+
         Entity attachedTo = this.getEntity();
 
         for (Entity ent: entities) {
-            //Entity ent = ServiceLocator.getEntityService().getEntityByIndex(i);
+
             if (ent.equals(attachedTo) || attachedTo == null || destroyed.contains(ent) || this.framesPassed < 60) {
                 this.framesPassed++;
                 continue;
@@ -144,7 +144,6 @@ public class EffectNearBy extends Component {
                         return;
                     }
 
-                    int currentAttack = entity.getComponent(CombatStatsComponent.class).getBaseAttack();
                     entity.getComponent(CombatStatsComponent.class).addAttack(1);
 
                     if (underAttackBuff.contains(entity)) {

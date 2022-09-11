@@ -111,8 +111,6 @@ public class ForestGameArea extends GameArea {
     super();
     this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
-    //ServiceLocator.getDayNightCycleService().getEvents().addListener("dayPassed",
-    //        this::spawnSetCrabs);
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
             this::spawnSetEnemies);
@@ -172,7 +170,7 @@ public class ForestGameArea extends GameArea {
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
-    System.out.println(tileSize);
+
     GridPoint2 tileBounds = terrain.getMapBounds(0);
     Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
@@ -423,7 +421,7 @@ public class ForestGameArea extends GameArea {
    * Spawns a Pirate Crab entity at a randomised position within the game world
    */
   private void spawnPirateCrabEnemy() {
-    System.out.println(count);
+
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
 
     spawnEnemy(pirateCrabEnemy);

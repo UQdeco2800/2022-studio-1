@@ -158,6 +158,7 @@ public class NPCFactory {
     boss.getComponent(EffectNearBy.class).enableSpeed();
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
+    boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
 
     return boss;
   }
