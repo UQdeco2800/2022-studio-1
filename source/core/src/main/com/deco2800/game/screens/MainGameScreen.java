@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * The game screen containing the main game.
@@ -55,7 +56,8 @@ public class MainGameScreen extends ScreenAdapter {
       "images/empty_healthbar.png",
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
-      "images/atlantisBasicBackground.png"
+      "images/atlantisBasicBackground.png",
+      "images/log.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
