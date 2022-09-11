@@ -126,17 +126,8 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
     public void start() {
         super.start();
         lastPos = owner.getEntity().getPosition();
-        // get which direction the obstacle is in
-        // get the edge of the obstacle
-        // movement task towards that edge
-        //if it fails, rotate again
-        //if not, break & continue pursuit??
-
         Vector2 pos = owner.getEntity().getCenterPosition();
         Vector2 obsPos = collisionEntities.get(collisionEntities.size()-1).getCenterPosition();
-//        Vector2 obsScale = collisionEntities.get(collisionEntities.size()-1).getScale();
-//        obsScale.x /= 2;
-//        obsScale.y /= 2;
         currentDirection = convertTargetToDirection(target.getPosition());
 
         if (isLeft(convertTargetToDirection(target.getCenterPosition()), pos, obsPos)) {
@@ -151,8 +142,8 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
     }
 
     /**
-     * update checks if the new direction has run into any obstacles that stopped movement
-     * Will not need to check if collision has ended (I think)
+     * update checks if the new direction has run into any obstacles that stopped movement,
+     * and adjusts direction if necessary
      */
     @Override
     public void update() {
@@ -184,7 +175,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
 
     /**
      * gets the priority of this task.
-     * @return 10 if the owner entity isn't moving and has collided with something that needs to be avoided rather than attacked
+     * @return -1 if it's not nighttime, otherwise active priority if active, inactive priority if inactive
      */
     @Override
     public int getPriority() {
@@ -211,7 +202,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
     }
 
     /**
-     * get the priority of the task when active. Should be superseded by the meleeAttackTargetTask
+     * get the priority of the task when active.
      * @return active priority
      */
     private int getActivePriority() {
@@ -255,19 +246,29 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         return (owner.getEntity().getPosition().dst2(lastPos) > 0.0001f);
     }
 
+    /**
+     * convert point in 2d space to directional vector from position of owner entity
+     * @param target target point
+     * @return directional vector
+     */
     private Vector2 convertTargetToDirection(Vector2 target) {
         return new Vector2(target.x - owner.getEntity().getPosition().x, target.y - owner.getEntity().getPosition().y);
     }
 
+    /**
+     * convert directional vector to target point in 2d space
+     * @param direction
+     * @return
+     */
     private Vector2 convertDirectionToTarget(Vector2 direction) {
         return new Vector2((owner.getEntity().getPosition().x + direction.x) * 10, (owner.getEntity().getPosition().y + direction.y)*10);
     }
 
     /**
-     *
-     * @param dir
-     * @param pos
-     * @param point
+     * calculates whether a point is to the left or right of a vector
+     * @param dir directional vector of owner entity's movement
+     * @param pos position of the owner entity
+     * @param point the point to be calculated
      * @return true if point is on left of direction
      */
     private boolean isLeft(Vector2 dir, Vector2 pos, Vector2 point) {
