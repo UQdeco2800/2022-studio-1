@@ -29,6 +29,10 @@ public class EntityService {
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
 
+  //You may ask why a second map instead of entities? I honestly have no clue
+  //but this was the only way I could get a list of entities without crashing while looping in a component
+  private Hashtable<Integer, Entity> enemyMap = new Hashtable<>();
+
   /**
    * Register a new entity with the entity service. The entity will be created and start updating.
    * @param entity new entity.
@@ -36,6 +40,7 @@ public class EntityService {
   public void register(Entity entity) {
     logger.debug("Registering {} in entity service", entity);
     entities.add(entity);
+    enemyMap.put(entity.getId(), entity);
     entity.create();
   }
 
@@ -57,6 +62,10 @@ public class EntityService {
    */
   public Entity getNamedEntity(String name) {
     return this.namedEntities.get(name);
+  }
+
+  public void unregisterNamed(String key) {
+    this.namedEntities.remove(key);
   }
 
   /**
@@ -112,11 +121,22 @@ public class EntityService {
   }
 
   /**
+   * @return Collection of entities stored on the map. This must be done for looping within components
+   */
+  public Collection<Entity> getEnemyEntities() {
+    return entityMap.values();
+  }
+
+  /**
    * Adds a new entity to hashtable
    * @param newEntity new entity to be added to the environment
    */
   public void addEntity(Entity newEntity) {
-    entityMap.put(newEntity.getCenterPosition(), newEntity);
+    if (newEntity.getCenterPosition() == null) {
+      entityMap.put(new Vector2(0,0), newEntity);
+    } else {
+      entityMap.put(newEntity.getCenterPosition(), newEntity);
+    }
   }
 
   /**
