@@ -53,7 +53,7 @@ public class CrystalFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, 1,1000))
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.defense, crystalStats.level,1000))
 
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
@@ -81,7 +81,7 @@ public class CrystalFactory {
 
 
     /**
-     * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
+     * Upgrades the level of the Crystal changes its texture and increases its maximum health
      */
     public static void upgradeCrystal(Entity crystal){
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
@@ -106,6 +106,9 @@ public class CrystalFactory {
 
     }
 
+    /**
+     * Determine if crystal is being clicked 
+     */
     public static void crystalClicked(int screenX, int screenY) {
         //testing crystal upgrade on click
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");

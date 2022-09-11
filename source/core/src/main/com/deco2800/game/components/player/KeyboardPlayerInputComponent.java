@@ -202,15 +202,5 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   }
 
-  /**
-   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
-   */
-//  private void triggerCrystalUpgrade() {
-//    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
-//    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-//    crystal.getComponent(CombatStatsComponent.class).upgrade();
-////    CrystalFactory.triggerCrystal();
-////    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-////    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
-//  }
+
 }
