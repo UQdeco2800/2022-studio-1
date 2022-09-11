@@ -13,7 +13,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private static final Logger logger = LoggerFactory.getLogger(PhysicsMovementComponent.class);
 
   private Vector2 maxSpeed = Vector2Utils.ONE;
-  private static final Vector2 defaultMaxSpeed = Vector2Utils.ONE;
+  private Vector2 defaultMaxSpeed = Vector2Utils.ONE;
 
   private PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
@@ -22,6 +22,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
+    this.defaultMaxSpeed = new Vector2(1,1);
   }
 
   @Override
@@ -86,14 +87,33 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     return targetPosition.cpy().sub(entity.getPosition()).nor();
   }
 
+  /**
+   * @return the current speed of the entity
+   */
   public Vector2 getSpeed() {
     return this.maxSpeed;
   }
 
-  public void setMaxSpeed(Vector2 speed) {
+  /**
+   * Sets the fault speed of the entity
+   * @param speed vector of speed in x,y
+   */
+  public void setOriginalSpeed(Vector2 speed) {
+    this.defaultMaxSpeed = speed;
+    this.setNewSpeed(speed);
+  }
+
+  /**
+   * set new speed which can differ to default speed
+   * @param speed vector of speed in x,y
+   */
+  public void setNewSpeed(Vector2 speed) {
     this.maxSpeed = speed;
   }
 
+  /**
+   * Reset Entity to Original Speed
+   */
   public void resetSpeed() {
     this.maxSpeed = defaultMaxSpeed;
   }

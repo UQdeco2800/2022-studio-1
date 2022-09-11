@@ -19,6 +19,7 @@ import com.deco2800.game.AtlantisSinks.ScreenType;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.files.UserSettings.DisplaySettings;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.utils.StringDecorator;
@@ -41,11 +42,15 @@ public class SettingsMenuDisplay extends UIComponent {
   private CheckBox vsyncCheck;
   private Slider uiScaleSlider;
   private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
+  private ScreenType backScreen;
+  private CareTaker currentStatus;
 
 
-  public SettingsMenuDisplay(AtlantisSinks game) {
+  public SettingsMenuDisplay(AtlantisSinks game, ScreenType prevScreen, CareTaker playerStatus) {
     super();
     this.game = game;
+    backScreen = prevScreen;
+    currentStatus = playerStatus;
   }
 
   @Override
@@ -65,10 +70,10 @@ public class SettingsMenuDisplay extends UIComponent {
     rootTable = new Table();
     rootTable.setFillParent(true);
 
-    rootTable.add(title).expandX().top().padTop(85f);
+    rootTable.add(title).expandX().align(1);
 
     rootTable.row();
-    rootTable.add(settingsTable).expandX().expandY().top().padTop(150f);
+    rootTable.add(settingsTable).expandX().expandY().center();
 
     rootTable.row();
     rootTable.add(menuBtns).fillX();
@@ -240,9 +245,13 @@ public class SettingsMenuDisplay extends UIComponent {
   }
 
   private void exitMenu() {
-    game.setScreen(ScreenType.MAIN_MENU, null);
-    logger.getName();
-
+    if (backScreen == ScreenType.MAIN_MENU) {
+      game.setScreen(ScreenType.MAIN_MENU, null);
+      logger.getName();
+    } else if (backScreen == ScreenType.MAIN_GAME) {
+      game.setScreen(ScreenType.MAIN_GAME, currentStatus);
+      logger.getName();
+    }
   }
 
   private Integer parseOrNull(String num) {

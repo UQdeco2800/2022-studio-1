@@ -48,18 +48,22 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.W:
         walkDirection.add(Vector2Utils.UP);
+        entity.getEvents().trigger("ch_dir_w");
         triggerWalkEvent();
         return true;
       case Keys.A:
         walkDirection.add(Vector2Utils.LEFT);
+        entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
         return true;
       case Keys.S:
         walkDirection.add(Vector2Utils.DOWN);
+        entity.getEvents().trigger("ch_dir_s");
         triggerWalkEvent();
         return true;
       case Keys.D:
         walkDirection.add(Vector2Utils.RIGHT);
+        entity.getEvents().trigger("ch_dir_d");
         triggerWalkEvent();
         return true;
       case Keys.SPACE:
@@ -85,6 +89,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.A:
         walkDirection.sub(Vector2Utils.LEFT);
+        entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
         return true;
       case Keys.S:

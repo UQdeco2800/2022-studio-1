@@ -2,6 +2,7 @@ package com.deco2800.game.entities.factories;
 
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.player.AnimationController;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
@@ -18,7 +19,10 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 
 /**
@@ -40,13 +44,23 @@ public class PlayerFactory {
   public static Entity createPlayer() {
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    TextureRenderComponent player_start = new TextureRenderComponent("images/Centaur_left.png");
-    
+    //TextureRenderComponent player_start = new TextureRenderComponent("images/Centaur_left.png");
+    AnimationRenderComponent player_start = new AnimationRenderComponent(ServiceLocator.getResourceService()
+    .getAsset("images/anim_demo/mainchar.atlas", TextureAtlas.class));
+    player_start.addAnimation("w", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("a", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("s", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
+
     Entity player =
         new Entity()
             .addComponent(player_start)
             .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent())
+
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
+
+            .addComponent(new AnimationController())
+
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
@@ -56,9 +70,11 @@ public class PlayerFactory {
             .addComponent(new PlayerStatsDisplay())
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
 
+    ServiceLocator.getEntityService().registerNamed("phil", player);
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(TextureRenderComponent.class).scaleEntity();
+    player.getComponent(AnimationRenderComponent.class).scaleEntity();
+    player.getComponent(AnimationRenderComponent.class).startAnimation("d");
     return player;
   }
 
