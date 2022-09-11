@@ -233,7 +233,7 @@ public class DayNightCycleService {
                         this.stop();
 
                         Gdx.app.postRunnable(() -> {
-                            events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                            events.trigger(EVENT_DAY_PASSED, this.currentDayNumber + 1);
                         });
                         return;
                     }
