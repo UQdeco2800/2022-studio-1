@@ -22,6 +22,7 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -84,6 +85,8 @@ public class ForestGameArea extends GameArea {
       "images/pirate_crab_SE.png",
       "images/pirate_crab_SW.png",
       "images/crystal.png",
+      "images/crystal_level2.png",
+      "images/crystal_level3.png",
       "images/stoneQuarryTest.png",
       "images/wall-right.png",
       "images/mini_tower.png",
@@ -137,7 +140,7 @@ public class ForestGameArea extends GameArea {
     // objects are created
     // entityMapping = new EnvironmentalCollision(terrain);
 
-    crystal = spawnCrystal(60, 60);
+    this.crystal = spawnCrystal(60, 60);
 
 
     this.player = spawnPlayer();
@@ -154,6 +157,9 @@ public class ForestGameArea extends GameArea {
     // spawnEnvironmentalObjects();
 
     playMusic();
+
+    //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
+
 
   }
 
@@ -185,7 +191,7 @@ public class ForestGameArea extends GameArea {
     spawnWorldBorders();
   }
 
-  private void spawnWorldBorders() {
+private void spawnWorldBorders() {
     enemySpawnPos = new ArrayList<GridPoint2>();
     GridPoint2 mapSize = terrainFactory.getMapSize();
 
@@ -242,6 +248,7 @@ public class ForestGameArea extends GameArea {
       }
     }
   }
+
 
   private void createBorderWall(int x, int y) {
     Entity wall = ObstacleFactory.createWall(1f, 0.5f);
@@ -385,12 +392,12 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
-    Entity crystal = CrystalFactory.createCrystal();
+    Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
     while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
     ServiceLocator.getEntityService().addEntity(crystal);
-    spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
+    crystal.setPosition(new Vector2(60, 0));
     return crystal;
   }
 
