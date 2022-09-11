@@ -52,6 +52,7 @@ public class MainGameScreen extends ScreenAdapter {
       "images/uiElements/exports/heart.png",
       "images/uiElements/exports/coin.png",
       "images/healthBar.png",
+      "images/empty_healthbar.png",
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
       "images/atlantisBasicBackground.png"
@@ -60,7 +61,7 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
 
   private static final String[] mainGameTextureAtlases = {
-      "images/anim_demo/stonequarr.atlas", "images/anim_demo/mainchar.atlas" };
+      "images/anim_demo/stonequarr.atlas", "images/anim_demo/mainchar.atlas", "images/anim_demo/mainchar_anim_final.atlas" };
 
   private final AtlantisSinks game;
   private final Renderer renderer;
