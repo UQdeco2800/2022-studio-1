@@ -135,16 +135,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     woodLabel = new Label(String.valueOf(woodCount), skin, "large");
 
-  //  Timer time = new Timer();
-  //  TimerTask timerTask = new TimerTask() {
-  //    @Override
-  //    public void run() {
-  //     // recoverCrystalHealth(ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::recoverCrystalHealth));
-  //     // ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, recoverCrystalHealth);
-      recoverCrystalHealth(status);
-  //    }
-  //  };
-  //  time.scheduleAtFixedRate(timerTask, 5000, 5000);
+    recoverCrystalHealth(status);
 
     table.add(heartImage).pad(5);
     // table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);
