@@ -79,7 +79,7 @@ public class CommonShopComponents extends UIComponent {
                 skin.getColor("black"),
                 "button", 1f, goldUp, goldUp, skin, true);
 
-        woodTexture = new Texture(Gdx.files.internal("images/border.png"));
+        woodTexture = new Texture(Gdx.files.internal("images/border_wood.png"));
         woodUp = new TextureRegionDrawable(woodTexture);
         woodFrame = ShopUtils.createImageTextButton(
                 Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ",
