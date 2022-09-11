@@ -169,7 +169,6 @@ public class CombatStatsComponent extends Component {
    * Returns the base health of the entity
    * @return int
    */
-<<<<<<< HEAD
   public void upgrade() {
 
     //crystal.dispose();

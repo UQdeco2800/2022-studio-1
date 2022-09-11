@@ -11,12 +11,15 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.utils.DrawableUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A ui component for displaying player stats, e.g. health.
@@ -132,6 +135,14 @@ public class PlayerStatsDisplay extends UIComponent {
 
     woodLabel = new Label(String.valueOf(woodCount), skin, "large");
 
+//    Timer time = new Timer();
+//    TimerTask timerTask = new TimerTask() {
+//      @Override
+//      public void run() {
+//        //System.out.println(crystal);
+//      }
+//    };
+//    time.scheduleAtFixedRate(timerTask, 5000, 5000);
 
     table.add(heartImage).pad(5);
     // table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);

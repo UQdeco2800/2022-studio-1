@@ -53,12 +53,12 @@ public class CrystalFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level,1000))
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, 1,1000))
 
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
         crystal.setCollectable(false);
-        ServiceLocator.getEntityService().registerNamed("crystal", crystal);
+        ServiceLocator.getEntityService().registerNamed(name, crystal);
 
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
@@ -84,7 +84,6 @@ public class CrystalFactory {
      * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
      */
     public static void upgradeCrystal(Entity crystal){
-
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
         //crystal.dispose();
         if( level == 1) {
