@@ -9,7 +9,8 @@ import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
-/** Chases a target entity regardless of distance or line of sight.
+/**
+ * Chases a target entity regardless of distance or line of sight.
  */
 public class MeleePursueTask extends DefaultTask implements PriorityTask {
     private final Entity target;
@@ -18,6 +19,10 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
     private MovementTask movementTask;
     private DayNightCycleService dayNightCycleService;
 
+    /**
+     * chases an entity regardless of line of sight
+     * @param target the entity to chase
+     */
     public MeleePursueTask(Entity target) {
         this.target = target;
         physics = ServiceLocator.getPhysicsService().getPhysics();
@@ -25,6 +30,9 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
         dayNightCycleService = ServiceLocator.getDayNightCycleService();
     }
 
+    /**
+     * start chasing
+     */
     @Override
     public void start() {
         super.start();
@@ -33,6 +41,9 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
         movementTask.start();
     }
 
+    /**
+     * update direction (for moving targets)
+     */
     @Override
     public void update() {
         movementTask.setTarget(target.getPosition());
@@ -42,6 +53,10 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
         }
     }
 
+    /**
+     * get priority
+     * @return 0 if it's not dusk or night, 2 otherwise
+     */
     @Override
     public int getPriority() {
         if (dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.NIGHT
@@ -55,6 +70,5 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
         super.stop();
         movementTask.stop();
     }
-
 
 }
