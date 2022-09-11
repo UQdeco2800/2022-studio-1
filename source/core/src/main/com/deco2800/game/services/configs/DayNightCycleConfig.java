@@ -8,4 +8,5 @@ public class DayNightCycleConfig {
     public long dayLength = 1;
     public long duskLength = 1;
     public long nightLength = 1;
+    public int maxDays = 1;
 }

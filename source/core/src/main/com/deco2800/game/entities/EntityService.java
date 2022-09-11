@@ -1,11 +1,15 @@
 package com.deco2800.game.entities;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Provides a global access point for entities to register themselves. This allows for iterating
@@ -22,6 +26,13 @@ public class EntityService {
 
   private final Map<String, Entity> namedEntities = new HashMap<>();
 
+  private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
+  private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
+
+  //You may ask why a second map instead of entities? I honestly have no clue
+  //but this was the only way I could get a list of entities without crashing while looping in a component
+  private Hashtable<Integer, Entity> enemyMap = new Hashtable<>();
+
   /**
    * Register a new entity with the entity service. The entity will be created and start updating.
    * @param entity new entity.
@@ -29,6 +40,7 @@ public class EntityService {
   public void register(Entity entity) {
     logger.debug("Registering {} in entity service", entity);
     entities.add(entity);
+    enemyMap.put(entity.getId(), entity);
     entity.create();
   }
 
@@ -50,6 +62,10 @@ public class EntityService {
    */
   public Entity getNamedEntity(String name) {
     return this.namedEntities.get(name);
+  }
+
+  public void unregisterNamed(String key) {
+    this.namedEntities.remove(key);
   }
 
   /**
@@ -95,5 +111,143 @@ public class EntityService {
     for (Entity entity : entities) {
       entity.dispose();
     }
+  }
+
+  /**
+   * @return Collection of entities stored on the map
+   */
+  public Collection<Entity> getEntities() {
+    return entityMap.values();
+  }
+
+  /**
+   * @return Collection of entities stored on the map. This must be done for looping within components
+   */
+  public Collection<Entity> getEnemyEntities() {
+    return entityMap.values();
+  }
+
+  /**
+   * Adds a new entity to hashtable
+   * @param newEntity new entity to be added to the environment
+   */
+  public void addEntity(Entity newEntity) {
+    if (newEntity.getCenterPosition() == null) {
+      entityMap.put(new Vector2(0,0), newEntity);
+    } else {
+      entityMap.put(newEntity.getCenterPosition(), newEntity);
+    }
+  }
+
+  /**
+   * Finds the closet entity based off euclidean distance from a given x,y point
+   * @param x cell cord
+   * @param y cell cord
+   * @return Entity closet
+   */
+  public Entity findClosetEntity(int x, int y) {
+    if (entityMap.values().size() == 0) {
+      return null;
+    }
+
+    Entity closetEntity = null;
+    float smallestDistance = 99999;
+
+    for (Entity entity: entityMap.values()) {
+      float entityX = entity.getCenterPosition().x;
+      float entityY = entity.getCenterPosition().y;
+
+      double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
+
+      if (currentDistance < smallestDistance) {
+        closetEntity = entity;
+      }
+    }
+
+    return closetEntity;
+  }
+
+
+  /**
+   * Calculates if the given entity will collide with already existing entities
+   * Still in testing phase. Uses the scale x and scale y of the entity to determine collision/hitbox
+   * size
+   *
+   * Due to isometric view world positions must be used thus the conversion from cell coordinates
+   *
+   * @param potentialEntity The new entity to be added to the map
+   * @param xPotential the proposed x cell position of the entity
+   * @param yPotential the proposed y cell position of the entity
+   * @return true if a collision would occur else false
+   */
+  public Boolean wouldCollide(Entity potentialEntity, int xPotential, int yPotential) {
+    //if empty no collisions to check:
+    if (entityMap.values().size() == 0) {
+      return false;
+    }
+
+    //convert to world positions
+    TerrainComponent terrain = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class);
+    float x = terrain.tileToWorldPosition(xPotential, yPotential).x;
+    float y = terrain.tileToWorldPosition(xPotential, yPotential).y;
+
+    //x,y positions of potential entity
+    float potentialEntityTop = y + potentialEntity.getScale().y / 2;
+    float potentialEntityBottom = y - potentialEntity.getScale().y / 2;
+    float potentialEntityRight = x + potentialEntity.getScale().x / 2;
+    float potentialEntityLeft = x - potentialEntity.getScale().x / 2;
+
+    for (Entity entity: entityMap.values()) {
+      //x,y positions of current entity
+      float placedRight = entity.getCenterPosition().x + entity.getScale().x / 2;
+      float placedLeft = entity.getCenterPosition().x - entity.getScale().x / 2;
+      float placedTop = entity.getCenterPosition().y + entity.getScale().y / 2;
+      float placedBottom = entity.getCenterPosition().y - entity.getScale().y / 2;
+
+      //check if collision occurs with current entity
+      if (!(potentialEntityRight <  placedLeft || potentialEntityLeft > placedRight)
+              && (!(potentialEntityBottom > placedTop || potentialEntityTop < placedBottom))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks a given tile x,y is water
+   * @param x the x pos of the tile
+   * @param y the y pos of the tile
+   * @return true if the tile is water else false
+   */
+  private boolean checkTileIsWater(int x, int y) {
+    TerrainComponent terrain = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class);
+    TiledMapTileLayer layer = (TiledMapTileLayer) terrain.getMap().getLayers().get(0);
+
+    if (x >= layer.getWidth() || y >= layer.getHeight() || x < 0 || y < 0) {
+      return true;
+    }
+
+    String tile = layer.getCell(x, y).getTile().getTextureRegion().getTexture().toString();
+
+    if (tileMapping.containsKey(tile)) {
+      return tileMapping.get(tile).get(0);
+    }
+    return false;
+  }
+
+  /**
+   * Checks the current tile and all tiles around it for a water tile. Returns true
+   *  if near water. This is necessary as world pos doesnt perfectly allign to cell positions
+   *  therefore a buffer must be introduced
+   * @param x the tile's x cord
+   * @param y the tile's y cord
+   * @return true if near water else false
+   */
+  public boolean isNearWater(int x, int y) {
+    if (checkTileIsWater(x + 1, y) || checkTileIsWater(x - 1, y) || checkTileIsWater(x, y - 1)
+            || checkTileIsWater(x, y  + 1) || checkTileIsWater(x , y)) {
+      return true;
+    }
+    return false;
   }
 }

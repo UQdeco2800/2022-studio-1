@@ -2,8 +2,8 @@ package com.deco2800.game.components.shop;
 
 class Node<T> {
     T t;
-    Node<T> next;
-    Node<T> prev;
+    public Node<T> next;
+    public Node<T> prev;
 
     public Node(T t) {
         this.t = t;

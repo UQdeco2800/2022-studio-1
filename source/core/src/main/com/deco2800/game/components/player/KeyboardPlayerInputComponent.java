@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
@@ -49,22 +48,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.W:
         walkDirection.add(Vector2Utils.UP);
+        entity.getEvents().trigger("ch_dir_w");
         triggerWalkEvent();
         return true;
       case Keys.A:
         walkDirection.add(Vector2Utils.LEFT);
+        entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
         return true;
       case Keys.S:
         walkDirection.add(Vector2Utils.DOWN);
+        entity.getEvents().trigger("ch_dir_s");
         triggerWalkEvent();
         return true;
       case Keys.D:
         walkDirection.add(Vector2Utils.RIGHT);
+        entity.getEvents().trigger("ch_dir_d");
         triggerWalkEvent();
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
+        entity.getEvents().trigger("attack_anim");
         return true;
       default:
         return false;
@@ -97,7 +101,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerWalkEvent();
         return true;
       case Keys.B:
-        buildState = StructureFactory.toggleBuildState(buildState);
+        buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
         return true;
       case Keys.O:
         triggerCrystalAttacked();
@@ -106,7 +110,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalUpgrade();
         return true;
       case Keys.N:
-        resourceBuildState = StructureFactory.toggleResourceBuildState(resourceBuildState);
+        resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
+        return true;
+      case Keys.SPACE:
         return true;
       default:
         return false;
@@ -121,7 +127,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          boolean[] updatedValues = StructureFactory.handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
+          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
           isClear = updatedValues[0];
           resourceBuildState = updatedValues[1];
           buildEvent = updatedValues[2];
@@ -130,9 +136,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
         if (isClear) {
           if (resourceBuildState) {
-            StructureFactory.triggerBuildEvent("stonequarry", structureRects);
+            ServiceLocator.getStructureService().triggerBuildEvent("wall", structureRects);
           } else {
-            StructureFactory.triggerBuildEvent("wall", structureRects);
+            ServiceLocator.getStructureService().triggerBuildEvent("tower1", structureRects);
           }
         }
       }
@@ -154,7 +160,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
           mousePosV2.x -= 0.5;
           mousePosV2.y -= 0.5;
-          ServiceLocator.getEntityService().getLastEntity().setPosition(mousePosV2);
+          ServiceLocator.getStructureService().getLastEntity().setPosition(mousePosV2);
           structureRects.get(structureRects.lastKey()).setPosition(mousePosV2);
         }
       }
@@ -191,7 +197,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 
   }
 
@@ -199,9 +205,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
    */
   private void triggerCrystalUpgrade() {
+    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     crystal.getComponent(CombatStatsComponent.class).upgrade();
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+//    CrystalFactory.triggerCrystal();
+//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
 }

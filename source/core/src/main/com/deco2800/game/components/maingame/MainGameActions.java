@@ -29,6 +29,7 @@ public class MainGameActions extends Component {
   public void create() {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
+    entity.getEvents().addListener("settings", this::onSettings);
   }
 
   /**
@@ -38,6 +39,22 @@ public class MainGameActions extends Component {
     logger.info("Exiting main game screen");
     CareTaker.deleteAll();
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+  }
+
+  /**
+   * Swaps to Settings screen
+   */
+  private void onSettings() {
+    logger.info("Launching settings screen");
+    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+            player.getComponent(InventoryComponent.class).getGold(),
+            player.getComponent(InventoryComponent.class).getStone(),
+            player.getComponent(InventoryComponent.class).getWood(),
+            player.getComponent(CombatStatsComponent.class).getHealth(),
+            player.getComponent(InventoryComponent.class).getItems(),
+            player.getComponent(CombatStatsComponent.class).getBaseAttack());
+    playerStatus.add(currentStatus);
+    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
   }
 
   /**

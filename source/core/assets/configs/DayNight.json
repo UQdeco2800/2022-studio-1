@@ -1,6 +1,7 @@
 {
-  "dawnLength": 1000,
-  "dayLength": 10000,
-  "duskLength": 1000,
-  "nightLength": 6000
+  "dawnLength": 15000,
+  "dayLength": 30000,
+  "duskLength": 15000,
+  "nightLength": 30000,
+  "maxDays": 4
 }

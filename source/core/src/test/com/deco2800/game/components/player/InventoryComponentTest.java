@@ -68,4 +68,34 @@ class InventoryComponentTest {
     inventory.addStone(-20);
     assertEquals(80, inventory.getStone());
   }
+
+  @Test
+  void shouldSetGetWood() {
+    InventoryComponent inventory = new InventoryComponent(100, 100, 100);
+    assertEquals(100, inventory.getWood());
+
+    inventory.setWood(150);
+    assertEquals(150, inventory.getWood());
+
+    inventory.setWood(-50);
+    assertEquals(0, inventory.getWood());
+  }
+
+  @Test
+  void shouldCheckHasWood() {
+    InventoryComponent inventory = new InventoryComponent(150, 150, 150);
+    assertTrue(inventory.hasWood(100));
+    assertFalse(inventory.hasWood(200));
+  }
+
+  @Test
+  void shouldAddWood() {
+    InventoryComponent inventory = new InventoryComponent(100, 150, 150);
+    inventory.addWood(-500);
+    assertEquals(0, inventory.getWood());
+
+    inventory.addWood(100);
+    inventory.addWood(-20);
+    assertEquals(80, inventory.getWood());
+  }
 }
