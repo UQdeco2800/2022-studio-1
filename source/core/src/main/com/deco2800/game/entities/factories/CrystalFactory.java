@@ -97,13 +97,10 @@ public class CrystalFactory {
             ServiceLocator.getEntityService().unregisterNamed("crystal2");
         }
         if(level < 3) {
-            //crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(50*level));
             crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(50*level));
-            //crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(50*level));
+            crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(50*level));
             crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
         } else System.out.println("Crystal has reached max level");
-
-
     }
 
     /**

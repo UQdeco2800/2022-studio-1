@@ -108,6 +108,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.O:
         triggerCrystalAttacked();
         return true;
+      case Keys.U:
+        triggerCrystalUpgrade();
+        return true;
       case Keys.N:
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
         return true;
@@ -146,8 +149,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     }
     return true;
   }
-
-
 
   /** @see InputProcessor#touchDragged(int, int, int) */
   @Override
@@ -197,10 +198,38 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
-    combatStatsComponent.setHealth(health - 10);
+    combatStatsComponent.setHealth(health - 30);
     //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 
   }
 
+  /**
+   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
+   */
+  private void triggerCrystalUpgrade() {
+    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+    int level = combatStatsComponent.getLevel();
+    combatStatsComponent.setLevel(level + 1);
+    level = combatStatsComponent.getLevel();
+    if (level == 2) {
+      combatStatsComponent.setMaxHealth(1200);
+      combatStatsComponent.setHealth(1200);
+    } else if (level == 3) {
+      combatStatsComponent.setMaxHealth(1400);
+      combatStatsComponent.setHealth(1400);
+    } else if (level == 4) {
+      combatStatsComponent.setMaxHealth(1600);
+      combatStatsComponent.setHealth(1600);
+    } else if (level == 5) {
+      combatStatsComponent.setMaxHealth(1800);
+      combatStatsComponent.setHealth(1800);
+    } else if (level > 5) {
+      System.out.println("Crystal has reached max level");
+    }
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+  }
 
 }
