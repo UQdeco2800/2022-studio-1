@@ -59,6 +59,8 @@ public class ShopBuildingDisplay extends UIComponent {
     private TextureRegionDrawable goldenDrawable;
     private Texture brownCategoryTexture;
     private TextureRegionDrawable brownDrawable;
+    private Texture redCategoryTexture;
+    private TextureRegionDrawable redDrawable;
 
     private TextButton descriptionDisplay;
     private TextButton buyButton;
@@ -124,8 +126,10 @@ public class ShopBuildingDisplay extends UIComponent {
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
         goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
         goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
         brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+        redDrawable = new TextureRegionDrawable(redCategoryTexture);
         left = new TextureRegionDrawable(leftTexture);
         right = new TextureRegionDrawable(rightTexture);
 
@@ -225,7 +229,6 @@ public class ShopBuildingDisplay extends UIComponent {
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ");
                     }
                 });
-
         backButton.addListener(
                 new ChangeListener() {
                     @Override
