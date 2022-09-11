@@ -123,7 +123,7 @@ public class ForestGameArea extends GameArea {
 
   private Entity player;
   private Entity crystal;
-  private int dayNum = 0;
+  private int dayNum = 1;
 
 
 
@@ -132,8 +132,7 @@ public class ForestGameArea extends GameArea {
     this.terrainFactory = terrainFactory;
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-            (Integer dayNum) -> {this.dayNum = dayNum;
-                                  System.out.println("DayNum is" + this.dayNum);});
+            (Integer dayNum) -> this.dayNum = dayNum);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
             this::spawnSetEnemies);
   }
@@ -165,16 +164,6 @@ public class ForestGameArea extends GameArea {
 
 
     this.player = spawnPlayer();
-
-
-
-
-//    spawnPirateCrabEnemy();
-//    count = 5;
-//
-    spawnElectricEelEnemy();
-
-   //spawnElectricEelEnemy();
 
     // spawnEnvironmentalObjects();
     playMusic();

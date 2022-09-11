@@ -148,7 +148,7 @@ public class NPCFactory {
    * @return Entity
    */
   public static Entity createMeleeBoss(Entity target) {
-    Entity boss = createBaseNPC(target);
+    Entity boss = createBaseEnemy(target);
     MeleeBossConfig config = configs.meleeBossEnemy;
 
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
@@ -182,10 +182,7 @@ public class NPCFactory {
   private static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new MeleePursueTask(target))
-            .addTask(new MeleeAvoidObstacleTask(target));
-
+            .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -209,7 +206,8 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-                    .addTask(new ChaseTask(target, 10, 3f, 4f));
+                    .addTask(new MeleePursueTask(target))
+                    .addTask(new MeleeAvoidObstacleTask(target));
     Enemy enemy =
             (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())
@@ -217,8 +215,8 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
-                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
-                    //.addComponent(aiComponent);
+                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
+                    .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
     return enemy;

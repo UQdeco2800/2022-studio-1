@@ -44,11 +44,10 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
 
     @Override
     public int getPriority() {
-        //todo reinstate below
-        /*if (dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.NIGHT
+        if (dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.NIGHT
             && dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.DUSK) {
             return 0;
-        }*/
+        }
         return 2;
     }
 
