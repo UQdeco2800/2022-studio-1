@@ -162,8 +162,8 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">update checks if the new direction has run into any obstacles that stopped movement
- Will not need to check if collision has ended (I think)</div>
+<div class="block">update checks if the new direction has run into any obstacles that stopped movement,
+ and adjusts direction if necessary</div>
 </div>
 </div>
 </div>
@@ -234,8 +234,8 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block">update checks if the new direction has run into any obstacles that stopped movement
- Will not need to check if collision has ended (I think)</div>
+<div class="block">update checks if the new direction has run into any obstacles that stopped movement,
+ and adjusts direction if necessary</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#update()">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.deco2800.game.ai.tasks">Task</a></code></dd>
@@ -253,7 +253,7 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/PriorityTask.html#getPriority()">getPriority</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/PriorityTask.html" title="interface in com.deco2800.game.ai.tasks">PriorityTask</a></code></dd>
 <dt>Returns:</dt>
-<dd>10 if the owner entity isn't moving and has collided with something that needs to be avoided rather than attacked</dd>
+<dd>-1 if it's not nighttime, otherwise active priority if active, inactive priority if inactive</dd>
 </dl>
 </section>
 </li>

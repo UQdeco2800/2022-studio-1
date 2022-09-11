@@ -115,7 +115,9 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.deco2800.game.entities.Entity)" class="member-name-link">MeleePursueTask</a><wbr>(<a href="../../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;target)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">chases an entity regardless of line of sight</div>
+</div>
 </div>
 </section>
 </li>
@@ -132,11 +134,13 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPriority()" class="member-name-link">getPriority</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">get priority</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Start running this task.</div>
+<div class="block">start chasing</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
@@ -146,7 +150,7 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Run one frame of the task.</div>
+<div class="block">update direction (for moving targets)</div>
 </div>
 </div>
 </div>
@@ -175,6 +179,11 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <section class="detail" id="&lt;init&gt;(com.deco2800.game.entities.Entity)">
 <h3>MeleePursueTask</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">MeleePursueTask</span><wbr><span class="parameters">(<a href="../../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;target)</span></div>
+<div class="block">chases an entity regardless of line of sight</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - the entity to chase</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -189,8 +198,7 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <section class="detail" id="start()">
 <h3>start</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../ai/tasks/Task.html#start()">Task</a></code></span></div>
-<div class="block">Start running this task. This will usually be called by an AI controller.</div>
+<div class="block">start chasing</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.deco2800.game.ai.tasks">Task</a></code></dd>
@@ -203,8 +211,7 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../ai/tasks/Task.html#update()">Task</a></code></span></div>
-<div class="block">Run one frame of the task. Similar to the update() in Components.</div>
+<div class="block">update direction (for moving targets)</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/Task.html#update()">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/Task.html" title="interface in com.deco2800.game.ai.tasks">Task</a></code></dd>
@@ -217,9 +224,12 @@ implements <a href="../../ai/tasks/PriorityTask.html" title="interface in com.de
 <section class="detail" id="getPriority()">
 <h3>getPriority</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getPriority</span>()</div>
+<div class="block">get priority</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../ai/tasks/PriorityTask.html#getPriority()">getPriority</a></code>&nbsp;in interface&nbsp;<code><a href="../../ai/tasks/PriorityTask.html" title="interface in com.deco2800.game.ai.tasks">PriorityTask</a></code></dd>
+<dt>Returns:</dt>
+<dd>0 if it's not dusk or night, 2 otherwise</dd>
 </dl>
 </section>
 </li>
