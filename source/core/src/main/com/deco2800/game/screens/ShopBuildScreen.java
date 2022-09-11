@@ -1,6 +1,7 @@
 package com.deco2800.game.screens;
 
 import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +41,9 @@ public class ShopBuildScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
-    private CareTaker playerStatus;
 
-    public ShopBuildScreen(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopBuildScreen(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
 
         logger.debug("Initialising main game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -129,13 +128,14 @@ public class ShopBuildScreen extends ScreenAdapter {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
+        Memento lastStatus = CareTaker.getInstance().getLast();
 
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game, playerStatus))
-                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
-                        playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
+                .addComponent(new ShopActions(this.game))
+                .addComponent(new InventoryComponent(lastStatus.getGold(),
+                        lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopBuildingDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())

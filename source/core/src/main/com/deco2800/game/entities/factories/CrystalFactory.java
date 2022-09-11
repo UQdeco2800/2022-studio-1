@@ -45,17 +45,24 @@ public class CrystalFactory {
      */
     public static Entity createCrystal(String texture, String name) {
         Entity crystal =
-
                 new Entity()
                         .addComponent(new TextureRenderComponent(texture))
                         .addComponent(new PhysicsComponent())
-                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
+                        // changed it back as the crystal is needed on the player layer for AI targeting
+
+                        // I've just moved the hitbox component onto the obstacle layer for now because when it was on
+                        // the NPC layer the player character was attacking it feel free to change this later
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level))
+
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
+                        0, crystalStats.level))
                 .addComponent(new HealthBarComponent(50, 10));
-        ServiceLocator.getEntityService().registerNamed(name, crystal);
+        crystal.setName("crystal");
+        crystal.setCollectable(false);
+        ServiceLocator.getEntityService().registerNamed("crystal", crystal);
 
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
@@ -72,6 +79,7 @@ public class CrystalFactory {
      */
     public static void triggerCrystal(String texture) {
         Entity crystal = createCrystal(texture,"crystal2");
+        ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
         crystal.setPosition(new Vector2(60, 0));
     }
 

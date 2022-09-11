@@ -185,14 +185,14 @@ public class CollisionEffectComponent extends Component {
                 } else {
                     break;
                 }
-            case DAMAGE:
-                CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
-                if (targetStats != null) {
-                    CombatStatsComponent combatStats = new CombatStatsComponent(1, damage);
-                    targetStats.hit(combatStats);
-                    combatStats.dispose();
-                    //falls through to knockback
-                }
+//            case DAMAGE:
+//                CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
+//                if (targetStats != null) {
+//                    CombatStatsComponent combatStats = new CombatStatsComponent(1, damage);
+//                    targetStats.hit(combatStats);
+//                    combatStats.dispose();
+//                    //falls through to knockback
+//                }
             case KNOCKBACK:
                 PhysicsComponent targetPhysicsComponent = target.getComponent(PhysicsComponent.class);
                 if (targetPhysicsComponent != null && knockbackForce > 0f) {
