@@ -137,23 +137,32 @@ implements <a href="../../ai/movement/MovementController.html" title="interface 
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetSpeed()" class="member-name-link">resetSpeed</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxSpeed(com.badlogic.gdx.math.Vector2)" class="member-name-link">setMaxSpeed</a><wbr>(com.badlogic.gdx.math.Vector2&nbsp;speed)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMoving(boolean)" class="member-name-link">setMoving</a><wbr>(boolean&nbsp;movementEnabled)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Reset Entity to Original Speed</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMoving(boolean)" class="member-name-link">setMoving</a><wbr>(boolean&nbsp;movementEnabled)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Enable/disable movement for the controller.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNewSpeed(com.badlogic.gdx.math.Vector2)" class="member-name-link">setNewSpeed</a><wbr>(com.badlogic.gdx.math.Vector2&nbsp;speed)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">set new speed which can differ to default speed</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTarget(com.badlogic.gdx.math.Vector2)" class="member-name-link">setTarget</a><wbr>(com.badlogic.gdx.math.Vector2&nbsp;target)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setOriginalSpeed(com.badlogic.gdx.math.Vector2)" class="member-name-link">setOriginalSpeed</a><wbr>(com.badlogic.gdx.math.Vector2&nbsp;speed)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set a target to move towards.</div>
+<div class="block">Sets the fault speed of the entity</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTarget(com.badlogic.gdx.math.Vector2)" class="member-name-link">setTarget</a><wbr>(com.badlogic.gdx.math.Vector2&nbsp;target)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set a target to move towards.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Called once per frame of the game, and should be used for most component logic.</div>
 </div>
 </div>
@@ -271,18 +280,39 @@ implements <a href="../../ai/movement/MovementController.html" title="interface 
 <section class="detail" id="getSpeed()">
 <h3>getSpeed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.Vector2</span>&nbsp;<span class="element-name">getSpeed</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the current speed of the entity</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setMaxSpeed(com.badlogic.gdx.math.Vector2)">
-<h3>setMaxSpeed</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxSpeed</span><wbr><span class="parameters">(com.badlogic.gdx.math.Vector2&nbsp;speed)</span></div>
+<section class="detail" id="setOriginalSpeed(com.badlogic.gdx.math.Vector2)">
+<h3>setOriginalSpeed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setOriginalSpeed</span><wbr><span class="parameters">(com.badlogic.gdx.math.Vector2&nbsp;speed)</span></div>
+<div class="block">Sets the fault speed of the entity</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>speed</code> - vector of speed in x,y</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setNewSpeed(com.badlogic.gdx.math.Vector2)">
+<h3>setNewSpeed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNewSpeed</span><wbr><span class="parameters">(com.badlogic.gdx.math.Vector2&nbsp;speed)</span></div>
+<div class="block">set new speed which can differ to default speed</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>speed</code> - vector of speed in x,y</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="resetSpeed()">
 <h3>resetSpeed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetSpeed</span>()</div>
+<div class="block">Reset Entity to Original Speed</div>
 </section>
 </li>
 </ul>
