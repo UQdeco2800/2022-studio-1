@@ -214,8 +214,8 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
-                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
-                    .addComponent(aiComponent);
+                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
+                    //.addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
     return enemy;

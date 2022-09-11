@@ -171,7 +171,6 @@ public class EffectNearBy extends Component {
             if (t == null) {
                 return;
             }
-            System.out.println("HIT");
             EntityClassification.NPCClassification type = t.getEntityType();
 
             if (this.canBeApplied(type)) {
