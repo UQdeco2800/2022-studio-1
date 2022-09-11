@@ -1,19 +1,20 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.npc.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.npc.GhostAnimationController;
-import com.deco2800.game.components.tasks.ChaseTask;
+import com.deco2800.game.components.tasks.*;
 import com.deco2800.game.components.tasks.RangedMovementTask;
 import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.EnemyConfig;
@@ -115,7 +116,6 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent);
 
-
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
 
@@ -138,26 +138,38 @@ public class NPCFactory {
     return ElectricEelEnemy;
   }
 
-//  public static Entity createStarFish(Entity target) {
-//    Entity starFish = createBaseRangeNPC(target);
-//    EnemyConfig config = configs.starfish;
-//
-//    /** AnimationRenderComponent animator =
-//            new AnimationRenderComponent(
-//                    ServiceLocator.getResourceService()
-//                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-//    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-//    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-//
-//    starFish
-//            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-//            .addComponent(animator)
-//            .addComponent(new HealthBarComponent(100, 10))
-//            .addComponent(new GhostAnimationController()); */
-//
-//    starFish.getComponent(AnimationRenderComponent.class).scaleEntity();
-//    return starFish;
-//  }
+
+
+  /**
+   * Creates a melee boss entity
+   *
+   * @param target entity to chase
+   * @return Entity
+   */
+  public static Entity createMeleeBoss(Entity target) {
+    Entity boss = createBaseNPC(target);
+    MeleeBossConfig config = configs.meleeBossEnemy;
+
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ghost.png");
+
+    // Add combat stats, health bar and texture renderer to the pirate crab entity
+    boss
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent)
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
+            .addComponent(new EffectNearBy(true, true, true));
+
+    boss.getComponent(TextureRenderComponent.class).scaleEntity();
+    boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
+    boss.getComponent(EffectNearBy.class).enableSpeed();
+    boss.getComponent(EffectNearBy.class).enableRegen();
+    boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
+    boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
+
+    return boss;
+  }
+
 
 
   /**
@@ -165,12 +177,23 @@ public class NPCFactory {
    *
    * @return entity
    */
-  private static Entity createBaseNPC() {
+
+  private static Entity createBaseNPC(Entity target) {
+    AITaskComponent aiComponent =
+        new AITaskComponent()
+            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
+            .addTask(new MeleePursueTask(target))
+            .addTask(new MeleeAvoidObstacleTask(target));
+
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
             .addComponent(new PhysicsMovementComponent())
             .addComponent(new ColliderComponent())
+            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
+            .addComponent(aiComponent)
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);

@@ -52,6 +52,7 @@ public class MainGameScreen extends ScreenAdapter {
       "images/uiElements/exports/heart.png",
       "images/uiElements/exports/coin.png",
       "images/healthBar.png",
+      "images/empty_healthbar.png",
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
       "images/atlantisBasicBackground.png"
@@ -84,6 +85,7 @@ public class MainGameScreen extends ScreenAdapter {
             FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
     ServiceLocator.registerDayNightCycleService(dayNightCycleService);
 
+
     PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
     physicsEngine = physicsService.getPhysics();
@@ -102,7 +104,7 @@ public class MainGameScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
-
+    ServiceLocator.getDayNightCycleService().start();
     loadAssets();
 
     logger.debug("Initialising main game screen entities");
@@ -112,7 +114,7 @@ public class MainGameScreen extends ScreenAdapter {
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, playerStatus));
 
     createUI();
-    ServiceLocator.getDayNightCycleService().start();
+
   }
 
   @Override

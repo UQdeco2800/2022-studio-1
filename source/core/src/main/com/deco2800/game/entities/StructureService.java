@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -46,6 +47,8 @@ public class StructureService extends EntityService{
   private static boolean uiIsVisible;
 
   private static Table table1;
+
+  private static String structureName;
 
 
 
@@ -149,6 +152,8 @@ public class StructureService extends EntityService{
     mousePosV2.y -= 0.5;
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
+
+
     if (!uiIsVisible) {
       System.out.println(ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y));
       if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
@@ -194,6 +199,7 @@ public class StructureService extends EntityService{
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
       if (es.getValue().contains(mousePosV2)) {
         clickedStructure = es.getKey();
+        structureName = es.getKey();
         //ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
         anyStructureHit = true;
         //This block of code executes when the user clicks a structure
@@ -207,10 +213,12 @@ public class StructureService extends EntityService{
     }
     if (anyStructureHit) {
       //Entity structure = ServiceLocator.getStructureService().getNamedEntity(clickedStructure);
+
       //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
-      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
+
+      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName);
       toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
