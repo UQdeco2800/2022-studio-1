@@ -404,8 +404,10 @@ public class ForestGameArea extends GameArea {
       if (currentMapLevel == 0) {
         // GAME OVER
       } else {
+        terrain.getMap().getLayers().get(currentMapLevel).setVisible(false);
         currentMapLevel--;
-        terrainFactory.generateNewLevel(terrain.getMap(), currentMapLevel);
+        terrain.getMap().getLayers().get(currentMapLevel).setVisible(true);
+
       }
     }
 
