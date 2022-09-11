@@ -229,6 +229,8 @@ public class ShopArtefactDisplay extends UIComponent {
                             entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
                             Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
                             coinSound.play();
+                            Sound swordSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shop_sword.mp3"));
+                            swordSound.play();
                         } else {
                             logger.info("Insufficient gold!");
                         }
