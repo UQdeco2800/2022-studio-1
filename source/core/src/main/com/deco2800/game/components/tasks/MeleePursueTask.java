@@ -3,8 +3,6 @@ package com.deco2800.game.components.tasks;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.physics.PhysicsEngine;
-import com.deco2800.game.rendering.DebugRenderer;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
@@ -14,10 +12,8 @@ import com.deco2800.game.services.ServiceLocator;
  */
 public class MeleePursueTask extends DefaultTask implements PriorityTask {
     private final Entity target;
-    private final PhysicsEngine physics;
-    private final DebugRenderer debugRenderer;
     private MovementTask movementTask;
-    private DayNightCycleService dayNightCycleService;
+    private final DayNightCycleService dayNightCycleService;
 
     /**
      * chases an entity regardless of line of sight
@@ -25,8 +21,6 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
      */
     public MeleePursueTask(Entity target) {
         this.target = target;
-        physics = ServiceLocator.getPhysicsService().getPhysics();
-        debugRenderer = ServiceLocator.getRenderService().getDebug();
         dayNightCycleService = ServiceLocator.getDayNightCycleService();
     }
 
