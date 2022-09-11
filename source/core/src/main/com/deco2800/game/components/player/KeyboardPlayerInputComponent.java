@@ -70,6 +70,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
+        entity.getEvents().trigger("attack_anim");
         return true;
       default:
         return false;
@@ -91,7 +92,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.A:
         walkDirection.sub(Vector2Utils.LEFT);
-        entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
         return true;
       case Keys.S:
@@ -113,6 +113,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         return true;
       case Keys.N:
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
+        return true;
+      case Keys.SPACE:
         return true;
       default:
         return false;
