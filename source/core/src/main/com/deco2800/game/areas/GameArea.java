@@ -29,8 +29,6 @@ public abstract class GameArea implements Disposable {
 
   protected Entity player;
   protected Entity crystal;
-  protected CareTaker playerStatus;
-  protected TerrainFactory terrainFactory;
   protected EnvironmentalCollision entityMapping;
 
   protected GameArea() {

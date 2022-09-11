@@ -21,9 +21,6 @@ import static com.deco2800.game.components.infrastructure.ResourceType.*;
  */
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
-  private int gold;
-  private int stone;
-  private int wood;
   private Equipments weapon;
   private Equipments helmet;
   private Equipments chestplate;
@@ -34,9 +31,9 @@ public class InventoryComponent extends Component {
 
   public InventoryComponent(int gold, int stone, int wood,
       Equipments weapon, Equipments chestplate, Equipments helmet) {
-    setGold(gold);
-    setStone(stone);
-    setWood(wood);
+    inventory.put(GOLD, gold);
+    inventory.put(STONE, stone);
+    inventory.put(WOOD, wood);
     setWeapon(weapon);
     setHelmet(helmet);
     setChestplate(chestplate);
