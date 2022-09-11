@@ -69,8 +69,7 @@ public class PlayerFactory {
             .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood
                     , stats.weapon, stats.helmet, stats.chestplate))
             .addComponent(inputComponent)            
-            .addComponent(new PlayerStatsDisplay())
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
+            .addComponent(new PlayerStatsDisplay());
 
     player.setName("player");
     player.setCollectable(false);

@@ -158,7 +158,7 @@ public class EntityService {
     }
 
     Entity closetEntity = null;
-    float smallestDistance = 99999;
+     float smallestDistance = 99999;
 
     for (Entity entity: entityMap.values()) {
       if (!(entity instanceof Enemy) && (!"player".equalsIgnoreCase(entity.getName()))) {

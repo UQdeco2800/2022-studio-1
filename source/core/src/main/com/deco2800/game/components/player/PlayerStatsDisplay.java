@@ -25,6 +25,8 @@ public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
   private Image healthBarImage;
+  private ProgressBar healthprogressBar;
+
   private Image crystalImage;
   private ProgressBar progressBar;
   private Image crystalBarImage;
@@ -32,10 +34,16 @@ public class PlayerStatsDisplay extends UIComponent {
 
   private Image stoneCurrencyImage;
   private static Label stoneCurrencyLabel;
+
   private Image coinImage;
   private static Label coinLabel;
 
+  private Image woodImage;
+  private static Label woodLabel;
+
+
   Entity crystal;
+  Entity health;
   private static int stoneCount = 0;
 
   //Entity resourceBuilding = ServiceLocator.getEntityService().getNamedEntity("stoneQuarry");
@@ -77,7 +85,15 @@ public class PlayerStatsDisplay extends UIComponent {
     //Health Bar Image
     healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
     // Health text level - grabbing percentile - to populate health bar
-    //int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+//    Entity healthBar = ServiceLocator.getStructureService().getNamedEntity("player");
+//    healthprogressBar = healthBar.getComponent(HealthBarComponent.class).getProgressBar();
+//    healthprogressBar.getStyle().background = DrawableUtil.getRectangularColouredDrawable(50, 15, Color.BROWN);
+//    progressBar.getStyle().knob = DrawableUtil
+//            .getRectangularColouredDrawable(0, 15, Color.RED);
+//    progressBar.getStyle().knobBefore = DrawableUtil
+//            .getRectangularColouredDrawable(50, 15, Color.RED);
+
+
 
     //Crystal image
     crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
@@ -108,17 +124,22 @@ public class PlayerStatsDisplay extends UIComponent {
 
     stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
+   // wood counter
+    woodImage = new Image(ServiceLocator.getResourceService().getAsset("images/log.png", Texture.class));
 
+    int woodCountInt = entity.getComponent(InventoryComponent.class).getWood();
+    CharSequence woodCount = String.format("x %d", woodCountInt);
 
+    woodLabel = new Label(String.valueOf(woodCount), skin, "large");
 
 
     table.add(heartImage).pad(5);
+    // table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);
     table.add(healthBarImage).size(200f, 30f).pad(5);
     table.row();
     table.add(crystalImage);
-    //table.add(crystalBarImage).size(190f,30f).pad(5);
     table.stack(progressBar,crystalBarImage).size(190f,30f).pad(5);
-    //table.add(progressBar).size(190f,30f).pad(5);
+
     table.add(crystalLabel);
     table.row();
     table.add(coinImage);
@@ -126,6 +147,10 @@ public class PlayerStatsDisplay extends UIComponent {
     table.row();
     table.add(stoneCurrencyImage);
     table.add(stoneCurrencyLabel).pad(0,0,0,0).left();
+    table.row();
+    table.add(woodImage).size(50f);
+    table.add(woodLabel).left();
+
     
     table.row();
     stage.addActor(table);
@@ -146,6 +171,8 @@ public class PlayerStatsDisplay extends UIComponent {
     stoneCurrencyLabel.setText(stone);
     CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
     coinLabel.setText(gold);
+    CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
+    coinLabel.setText(wood);
   }
 
   public void updateResourceAmount() {
@@ -154,6 +181,9 @@ public class PlayerStatsDisplay extends UIComponent {
 
     CharSequence stone = String.format("x %d", entity.getComponent(InventoryComponent.class).getStone());
     stoneCurrencyLabel.setText(stone);
+
+    CharSequence wood = String.format("x %d", entity.getComponent(InventoryComponent.class).getWood());
+    woodLabel.setText(wood);
   }
 
   public static void updateStoneCountUI() {
@@ -170,6 +200,8 @@ public class PlayerStatsDisplay extends UIComponent {
     CharSequence count = String.format("%d", stone);
     stoneCurrencyLabel.setText(count);
   }
+
+
 
   @Override
   public void dispose() {

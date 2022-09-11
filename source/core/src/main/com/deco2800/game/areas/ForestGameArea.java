@@ -119,8 +119,8 @@ public class ForestGameArea extends GameArea {
 
   //private EnvironmentalCollision entityMapping;
 
-  private final TerrainFactory terrainFactory;
 
+  private final TerrainFactory terrainFactory;
   private Entity player;
   private Entity crystal;
   private int dayNum = 1;
