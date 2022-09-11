@@ -75,6 +75,7 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/vines.png",
       "images/landscape_objects/cypress-tree-60x100.png",
       "images/landscape_objects/geyser.png",
+      "images/boss_enemy_angle1.png",
       "images/landscape_objects/billboard.png",
       "images/landscape_objects/chalice.png",
       "images/landscape_objects/pillar.png",
@@ -144,9 +145,6 @@ public class ForestGameArea extends GameArea {
 
 
 
-
-    spawnPirateCrabEnemy();
-    count = 5;
 
 
    //spawnElectricEelEnemy();

@@ -25,7 +25,7 @@ public class EffectNearBy extends Component {
     private Boolean speedEnable;
     private Boolean regenEnable;
     private Boolean attackBuff;
-    private final Float RANGE = 7f;
+    private final Float RANGE = 200f;
 
     /**
      * Constructor method for effects nearby component. Tells the buff to what to affect
@@ -164,11 +164,14 @@ public class EffectNearBy extends Component {
      */
     private void applyRegen(Entity entity) {
         Entity attachedTo = this.getEntity();
+
         if (this.regenEnable) {
+
             EntityClassification t =  entity.getComponent(EntityClassification.class);
             if (t == null) {
                 return;
             }
+            System.out.println("HIT");
             EntityClassification.NPCClassification type = t.getEntityType();
 
             if (this.canBeApplied(type)) {

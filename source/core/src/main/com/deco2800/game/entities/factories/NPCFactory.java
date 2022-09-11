@@ -148,7 +148,7 @@ public class NPCFactory {
     Entity boss = createBaseNPC(target);
     MeleeBossConfig config = configs.meleeBossEnemy;
 
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ghost.png");
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     boss
@@ -214,6 +214,7 @@ public class NPCFactory {
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                     .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                     .addComponent(aiComponent);
 
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
