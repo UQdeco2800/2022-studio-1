@@ -1,13 +1,13 @@
 package com.deco2800.game.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.audio.Sound;
-import com.deco2800.game.services.ServiceLocator;
 
 /**
  * Component used to store information related to combat such as health, attack, etc. Any entities
@@ -125,10 +125,10 @@ public class CombatStatsComponent extends Component {
   }
 
   public void hit(CombatStatsComponent attacker) {
-    Sound hurt = ServiceLocator.getResourceService().getAsset("sounds/hurt.mp3", Sound.class);
-    hurt.play();
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+    hurtSound.play();
   }
 
   /**
