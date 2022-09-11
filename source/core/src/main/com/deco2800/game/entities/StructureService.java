@@ -1,17 +1,24 @@
 package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.math.Rectangle;
 
 
 import java.util.HashMap;
@@ -19,7 +26,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Objects;
-import java.util.SortedMap;
 
 /**
  * Provides a global access point for entities to register themselves. This allows for iterating
@@ -35,6 +41,15 @@ public class StructureService extends EntityService{
   private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY);
 
   private final Map<String, Entity> namedStructureEntities = new HashMap<>();
+
+  public static HashMap<String, Table> tables = new HashMap();
+
+  private static boolean uiIsVisible;
+
+  private static Table table1;
+
+  private static String structureName;
+
 
 
   /**
@@ -120,7 +135,11 @@ public class StructureService extends EntityService{
     }
   }
 
-   /** Builds a structure at mouse position
+  public static void toggleUIisVisible() {
+    uiIsVisible = !uiIsVisible;
+  }
+
+  /** Builds a structure at mouse position
    * @param name name of the structure in game entity list
    * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    */
@@ -134,16 +153,27 @@ public class StructureService extends EntityService{
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
 
-    if (Objects.equals(name, "wall")) {
-      ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
-      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
-    } else if (Objects.equals(name, "tower1")) {
-      ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
-      ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-      structureRects.put(entityName, rectangle);
+
+    if (!uiIsVisible) {
+      System.out.println(ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y));
+      if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
+        if (Objects.equals(name, "wall")) {
+          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
+          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+          structureRects.put(entityName, rectangle);
+        } else if (Objects.equals(name, "tower1")) {
+          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
+          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+          structureRects.put(entityName, rectangle);
+        } else if (Objects.equals(name, "trap")) {
+          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
+          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+          structureRects.put(entityName, rectangle);
+        }
+      }
     }
   }
 
@@ -169,18 +199,28 @@ public class StructureService extends EntityService{
     for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
       if (es.getValue().contains(mousePosV2)) {
         clickedStructure = es.getKey();
-        ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
+        structureName = es.getKey();
+        //ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
         anyStructureHit = true;
         //This block of code executes when the user clicks a structure
       } else {
         //This block of code executes when the user clicks, and it is not a structure
+        if (uiIsVisible) {
+          table1.remove();
+          toggleUIisVisible();
+        }
       }
     }
     if (anyStructureHit) {
+      //Entity structure = ServiceLocator.getStructureService().getNamedEntity(clickedStructure);
+
+      //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
 
-      structureRects.remove(clickedStructure);
+      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName);
+      toggleUIisVisible();
+      //structureRects.remove(clickedStructure);
     } else {
       isClear = true;
     }
@@ -204,7 +244,7 @@ public class StructureService extends EntityService{
     resourceBuildState = !resourceBuildState;
     return resourceBuildState;
   }
-  
+
   /**
    * Method stub for returning a given entity's name
    * @param entity
@@ -217,7 +257,7 @@ public class StructureService extends EntityService{
    * Method stub for returning structureRects map
    */
   public SortedMap<String, Rectangle> getStructureRects() {
-      
+
     SortedMap<String, Rectangle> structureRects = new TreeMap<>();
     return structureRects;
 

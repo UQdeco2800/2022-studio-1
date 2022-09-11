@@ -1,5 +1,9 @@
 package com.deco2800.game.components;
 
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Sound;
@@ -17,11 +21,13 @@ public class CombatStatsComponent extends Component {
   private int baseHealth;
   private int baseAttack;
   private int level;
+  private int currentAttack;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
     this.baseHealth = health;
+    this.currentAttack = baseAttack;
   }
 
   /**
@@ -32,6 +38,7 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
+    this.currentAttack = baseAttack;
   }
 
   /**
@@ -93,7 +100,15 @@ public class CombatStatsComponent extends Component {
    * @return base attack damage
    */
   public int getBaseAttack() {
-    return baseAttack;
+    return currentAttack;
+  }
+
+  public void addAttack(int attackPower) {
+    currentAttack += attackPower;
+  }
+
+  public void revertAttack() {
+    currentAttack = baseAttack;
   }
 
   /**
@@ -103,7 +118,7 @@ public class CombatStatsComponent extends Component {
    */
   public void setBaseAttack(int attack) {
     if (attack >= 0) {
-      this.baseAttack = attack;
+      this.currentAttack = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }
@@ -117,11 +132,32 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Upgrades the level of the entity (mainly Crystal) and increases its health
+   * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
    */
   public void upgrade(){
-    setLevel(this.level+1);
-    addHealth(100);
+
+    //crystal.dispose();
+    if(this.level == 1) {
+      CrystalFactory.triggerCrystal("images/crystal_level2.png");
+    }
+    else if(this.level == 2){
+      Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
+      crystal.dispose();
+      CrystalFactory.triggerCrystal("images/crystal_level3.png");
+    }
+    //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
+    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
+    if(this.level <= 5) {
+      //addHealth((1000-this.health)+(50*this.level));
+      System.out.println(this.health);
+      setHealth(this.health+=50);
+      setLevel(this.level + 1);
+      //System.out.println(this.health);
+    } else System.out.println("Crystal has reached max level");
+
+
+
+
   }
 /**
  * Returns the base health of the entity

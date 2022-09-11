@@ -2,6 +2,8 @@ package com.deco2800.game.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.ColliderComponent;
@@ -64,7 +66,9 @@ public class RangeAttackComponent extends Component{
     */
     @Override
     public void update() {
+        System.out.println("Running RAT");
         if (targetAcquired) {
+            System.out.println("target acquired true");
             if (getDistanceToTarget(this.target) <= this.range) {
                 while (getDistanceToTarget(entity) <= this.range) {
                     attackTarget();
@@ -75,10 +79,13 @@ public class RangeAttackComponent extends Component{
                 this.target = null;
             }
         } else {
-            for (Entity entity : ServiceLocator.getEntityService().getAllNamedEntities().values()) {   
-                ColliderComponent colliderComponent = entity.getComponent(ColliderComponent.class);
-                if (colliderComponent != null) {    
-                   // if (colliderComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+            for (Entity entity : ServiceLocator.getEntityService().getEntities()) {   
+                System.out.println("Searching for target");
+
+                HitboxComponent hitboxComponent = entity.getComponent(HitboxComponent.class);
+                if (hitboxComponent != null) {    
+                    if (hitboxComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+                        System.out.println("Got target");
                         if (getDistanceToTarget(entity) <= this.range) { //Check range to target
                             toggleTargetAcquired();
                             this.target = entity; //Set target
@@ -86,7 +93,7 @@ public class RangeAttackComponent extends Component{
                                 attackTarget();
                             }
                         }
-                     //}
+                     }
 
                 }
             }
