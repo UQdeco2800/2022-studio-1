@@ -102,8 +102,8 @@ public class ForestGameArea extends GameArea {
   private EnvironmentalCollision entityMapping;
   private CareTaker playerStatus;
 
-  private final TerrainFactory terrainFactory;
 
+  private final TerrainFactory terrainFactory;
   private Entity player;
   private Entity crystal;
 
