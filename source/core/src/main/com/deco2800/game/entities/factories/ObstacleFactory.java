@@ -165,6 +165,7 @@ public class ObstacleFactory {
     Entity wall = new Entity()
         .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
+    wall.setName("wall");
     wall.setScale(width, height);
     return wall;
   }
