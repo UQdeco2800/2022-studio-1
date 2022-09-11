@@ -1,0 +1,13 @@
+{
+    "type": "artefact",
+    "name": "Bed",
+    "goldCost": 10,
+    "stoneCost": 0,
+    "woodCost": 0,
+    "attack": 0,
+    "defense": 0,
+    "health": 10,
+    "description": "Increases health by 10",
+    "itemImagePath": "images/shop-health-potion.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/health-potion-framed.png"
+}

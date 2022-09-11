@@ -7,6 +7,7 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +19,9 @@ import org.slf4j.LoggerFactory;
 public class MainGameActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
   private AtlantisSinks game;
-  private CareTaker playerStatus;
   private Entity player;
 
-  public MainGameActions(AtlantisSinks game, CareTaker playerStatus, Entity player) {
-    this.playerStatus = playerStatus;
+  public MainGameActions(AtlantisSinks game, Entity player) {
     this.player = player;
     this.game = game;
   }
@@ -39,7 +38,8 @@ public class MainGameActions extends Component {
    */
   private void onExit() {
     logger.info("Exiting main game screen");
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, null);
+    CareTaker.deleteAll();
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
   }
 
   /**
@@ -47,15 +47,20 @@ public class MainGameActions extends Component {
    */
   private void onSettings() {
     logger.info("Launching settings screen");
-    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+
+    Memento currentStatus = new Memento(CareTaker.getInstance().size(),
             player.getComponent(InventoryComponent.class).getGold(),
             player.getComponent(InventoryComponent.class).getStone(),
             player.getComponent(InventoryComponent.class).getWood(),
             player.getComponent(CombatStatsComponent.class).getHealth(),
             player.getComponent(InventoryComponent.class).getItems(),
-            player.getComponent(CombatStatsComponent.class).getBaseAttack());
-    playerStatus.add(currentStatus);
-    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
+            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+            player.getComponent(InventoryComponent.class).getWeapon(),
+            player.getComponent(InventoryComponent.class).getChestplate(),
+            player.getComponent(InventoryComponent.class).getHelmet());
+    CareTaker.getInstance().add(currentStatus);
+    game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME);
   }
 
   /**
@@ -65,19 +70,22 @@ public class MainGameActions extends Component {
    */
   private void openShop() {
     logger.info("Exiting main game screen");
-    Memento currentStatus = new Memento(playerStatus.getAll().size(),
+
+    CareTaker playerStatus = CareTaker.getInstance();
+    Memento currentStatus = new Memento(playerStatus.size(),
         player.getComponent(InventoryComponent.class).getGold(),
         player.getComponent(InventoryComponent.class).getStone(),
         player.getComponent(InventoryComponent.class).getWood(),
         player.getComponent(CombatStatsComponent.class).getHealth(),
         player.getComponent(InventoryComponent.class).getItems(),
-        player.getComponent(CombatStatsComponent.class).getBaseAttack());
+        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+        player.getComponent(InventoryComponent.class).getWeapon(),
+        player.getComponent(InventoryComponent.class).getChestplate(),
+        player.getComponent(InventoryComponent.class).getHelmet());
     playerStatus.add(currentStatus);
-    game.setScreen(AtlantisSinks.ScreenType.SHOP, this.playerStatus);
+    ServiceLocator.getDayNightCycleService().pause();
+    game.setScreen(AtlantisSinks.ScreenType.SHOP);
   }
 
-  private void openBuildingShop() {
-    logger.info("Entering Building Shop");
-    game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, this.playerStatus);
-  }
 }

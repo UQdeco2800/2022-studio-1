@@ -1,18 +1,22 @@
 package com.deco2800.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.deco2800.game.areas.ForestGameArea;
-import com.deco2800.game.areas.GameArea;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.TextureRenderComponent;
+
+import java.security.Provider;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Action component for interacting with the player. Player events should be initialised in create()
@@ -85,8 +89,39 @@ public class PlayerActions extends Component {
    * Makes the player attack.
    */
   void attack() {
-    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
-    attackSound.play();
-  }
+    Entity current = MainArea.getInstance().getGameArea().getPlayer();
+    Entity closestEnemy =
+            ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
+                    (int) current.getPosition().y);
+    Entity closestEntity =  ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,
+            (int) current.getPosition().y);
 
+    if (null != closestEnemy) {
+      CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
+      if (null != enemyTarget) {
+        CombatStatsComponent combatStats =
+                ServiceLocator.getEntityService().getNamedEntity("player").getComponent(CombatStatsComponent.class);
+        System.out.println(enemyTarget.getHealth());
+        enemyTarget.hit(combatStats);
+        if (enemyTarget.getHealth() < 1) {
+          closestEnemy.dispose();
+        } else {
+          enemyTarget.setHealth(enemyTarget.getHealth());
+          System.out.println(enemyTarget.getHealth());
+        }
+      }
+    } else if (null != closestEntity) {
+       if (null == closestEntity.getName()) {
+        return;
+      }
+      if (closestEntity.isCollectable()) {
+        closestEntity.collectResources();
+        closestEntity.dispose();
+        PlayerStatsDisplay.updateItems();
+      }
+    }
+  }
 }
+
+//    Sound attackSound = ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3", Sound.class);
+//    attackSound.play();

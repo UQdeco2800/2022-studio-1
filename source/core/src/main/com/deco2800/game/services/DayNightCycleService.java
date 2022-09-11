@@ -163,6 +163,7 @@ public class DayNightCycleService {
 
         if (this.isPaused) {
             // Resuming a timer
+            logger.info("Day/night cycle resumed");
             this.isPaused = false;
             return null; // Avoid running another async job
         }
@@ -194,6 +195,7 @@ public class DayNightCycleService {
     public void pause() {
         this.isPaused = true;
         this.timePaused = this.currentDayMillis;
+        logger.info("Day/night cycle paused");
     }
 
     /**
@@ -231,7 +233,7 @@ public class DayNightCycleService {
                         this.stop();
 
                         Gdx.app.postRunnable(() -> {
-                            events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
+                            events.trigger(EVENT_DAY_PASSED, this.currentDayNumber + 1);
                         });
                         return;
                     }
