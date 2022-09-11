@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
@@ -37,10 +38,11 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
 
-  private static final int MIN_NUM_CRABS = 5;
-  private static final int MAX_NUM_CRABS = 9;
-  private static final int MIN_NUM_EELS = 2;
-  private static final int MAX_NUM_EELS = 6;
+  private static final int MIN_NUM_CRABS = 1;
+  private static final int MAX_NUM_CRABS = 3;
+  private static final int MIN_NUM_EELS = 1;
+  private static final int MAX_NUM_EELS = 1;
+  private static final int BOSS_DAY = 3;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -76,6 +78,7 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/vines.png",
       "images/landscape_objects/cypress-tree-60x100.png",
       "images/landscape_objects/geyser.png",
+      "images/boss_enemy_angle1.png",
       "images/landscape_objects/billboard.png",
       "images/landscape_objects/chalice.png",
       "images/landscape_objects/pillar.png",
@@ -117,7 +120,7 @@ public class ForestGameArea extends GameArea {
 
   private Entity player;
   private Entity crystal;
-  private List<GridPoint2> enemySpawnPos;
+  private int dayNum = 0;
 
 
   public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
@@ -125,7 +128,10 @@ public class ForestGameArea extends GameArea {
     this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
 
-    ServiceLocator.getDayNightCycleService().getEvents().addListener("partOfDayPassed",
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+            (Integer dayNum) -> {this.dayNum = dayNum;
+                                  System.out.println("DayNum is" + this.dayNum);});
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
             this::spawnSetEnemies);
   }
 
@@ -150,11 +156,6 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-
-
-
-    spawnPirateCrabEnemy();
-    count = 5;
 
 
    //spawnElectricEelEnemy();
@@ -196,8 +197,10 @@ public class ForestGameArea extends GameArea {
     spawnWorldBorders();
   }
 
+
 private void spawnWorldBorders() {
-    enemySpawnPos = new ArrayList<GridPoint2>();
+    ArrayList enemySpawnPos = new ArrayList<GridPoint2>();
+
     GridPoint2 mapSize = terrainFactory.getMapSize();
 
     TiledMapTileLayer tiledMapTileLayer = terrain.getTileMapTileLayer(0);
@@ -219,31 +222,24 @@ private void spawnWorldBorders() {
         if (tile.getName().equals("grass")) {
           if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
-            enemySpawnPos.add(new GridPoint2(x, y + 2));
           }
           if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
             createBorderWall(x, y - 1);
-            enemySpawnPos.add(new GridPoint2(x, y - 2));
           }
           if (left.getName().equals("water")) {
             createBorderWall(x - 1, y);
-            enemySpawnPos.add(new GridPoint2(x - 2, y));
           }
           if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
             createBorderWall(x + 1, y);
-            enemySpawnPos.add(new GridPoint2(x + 2, y));
           }
           if (rightAbove.getName() == "water") {
             createBorderWall(x + 1, y + 1);
-            enemySpawnPos.add(new GridPoint2(x + 2, y + 2));
           }
           if (rightBelow.getName().equals("cliff")) {
             createBorderWall(x + 1, y - 1);
-            enemySpawnPos.add(new GridPoint2(x + 2, y - 2));
           }
           if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
-            enemySpawnPos.add(new GridPoint2(x - 2, y + 2));
           }
           if (leftBelow.getName() == "water") {
             createBorderWall(x - 1, y + 1);
@@ -424,6 +420,9 @@ private void spawnWorldBorders() {
         for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
           spawnElectricEelEnemy();
         }
+        if (dayNum == BOSS_DAY) {
+          spawnMeleeBoss();
+        }
         break;
     }
   }
@@ -441,7 +440,6 @@ private void spawnWorldBorders() {
    * Spawns a Pirate Crab entity at a randomised position within the game world
    */
   private void spawnPirateCrabEnemy() {
-
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
 
     spawnEnemy(pirateCrabEnemy);
@@ -452,18 +450,16 @@ private void spawnWorldBorders() {
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {
-
-    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + entity.getId(), entity);
-
-    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get((int) Math.random());
+    ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles().get(MathUtils.random(0,terrainFactory.getSpawnableTiles().size()-1));
 
     spawnEntityAt(entity, randomPos, true, true);
   }
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
-    spawnEnemy(ElectricEelEnemy);
 
+    spawnEnemy(ElectricEelEnemy);
   }
 
   private void playMusic() {
