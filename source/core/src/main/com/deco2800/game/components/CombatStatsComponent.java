@@ -23,6 +23,7 @@ public class CombatStatsComponent extends Component {
   private int level;
   private int defense;
   private int currentAttack;
+  private int maxHealth = 10000;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
@@ -36,15 +37,27 @@ public class CombatStatsComponent extends Component {
     setBaseAttack(baseAttack);
     setBaseDefense(defense);
   }
+
+//  /**
+//   * Combat Stats Component with extra parameter level to enable levelling up of entities
+//   */
+//  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
+//    setHealth(health);
+//    this.baseHealth = health;
+//    setBaseAttack(baseAttack);
+//    setLevel(level);
+//    this.currentAttack = baseAttack;
+//  }
   /**
-   * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
+   * Combat Stats Component with two extra parameter level & maxHealth to enable increase of maxHealth with each level upgrade
    */
-  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
+  public CombatStatsComponent(int health, int baseAttack, int level, int maxHealth) {
     setHealth(health);
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
     this.currentAttack = baseAttack;
+    setMaxHealth(maxHealth);
   }
 
   /**
@@ -74,7 +87,11 @@ public class CombatStatsComponent extends Component {
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      this.health = health;
+      if ( health <= maxHealth) {
+        this.health = health;
+      }else {
+        logger.error("health value cannot exceed max health");
+      }
     } else {
       this.health = 0;
     }
@@ -84,10 +101,18 @@ public class CombatStatsComponent extends Component {
   }
 
   public void setLevel(int level) {
-      this.level = level;
+    this.level = level;
 
     if (entity != null) {
       entity.getEvents().trigger("updateLevel", this.level);
+    }
+  }
+
+  public void setMaxHealth(int maxHealth) {
+    this.maxHealth = maxHealth;
+
+    if (entity != null) {
+      entity.getEvents().trigger("updateMaxHealth", this.maxHealth);
     }
   }
 
@@ -97,7 +122,9 @@ public class CombatStatsComponent extends Component {
    * @param health health to add
    */
   public void addHealth(int health) {
-    setHealth(this.health + health);
+    if (this.health + health <= maxHealth) {
+      setHealth(this.health + health);
+    }
   }
 
   /**
@@ -137,9 +164,12 @@ public class CombatStatsComponent extends Component {
     hurtSound.play();
   }
 
+
   /**
-   * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
+   * Returns the base health of the entity
+   * @return int
    */
+<<<<<<< HEAD
   public void upgrade() {
 
     //crystal.dispose();
@@ -174,7 +204,12 @@ public class CombatStatsComponent extends Component {
  * Returns the base health of the entity
  * @return int 
  */
+
   public int getBaseHealth() {
     return this.baseHealth;
   }
+  public int getMaxHealth() {
+    return this.maxHealth;
+  }
+
 }

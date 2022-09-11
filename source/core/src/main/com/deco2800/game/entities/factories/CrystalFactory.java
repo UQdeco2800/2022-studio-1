@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.deco2800.game.components.CameraComponent;
-import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.CrystalConfig;
@@ -56,9 +53,8 @@ public class CrystalFactory {
                         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
+        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.level,1000))
 
-        crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
-                        0, crystalStats.level))
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
         crystal.setCollectable(false);
@@ -82,6 +78,54 @@ public class CrystalFactory {
         ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
         crystal.setPosition(new Vector2(60, 0));
     }
+
+
+    /**
+     * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
+     */
+    public static void upgradeCrystal(Entity crystal){
+
+        int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
+        //crystal.dispose();
+        if( level == 1) {
+            //crystal.addComponent(new TextureRenderComponent("images/crystal_level2.png"));
+            triggerCrystal("images/crystal_level2.png");
+        }
+        else if(level == 2){
+            ServiceLocator.getEntityService().getNamedEntity("crystal2").dispose();
+            CrystalFactory.triggerCrystal("images/crystal_level3.png");
+            //crystal.addComponent(new TextureRenderComponent("images/crystal_level3.png"));
+            ServiceLocator.getEntityService().unregisterNamed("crystal2");
+        }
+        if(level < 3) {
+            //crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(50*level));
+            crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(50*level));
+            //crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(50*level));
+            crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
+        } else System.out.println("Crystal has reached max level");
+
+
+    }
+
+    public static void crystalClicked(int screenX, int screenY) {
+        //testing crystal upgrade on click
+        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+        mousePosV2.x -= 0.5;
+        mousePosV2.y -= 0.5;
+        //System.out.println(mousePosV2);
+        if (59.8 < mousePosV2.x && mousePosV2.x < 60.2) {
+            if (-0.375 < mousePosV2.y && mousePosV2.y < 0.375) {
+                Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+//                crystal.getComponent(CombatStatsComponent.class).upgrade();
+                upgradeCrystal(crystal);
+
+            }
+        }
+    }
+
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
