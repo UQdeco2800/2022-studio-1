@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
@@ -24,8 +25,6 @@ public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
   private Image healthBarImage;
-  private Image coinImage;
-  private Label coinLabel;
   private Image crystalImage;
   private ProgressBar progressBar;
   private Image crystalBarImage;
@@ -33,6 +32,8 @@ public class PlayerStatsDisplay extends UIComponent {
 
   private Image stoneCurrencyImage;
   private static Label stoneCurrencyLabel;
+  private Image coinImage;
+  private static Label coinLabel;
 
   Entity crystal;
   private static int stoneCount = 0;
@@ -140,12 +141,11 @@ public class PlayerStatsDisplay extends UIComponent {
     crystalLabel.setText(text);
   }
 
-  public void updateResourceAmount() {
-    CharSequence gold = String.format("x %d", entity.getComponent(InventoryComponent.class).getGold());
-    coinLabel.setText(gold);
-
-    CharSequence stone = String.format("x %d", entity.getComponent(InventoryComponent.class).getStone());
+  public static void updateItems() {
+    CharSequence stone = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getStone());
     stoneCurrencyLabel.setText(stone);
+    CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
+    coinLabel.setText(gold);
   }
 
   public static void updateStoneCountUI() {

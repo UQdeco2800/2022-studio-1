@@ -1,14 +1,17 @@
 package com.deco2800.game.components.player;
 
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import static com.deco2800.game.components.infrastructure.ResourceType.*;
 /**
  * A component intended to be used by the player to track their inventory.
  *
@@ -25,6 +28,8 @@ public class InventoryComponent extends Component {
   private Equipments helmet;
   private Equipments chestplate;
 
+  private HashMap<ResourceType, Integer> inventory = new HashMap<>();
+  
   private List<Artefact> items = new ArrayList<>();
 
   public InventoryComponent(int gold, int stone, int wood,
@@ -38,9 +43,9 @@ public class InventoryComponent extends Component {
   }
 
   public InventoryComponent(int gold, int stone, int wood) {
-    setGold(gold);
-    setStone(stone);
-    setWood(wood);
+    inventory.put(GOLD, gold);
+    inventory.put(STONE, stone);
+    inventory.put(WOOD, wood);
   }
 
   public void setWeapon(Equipments weapon) {
@@ -73,7 +78,7 @@ public class InventoryComponent extends Component {
    * @return entity's gold
    */
   public int getGold() {
-    return this.gold;
+    return inventory.get(GOLD);
   }
 
   /**
@@ -83,7 +88,7 @@ public class InventoryComponent extends Component {
    */
 
   public int getStone() {
-    return this.stone;
+    return inventory.get(STONE);
   }
 
   /**
@@ -93,7 +98,7 @@ public class InventoryComponent extends Component {
    */
 
   public int getWood() {
-    return this.wood;
+    return inventory.get(WOOD);
   }
 
   /**
@@ -103,7 +108,7 @@ public class InventoryComponent extends Component {
    * @return player has greater than or equal to the required amount of gold
    */
   public Boolean hasGold(int gold) {
-    return this.gold >= gold;
+    return inventory.get(GOLD) >= gold;
   }
 
   /**
@@ -113,7 +118,7 @@ public class InventoryComponent extends Component {
    * @return player has greater than or equal to the required amount of stone
    */
   public Boolean hasStone(int stone) {
-    return this.stone >= stone;
+    return inventory.get(STONE) >= stone;
   }
 
   /**
@@ -123,7 +128,7 @@ public class InventoryComponent extends Component {
    * @return player has greater than or equal to the required amount of wood
    */
   public Boolean hasWood(int wood) {
-    return this.wood >= wood;
+    return inventory.get(WOOD) >= wood;
   }
 
   /**
@@ -132,12 +137,8 @@ public class InventoryComponent extends Component {
    * @param gold gold
    */
   public void setGold(int gold) {
-    if (gold >= 0) {
-      this.gold = gold;
-    } else {
-      this.gold = 0;
-    }
-    logger.debug("Setting gold to {}", this.gold);
+    inventory.replace(GOLD, Math.max(gold, 0));
+    logger.debug("Setting gold to {}", inventory.get(GOLD));
   }
 
   /**
@@ -146,12 +147,8 @@ public class InventoryComponent extends Component {
    * @param stone currency stone
    */
   public void setStone(int stone) {
-    if (stone >= 0) {
-      this.stone = stone;
-    } else {
-      this.stone = 0;
-    }
-    logger.debug("Setting stone to {}", this.stone);
+    inventory.replace(STONE, Math.max(stone, 0));
+    logger.debug("Setting stone to {}", inventory.get(STONE));
   }
 
   /**
@@ -160,12 +157,8 @@ public class InventoryComponent extends Component {
    * @param wood currency wood
    */
   public void setWood(int wood) {
-    if (wood >= 0) {
-      this.wood = wood;
-    } else {
-      this.wood = 0;
-    }
-    logger.debug("Setting wood to {}", this.wood);
+    inventory.replace(WOOD, Math.max(wood, 0));
+    logger.debug("Setting wood to {}", inventory.get(WOOD));
   }
 
   /**
@@ -174,7 +167,7 @@ public class InventoryComponent extends Component {
    * @param gold gold to add
    */
   public void addGold(int gold) {
-    setGold(this.gold + gold);
+    setGold(inventory.get(GOLD) + gold);
   }
 
   /**
@@ -183,7 +176,7 @@ public class InventoryComponent extends Component {
    * @param stone stone to add
    */
   public void addStone(int stone) {
-    setStone(this.stone + stone);
+    setStone(inventory.get(STONE) + stone);
   }
 
   /**
@@ -192,7 +185,11 @@ public class InventoryComponent extends Component {
    * @param wood stone to add
    */
   public void addWood(int wood) {
-    setWood(this.wood + wood);
+    setWood(inventory.get(WOOD) + wood);
+  }
+
+  public void addResources(ResourceType resourceType, int amount) {
+    inventory.replace(resourceType, inventory.get(resourceType) + amount);
   }
 
   public void setItems(List<Artefact> items) {
