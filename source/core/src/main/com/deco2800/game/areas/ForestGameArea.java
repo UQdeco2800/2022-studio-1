@@ -119,13 +119,10 @@ public class ForestGameArea extends GameArea {
 
   //private EnvironmentalCollision entityMapping;
 
-
   private final TerrainFactory terrainFactory;
   private Entity player;
   private Entity crystal;
   private int dayNum = 1;
-
-
 
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
@@ -156,20 +153,15 @@ public class ForestGameArea extends GameArea {
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
 
-
-
     // entityMapping = new EnvironmentalCollision(terrain);
 
     this.crystal = spawnCrystal(60, 60);
 
-
     this.player = spawnPlayer();
 
     // spawnEnvironmentalObjects();
+
     playMusic();
-
-
-
   }
 
   private void displayUI() {
@@ -249,7 +241,6 @@ private void spawnWorldBorders() {
     }
   }
 
-
   private void createBorderWall(int x, int y) {
     Entity wall = ObstacleFactory.createWall(1f, 0.5f);
     spawnEntityAt(wall, new GridPoint2(x, y), false, false);
@@ -315,10 +306,8 @@ private void spawnWorldBorders() {
         if (counter > 1000) {
           return;
         }
-
         counter++;
       }
-
       this.entityMapping.addEntity(envObj);
       spawnEntityAt(envObj, randomPos, true, true);
     }
@@ -427,7 +416,6 @@ private void spawnWorldBorders() {
         break;
     }
   }
-
 
   /**
    * Spawn the boss

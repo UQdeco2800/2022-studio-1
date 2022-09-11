@@ -54,12 +54,10 @@ public class CrystalFactory {
                         .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack, crystalStats.defense, crystalStats.level,1000))
-
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
         crystal.setCollectable(false);
         ServiceLocator.getEntityService().registerNamed(name, crystal);
-
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         crystal.getComponent(TextureRenderComponent.class).scaleEntity();
@@ -67,7 +65,6 @@ public class CrystalFactory {
         PhysicsUtils.setScaledCollider(crystal, 1f, 0.5f);
         return crystal;
     }
-
 
     /**
      * Spawns Crystal outside of Game Area class
@@ -78,7 +75,6 @@ public class CrystalFactory {
         ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
         crystal.setPosition(new Vector2(60, 0));
     }
-
 
     /**
      * Upgrades the level of the Crystal changes its texture and increases its maximum health
@@ -97,8 +93,8 @@ public class CrystalFactory {
             ServiceLocator.getEntityService().unregisterNamed("crystal2");
         }
         if(level < 3) {
-            crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(50*level));
-            crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(50*level));
+            crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000+(100*level));
+            crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
             crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
         } else System.out.println("Crystal has reached max level");
     }
@@ -124,7 +120,6 @@ public class CrystalFactory {
             }
         }
     }
-
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
