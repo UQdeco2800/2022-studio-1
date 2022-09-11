@@ -182,7 +182,6 @@ public class NPCFactory {
             .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
             .addTask(new MeleePursueTask(target))
             .addTask(new MeleeAvoidObstacleTask(target));
-
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())

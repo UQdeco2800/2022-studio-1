@@ -39,6 +39,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
     private RotationDirection rotation;
     private boolean adjusting;
     private int adjustCountdown;
+    private Vector2 buffer;
     private enum RotationDirection {
         LEFT(-1f, 1f),
         RIGHT(1f, -1f);
@@ -63,9 +64,8 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         debugRenderer = ServiceLocator.getRenderService().getDebug();
         dayNightCycleService = ServiceLocator.getDayNightCycleService();
         this.collisionEntities = new ArrayList<Entity>();
-        //set rotation randomly to prevent identical behaviour among all entities
-        this.rotation  = (int)(Math.random()*2) == 0 ? RotationDirection.LEFT  : RotationDirection.RIGHT;
         resetAdjustCountdown();
+        currentDirection = target.getPosition();
     }
 
     /**
@@ -76,6 +76,9 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         entity = owner.getEntity();
         entity.getEvents().addListener("collisionStart", this::onCollisionStart);
         entity.getEvents().addListener("collisionEnd", this::onCollisionEnd);
+        buffer = owner.getEntity().getScale();
+        buffer.x /= 2;
+        buffer.y /= 2;
     }
 
     /**
@@ -88,17 +91,12 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         if (entity.getComponent(HitboxComponent.class).getFixture() != me) {
             return;
         }
-        //check it's the right physics layer TODO check this works - invisible wall. Might be able to just remove this bc of the moving check
-/*        if (!PhysicsLayer.contains(me.getFilterData().categoryBits, other.getFilterData().categoryBits)) {
-            return;
-        }*/
-        //todo also check if it's a sensor
         Entity coll = ((BodyUserData) other.getBody().getUserData()).entity;
         if (coll.getComponent(CombatStatsComponent.class) != null) {
             return;
         }
-
-        //save the entity and set the last position for later checking
+        // note this will also cause things with aoe effects to be added to the array - hopefully this isn't a big deal
+        // but might be worth addressing in future sprints
         collisionEntities.add(coll);
         lastPos = owner.getEntity().getPosition();
     }
@@ -127,8 +125,27 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
     @Override
     public void start() {
         super.start();
-        currentDirection = rotateVector(target.getPosition(), rotation);
-        movementTask = new MovementTask(currentDirection);
+        lastPos = owner.getEntity().getPosition();
+        // get which direction the obstacle is in
+        // get the edge of the obstacle
+        // movement task towards that edge
+        //if it fails, rotate again
+        //if not, break & continue pursuit??
+
+        Vector2 pos = owner.getEntity().getCenterPosition();
+        Vector2 obsPos = collisionEntities.get(collisionEntities.size()-1).getCenterPosition();
+//        Vector2 obsScale = collisionEntities.get(collisionEntities.size()-1).getScale();
+//        obsScale.x /= 2;
+//        obsScale.y /= 2;
+        currentDirection = convertTargetToDirection(target.getPosition());
+
+        if (isLeft(convertTargetToDirection(target.getCenterPosition()), pos, obsPos)) {
+            rotation = RotationDirection.RIGHT;
+        } else {
+            rotation = RotationDirection.LEFT;
+        }
+        currentDirection = rotateVector(currentDirection, rotation);
+        movementTask = new MovementTask(convertDirectionToTarget(currentDirection));
         movementTask.create(owner);
         movementTask.start();
     }
@@ -139,21 +156,19 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
      */
     @Override
     public void update() {
-        if (movementTask.getStatus() != Status.ACTIVE) {
-            movementTask.start();
+        if (movementTask.getStatus() == Status.FAILED) {
+            currentDirection = rotateVector(rotateVector(currentDirection, rotation), rotation);
+            movementTask.setTarget(convertDirectionToTarget(currentDirection));
         }
 
-        //if another collision, rotate again
-        if (!moving()) {
-            currentDirection = rotateVector(currentDirection, rotation);
-            movementTask.setTarget(currentDirection);
-            movementTask.update();
+        if (movementTask.getStatus() != Status.ACTIVE) {
+            movementTask.start();
         }
 
         // if no collisions, rotate opposite and walk for a bit (prevents walking in circles, I hope)
         if (collisionEntities.size() == 0) {
             RotationDirection invert = (rotation == RotationDirection.LEFT ? RotationDirection.RIGHT : RotationDirection.LEFT);
-            movementTask.setTarget(rotateVector(currentDirection, invert));
+            movementTask.setTarget(convertDirectionToTarget(rotateVector(currentDirection, invert)));
             movementTask.update();
             adjusting = true;
         }
@@ -173,11 +188,10 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
      */
     @Override
     public int getPriority() {
-        //todo reinstate below
-        /*if (dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.NIGHT
+        if (dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.NIGHT
                 && dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.DUSK) {
             return -1;
-        }*/
+        }
         if (status == Status.ACTIVE) {
             return getActivePriority();
         } else {
@@ -195,6 +209,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         adjustCountdown = 10;
         adjusting = false;
     }
+
     /**
      * get the priority of the task when active. Should be superseded by the meleeAttackTargetTask
      * @return active priority
@@ -237,7 +252,27 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         if (lastPos == null) {
             return true;
         }
-        return (owner.getEntity().getPosition().dst2(lastPos) > 0.001f);
+        return (owner.getEntity().getPosition().dst2(lastPos) > 0.0001f);
+    }
+
+    private Vector2 convertTargetToDirection(Vector2 target) {
+        return new Vector2(target.x - owner.getEntity().getPosition().x, target.y - owner.getEntity().getPosition().y);
+    }
+
+    private Vector2 convertDirectionToTarget(Vector2 direction) {
+        return new Vector2((owner.getEntity().getPosition().x + direction.x) * 10, (owner.getEntity().getPosition().y + direction.y)*10);
+    }
+
+    /**
+     *
+     * @param dir
+     * @param pos
+     * @param point
+     * @return true if point is on left of direction
+     */
+    private boolean isLeft(Vector2 dir, Vector2 pos, Vector2 point) {
+        Vector2 p = new Vector2(pos.x - point.x, pos.y - point.y);
+        return (p.x * dir.y - p.y * dir.x < 0);
     }
 
 }

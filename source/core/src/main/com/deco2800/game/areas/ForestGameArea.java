@@ -150,8 +150,6 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-
-
    //spawnElectricEelEnemy();
 
     // spawnEnvironmentalObjects();
@@ -435,7 +433,6 @@ private void spawnWorldBorders() {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
-
     spawnEnemy(pirateCrabEnemy);
   }
 
