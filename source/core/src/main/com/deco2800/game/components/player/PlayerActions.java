@@ -89,7 +89,6 @@ public class PlayerActions extends Component {
    * Makes the player attack.
    */
   void attack() {
-    System.out.println("Attacking...");
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
     Entity closestEnemy =
             ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
@@ -98,7 +97,6 @@ public class PlayerActions extends Component {
             (int) current.getPosition().y);
 
     if (null != closestEnemy) {
-      System.out.println("I am an enemy kill me.");
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
       if (null != enemyTarget) {
         CombatStatsComponent combatStats =
