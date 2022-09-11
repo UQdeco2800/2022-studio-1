@@ -243,78 +243,19 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
-    int level = combatStatsComponent.getLevel();
-    if (level == 1) {
-      if (health <= 950) {
-        combatStatsComponent.setHealth(health + 50);
-      } else if (health <= 960) {
-        combatStatsComponent.setHealth(health + 40);
-      } else if (health <= 970) {
-        combatStatsComponent.setHealth(health + 30);
-      } else if (health <= 980) {
-        combatStatsComponent.setHealth(health + 20);
-      } else if (health <= 990) {
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Crystal has reached max health");
-      }
-    } else if (level == 2) {
-      if (health <= 1050) {
-        combatStatsComponent.setHealth(health + 50);
-      } else if (health <= 1060) {
-        combatStatsComponent.setHealth(health + 40);
-      } else if (health <= 1070) {
-        combatStatsComponent.setHealth(health + 30);
-      } else if (health <= 1080) {
-        combatStatsComponent.setHealth(health + 20);
-      } else if (health <= 1090) {
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Crystal has reached max health");
-      }
-    } else if (level == 3) {
-      if (health <= 1150) {
-        combatStatsComponent.setHealth(health + 50);
-      } else if (health <= 1160) {
-        combatStatsComponent.setHealth(health + 40);
-      } else if (health <= 1170) {
-        combatStatsComponent.setHealth(health + 30);
-      } else if (health <= 1180) {
-        combatStatsComponent.setHealth(health + 20);
-      } else if (health <= 1190) {
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Crystal has reached max health");
-      }
-    } else if (level == 4) {
-      if (health <= 1250) {
-        combatStatsComponent.setHealth(health + 50);
-      } else if (health <= 1260) {
-        combatStatsComponent.setHealth(health + 40);
-      } else if (health <= 1270) {
-        combatStatsComponent.setHealth(health + 30);
-      } else if (health <= 1280) {
-        combatStatsComponent.setHealth(health + 20);
-      } else if (health <= 1290) {
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Crystal has reached max health");
-      }
-    } else if (level == 5) {
-      if (health <= 1350) {
-        combatStatsComponent.setHealth(health + 50);
-      } else if (health <= 1360) {
-        combatStatsComponent.setHealth(health + 40);
-      } else if (health <= 1370) {
-        combatStatsComponent.setHealth(health + 30);
-      } else if (health <= 1380) {
-        combatStatsComponent.setHealth(health + 20);
-      } else if (health <= 1390) {
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Crystal has reached max health");
-      }
-    } 
+    int maxHealth = combatStatsComponent.getMaxHealth();
+    if (maxHealth - health >= 50) {
+      combatStatsComponent.setHealth(health + 50);
+    } else if (maxHealth - health >= 40) {
+      combatStatsComponent.setHealth(health + 40);
+    } else if (maxHealth - health >= 30) {
+      combatStatsComponent.setHealth(health + 30);
+    } else if (maxHealth - health >= 20) {
+      combatStatsComponent.setHealth(health + 20);
+    } else if (maxHealth - health >= 10) {
+      combatStatsComponent.setHealth(health + 10);
+    } else {
+      System.out.println("Crystal has reached max health");
+    }
   }
-
 }
