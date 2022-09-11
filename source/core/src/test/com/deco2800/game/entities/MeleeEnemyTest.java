@@ -88,7 +88,7 @@ public class MeleeEnemyTest {
     }
 
     /**
-     *     this is just not working because of the ways the checks are made in the code & I can't figure out how to check if
+     *     this is just not working because of the ways the checks are made in the code and I can't figure out how to check if
      *     it has gone around the obstacle or not, or even whether it's collided with an obstacle that stops it from moving.
      */
 //    @Test
