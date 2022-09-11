@@ -10,6 +10,7 @@ import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.TextureRenderComponent;
 
@@ -112,12 +113,13 @@ public class PlayerActions extends Component {
         }
       }
     } else if (null != closestEntity) {
-      if (null == closestEntity.getName()) {
+       if (null == closestEntity.getName()) {
         return;
       }
       if (closestEntity.isCollectable()) {
         closestEntity.collectResources();
         closestEntity.dispose();
+        PlayerStatsDisplay.updateItems();
       }
     }
   }
