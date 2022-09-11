@@ -102,7 +102,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.deco2800.game.areas.GameArea">Fields inherited from class&nbsp;com.deco2800.game.areas.<a href="GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></h3>
-<code><a href="GameArea.html#areaEntities">areaEntities</a>, <a href="GameArea.html#terrain">terrain</a></code></div>
+<code><a href="GameArea.html#areaEntities">areaEntities</a>, <a href="GameArea.html#entityMapping">entityMapping</a>, <a href="GameArea.html#terrain">terrain</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -141,12 +141,15 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose of all internal entities in the area</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="terrain/EnvironmentalCollision.html" title="class in com.deco2800.game.areas.terrain">EnvironmentalCollision</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntityMapping()" class="member-name-link">getEntityMapping</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../components/Environmental/ValueTuple.html" title="class in com.deco2800.game.components.Environmental">ValueTuple</a>&lt;<a href="../components/Environmental/EnvironmentalComponent.ResourceTypes.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.ResourceTypes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeEnvironmentalObject(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">removeEnvironmentalObject</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;removeTile)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../components/Environmental/ValueTuple.html" title="class in com.deco2800.game.components.Environmental">ValueTuple</a>&lt;<a href="../components/Environmental/EnvironmentalComponent.ResourceTypes.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.ResourceTypes</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeEnvironmentalObject(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">removeEnvironmentalObject</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;removeTile)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">removes an entity at a specific tile coordinate
  goes through areaEntities to find entity in that position
  check if entity is an environment object
@@ -250,6 +253,16 @@ loadScripts(document, 'script');</script>
 <dd><code>dispose</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.utils.Disposable</code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="GameArea.html#dispose()">dispose</a></code>&nbsp;in class&nbsp;<code><a href="GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getEntityMapping()">
+<h3>getEntityMapping</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="terrain/EnvironmentalCollision.html" title="class in com.deco2800.game.areas.terrain">EnvironmentalCollision</a></span>&nbsp;<span class="element-name">getEntityMapping</span>()</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="GameArea.html#getEntityMapping()">getEntityMapping</a></code>&nbsp;in class&nbsp;<code><a href="GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></code></dd>
 </dl>
 </section>
 </li>
