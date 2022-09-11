@@ -45,7 +45,7 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
-  private static final int BOSS_DAY = 3;
+  private static final int BOSS_DAY = 2;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
