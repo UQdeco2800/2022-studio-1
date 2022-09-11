@@ -1,5 +1,7 @@
 package com.deco2800.game.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
@@ -19,6 +21,7 @@ public class CombatStatsComponent extends Component {
   private int baseHealth;
   private int baseAttack;
   private int level;
+  private int defense;
   private int currentAttack;
 
   public CombatStatsComponent(int health, int baseAttack) {
@@ -28,10 +31,15 @@ public class CombatStatsComponent extends Component {
     this.currentAttack = baseAttack;
   }
 
+  public CombatStatsComponent(int health, int baseAttack, int defense) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setBaseDefense(defense);
+  }
   /**
    * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
    */
-  public CombatStatsComponent(int health, int baseAttack, int level) {
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
     setHealth(health);
     this.baseHealth = health;
     setBaseAttack(baseAttack);
@@ -125,35 +133,42 @@ public class CombatStatsComponent extends Component {
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+    hurtSound.play();
   }
 
   /**
    * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
    */
-  public void upgrade(){
+  public void upgrade() {
 
     //crystal.dispose();
-    if(this.level == 1) {
+    if (this.level == 1) {
       CrystalFactory.triggerCrystal("images/crystal_level2.png");
-    }
-    else if(this.level == 2){
+    } else if (this.level == 2) {
       Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
       crystal.dispose();
       CrystalFactory.triggerCrystal("images/crystal_level3.png");
     }
     //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
     //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
-    if(this.level <= 5) {
+    if (this.level <= 5) {
       //addHealth((1000-this.health)+(50*this.level));
       System.out.println(this.health);
-      setHealth(this.health+=50);
+      setHealth(this.health += 50);
       setLevel(this.level + 1);
       //System.out.println(this.health);
     } else System.out.println("Crystal has reached max level");
+  }
 
 
 
 
+  public void setBaseDefense(int defense) {
+    this.defense = defense;
+  }
+  public int getBaseDefense() {
+    return defense;
   }
 /**
  * Returns the base health of the entity
