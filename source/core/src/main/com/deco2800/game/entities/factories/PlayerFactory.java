@@ -44,23 +44,24 @@ public class PlayerFactory {
   public static Entity createPlayer() {
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    //TextureRenderComponent player_start = new TextureRenderComponent("images/Centaur_left.png");
+    //e.g. "w" - when w is pressed, "wa" - during attack, when w is pressed before
     AnimationRenderComponent player_start = new AnimationRenderComponent(ServiceLocator.getResourceService()
-    .getAsset("images/anim_demo/mainchar.atlas", TextureAtlas.class));
+    .getAsset("images/anim_demo/mainchar_anim_final.atlas", TextureAtlas.class));
     player_start.addAnimation("w", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("wa", 0.1f, Animation.PlayMode.LOOP);
     player_start.addAnimation("a", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("aa", 0.1f, Animation.PlayMode.LOOP);
     player_start.addAnimation("s", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("sa", 0.1f, Animation.PlayMode.LOOP);
     player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("da", 0.1f, Animation.PlayMode.LOOP);
 
     Entity player =
         new Entity()
             .addComponent(player_start)
             .addComponent(new PhysicsComponent())
-
             .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
-
             .addComponent(new AnimationController())
-
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
             .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
@@ -73,8 +74,9 @@ public class PlayerFactory {
     ServiceLocator.getEntityService().registerNamed("player", player);
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
+    player.getComponent(AnimationRenderComponent.class).startAnimation("w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
-    player.getComponent(AnimationRenderComponent.class).startAnimation("d");
+    player.setScale(1.2f, 1.2f);
     return player;
   }
 
