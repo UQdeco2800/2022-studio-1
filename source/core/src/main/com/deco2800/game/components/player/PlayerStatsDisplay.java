@@ -11,6 +11,7 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
@@ -45,7 +46,7 @@ public class PlayerStatsDisplay extends UIComponent {
   private Image woodImage;
   private static Label woodLabel;
 
-  DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+  DayNightCycleStatus status;
 
 
   Entity crystal;
@@ -135,7 +136,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     woodLabel = new Label(String.valueOf(woodCount), skin, "large");
 
-    recoverCrystalHealth(status);
+    CrystalFactory.recoverCrystalHealth(crystal);
 
     table.add(heartImage).pad(5);
     // table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);
@@ -220,32 +221,33 @@ public class PlayerStatsDisplay extends UIComponent {
     stoneCurrencyLabel.remove();
   }
 
-  /**
-   * Recover crystal health at dawn, day, and dusk
-   */
-  private void recoverCrystalHealth(DayNightCycleStatus partOfDay) {
-    switch (partOfDay){
-      case DAWN:
-      case DAY:
-      case DUSK:
-        Timer time = new Timer();
-        TimerTask timerTask = new TimerTask() {
-        @Override
-            public void run() {
-                // DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
-                if (status != DayNightCycleStatus.NIGHT) {
-                    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-                    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-                    int health = combatStatsComponent.getHealth();
-                    combatStatsComponent.setHealth(health + 10);
-                }
-            }
-        };
-        time.scheduleAtFixedRate(timerTask, 5000, 5000);
-        break;
-      case NIGHT:
-      case NONE:
-        break;
-    }
-  }
+//  /**
+//   * Recover crystal health at dawn, day, and dusk
+//   */
+//  private void recoverCrystalHealth(DayNightCycleStatus partOfDay) {
+//    System.out.println(partOfDay);
+//    switch (partOfDay){
+//      case DAWN:
+//      case DAY:
+//      case DUSK:
+//        Timer time = new Timer();
+//        TimerTask recoverCrystal = new TimerTask() {
+//        @Override
+//            public void run() {
+//                // DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+//                if (status != DayNightCycleStatus.NIGHT) {
+//                    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+//                    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+//                    int health = combatStatsComponent.getHealth();
+//                    combatStatsComponent.setHealth(health + 10);
+//                }
+//            }
+//        };
+//        time.scheduleAtFixedRate(recoverCrystal, 5000, 5000);
+//        break;
+//      case NIGHT:
+//      case NONE:
+//        break;
+//    }
+//  }
 }
