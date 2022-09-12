@@ -9,6 +9,10 @@ public class StructureConfig {
   public BaseStructureConfig tower1I = new BaseStructureConfig();
   public BaseStructureConfig tower1II = new BaseStructureConfig();
   public BaseStructureConfig tower1III = new BaseStructureConfig();
+  public BaseStructureConfig tower2 = new BaseStructureConfig();
+  public BaseStructureConfig tower2I = new BaseStructureConfig();
+  public BaseStructureConfig tower2II = new BaseStructureConfig();
+  public BaseStructureConfig tower2III = new BaseStructureConfig();
   public BaseStructureConfig stoneQuarry = new BaseStructureConfig();
   public BaseStructureConfig trap = new BaseStructureConfig();
 }

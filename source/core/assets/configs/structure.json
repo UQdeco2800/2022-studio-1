@@ -10,22 +10,52 @@
     "gold": 30
   },
   "tower1I": {
-    "health" : 300,
+    "health" : 250,
     "baseAttack" : 12,
     "gold": 50
   },
   "tower1II" : {
-    "health" : 400,
+    "health" : 300,
     "baseAttack" : 14,
     "gold" : 50,
     "stone" : 20
 
   },
-  "tower1III": {
-    "health" : 500,
+  "tower2": {
+    "health" : 150,
     "baseAttack" : 16,
+    "gold": 50
+  },
+  "tower2I" : {
+    "health" : 200,
+    "baseAttack" : 20,
+    "gold" : 50,
+    "stone" : 20
+
+  },
+  "tower2II": {
+    "health" : 250,
+    "baseAttack" : 24,
     "gold" : 70,
     "stone" : 30
+  },
+  "tower3": {
+    "health" : 250,
+    "baseAttack" : 14,
+    "gold": 75
+  },
+  "tower3I" : {
+    "health" : 300,
+    "baseAttack" : 16,
+    "gold" : 90,
+    "stone" : 10
+
+  },
+  "tower3II": {
+    "health" : 350,
+    "baseAttack" : 18,
+    "gold" : 110,
+    "stone" : 20
   },
   "trap": {
     "health" : 150,

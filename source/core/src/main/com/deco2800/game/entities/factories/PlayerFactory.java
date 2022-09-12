@@ -2,7 +2,6 @@ package com.deco2800.game.entities.factories;
 
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.player.AnimationController;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
@@ -56,7 +55,6 @@ public class PlayerFactory {
         new Entity()
             .addComponent(player_start)
             .addComponent(new PhysicsComponent())
-            .addComponent(new AnimationController())
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())

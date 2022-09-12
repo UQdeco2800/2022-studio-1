@@ -81,14 +81,13 @@ public static Entity createTrap() {
 
   /**
    * Creates a tower1 entity.
-   *
+   * @param level of the tower to create
    * @return entity
    */
   public static Entity createTower1(int level) {
     //@TODO Change string constant 
     String TOWER1I = "images/mini_tower.png";
     String TOWER1II = "images/mini_tower.png";
-    String TOWER1III = "images/mini_tower.png";
     Entity tower1;
     BaseStructureConfig config;
 
@@ -121,6 +120,91 @@ public static Entity createTrap() {
     }
     //should never run    
     return tower1;
+  }
+
+/**
+ * Creates a tower2 entity, adding various components to create a defensive tower
+ * @param level of the tower
+ * @return tower2 entity 
+ */
+  public static Entity createTower2(int level) {
+    //@TODO Change string constant 
+    String TOWER2I = "images/mini_tower.png";
+    String TOWER2II = "images/mini_tower.png";
+    Entity tower2;
+    BaseStructureConfig config;
+
+    tower2 = createBaseStructure("images/mini_tower.png");
+    switch(level) {
+      case 1: //Represents the base level structure
+        tower2 = createBaseStructure("images/mini_tower.png");
+        config = configs.tower1;
+    
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                .addComponent(new ResourceCostComponent(config.gold));
+        return tower2;
+      
+      case 2: //Represents the first upgraded version of the tower
+        tower2 = createBaseStructure(TOWER2I);
+        config = configs.tower1I;
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                .addComponent(new ResourceCostComponent(config.gold));
+        return tower2;
+
+        case 3: //Represents the second upgraded version of the tower
+          tower2 = createBaseStructure(TOWER2II);
+          config = configs.tower1II;
+          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
+                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                  .addComponent(new ResourceCostComponent(config.gold, config.stone));
+          return tower2;
+    }
+    //should never run    
+    return tower2;
+  }
+  /**
+   * Creates a tower3 entity, and adds various components to create a defensive tower.
+   * @param level of the tower
+   * @return tower3 entity
+   */
+  public static Entity createTower3(int level) {
+    //@TODO Change string constant 
+    String TOWER3I = "images/mini_tower.png";
+    String TOWER3II = "images/mini_tower.png";
+    Entity tower3;
+    BaseStructureConfig config;
+
+    tower3 = createBaseStructure("images/mini_tower.png");
+    switch(level) {
+      case 1: //Represents the base level structure
+      tower3 = createBaseStructure("images/mini_tower.png");
+        config = configs.tower1;
+    
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                .addComponent(new ResourceCostComponent(config.gold));
+        return tower3;
+      
+      case 2: //Represents the first upgraded version of the tower
+      tower3 = createBaseStructure(TOWER3I);
+        config = configs.tower1I;
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
+                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                .addComponent(new ResourceCostComponent(config.gold));
+        return tower3;
+
+        case 3: //Represents the second upgraded version of the tower
+        tower3 = createBaseStructure(TOWER3II);
+          config = configs.tower1II;
+          tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
+                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+                  .addComponent(new ResourceCostComponent(config.gold, config.stone));
+          return tower3;
+    }
+    //should never run    
+    return tower3;
   }
 
   /**
