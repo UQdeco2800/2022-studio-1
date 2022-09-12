@@ -133,11 +133,11 @@ public class HealthBarComponent extends RenderComponent {
 
         // Added if statement to not display health bar on top of crystal
         //System.out.println(this.entity.getPosition());
-        Entity player = MainArea.getInstance().getGameArea().getPlayer();
+        //Entity player = MainArea.getInstance().getGameArea().getPlayer();
 
         if (this.entity!= null) {
             if (!Objects.equals(this.entity.getPosition(), new Vector2(60, 0))) {
-                if(!Objects.equals(this.entity, player)) {
+                if(!Objects.equals(this.entity.getName(),"player")) {
 
                     float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
                             - (this.healthBarWidth / 2f);
