@@ -22,7 +22,6 @@ import java.util.*;
  * registered here.
  */
 
-// hasmap <locaton, hashmap<name, tile type>>
 public class GameService {
 
     private static final Logger logger = LoggerFactory.getLogger(GameService.class);
