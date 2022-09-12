@@ -13,14 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class CombatStatsComponentTest {
   @Test
   void shouldSetGetHealth() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 20);
-    assertEquals(100, combat.getHealth());
+    CombatStatsComponent combat = new CombatStatsComponent(1000, 0, 0,1, 1000);
+    assertEquals(1000, combat.getHealth());
 
     combat.setHealth(150);
     assertEquals(150, combat.getHealth());
 
+    combat.setHealth(900);
+    assertEquals(900, combat.getHealth());
+
     combat.setHealth(-50);
     assertEquals(0, combat.getHealth());
+        
+    combat.setHealth(1100);
+    assertNotEquals(1100, combat.getHealth());
+    assertFalse(combat.getHealth() > 1000);
   }
 
   @Test
