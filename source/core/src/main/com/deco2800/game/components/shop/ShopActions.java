@@ -54,18 +54,24 @@ public class ShopActions extends Component {
         game.setScreen(AtlantisSinks.ScreenType.SHOP);
     }
 
+    /**
+     * Saves the currently relevant status of the player based on the type of shop screen they are in
+     */
     private void saveStatus() {
         Originator currentStatus = new Originator(playerStatus.size());
         currentStatus.getStateFromMemento(playerStatus.getLast());
         currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
         currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
+        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getWood());
         if (game.getScreenType() == AtlantisSinks.ScreenType.EQUIPMENT_SHOP) {
             currentStatus.setDefense(entity.getComponent(CombatStatsComponent.class).getBaseDefense());
             currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getBaseAttack());
             currentStatus.setWeapon(entity.getComponent(InventoryComponent.class).getWeapon());
             currentStatus.setChestplate(entity.getComponent(InventoryComponent.class).getChestplate());
             currentStatus.setHelmet(entity.getComponent(InventoryComponent.class).getHelmet());
+        } else if (game.getScreenType() == AtlantisSinks.ScreenType.ARTEFACT_SHOP) {
+            currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         }
         playerStatus.add(currentStatus.saveStateToMemento());
     }
