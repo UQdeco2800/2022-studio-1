@@ -81,16 +81,20 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Entity</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Core entity class. Entities exist in the game and are updated each frame. All entities have a
- position and scale, but have no default behaviour. Components should be added to an entity to
- give it specific behaviour. This class should not be inherited or modified directly.
+<div class="block">Core entity class. Entities exist in the game and are updated each frame. All
+ entities have a
+ position and scale, but have no default behaviour. Components should be added
+ to an entity to
+ give it specific behaviour. This class should not be inherited or modified
+ directly.
 
- <p>Example use:
+ <p>
+ Example use:
 
  <pre>
  Entity player = new Entity()
-   .addComponent(new RenderComponent())
-   .addComponent(new PlayerControllerComponent());
+     .addComponent(new RenderComponent())
+     .addComponent(new PlayerControllerComponent());
  ServiceLocator.getEntityService().register(player);
  </pre></div>
 </section>
@@ -283,21 +287,28 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="setName(java.lang.String)">
+<h3>setName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getName()">
+<h3>getName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="setEnabled(boolean)">
 <h3>setEnabled</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEnabled</span><wbr><span class="parameters">(boolean&nbsp;enabled)</span></div>
-<div class="block">Enable or disable an entity. Disabled entities do not run update() or earlyUpdate() on their
+<div class="block">Enable or disable an entity. Disabled entities do not run update() or
+ earlyUpdate() on their
  components, but can still be disposed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>enabled</code> - true for enable, false for disable.</dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setName(java.lang.String)">
-<h3>setName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
 </section>
 </li>
 <li>
@@ -316,12 +327,6 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="collectResources()">
 <h3>collectResources</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">collectResources</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getName()">
-<h3>getName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
 </section>
 </li>
 <li>
@@ -394,7 +399,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getScale()">
 <h3>getScale</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.Vector2</span>&nbsp;<span class="element-name">getScale</span>()</div>
-<div class="block">Get the entity's scale. Used for rendering and physics bounding box calculations.</div>
+<div class="block">Get the entity's scale. Used for rendering and physics bounding box
+ calculations.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Scale in x and y directions. 1 = 1 metre.</dd>
@@ -477,10 +483,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addComponent(com.deco2800.game.components.Component)">
 <h3>addComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">addComponent</span><wbr><span class="parameters">(<a href="../components/Component.html" title="class in com.deco2800.game.components">Component</a>&nbsp;component)</span></div>
-<div class="block">Add a component to the entity. Can only be called before the entity is registered in the world.</div>
+<div class="block">Add a component to the entity. Can only be called before the entity is
+ registered in the world.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>component</code> - The component to add. Only one component of a type can be added to an entity.</dd>
+<dd><code>component</code> - The component to add. Only one component of a type can be
+                  added to an entity.</dd>
 <dt>Returns:</dt>
 <dd>Itself</dd>
 </dl>
@@ -497,7 +505,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="create()">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
-<div class="block">Create the entity and start running. This is called when the entity is registered in the world,
+<div class="block">Create the entity and start running. This is called when the entity is
+ registered in the world,
  and should not be called manually.</div>
 </section>
 </li>
@@ -505,7 +514,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="earlyUpdate()">
 <h3>earlyUpdate</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">earlyUpdate</span>()</div>
-<div class="block">Perform an early update on all components. This is called by the entity service and should not
+<div class="block">Perform an early update on all components. This is called by the entity
+ service and should not
  be called manually.</div>
 </section>
 </li>
@@ -513,7 +523,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block">Perform an update on all components. This is called by the entity service and should not be
+<div class="block">Perform an update on all components. This is called by the entity service and
+ should not be
  called manually.</div>
 </section>
 </li>
@@ -532,7 +543,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEvents()">
 <h3>getEvents</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../events/EventHandler.html" title="class in com.deco2800.game.events">EventHandler</a></span>&nbsp;<span class="element-name">getEvents</span>()</div>
-<div class="block">Get the event handler attached to this entity. Can be used to trigger events from an attached
+<div class="block">Get the event handler attached to this entity. Can be used to trigger events
+ from an attached
  component, or listen to events from a component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

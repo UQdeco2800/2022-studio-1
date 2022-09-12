@@ -79,14 +79,17 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EnvironmentalComponent</span>
 <span class="extends-implements">extends <a href="../Component.html" title="class in com.deco2800.game.components">Component</a></span></div>
-<div class="block">Universal component used for environmental objects. Currently in initial testing phase. With additional
+<div class="block">Universal component used for environmental objects. Currently in initial
+ testing phase. With additional
  environmental objects to be created.
 
- An environmental component has a set of attributes based off the environmental type
+ An environmental component has a set of attributes based off the
+ environmental type
  to be used for attaching to entities.
 
  Example of correct usage when attaching to entity is (Using a rock):
-      new EnvironmentalComponent().setType(EnvironmentalComponent.EnvironmentalType.ROCK)</div>
+ new
+ EnvironmentalComponent().setType(EnvironmentalComponent.EnvironmentalType.ROCK)</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,10 +108,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Enum containing the associate values for the environmental component
 
  An environmental component has:
-      resourceType: The type of resource
-      resourceValue: The number of resources to be returned associated with resource type
+ resourceType: The type of resource
+ resourceValue: The number of resources to be returned associated with
+ resource type
 
- E.g A cobweb has resourceValue = 0, speedModifier = 0.6 indicating zero resources will be given when broken
+ E.g A cobweb has resourceValue = 0, speedModifier = 0.6 indicating zero
+ resources will be given when broken
  and when a player walks through it, their speed is reduced by 40%</div>
 </div>
 <div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
@@ -245,7 +250,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getResourceAmount</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The number of resources when the Environmental Type is broken/destroyed</dd>
+<dd>The number of resources when the Environmental Type is
+         broken/destroyed</dd>
 </dl>
 </section>
 </li>

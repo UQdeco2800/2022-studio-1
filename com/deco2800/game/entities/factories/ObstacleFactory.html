@@ -79,7 +79,9 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Factory to create obstacle entities.
 
- <p>Each obstacle entity type should have a creation method that returns a corresponding entity.</div>
+ <p>
+ Each obstacle entity type should have a creation method that returns a
+ corresponding entity.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -97,7 +99,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createAoeSpeedArtefact()" class="member-name-link">createAoeSpeedArtefact</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">creates an AOE artefact that changes player speed in an area of effect around the artefact.</div>
+<div class="block">creates an AOE artefact that changes player speed in an area of effect around
+ the artefact.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createBillboard()" class="member-name-link">createBillboard</a>()</code></div>
@@ -120,9 +123,20 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a rock entity.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createShipwreckBack()" class="member-name-link">createShipwreckBack</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">creates a shipwreck entity (back)</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createShipwreckFront()" class="member-name-link">createShipwreckFront</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">creates a shipwreck entity (front)</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createSpikyTree()" class="member-name-link">createSpikyTree</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a spiky tree entity, which damages players and knocks them back on contact</div>
+<div class="block">Creates a spiky tree entity, which damages players and knocks them back on
+ contact</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTree()" class="member-name-link">createTree</a>()</code></div>
@@ -199,7 +213,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createSpikyTree()">
 <h3>createSpikyTree</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createSpikyTree</span>()</div>
-<div class="block">Creates a spiky tree entity, which damages players and knocks them back on contact</div>
+<div class="block">Creates a spiky tree entity, which damages players and knocks them back on
+ contact</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>entity</dd>
@@ -232,7 +247,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createAoeSpeedArtefact()">
 <h3>createAoeSpeedArtefact</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createAoeSpeedArtefact</span>()</div>
-<div class="block">creates an AOE artefact that changes player speed in an area of effect around the artefact.</div>
+<div class="block">creates an AOE artefact that changes player speed in an area of effect around
+ the artefact.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>entity</dd>
@@ -255,6 +271,28 @@ loadScripts(document, 'script');</script>
 <h3>createWoodenFence</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createWoodenFence</span>()</div>
 <div class="block">creates a wooden fence entity</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createShipwreckFront()">
+<h3>createShipwreckFront</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createShipwreckFront</span>()</div>
+<div class="block">creates a shipwreck entity (front)</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createShipwreckBack()">
+<h3>createShipwreckBack</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">createShipwreckBack</span>()</div>
+<div class="block">creates a shipwreck entity (back)</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>entity</dd>
