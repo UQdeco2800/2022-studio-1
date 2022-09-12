@@ -229,7 +229,7 @@ public class DayNightCycleServiceTest {
     public void shouldCycleThroughAllWedgesOfDay() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
         AtomicBoolean firstDayPassed = new AtomicBoolean(false);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_MOVE_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
             if (firstDayPassed.get()) {
                 wedges.incrementAndGet();
             }
@@ -251,7 +251,7 @@ public class DayNightCycleServiceTest {
     public void shouldCycleThroughAllWedgesOfNight() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
         AtomicBoolean firstDayPassed = new AtomicBoolean(false);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_MOVE_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
             if (firstDayPassed.get()) {
                 wedges.incrementAndGet();
             }

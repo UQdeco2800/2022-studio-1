@@ -18,7 +18,7 @@ public class DayNightCycleService {
 
     public static final String EVENT_PART_OF_DAY_PASSED = "partOfDayPassed";
 
-    public static final String EVENT_MOVE_CLOCK = "moveClock";
+    public static final String EVENT_INTERMITTENT_PART_OF_DAY_CLOCK = "moveClock";
 
     private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
@@ -257,11 +257,11 @@ public class DayNightCycleService {
                     this.currentDayMillis = 0;
                 }
 
-                // Move clock
+                // Move clock for parts of day with more halves
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY || this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
                     if (currentPartOfDayLength % (timePerHalveOfDay*timePerHalveIteration) == 0) {
                         Gdx.app.postRunnable(() -> {
-                            events.trigger(EVENT_MOVE_CLOCK);
+                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK);
                         });
                         timePerHalveIteration++;
                     }
@@ -287,7 +287,6 @@ public class DayNightCycleService {
         // helps with testing
         Gdx.app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
-            this.events.trigger(EVENT_MOVE_CLOCK);
         });
         
         if (nextPartOfDay == DayNightCycleStatus.NIGHT) {
