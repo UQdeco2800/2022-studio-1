@@ -135,7 +135,6 @@ public class ShopBuildScreen extends ScreenAdapter {
         Memento lastStatus = CareTaker.getInstance().getLast();
         music.setLooping(true);
         music.play();
-
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
