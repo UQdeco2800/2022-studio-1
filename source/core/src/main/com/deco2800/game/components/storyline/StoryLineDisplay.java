@@ -13,9 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.components.storyline.frames.Frame;
-import com.deco2800.game.components.storyline.frames.epilogue1;
-import com.deco2800.game.components.storyline.frames.epilogue2;
-import com.deco2800.game.components.storyline.frames.epilogue3;
+import com.deco2800.game.components.storyline.frames.prologue1;
+import com.deco2800.game.components.storyline.frames.prologue2;
+import com.deco2800.game.components.storyline.frames.prologue3;
+import com.deco2800.game.components.storyline.frames.prologue4;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,9 +63,10 @@ public class StoryLineDisplay extends UIComponent {
 
         //load the epilogue screens
         frameset = new StoryLinkedList<>();
-        frameset.add(new epilogue1());
-        frameset.add(new epilogue2());
-        frameset.add(new epilogue3());
+        frameset.add(new prologue1());
+        frameset.add(new prologue2());
+        frameset.add(new prologue3());
+        frameset.add(new prologue4());
         currentFrame = frameset.header;
 
         // load and set Background

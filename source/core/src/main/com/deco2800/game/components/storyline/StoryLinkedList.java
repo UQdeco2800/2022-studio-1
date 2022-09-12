@@ -1,5 +1,8 @@
 package com.deco2800.game.components.storyline;
 
+/**
+ * The functionality is inspired from Satya Bhasale work in /shop/CircularLinkedList.java
+ */
 
 class Node<F> {
     F f;
