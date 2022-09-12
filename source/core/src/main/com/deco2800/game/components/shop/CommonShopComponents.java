@@ -136,4 +136,7 @@ public class CommonShopComponents extends UIComponent {
     public TextButton getStoneButton() {
         return this.stoneFrame;
     }
+    public TextButton getWoodButton() {
+        return this.woodFrame;
+    }
 }

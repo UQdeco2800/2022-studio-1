@@ -317,8 +317,12 @@ public class ShopEquipmentDisplay extends UIComponent {
 
                             Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
                             coinSound.play();
+                            buyButton.setColor(121,15,85,1);
                         } else {
                             logger.info("Insufficient gold!");
+                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                            buyButton.setColor(255,0,0,1);
                         }
                         entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ");

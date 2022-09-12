@@ -1,5 +1,10 @@
 package com.deco2800.game.components.shop;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +64,8 @@ public class ShopBuildingDisplay extends UIComponent {
     private TextureRegionDrawable goldenDrawable;
     private Texture brownCategoryTexture;
     private TextureRegionDrawable brownDrawable;
+    private Texture redCategoryTexture;
+    private TextureRegionDrawable redDrawable;
 
     private TextButton descriptionDisplay;
     private TextButton buyButton;
@@ -124,8 +131,10 @@ public class ShopBuildingDisplay extends UIComponent {
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
         goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
         goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
         brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+        redDrawable = new TextureRegionDrawable(redCategoryTexture);
         left = new TextureRegionDrawable(leftTexture);
         right = new TextureRegionDrawable(rightTexture);
 
@@ -214,14 +223,19 @@ public class ShopBuildingDisplay extends UIComponent {
                             entity.getComponent(InventoryComponent.class).addStone(-1 * current.t.getStonePrice());
                             Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
                             rockSound.play();
+                            buyButton.setColor(121,15,85,1);
                         } else {
                             logger.info("Insufficient stone!");
+                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                            buyButton.setColor(255,0,0,1);
                         }
                         entity.getComponent(CommonShopComponents.class).getStoneButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ");
+                        entity.getComponent(CommonShopComponents.class).getWoodButton().setText(
+                                Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ");
                     }
                 });
-
         backButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -258,7 +272,6 @@ public class ShopBuildingDisplay extends UIComponent {
     @Override
     public void draw(SpriteBatch batch) {
         // draw is handled by the stage
-
     }
 
     @Override
