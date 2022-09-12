@@ -25,14 +25,14 @@ public class DayNightCycleComponent extends InputComponent {
     private final ShaderProgram dayNightCycleShader;
     public static final TextureRegion BLACK_IMAGE = new TextureRegion();
 
-    private static final float NIGHT_INTENSITY = 0.75f;
-    private static final float DUSK_INTENSITY = 0.95f;
-    private static final float DAWN_INTENSITY = 0.095f;
-    private static final float DAY_INTENSITY = 0.2f;
+    public static final float NIGHT_INTENSITY = 0.75f;
+    public static final float DUSK_INTENSITY = 0.95f;
+    public static final float DAWN_INTENSITY = 0.095f;
+    public static final float DAY_INTENSITY = 0.2f;
 
-    private static final  Vector3 bright = new Vector3(6.3f, 6.3f, 6.7f);
+    public static final  Vector3 bright = new Vector3(6.3f, 6.3f, 6.7f);
 
-    private static final Vector3 dark = new Vector3(0.3f, 0.3f, 0.7f);
+    public static final Vector3 dark = new Vector3(0.3f, 0.3f, 0.7f);
 
     private Vector3 ambientColour;
 
@@ -43,6 +43,9 @@ public class DayNightCycleComponent extends InputComponent {
     private ShaderProgram defaultShader;
 
 
+    /**
+     * Creates a new DayNightCycleComponent. Making sure to compile shader files
+     */
     public DayNightCycleComponent() {
 
         Pixmap map = new Pixmap(128, 128, Pixmap.Format.RGBA8888);;
@@ -60,10 +63,19 @@ public class DayNightCycleComponent extends InputComponent {
         shouldRender = true;
         defaultShader = null;
         /* Subscribe to part of day changes */
-        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-                this::onPartOfDayChange);
+        DayNightCycleService dayNightCycleService = ServiceLocator.getDayNightCycleService();
+        if (dayNightCycleService != null) {
+            dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+                    this::onPartOfDayChange);
+        }
     }
 
+    /**
+     *  Called to apply the shader
+     *  Should be frequently called as ambientColor and intensity might changed.
+     *
+     * @param batch the sprite batch to apply the filter to
+     */
     public void render(SpriteBatch batch) {
         // Get default shader on first call;
         if (defaultShader == null) {
@@ -84,6 +96,11 @@ public class DayNightCycleComponent extends InputComponent {
         }
     }
 
+    /**
+     * Invoked when the part of day has changed
+     *
+     * @param partOfDay the new part of day
+     */
     public void onPartOfDayChange(DayNightCycleStatus partOfDay) {
         this.intensity = switch (partOfDay) {
             case DAWN -> DAWN_INTENSITY;
@@ -100,6 +117,12 @@ public class DayNightCycleComponent extends InputComponent {
         };
     }
 
+    /**
+     * Toggles the shader on or off
+     *
+     * @param keycode one of the constants in {@link Input.Keys}
+     * @return whether to call again
+     */
     public boolean keyUp (int keycode) {
         if (keycode == Input.Keys.PERIOD) {
             shouldRender = !shouldRender;
@@ -114,5 +137,13 @@ public class DayNightCycleComponent extends InputComponent {
 
     public ShaderProgram getDayNightCycleShader() {
         return dayNightCycleShader;
+    }
+
+    public Vector3 getAmbientColour() {
+        return ambientColour;
+    }
+
+    public float getIntensity() {
+        return intensity;
     }
 }

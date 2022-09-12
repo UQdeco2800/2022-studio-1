@@ -18,6 +18,8 @@ public class DayNightCycleService {
 
     public static final String EVENT_PART_OF_DAY_PASSED = "partOfDayPassed";
 
+    public static final String EVENT_INTERMITTENT_PART_OF_DAY_CLOCK = "moveClock";
+
     private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
 
@@ -37,6 +39,12 @@ public class DayNightCycleService {
 
     private final DayNightCycleConfig config;
     private final GameTime timer;
+
+    private long timePerHalveOfDay;
+
+    private int timePerHalveIteration;
+
+    private long currentPartOfDayLength;
 
     private EventHandler events;
 
@@ -248,6 +256,16 @@ public class DayNightCycleService {
 
                     this.currentDayMillis = 0;
                 }
+
+                // Move clock for parts of day with more halves
+                if (this.currentCycleStatus == DayNightCycleStatus.DAY || this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
+                    if (currentPartOfDayLength % (timePerHalveOfDay*timePerHalveIteration) == 0) {
+                        Gdx.app.postRunnable(() -> {
+                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK);
+                        });
+                        timePerHalveIteration++;
+                    }
+                }
             } else {
                 // Keep track of how long the game has been paused this time.
                 durationPaused = this.timer.getTimeSince(this.timePaused);
@@ -270,6 +288,17 @@ public class DayNightCycleService {
         Gdx.app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
         });
+        
+        if (nextPartOfDay == DayNightCycleStatus.NIGHT) {
+            this.timePerHalveOfDay = config.nightLength / 2;
+            this.timePerHalveIteration = 1;
+            this.currentPartOfDayLength = config.nightLength;
+        }
+        if (nextPartOfDay == DayNightCycleStatus.DAY) {
+            this.timePerHalveOfDay = config.dayLength / 4;
+            this.timePerHalveIteration = 1;
+            this.currentPartOfDayLength = config.dayLength;
+        }
     }
 
     /**
