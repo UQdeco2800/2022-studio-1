@@ -3,6 +3,8 @@ package com.deco2800.game.components;
 import com.deco2800.game.extensions.GameExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -11,14 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class CombatStatsComponentTest {
   @Test
   void shouldSetGetHealth() {
-    CombatStatsComponent combat = new CombatStatsComponent(100, 20);
-    assertEquals(100, combat.getHealth());
+    CombatStatsComponent combat = new CombatStatsComponent(1000, 0, 0,1, 1000);
+    assertEquals(1000, combat.getHealth());
 
     combat.setHealth(150);
     assertEquals(150, combat.getHealth());
 
+    combat.setHealth(900);
+    assertEquals(900, combat.getHealth());
+
     combat.setHealth(-50);
     assertEquals(0, combat.getHealth());
+        
+    combat.setHealth(1100);
+    assertNotEquals(1100, combat.getHealth());
+    assertFalse(combat.getHealth() > 1000);
   }
 
   @Test
@@ -55,14 +64,32 @@ class CombatStatsComponentTest {
 
   @Test
   void shouldSetLevel() {
-    CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0,1);
-    assertEquals(1, stats.getLevel());
+      CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0, 1);
+      assertEquals(1, stats.getLevel());
 
-    stats.setLevel(5);
-    assertEquals(5, stats.getLevel());
+      stats.setLevel(2);
+      assertEquals(2, stats.getLevel());
 
-    stats.setLevel(2);
-    assertEquals(2, stats.getLevel());
+      stats.setLevel(3);
+      assertEquals(3, stats.getLevel());
+
+      stats.setLevel(3);
+      assertEquals(3, stats.getLevel());
+
+      stats.setLevel(4);
+      assertEquals(4, stats.getLevel());
+
+      stats.setLevel(5);
+      assertEquals(5, stats.getLevel());
+
+      // Shouldn't be able set level 0 or less
+      stats.setLevel(0);
+      assertNotEquals(0, stats.getLevel());
+      assertFalse(stats.getLevel() < 1);
+
+      stats.setLevel(-1);
+      assertNotEquals(-1, stats.getLevel());
+      assertFalse(stats.getLevel() < 1);
   }
 
   @Test
@@ -79,6 +106,15 @@ class CombatStatsComponentTest {
     //max health will retain original value as negative max health is invalid
     stats.setMaxHealth(-10);
     assertEquals(2000, stats.getMaxHealth());
+
+    // Shouldn't be able set max health 0 or less
+    stats.setMaxHealth(0);
+    assertNotEquals(0, stats.getMaxHealth());
+    assertFalse(stats.getMaxHealth() <= 0);
+
+    stats.setMaxHealth(-100);
+    assertNotEquals(-100, stats.getMaxHealth());
+    assertFalse(stats.getMaxHealth() <= 0);
   }
 
   @Test
@@ -95,8 +131,6 @@ class CombatStatsComponentTest {
 
     stats.setHealth(400);
     assertEquals(400, stats.getHealth());
-
-
   }
 
   @Test

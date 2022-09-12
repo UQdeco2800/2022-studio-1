@@ -96,16 +96,21 @@ public class CombatStatsComponent extends Component {
     } else {
       this.health = 0;
     }
+
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
     }
   }
 
   public void setLevel(int level) {
-    this.level = level;
-
+    if (level >= 1) {
+      this.level = level;
+    }
+    
     if (entity != null) {
       entity.getEvents().trigger("updateLevel", this.level);
+    } else if (level < 1) {
+      logger.error("level cannot be 0 or minus");
     }
   }
 
@@ -115,7 +120,7 @@ public class CombatStatsComponent extends Component {
    * @param maxHealth maxHealth
    */
   public void setMaxHealth(int maxHealth) {
-    if(maxHealth>0) {
+    if (maxHealth > 0) {
       this.maxHealth = maxHealth;
     }
 
@@ -175,19 +180,20 @@ public class CombatStatsComponent extends Component {
   public void setBaseDefense(int defense) {
     this.defense = defense;
   }
+
   public int getBaseDefense() {
     return defense;
   }
-/**
- * Returns the base health of the entity
- * @return int 
- */
 
+  /**
+   * Returns the base health of the entity
+   * @return int 
+   */
   public int getBaseHealth() {
     return this.baseHealth;
   }
+
   public int getMaxHealth() {
     return this.maxHealth;
   }
-
 }
