@@ -99,6 +99,15 @@ class CombatStatsComponentTest {
     //max health will retain original value as negative max health is invalid
     stats.setMaxHealth(-10);
     assertEquals(2000, stats.getMaxHealth());
+
+    // Shouldn't be able set max health 0 or less
+    stats.setMaxHealth(0);
+    assertNotEquals(0, stats.getMaxHealth());
+    assertFalse(stats.getMaxHealth() <= 0);
+
+    stats.setMaxHealth(-100);
+    assertNotEquals(-100, stats.getMaxHealth());
+    assertFalse(stats.getMaxHealth() <= 0);
   }
 
   @Test
