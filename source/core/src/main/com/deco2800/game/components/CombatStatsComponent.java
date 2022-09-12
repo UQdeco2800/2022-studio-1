@@ -89,9 +89,10 @@ public class CombatStatsComponent extends Component {
     if (health >= 0) {
       if ( health <= maxHealth) {
         this.health = health;
-      }else {
-        logger.error("health value cannot exceed max health");
       }
+//      }else {
+//        logger.info("max health is reached");
+//      }
     } else {
       this.health = 0;
     }
