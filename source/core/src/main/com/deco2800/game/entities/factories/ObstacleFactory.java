@@ -211,7 +211,7 @@ public class ObstacleFactory {
   public static Entity createShipwreckFront() {
     Entity shipwreck = createEnvironmentalObject("images/shipRackFront.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
-        2f, 0.1f, 0.1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     shipwreck.setName("ShipwreckFront");
     shipwreck.setCollectable(true);
@@ -230,7 +230,7 @@ public class ObstacleFactory {
   public static Entity createShipwreckBack() {
     Entity shipwreck = createEnvironmentalObject("images/shipRack.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
-        2f, 0.4f, 0.4f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     shipwreck.setName("ShipwreckBack");
     shipwreck.setCollectable(true);

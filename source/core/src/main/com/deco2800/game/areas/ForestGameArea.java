@@ -12,6 +12,8 @@ import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -58,16 +60,6 @@ public class ForestGameArea extends GameArea {
       "images/Centaur_right.png",
       "images/tree.png",
       "images/ghost_king.png",
-      "images/ghost_1.png",
-      "images/grass_1.png",
-      "images/grass_2.png",
-      "images/grass_3.png",
-      "images/hex_grass_1.png",
-      "images/hex_grass_2.png",
-      "images/hex_grass_3.png",
-      "images/iso_grass_1.png",
-      "images/iso_grass_2.png",
-      "images/iso_grass_3.png",
       "images/500_grassTile.png",
       "images/500_waterFullTile.png",
       "images/500_waterAndDirtFullTile.png",
@@ -96,7 +88,7 @@ public class ForestGameArea extends GameArea {
       "images/crystal_level2.png",
       "images/crystal_level3.png",
       "images/stoneQuarryTest.png",
-      "images/wall-right.png",
+      "images/Wall-right.png",
       "images/mini_tower.png",
       "images/65x33_tiles/beachV1.png",
       "images/65x33_tiles/65x33v1Water.png",
@@ -318,6 +310,7 @@ public class ForestGameArea extends GameArea {
         counter++;
       }
       this.entityMapping.addEntity(envObj);
+
       spawnEntityAt(envObj, randomPos, true, true);
     }
   }
@@ -331,10 +324,9 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
 
+    spawnEnvironmentalObject(1,
+        EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
     /*
-     * spawnEnvironmentalObject(1,
-     * EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
-     * 
      * // semi random rocks and trees
      * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
      * MIN_NUM_TREES) + 1));

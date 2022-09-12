@@ -183,7 +183,7 @@ public class TerrainComponent extends RenderComponent {
 
   @Override
   public int getLayer() {
-    return TERRAIN_LAYER;
+    return getCurrentMapLvl();
   }
 
   public enum TerrainOrientation {
