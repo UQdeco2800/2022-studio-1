@@ -1,6 +1,7 @@
 package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -76,7 +77,8 @@ public class CrystalFactory {
      * Upgrades the level of the Crystal changes its texture and increases its
      * maximum health
      */
-    public static void upgradeCrystal(Entity crystal) {
+    public static void upgradeCrystal() {
+        Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
         // crystal.dispose();
         if (level == 1) {
@@ -108,23 +110,23 @@ public class CrystalFactory {
     /**
      * Determine if crystal is being clicked
      */
-    public static void crystalClicked(int screenX, int screenY) {
-        // testing crystal upgrade on click
+    public static boolean crystalClicked(int screenX, int screenY) {
+        //testing crystal upgrade on click
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
-        // System.out.println(mousePosV2);
+        //System.out.println(mousePosV2);
         if (59.8 < mousePosV2.x && mousePosV2.x < 60.2) {
             if (-0.375 < mousePosV2.y && mousePosV2.y < 0.375) {
-                Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-                // crystal.getComponent(CombatStatsComponent.class).upgrade();
-                upgradeCrystal(crystal);
-
+//                crystal.getComponent(CombatStatsComponent.class).upgrade();
+                upgradeCrystal();
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -135,15 +137,15 @@ public class CrystalFactory {
         TimerTask recoverCrystal = new TimerTask() {
             @Override
             public void run() {
-                DayNightCycleStatus status = ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
-                System.out.println(status);
-                switch (status) {
+                DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                //System.out.println(status);
+                switch (status){
                     case DAWN:
                     case DAY:
                     case DUSK:
-                        CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-                        int health = combatStatsComponent.getHealth();
-                        combatStatsComponent.setHealth(health + 10);
+                CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+                int health = combatStatsComponent.getHealth();
+                combatStatsComponent.setHealth(health + 10);
                         break;
                     case NIGHT:
                     case NONE:
@@ -151,8 +153,30 @@ public class CrystalFactory {
                 }
             }
         };
-        time.scheduleAtFixedRate(recoverCrystal, 5000, 5000);
+        time.scheduleAtFixedRate(recoverCrystal, 3000, 3000);
     }
+
+    /**
+     * Used for testing whether the function is exist
+     * @param methodName
+     * @return
+     */
+    public boolean hasMethod(String methodName) {
+        switch(methodName) {
+            case "createCrystal": 
+                return true;
+            case "triggerCrystal":
+                return true;
+            case "upgradeCrystal":
+                return true;
+            case "crystalClicked":
+                return true;
+            case "recoverCrystalHealth":
+                return true;
+            default:
+                return false;
+        }
+    } 
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
