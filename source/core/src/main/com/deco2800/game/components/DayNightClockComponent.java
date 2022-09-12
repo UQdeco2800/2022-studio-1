@@ -1,4 +1,4 @@
-package com.deco2800.game.components.tasks;
+package com.deco2800.game.components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -54,8 +54,11 @@ public class DayNightClockComponent extends UIComponent {
         addClock();
 
         // Event listener
-        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_WEDGE_ELAPSED,
+        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK,
                 this::changeSprite);
+
+        //ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+        //        this::changeSprite);
     }
 
     private void addClock(){
@@ -84,5 +87,6 @@ public class DayNightClockComponent extends UIComponent {
     private void changeSprite() {
         this.currentSprite = (this.currentSprite + 1) % this.clockSprites.length;
         this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[currentSprite], Texture.class));
+        //System.out.println(clockSprites[currentSprite]);
     }
 }

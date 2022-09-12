@@ -12,7 +12,7 @@ import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.maingame.MainGameInterface;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.components.tasks.DayNightClockComponent;
+import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.StructureService;
@@ -21,7 +21,6 @@ import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -36,9 +35,6 @@ import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.awt.*;
-import java.util.Locale;
 
 /**
  * The game screen containing the main game.
