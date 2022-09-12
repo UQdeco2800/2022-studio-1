@@ -1,21 +1,28 @@
 
 mainchar_anim_final.png
-size: 7514, 6012
+size: 7514, 4510
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 default
   rotate: false
-  xy: 2, 4
-  size: 1394, 1250
-  orig: 1394, 1250
+  xy: 1504, 4
+  size: 1500, 1500
+  orig: 1500, 1500
   offset: 0, 0
-  index: 0
+  index: -1
 a
   rotate: false
+  xy: 1504, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+aa
+  rotate: false
   xy: 2, 4
-  size: 1394, 1250
-  orig: 1394, 1250
+  size: 1500, 1500
+  orig: 1500, 1500
   offset: 0, 0
   index: -1
 aa
@@ -32,18 +39,25 @@ aa
   orig: 1500, 1500
   offset: 0, 0
   index: -1
-aa
+d
+  rotate: false
+  xy: 6010, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+da
   rotate: false
   xy: 4508, 4
   size: 1500, 1500
   orig: 1500, 1500
   offset: 0, 0
   index: -1
-d
+da
   rotate: false
   xy: 6010, 4
-  size: 1383, 1251
-  orig: 1383, 1251
+  size: 1500, 1500
+  orig: 1500, 1500
   offset: 0, 0
   index: -1
 da
@@ -53,72 +67,58 @@ da
   orig: 1500, 1500
   offset: 0, 0
   index: -1
-da
-  rotate: false
-  xy: 1504, 1506
-  size: 1500, 1500
-  orig: 1500, 1500
-  offset: 0, 0
-  index: -1
-da
+s
   rotate: false
   xy: 3006, 1506
   size: 1500, 1500
   orig: 1500, 1500
   offset: 0, 0
   index: -1
-s
+sa
+  rotate: false
+  xy: 1504, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+sa
+  rotate: false
+  xy: 3006, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+sa
   rotate: false
   xy: 4508, 1506
-  size: 1382, 1250
-  orig: 1382, 1250
-  offset: 0, 0
-  index: -1
-sa
-  rotate: false
-  xy: 6010, 1506
-  size: 1500, 1500
-  orig: 1500, 1500
-  offset: 0, 0
-  index: -1
-sa
-  rotate: false
-  xy: 2, 3008
-  size: 1500, 1500
-  orig: 1500, 1500
-  offset: 0, 0
-  index: -1
-sa
-  rotate: false
-  xy: 1504, 3008
   size: 1500, 1500
   orig: 1500, 1500
   offset: 0, 0
   index: -1
 w
   rotate: false
-  xy: 3006, 3008
-  size: 1394, 1250
-  orig: 1394, 1250
-  offset: 0, 0
-  index: -1
-wa
-  rotate: false
-  xy: 4508, 3008
+  xy: 2, 3008
   size: 1500, 1500
   orig: 1500, 1500
   offset: 0, 0
   index: -1
 wa
   rotate: false
-  xy: 6010, 3008
+  xy: 6010, 1506
   size: 1500, 1500
   orig: 1500, 1500
   offset: 0, 0
   index: -1
 wa
   rotate: false
-  xy: 2, 4510
+  xy: 2, 3008
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+wa
+  rotate: false
+  xy: 1504, 3008
   size: 1500, 1500
   orig: 1500, 1500
   offset: 0, 0
