@@ -83,7 +83,6 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Provides a global access point for entities to register themselves. This allows for iterating
  over entities to perform updates each loop. All game entities should be registered here.
-
  Avoid adding additional state here! Global access is often the easy but incorrect answer to
  sharing data.</div>
 </section>
@@ -177,23 +176,27 @@ loadScripts(document, 'script');</script>
 <div class="block">Registers an entity with a name so it can be found later</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregister(com.deco2800.game.entities.Entity)" class="member-name-link">unregister</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeNamedEntity(java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">removeNamedEntity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregister(com.deco2800.game.entities.Entity)" class="member-name-link">unregister</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Unregister an entity with the entity service.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregisterNamed(java.lang.String)" class="member-name-link">unregisterNamed</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregisterNamed(java.lang.String)" class="member-name-link">unregisterNamed</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update all registered entities.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wouldCollide(com.deco2800.game.entities.Entity,int,int)" class="member-name-link">wouldCollide</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;potentialEntity,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wouldCollide(com.deco2800.game.entities.Entity,int,int)" class="member-name-link">wouldCollide</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;potentialEntity,
  int&nbsp;xPotential,
  int&nbsp;yPotential)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Calculates if the given entity will collide with already existing entities
  Still in testing phase.</div>
 </div>
@@ -302,6 +305,13 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>entity</code> - entity to be removed.</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="removeNamedEntity(java.lang.String,com.deco2800.game.entities.Entity)">
+<h3>removeNamedEntity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeNamedEntity</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</span></div>
 </section>
 </li>
 <li>

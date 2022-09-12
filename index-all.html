@@ -203,6 +203,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/AtlantisSinks.ScreenType.html" class="type-name-link" title="enum class in com.deco2800.game">AtlantisSinks.ScreenType</a> - Enum Class in <a href="com/deco2800/game/package-summary.html">com.deco2800.game</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/AtlantisSinksGameArea.html" class="type-name-link" title="class in com.deco2800.game.areas">AtlantisSinksGameArea</a> - Class in <a href="com/deco2800/game/areas/package-summary.html">com.deco2800.game.areas</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/AtlantisSinksGameArea.html#%3Cinit%3E(com.deco2800.game.areas.terrain.TerrainFactory)" class="member-name-link">AtlantisSinksGameArea(TerrainFactory)</a> - Constructor for class com.deco2800.game.areas.<a href="com/deco2800/game/areas/AtlantisSinksGameArea.html" title="class in com.deco2800.game.areas">AtlantisSinksGameArea</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/ArtefactConfig.html#attack" class="member-name-link">attack</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/ArtefactConfig.html" title="class in com.deco2800.game.entities.configs">ArtefactConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/EquipmentConfig.html#attack" class="member-name-link">attack</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/EquipmentConfig.html" title="class in com.deco2800.game.entities.configs">EquipmentConfig</a></dt>
@@ -499,6 +503,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">create, called after component has been attached to an entity</div>
 </dd>
+<dt><a href="com/deco2800/game/areas/AtlantisSinksGameArea.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/AtlantisSinksGameArea.html" title="class in com.deco2800.game.areas">AtlantisSinksGameArea</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/ForestGameArea.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/ForestGameArea.html" title="class in com.deco2800.game.areas">ForestGameArea</a></dt>
 <dd>
 <div class="block">Create the game area, including terrain, static entities (trees), dynamic
@@ -902,11 +908,17 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ai/tasks/AITaskComponent.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/AITaskComponent.html" title="class in com.deco2800.game.ai.tasks">AITaskComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/AtlantisSinksGameArea.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/AtlantisSinksGameArea.html" title="class in com.deco2800.game.areas">AtlantisSinksGameArea</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/ForestGameArea.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/ForestGameArea.html" title="class in com.deco2800.game.areas">ForestGameArea</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/GameArea.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></dt>
 <dd>
 <div class="block">Dispose of all internal entities in the area</div>
+</dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>
+<div class="block">Dispose all entities.</div>
 </dd>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#dispose()" class="member-name-link">dispose()</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
@@ -1318,6 +1330,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/AtlantisSinks.html#gameRunning" class="member-name-link">gameRunning</a> - Static variable in class com.deco2800.game.<a href="com/deco2800/game/AtlantisSinks.html" title="class in com.deco2800.game">AtlantisSinks</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/GameService.html" class="type-name-link" title="class in com.deco2800.game.areas">GameService</a> - Class in <a href="com/deco2800/game/areas/package-summary.html">com.deco2800.game.areas</a></dt>
+<dd>
+<div class="block">Provides a global access point for entities and UI components to register themselves in a virtual map
+ This allows for iterating over these hashmaps to perform updates each loop.</div>
+</dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#%3Cinit%3E()" class="member-name-link">GameService()</a> - Constructor for class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/GameTime.html" class="type-name-link" title="class in com.deco2800.game.services">GameTime</a> - Class in <a href="com/deco2800/game/services/package-summary.html">com.deco2800.game.services</a></dt>
 <dd>
 <div class="block">Controls the game time</div>
@@ -1513,6 +1532,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/MainArea.html#getGameArea()" class="member-name-link">getGameArea()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/MainArea.html" title="class in com.deco2800.game.areas">MainArea</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/ServiceLocator.html#getGameService()" class="member-name-link">getGameService()</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/player/InventoryComponent.html#getGold()" class="member-name-link">getGold()</a> - Method in class com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/InventoryComponent.html" title="class in com.deco2800.game.components.player">InventoryComponent</a></dt>
 <dd>
 <div class="block">Returns the player's gold.</div>
@@ -1531,6 +1552,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the entity's gold cost</div>
 </dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#getGridPointInfo(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getGridPointInfo(GridPoint2)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/CombatStatsComponent.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class com.deco2800.game.components.<a href="com/deco2800/game/components/CombatStatsComponent.html" title="class in com.deco2800.game.components">CombatStatsComponent</a></dt>
 <dd>
 <div class="block">Returns the entity's health.</div>
@@ -1785,10 +1808,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the entity's stone cost</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/StructureService.html#getStructureRects()" class="member-name-link">getStructureRects()</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
-<dd>
-<div class="block">Method stub for returning structureRects map</div>
-</dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#getStructureService()" class="member-name-link">getStructureService()</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ai/movement/MovementController.html#getTarget()" class="member-name-link">getTarget()</a> - Method in interface com.deco2800.game.ai.movement.<a href="com/deco2800/game/ai/movement/MovementController.html" title="interface in com.deco2800.game.ai.movement">MovementController</a></dt>
@@ -1955,7 +1974,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Checks if a structure on the map has been clicked.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/StructureService.html#handleClickedStructures(int,int,java.util.SortedMap,boolean,boolean)" class="member-name-link">handleClickedStructures(int, int, SortedMap&lt;String, Rectangle&gt;, boolean, boolean)</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
+<dt><a href="com/deco2800/game/entities/StructureService.html#handleClicks(int,int,boolean,boolean)" class="member-name-link">handleClicks(int, int, boolean, boolean)</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
 <dd>
 <div class="block">Checks if a structure on the map has been clicked.</div>
 </dd>
@@ -2779,12 +2798,18 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#registerDayNightCycleService(com.deco2800.game.services.DayNightCycleService)" class="member-name-link">registerDayNightCycleService(DayNightCycleService)</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#registerEntity(com.badlogic.gdx.math.GridPoint2,java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">registerEntity(GridPoint2, String, Entity)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>
+<div class="block">Register a new entity component with the entity map.</div>
+</dd>
 <dt><a href="com/deco2800/game/components/tasks/MeleeAvoidObstacleTask.html#registerEntityEvents()" class="member-name-link">registerEntityEvents()</a> - Method in class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/MeleeAvoidObstacleTask.html" title="class in com.deco2800.game.components.tasks">MeleeAvoidObstacleTask</a></dt>
 <dd>
 <div class="block">must be called after task, component, and entity are attached
  registers collision listeners for the entity</div>
 </dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#registerEntityService(com.deco2800.game.entities.EntityService)" class="member-name-link">registerEntityService(EntityService)</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/ServiceLocator.html#registerGameService(com.deco2800.game.areas.GameService)" class="member-name-link">registerGameService(GameService)</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#registerInputService(com.deco2800.game.input.InputService)" class="member-name-link">registerInputService(InputService)</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
@@ -2806,6 +2831,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#registerTimeSource(com.deco2800.game.services.GameTime)" class="member-name-link">registerTimeSource(GameTime)</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#registerUi(com.badlogic.gdx.math.GridPoint2,java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">registerUi(GridPoint2, String, Entity)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>
+<div class="block">Register a new ui component with the ui map.</div>
+</dd>
 <dt><a href="com/deco2800/game/rendering/AnimationRenderComponent.html#removeAnimation(java.lang.String)" class="member-name-link">removeAnimation(String)</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/AnimationRenderComponent.html" title="class in com.deco2800.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
 <div class="block">Remove an animation from this animator.</div>
@@ -2817,6 +2846,12 @@ loadScripts(document, 'script');</script>
  check if entity is an environment object
  put inside separate list first to avoid ConcurrentModificationException</div>
 </dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#removeNamedEntity(java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">removeNamedEntity(String, Entity)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>
+<div class="block">Unregister an entity with the entity service using its name.</div>
+</dd>
+<dt><a href="com/deco2800/game/entities/EntityService.html#removeNamedEntity(java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">removeNamedEntity(String, Entity)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/rendering/Renderer.html#render()" class="member-name-link">render()</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/Renderer.html" title="class in com.deco2800.game.rendering">Renderer</a></dt>
 <dd>
 <div class="block">Render everything to the render service.</div>
@@ -3306,6 +3341,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/screens/SettingsScreen.html#%3Cinit%3E(com.deco2800.game.AtlantisSinks,com.deco2800.game.AtlantisSinks.ScreenType)" class="member-name-link">SettingsScreen(AtlantisSinks, AtlantisSinks.ScreenType)</a> - Constructor for class com.deco2800.game.screens.<a href="com/deco2800/game/screens/SettingsScreen.html" title="class in com.deco2800.game.screens">SettingsScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#setUpEntities(int)" class="member-name-link">setUpEntities(int)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/player/InventoryComponent.html#setWeapon(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setWeapon(Equipments)</a> - Method in class com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/InventoryComponent.html" title="class in com.deco2800.game.components.player">InventoryComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/memento/Originator.html#setWeapon(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setWeapon(Equipments)</a> - Method in class com.deco2800.game.memento.<a href="com/deco2800/game/memento/Originator.html" title="class in com.deco2800.game.memento">Originator</a></dt>
@@ -3712,8 +3749,6 @@ loadScripts(document, 'script');</script>
 <div class="block">Iterates over registered input handlers in descending priority and stops as soon as the input is
  processed</div>
 </dd>
-<dt><a href="com/deco2800/game/components/player/KeyboardPlayerInputComponent.html#touchDragged(int,int,int)" class="member-name-link">touchDragged(int, int, int)</a> - Method in class com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/KeyboardPlayerInputComponent.html" title="class in com.deco2800.game.components.player">KeyboardPlayerInputComponent</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/input/InputComponent.html#touchDragged(int,int,int)" class="member-name-link">touchDragged(int, int, int)</a> - Method in class com.deco2800.game.input.<a href="com/deco2800/game/input/InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/input/InputDecorator.html#touchDragged(int,int,int)" class="member-name-link">touchDragged(int, int, int)</a> - Method in class com.deco2800.game.input.<a href="com/deco2800/game/input/InputDecorator.html" title="class in com.deco2800.game.input">InputDecorator</a></dt>
@@ -3790,11 +3825,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Trigger an event with one argument</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html#triggerBuildEvent(java.lang.String,java.util.SortedMap)" class="member-name-link">triggerBuildEvent(String, SortedMap&lt;String, Rectangle&gt;)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html" title="class in com.deco2800.game.entities.factories">ResourceBuildingFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/StructureService.html#triggerBuildEvent(java.lang.String)" class="member-name-link">triggerBuildEvent(String)</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
 <dd>
 <div class="block">Builds a structure at mouse position</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/StructureService.html#triggerBuildEvent(java.lang.String,java.util.SortedMap)" class="member-name-link">triggerBuildEvent(String, SortedMap&lt;String, Rectangle&gt;)</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html#triggerBuildEvent(java.lang.String,java.util.SortedMap)" class="member-name-link">triggerBuildEvent(String, SortedMap&lt;String, Rectangle&gt;)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html" title="class in com.deco2800.game.entities.factories">ResourceBuildingFactory</a></dt>
 <dd>
 <div class="block">Builds a structure at mouse position</div>
 </dd>
@@ -4150,6 +4185,8 @@ the order they are declared.</div>
 </dd>
 <dt><a href="com/deco2800/game/components/tasks/WaitTask.html#%3Cinit%3E(float)" class="member-name-link">WaitTask(float)</a> - Constructor for class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/WaitTask.html" title="class in com.deco2800.game.components.tasks">WaitTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/AtlantisSinksGameArea.html#walkSound" class="member-name-link">walkSound</a> - Static variable in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/AtlantisSinksGameArea.html" title="class in com.deco2800.game.areas">AtlantisSinksGameArea</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#wall" class="member-name-link">wall</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/shop/artefacts/ShopBuilding.html#WALL" class="member-name-link">WALL</a> - Enum constant in enum class com.deco2800.game.components.shop.artefacts.<a href="com/deco2800/game/components/shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a></dt>
@@ -4183,6 +4220,8 @@ the order they are declared.</div>
 <dt><a href="com/deco2800/game/entities/configs/ShopBuildingConfig.html#woodCost" class="member-name-link">woodCost</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/ShopBuildingConfig.html" title="class in com.deco2800.game.entities.configs">ShopBuildingConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.EnvironmentalObstacle.html#WOODEN_FENCE" class="member-name-link">WOODEN_FENCE</a> - Enum constant in enum class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.EnvironmentalObstacle.html" title="enum class in com.deco2800.game.components.Environmental">EnvironmentalComponent.EnvironmentalObstacle</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#worldToTilePosition(float,float)" class="member-name-link">worldToTilePosition(float, float)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/terrain/EnvironmentalCollision.html#wouldCollide(com.deco2800.game.entities.Entity,int,int)" class="member-name-link">wouldCollide(Entity, int, int)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/EnvironmentalCollision.html" title="class in com.deco2800.game.areas.terrain">EnvironmentalCollision</a></dt>
 <dd>
