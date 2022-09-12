@@ -2,10 +2,7 @@ package com.deco2800.game.memento;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,7 +50,7 @@ class OriginatorTest {
     @Test
     void shouldSaveEmptyItemList() {
         Originator test = new Originator(1);
-        List<Artefact> item = new ArrayList<>();
+        HashMap<Artefact, Integer> item = new HashMap<>();
         test.setItems(item);
         assertTrue(item.equals(test.getItemList()));
     }

@@ -1,11 +1,9 @@
 package com.deco2800.game.components.shop;
 
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.shop.artefacts.*;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.files.FileLoader;
-import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.List;
 
@@ -43,6 +41,9 @@ public class ShopEquipmentDisplay extends UIComponent {
     Table table6;
     Table table7;
     Table table8;
+
+    private Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
+    private Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
 
     private CircularLinkedList<Equipments> stock;
     private Node<Equipments> current;
@@ -116,10 +117,7 @@ public class ShopEquipmentDisplay extends UIComponent {
         table8.setFillParent(true);
         table8.top().left().padLeft(75).padTop(115);
 
-        // Create linked list of the available shop stock
-
-        // test the new equipments in the Equipments enums don't have images yet, so
-        // only the other attributes rotates
+        //Create the carousel for the items
         stock = new CircularLinkedList<>();
         List<Equipments> equipmentOptions = Equipments.getAllEquipmentTypes();
         for (Equipments e : equipmentOptions) {
@@ -139,7 +137,7 @@ public class ShopEquipmentDisplay extends UIComponent {
         currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
         currentItem = new Image(currentTexture);
 
-        // Create textures for arrows, price, descrition and buy button
+        // Create textures for arrows, price, description and buy button
         brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
@@ -246,81 +244,143 @@ public class ShopEquipmentDisplay extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
+
+
                         logger.info("Buy button clicked");
 
-                        // if
-                        // (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice()))
-                        // {
+                       //checks if the player has sufficient gold
                         if (entity.getComponent(InventoryComponent.class).hasGold(stats.goldCost)) {
                             logger.info("Sufficient Gold");
 
-                            // entity.getComponent(InventoryComponent.class).addGold(-1 *
-                            // current.t.getPrice());
-                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
-
+                            //checks the type of equipment
                             if (stats.type.equals("weapon")) {
-                                if (entity.getComponent(InventoryComponent.class).getWeapon() != null) {
-                                    System.out.println("Current Weapon is "
-                                            + entity.getComponent(InventoryComponent.class).getWeapon().toString());
-                                    EquipmentConfig prevWeapon = FileLoader.readClass(EquipmentConfig.class,
-                                            Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
-                                                    .getWeapon()));
-                                    entity.getComponent(CombatStatsComponent.class).setBaseAttack(
-                                            entity.getComponent(CombatStatsComponent.class).getBaseAttack()
-                                                    - prevWeapon.attack);
-                                }
-                                entity.getComponent(InventoryComponent.class).setWeapon(current.t);
-                                entity.getComponent(CombatStatsComponent.class).setBaseAttack(
-                                        entity.getComponent(CombatStatsComponent.class).getBaseAttack() + stats.attack);
 
-                                System.out.println("Current Weapon changed to "
-                                        + entity.getComponent(InventoryComponent.class).getWeapon().toString());
+                                //checks if there's a previously saved weapon
+                                if (entity.getComponent(InventoryComponent.class).getWeapon() != null) {
+
+                                    //if the current weapon is the same as the weapon that the player is buying, alert it as invalid purchase
+                                    if (entity.getComponent(InventoryComponent.class).getWeapon() == current.t) {
+                                        logger.info("Already has weapon, invalid purchase!");
+                                        filesound.play();
+                                        buyButton.setColor(255,0,0,1);
+
+                                    } else {
+                                        entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                        coinSound.play();
+                                        buyButton.setColor(121,15,85,1);
+
+                                        //read the stats of the old weapon
+                                        EquipmentConfig prevWeapon = FileLoader.readClass(EquipmentConfig.class,
+                                                Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
+                                                        .getWeapon()));
+
+                                        //remove the old weapon effect from player
+                                        entity.getComponent(CombatStatsComponent.class).setBaseAttack(
+                                                entity.getComponent(CombatStatsComponent.class)
+                                                        .getBaseAttack() / prevWeapon.attack);
+
+                                        //sets player weapon to new weapon and change attack accordingly
+                                        entity.getComponent(InventoryComponent.class).setWeapon(current.t);
+                                        entity.getComponent(CombatStatsComponent.class).setBaseAttack(
+                                                entity.getComponent(CombatStatsComponent.class).getBaseAttack()*stats.attack);
+                                    }
+
+                                } else {
+                                    entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                    coinSound.play();
+                                    buyButton.setColor(121,15,85,1);
+
+                                    entity.getComponent(InventoryComponent.class).setWeapon(current.t);
+                                    entity.getComponent(CombatStatsComponent.class).setBaseAttack(
+                                            entity.getComponent(CombatStatsComponent.class).getBaseAttack()*stats.attack);
+                                }
+
                             } else {
 
+                                //checks if the equipment is of type helmet
                                 if (current.t == Equipments.LV1_HELMET || current.t == Equipments.LV2_HELMET
                                         || current.t == Equipments.LV3_HELMET) {
                                     if (entity.getComponent(InventoryComponent.class).getHelmet() != null) {
-                                        System.out.println("Current Helmet is "
-                                                + entity.getComponent(InventoryComponent.class).getHelmet().toString());
-                                        EquipmentConfig prevHelmet = FileLoader.readClass(EquipmentConfig.class,
-                                                Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
-                                                        .getHelmet()));
+
+                                        //invalid purchase if the helmet that are bought is already in the inventory
+                                        if (entity.getComponent(InventoryComponent.class).getHelmet() == current.t) {
+                                            logger.info("Already has helmet, invalid purchase!");
+                                            filesound.play();
+                                            buyButton.setColor(255, 0, 0, 1);
+                                        } else {
+
+                                            //read the old helmet stat
+                                            EquipmentConfig prevHelmet = FileLoader.readClass(EquipmentConfig.class,
+                                                    Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
+                                                            .getHelmet()));
+                                            //remove old helmet effect from player combat stat
+                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
+                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
+                                                            - prevHelmet.defense);
+
+                                            //sets new helmet to player inventory and changes stat accordingly
+                                            entity.getComponent(InventoryComponent.class).setHelmet(current.t);
+                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
+                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
+                                                            + stats.defense);
+
+                                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                            coinSound.play();
+                                            buyButton.setColor(121,15,85,1);
+                                        }
+                                    } else {
+                                        entity.getComponent(InventoryComponent.class).setHelmet(current.t);
                                         entity.getComponent(CombatStatsComponent.class).setBaseDefense(
                                                 entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                        - prevHelmet.defense);
+                                                        + stats.defense);
+                                        entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                        coinSound.play();
+                                        buyButton.setColor(121,15,85,1);
                                     }
-                                    entity.getComponent(InventoryComponent.class).setHelmet(current.t);
-                                    entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                            entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                    + stats.defense);
-                                    System.out.println("Current Helmet changed to "
-                                            + entity.getComponent(InventoryComponent.class).getHelmet().toString());
+
                                 } else {
                                     if (entity.getComponent(InventoryComponent.class).getChestplate() != null) {
-                                        System.out.println("Current Chestplate is " + entity
-                                                .getComponent(InventoryComponent.class).getChestplate().toString());
-                                        EquipmentConfig prevChestplate = FileLoader.readClass(EquipmentConfig.class,
-                                                Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
-                                                        .getChestplate()));
+
+                                        //invalid purchase if the chestplate is already in inventory
+                                        if (entity.getComponent(InventoryComponent.class).getChestplate() == current.t) {
+                                            logger.info("Already has chestplate, invalid purchase!");
+                                            filesound.play();
+                                            buyButton.setColor(255, 0, 0, 1);
+                                        } else {
+
+                                            //reads old chestplate stat
+                                            EquipmentConfig prevChestplate = FileLoader.readClass(EquipmentConfig.class,
+                                                    Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
+                                                            .getChestplate()));
+
+                                            //remove old chestplate effect from player
+                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
+                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
+                                                            - prevChestplate.defense);
+
+                                            //adds new chestplate to player inventory and stat
+                                            entity.getComponent(InventoryComponent.class).setChestplate(current.t);
+                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
+                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
+                                                            + stats.defense);
+
+                                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                            coinSound.play();
+                                            buyButton.setColor(121,15,85,1);
+                                        }
+                                    } else {
+                                        entity.getComponent(InventoryComponent.class).setChestplate(current.t);
                                         entity.getComponent(CombatStatsComponent.class).setBaseDefense(
                                                 entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                        - prevChestplate.defense);
+                                                        + stats.defense);
+                                        entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                        coinSound.play();
+                                        buyButton.setColor(121,15,85,1);
                                     }
-                                    entity.getComponent(InventoryComponent.class).setChestplate(current.t);
-                                    entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                            entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                    + stats.defense);
-                                    System.out.println("Current Chestplate changed to "
-                                            + entity.getComponent(InventoryComponent.class).getChestplate().toString());
                                 }
                             }
-
-                            Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
-                            coinSound.play();
-                            buyButton.setColor(121,15,85,1);
                         } else {
                             logger.info("Insufficient gold!");
-                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
                             filesound.play();
                             buyButton.setColor(255,0,0,1);
                         }

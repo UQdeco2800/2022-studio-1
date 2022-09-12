@@ -230,6 +230,8 @@ public class ShopArtefactDisplay extends UIComponent {
                             Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
                             coinSound.play();
                             buyButton.setColor(121, 15, 85, 1);
+                            entity.getComponent(InventoryComponent.class).addItems(current.t);
+
                         } else {
                             logger.info("Insufficient gold!");
                             Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));

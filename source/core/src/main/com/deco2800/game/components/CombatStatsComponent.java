@@ -171,7 +171,7 @@ public class CombatStatsComponent extends Component {
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
+    int newHealth = getHealth() - attacker.getBaseAttack()/defense;
     setHealth(newHealth);
     Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
     hurtSound.play();
