@@ -52,4 +52,64 @@ class CombatStatsComponentTest {
     combat.setBaseAttack(-50);
     assertEquals(150, combat.getBaseAttack());
   }
+
+  @Test
+  void shouldSetLevel() {
+    CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0,1);
+    assertEquals(1, stats.getLevel());
+
+    stats.setLevel(5);
+    assertEquals(5, stats.getLevel());
+
+    stats.setLevel(2);
+    assertEquals(2, stats.getLevel());
+  }
+
+  @Test
+  void shouldSetMaxHealth() {
+    CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0,1,1000);
+    assertEquals(1000, stats.getMaxHealth());
+
+    stats.setMaxHealth(5000);
+    assertEquals(5000, stats.getMaxHealth());
+
+    stats.setMaxHealth(2000);
+    assertEquals(2000, stats.getMaxHealth());
+
+    //max health will retain original value as negative max health is invalid
+    stats.setMaxHealth(-10);
+    assertEquals(2000, stats.getMaxHealth());
+  }
+
+  @Test
+  void healthShouldNotExceedMax() {
+    CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0,1,500);
+    assertEquals(100, stats.getHealth());
+
+    //health remains the same as a health value that exceeds max health is invalid
+    stats.setHealth(5000);
+    assertEquals(100, stats.getHealth());
+
+    stats.addHealth(600);
+    assertEquals(100, stats.getHealth());
+
+    stats.setHealth(400);
+    assertEquals(400, stats.getHealth());
+
+
+  }
+
+  @Test
+  void isHit() {
+    CombatStatsComponent attacker = new CombatStatsComponent(100, 50);
+    CombatStatsComponent Crystal = new CombatStatsComponent(1000,0,0,1,1500);
+
+    Crystal.hit(attacker);
+
+    assertEquals(950, Crystal.getHealth());
+
+    Crystal.hit(attacker);
+    Crystal.hit(attacker);
+    assertEquals(850, Crystal.getHealth());
+  }
 }
