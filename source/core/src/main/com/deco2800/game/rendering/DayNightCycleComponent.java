@@ -63,8 +63,11 @@ public class DayNightCycleComponent extends InputComponent {
         shouldRender = true;
         defaultShader = null;
         /* Subscribe to part of day changes */
-        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-                this::onPartOfDayChange);
+        DayNightCycleService dayNightCycleService = ServiceLocator.getDayNightCycleService();
+        if (dayNightCycleService != null) {
+            dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+                    this::onPartOfDayChange);
+        }
     }
 
     /**
