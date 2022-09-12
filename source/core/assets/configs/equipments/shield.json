@@ -1,12 +1,12 @@
 {
     "type": "armor",
     "name": "Shield",
-    "goldCost": 10,
+    "goldCost": 40,
     "stoneCost": 0,
     "woodCost": 0,
     "attack": 0,
-    "defense": 10,
-    "description": "Increases defence by 10",
+    "defense": 2,
+    "description": "Increases defence by 2x",
     "itemImagePath": "images/shop-shield.png",
     "itemBackgroundImagePath": "images/shop-items-framed/shield-framed.png"
 }

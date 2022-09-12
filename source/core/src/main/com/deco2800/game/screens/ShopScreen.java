@@ -5,7 +5,9 @@ import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
@@ -31,6 +33,7 @@ public class ShopScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(ShopScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
+    private final Music music;
 
     public ShopScreen(AtlantisSinks game) {
         this.game = game;
@@ -42,7 +45,7 @@ public class ShopScreen extends ScreenAdapter {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
         renderer = RenderFactory.createRenderer();
 
         loadAssets();
@@ -75,8 +78,8 @@ public class ShopScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing main game screen");
-
+        logger.debug("Disposing shop screen");
+        music.dispose();
         renderer.dispose();
         unloadAssets();
 
@@ -108,6 +111,8 @@ public class ShopScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
+        music.setLooping(true);
+        music.play();
 
         Entity uiExit = new Entity();
         uiExit.addComponent(new InputDecorator(stage, 10))
