@@ -81,7 +81,10 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="CareTaker.html" title="class in com.deco2800.game.memento">CareTaker</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">the caretaker object records and stores the player state into the internal memory for the engine to retrieve in the
- future</div>
+ future
+
+ A combination of singleton and memento design pattern, which allows memento to be retrieved from anywhere in the game
+ and restrict it to only having one instance, hence preventing duplication of memento and allows better management</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Memento.html" title="class in com.deco2800.game.memento">Memento</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
