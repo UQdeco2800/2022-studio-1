@@ -25,14 +25,14 @@ public class DayNightCycleComponent extends InputComponent {
     private final ShaderProgram dayNightCycleShader;
     public static final TextureRegion BLACK_IMAGE = new TextureRegion();
 
-    private static final float NIGHT_INTENSITY = 0.75f;
-    private static final float DUSK_INTENSITY = 0.95f;
-    private static final float DAWN_INTENSITY = 0.095f;
-    private static final float DAY_INTENSITY = 0.2f;
+    public static final float NIGHT_INTENSITY = 0.75f;
+    public static final float DUSK_INTENSITY = 0.95f;
+    public static final float DAWN_INTENSITY = 0.095f;
+    public static final float DAY_INTENSITY = 0.2f;
 
-    private static final  Vector3 bright = new Vector3(6.3f, 6.3f, 6.7f);
+    public static final  Vector3 bright = new Vector3(6.3f, 6.3f, 6.7f);
 
-    private static final Vector3 dark = new Vector3(0.3f, 0.3f, 0.7f);
+    public static final Vector3 dark = new Vector3(0.3f, 0.3f, 0.7f);
 
     private Vector3 ambientColour;
 
