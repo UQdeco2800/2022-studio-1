@@ -8,6 +8,7 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.junit.jupiter.api.BeforeEach;
+import com.deco2800.game.components.infrastructure.TrapComponent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import util.EntityUtil;
@@ -22,9 +23,9 @@ class TrapComponentTest {
   }
 
   @Test
-  void shouldAttack() {
+  void shouldTrap() {
     short targetLayer = (1 << 3);
-    Entity entity = EntityUtil.createAttacker(targetLayer);
+    Entity entity = EntityUtil.createTrap(targetLayer);
     Entity target = EntityUtil.createTarget(targetLayer);
 
     Fixture entityFixture = entity.getComponent(HitboxComponent.class).getFixture();
@@ -35,10 +36,10 @@ class TrapComponentTest {
   }
 
   @Test
-  void shouldNotAttackOtherLayer() {
+  void shouldNotTrapOtherLayer() {
     short targetLayer = (1 << 3);
     short attackLayer = (1 << 4);
-    Entity entity = EntityUtil.createAttacker(attackLayer);
+    Entity entity = EntityUtil.createTrap(attackLayer);
     Entity target = EntityUtil.createTarget(targetLayer);
 
     Fixture entityFixture = entity.getComponent(HitboxComponent.class).getFixture();
@@ -49,9 +50,9 @@ class TrapComponentTest {
   }
 
   @Test
-  void shouldNotAttackWithoutCombatComponent() {
+  void shouldNotTrapWithoutCombatComponent() {
     short targetLayer = (1 << 3);
-    Entity entity = EntityUtil.createAttacker(targetLayer);
+    Entity entity = EntityUtil.createTrap(targetLayer);
     // Target does not have a combat component
     Entity target =
         new Entity()
@@ -64,5 +65,24 @@ class TrapComponentTest {
 
     // This should not cause an exception, but the attack should be ignored
     entity.getEvents().trigger("collisionStart", entityFixture, targetFixture);
+  }
+
+  @Test
+  void trapRemoved(){
+    short targetLayer = (1 << 3);
+    Entity entity = EntityUtil.createTrap(targetLayer);
+    Entity target = EntityUtil.createTarget(targetLayer);
+
+    Fixture entityFixture = entity.getComponent(HitboxComponent.class).getFixture();
+    Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
+    entity.getEvents().trigger("collisionStart", entityFixture, targetFixture);
+
+    //Tests that the trap's health was set to 0 
+    assertEquals(0, entity.getComponent(CombatStatsComponent.class).getHealth());
+
+    //tests trap was removed from map
+
+    //TODO ------------------------FINISH------------------------
+
   }
 }
