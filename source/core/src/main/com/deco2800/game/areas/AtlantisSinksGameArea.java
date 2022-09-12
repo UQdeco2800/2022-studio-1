@@ -30,16 +30,6 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/Centaur_Back_right.png",
             "images/Centaur_left.png",
             "images/Centaur_right.png",
-            "images/tree.png",
-            "images/grass_1.png",
-            "images/grass_2.png",
-            "images/grass_3.png",
-            "images/hex_grass_1.png",
-            "images/hex_grass_2.png",
-            "images/hex_grass_3.png",
-            "images/iso_grass_1.png",
-            "images/iso_grass_2.png",
-            "images/iso_grass_3.png",
             "images/500_grassTile.png",
             "images/500_waterFullTile.png",
             "images/500_waterAndDirtFullTile.png",
@@ -55,6 +45,7 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/landscape_objects/vines.png",
             "images/landscape_objects/cypress-tree-60x100.png",
             "images/landscape_objects/geyser.png",
+            "images/boss_enemy_angle1.png",
             "images/landscape_objects/billboard.png",
             "images/landscape_objects/chalice.png",
             "images/landscape_objects/pillar.png",
@@ -64,9 +55,13 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/pirate_crab_SE.png",
             "images/pirate_crab_SW.png",
             "images/crystal.png",
+            "images/crystal_level2.png",
+            "images/crystal_level3.png",
             "images/stoneQuarryTest.png",
             "images/wall-right.png",
             "images/mini_tower.png",
+            "images/65x33_tiles/65x33v2Sand.png",
+            "images/65x33_tiles/dayWaterTile.png",
             "images/Eel_Bright_SW.png",
             "images/Eel_Bright_NE.png",
             "images/Eel_Bright_NW.png",
@@ -209,17 +204,13 @@ public class AtlantisSinksGameArea extends GameArea {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
+    private float solveXY(float equation) {
+
+        return equation;
+    }
+
 
     private GridPoint2 worldPosToTilePos(Vector2 coords) {
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        Vector2 viewPortCoords = new Vector2(camComp.getCamera().viewportWidth, camComp.getCamera().viewportHeight);
-        System.out.println(viewPortCoords);
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        float worldWidth = terrain.getTileMapTileLayer(0).getWidth();
-        float worldHeight = terrain.getTileMapTileLayer(0).getHeight();
-        float tileWidth = terrain.getTileMapTileLayer(0).getTileWidth();
-        float tileHeight = terrain.getTileMapTileLayer(0).getTileHeight();
         GridPoint2 tilePos = new GridPoint2();
         return tilePos;
     }
