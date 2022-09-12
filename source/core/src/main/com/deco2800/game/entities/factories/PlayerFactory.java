@@ -48,13 +48,13 @@ public class PlayerFactory {
     AnimationRenderComponent player_start = new AnimationRenderComponent(ServiceLocator.getResourceService()
     .getAsset("images/anim_demo/mainchar_anim_final.atlas", TextureAtlas.class));
     player_start.addAnimation("w", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("wa", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("wa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("a", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("aa", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("aa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("s", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("sa", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("da", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("da", 0.1f, Animation.PlayMode.NORMAL);
 
     Entity player =
         new Entity()
@@ -76,7 +76,7 @@ public class PlayerFactory {
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
-    player.setScale(1.2f, 1.2f);
+    player.setScale(2.5f, 2.5f);
     return player;
   }
 
