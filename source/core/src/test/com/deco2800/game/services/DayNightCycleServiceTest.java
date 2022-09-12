@@ -268,4 +268,19 @@ public class DayNightCycleServiceTest {
 
         assertEquals(2, wedges.get());
     }
+
+    @Test
+    public void shouldGoThroughAllEightWedges() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, wedges::incrementAndGet);
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            wedges.incrementAndGet();
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(8, wedges.get());
+    }
 }
