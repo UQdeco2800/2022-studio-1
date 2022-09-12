@@ -115,6 +115,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
         return true;
       case Keys.SPACE:
+        entity.getEvents().trigger("attack_anim_rev");
         return true;
       default:
         return false;

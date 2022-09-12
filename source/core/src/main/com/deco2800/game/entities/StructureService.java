@@ -40,9 +40,9 @@ public class StructureService extends EntityService{
 
   private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY);
 
-  private final Map<String, Entity> namedStructureEntities = new HashMap<>();
+  private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>();
 
-  public static HashMap<String, Table> tables = new HashMap();
+  public static HashMap<String, Table> tables = new HashMap<String, Table>();
 
   private static boolean uiIsVisible;
 
