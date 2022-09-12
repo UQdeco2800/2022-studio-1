@@ -2,6 +2,7 @@ package com.deco2800.game.components.maingame;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
@@ -18,6 +20,7 @@ import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+import com.deco2800.game.utils.StringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,6 +165,21 @@ public class MainGameBuildingInterface extends UIComponent {
         stage.addActor(BuildingUI);
 
         return BuildingUI;
+    }
+
+    private Array<StringDecorator<Graphics.DisplayMode>> getDisplayModes(Graphics.Monitor monitor) {
+        Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes(monitor);
+        Array<StringDecorator<Graphics.DisplayMode>> arr = new Array<>();
+
+        for (Graphics.DisplayMode displayMode : displayModes) {
+            arr.add(new StringDecorator<>(displayMode, this::prettyPrint));
+        }
+
+        return arr;
+    }
+
+    private String prettyPrint(Graphics.DisplayMode displayMode) {
+        return displayMode.width + "x" + displayMode.height + ", " + displayMode.refreshRate + "hz";
     }
 
 

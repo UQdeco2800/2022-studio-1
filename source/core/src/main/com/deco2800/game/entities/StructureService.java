@@ -220,6 +220,7 @@ public class StructureService extends EntityService{
       isClear = false;
 
       table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureKey);
+
       toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
