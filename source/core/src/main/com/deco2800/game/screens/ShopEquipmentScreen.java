@@ -35,7 +35,7 @@ import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
 public class ShopEquipmentScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShopEquipmentScreen.class);
 
     private static final String[] mainGameTextures = { "images/heart.png" };
 
