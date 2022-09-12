@@ -106,13 +106,20 @@ public class TerrainComponent extends RenderComponent {
     return currentMapLvl;
   }
 
+  /**
+   * Expands the map by hiding the current layer, and making the next level
+   * visible
+   */
   public void incrementMapLvl() {
     getMap().getLayers().get(currentMapLvl).setVisible(false);
     this.currentMapLvl++;
     getMap().getLayers().get(currentMapLvl).setVisible(true);
-
   }
 
+  /**
+   * Shrinks the map by hiding the current layer, and making the previous level
+   * visible.
+   */
   public void decrementMapLvl() {
     getMap().getLayers().get(currentMapLvl).setVisible(false);
     this.currentMapLvl--;

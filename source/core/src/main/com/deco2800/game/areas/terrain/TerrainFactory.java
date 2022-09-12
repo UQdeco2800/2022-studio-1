@@ -216,6 +216,8 @@ public class TerrainFactory {
         if ((level.get(x).get(y) & 1) > 0) {
 
           // Randomly choose a land tile to use
+          // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
+          // - 5/8 chance for sand tile
           int r = (int) (Math.random() * 7) + 1;
           switch (r) {
             case 1:
