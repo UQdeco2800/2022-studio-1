@@ -1,5 +1,6 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -30,25 +31,16 @@ public class GameService {
     private HashMap<GridPoint2, String> uiMap = new HashMap<>();
     private HashMap<GridPoint2, HashMap<String, String>> entityMap = new HashMap<>();
 
-    private SortedMap<String, Rectangle> rectMap = new TreeMap<>();
-
     public void setUpEntities (int mapSize) {
         for (int i = 0; i < mapSize; i++) {
             for (int j = 0; j < mapSize; j++) {
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("health", null);}});
-                String rectName = "rect";
-                rectName += (char) i + (char) j;
-                rectMap.put(rectName, new Rectangle(new GridPoint2(i, j).x, new GridPoint2(i, j).y, 1 ,1));
             }
         }
-        logger.info("rectangles == {}", rectMap);
     }
 
-    public SortedMap<String, Rectangle> getRectMap() {
-        return rectMap;
-    }
 
     /**
      * Register a new entity component with the entity map. The entity component will be created and start updating.

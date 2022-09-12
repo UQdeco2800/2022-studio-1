@@ -2,11 +2,14 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CameraComponent;
@@ -20,6 +23,7 @@ import com.deco2800.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serial;
 import java.util.Map;
 
 
@@ -204,17 +208,16 @@ public class AtlantisSinksGameArea extends GameArea {
     }
 
     private void attack() {
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
+        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50, 50)));
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
-        player.setPosition(terrain.tileToWorldPosition(RandomUtils.random(new GridPoint2(50,50), new GridPoint2(70, 70))));
-        for (Map.Entry<String, Rectangle> es : ServiceLocator.getGameService().getRectMap().entrySet()) {
-            if (es.getValue().contains(mousePosV2)) {
-                logger.info("Clicked Rectangle => {}", es.getKey());
-            }
-        }
+        mousePosV2.x -= 0.5;
+        mousePosV2.y -= 0.5;
+        GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+        logger.info("This is the mouse position in map coords ==> {}", mapPos);
     }
 
     private void unloadAssets() {
