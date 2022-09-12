@@ -1,5 +1,7 @@
 package com.deco2800.game.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
@@ -19,7 +21,9 @@ public class CombatStatsComponent extends Component {
   private int baseHealth;
   private int baseAttack;
   private int level;
+  private int defense;
   private int currentAttack;
+  private int maxHealth = 10000;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
@@ -28,15 +32,32 @@ public class CombatStatsComponent extends Component {
     this.currentAttack = baseAttack;
   }
 
+  public CombatStatsComponent(int health, int baseAttack, int defense) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setBaseDefense(defense);
+  }
+
   /**
-   * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
+   * Combat Stats Component with extra parameter level to enable levelling up of entities
    */
-  public CombatStatsComponent(int health, int baseAttack, int level) {
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
     setHealth(health);
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
     this.currentAttack = baseAttack;
+  }
+  /**
+   * Combat Stats Component with maxHealth parameter to enable increase of maxHealth with each level upgrade independent
+   * to current health
+   */
+  public CombatStatsComponent(int health, int baseAttack, int defense , int level, int maxHealth) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setLevel(level);
+    setBaseDefense(defense);
+    setMaxHealth(maxHealth);
   }
 
   /**
@@ -66,7 +87,11 @@ public class CombatStatsComponent extends Component {
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      this.health = health;
+      if ( health <= maxHealth) {
+        this.health = health;
+      }else {
+        logger.error("health value cannot exceed max health");
+      }
     } else {
       this.health = 0;
     }
@@ -76,10 +101,25 @@ public class CombatStatsComponent extends Component {
   }
 
   public void setLevel(int level) {
-      this.level = level;
+    this.level = level;
 
     if (entity != null) {
       entity.getEvents().trigger("updateLevel", this.level);
+    }
+  }
+
+  /**
+   * Sets the entity's maximum health. Maximum health has a minimum bound of 0.
+   *
+   * @param maxHealth maxHealth
+   */
+  public void setMaxHealth(int maxHealth) {
+    if(maxHealth>0) {
+      this.maxHealth = maxHealth;
+    }
+
+    if (entity != null) {
+      entity.getEvents().trigger("updateMaxHealth", this.maxHealth);
     }
   }
 
@@ -89,7 +129,9 @@ public class CombatStatsComponent extends Component {
    * @param health health to add
    */
   public void addHealth(int health) {
-    setHealth(this.health + health);
+    if (this.health + health <= maxHealth) {
+      setHealth(this.health + health);
+    }
   }
 
   /**
@@ -125,41 +167,26 @@ public class CombatStatsComponent extends Component {
   public void hit(CombatStatsComponent attacker) {
     int newHealth = getHealth() - attacker.getBaseAttack();
     setHealth(newHealth);
+    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+    hurtSound.play();
   }
 
-  /**
-   * Upgrades the level of the entity (mainly Crystal) changes its texture and increases its health
-   */
-  public void upgrade(){
-
-    //crystal.dispose();
-    if(this.level == 1) {
-      CrystalFactory.triggerCrystal("images/crystal_level2.png");
-    }
-    else if(this.level == 2){
-      Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal2");
-      crystal.dispose();
-      CrystalFactory.triggerCrystal("images/crystal_level3.png");
-    }
-    //System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
-    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
-    if(this.level <= 5) {
-      //addHealth((1000-this.health)+(50*this.level));
-      System.out.println(this.health);
-      setHealth(this.health+=50);
-      setLevel(this.level + 1);
-      //System.out.println(this.health);
-    } else System.out.println("Crystal has reached max level");
-
-
-
-
+  public void setBaseDefense(int defense) {
+    this.defense = defense;
+  }
+  public int getBaseDefense() {
+    return defense;
   }
 /**
  * Returns the base health of the entity
  * @return int 
  */
+
   public int getBaseHealth() {
     return this.baseHealth;
   }
+  public int getMaxHealth() {
+    return this.maxHealth;
+  }
+
 }

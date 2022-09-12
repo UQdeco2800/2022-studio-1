@@ -29,15 +29,13 @@ public class TerrainFactory {
 
   private GridPoint2 island_size = new GridPoint2();
 
-  private TerrainTile grassTile;
-  private TerrainTile waterTile;
-  private TerrainTile sandTile;
-
   private TiledMap tiledMap;
 
   private static ArrayList<ArrayList<ArrayList<Integer>>> levels;
 
-  private static ArrayList<GridPoint2> spawnableTiles;
+  private static ArrayList<ArrayList<GridPoint2>> spawnableTilesList; //
+  private static ArrayList<ArrayList<GridPoint2>> bordersPositionList; // These data structures need to be
+  private static ArrayList<ArrayList<GridPoint2>> landTilesList; // made more efficient in a later sprint
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -68,7 +66,10 @@ public class TerrainFactory {
 
   private void loadLevels() {
     levels = new ArrayList<>();
-    spawnableTiles = new ArrayList<>();
+    spawnableTilesList = new ArrayList<>();
+    bordersPositionList = new ArrayList<>();
+    landTilesList = new ArrayList<>();
+
     try {
       for (int i = 0; i < 5; i++) {
 
@@ -112,15 +113,17 @@ public class TerrainFactory {
     ResourceService resourceService = ServiceLocator.getResourceService();
     switch (terrainType) {
       case FOREST_DEMO_ISO:
-        TextureRegion isoGrass = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/65x33v2Sand.png", Texture.class));
-
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/dayWaterTile.png", Texture.class));
+            resourceService.getAsset("images/65x33_tiles/65x33v1Water.png", Texture.class));
         TextureRegion isoSand = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/65x33v2Sand.png", Texture.class));
-
-        return createForestDemoTerrain(1f, isoGrass, isoWater, isoSand);
+            resourceService.getAsset("images/65x33_tiles/beachV1.png", Texture.class));
+        TextureRegion isoGround = new TextureRegion(
+            resourceService.getAsset("images/65x33_tiles/groundTileV1.png", Texture.class));
+        TextureRegion isoSeaweed1 = new TextureRegion(
+            resourceService.getAsset("images/65x33_tiles/seaweedV4.png", Texture.class));
+        TextureRegion isoSeaweed2 = new TextureRegion(
+            resourceService.getAsset("images/65x33_tiles/seaweedV5.png", Texture.class));
+        return createForestDemoTerrain(1f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
       default:
         return null;
     }
@@ -137,12 +140,13 @@ public class TerrainFactory {
    * @return new TerrainComponent
    */
   private TerrainComponent createForestDemoTerrain(
-      float tileWorldSize, TextureRegion grass, TextureRegion water,
-      TextureRegion sand) {
+      float tileWorldSize, TextureRegion water, TextureRegion sand, TextureRegion ground,
+      TextureRegion seaweed1, TextureRegion seaweed2) {
     GridPoint2 tilePixelSize = new GridPoint2(water.getRegionWidth(), water.getRegionHeight());
-    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, water, sand);
+    TiledMap tiledMap = createForestDemoTiles(tilePixelSize, water, sand, ground, seaweed1, seaweed2);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
-    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size,
+        bordersPositionList, landTilesList);
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
@@ -168,24 +172,40 @@ public class TerrainFactory {
    * @return new TiledMap with the generated map contained
    */
   private TiledMap createForestDemoTiles(
-      GridPoint2 tileSize, TextureRegion grass, TextureRegion water, TextureRegion sand) {
+      GridPoint2 tileSize, TextureRegion water, TextureRegion sand, TextureRegion ground, TextureRegion seaweed1,
+      TextureRegion seaweed2) {
     tiledMap = new TiledMap();
-    grassTile = new TerrainTile(grass, "grass");
-    waterTile = new TerrainTile(water, "water");
-    sandTile = new TerrainTile(sand, "sand");
-    TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
-    createLevel(layer, grassTile, waterTile, sandTile, 0, MAP_SIZE);
-    fillWater(layer, waterTile);
+    TerrainTile waterTile = new TerrainTile(water, "water");
+    TerrainTile sandTile = new TerrainTile(sand, "sand");
+    TerrainTile groundTile = new TerrainTile(ground, "sand");
+    TerrainTile seaweedTile1 = new TerrainTile(seaweed1, "sand");
+    TerrainTile seaweedTile2 = new TerrainTile(seaweed2, "sand");
 
-    tiledMap.getLayers().add(layer);
+    for (int i = 0; i < levels.size(); i++) {
+
+      TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
+      createLevel(layer, waterTile, sandTile, groundTile, seaweedTile1, seaweedTile2, i, MAP_SIZE);
+      fillWater(layer, waterTile);
+
+      if (i != 0) {
+        layer.setVisible(false);
+      }
+
+      tiledMap.getLayers().add(layer);
+    }
+
     return tiledMap;
   }
 
-  private static void createLevel(TiledMapTileLayer layer, TerrainTile grassTile, TerrainTile waterTile,
-      TerrainTile sandTile, int levelNum, GridPoint2 map_size) {
+  private static void createLevel(TiledMapTileLayer layer, TerrainTile waterTile,
+      TerrainTile sandTile, TerrainTile groundTile, TerrainTile seaweedTile1, TerrainTile seaweedTile2, int levelNum,
+      GridPoint2 map_size) {
 
     ArrayList<ArrayList<Integer>> level = levels.get(levelNum);
+    ArrayList<GridPoint2> spawnableTiles = new ArrayList<>();
+    ArrayList<GridPoint2> borders = new ArrayList<>();
+    ArrayList<GridPoint2> landTiles = new ArrayList<>();
 
     int xoff = (int) (Math.floor((map_size.x - level.size()) / 2));
     int yoff = (int) (Math.floor((map_size.y - level.get(0).size()) / 2));
@@ -195,33 +215,50 @@ public class TerrainFactory {
 
         Cell cell = new Cell();
 
+        // check if land bit is set
         if ((level.get(x).get(y) & 1) > 0) {
-          cell.setTile(sandTile);
+
+          landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+
+          // Randomly choose a land tile to use
+          // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
+          // - 5/8 chance for sand tile
+          int r = (int) (Math.random() * 7) + 1;
+          switch (r) {
+            case 1:
+              cell.setTile(groundTile);
+              break;
+            case 2:
+              cell.setTile(seaweedTile1);
+              break;
+            case 3:
+              cell.setTile(seaweedTile2);
+            default:
+              cell.setTile(sandTile);
+          }
+
         } else {
           cell.setTile(waterTile);
         }
 
         layer.setCell(x + xoff + 1, y + yoff + 1, cell);
 
+        // check to see if border bit is set
         if ((level.get(x).get(y) & (1 << 1)) > 0) {
-          // Remove old world border
-          // spawn world border
+          borders.add(new GridPoint2(x + xoff, y + yoff + 1));
         }
 
+        // check to see if spawnable bit is set
         if ((level.get(x).get(y) & (1 << 2)) > 0) {
           spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
         }
 
       }
     }
-  }
 
-  public void generateNewLevel(TiledMap tiledMap, int levelNum) {
-    GridPoint2 tileSize = new GridPoint2(waterTile.getTextureRegion().getRegionWidth(),
-        waterTile.getTextureRegion().getRegionHeight());
-    TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
-    createLevel(layer, grassTile, waterTile, sandTile, levelNum, MAP_SIZE);
-    tiledMap.getLayers().add(layer);
+    bordersPositionList.add(borders);
+    spawnableTilesList.add(spawnableTiles);
+    landTilesList.add(landTiles);
   }
 
   private void fillWater(TiledMapTileLayer layer, TerrainTile waterTile) {
@@ -244,8 +281,8 @@ public class TerrainFactory {
     return MAP_SIZE;
   }
 
-  public ArrayList<GridPoint2> getSpawnableTiles() {
-    return spawnableTiles;
+  public ArrayList<GridPoint2> getSpawnableTiles(int level) {
+    return spawnableTilesList.get(level);
   }
 
   /**

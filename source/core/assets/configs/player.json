@@ -2,5 +2,11 @@
   "health": 100,
   "baseAttack": 10,
   "gold": 50,
-  "favouriteColour": "peach"
+  "stone": 50,
+  "wood": 50,
+  "baseDefense": 10,
+  "favouriteColour": "peach",
+  "weapon": null,
+  "chestplate": null,
+  "helmet": null
 }

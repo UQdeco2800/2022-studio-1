@@ -1,7 +1,9 @@
 package com.deco2800.game.areas;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -10,6 +12,8 @@ import com.deco2800.game.memento.CareTaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -23,9 +27,10 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -44,9 +49,7 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
-  private static final int BOSS_DAY = 3;
-
-  private int currentMapLevel = 0;
+  private static final int BOSS_DAY = 2;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -57,16 +60,6 @@ public class ForestGameArea extends GameArea {
       "images/Centaur_right.png",
       "images/tree.png",
       "images/ghost_king.png",
-      "images/ghost_1.png",
-      "images/grass_1.png",
-      "images/grass_2.png",
-      "images/grass_3.png",
-      "images/hex_grass_1.png",
-      "images/hex_grass_2.png",
-      "images/hex_grass_3.png",
-      "images/iso_grass_1.png",
-      "images/iso_grass_2.png",
-      "images/iso_grass_3.png",
       "images/500_grassTile.png",
       "images/500_waterFullTile.png",
       "images/500_waterAndDirtFullTile.png",
@@ -95,35 +88,43 @@ public class ForestGameArea extends GameArea {
       "images/crystal_level2.png",
       "images/crystal_level3.png",
       "images/stoneQuarryTest.png",
-      "images/wall-right.png",
+      "images/Wall-right.png",
       "images/mini_tower.png",
-      "images/65x33_tiles/65x33v2Sand.png",
-      "images/65x33_tiles/dayWaterTile.png",
+      "images/65x33_tiles/beachV1.png",
+      "images/65x33_tiles/65x33v1Water.png",
+      "images/65x33_tiles/groundTileV1.png",
+      "images/65x33_tiles/seaweedV4.png",
+      "images/65x33_tiles/seaweedV5.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
-      "images/Eel_Bright_SW.png"
-
+      "images/Eel_Bright_SW.png",
+      "images/shipRack.png",
+      "images/shipRackFront.png"
   };
+
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
   };
-  private static final String[] forestSounds = { "sounds/sword_swing.mp3" };
-  public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
+
+  // Sound effect files
+  private static final String[] soundEffects = {
+      "sounds/sword_swing.mp3", "sounds/footsteps_grass_single.mp3", "sounds/hurt.mp3"
+  };
+  // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String[] forestMusic = { backgroundMusic };
+  // private EnvironmentalCollision entityMapping;
 
-  private CareTaker playerStatus;
+  // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-
   private Entity player;
   private Entity crystal;
-  private int dayNum = 0;
+  private int dayNum = 1;
 
-  public ForestGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
+  public ForestGameArea(TerrainFactory terrainFactory) {
     super();
-    this.playerStatus = playerStatus;
     this.terrainFactory = terrainFactory;
 
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
@@ -139,28 +140,25 @@ public class ForestGameArea extends GameArea {
    */
   @Override
   public void create() {
+
     loadAssets();
 
     displayUI();
 
     spawnTerrain();
 
+    entityMapping = new EnvironmentalCollision(terrain);
+
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-    // entityMapping = new EnvironmentalCollision(terrain);
 
     this.crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
 
-    // spawnElectricEelEnemy();
-
-    // spawnEnvironmentalObjects();
+    spawnEnvironmentalObjects();
 
     playMusic();
-
-    // System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
-
   }
 
   private void displayUI() {
@@ -177,18 +175,14 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
+
     Entity terrainEntity = new Entity().addComponent(terrain);
-
-    areaEntities.add(terrainEntity);
+    this.areaEntities.add(terrainEntity);
     ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
-
-    // Terrain walls
-    float tileSize = terrain.getTileSize();
+    ServiceLocator.getEntityService().addEntity(terrainEntity);
 
     GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    spawnWorldBorders();
+    // spawnWorldBorders();
   }
 
   private void spawnWorldBorders() {
@@ -260,14 +254,10 @@ public class ForestGameArea extends GameArea {
    *                   EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
 
     for (int i = 0; i < numObjects; i++) {
-      GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+      // Must be maxPos, minPos NOT minPos, maxPos
+      GridPoint2 randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
       Entity envObj;
       switch (type) {
         case TREE:
@@ -294,6 +284,12 @@ public class ForestGameArea extends GameArea {
         case WOODEN_FENCE:
           envObj = ObstacleFactory.createWoodenFence();
           break;
+        case SHIPWRECK_BACK:
+          envObj = ObstacleFactory.createShipwreckBack();
+          break;
+        case SHIPWRECK_FRONT:
+          envObj = ObstacleFactory.createShipwreckFront();
+          break;
         case ROCK:
           // falls through to default
         default:
@@ -302,20 +298,19 @@ public class ForestGameArea extends GameArea {
 
       int counter = 0;
       // check for possible collision and reroll location until valid
-      while (ServiceLocator.getEntityService().wouldCollide(envObj, randomPos.x, randomPos.y)
-          || ServiceLocator.getEntityService().isNearWater(randomPos.x, randomPos.y)) {
-        randomPos = RandomUtils.random(minPos, maxPos);
+      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+        randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
 
         // safety to avoid infinite looping on loading screen.
         // If cant spawn the object then space has ran out on map
         if (counter > 1000) {
           return;
         }
-
         counter++;
       }
+      this.entityMapping.addEntity(envObj);
 
-      ServiceLocator.getEntityService().addEntity(envObj);
       spawnEntityAt(envObj, randomPos, true, true);
     }
   }
@@ -326,28 +321,47 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
 
-    // semi random rocks and trees
-    int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
-    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
-    int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
-
-    int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    spawnEnvironmentalObject(numRocks, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
-    objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
-
-    // Remaining number of objects can be spawned off raw percentage?
-    // placeholder functions below:
-    int numVines = objectsRemaining;
-    spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalObstacle.VINE);
-    objectsRemaining = objectsRemaining - numVines;
-
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
-    spawnEnvironmentalObject(2, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.GEYSER);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
+    spawnEnvironmentalObject(1,
+        EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    /*
+     * // semi random rocks and trees
+     * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
+     * MIN_NUM_TREES) + 1));
+     * spawnEnvironmentalObject(numTrees,
+     * EnvironmentalComponent.EnvironmentalObstacle.TREE);
+     * int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
+     * 
+     * int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS -
+     * MIN_NUM_ROCKS) + 1));
+     * spawnEnvironmentalObject(numRocks,
+     * EnvironmentalComponent.EnvironmentalObstacle.ROCK);
+     * objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
+     * 
+     * 
+     * 
+     * // Remaining number of objects can be spawned off raw percentage?
+     * // placeholder functions below:
+     * int numVines = 4;
+     * spawnEnvironmentalObject(numVines,
+     * EnvironmentalComponent.EnvironmentalObstacle.VINE);
+     * objectsRemaining = objectsRemaining - numVines;
+     * 
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
+     * 
+     * 
+     * (spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
+     * spawnEnvironmentalObject(2,
+     * EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.GEYSER);
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
+     */
   }
 
   /**
@@ -381,19 +395,20 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnPlayer() {
-    Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+    Entity newPlayer = PlayerFactory.loadPlayer();
     ServiceLocator.getEntityService().registerNamed("player", newPlayer);
-    ;
+
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
     return newPlayer;
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
-    while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
+    while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
     ServiceLocator.getEntityService().addEntity(crystal);
+    this.entityMapping.addEntity(crystal);
     crystal.setPosition(new Vector2(60, 0));
     return crystal;
   }
@@ -405,13 +420,10 @@ public class ForestGameArea extends GameArea {
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
 
     if (crystalHealth < 500) {
-      if (currentMapLevel == 0) {
+      if (terrain.getCurrentMapLvl() == 0) {
         // GAME OVER
       } else {
-        terrain.getMap().getLayers().get(currentMapLevel).setVisible(false);
-        currentMapLevel--;
-        terrain.getMap().getLayers().get(currentMapLevel).setVisible(true);
-
+        terrain.decrementMapLvl();
       }
     }
 
@@ -447,6 +459,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnMeleeBoss() {
     Entity boss = NPCFactory.createMeleeBoss(player);
+    boss.setName("Mr. Zero");
     spawnEnemy(boss);
   }
 
@@ -457,7 +470,8 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
-
+    pirateCrabEnemy.setName("Mr. Crabs");
+    this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
   }
 
@@ -468,15 +482,16 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnemy(Entity entity) {
     ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
-    GridPoint2 randomPos = terrainFactory.getSpawnableTiles()
-        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles().size() - 1));
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
+        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
   }
 
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
-
+    ElectricEelEnemy.setName("Mr. Electricity");
+    this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
 
@@ -492,8 +507,7 @@ public class ForestGameArea extends GameArea {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(forestTextures);
     resourceService.loadTextureAtlases(forestTextureAtlases);
-    resourceService.loadSounds(forestSounds);
-    resourceService.loadSounds(walkSound);
+    resourceService.loadSounds(soundEffects);
     resourceService.loadMusic(forestMusic);
 
     while (!resourceService.loadForMillis(10)) {
@@ -507,8 +521,7 @@ public class ForestGameArea extends GameArea {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);
     resourceService.unloadAssets(forestTextureAtlases);
-    resourceService.unloadAssets(forestSounds);
-    resourceService.unloadAssets(walkSound);
+    resourceService.unloadAssets(soundEffects);
     resourceService.unloadAssets(forestMusic);
   }
 
@@ -517,5 +530,9 @@ public class ForestGameArea extends GameArea {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     this.unloadAssets();
+  }
+
+  public EnvironmentalCollision getEntityMapping() {
+    return entityMapping;
   }
 }

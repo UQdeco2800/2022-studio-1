@@ -3,6 +3,7 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.entities.Entity;
@@ -26,11 +27,9 @@ public abstract class GameArea implements Disposable {
   protected TerrainComponent terrain;
   protected List<Entity> areaEntities;
 
-//  protected EnvironmentalCollision entityMapping;
   protected Entity player;
   protected Entity crystal;
-  protected CareTaker playerStatus;
-  protected TerrainFactory terrainFactory;
+  protected EnvironmentalCollision entityMapping;
 
   protected GameArea() {
     areaEntities = new ArrayList<>();
@@ -68,7 +67,7 @@ public abstract class GameArea implements Disposable {
    *                left corner
    */
   protected void spawnEntityAt(
-          Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
+      Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
     Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
     float tileSize = terrain.getTileSize();
 
@@ -87,7 +86,7 @@ public abstract class GameArea implements Disposable {
     Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
 
     Iterator<Entity> itr = areaEntities.listIterator();
-    while(itr.hasNext()) {
+    while (itr.hasNext()) {
       Entity entity = itr.next();
       Vector2 entityPos = entity.getPosition();
       if (entity.getName() == null || entity.getName().equals("wall")) {
@@ -103,8 +102,9 @@ public abstract class GameArea implements Disposable {
   public Entity getPlayer() {
     return player;
   }
-//
-//  public EnvironmentalCollision getEntityMapping() {
-//    return entityMapping;
-//  }
+
+  public EnvironmentalCollision getEntityMapping() {
+    return entityMapping;
+  }
+
 }

@@ -1,6 +1,8 @@
 package com.deco2800.game.memento;
 
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.equipments.Equipments;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,10 @@ import java.util.List;
  * state should be saved into another memento
  */
 public class Memento {
-    private int state, gold, stone, wood, attack, currentHealth;
+    private int state, gold, stone, wood, attack, currentHealth, defense;
+    private Equipments weapon;
+    private Equipments chestplate;
+    private Equipments helmet;
     private List<Artefact> items;
 
     /**
@@ -26,7 +31,8 @@ public class Memento {
      * @param attack        - base attack value of the player (including weapon
      *                      boost)
      */
-    public Memento(int state, int gold, int stone, int wood, int currentHealth, List<Artefact> items, int attack) {
+    public Memento(int state, int gold, int stone, int wood, int currentHealth, List<Artefact> items, int attack
+                   , int defense, Equipments weapon, Equipments chestplate, Equipments helmet) {
         this.state = state;
         this.gold = gold;
         this.stone = stone;
@@ -34,6 +40,10 @@ public class Memento {
         this.currentHealth = currentHealth;
         this.items = items;
         this.attack = attack;
+        this.defense = defense;
+        this.weapon = weapon;
+        this.chestplate = chestplate;
+        this.helmet = helmet;
     }
 
     /**
@@ -90,6 +100,21 @@ public class Memento {
         return attack;
     }
 
+    public int getDefense() {
+        return defense;
+    }
+
+    public Equipments getWeapon() {
+        return weapon;
+    }
+
+    public Equipments getChestplate() {
+        return chestplate;
+    }
+
+    public Equipments getHelmet() {
+        return helmet;
+    }
     /**
      * retrieve the list of artefact items saved in the memento
      * 
