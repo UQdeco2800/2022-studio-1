@@ -3,8 +3,9 @@ package com.deco2800.game.areas.terrain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g3d.particles.values.GradientColorValue;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
@@ -26,11 +27,11 @@ class TerrainComponentTest {
 
   @Test
   void shouldConvertPositionIsometric() {
-    //had to change test to satisfy new tile dimensions
+    // had to change test to satisfy new tile dimensions
     TerrainComponent component = makeComponent(TerrainOrientation.ISOMETRIC, 3f);
     assertEquals(new Vector2(0f, 0f), component.tileToWorldPosition(0, 0));
     assertEquals(new Vector2(9f, 3f / 2), component.tileToWorldPosition(2, 4));
-    assertEquals(new Vector2(-12f, 3f /2), component.tileToWorldPosition(-5, -3));
+    assertEquals(new Vector2(-12f, 3f / 2), component.tileToWorldPosition(-5, -3));
   }
 
   @Test
@@ -43,6 +44,9 @@ class TerrainComponentTest {
     TiledMap map = mock(TiledMap.class);
     TiledMapRenderer mapRenderer = mock(TiledMapRenderer.class);
     GridPoint2 islandSize = new GridPoint2(30, 30);
-    return new TerrainComponent(camera, map, mapRenderer, orientation, tileSize, islandSize);
+    ArrayList<ArrayList<GridPoint2>> bordersList = new ArrayList<>();
+    ArrayList<ArrayList<GridPoint2>> landTilesList = new ArrayList<>();
+    return new TerrainComponent(camera, map, mapRenderer, orientation, tileSize, islandSize, bordersList,
+        landTilesList);
   }
 }

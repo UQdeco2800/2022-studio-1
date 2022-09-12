@@ -3,14 +3,17 @@ package com.deco2800.game.components.Environmental;
 import com.deco2800.game.components.Component;
 
 /**
- * Universal component used for environmental objects. Currently in initial testing phase. With additional
+ * Universal component used for environmental objects. Currently in initial
+ * testing phase. With additional
  * environmental objects to be created.
  *
- * An environmental component has a set of attributes based off the environmental type
+ * An environmental component has a set of attributes based off the
+ * environmental type
  * to be used for attaching to entities.
  *
  * Example of correct usage when attaching to entity is (Using a rock):
- *      new EnvironmentalComponent().setType(EnvironmentalComponent.EnvironmentalType.ROCK)
+ * new
+ * EnvironmentalComponent().setType(EnvironmentalComponent.EnvironmentalType.ROCK)
  *
  */
 public class EnvironmentalComponent extends Component {
@@ -31,10 +34,12 @@ public class EnvironmentalComponent extends Component {
      * Enum containing the associate values for the environmental component
      *
      * An environmental component has:
-     *      resourceType: The type of resource
-     *      resourceValue: The number of resources to be returned associated with resource type
+     * resourceType: The type of resource
+     * resourceValue: The number of resources to be returned associated with
+     * resource type
      *
-     * E.g A cobweb has resourceValue = 0, speedModifier = 0.6 indicating zero resources will be given when broken
+     * E.g A cobweb has resourceValue = 0, speedModifier = 0.6 indicating zero
+     * resources will be given when broken
      * and when a player walks through it, their speed is reduced by 40%
      */
     public enum EnvironmentalObstacle {
@@ -47,7 +52,9 @@ public class EnvironmentalComponent extends Component {
         VINE(ResourceTypes.NONE, 0),
         STONE_PILLAR(ResourceTypes.STONE, 30),
         GEYSER(ResourceTypes.STONE, 10),
-        WOODEN_FENCE(ResourceTypes.WOOD, 5);
+        WOODEN_FENCE(ResourceTypes.WOOD, 5),
+        SHIPWRECK_FRONT(ResourceTypes.WOOD, 30),
+        SHIPWRECK_BACK(ResourceTypes.WOOD, 50);
 
         private int resourceValue;
         private ResourceTypes type;
@@ -55,7 +62,8 @@ public class EnvironmentalComponent extends Component {
         /**
          * Enum constructor for EnvironmentalType
          *
-         * @param resourceValue The number of resources to give when the Environmental type is destroyed/removed
+         * @param resourceValue The number of resources to give when the Environmental
+         *                      type is destroyed/removed
          */
         EnvironmentalObstacle(ResourceTypes type, int resourceValue) {
             this.resourceValue = resourceValue;
@@ -80,6 +88,7 @@ public class EnvironmentalComponent extends Component {
 
     /**
      * Basic setter of component type
+     * 
      * @param obstacle the type of component from EnvironmentalType
      * @return itself (EnvironmentalComponent) to be used in Obstacle Factory
      */
@@ -89,7 +98,8 @@ public class EnvironmentalComponent extends Component {
     }
 
     /**
-     * @return The number of resources when the Environmental Type is broken/destroyed
+     * @return The number of resources when the Environmental Type is
+     *         broken/destroyed
      */
     public Integer getResourceAmount() {
         return this.environmentalObstacle.resourceValue;

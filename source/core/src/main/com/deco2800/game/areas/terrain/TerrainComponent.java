@@ -1,5 +1,7 @@
 package com.deco2800.game.areas.terrain;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.services.ServiceLocator;
@@ -20,6 +23,9 @@ import com.deco2800.game.services.ServiceLocator;
  */
 public class TerrainComponent extends RenderComponent {
   private static final int TERRAIN_LAYER = 0;
+  private int currentMapLvl = 0;
+  private ArrayList<ArrayList<GridPoint2>> bordersList;
+  private ArrayList<ArrayList<GridPoint2>> landTilesList;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -28,9 +34,9 @@ public class TerrainComponent extends RenderComponent {
   private final float tileSize;
   private GridPoint2 island_size;
 
-  private  SpriteBatch batchedMapTileSpriteBatch;
-  
-  private  DayNightCycleComponent dayNightCycleComponent;
+  private SpriteBatch batchedMapTileSpriteBatch;
+
+  private DayNightCycleComponent dayNightCycleComponent;
 
   public TerrainComponent(
       OrthographicCamera camera,
@@ -38,7 +44,9 @@ public class TerrainComponent extends RenderComponent {
       TiledMapRenderer renderer,
       TerrainOrientation orientation,
       float tileSize,
-      GridPoint2 island_size) {
+      GridPoint2 island_size,
+      ArrayList<ArrayList<GridPoint2>> bordersPositionList,
+      ArrayList<ArrayList<GridPoint2>> landTilesList) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
@@ -48,15 +56,33 @@ public class TerrainComponent extends RenderComponent {
     if (renderer != null) {
       try {
         this.batchedMapTileSpriteBatch = (SpriteBatch) ((BatchTiledMapRenderer) renderer).getBatch();
-      } catch(ClassCastException e) {
+      } catch (ClassCastException e) {
         // issue caused when being mocked
         this.batchedMapTileSpriteBatch = null;
       }
     }
-    // Assuming render service is created first. otherwise day/night shader will not be applied
+    // Assuming render service is created first. otherwise day/night shader will not
+    // be applied
     if (ServiceLocator.getRenderService() != null) {
       this.dayNightCycleComponent = ServiceLocator.getRenderService().getDayNightCycleComponent();
     }
+
+    this.bordersList = bordersPositionList;
+    this.landTilesList = landTilesList;
+
+  }
+
+  public void spawnIslandBorders(int levelNum) {
+    // Dispose of current old borders
+    Entity oldWall = null;
+    while ((oldWall = ServiceLocator.getEntityService().getNamedEntity("wall")) != null) {
+      oldWall.dispose();
+    }
+
+    // Create new borders [Note: Make sure walls are registered as a named entity so
+    // we can dispose of them above]
+    ArrayList<GridPoint2> borders = bordersList.get(levelNum); // list of tile positions for where the border should be
+                                                               // placed
 
   }
 
@@ -79,6 +105,30 @@ public class TerrainComponent extends RenderComponent {
     }
   }
 
+  public int getCurrentMapLvl() {
+    return currentMapLvl;
+  }
+
+  /**
+   * Expands the map by hiding the current layer, and making the next level
+   * visible
+   */
+  public void incrementMapLvl() {
+    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    this.currentMapLvl++;
+    getMap().getLayers().get(currentMapLvl).setVisible(true);
+  }
+
+  /**
+   * Shrinks the map by hiding the current layer, and making the previous level
+   * visible.
+   */
+  public void decrementMapLvl() {
+    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    this.currentMapLvl--;
+    getMap().getLayers().get(currentMapLvl).setVisible(true);
+  }
+
   public float getTileSize() {
     return tileSize;
   }
@@ -90,6 +140,10 @@ public class TerrainComponent extends RenderComponent {
 
   public TiledMap getMap() {
     return tiledMap;
+  }
+
+  public ArrayList<GridPoint2> getLandTiles() {
+    return landTilesList.get(currentMapLvl);
   }
 
   public void setIslandSize(int x, int y) {
@@ -119,7 +173,7 @@ public class TerrainComponent extends RenderComponent {
 
   public TiledMapTileLayer getTileMapTileLayer(int layer) {
     TiledMapTileLayer terrainLayer = (TiledMapTileLayer) tiledMap.getLayers().get(layer);
-    return  terrainLayer;
+    return terrainLayer;
   }
 
   @Override
@@ -129,7 +183,7 @@ public class TerrainComponent extends RenderComponent {
 
   @Override
   public int getLayer() {
-    return TERRAIN_LAYER;
+    return getCurrentMapLvl();
   }
 
   public enum TerrainOrientation {

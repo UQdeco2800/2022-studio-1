@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
@@ -19,8 +20,6 @@ import com.deco2800.game.utils.math.Vector2Utils;
 import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.*;
-
-
 
 /**
  * Input handler for the player for keyboard and touch (mouse) input.
@@ -116,6 +115,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
         return true;
       case Keys.SPACE:
+        entity.getEvents().trigger("attack_anim_rev");
         return true;
       default:
         return false;
@@ -124,15 +124,16 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
-  public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+  public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-    CrystalFactory.crystalClicked(screenX,screenY);
+    CrystalFactory.crystalClicked(screenX, screenY);
     if (pointer == Input.Buttons.LEFT) {
       if (buildState) {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
+          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY,
+              structureRects, resourceBuildState, buildEvent);
           isClear = updatedValues[0];
           resourceBuildState = updatedValues[1];
           buildEvent = updatedValues[2];
@@ -153,7 +154,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   /** @see InputProcessor#touchDragged(int, int, int) */
   @Override
-  public boolean touchDragged (int screenX, int screenY, int pointer) {
+  public boolean touchDragged(int screenX, int screenY, int pointer) {
     if (buildState) {
       if (buildEvent) {
         if (pointer == Input.Buttons.LEFT) {
@@ -200,12 +201,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 30);
-    //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
 
-
   /**
-   * Triggers crystal restore health to can be used in the shopping feature (for testing purposes)
+   * Triggers crystal restore health to can be used in the shopping feature (for
+   * testing purposes)
    */
   private void triggerCrystalRestoreHealth() {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
