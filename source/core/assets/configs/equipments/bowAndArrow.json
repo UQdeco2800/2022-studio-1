@@ -4,9 +4,9 @@
     "goldCost": 30,
     "stoneCost": 0,
     "woodCost": 0,
-    "attack": 2,
+    "attack": 3,
     "defense": 0,
-    "description": "Increases attack by 10",
+    "description": "Increases attack by 3x",
     "itemImagePath": "images/shop-bow-and-arrow.png",
     "itemBackgroundImagePath": "images/shop-items-framed/bow-and-arrow-framed.png"
 }

@@ -1,5 +1,6 @@
 package com.deco2800.game.components.shop;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.services.ResourceService;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
 import org.slf4j.Logger;
@@ -136,7 +139,9 @@ public class CommonShopComponents extends UIComponent {
     public TextButton getStoneButton() {
         return this.stoneFrame;
     }
+
     public TextButton getWoodButton() {
         return this.woodFrame;
     }
+
 }

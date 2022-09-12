@@ -1,4 +1,5 @@
 package com.deco2800.game.memento;
+
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,7 @@ class OriginatorTest {
         test.setStone(100);
         assertEquals(100, test.getStone());
     }
+
     @Test
     void shouldSaveEmptyItemList() {
         Originator test = new Originator(1);
@@ -65,15 +67,15 @@ class OriginatorTest {
     @Test
     void shouldSaveChestplate() {
         Originator test = new Originator(1);
-        test.setChestplate(Equipments.LV1_CHESTPLATE);
-        assertEquals(Equipments.LV1_CHESTPLATE, test.getChestplate());
+        test.setChestplate(Equipments.CHESTPLATE);
+        assertEquals(Equipments.CHESTPLATE, test.getChestplate());
     }
 
     @Test
     void shouldSaveHelmet() {
         Originator test = new Originator(1);
-        test.setHelmet(Equipments.LV1_HELMET);
-        assertEquals(Equipments.LV1_HELMET, test.getHelmet());
+        test.setHelmet(Equipments.HELMET);
+        assertEquals(Equipments.HELMET, test.getHelmet());
     }
 
     @Test
