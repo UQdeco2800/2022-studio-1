@@ -48,13 +48,13 @@ public class PlayerFactory {
     AnimationRenderComponent player_start = new AnimationRenderComponent(ServiceLocator.getResourceService()
     .getAsset("images/anim_demo/mainchar_anim_final.atlas", TextureAtlas.class));
     player_start.addAnimation("w", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("wa", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("wa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("a", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("aa", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("aa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("s", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("sa", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
-    player_start.addAnimation("da", 0.1f, Animation.PlayMode.LOOP);
+    player_start.addAnimation("da", 0.1f, Animation.PlayMode.NORMAL);
 
     Entity player =
         new Entity()
@@ -64,33 +64,43 @@ public class PlayerFactory {
             .addComponent(new AnimationController())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
-            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack))
+            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack, stats.baseDefense))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood))
+            .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood
+                    , stats.weapon, stats.helmet, stats.chestplate))
             .addComponent(inputComponent)            
-            .addComponent(new PlayerStatsDisplay())
-            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
+            .addComponent(new PlayerStatsDisplay());
 
-    ServiceLocator.getEntityService().registerNamed("phil", player);
+    player.setName("player");
+    player.setCollectable(false);
+
+    ServiceLocator.getEntityService().registerNamed("player", player);
     PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
-    player.setScale(1.2f, 1.2f);
+    player.setScale(2.5f, 2.5f);
     return player;
   }
 
-  public static Entity loadPlayer(CareTaker playerStatus) {
-    if (playerStatus.getAll().size() == 0) {
+  public static Entity loadPlayer() {
+    if (CareTaker.getInstance().getLast() == null) {
       return createPlayer();
     } else {
-      Memento lastStatus = playerStatus.get(playerStatus.getAll().size() - 1);
+      Memento lastStatus = CareTaker.getInstance().getLast();
       Entity player = createPlayer();
       player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
       player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());
+      player.getComponent(CombatStatsComponent.class).setBaseDefense(lastStatus.getDefense());
       player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
       player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
       player.getComponent(InventoryComponent.class).setStone(lastStatus.getStone());
+      player.getComponent(InventoryComponent.class).setWood(lastStatus.getWood());
+      player.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
+      player.getComponent(InventoryComponent.class).setChestplate(lastStatus.getChestplate());
+      player.getComponent(InventoryComponent.class).setHelmet(lastStatus.getHelmet());
+
+      player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
       return player;
     }
   }

@@ -11,7 +11,6 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.maingame.MainGameInterface;
-import com.deco2800.game.components.tasks.DayNightClockComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
@@ -38,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * The game screen containing the main game.
@@ -56,8 +56,8 @@ public class MainGameScreen extends ScreenAdapter {
       "images/empty_healthbar.png",
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
-          "images/clock.png",
-      "images/atlantisBasicBackground.png"
+      "images/atlantisBasicBackground.png",
+      "images/log.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
@@ -68,17 +68,9 @@ public class MainGameScreen extends ScreenAdapter {
   private final AtlantisSinks game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
-  private CareTaker playerStatus;
 
-  public MainGameScreen(AtlantisSinks game, CareTaker playerStatus) {
+  public MainGameScreen(AtlantisSinks game) {
     this.game = game;
-
-    // creates new caretaker if no caretaker object exists
-    if (playerStatus == null) {
-      this.playerStatus = new CareTaker();
-    } else {
-      this.playerStatus = playerStatus;
-    }
 
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
@@ -113,7 +105,7 @@ public class MainGameScreen extends ScreenAdapter {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
     // Singleton MainArea responsible for controlling current map and entities
-    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, playerStatus));
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
 
     createUI();
 
@@ -186,14 +178,13 @@ public class MainGameScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game, this.playerStatus, MainArea.getInstance().getGameArea().getPlayer()))
+        .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay())
-            .addComponent(new DayNightClockComponent());
+        .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }

@@ -20,6 +20,7 @@ public class AnimationController extends Component {
     entity.getEvents().addListener("ch_dir_d", this::ch_dir_d);
 
     entity.getEvents().addListener("attack_anim", this::attack_anim);
+    entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
     
   }
 
@@ -43,14 +44,15 @@ public class AnimationController extends Component {
     animator.startAnimation("d");
   }
 
-  void attack_anim(){
-    
-    String anim_to_start = animator.getCurrentAnimation();
-    if (anim_to_start.length() == 1) {
-      animator.stopAnimation();
-      animator.startAnimation(anim_to_start.concat("a"));
-      this.entity.setScale(1.5f, 1.5f);
-    }
-    
+  void attack_anim(){    
+    String anim_to_start = animator.getCurrentAnimation();  
+    animator.stopAnimation();
+    animator.startAnimation(anim_to_start.concat("a"));
+  }
+
+  void attack_anim_rev(){    
+    String anim_to_start = animator.getCurrentAnimation();  
+    animator.stopAnimation();
+    animator.startAnimation(anim_to_start.substring(0, 1));
   }
 }
