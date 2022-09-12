@@ -1,5 +1,6 @@
 package com.deco2800.game.components.maingame;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -48,12 +49,6 @@ public class MainGameInterface extends UIComponent {
         TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
         ImageButton inventoryButton = new ImageButton(upInventory, downInventory);
 
-        // the building button
-        Texture buildingTexture = new Texture(Gdx.files.internal("images/Building_Button.png"));
-        TextureRegionDrawable upBuilding = new TextureRegionDrawable(buildingTexture);
-        TextureRegionDrawable downBuilding = new TextureRegionDrawable(buildingTexture);
-        ImageButton buildingButton = new ImageButton(upBuilding, downBuilding);
-
         // the achievements button
         Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
         TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
@@ -79,15 +74,7 @@ public class MainGameInterface extends UIComponent {
                         entity.getEvents().trigger("achievement");
                     }
                 });
-        // trigger for building button
-        buildingButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Building button clicked");
-                        entity.getEvents().trigger("building");
-                    }
-                });
+
 
         // trigger for shop button
         shopButton.addListener(
@@ -99,11 +86,9 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
-        rightSideTable.add(inventoryButton).right().bottom().size(100f, 100f);
+        rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
-        rightSideTable.add(buildingButton).right().bottom();
-        // adding shop button to the left
-        leftSideTable.add(shopButton).left().bottom().size(180f, 180f);
+        leftSideTable.add(shopButton).left().bottom().size(150f, 150f);
         // adding settings to the left
         leftSideTable.add(achievementsButton).left().bottom().size(100f, 100f);
 

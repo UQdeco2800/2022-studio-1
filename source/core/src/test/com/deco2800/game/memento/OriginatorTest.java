@@ -1,6 +1,5 @@
 package com.deco2800.game.memento;
 import com.deco2800.game.components.shop.artefacts.Artefact;
-import com.deco2800.game.components.shop.artefacts.BestSword;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.matchers.Or;
@@ -55,15 +54,6 @@ class OriginatorTest {
     void shouldSaveEmptyItemList() {
         Originator test = new Originator(1);
         List<Artefact> item = new ArrayList<>();
-        test.setItems(item);
-        assertTrue(item.equals(test.getItemList()));
-    }
-
-    @Test
-    void shouldSaveNonEmptyItemList() {
-        Originator test = new Originator(1);
-        List<Artefact> item = new ArrayList<>();
-        item.add(new BestSword());
         test.setItems(item);
         assertTrue(item.equals(test.getItemList()));
     }

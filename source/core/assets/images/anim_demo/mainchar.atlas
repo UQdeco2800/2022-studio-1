@@ -1,0 +1,40 @@
+mainchar.png
+size: 8192, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+default
+  rotate: false
+  xy: 2, 4
+  size: 1394, 1250
+  orig: 1394, 1250
+  offset: 0, 0
+  index: 0
+a
+  rotate: false
+  xy: 2, 4
+  size: 1394, 1250
+  orig: 1394, 1250
+  offset: 0, 0
+  index: -1
+d
+  rotate: false
+  xy: 1398, 4
+  size: 1394, 1250
+  orig: 1394, 1250
+  offset: 0, 0
+  index: -1
+s
+  rotate: false
+  xy: 2794, 4
+  size: 1382, 1250
+  orig: 1382, 1250
+  offset: 0, 0
+  index: -1
+w
+  rotate: false
+  xy: 4190, 4
+  size: 1383, 1251
+  orig: 1383, 1251
+  offset: 0, 0
+  index: -1

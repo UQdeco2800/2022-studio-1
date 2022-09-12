@@ -24,13 +24,13 @@ class CrystalTest {
 
     @Test
     void shouldUpgrade() {
-        CombatStatsComponent stats2 = new CombatStatsComponent(100, 0, 0, 3);
+        CombatStatsComponent stats2 = new CombatStatsComponent(1000, 0, 0, 3);
         assertEquals(3, stats2.getLevel());
-        assertEquals(100, stats2.getHealth());
+        assertEquals(1000, stats2.getHealth());
 
         stats2.upgrade();
         assertEquals(4, stats2.getLevel());
-        assertEquals(200, stats2.getHealth());
+        assertEquals(1050, stats2.getHealth());
 
     }
 

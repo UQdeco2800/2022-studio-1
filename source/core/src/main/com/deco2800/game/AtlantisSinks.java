@@ -3,7 +3,6 @@ package com.deco2800.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
 import org.slf4j.Logger;
@@ -21,6 +20,8 @@ import static com.badlogic.gdx.Gdx.app;
 public class AtlantisSinks extends Game {
   private static final Logger logger = LoggerFactory.getLogger(AtlantisSinks.class);
   private ScreenType screenType;
+
+  public static boolean gameRunning = false;
 
   @Override
   public void create() {
@@ -64,7 +65,19 @@ public class AtlantisSinks extends Game {
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType));
+    setScreen(newScreen(screenType, null));
+  }
+
+  public void setSettingsScreen(ScreenType prevScreen) {
+    logger.info("Setting game screen to {}", ScreenType.SETTINGS);
+    Screen currentScreen = getScreen();
+    if (currentScreen != null) {
+      currentScreen.dispose();
+    }
+
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
+
+    setScreen(newScreen(ScreenType.SETTINGS, prevScreen));
   }
 
   @Override
@@ -76,10 +89,12 @@ public class AtlantisSinks extends Game {
   /**
    * Create a new screen of the provided type.
    * 
-   * @param screenType   screen type
+   * @param screenType screen type
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType) {
+    
+  private Screen newScreen(ScreenType screenType, ScreenType prevScreen) {
+    gameRunning = screenType == ScreenType.MAIN_GAME;
     this.screenType = screenType;
     switch (screenType) {
       case MAIN_MENU:
@@ -87,7 +102,7 @@ public class AtlantisSinks extends Game {
       case MAIN_GAME:
         return new MainGameScreen(this);
       case SETTINGS:
-        return new SettingsScreen(this);
+        return new SettingsScreen(this, prevScreen);
       case SHOP:
         return new ShopScreen(this);
       case BUILD_SHOP:

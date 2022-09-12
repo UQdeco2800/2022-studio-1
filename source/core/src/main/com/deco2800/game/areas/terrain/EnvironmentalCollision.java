@@ -1,6 +1,7 @@
 package com.deco2800.game.areas.terrain;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
 import java.util.*;
 
@@ -23,7 +24,6 @@ public class EnvironmentalCollision {
     public EnvironmentalCollision(TerrainComponent terrain) {
         this.entityMap = new Hashtable<>();
         this.terrain = terrain;
-
         //List object goes [isWater, isBuildable, isResource]
         tileMapping.put("images/water version 1.png", Arrays.asList(true, false, false));
         tileMapping.put("images/water version 2.png", Arrays.asList(true, false, false));
@@ -61,19 +61,46 @@ public class EnvironmentalCollision {
         float smallestDistance = 99999;
 
         for (Entity entity: entityMap.values()) {
-            float entityX = entity.getCenterPosition().x;
-            float entityY = entity.getCenterPosition().y;
+            if (!(entity instanceof Enemy)) {
+                float entityX = entity.getCenterPosition().x;
+                float entityY = entity.getCenterPosition().y;
 
-            double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
+                double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
 
-            if (currentDistance < smallestDistance) {
-                closetEntity = entity;
+                if (currentDistance < smallestDistance) {
+                    closetEntity = entity;
+                    smallestDistance = (float) currentDistance;
+                }
             }
         }
 
         return closetEntity;
     }
 
+    public Entity findClosestEnemy(int x, int y) {
+        if (entityMap.values().size() == 0) {
+            return null;
+        }
+
+        Entity closetEntity = null;
+        float smallestDistance = 99999;
+
+        for (Entity entity: entityMap.values()) {
+            if (entity instanceof Enemy) {
+                float entityX = entity.getCenterPosition().x;
+                float entityY = entity.getCenterPosition().y;
+
+                double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
+
+                if (currentDistance < smallestDistance) {
+                    closetEntity = entity;
+                    smallestDistance = (float) currentDistance;
+                }
+            }
+        }
+
+        return closetEntity;
+    }
 
     /**
      * Calculates if the given entity will collide with already existing entities

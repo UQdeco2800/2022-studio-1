@@ -1,7 +1,6 @@
 package com.deco2800.game.memento;
 
 import com.deco2800.game.components.shop.artefacts.Artefact;
-import com.deco2800.game.components.shop.artefacts.BestSword;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
 
@@ -36,15 +35,6 @@ class MementoTest {
     @Test
     void shouldGetEmptyItem() {
         List<Artefact> item = new ArrayList<>();
-        Memento test = new Memento(1, 2, 3, 4,5, item, 5, 6,
-                null, null, null);
-        assertTrue(item.equals(test.getItemList()));
-    }
-
-    @Test
-    void shouldGetItemList() {
-        List<Artefact> item = new ArrayList<>();
-        item.add(new BestSword());
         Memento test = new Memento(1, 2, 3, 4,5, item, 5, 6,
                 null, null, null);
         assertTrue(item.equals(test.getItemList()));

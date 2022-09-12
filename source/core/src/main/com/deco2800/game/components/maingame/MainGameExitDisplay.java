@@ -65,7 +65,7 @@ public class MainGameExitDisplay extends UIComponent {
           public void changed(ChangeEvent changeEvent, Actor actor) {
             logger.debug("Settings button clicked on game page");
             logger.info("Game paused");
-            entity.getEvents().trigger("setting game page");
+            entity.getEvents().trigger("settings");
           }
         });
 

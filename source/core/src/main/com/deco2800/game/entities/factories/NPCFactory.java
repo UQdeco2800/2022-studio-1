@@ -1,18 +1,21 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.npc.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.npc.GhostAnimationController;
-import com.deco2800.game.components.tasks.ChaseTask;
+import com.deco2800.game.components.tasks.*;
+import com.deco2800.game.components.tasks.RangedMovementTask;
 import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.configs.*;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.EnemyConfig;
 import com.deco2800.game.entities.configs.GhostKingConfig;
@@ -49,7 +52,7 @@ public class NPCFactory {
    * @return entity
    */
   public static Entity createGhost(Entity target) {
-    Entity ghost = createBaseNPC(target);
+    Entity ghost = createBaseEnemy(target);
     BaseEntityConfig config = configs.ghost;
 
     AnimationRenderComponent animator =
@@ -75,7 +78,7 @@ public class NPCFactory {
    * @return entity
    */
   public static Entity createGhostKing(Entity target) {
-    Entity ghostKing = createBaseNPC(target);
+    Entity ghostKing = createBaseEnemy(target);
     GhostKingConfig config = configs.ghostKing;
 
     AnimationRenderComponent animator =
@@ -102,7 +105,7 @@ public class NPCFactory {
    * @return Entity
    */
   public static Entity createPirateCrabEnemy(Entity target) {
-    Entity pirateCrabEnemy = createBaseNPC(target);
+    Entity pirateCrabEnemy = createBaseEnemy(target);
     EnemyConfig config = configs.pirateCrab;
 
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
@@ -113,16 +116,17 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent);
 
-
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
+
 
     return pirateCrabEnemy;
   }
 
-  public static Entity createElectricEelEnemy(Entity target) {
-    Entity ElectricEelEnemy = createBaseRangeNPC(target);
+  public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
+    Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/ElectricEel.png");
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
 
     ElectricEelEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -130,20 +134,55 @@ public class NPCFactory {
             .addComponent(textureRenderComponent);
 
     ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
 
     return ElectricEelEnemy;
   }
+
+
+
+  /**
+   * Creates a melee boss entity
+   *
+   * @param target entity to chase
+   * @return Entity
+   */
+  public static Entity createMeleeBoss(Entity target) {
+    Entity boss = createBaseEnemy(target);
+    MeleeBossConfig config = configs.meleeBossEnemy;
+
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
+
+    // Add combat stats, health bar and texture renderer to the pirate crab entity
+    boss
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent)
+            .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
+            .addComponent(new EffectNearBy(true, true, true));
+
+    boss.getComponent(TextureRenderComponent.class).scaleEntity();
+    boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
+    boss.getComponent(EffectNearBy.class).enableSpeed();
+    boss.getComponent(EffectNearBy.class).enableRegen();
+    boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
+    boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
+
+    return boss;
+  }
+
+
 
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
    *
    * @return entity
    */
+
   private static Entity createBaseNPC(Entity target) {
     AITaskComponent aiComponent =
         new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new ChaseTask(target, 10, 3f, 4f));
+            .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
     Entity npc =
         new Entity()
             .addComponent(new PhysicsComponent())
@@ -151,10 +190,36 @@ public class NPCFactory {
             .addComponent(new ColliderComponent())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
             .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
-            .addComponent(aiComponent);
+            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
+            .addComponent(aiComponent)
+            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
     return npc;
+  }
+
+  /**
+   * For luke
+   * */
+  // TODO: Luke make this look better and fix up NPC != enemy
+  private static Enemy createBaseEnemy(Entity target) {
+    AITaskComponent aiComponent =
+            new AITaskComponent()
+                    .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
+                    .addTask(new MeleePursueTask(target))
+                    .addTask(new MeleeAvoidObstacleTask(target));
+    Enemy enemy =
+            (Enemy) new Enemy()
+                    .addComponent(new PhysicsComponent())
+                    .addComponent(new PhysicsMovementComponent())
+                    .addComponent(new ColliderComponent())
+                    .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                    .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
+                    .addComponent(aiComponent);
+
+    PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
+    return enemy;
   }
 
   /**
@@ -163,23 +228,24 @@ public class NPCFactory {
    *
    * @return entity
    */
-  private static Entity createBaseRangeNPC(Entity target) {
+  private static Enemy createBaseRangeNPC(Entity target, Entity crystal) {
     //Vector2 RangeHitbox = new Vector2(2f, 1f);
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                    .addTask(new ChaseTask(target, 10, 8f, 10f));
-    Entity npc =
-            new Entity()
+                    .addTask(new RangedMovementTask(crystal, 10, 2f, 20f, 30f))
+                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 5f));
+    Enemy enemy =
+            (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())
                     .addComponent(new PhysicsMovementComponent())
                     .addComponent(new ColliderComponent())
                     .addComponent(new HitboxComponent().setLayer(PhysicsLayer.RangeNPC))
-                    .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER))
+                    .addComponent(new TouchAttackComponent(PhysicsLayer.RangeNPC))
                     .addComponent(aiComponent);
 
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
+    PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
+    return enemy;
   }
 
   private NPCFactory() {
