@@ -152,7 +152,7 @@ public class ForestGameArea extends GameArea {
 
     entityMapping = new EnvironmentalCollision(terrain);
 
-    spawnEnvironmentalObjects();
+    // spawnEnvironmentalObjects();
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
     // entityMapping = new EnvironmentalCollision(terrain);
@@ -162,6 +162,7 @@ public class ForestGameArea extends GameArea {
     this.player = spawnPlayer();
 
     // spawnEnvironmentalObjects();
+
     playMusic();
   }
 
@@ -185,13 +186,8 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
     ServiceLocator.getEntityService().addEntity(terrainEntity);
 
-    // Terrain walls
-    float tileSize = terrain.getTileSize();
-
     GridPoint2 tileBounds = terrain.getMapBounds(0);
-    Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
-
-    spawnWorldBorders();
+    // spawnWorldBorders();
   }
 
   private void spawnWorldBorders() {
@@ -315,10 +311,8 @@ public class ForestGameArea extends GameArea {
         if (counter > 1000) {
           return;
         }
-
         counter++;
       }
-
       this.entityMapping.addEntity(envObj);
       spawnEntityAt(envObj, randomPos, true, true);
     }

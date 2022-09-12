@@ -1,5 +1,7 @@
 package com.deco2800.game.areas.terrain;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.services.ServiceLocator;
@@ -21,6 +24,7 @@ import com.deco2800.game.services.ServiceLocator;
 public class TerrainComponent extends RenderComponent {
   private static final int TERRAIN_LAYER = 0;
   private int currentMapLvl = 0;
+  private ArrayList<ArrayList<GridPoint2>> bordersList;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -39,7 +43,8 @@ public class TerrainComponent extends RenderComponent {
       TiledMapRenderer renderer,
       TerrainOrientation orientation,
       float tileSize,
-      GridPoint2 island_size) {
+      GridPoint2 island_size,
+      ArrayList<ArrayList<GridPoint2>> bordersPositionList) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
@@ -59,6 +64,22 @@ public class TerrainComponent extends RenderComponent {
     if (ServiceLocator.getRenderService() != null) {
       this.dayNightCycleComponent = ServiceLocator.getRenderService().getDayNightCycleComponent();
     }
+
+    this.bordersList = bordersPositionList;
+
+  }
+
+  public void spawnIslandBorders(int levelNum) {
+    // Dispose of current old borders
+    Entity oldWall = null;
+    while ((oldWall = ServiceLocator.getEntityService().getNamedEntity("wall")) != null) {
+      oldWall.dispose();
+    }
+
+    // Create new borders [Note: Make sure walls are registered as a named entity so
+    // we can dispose of them above]
+    ArrayList<GridPoint2> borders = bordersList.get(levelNum); // list of tile positions for where the border should be
+                                                               // placed
 
   }
 

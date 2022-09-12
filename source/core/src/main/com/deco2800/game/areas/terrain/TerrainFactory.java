@@ -38,6 +38,7 @@ public class TerrainFactory {
   private static ArrayList<ArrayList<ArrayList<Integer>>> levels;
 
   private static ArrayList<ArrayList<GridPoint2>> spawnableTilesList;
+  private static ArrayList<ArrayList<GridPoint2>> bordersPositionList;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -142,7 +143,8 @@ public class TerrainFactory {
     GridPoint2 tilePixelSize = new GridPoint2(water.getRegionWidth(), water.getRegionHeight());
     TiledMap tiledMap = createForestDemoTiles(tilePixelSize, grass, water, sand);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
-    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size,
+        bordersPositionList);
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
@@ -195,6 +197,7 @@ public class TerrainFactory {
 
     ArrayList<ArrayList<Integer>> level = levels.get(levelNum);
     ArrayList<GridPoint2> spawnableTiles = new ArrayList<>();
+    ArrayList<GridPoint2> borders = new ArrayList<>();
 
     int xoff = (int) (Math.floor((map_size.x - level.size()) / 2));
     int yoff = (int) (Math.floor((map_size.y - level.get(0).size()) / 2));
@@ -204,6 +207,7 @@ public class TerrainFactory {
 
         Cell cell = new Cell();
 
+        // check if land bit is set
         if ((level.get(x).get(y) & 1) > 0) {
           cell.setTile(sandTile);
         } else {
@@ -212,11 +216,12 @@ public class TerrainFactory {
 
         layer.setCell(x + xoff + 1, y + yoff + 1, cell);
 
+        // check to see if border bit is set
         if ((level.get(x).get(y) & (1 << 1)) > 0) {
-          // Remove old world border
-          // spawn world border
+          borders.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
         }
 
+        // check to see if spawnable bit is set
         if ((level.get(x).get(y) & (1 << 2)) > 0) {
           spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
         }
@@ -224,6 +229,7 @@ public class TerrainFactory {
       }
     }
 
+    bordersPositionList.add(borders);
     spawnableTilesList.add(spawnableTiles);
   }
 

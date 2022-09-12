@@ -14,16 +14,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Core entity class. Entities exist in the game and are updated each frame. All entities have a
- * position and scale, but have no default behaviour. Components should be added to an entity to
- * give it specific behaviour. This class should not be inherited or modified directly.
+ * Core entity class. Entities exist in the game and are updated each frame. All
+ * entities have a
+ * position and scale, but have no default behaviour. Components should be added
+ * to an entity to
+ * give it specific behaviour. This class should not be inherited or modified
+ * directly.
  *
- * <p>Example use:
+ * <p>
+ * Example use:
  *
  * <pre>
  * Entity player = new Entity()
- *   .addComponent(new RenderComponent())
- *   .addComponent(new PlayerControllerComponent());
+ *     .addComponent(new RenderComponent())
+ *     .addComponent(new PlayerControllerComponent());
  * ServiceLocator.getEntityService().register(player);
  * </pre>
  */
@@ -35,7 +39,6 @@ public class Entity {
   private String name;
 
   private final int id;
-  private String name;
   private Boolean collectable;
   private ResourceType resourceType;
   private int resourceAmount;
@@ -47,7 +50,8 @@ public class Entity {
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
 
-  //TODO: Fix Comment Array. Make HashMap<String, Component> so to be able to search for a specific component
+  // TODO: Fix Comment Array. Make HashMap<String, Component> so to be able to
+  // search for a specific component
   public Entity() {
     id = nextId;
     nextId++;
@@ -65,7 +69,8 @@ public class Entity {
   }
 
   /**
-   * Enable or disable an entity. Disabled entities do not run update() or earlyUpdate() on their
+   * Enable or disable an entity. Disabled entities do not run update() or
+   * earlyUpdate() on their
    * components, but can still be disposed.
    *
    * @param enabled true for enable, false for disable.
@@ -73,10 +78,6 @@ public class Entity {
   public void setEnabled(boolean enabled) {
     logger.debug("Setting enabled={} on entity {}", enabled, this);
     this.enabled = enabled;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public boolean isCollectable() {
@@ -89,11 +90,7 @@ public class Entity {
 
   public void collectResources() {
     MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).addResources(resourceType,
-            resourceAmount);
-  }
-
-  public String getName() {
-    return name;
+        resourceAmount);
   }
 
   public void setResourceType(ResourceType resourceType) {
@@ -143,7 +140,7 @@ public class Entity {
    * Set the entity's game position and optionally notifies listeners.
    *
    * @param position new position.
-   * @param notify true to notify (default), false otherwise
+   * @param notify   true to notify (default), false otherwise
    */
   public void setPosition(Vector2 position, boolean notify) {
     this.position = position;
@@ -153,7 +150,8 @@ public class Entity {
   }
 
   /**
-   * Get the entity's scale. Used for rendering and physics bounding box calculations.
+   * Get the entity's scale. Used for rendering and physics bounding box
+   * calculations.
    *
    * @return Scale in x and y directions. 1 = 1 metre.
    */
@@ -214,7 +212,7 @@ public class Entity {
    * Get a component of type T on the entity.
    *
    * @param type The component class, e.g. RenderComponent.class
-   * @param <T> The component type, e.g. RenderComponent
+   * @param <T>  The component type, e.g. RenderComponent
    * @return The entity component, or null if nonexistent.
    */
   @SuppressWarnings("unchecked")
@@ -224,9 +222,11 @@ public class Entity {
   }
 
   /**
-   * Add a component to the entity. Can only be called before the entity is registered in the world.
+   * Add a component to the entity. Can only be called before the entity is
+   * registered in the world.
    *
-   * @param component The component to add. Only one component of a type can be added to an entity.
+   * @param component The component to add. Only one component of a type can be
+   *                  added to an entity.
    * @return Itself
    */
   public Entity addComponent(Component component) {
@@ -250,7 +250,9 @@ public class Entity {
     return this;
   }
 
-  /** Dispose of the entity. This will dispose of all components on this entity. */
+  /**
+   * Dispose of the entity. This will dispose of all components on this entity.
+   */
   public void dispose() {
     for (Component component : createdComponents) {
       component.dispose();
@@ -259,7 +261,8 @@ public class Entity {
   }
 
   /**
-   * Create the entity and start running. This is called when the entity is registered in the world,
+   * Create the entity and start running. This is called when the entity is
+   * registered in the world,
    * and should not be called manually.
    */
   public void create() {
@@ -277,7 +280,8 @@ public class Entity {
   }
 
   /**
-   * Perform an early update on all components. This is called by the entity service and should not
+   * Perform an early update on all components. This is called by the entity
+   * service and should not
    * be called manually.
    */
   public void earlyUpdate() {
@@ -290,7 +294,8 @@ public class Entity {
   }
 
   /**
-   * Perform an update on all components. This is called by the entity service and should not be
+   * Perform an update on all components. This is called by the entity service and
+   * should not be
    * called manually.
    */
   public void update() {
@@ -312,7 +317,8 @@ public class Entity {
   }
 
   /**
-   * Get the event handler attached to this entity. Can be used to trigger events from an attached
+   * Get the event handler attached to this entity. Can be used to trigger events
+   * from an attached
    * component, or listen to events from a component.
    *
    * @return entity's event handler
