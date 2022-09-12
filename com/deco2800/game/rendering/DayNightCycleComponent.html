@@ -101,6 +101,24 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final com.badlogic.gdx.graphics.g2d.TextureRegion</code></div>
 <div class="col-second even-row-color"><code><a href="#BLACK_IMAGE" class="member-name-link">BLACK_IMAGE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final com.badlogic.gdx.math.Vector3</code></div>
+<div class="col-second odd-row-color"><code><a href="#bright" class="member-name-link">bright</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final com.badlogic.gdx.math.Vector3</code></div>
+<div class="col-second even-row-color"><code><a href="#dark" class="member-name-link">dark</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final float</code></div>
+<div class="col-second odd-row-color"><code><a href="#DAWN_INTENSITY" class="member-name-link">DAWN_INTENSITY</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final float</code></div>
+<div class="col-second even-row-color"><code><a href="#DAY_INTENSITY" class="member-name-link">DAY_INTENSITY</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final float</code></div>
+<div class="col-second odd-row-color"><code><a href="#DUSK_INTENSITY" class="member-name-link">DUSK_INTENSITY</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final float</code></div>
+<div class="col-second even-row-color"><code><a href="#NIGHT_INTENSITY" class="member-name-link">NIGHT_INTENSITY</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.deco2800.game.input.InputComponent">Fields inherited from class&nbsp;com.deco2800.game.input.<a href="../input/InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></h3>
@@ -119,7 +137,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">DayNightCycleComponent</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new DayNightCycleComponent.</div>
+</div>
 </div>
 </section>
 </li>
@@ -134,18 +154,31 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.graphics.glutils.ShaderProgram</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDayNightCycleShader()" class="member-name-link">getDayNightCycleShader</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector3</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAmbientColour()" class="member-name-link">getAmbientColour</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.graphics.glutils.ShaderProgram</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDayNightCycleShader()" class="member-name-link">getDayNightCycleShader</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIntensity()" class="member-name-link">getIntensity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyUp(int)" class="member-name-link">keyUp</a><wbr>(int&nbsp;keycode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Toggles the shader on or off</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onPartOfDayChange(com.deco2800.game.services.DayNightCycleStatus)" class="member-name-link">onPartOfDayChange</a><wbr>(<a href="../services/DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;partOfDay)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Invoked when the part of day has changed</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(com.badlogic.gdx.graphics.g2d.SpriteBatch)" class="member-name-link">render</a><wbr>(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Called to apply the shader
+  Should be frequently called as ambientColor and intensity might changed.</div>
+</div>
 </div>
 </div>
 </div>
@@ -175,6 +208,74 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.TextureRegion</span>&nbsp;<span class="element-name">BLACK_IMAGE</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="NIGHT_INTENSITY">
+<h3>NIGHT_INTENSITY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">NIGHT_INTENSITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.deco2800.game.rendering.DayNightCycleComponent.NIGHT_INTENSITY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="DUSK_INTENSITY">
+<h3>DUSK_INTENSITY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">DUSK_INTENSITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.deco2800.game.rendering.DayNightCycleComponent.DUSK_INTENSITY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="DAWN_INTENSITY">
+<h3>DAWN_INTENSITY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">DAWN_INTENSITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.deco2800.game.rendering.DayNightCycleComponent.DAWN_INTENSITY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="DAY_INTENSITY">
+<h3>DAY_INTENSITY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">DAY_INTENSITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.deco2800.game.rendering.DayNightCycleComponent.DAY_INTENSITY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="bright">
+<h3>bright</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.Vector3</span>&nbsp;<span class="element-name">bright</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="dark">
+<h3>dark</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.Vector3</span>&nbsp;<span class="element-name">dark</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -187,6 +288,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>DayNightCycleComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DayNightCycleComponent</span>()</div>
+<div class="block">Creates a new DayNightCycleComponent. Making sure to compile shader files</div>
 </section>
 </li>
 </ul>
@@ -201,23 +303,39 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="render(com.badlogic.gdx.graphics.g2d.SpriteBatch)">
 <h3>render</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;batch)</span></div>
+<div class="block">Called to apply the shader
+  Should be frequently called as ambientColor and intensity might changed.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>batch</code> - the sprite batch to apply the filter to</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="onPartOfDayChange(com.deco2800.game.services.DayNightCycleStatus)">
 <h3>onPartOfDayChange</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onPartOfDayChange</span><wbr><span class="parameters">(<a href="../services/DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;partOfDay)</span></div>
+<div class="block">Invoked when the part of day has changed</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>partOfDay</code> - the new part of day</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="keyUp(int)">
 <h3>keyUp</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">keyUp</span><wbr><span class="parameters">(int&nbsp;keycode)</span></div>
+<div class="block">Toggles the shader on or off</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>keyUp</code>&nbsp;in interface&nbsp;<code>com.badlogic.gdx.InputProcessor</code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="../input/InputComponent.html#keyUp(int)">keyUp</a></code>&nbsp;in class&nbsp;<code><a href="../input/InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>keycode</code> - one of the constants in <code>Input.Keys</code></dd>
+<dt>Returns:</dt>
+<dd>whether to call again</dd>
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
@@ -231,6 +349,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getDayNightCycleShader()">
 <h3>getDayNightCycleShader</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.glutils.ShaderProgram</span>&nbsp;<span class="element-name">getDayNightCycleShader</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getAmbientColour()">
+<h3>getAmbientColour</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.Vector3</span>&nbsp;<span class="element-name">getAmbientColour</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getIntensity()">
+<h3>getIntensity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getIntensity</span>()</div>
 </section>
 </li>
 </ul>
