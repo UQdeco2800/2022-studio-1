@@ -37,7 +37,7 @@ public class TerrainFactory {
 
   private static ArrayList<ArrayList<ArrayList<Integer>>> levels;
 
-  private static ArrayList<GridPoint2> spawnableTiles;
+  private static ArrayList<ArrayList<GridPoint2>> spawnableTilesList;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -68,7 +68,7 @@ public class TerrainFactory {
 
   private void loadLevels() {
     levels = new ArrayList<>();
-    spawnableTiles = new ArrayList<>();
+    spawnableTilesList = new ArrayList<>();
     try {
       for (int i = 0; i < 5; i++) {
 
@@ -113,12 +113,12 @@ public class TerrainFactory {
     switch (terrainType) {
       case FOREST_DEMO_ISO:
         TextureRegion isoGrass = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/65x33v2Sand.png", Texture.class));
+            resourceService.getAsset("images/65x33_tiles/beachV1.png", Texture.class));
 
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/dayWaterTile.png", Texture.class));
+            resourceService.getAsset("images/65x33_tiles/65x33v1Water.png", Texture.class));
         TextureRegion isoSand = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/65x33v2Sand.png", Texture.class));
+            resourceService.getAsset("images/65x33_tiles/beachV1.png", Texture.class));
 
         return createForestDemoTerrain(1f, isoGrass, isoWater, isoSand);
       default:
@@ -173,12 +173,20 @@ public class TerrainFactory {
     grassTile = new TerrainTile(grass, "grass");
     waterTile = new TerrainTile(water, "water");
     sandTile = new TerrainTile(sand, "cliff");
-    TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
 
-    createLevel(layer, grassTile, waterTile, sandTile, 0, MAP_SIZE);
-    fillWater(layer, waterTile);
+    for (int i = 0; i < levels.size(); i++) {
 
-    tiledMap.getLayers().add(layer);
+      TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
+      createLevel(layer, grassTile, waterTile, sandTile, i, MAP_SIZE);
+      fillWater(layer, waterTile);
+
+      if (i != 0) {
+        layer.setVisible(false);
+      }
+
+      tiledMap.getLayers().add(layer);
+    }
+
     return tiledMap;
   }
 
@@ -186,6 +194,7 @@ public class TerrainFactory {
       TerrainTile sandTile, int levelNum, GridPoint2 map_size) {
 
     ArrayList<ArrayList<Integer>> level = levels.get(levelNum);
+    ArrayList<GridPoint2> spawnableTiles = new ArrayList<>();
 
     int xoff = (int) (Math.floor((map_size.x - level.size()) / 2));
     int yoff = (int) (Math.floor((map_size.y - level.get(0).size()) / 2));
@@ -213,14 +222,8 @@ public class TerrainFactory {
 
       }
     }
-  }
 
-  public void generateNewLevel(TiledMap tiledMap, int levelNum) {
-    GridPoint2 tileSize = new GridPoint2(waterTile.getTextureRegion().getRegionWidth(),
-        waterTile.getTextureRegion().getRegionHeight());
-    TiledMapTileLayer layer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
-    createLevel(layer, grassTile, waterTile, sandTile, levelNum, MAP_SIZE);
-    tiledMap.getLayers().add(layer);
+    spawnableTilesList.add(spawnableTiles);
   }
 
   private void fillWater(TiledMapTileLayer layer, TerrainTile waterTile) {
@@ -243,8 +246,8 @@ public class TerrainFactory {
     return MAP_SIZE;
   }
 
-  public ArrayList<GridPoint2> getSpawnableTiles() {
-    return spawnableTiles;
+  public ArrayList<GridPoint2> getSpawnableTiles(int level) {
+    return spawnableTilesList.get(level);
   }
 
   /**

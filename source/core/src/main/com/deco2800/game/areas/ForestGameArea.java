@@ -49,8 +49,6 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_EELS = 1;
   private static final int BOSS_DAY = 2;
 
-  private int currentMapLevel = 0;
-
   private static final String[] forestTextures = {
       "images/box_boy.png",
       "images/box_boy_leaf.png",
@@ -100,8 +98,8 @@ public class ForestGameArea extends GameArea {
       "images/stoneQuarryTest.png",
       "images/wall-right.png",
       "images/mini_tower.png",
-      "images/65x33_tiles/65x33v2Sand.png",
-      "images/65x33_tiles/dayWaterTile.png",
+      "images/65x33_tiles/beachV1.png",
+      "images/65x33_tiles/65x33v1Water.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
@@ -181,7 +179,11 @@ public class ForestGameArea extends GameArea {
   private void spawnTerrain() {
     // Background terrain
     terrain = terrainFactory.createTerrain(TerrainType.FOREST_DEMO_ISO);
-    spawnEntity(new Entity().addComponent(terrain));
+
+    Entity terrainEntity = new Entity().addComponent(terrain);
+    this.areaEntities.add(terrainEntity);
+    ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
+    ServiceLocator.getEntityService().addEntity(terrainEntity);
 
     // Terrain walls
     float tileSize = terrain.getTileSize();
@@ -403,13 +405,10 @@ public class ForestGameArea extends GameArea {
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
 
     if (crystalHealth < 500) {
-      if (currentMapLevel == 0) {
+      if (terrain.getCurrentMapLvl() == 0) {
         // GAME OVER
       } else {
-        terrain.getMap().getLayers().get(currentMapLevel).setVisible(false);
-        currentMapLevel--;
-        terrain.getMap().getLayers().get(currentMapLevel).setVisible(true);
-
+        terrain.decrementMapLvl();
       }
     }
 
@@ -468,8 +467,8 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnEnemy(Entity entity) {
     ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
-    GridPoint2 randomPos = terrainFactory.getSpawnableTiles()
-        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles().size() - 1));
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
+        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
   }

@@ -20,6 +20,7 @@ import com.deco2800.game.services.ServiceLocator;
  */
 public class TerrainComponent extends RenderComponent {
   private static final int TERRAIN_LAYER = 0;
+  private int currentMapLvl = 0;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -78,6 +79,23 @@ public class TerrainComponent extends RenderComponent {
       default:
         return null;
     }
+  }
+
+  public int getCurrentMapLvl() {
+    return currentMapLvl;
+  }
+
+  public void incrementMapLvl() {
+    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    this.currentMapLvl++;
+    getMap().getLayers().get(currentMapLvl).setVisible(true);
+
+  }
+
+  public void decrementMapLvl() {
+    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    this.currentMapLvl--;
+    getMap().getLayers().get(currentMapLvl).setVisible(true);
   }
 
   public float getTileSize() {

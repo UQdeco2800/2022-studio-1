@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
@@ -16,8 +17,6 @@ import com.deco2800.game.utils.math.Vector2Utils;
 import net.dermetfan.gdx.physics.box2d.PositionController;
 
 import java.util.*;
-
-
 
 /**
  * Input handler for the player for keyboard and touch (mouse) input.
@@ -121,13 +120,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
-  public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+  public boolean touchDown(int screenX, int screenY, int pointer, int button) {
     if (pointer == Input.Buttons.LEFT) {
       if (buildState) {
         buildEvent = true;
         boolean isClear = false;
         if (!structureRects.isEmpty()) {
-          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY, structureRects, resourceBuildState, buildEvent);
+          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY,
+              structureRects, resourceBuildState, buildEvent);
           isClear = updatedValues[0];
           resourceBuildState = updatedValues[1];
           buildEvent = updatedValues[2];
@@ -146,11 +146,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
-
-
   /** @see InputProcessor#touchDragged(int, int, int) */
   @Override
-  public boolean touchDragged (int screenX, int screenY, int pointer) {
+  public boolean touchDragged(int screenX, int screenY, int pointer) {
     if (buildState) {
       if (buildEvent) {
         if (pointer == Input.Buttons.LEFT) {
@@ -197,19 +195,23 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 10);
-    //System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
 
   }
 
   /**
-   * Triggers crystal upgrade to imitate crystal being levelled up (for testing purposes)
+   * Triggers crystal upgrade to imitate crystal being levelled up (for testing
+   * purposes)
    */
   private void triggerCrystalUpgrade() {
-    //System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
+    // System.out.println(ServiceLocator.getEntityService().getNamedEntity("crystal"));
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     crystal.getComponent(CombatStatsComponent.class).upgrade();
-//    CrystalFactory.triggerCrystal();
-//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-//    System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
+
+    Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
+    terrain.getComponent(TerrainComponent.class).incrementMapLvl();
+    // CrystalFactory.triggerCrystal();
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
+    // System.out.println(crystal.getComponent(CombatStatsComponent.class).getLevel());
   }
 }
