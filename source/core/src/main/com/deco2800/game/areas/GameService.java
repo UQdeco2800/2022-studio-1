@@ -41,6 +41,10 @@ public class GameService {
         }
     }
 
+    public HashMap<String, String> getGridPointInfo(GridPoint2 gridPoint) {
+        return entityMap.get(gridPoint);
+    }
+
 
     /**
      * Register a new entity component with the entity map. The entity component will be created and start updating.
@@ -52,6 +56,9 @@ public class GameService {
         logger.debug("Registering {} @ {} in ui service", name, location);
         entityMap.get(location).replace("name", null, name);
         ServiceLocator.getEntityService().registerNamed(name, entity);
+        Vector2 worldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(location);
+        ServiceLocator.getEntityService().getNamedEntity(name).setPosition(worldPos);
+        logger.info("entityMap.location = {}", entityMap.get(location));
     }
 
     /**
@@ -71,14 +78,16 @@ public class GameService {
      * Unregister an entity with the entity service using its name. The entity will be removed and stop updating.
      * @param entity entity to be removed.
      */
-    public void removeNamedEntity (GridPoint2 location, String name, Entity entity) {
+    public void removeNamedEntity (String name, Entity entity) {
         logger.debug("Unregistering {} in entity service", entity);
-        if (uiMap.containsValue(name)) {
-            uiMap.remove(location);
-        } else if (entityMap.get(location).containsValue(name)) {
-            entityMap.get(location).remove(name);
+        for (GridPoint2 key : entityMap.keySet()) {
+            if (entityMap.get(key).get("name").equals(name)) {
+                logger.info("found entity to delete");
+                entityMap.get(key).remove(name);
+            }
         }
         ServiceLocator.getEntityService().removeNamedEntity(name, entity);
+        ServiceLocator.getStructureService().removeNamedEntity(name, entity);
     }
 
     /**

@@ -59,7 +59,6 @@ public class StructureFactory {
     BaseStructureConfig config = configs.wall;
 
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
-        .addComponent(new HealthBarComponent(75, 10))
         .addComponent(new ResourceCostComponent(config.gold));
     return wall;
   }
@@ -134,13 +133,6 @@ public class StructureFactory {
    * @return structure entity
    */
   public static Entity createBaseStructure(String texture) {
-    /*
-     * //This is where the defence (aiming and shooting) tasks will be added
-     * AITaskComponent aiComponent =
-     * new AITaskComponent()
-     * .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-     * .addTask(new ChaseTask(target, 10, 3f, 4f));
-     */
     Entity structure = new Entity()
         .addComponent(new TextureRenderComponent(texture))
         .addComponent(new PhysicsComponent())

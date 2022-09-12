@@ -118,7 +118,8 @@ public class AtlantisSinksGameArea extends GameArea {
             x_pos++;
         }
         ServiceLocator.getEntityService().addEntity(crystal);
-        spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
+        ServiceLocator.getGameService().registerEntity(new GridPoint2(x_pos, y_pos), "crystal", crystal);
+//        spawnEntityAt(crystal, new GridPoint2(x_pos, y_pos), true, true);
         return crystal;
     }
 
