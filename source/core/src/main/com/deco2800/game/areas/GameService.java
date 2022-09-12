@@ -52,7 +52,6 @@ public class GameService {
         logger.debug("Registering {} @ {} in ui service", name, location);
         entityMap.get(location).replace("name", null, name);
         ServiceLocator.getEntityService().registerNamed(name, entity);
-        ServiceLocator.getEntityService().getLastEntity().setPosition(ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(location));
     }
 
     /**

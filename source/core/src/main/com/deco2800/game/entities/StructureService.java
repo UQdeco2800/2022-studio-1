@@ -159,8 +159,8 @@ public class StructureService extends EntityService{
     GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
 
     String entityName = loc.toString();
-    logger.info("enityName == {}", entityName);
     entityName = name + entityName;
+    logger.info("entityName == {}", entityName);
 
     structureKey = name;
     if (!uiIsVisible) {
@@ -172,6 +172,8 @@ public class StructureService extends EntityService{
       } else if (Objects.equals(name, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1);
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower1);
+        ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+
 //        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
 //        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
 //        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
