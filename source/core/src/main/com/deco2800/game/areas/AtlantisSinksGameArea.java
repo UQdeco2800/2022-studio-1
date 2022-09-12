@@ -218,22 +218,22 @@ public class AtlantisSinksGameArea extends GameArea {
     }
 
     private void attack() {
-        Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
-//        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50, 50)));
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        mousePosV2.x -= 1;
-        mousePosV2.y -= 1;
-        GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-        logger.info("This is the mouse position in window coords ==> {}", new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        logger.info("This is the mouse position in world coords ==> {}", mousePosV2);
-        logger.info("This is the mouse position in map coords ==> {}", mapPos);
-        Vector2 worldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
-        logger.info("This is the mouse position in reworked world coords ==> {}", worldPos);
-
-        player.setPosition(mousePosV2);
+//        Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
+////        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50, 50)));
+//        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+//        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+//        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+//        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+//        mousePosV2.x -= 1;
+//        mousePosV2.y -= 1;
+//        GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+//        logger.info("This is the mouse position in window coords ==> {}", new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+//        logger.info("This is the mouse position in world coords ==> {}", mousePosV2);
+//        logger.info("This is the mouse position in map coords ==> {}", mapPos);
+//        Vector2 worldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
+//        logger.info("This is the mouse position in reworked world coords ==> {}", worldPos);
+//
+//        player.setPosition(mousePosV2);
     }
 
     private void unloadAssets() {

@@ -176,6 +176,11 @@ public class StructureService extends EntityService{
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
         Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       }
+    } else {
+      if (uiIsVisible) {
+        table1.remove();
+        toggleUIisVisible();
+      }
     }
   }
 
@@ -213,11 +218,6 @@ public class StructureService extends EntityService{
           table1.remove();
           toggleUIisVisible();
         }
-      }
-    } else {
-      if (uiIsVisible) {
-        table1.remove();
-        toggleUIisVisible();
       }
     }
     if (structureHit) {
