@@ -106,7 +106,9 @@ public class ForestGameArea extends GameArea {
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
-      "images/Eel_Bright_SW.png"
+      "images/Eel_Bright_SW.png",
+      "images/shipRack.png",
+      "images/shipRackFront.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -290,6 +292,12 @@ public class ForestGameArea extends GameArea {
         case WOODEN_FENCE:
           envObj = ObstacleFactory.createWoodenFence();
           break;
+        case SHIPWRECK_BACK:
+          envObj = ObstacleFactory.createShipwreckBack();
+          break;
+        case SHIPWRECK_FRONT:
+          envObj = ObstacleFactory.createShipwreckFront();
+          break;
         case ROCK:
           // falls through to default
         default:
@@ -320,28 +328,48 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
 
-    // semi random rocks and trees
-    int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES - MIN_NUM_TREES) + 1));
-    spawnEnvironmentalObject(numTrees, EnvironmentalComponent.EnvironmentalObstacle.TREE);
-    int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
-
-    int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS - MIN_NUM_ROCKS) + 1));
-    spawnEnvironmentalObject(numRocks, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
-    objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
-
-    // Remaining number of objects can be spawned off raw percentage?
-    // placeholder functions below:
-    int numVines = objectsRemaining;
-    spawnEnvironmentalObject(numVines, EnvironmentalComponent.EnvironmentalObstacle.VINE);
-    objectsRemaining = objectsRemaining - numVines;
-
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
-    spawnEnvironmentalObject(2, EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.GEYSER);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
+    /*
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+     * 
+     * // semi random rocks and trees
+     * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
+     * MIN_NUM_TREES) + 1));
+     * spawnEnvironmentalObject(numTrees,
+     * EnvironmentalComponent.EnvironmentalObstacle.TREE);
+     * int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
+     * 
+     * int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS -
+     * MIN_NUM_ROCKS) + 1));
+     * spawnEnvironmentalObject(numRocks,
+     * EnvironmentalComponent.EnvironmentalObstacle.ROCK);
+     * objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
+     * 
+     * 
+     * 
+     * // Remaining number of objects can be spawned off raw percentage?
+     * // placeholder functions below:
+     * int numVines = 4;
+     * spawnEnvironmentalObject(numVines,
+     * EnvironmentalComponent.EnvironmentalObstacle.VINE);
+     * objectsRemaining = objectsRemaining - numVines;
+     * 
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
+     * 
+     * 
+     * (spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
+     * spawnEnvironmentalObject(2,
+     * EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.GEYSER);
+     * spawnEnvironmentalObject(1,
+     * EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE);
+     */
   }
 
   /**

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -200,6 +201,44 @@ public class ObstacleFactory {
 
     ServiceLocator.getEntityService().registerNamed("Fence@" + fence.getId(), fence);
     return fence;
+  }
+
+  /**
+   * creates a shipwreck entity (front)
+   * 
+   * @return entity
+   */
+  public static Entity createShipwreckFront() {
+    Entity shipwreck = createEnvironmentalObject("images/shipRackFront.png",
+        EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
+        2f, 0.1f, 0.1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+
+    shipwreck.setName("ShipwreckFront");
+    shipwreck.setCollectable(true);
+    shipwreck.setResourceType(ResourceType.WOOD);
+    shipwreck.setResourceAmount(50);
+
+    ServiceLocator.getEntityService().registerNamed("shipRackFront@" + shipwreck.getId(), shipwreck);
+    return shipwreck;
+  }
+
+  /**
+   * creates a shipwreck entity (back)
+   * 
+   * @return entity
+   */
+  public static Entity createShipwreckBack() {
+    Entity shipwreck = createEnvironmentalObject("images/shipRack.png",
+        EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
+        2f, 0.4f, 0.4f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+
+    shipwreck.setName("ShipwreckBack");
+    shipwreck.setCollectable(true);
+    shipwreck.setResourceType(ResourceType.WOOD);
+    shipwreck.setResourceAmount(50);
+
+    ServiceLocator.getEntityService().registerNamed("shipRackBack@" + shipwreck.getId(), shipwreck);
+    return shipwreck;
   }
 
   /**
