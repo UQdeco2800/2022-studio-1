@@ -1,5 +1,6 @@
 package com.deco2800.game.memento;
 
+import java.util.HashMap;
 import java.util.List;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
@@ -21,7 +22,7 @@ public class Originator {
     protected Equipments weapon;
     protected Equipments chestplate;
     protected Equipments helmet;
-    protected List<Artefact> items;
+    protected HashMap<Artefact, Integer> items;
 
     /**
      * Originator constructor which can create a new originator to store the current
@@ -38,26 +39,50 @@ public class Originator {
         return state;
     }
 
+    /**
+     * returns the weapon enum of the previously saved record
+     * @return weapon enum
+     */
     public Equipments getWeapon() {
         return weapon;
     }
 
+    /**
+     * returns the chestplate enum of the previously saved record
+     * @return chestplate enum
+     */
     public Equipments getChestplate() {
         return chestplate;
     }
 
+    /**
+     * returns the helmet enum of the previously saved record
+     * @return helmet enum
+     */
     public Equipments getHelmet() {
         return helmet;
     }
 
+    /**
+     *  sets the weapon enum
+     * @param weapon - weapon to be stored
+     */
     public void setWeapon(Equipments weapon) {
         this.weapon = weapon;
     }
 
+    /**
+     *  sets the chestplate enum
+     * @param chestplate - chestplate to be stored
+     */
     public void setChestplate(Equipments chestplate) {
         this.chestplate = chestplate;
     }
 
+    /**
+     *  sets the helmet enum
+     * @param helmet - helmet to be stored
+     */
     public void setHelmet(Equipments helmet) {
         this.helmet = helmet;
     }
@@ -136,10 +161,17 @@ public class Originator {
         return attack;
     }
 
+    /**
+     * sets the defense multiplier
+     * @param defense - defense multiplier value
+     */
     public void setDefense(int defense) {
         this.defense = defense;
     }
 
+    /**
+     * returns the defense multiplier
+     */
     public int getDefense() {
         return defense;
     }
@@ -167,7 +199,7 @@ public class Originator {
      * 
      * @return - the list of artefacts items in player's inventory
      */
-    public List<Artefact> getItemList() {
+    public HashMap<Artefact, Integer> getItemList() {
         return items;
     }
 
@@ -176,7 +208,7 @@ public class Originator {
      * 
      * @param items - list of artefacts items in player's inventory
      */
-    public void setItems(List<Artefact> items) {
+    public void setItems(HashMap<Artefact, Integer> items) {
         this.items = items;
     }
 
