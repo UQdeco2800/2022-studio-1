@@ -33,8 +33,9 @@ public class TerrainFactory {
 
   private static ArrayList<ArrayList<ArrayList<Integer>>> levels;
 
-  private static ArrayList<ArrayList<GridPoint2>> spawnableTilesList;
-  private static ArrayList<ArrayList<GridPoint2>> bordersPositionList;
+  private static ArrayList<ArrayList<GridPoint2>> spawnableTilesList; //
+  private static ArrayList<ArrayList<GridPoint2>> bordersPositionList; // These data structures need to be
+  private static ArrayList<ArrayList<GridPoint2>> landTilesList; // made more efficient in a later sprint
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -67,6 +68,7 @@ public class TerrainFactory {
     levels = new ArrayList<>();
     spawnableTilesList = new ArrayList<>();
     bordersPositionList = new ArrayList<>();
+    landTilesList = new ArrayList<>();
 
     try {
       for (int i = 0; i < 5; i++) {
@@ -144,7 +146,7 @@ public class TerrainFactory {
     TiledMap tiledMap = createForestDemoTiles(tilePixelSize, water, sand, ground, seaweed1, seaweed2);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
     return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size,
-        bordersPositionList);
+        bordersPositionList, landTilesList);
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
@@ -203,6 +205,7 @@ public class TerrainFactory {
     ArrayList<ArrayList<Integer>> level = levels.get(levelNum);
     ArrayList<GridPoint2> spawnableTiles = new ArrayList<>();
     ArrayList<GridPoint2> borders = new ArrayList<>();
+    ArrayList<GridPoint2> landTiles = new ArrayList<>();
 
     int xoff = (int) (Math.floor((map_size.x - level.size()) / 2));
     int yoff = (int) (Math.floor((map_size.y - level.get(0).size()) / 2));
@@ -214,6 +217,8 @@ public class TerrainFactory {
 
         // check if land bit is set
         if ((level.get(x).get(y) & 1) > 0) {
+
+          landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
 
           // Randomly choose a land tile to use
           // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
@@ -240,7 +245,7 @@ public class TerrainFactory {
 
         // check to see if border bit is set
         if ((level.get(x).get(y) & (1 << 1)) > 0) {
-          borders.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+          borders.add(new GridPoint2(x + xoff, y + yoff + 1));
         }
 
         // check to see if spawnable bit is set
@@ -253,6 +258,7 @@ public class TerrainFactory {
 
     bordersPositionList.add(borders);
     spawnableTilesList.add(spawnableTiles);
+    landTilesList.add(landTiles);
   }
 
   private void fillWater(TiledMapTileLayer layer, TerrainTile waterTile) {

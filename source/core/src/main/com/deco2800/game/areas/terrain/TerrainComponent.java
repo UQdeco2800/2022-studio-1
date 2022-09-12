@@ -25,6 +25,7 @@ public class TerrainComponent extends RenderComponent {
   private static final int TERRAIN_LAYER = 0;
   private int currentMapLvl = 0;
   private ArrayList<ArrayList<GridPoint2>> bordersList;
+  private ArrayList<ArrayList<GridPoint2>> landTilesList;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -44,7 +45,8 @@ public class TerrainComponent extends RenderComponent {
       TerrainOrientation orientation,
       float tileSize,
       GridPoint2 island_size,
-      ArrayList<ArrayList<GridPoint2>> bordersPositionList) {
+      ArrayList<ArrayList<GridPoint2>> bordersPositionList,
+      ArrayList<ArrayList<GridPoint2>> landTilesList) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
@@ -66,6 +68,7 @@ public class TerrainComponent extends RenderComponent {
     }
 
     this.bordersList = bordersPositionList;
+    this.landTilesList = landTilesList;
 
   }
 
@@ -137,6 +140,10 @@ public class TerrainComponent extends RenderComponent {
 
   public TiledMap getMap() {
     return tiledMap;
+  }
+
+  public ArrayList<GridPoint2> getLandTiles() {
+    return landTilesList.get(currentMapLvl);
   }
 
   public void setIslandSize(int x, int y) {

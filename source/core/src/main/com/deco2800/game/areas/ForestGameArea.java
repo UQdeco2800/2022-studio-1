@@ -155,16 +155,14 @@ public class ForestGameArea extends GameArea {
 
     entityMapping = new EnvironmentalCollision(terrain);
 
-    // spawnEnvironmentalObjects();
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-    // entityMapping = new EnvironmentalCollision(terrain);
 
     this.crystal = spawnCrystal(60, 60);
 
     this.player = spawnPlayer();
 
-    // spawnEnvironmentalObjects();
+    spawnEnvironmentalObjects();
 
     playMusic();
   }
@@ -262,15 +260,10 @@ public class ForestGameArea extends GameArea {
    *                   EnvironmentalComponent.EnvironmentalType enum
    */
   private void spawnEnvironmentalObject(int numObjects, EnvironmentalComponent.EnvironmentalObstacle type) {
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
 
     for (int i = 0; i < numObjects; i++) {
       // Must be maxPos, minPos NOT minPos, maxPos
-      GridPoint2 randomPos = RandomUtils.random(maxPos, minPos);
+      GridPoint2 randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
       Entity envObj;
       switch (type) {
         case TREE:
@@ -307,7 +300,7 @@ public class ForestGameArea extends GameArea {
       // check for possible collision and reroll location until valid
       while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
           || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
-        randomPos = RandomUtils.random(maxPos, minPos);
+        randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
 
         // safety to avoid infinite looping on loading screen.
         // If cant spawn the object then space has ran out on map
