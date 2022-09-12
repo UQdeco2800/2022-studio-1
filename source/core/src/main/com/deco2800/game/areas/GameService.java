@@ -19,7 +19,7 @@ import javax.net.ssl.SSLEngineResult;
 import java.util.*;
 
 /**
- * Provides a global access point for entities, Ui components and initialised map to register themselves.
+ * Provides a global access point for entities and UI components to register themselves in a virtual map
  * This allows for iterating over these hashmaps to perform updates each loop. Everything in the game should be
  * registered here.
  */
@@ -35,8 +35,8 @@ public class GameService {
         for (int i = 0; i < mapSize; i++) {
             for (int j = 0; j < mapSize; j++) {
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
-                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
-                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("health", null);}});
+//                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
+//                entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("health", null);}});
             }
         }
     }

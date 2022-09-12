@@ -92,8 +92,8 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public GridPoint2 worldToTilePosition(float x, float y) {
-    x = (x / this.tileSize + y / this.tileSize);
-    y = -1 * (y / this.tileSize - x / this.tileSize);
+    x = (((x/0.5f)-(y/0.25f))/2);
+    y = (((y/0.25f)+(x/0.5f))/2);
     return new GridPoint2((int) x, (int) y);
   }
 

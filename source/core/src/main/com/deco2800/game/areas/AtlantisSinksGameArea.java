@@ -33,10 +33,14 @@ public class AtlantisSinksGameArea extends GameArea {
     private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
 
     private static final String[] gameTextures = {
+            "images/box_boy.png",
+            "images/box_boy_leaf.png",
             "images/Centaur_Back_left.png",
             "images/Centaur_Back_right.png",
             "images/Centaur_left.png",
             "images/Centaur_right.png",
+            "images/tree.png",
+            "images/ghost_king.png",
             "images/500_grassTile.png",
             "images/500_waterFullTile.png",
             "images/500_waterAndDirtFullTile.png",
@@ -65,14 +69,19 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/crystal_level2.png",
             "images/crystal_level3.png",
             "images/stoneQuarryTest.png",
-            "images/wall-right.png",
+            "images/Wall-right.png",
             "images/mini_tower.png",
-            "images/65x33_tiles/65x33v2Sand.png",
-            "images/65x33_tiles/dayWaterTile.png",
+            "images/65x33_tiles/beachV1.png",
+            "images/65x33_tiles/65x33v1Water.png",
+            "images/65x33_tiles/groundTileV1.png",
+            "images/65x33_tiles/seaweedV4.png",
+            "images/65x33_tiles/seaweedV5.png",
             "images/Eel_Bright_SW.png",
             "images/Eel_Bright_NE.png",
             "images/Eel_Bright_NW.png",
-            "images/Eel_Bright_SW.png"
+            "images/Eel_Bright_SW.png",
+            "images/shipRack.png",
+            "images/shipRackFront.png"
     };
 
     private static final String[] gameSounds = { "sounds/sword_swing.mp3" };
@@ -209,15 +218,21 @@ public class AtlantisSinksGameArea extends GameArea {
 
     private void attack() {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
-        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50, 50)));
+//        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50, 50)));
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        mousePosV2.x -= 0.5;
-        mousePosV2.y -= 0.5;
+        mousePosV2.x -= 1;
+        mousePosV2.y -= 1;
         GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+        logger.info("This is the mouse position in window coords ==> {}", new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        logger.info("This is the mouse position in world coords ==> {}", mousePosV2);
         logger.info("This is the mouse position in map coords ==> {}", mapPos);
+        Vector2 worldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
+        logger.info("This is the mouse position in reworked world coords ==> {}", worldPos);
+
+        player.setPosition(mousePosV2);
     }
 
     private void unloadAssets() {

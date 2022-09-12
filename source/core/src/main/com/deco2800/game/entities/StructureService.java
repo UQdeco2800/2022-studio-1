@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
@@ -154,28 +155,32 @@ public class StructureService extends EntityService{
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     mousePosV2.x -= 0.5;
     mousePosV2.y -= 0.5;
-    String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
+//    String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
+    GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+
+    String entityName = loc.toString();
+    logger.info("enityName == {}", entityName);
     entityName = name + entityName;
 
     structureKey = name;
     if (!uiIsVisible) {
-      if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
-        if (Objects.equals(name, "wall")) {
-          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
-          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-          structureRects.put(entityName, rectangle);
-        } else if (Objects.equals(name, "tower1")) {
-          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
-          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-          structureRects.put(entityName, rectangle);
-        } else if (Objects.equals(name, "trap")) {
-          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
-          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-          structureRects.put(entityName, rectangle);
-        }
+      if (Objects.equals(name, "wall")) {
+        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+        structureRects.put(entityName, rectangle);
+      } else if (Objects.equals(name, "tower1")) {
+        Entity tower1 = StructureFactory.createTower1(1);
+        ServiceLocator.getGameService().registerEntity(loc, entityName, tower1);
+//        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
+//        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+//        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+//        structureRects.put(entityName, rectangle);
+      } else if (Objects.equals(name, "trap")) {
+        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+        structureRects.put(entityName, rectangle);
       }
     }
   }
