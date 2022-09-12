@@ -6,8 +6,8 @@ package com.deco2800.game.components.storyline.frames;
 public class prologue1 extends Frame {
 
     static String SUBTITLES = "This is frame 1";
-    static String BACKGROUND = "test/files/storylineBackground.png";
-    static String CHARACTER = "test/files/sub1.png";
+    static String BACKGROUND = "images/StoryLine/storylineBackground.png";
+    static String CHARACTER = "";
 
     public prologue1() {
         super(SUBTITLES, BACKGROUND, CHARACTER);
