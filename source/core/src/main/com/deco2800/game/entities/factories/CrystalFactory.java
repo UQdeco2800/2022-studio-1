@@ -145,7 +145,6 @@ public class CrystalFactory {
                 time.scheduleAtFixedRate(recoverCrystal, 5000, 5000);
     }
 
-
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
     }
