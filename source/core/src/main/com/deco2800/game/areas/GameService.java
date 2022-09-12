@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SerializationException;
@@ -25,10 +26,11 @@ import java.util.*;
 public class GameService {
 
     private static final Logger logger = LoggerFactory.getLogger(GameService.class);
-    private static final int INITIAL_CAPACITY = 40;
 
     private HashMap<GridPoint2, String> uiMap = new HashMap<>();
     private HashMap<GridPoint2, HashMap<String, String>> entityMap = new HashMap<>();
+
+    private SortedMap<String, Rectangle> rectMap = new TreeMap<>();
 
     public void setUpEntities (int mapSize) {
         for (int i = 0; i < mapSize; i++) {
@@ -36,8 +38,16 @@ public class GameService {
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("name", null);}});
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("tiletype", null);}});
                 entityMap.put(new GridPoint2(i, j), new HashMap<>() {{put("health", null);}});
+                String rectName = "rect";
+                rectName += (char) i + (char) j;
+                rectMap.put(rectName, new Rectangle(new GridPoint2(i, j).x, new GridPoint2(i, j).y, 1 ,1));
             }
         }
+        logger.info("rectangles == {}", rectMap);
+    }
+
+    public SortedMap<String, Rectangle> getRectMap() {
+        return rectMap;
     }
 
     /**
@@ -88,11 +98,4 @@ public class GameService {
         entityMap.clear();
         ServiceLocator.getEntityService().dispose();
     }
-
-
-
-
-
-
-
 }

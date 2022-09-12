@@ -156,7 +156,6 @@ public class StructureService extends EntityService{
 
     structureKey = name;
     if (!uiIsVisible) {
-//      System.out.println(ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y));
       if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
         if (Objects.equals(name, "wall")) {
           ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());

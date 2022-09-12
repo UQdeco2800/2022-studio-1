@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -15,9 +16,11 @@ import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 
 
 public class AtlantisSinksGameArea extends GameArea {
@@ -200,28 +203,18 @@ public class AtlantisSinksGameArea extends GameArea {
         music.play();
     }
 
-    private float _map(float x, float in_min, float in_max, float out_min, float out_max) {
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
-
-    private float solveXY(float equation) {
-
-        return equation;
-    }
-
-
-    private GridPoint2 worldPosToTilePos(Vector2 coords) {
-        GridPoint2 tilePos = new GridPoint2();
-        return tilePos;
-    }
-
     private void attack() {
+        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         Entity player = ServiceLocator.getEntityService().getNamedEntity("phil");
-        Vector2 playerWorldPos = player.getCenterPosition();
-        System.out.println(playerWorldPos);
-        GridPoint2 playerGridPos = worldPosToTilePos(playerWorldPos);
-        System.out.println(playerGridPos);
-        player.setPosition(terrain.tileToWorldPosition(new GridPoint2(50,50)));
+        player.setPosition(terrain.tileToWorldPosition(RandomUtils.random(new GridPoint2(50,50), new GridPoint2(70, 70))));
+        for (Map.Entry<String, Rectangle> es : ServiceLocator.getGameService().getRectMap().entrySet()) {
+            if (es.getValue().contains(mousePosV2)) {
+                logger.info("Clicked Rectangle => {}", es.getKey());
+            }
+        }
     }
 
     private void unloadAssets() {
