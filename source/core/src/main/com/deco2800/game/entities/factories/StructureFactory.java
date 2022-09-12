@@ -139,7 +139,7 @@ public static Entity createTrap() {
     switch(level) {
       case 1: //Represents the base level structure
         tower2 = createBaseStructure("images/mini_tower.png");
-        config = configs.tower1;
+        config = configs.tower2;
     
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -148,7 +148,7 @@ public static Entity createTrap() {
       
       case 2: //Represents the first upgraded version of the tower
         tower2 = createBaseStructure(TOWER2I);
-        config = configs.tower1I;
+        config = configs.tower2I;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                 .addComponent(new ResourceCostComponent(config.gold));
@@ -156,7 +156,7 @@ public static Entity createTrap() {
 
         case 3: //Represents the second upgraded version of the tower
           tower2 = createBaseStructure(TOWER2II);
-          config = configs.tower1II;
+          config = configs.tower2II;
           tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                   .addComponent(new ResourceCostComponent(config.gold, config.stone));
@@ -181,7 +181,7 @@ public static Entity createTrap() {
     switch(level) {
       case 1: //Represents the base level structure
       tower3 = createBaseStructure("images/mini_tower.png");
-        config = configs.tower1;
+        config = configs.tower3;
     
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -190,7 +190,7 @@ public static Entity createTrap() {
       
       case 2: //Represents the first upgraded version of the tower
       tower3 = createBaseStructure(TOWER3I);
-        config = configs.tower1I;
+        config = configs.tower3I;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                 .addComponent(new ResourceCostComponent(config.gold));
@@ -198,7 +198,7 @@ public static Entity createTrap() {
 
         case 3: //Represents the second upgraded version of the tower
         tower3 = createBaseStructure(TOWER3II);
-          config = configs.tower1II;
+          config = configs.tower3II;
           tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
                   .addComponent(new ResourceCostComponent(config.gold, config.stone));
