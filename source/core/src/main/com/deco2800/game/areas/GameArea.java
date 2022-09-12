@@ -11,7 +11,7 @@ import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,7 +67,7 @@ public abstract class GameArea implements Disposable {
    *                left corner
    */
   protected void spawnEntityAt(
-          Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
+      Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
     Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
     float tileSize = terrain.getTileSize();
 
@@ -80,6 +80,23 @@ public abstract class GameArea implements Disposable {
 
     entity.setPosition(worldPos);
     spawnEntity(entity);
+  }
+
+  protected boolean isWallHere(GridPoint2 tilePos) {
+    Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
+
+    Iterator<Entity> itr = areaEntities.listIterator();
+    while (itr.hasNext()) {
+      Entity entity = itr.next();
+      Vector2 entityPos = entity.getPosition();
+      if (entity.getName() == null || entity.getName().equals("wall")) {
+        continue;
+      }
+      if (worldPos.x == entityPos.x && worldPos.y == entityPos.y) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public Entity getPlayer() {
