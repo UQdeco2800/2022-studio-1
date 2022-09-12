@@ -216,23 +216,23 @@ public class DayNightCycleService {
 
         while (!this.ended) {
 
-            // Move clock for parts of day with more than one half
-            if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
-                    this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
-                long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
-                if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration || partOfDayHalveIteration == 1) &&
-                        partOfDayHalveIteration != lastPartOfDayHalveIteration) {
-                    Gdx.app.postRunnable(() -> {
-                        events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK);
-                    });
-                    partOfDayHalveIteration++;
-                }
-            }
-
             if (!this.isPaused) {
                 if (durationPaused != 0) {
                     this.totalDurationPaused += durationPaused;
                     durationPaused = 0;
+                }
+
+                // Move clock for parts of day with more than one half
+                if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
+                        this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
+                    long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
+                    if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration || partOfDayHalveIteration == 1) &&
+                            partOfDayHalveIteration != lastPartOfDayHalveIteration) {
+                        Gdx.app.postRunnable(() -> {
+                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK);
+                        });
+                        partOfDayHalveIteration++;
+                    }
                 }
 
                 // Definitely a better way to do this but this works for now
