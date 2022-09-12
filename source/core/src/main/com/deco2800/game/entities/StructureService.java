@@ -150,8 +150,6 @@ public class StructureService extends EntityService{
     String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
     entityName = name + entityName;
     if (!uiIsVisible) {
-      System.out.println(ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y));
-      if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
         if (Objects.equals(name, "wall")) {
           ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
           ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
@@ -169,7 +167,6 @@ public class StructureService extends EntityService{
           structureRects.put(entityName, rectangle);
         }
       }
-    }
   }
 
   /**
@@ -210,8 +207,13 @@ public class StructureService extends EntityService{
       //StructureFactory.handleBuildingDestruction(structure, structureRects);     
       buildEvent = false;
       isClear = false;
-      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
-      toggleUIisVisible();
+      for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
+        if (es.getValue().contains(mousePosV2)) {
+          StructureFactory.upgradeStructure(es);
+        }
+      }
+  // table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY);
+  // toggleUIisVisible();
       //structureRects.remove(clickedStructure);
     } else {
       isClear = true;

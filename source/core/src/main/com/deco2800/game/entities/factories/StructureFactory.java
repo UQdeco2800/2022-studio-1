@@ -2,6 +2,7 @@ package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Interpolation.SwingOut;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.CombatStatsComponent;
@@ -85,7 +86,7 @@ public static Entity createTrap() {
    * @return entity
    */
   public static Entity createTower1(int level) {
-    //@TODO Change string constant 
+    //TODO Change string constant 
     String TOWER1I = "images/mini_tower.png";
     String TOWER1II = "images/mini_tower.png";
     Entity tower1;
@@ -300,7 +301,7 @@ public static Entity createTrap() {
    * @param rectangle: Entry from structureRects indicating building to upgrade
    * 
    */
-  public void upgradeStructure(Map.Entry<String, Rectangle> rectangle) {
+  public static void upgradeStructure(Map.Entry<String, Rectangle> rectangle) {
     //Store rectangle location, name, level
     Vector2 location = ServiceLocator.getEntityService().getNamedEntity(rectangle.getKey()).getPosition();
     String rectangleName = rectangle.getKey();
@@ -318,14 +319,34 @@ public static Entity createTrap() {
         switch(level) {
           //Only two possible upgrades 1->2 and 2->3
           case 1: 
+            System.out.println("Tower upgraded");
             ServiceLocator.getEntityService().registerNamed(rectangleName, createTower1(2));
             ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
           case 2:
             ServiceLocator.getEntityService().registerNamed(rectangleName, createTower1(3));
             ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
         }
+    } else if (rectangleName.contains("tower2")) {
+      switch(level) {
+        //Only two possible upgrades 1->2 and 2->3
+        case 1: 
+          ServiceLocator.getEntityService().registerNamed(rectangleName, createTower2(2));
+          ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
+        case 2:
+          ServiceLocator.getEntityService().registerNamed(rectangleName, createTower2(3));
+          ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
+        } 
+    } else if (rectangleName.contains("tower3")) {
+      switch(level) {
+        //Only two possible upgrades 1->2 and 2->3
+        case 1: 
+          ServiceLocator.getEntityService().registerNamed(rectangleName, createTower3(2));
+          ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
+        case 2:
+          ServiceLocator.getEntityService().registerNamed(rectangleName, createTower3(3));
+          ServiceLocator.getEntityService().getNamedEntity(rectangleName).setPosition(location);
+      }
 
-    } 
-
+    }
   }
 }
