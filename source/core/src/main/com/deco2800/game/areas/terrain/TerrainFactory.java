@@ -172,7 +172,7 @@ public class TerrainFactory {
     tiledMap = new TiledMap();
     grassTile = new TerrainTile(grass, "grass");
     waterTile = new TerrainTile(water, "water");
-    sandTile = new TerrainTile(sand, "cliff");
+    sandTile = new TerrainTile(sand, "sand");
 
     for (int i = 0; i < levels.size(); i++) {
 
@@ -213,6 +213,7 @@ public class TerrainFactory {
         layer.setCell(x + xoff + 1, y + yoff + 1, cell);
 
         if ((level.get(x).get(y) & (1 << 1)) > 0) {
+          // Remove old world border
           // spawn world border
         }
 

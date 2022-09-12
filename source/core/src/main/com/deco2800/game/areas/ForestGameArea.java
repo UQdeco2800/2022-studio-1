@@ -215,29 +215,29 @@ public class ForestGameArea extends GameArea {
         TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
 
         // spawns walls and sets enemy spawn locations behind borders
-        if (tile.getName().equals("grass")) {
+        if (tile.getName().equals("sand") || tile.getName().equals("grass")) {
           if (above.getName().equals("water")) {
             createBorderWall(x, y + 1);
           }
-          if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
+          if (below.getName().equals("water")) {
             createBorderWall(x, y - 1);
           }
           if (left.getName().equals("water")) {
             createBorderWall(x - 1, y);
           }
-          if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
+          if (right.getName().equals("water")) {
             createBorderWall(x + 1, y);
           }
-          if (rightAbove.getName() == "water") {
+          if (rightAbove.getName().equals("water")) {
             createBorderWall(x + 1, y + 1);
           }
-          if (rightBelow.getName().equals("cliff")) {
+          if (rightBelow.getName().equals("water")) {
             createBorderWall(x + 1, y - 1);
           }
           if (leftAbove.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
           }
-          if (leftBelow.getName() == "water") {
+          if (leftBelow.getName().equals("water")) {
             createBorderWall(x - 1, y + 1);
           }
         }
@@ -246,8 +246,13 @@ public class ForestGameArea extends GameArea {
   }
 
   private void createBorderWall(int x, int y) {
-    Entity wall = ObstacleFactory.createWall(1f, 0.5f);
-    spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+    System.out.printf("Spawning word border\n");
+    GridPoint2 pos = new GridPoint2(x, y);
+    Entity wall = ObstacleFactory.createWall(0.1f, 0.1f);
+    if (isWallHere(pos)) {
+      return;
+    }
+    spawnEntityAt(wall, new GridPoint2(x, y), false, true);
   }
 
   /**
