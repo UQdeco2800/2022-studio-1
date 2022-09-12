@@ -64,12 +64,13 @@ public class PlayerFactory {
             .addComponent(new AnimationController())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
-            .addComponent(new CombatStatsComponent(stats.health, stats.baseAttack, stats.baseDefense))
-            .addComponent(new HealthBarComponent(100, 10))
             .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood
                     , stats.weapon, stats.helmet, stats.chestplate))
             .addComponent(inputComponent)            
             .addComponent(new PlayerStatsDisplay());
+
+    player.addComponent(new CombatStatsComponent(stats.health, stats.baseAttack, stats.baseDefense, 1,100))
+            .addComponent(new HealthBarComponent(100, 10));
 
     player.setName("player");
     player.setCollectable(false);
