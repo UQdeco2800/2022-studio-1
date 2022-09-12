@@ -3,6 +3,7 @@ package com.deco2800.game.memento;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Memento {
     private Equipments weapon;
     private Equipments chestplate;
     private Equipments helmet;
-    private List<Artefact> items;
+    private HashMap<Artefact, Integer> items;
 
     /**
      * constructor for a new memento
@@ -30,8 +31,13 @@ public class Memento {
      * @param items         - list of items the player have
      * @param attack        - base attack value of the player (including weapon
      *                      boost)
+     * @param defense       - defense multiplier from armor
+     * @param weapon        - current weapon
+     * @param chestplate    - current chestplate
+     * @param helmet        - current helmet
+     *
      */
-    public Memento(int state, int gold, int stone, int wood, int currentHealth, List<Artefact> items, int attack
+    public Memento(int state, int gold, int stone, int wood, int currentHealth, HashMap<Artefact, Integer> items, int attack
                    , int defense, Equipments weapon, Equipments chestplate, Equipments helmet) {
         this.state = state;
         this.gold = gold;
@@ -100,18 +106,34 @@ public class Memento {
         return attack;
     }
 
+    /**
+     * retrieve the defense multiplier in the memento
+     * @return - defense multiplier
+     */
     public int getDefense() {
         return defense;
     }
 
+    /**
+     * retrieve the weapon that the player currently has
+     * @return - currently held weapon
+     */
     public Equipments getWeapon() {
         return weapon;
     }
 
+    /**
+     * retrieve the chestplate that the player currently has
+     * @return - current chestplate
+     */
     public Equipments getChestplate() {
         return chestplate;
     }
 
+    /**
+     * retrieve the helmet that the player currently has
+     * @return - current helmet
+     */
     public Equipments getHelmet() {
         return helmet;
     }
@@ -120,7 +142,7 @@ public class Memento {
      * 
      * @return - list of artefact items
      */
-    public List<Artefact> getItemList() {
+    public HashMap<Artefact, Integer> getItemList() {
         return items;
     }
 }

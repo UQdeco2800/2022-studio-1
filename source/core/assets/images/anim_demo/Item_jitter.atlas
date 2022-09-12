@@ -1,0 +1,40 @@
+Items_jitter.png
+size: 1920, 480
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default
+  rotate: false
+  xy: 1, 1
+  size: 480, 480
+  orig: 480, 480
+  offset: 9, 99
+  index: 0
+jitter_1
+  rotate: false
+  xy: 1, 1
+  size: 480, 480
+  orig: 480, 480
+  offset: 9, 99
+  index: 0
+jitter_2
+  rotate: false
+  xy: 481, 1
+  size: 480, 480
+  orig: 480, 480
+  offset: 9, 99
+  index: 1
+jitter_3
+  rotate: false
+  xy: 962, 1
+  size: 480, 480
+  orig: 480, 480
+  offset: 9, 99
+  index: 2
+jitter_4
+  rotate: false
+  xy: 1442, 1
+  size: 480, 480
+  orig: 480, 480
+  offset: 9, 99
+  index: 3
