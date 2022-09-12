@@ -27,10 +27,10 @@ public class DayNightCycleServiceTest {
     @BeforeEach
     void beforeEach() {
         config = new DayNightCycleConfig();
-        config.dawnLength = 100;
-        config.dayLength = 400;
-        config.duskLength = 100;
-        config.nightLength = 500;
+        config.dawnLength = 150;
+        config.dayLength = 600;
+        config.duskLength = 150;
+        config.nightLength = 300;
         config.maxDays = 1;
         ServiceLocator.registerTimeSource(new GameTime());
         var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
@@ -223,5 +223,64 @@ public class DayNightCycleServiceTest {
         job.join();
 
         assertTrue(this.dayNightCycleService.getCurrentDayMillis() > 1000);
+    }
+
+    @Test
+    public void shouldCycleThroughAllWedgesOfDay() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        AtomicBoolean firstDayPassed = new AtomicBoolean(false);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+            if (firstDayPassed.get()) {
+                wedges.incrementAndGet();
+            }
+        });
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            if (s == DayNightCycleStatus.DAY) {
+                firstDayPassed.set(true);
+            }
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(4, wedges.get());
+    }
+
+    @Test
+    public void shouldCycleThroughAllWedgesOfNight() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        AtomicBoolean firstDayPassed = new AtomicBoolean(false);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+            if (firstDayPassed.get()) {
+                wedges.incrementAndGet();
+            }
+        });
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            if (s == DayNightCycleStatus.NIGHT) {
+                firstDayPassed.set(true);
+            }
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(2, wedges.get());
+    }
+
+    @Test
+    public void shouldGoThroughAllEightWedges() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, wedges::incrementAndGet);
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            wedges.incrementAndGet();
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(8, wedges.get());
     }
 }
