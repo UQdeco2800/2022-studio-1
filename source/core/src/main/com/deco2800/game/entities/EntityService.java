@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +21,14 @@ public class EntityService {
   private static final int INITIAL_CAPACITY = 40;
 
   private final Array<Entity> entities = new Array<>(false, INITIAL_CAPACITY);
-
   private final Map<String, Entity> namedEntities = new HashMap<>();
 
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
+
+  //You may ask why a second map instead of entities? I honestly have no clue
+  //but this was the only way I could get a list of entities without crashing while looping in a component
+  private Hashtable<Integer, Entity> enemyMap = new Hashtable<>();
 
   /**
    * Register a new entity with the entity service. The entity will be created and start updating.
@@ -35,6 +37,7 @@ public class EntityService {
   public void register(Entity entity) {
     logger.debug("Registering {} in entity service", entity);
     entities.add(entity);
+    enemyMap.put(entity.getId(), entity);
     entity.create();
   }
 
@@ -56,6 +59,10 @@ public class EntityService {
    */
   public Entity getNamedEntity(String name) {
     return this.namedEntities.get(name);
+  }
+
+  public void unregisterNamed(String key) {
+    this.namedEntities.remove(key);
   }
 
   /**
@@ -82,6 +89,15 @@ public class EntityService {
   public void unregister(Entity entity) {
     logger.debug("Unregistering {} in entity service", entity);
     entities.removeValue(entity, true);
+    Vector2 toRemove = null;
+    for (Map.Entry<Vector2, Entity> e : entityMap.entrySet()) {
+      if (e.getValue().equals(entity)) {
+        toRemove = e.getKey();
+      }
+    }
+    if (null != toRemove) {
+      entityMap.remove(toRemove);
+    }
   }
 
   public void removeNamedEntity (String name, Entity entity) {
@@ -117,11 +133,22 @@ public class EntityService {
   }
 
   /**
+   * @return Collection of entities stored on the map. This must be done for looping within components
+   */
+  public Collection<Entity> getEnemyEntities() {
+    return entityMap.values();
+  }
+
+  /**
    * Adds a new entity to hashtable
    * @param newEntity new entity to be added to the environment
    */
   public void addEntity(Entity newEntity) {
-    entityMap.put(newEntity.getCenterPosition(), newEntity);
+    if (newEntity.getCenterPosition() == null) {
+      entityMap.put(new Vector2(0,0), newEntity);
+    } else {
+      entityMap.put(newEntity.getCenterPosition(), newEntity);
+    }
   }
 
   /**
@@ -136,16 +163,50 @@ public class EntityService {
     }
 
     Entity closetEntity = null;
+     float smallestDistance = 99999;
+
+    for (Entity entity: entityMap.values()) {
+      if (!(entity instanceof Enemy) && (!"player".equalsIgnoreCase(entity.getName()))) {
+        float entityX = entity.getCenterPosition().x;
+        float entityY = entity.getCenterPosition().y;
+
+        double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
+
+        if (currentDistance < smallestDistance) {
+          closetEntity = entity;
+          smallestDistance = (float) currentDistance;
+        }
+      }
+    }
+
+    return closetEntity;
+  }
+
+  /**
+   * Finds the closet entity based off euclidean distance from a given x,y point
+   * @param x cell cord
+   * @param y cell cord
+   * @return Entity closet
+   */
+  public Entity findClosestEnemy(int x, int y) {
+    if (entityMap.values().size() == 0) {
+      return null;
+    }
+
+    Entity closetEntity = null;
     float smallestDistance = 99999;
 
     for (Entity entity: entityMap.values()) {
-      float entityX = entity.getCenterPosition().x;
-      float entityY = entity.getCenterPosition().y;
+      if (entity instanceof Enemy && (!"player".equalsIgnoreCase(entity.getName()))) {
+        float entityX = entity.getCenterPosition().x;
+        float entityY = entity.getCenterPosition().y;
 
-      double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
+        double currentDistance = Math.sqrt(Math.pow(Math.abs(x - entityX), 2) + Math.pow(Math.abs(y - entityY), 2));
 
-      if (currentDistance < smallestDistance) {
-        closetEntity = entity;
+        if (currentDistance < smallestDistance) {
+          closetEntity = entity;
+          smallestDistance = (float) currentDistance;
+        }
       }
     }
 
@@ -234,5 +295,9 @@ public class EntityService {
       return true;
     }
     return false;
+  }
+
+  public Hashtable<Vector2, Entity> getEntityMap() {
+    return entityMap;
   }
 }

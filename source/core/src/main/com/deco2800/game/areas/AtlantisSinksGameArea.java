@@ -13,7 +13,6 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -78,10 +77,10 @@ public class AtlantisSinksGameArea extends GameArea {
     public static final String[] walkSound = { "sounds/footsteps_grass_single.mp3" };
     private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
     private static final String[] gameMusic = { backgroundMusic };
+    private final TerrainFactory terrainFactory;
 
-    public AtlantisSinksGameArea(TerrainFactory terrainFactory, CareTaker playerStatus) {
+    public AtlantisSinksGameArea(TerrainFactory terrainFactory) {
         super();
-        this.playerStatus = playerStatus;
         this.terrainFactory = terrainFactory;
     }
 
@@ -97,13 +96,13 @@ public class AtlantisSinksGameArea extends GameArea {
     }
 
     private Entity spawnPlayer(GridPoint2 playerLocation) {
-        Entity newPlayer = PlayerFactory.loadPlayer(playerStatus);
+        Entity newPlayer = PlayerFactory.loadPlayer();
         ServiceLocator.getGameService().registerEntity(playerLocation, "phil", newPlayer);
         return newPlayer;
     }
 
     private Entity spawnCrystal(int x_pos, int y_pos) {
-        Entity crystal = CrystalFactory.createCrystal();
+        Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
         while (ServiceLocator.getEntityService().wouldCollide(crystal, x_pos, y_pos)) {
             x_pos++;
         }

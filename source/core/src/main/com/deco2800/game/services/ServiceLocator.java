@@ -58,12 +58,10 @@ public class ServiceLocator {
   }
 
   public static StructureService getStructureService() { return structureService; }
+
   public static DayNightCycleService getDayNightCycleService () {
     return dayNightCycleService;
   }
-
-
-
 
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);

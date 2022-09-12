@@ -3,8 +3,11 @@ package com.deco2800.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.ComponentType;
+import com.deco2800.game.components.infrastructure.ResourceType;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -30,6 +33,10 @@ public class Entity {
   private static final String EVT_NAME_POS = "setPosition";
 
   private final int id;
+  private String name;
+  private Boolean collectable;
+  private ResourceType resourceType;
+  private int resourceAmount;
   private final IntMap<Component> components;
   private final EventHandler eventHandler;
   private boolean enabled = true;
@@ -56,6 +63,39 @@ public class Entity {
   public void setEnabled(boolean enabled) {
     logger.debug("Setting enabled={} on entity {}", enabled, this);
     this.enabled = enabled;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public boolean isCollectable() {
+    return collectable;
+  }
+
+  public ResourceType getResourceType() {
+    return resourceType;
+  }
+
+  public void collectResources() {
+    MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).addResources(resourceType,
+            resourceAmount);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setResourceType(ResourceType resourceType) {
+    this.resourceType = resourceType;
+  }
+
+  public void setCollectable(Boolean collectable) {
+    this.collectable = collectable;
+  }
+
+  public void setResourceAmount(int resourceAmount) {
+    this.resourceAmount = resourceAmount;
   }
 
   /**
@@ -283,6 +323,6 @@ public class Entity {
 
   @Override
   public String toString() {
-    return String.format("Entity{id=%d}", id);
+    return String.format(this.getClass().getName() + "@" + id + ":" + name);
   }
 }

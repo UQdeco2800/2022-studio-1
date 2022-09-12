@@ -3,6 +3,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -28,6 +29,10 @@ public class ObstacleFactory {
     int index = (int) ((Math.random() * (sprites.length)));
     Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
             2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    tree.setName("Tree");
+    tree.setResourceType(ResourceType.WOOD);
+    tree.setCollectable(true);
+    tree.setResourceAmount(10);
     ServiceLocator.getEntityService().registerNamed("Tree@" + tree.getId(), tree);
     return tree;
   }
@@ -41,6 +46,12 @@ public class ObstacleFactory {
     int index = (int) ((Math.random() * (sprites.length)));
     Entity rock = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
             0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+
+    rock.setName("Rock");
+    rock.setResourceType(ResourceType.STONE);
+    rock.setCollectable(true);
+    rock.setResourceAmount(10);
+
     ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
     return rock;
   }
@@ -52,6 +63,12 @@ public class ObstacleFactory {
   public static Entity createVine() {
     Entity vine = createEnvironmentalObject("images/landscape_objects/vines.png", EnvironmentalComponent.EnvironmentalObstacle.VINE,
             2f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
+
+    vine.setName("Vine");
+    vine.setResourceType(ResourceType.WOOD);
+    vine.setCollectable(true);
+    vine.setResourceAmount(5);
+
     ServiceLocator.getEntityService().registerNamed("Vine@" + vine.getId(), vine);
     return vine;
   }
@@ -63,6 +80,12 @@ public class ObstacleFactory {
   public static Entity createSpikyTree() {
     Entity spikyBush = createEnvironmentalObject("images/landscape_objects/cypress-tree-60x100.png", EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
             2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 1f);
+
+    spikyBush.setName("SpikeyTree");
+    spikyBush.setResourceType(ResourceType.WOOD);
+    spikyBush.setCollectable(true);
+    spikyBush.setResourceAmount(20);
+
     ServiceLocator.getEntityService().registerNamed("SpikeyBush@" + spikyBush.getId(), spikyBush);
     return spikyBush;
   }
@@ -74,6 +97,12 @@ public class ObstacleFactory {
   public static Entity createGeyser() {
     Entity geyser = createEnvironmentalObject("images/landscape_objects/geyser.png", EnvironmentalComponent.EnvironmentalObstacle.GEYSER,
             1f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 0.5f);
+
+    geyser.setName("Geyser");
+    geyser.setResourceType(ResourceType.STONE);
+    geyser.setCollectable(true);
+    geyser.setResourceAmount(10);
+
     ServiceLocator.getEntityService().registerNamed("Geyser@" + geyser.getId(), geyser);
     return geyser;
   }
@@ -86,6 +115,10 @@ public class ObstacleFactory {
     Entity billboard = createEnvironmentalObject("images/landscape_objects/billboard.png", EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
             3f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
     ServiceLocator.getEntityService().registerNamed("Billboard@" + billboard.getId(), billboard);
+
+    billboard.setName("Billboard");
+    billboard.setCollectable(false);
+
     return billboard;
   }
 
@@ -96,6 +129,8 @@ public class ObstacleFactory {
   public static Entity createAoeSpeedArtefact() {
     Entity artefact = createEnvironmentalObject("images/landscape_objects/chalice.png", EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
             0.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
+    artefact.setName("Chalice");
+    artefact.setCollectable(false);
     Vector2 aoeSize = new Vector2();
     Vector2 size = artefact.getScale();
     //sets aoe to twice the scale of the object
@@ -115,6 +150,13 @@ public class ObstacleFactory {
   public static Entity createPillar() {
     Entity pillar = createEnvironmentalObject("images/landscape_objects/pillar.png", EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR,
             3f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+
+    // TODO: Have an external file that keeps track of all object stats -- later refactoring task
+    pillar.setName("Pillar");
+    pillar.setResourceType(ResourceType.STONE);
+    pillar.setCollectable(true);
+    pillar.setResourceAmount(10);
+
     ServiceLocator.getEntityService().registerNamed("Pillar@" + pillar.getId(), pillar);
     return pillar;
   }
@@ -126,6 +168,12 @@ public class ObstacleFactory {
   public static Entity createWoodenFence() {
     Entity fence = createEnvironmentalObject("images/landscape_objects/wooden-fence-60x60.png", EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
             0.8f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+
+    fence.setName("Fence");
+    fence.setCollectable(true);
+    fence.setResourceType(ResourceType.WOOD);
+    fence.setResourceAmount(50);
+
     ServiceLocator.getEntityService().registerNamed("Fence@" + fence.getId(), fence);
     return fence;
   }
@@ -148,6 +196,8 @@ public class ObstacleFactory {
                   .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
                   .addComponent(new EnvironmentalComponent().setObstacle(type))
                   .addComponent(new CollisionEffectComponent(collisionEffect, speedModifier));
+      environmentalObject.setName("EnvironmentalObject");
+      environmentalObject.setCollectable(false);
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);
@@ -164,7 +214,9 @@ public class ObstacleFactory {
   public static Entity createWall(float width, float height) {
     Entity wall = new Entity()
         .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
+            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
+    wall.setName("Wall");
+    wall.setCollectable(false);
     wall.setScale(width, height);
     return wall;
   }

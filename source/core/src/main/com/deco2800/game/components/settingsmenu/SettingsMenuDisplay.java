@@ -43,14 +43,12 @@ public class SettingsMenuDisplay extends UIComponent {
   private Slider uiScaleSlider;
   private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
   private ScreenType backScreen;
-  private CareTaker currentStatus;
 
 
-  public SettingsMenuDisplay(AtlantisSinks game, ScreenType prevScreen, CareTaker playerStatus) {
+  public SettingsMenuDisplay(AtlantisSinks game, ScreenType prevScreen) {
     super();
     this.game = game;
     backScreen = prevScreen;
-    currentStatus = playerStatus;
   }
 
   @Override
@@ -246,10 +244,11 @@ public class SettingsMenuDisplay extends UIComponent {
 
   private void exitMenu() {
     if (backScreen == ScreenType.MAIN_MENU) {
-      game.setScreen(ScreenType.MAIN_MENU, null);
+      CareTaker.deleteAll();
+      game.setScreen(ScreenType.MAIN_MENU);
       logger.getName();
     } else if (backScreen == ScreenType.MAIN_GAME) {
-      game.setScreen(ScreenType.MAIN_GAME, currentStatus);
+      game.setScreen(ScreenType.MAIN_GAME);
       logger.getName();
     }
   }

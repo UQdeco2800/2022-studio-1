@@ -27,12 +27,10 @@ public class SettingsScreen extends ScreenAdapter {
   private final Renderer renderer;
 
   private AtlantisSinks.ScreenType backScreen;
-  private CareTaker currentStatus;
 
-  public SettingsScreen(AtlantisSinks game, AtlantisSinks.ScreenType prevScreen, CareTaker playerStatus) {
+  public SettingsScreen(AtlantisSinks game, AtlantisSinks.ScreenType prevScreen) {
     this.game = game;
     backScreen = prevScreen;
-    currentStatus = playerStatus;
 
     logger.debug("Initialising settings screen services");
     ServiceLocator.registerInputService(new InputService());
@@ -75,7 +73,7 @@ public class SettingsScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
-    ui.addComponent(new SettingsMenuDisplay(game, backScreen, currentStatus)).addComponent(new InputDecorator(stage, 10));
+    ui.addComponent(new SettingsMenuDisplay(game, backScreen)).addComponent(new InputDecorator(stage, 10));
     ui.addComponent(new MusicSettings(game)).addComponent(new InputDecorator(stage, 9));
     ServiceLocator.getEntityService().register(ui);
   }
