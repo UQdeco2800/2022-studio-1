@@ -37,7 +37,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private boolean buildEvent = false;
   private boolean removeEvent = false;
 
-  private String[] structureNames = {"wall", "tower1", "trap"};
+  private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap"};
 
   private int structureSelect = 0;
 
@@ -151,7 +151,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         resourceBuildState = updatedValues[1];
         buildEvent = updatedValues[2];
         if (isClear) {
-
           int i = structureSelect % (structureNames.length);
           ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
         }
