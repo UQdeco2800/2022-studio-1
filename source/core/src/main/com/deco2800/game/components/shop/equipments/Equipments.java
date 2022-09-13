@@ -9,12 +9,8 @@ public enum Equipments {
     BOW_AND_ARROW,
     TRIDENT,
     SHIELD,
-    LV1_CHESTPLATE,
-    LV2_CHESTPLATE,
-    LV3_CHESTPLATE,
-    LV1_HELMET,
-    LV2_HELMET,
-    LV3_HELMET;
+    CHESTPLATE,
+    HELMET;
 
     public static String getFilepath(Equipments equipment) {
         return switch (equipment) {
@@ -23,12 +19,8 @@ public enum Equipments {
             case BOW_AND_ARROW -> "configs/equipments/bowAndArrow.json";
             case TRIDENT -> "configs/equipments/triton.json";
             case SHIELD -> "configs/equipments/shield.json";
-            case LV1_CHESTPLATE -> "configs/equipments/DummyArmor.json";
-            case LV2_CHESTPLATE -> "configs/equipments/DummyArmor.json";
-            case LV3_CHESTPLATE -> "configs/equipments/DummyArmor.json";
-            case LV1_HELMET -> "configs/equipments/DummyArmor.json";
-            case LV2_HELMET -> "configs/equipments/DummyArmor.json";
-            case LV3_HELMET -> "configs/equipments/DummyArmor.json";
+            case CHESTPLATE -> "configs/equipments/chestplate.json";
+            case HELMET -> "configs/equipments/helmet.json";
         };
     }
 

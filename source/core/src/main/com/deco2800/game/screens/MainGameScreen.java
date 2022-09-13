@@ -4,7 +4,9 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.AtlantisSinksGameArea;
 import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.GameService;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
@@ -26,18 +28,12 @@ import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
-import com.deco2800.game.services.DayNightCycleService;
-import com.deco2800.game.services.GameTime;
-import com.deco2800.game.services.ResourceService;
-import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.services.*;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.awt.*;
-import java.util.Locale;
 
 /**
  * The game screen containing the main game.
@@ -90,6 +86,7 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerStructureService(new StructureService());
+    ServiceLocator.registerGameService(new GameService());
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
@@ -105,6 +102,7 @@ public class MainGameScreen extends ScreenAdapter {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
     // Singleton MainArea responsible for controlling current map and entities
+    //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
 
     createUI();
@@ -164,6 +162,7 @@ public class MainGameScreen extends ScreenAdapter {
     resourceService.unloadAssets(mainGameTextures);
     resourceService.unloadAssets(mainGameTextureAtlases);
   }
+
 
   /**
    * Creates the main game's ui including components for rendering ui elements to

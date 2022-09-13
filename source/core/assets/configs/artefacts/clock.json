@@ -6,8 +6,9 @@
     "woodCost": 0,
     "attack": 0,
     "defense": 0,
-    "health": 10,
-    "description": "Increases health by 10",
-    "itemImagePath": "images/shop-health-potion.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/health-potion-framed.png"
+    "health": 0,
+    "time": 15,
+    "description": "Pause time for 15s",
+    "itemImagePath": "images/shop-clock.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/clock-framed.png"
 }
