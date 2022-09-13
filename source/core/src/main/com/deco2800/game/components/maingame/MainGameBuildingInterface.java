@@ -29,7 +29,7 @@ public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table BuildingUI;
-    private Label buildingName;
+    private Label buildingTitle;
 
     private boolean visability;
 
@@ -57,12 +57,14 @@ public class MainGameBuildingInterface extends UIComponent {
         int sell = 0;
 
 
-        x = (float) (x - 0.5 * uiWidth);
+        x = (x - 0.5f * uiWidth);
         x = Math.max(x, 0f);
         x = Math.min(x, screenWidth - uiWidth);
 
-        y = screenHeight - y;
-        y = Math.min(y, screenHeight - uiHeight);
+        y = screenHeight - y + 100;
+        if (y + uiHeight > screenHeight) {
+            y -= uiHeight + 100;
+        }
 
         visability = value;
 
@@ -78,8 +80,11 @@ public class MainGameBuildingInterface extends UIComponent {
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         //insert pop up label (with name of the building)
-        String buildingType = structureKey + " ";
-        buildingName = new Label(buildingType, skin, "large");
+        String buildingType = (structureKey + "").replaceAll("[0-9]", "").toUpperCase();
+        String buildingLevel = (structureKey + "").replaceAll("[A-Za-z]", "");
+        String buildingName = buildingLevel.equals("") ?
+                buildingType : String.format(buildingType + " (Level %s)", buildingLevel);
+        buildingTitle = new Label(buildingName, skin, "large");
 
         // Insert building health image and bar
         // Heart image
@@ -135,7 +140,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         //table
         Table buildingInfo = new Table();
-        buildingInfo.add(buildingName).center();
+        buildingInfo.add(buildingTitle).center();
 
         Table healthInfo = new Table();
         healthInfo.add(heartImage);
