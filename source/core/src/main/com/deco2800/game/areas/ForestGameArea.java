@@ -45,7 +45,7 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
 
-  private static final int MAX_NUM_ENEMIES = 3;
+  private static final int MAX_NUM_STARFISH = 3;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -137,16 +137,14 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    //spawnPirateCrabEnemy();
+    spawnPirateCrabEnemy();
 
-    //spawnElectricEelEnemy();
+    spawnElectricEelEnemy();
 
     // Spawn ninja starfish/starfishes
-
-    for (int i=0; i<MAX_NUM_ENEMIES; i++) {
+    for (int i=0; i<MAX_NUM_STARFISH; i++) {
       spawnNinjaStarfish();
     }
-
 
     spawnEnvironmentalObjects();
 
