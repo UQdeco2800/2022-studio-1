@@ -171,12 +171,22 @@ public class StructureService extends EntityService{
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower1);
         ServiceLocator.getStructureService().registerNamed(entityName, tower1);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      } else if (Objects.equals(name, "trap")) {
+      } else if (Objects.equals(name, "tower2")) {
+        Entity tower2 = StructureFactory.createTower2(1);
+        ServiceLocator.getGameService().registerEntity(loc, entityName, tower2);
+        ServiceLocator.getStructureService().registerNamed(entityName, tower2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+      }else if (Objects.equals(name, "tower3")) {
+        Entity tower3 = StructureFactory.createTower3(1);
+        ServiceLocator.getGameService().registerEntity(loc, entityName, tower3);
+        ServiceLocator.getStructureService().registerNamed(entityName, tower3);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+      }else if (Objects.equals(name, "trap")) {
         Entity trap = StructureFactory.createTrap();
         ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
         ServiceLocator.getStructureService().registerNamed(entityName, trap);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      }
+      } 
 
     } else {
       if (uiIsVisible) {

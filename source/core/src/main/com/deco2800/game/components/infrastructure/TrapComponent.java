@@ -75,9 +75,6 @@ public class TrapComponent extends Component {
     //Set health to zero and remove Trap from map
     this.getEntity().getComponent(CombatStatsComponent.class).setHealth(0);
     
-    
-    
-    //TODO ------------------------ADD THIS BACK IN------------------------
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(this.getEntity().getPosition().x, this.getEntity().getPosition().y);
     String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
     StructureFactory.handleBuildingDestruction(name);

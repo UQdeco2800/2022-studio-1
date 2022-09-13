@@ -40,7 +40,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   private boolean upgradeEvent = false;
 
-  private String[] structureNames = {"wall", "tower1", "trap"};
+  private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap"};
 
   private int structureSelect = 0;
 
