@@ -4,11 +4,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.rendering.DayNightCycleComponent;
+import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.memento.CareTaker;
+import com.sun.tools.javac.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
@@ -45,12 +50,12 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_TREES = 5;
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
-
   private static final int MIN_NUM_CRABS = 1;
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
   private static final int BOSS_DAY = 2;
+  private static final int MAX_NUM_STARFISH = 3;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -104,7 +109,9 @@ public class ForestGameArea extends GameArea {
       "images/Eel_Bright_NW.png",
       "images/Eel_Bright_SW.png",
       "images/shipWreckBack.png",
-      "images/shipWreckFront.png"
+      "images/shipWreckFront.png",
+      "images/ElectricEel.png",
+      "images/starfish.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -503,6 +510,36 @@ public class ForestGameArea extends GameArea {
     ElectricEelEnemy.setName("Mr. Electricity");
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
+  }
+
+  // Spawn the starfish as ranged enemy
+  private void spawnNinjaStarfish() {
+    Entity ninjaStarfish = NPCFactory.createStarFish(player, crystal);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    //Get the position from 2D coordinates
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+        terrainFactory.getIslandSize().x + waterWidth - 4);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    // Create the starfish entity
+    // Check if the day night cycle has started
+    while (!ServiceLocator.getDayNightCycleService().hasStarted()) {
+      // Check the current status is night
+      if (!ServiceLocator.getDayNightCycleService().getCurrentCycleStatus().equals(DayNightCycleStatus.NIGHT)) {
+        spawnEntityAt(ninjaStarfish, randomPos, true, true);
+        break;
+      } else {
+        // Remove ninja starfish in other situations
+        removeEntity(ninjaStarfish);
+        // Restart the while loop again
+        spawnNinjaStarfish();
+      }
+    }
+    // Register ninja starfish in the world
+    ServiceLocator.getEntityService().addEntity(ninjaStarfish);
+    ServiceLocator.getEntityService().register(ninjaStarfish);
   }
 
   private void playMusic() {
