@@ -176,11 +176,6 @@ public class StructureService extends EntityService{
         ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
         ServiceLocator.getStructureService().registerNamed(entityName, trap);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-      }else if (Objects.equals(name, "trap")) {
-        Entity trap = StructureFactory.createTrap();
-        ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
-        ServiceLocator.getStructureService().registerNamed(entityName, trap);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       }
 
     } else {
@@ -200,7 +195,7 @@ public class StructureService extends EntityService{
    * @return list of booleans[]{true if the point (screenX, screenY) is clear of structures else return false,
    *                            resourceBuildState, buildEvent}
    */
-  public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent) {
+  public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent, boolean removeEvent) {
     boolean isClear = false;
     boolean structureHit = false;
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -212,12 +207,17 @@ public class StructureService extends EntityService{
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
     if (ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name") != null) {
       String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
-      if (name.contains("tower1") || name.contains("wall")) {
+      if (name.contains("tower1") || name.contains("wall") || name.contains("trap")) {
         structureHit = true;
-        structureName = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
-        if (!uiIsVisible) {
-          table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureKey);
-          toggleUIisVisible();
+        structureName = name;
+        if (buildEvent) {
+          if (!uiIsVisible) {
+            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureName);
+            toggleUIisVisible();
+          }
+        } else if (removeEvent) {
+          StructureFactory.handleBuildingDestruction(name);
+          removeEvent = false;
         }
 
       } else {
@@ -233,7 +233,7 @@ public class StructureService extends EntityService{
     } else {
       isClear = true;
     }
-    return new boolean[]{isClear, resourceBuildState, buildEvent};
+    return new boolean[]{isClear, resourceBuildState, buildEvent, removeEvent};
   }
 
   /**
@@ -260,5 +260,10 @@ public class StructureService extends EntityService{
    */
   public String getName(Entity entity) {
     return "";
+  }
+
+  public boolean toggleRemoveState(boolean removeState) {
+    removeState = !removeState;
+    return  removeState;
   }
 }

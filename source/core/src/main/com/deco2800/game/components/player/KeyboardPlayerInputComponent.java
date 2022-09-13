@@ -30,11 +30,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
 
   private boolean buildState = false;
+  private boolean removeState = false;
+
   private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
+  private boolean removeEvent = false;
 
-  private String[] structureNames = {"wall", "tower1"};
+  private String[] structureNames = {"wall", "tower1", "trap"};
 
   private int structureSelect = 0;
 
@@ -119,6 +122,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           structureSelect += 1;
         }
         return true;
+      case Keys.Y:
+        if (buildState) {
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+        }
+        removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
         return true;
@@ -137,7 +146,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       if (buildState) {
         buildEvent = true;
         boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent);
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent);
         isClear = updatedValues[0];
         resourceBuildState = updatedValues[1];
         buildEvent = updatedValues[2];
@@ -146,6 +155,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           int i = structureSelect % (structureNames.length);
           ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
         }
+      } else if (removeState) {
+        removeEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent);
+        isClear = updatedValues[0];
+        resourceBuildState = updatedValues[1];
+        buildEvent = updatedValues[2];
+        removeEvent = updatedValues[3];
       }
     }
     return true;

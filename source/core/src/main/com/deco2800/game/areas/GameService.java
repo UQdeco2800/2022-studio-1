@@ -45,6 +45,10 @@ public class GameService {
         return entityMap.get(gridPoint);
     }
 
+    public HashMap<GridPoint2, HashMap<String, String>> getEntityMap() {
+        return entityMap;
+    }
+
 
     /**
      * Register a new entity component with the entity map. The entity component will be created and start updating.
@@ -83,7 +87,7 @@ public class GameService {
         for (GridPoint2 key : entityMap.keySet()) {
             if (entityMap.get(key).get("name").equals(name)) {
                 logger.info("found entity to delete");
-                entityMap.get(key).remove(name);
+                entityMap.get(key).replace(name, null);
             }
         }
         ServiceLocator.getEntityService().removeNamedEntity(name, entity);
