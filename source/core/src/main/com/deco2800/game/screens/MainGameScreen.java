@@ -28,10 +28,7 @@ import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
-import com.deco2800.game.services.DayNightCycleService;
-import com.deco2800.game.services.GameTime;
-import com.deco2800.game.services.ResourceService;
-import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.services.*;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
@@ -165,6 +162,7 @@ public class MainGameScreen extends ScreenAdapter {
     resourceService.unloadAssets(mainGameTextures);
     resourceService.unloadAssets(mainGameTextureAtlases);
   }
+
 
   /**
    * Creates the main game's ui including components for rendering ui elements to

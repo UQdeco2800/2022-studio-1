@@ -1,8 +1,10 @@
 package com.deco2800.game.components.mainmenu;
 
+import com.badlogic.gdx.Game;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.services.GameTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +33,11 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+    if (AtlantisSinks.playEpilogue) {
+      game.setScreen(AtlantisSinks.ScreenType.STORY_LINE);
+    } else {
+      game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+    }
   }
 
   /**
