@@ -31,15 +31,19 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   private boolean buildState = false;
   private boolean removeState = false;
+  private boolean upgradeState = false;
 
   private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
   private boolean removeEvent = false;
 
+  private boolean upgradeEvent = false;
+
   private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap"};
 
   private int structureSelect = 0;
+
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -126,7 +130,19 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         if (buildState) {
           buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
         }
+        if (upgradeState) {
+          upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
+        }
         removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        return true;
+      case Keys.U:
+        if (buildState) {
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+        }
+        if (removeState) {
+          removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        }
+        upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
@@ -146,7 +162,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       if (buildState) {
         buildEvent = true;
         boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent);
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
         isClear = updatedValues[0];
         resourceBuildState = updatedValues[1];
         buildEvent = updatedValues[2];
@@ -157,11 +173,15 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       } else if (removeState) {
         removeEvent = true;
         boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent);
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
         isClear = updatedValues[0];
-        resourceBuildState = updatedValues[1];
-        buildEvent = updatedValues[2];
         removeEvent = updatedValues[3];
+      } else if (upgradeState) {
+        upgradeEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        upgradeEvent = updatedValues[4];
       }
     }
     return true;
