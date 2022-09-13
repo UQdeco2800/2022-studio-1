@@ -34,6 +34,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   private boolean buildEvent = false;
 
+  private String[] structureNames = {"wall", "tower1"};
+
+  private int structureSelect = 0;
+
   public KeyboardPlayerInputComponent() {
     super(5);
   }
@@ -111,7 +115,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalRestoreHealth();
         return true;
       case Keys.N:
-        resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
+        if (buildState) {
+          structureSelect += 1;
+        }
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
@@ -136,11 +142,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         resourceBuildState = updatedValues[1];
         buildEvent = updatedValues[2];
         if (isClear) {
-          if (resourceBuildState) {
-            ServiceLocator.getStructureService().triggerBuildEvent("wall");
-          } else {
-            ServiceLocator.getStructureService().triggerBuildEvent("tower1");
-          }
+
+          int i = structureSelect % (structureNames.length);
+          ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
         }
       }
     }

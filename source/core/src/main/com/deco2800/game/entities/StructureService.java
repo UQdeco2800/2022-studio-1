@@ -172,10 +172,17 @@ public class StructureService extends EntityService{
         ServiceLocator.getStructureService().registerNamed(entityName, tower1);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       } else if (Objects.equals(name, "trap")) {
-        ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
+        Entity trap = StructureFactory.createTrap();
+        ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
+        ServiceLocator.getStructureService().registerNamed(entityName, trap);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      }else if (Objects.equals(name, "trap")) {
+        Entity trap = StructureFactory.createTrap();
+        ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
+        ServiceLocator.getStructureService().registerNamed(entityName, trap);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       }
+
     } else {
       if (uiIsVisible) {
         table1.remove();
