@@ -28,7 +28,6 @@ public class StoryLineDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(com.deco2800.game.components.storyline.StoryLineDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table rootTable;
-    private Table skipTable;
 /*    private Table charTable;
     private Table subsTable;
     private TextButton subtitlesDisplay;
@@ -49,12 +48,7 @@ public class StoryLineDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setFillParent(true);
 
-        skipTable = new Table();
-        skipTable.setFillParent(true);
-        skipTable.right().bottom().padRight(50).padBottom(50);
-
         /*
-
         //Could be used to subimppose a layer later
 
         charTable = new Table();
@@ -84,12 +78,6 @@ public class StoryLineDisplay extends UIComponent {
         Drawable clear = new TextureRegionDrawable(new Texture(Gdx.files.internal("images/StoryLine/clearBackground.png")));
         ImageButton backButton = new ImageButton(clear, clear);
 
-        // inserting skip Button
-        Texture skipButton1 = new Texture(Gdx.files.internal("images/StoryLine/skipButton.png"));
-        TextureRegionDrawable skipUp = new TextureRegionDrawable(skipButton1);
-        TextureRegionDrawable skipDown = new TextureRegionDrawable(skipButton1);
-        ImageButton skipButton = new ImageButton(skipUp, skipDown);
-
 /*
         // load the character image
         Texture currentSubTexture = new Texture(Gdx.files.internal(currentFrame.f.getCharacters()));
@@ -105,17 +93,6 @@ public class StoryLineDisplay extends UIComponent {
                 testDisplay, testDisplay, skin,
                 true);
 */
-
-
-        // Triggers an event when the button is pressed
-        skipButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Skip button clicked");
-                        entity.getEvents().trigger("skip");
-                    }
-                });
 
         // Triggers the transition to next frame when the screen is clicked
         backButton.addListener(
@@ -133,7 +110,6 @@ public class StoryLineDisplay extends UIComponent {
                             rootTable.setBackground(temp);
 
                             //sub.setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal(currentFrame.f.getCharacters()))));
-                            skipTable.clear();          //clears the skip button after 1st frame
 
                         } else {
                             entity.getEvents().trigger("skip");
@@ -146,12 +122,9 @@ public class StoryLineDisplay extends UIComponent {
         rootTable.add(backButton);
 /*        subsTable.add(subtitlesDisplay).width(500).height(75);
         charTable.add(sub).width(500).height(75);*/
-        skipTable.add(skipButton).width(275).height(150);
-
         stage.addActor(rootTable);
 /*        stage.addActor(subsTable);
         stage.addActor(charTable);*/
-        stage.addActor(skipTable);
     }
 
     @Override
@@ -171,7 +144,6 @@ public class StoryLineDisplay extends UIComponent {
         subsTable.clear();
         charTable.clear();
 */
-        skipTable.clear();
         stage.clear();
         super.dispose();
     }
