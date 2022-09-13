@@ -103,6 +103,11 @@ public class ServiceLocator {
     timeSource = null;
     inputService = null;
     resourceService = null;
+
+    if (dayNightCycleService != null) {
+      dayNightCycleService.stop();
+    }
+
     dayNightCycleService = null;
   }
 
