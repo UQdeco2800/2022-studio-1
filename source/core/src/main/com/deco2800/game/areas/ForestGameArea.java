@@ -113,7 +113,8 @@ public class ForestGameArea extends GameArea {
   };
   // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
-  private static final String[] forestMusic = { backgroundMusic };
+  private static final String backgroundSounds = "sounds/BgCricket.mp3";
+  private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
   // private EnvironmentalCollision entityMapping;
@@ -164,7 +165,7 @@ public class ForestGameArea extends GameArea {
 
   private void displayUI() {
     Entity ui = new Entity();
-    ui.addComponent(new GameAreaDisplay("Atlantis"));
+    ui.addComponent(new GameAreaDisplay("Box Forest"));
     spawnEntity(ui);
   }
 
@@ -497,10 +498,17 @@ public class ForestGameArea extends GameArea {
   }
 
   private void playMusic() {
+    // Background Music
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
+
+    // Background Ambience
+    Music ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
+    ambience.setLooping(true);
+    ambience.setVolume(0.1f);
+    ambience.play();
   }
 
   private void loadAssets() {
@@ -530,6 +538,7 @@ public class ForestGameArea extends GameArea {
   public void dispose() {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
     this.unloadAssets();
   }
 
