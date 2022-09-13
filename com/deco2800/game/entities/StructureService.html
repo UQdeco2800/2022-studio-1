@@ -152,10 +152,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a registered named entity</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleClicks(int,int,boolean,boolean)" class="member-name-link">handleClicks</a><wbr>(int&nbsp;screenX,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#handleClicks(int,int,boolean,boolean,boolean,boolean)" class="member-name-link">handleClicks</a><wbr>(int&nbsp;screenX,
  int&nbsp;screenY,
  boolean&nbsp;resourceBuildState,
- boolean&nbsp;buildEvent)</code></div>
+ boolean&nbsp;buildEvent,
+ boolean&nbsp;removeEvent,
+ boolean&nbsp;upgradeEvent)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Checks if a structure on the map has been clicked.</div>
 </div>
@@ -175,14 +177,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Toggles the build state of the player</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleResourceBuildState(boolean)" class="member-name-link">toggleResourceBuildState</a><wbr>(boolean&nbsp;resourceBuildState)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggleRemoveState(boolean)" class="member-name-link">toggleRemoveState</a><wbr>(boolean&nbsp;removeState)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleResourceBuildState(boolean)" class="member-name-link">toggleResourceBuildState</a><wbr>(boolean&nbsp;resourceBuildState)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Toggles resource building placement mode</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleUIisVisible()" class="member-name-link">toggleUIisVisible</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toggleUIisVisible()" class="member-name-link">toggleUIisVisible</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggleUpgradeState(boolean)" class="member-name-link">toggleUpgradeState</a><wbr>(boolean&nbsp;upgradeState)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#triggerBuildEvent(java.lang.String)" class="member-name-link">triggerBuildEvent</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -368,12 +376,14 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="handleClicks(int,int,boolean,boolean)">
+<section class="detail" id="handleClicks(int,int,boolean,boolean,boolean,boolean)">
 <h3>handleClicks</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean[]</span>&nbsp;<span class="element-name">handleClicks</span><wbr><span class="parameters">(int&nbsp;screenX,
  int&nbsp;screenY,
  boolean&nbsp;resourceBuildState,
- boolean&nbsp;buildEvent)</span></div>
+ boolean&nbsp;buildEvent,
+ boolean&nbsp;removeEvent,
+ boolean&nbsp;upgradeEvent)</span></div>
 <div class="block">Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -418,6 +428,18 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>entity</code> - </dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toggleRemoveState(boolean)">
+<h3>toggleRemoveState</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">toggleRemoveState</span><wbr><span class="parameters">(boolean&nbsp;removeState)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="toggleUpgradeState(boolean)">
+<h3>toggleUpgradeState</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">toggleUpgradeState</span><wbr><span class="parameters">(boolean&nbsp;upgradeState)</span></div>
 </section>
 </li>
 </ul>

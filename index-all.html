@@ -276,8 +276,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/AtlantisSinks.ScreenType.html#BUILD_SHOP" class="member-name-link">BUILD_SHOP</a> - Enum constant in enum class com.deco2800.game.<a href="com/deco2800/game/AtlantisSinks.ScreenType.html" title="enum class in com.deco2800.game">AtlantisSinks.ScreenType</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#buildingNameConfig()" class="member-name-link">buildingNameConfig()</a> - Method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
-<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
@@ -645,8 +643,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createBaseStructure(java.lang.String)" class="member-name-link">createBaseStructure(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
-<div class="block">Creates a generic Structure to be used as a base entity by more specific
- Structure creation methods.</div>
+<div class="block">Creates a generic Structure to be used as a base entity by more specific Structure creation methods.</div>
 </dd>
 <dt><a href="com/deco2800/game/entities/factories/ObstacleFactory.html#createBillboard()" class="member-name-link">createBillboard()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/ObstacleFactory.html" title="class in com.deco2800.game.entities.factories">ObstacleFactory</a></dt>
 <dd>
@@ -778,6 +775,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower1(int)" class="member-name-link">createTower1(int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a tower1 entity.</div>
+</dd>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower2(int)" class="member-name-link">createTower2(int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dd>
+<div class="block">Creates a tower2 entity, adding various components to create a defensive tower</div>
+</dd>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower3(int)" class="member-name-link">createTower3(int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dd>
+<div class="block">Creates a tower3 entity, and adds various components to create a defensive tower.</div>
 </dd>
 <dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTrap()" class="member-name-link">createTrap()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
@@ -1591,6 +1596,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the entity to which this component belongs.</div>
 </dd>
+<dt><a href="com/deco2800/game/areas/GameService.html#getEntityMap()" class="member-name-link">getEntityMap()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/EntityService.html#getEntityMap()" class="member-name-link">getEntityMap()</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/ForestGameArea.html#getEntityMapping()" class="member-name-link">getEntityMapping()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/ForestGameArea.html" title="class in com.deco2800.game.areas">ForestGameArea</a></dt>
@@ -2061,7 +2068,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Removes the last character of the entered message.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#handleBuildingDestruction(com.deco2800.game.entities.Entity,java.util.SortedMap)" class="member-name-link">handleBuildingDestruction(Entity, SortedMap&lt;String, Rectangle&gt;)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#handleBuildingDestruction(java.lang.String)" class="member-name-link">handleBuildingDestruction(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Function which handles the destruction / sale of building.</div>
 </dd>
@@ -2069,14 +2076,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Checks if a structure on the map has been clicked.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/StructureService.html#handleClicks(int,int,boolean,boolean)" class="member-name-link">handleClicks(int, int, boolean, boolean)</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
+<dt><a href="com/deco2800/game/entities/StructureService.html#handleClicks(int,int,boolean,boolean,boolean,boolean)" class="member-name-link">handleClicks(int, int, boolean, boolean, boolean, boolean)</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
 <dd>
 <div class="block">Checks if a structure on the map has been clicked.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#handleRefund(com.deco2800.game.entities.Entity,java.lang.Float)" class="member-name-link">handleRefund(Entity, Float)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#handleRefund(com.deco2800.game.entities.Entity,float)" class="member-name-link">handleRefund(Entity, float)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
-<div class="block">Function which handles the refund of player's resources should they sell a
- building.</div>
+<div class="block">Function which handles the refund of player's resources should they sell a building.</div>
 </dd>
 <dt><a href="com/deco2800/game/rendering/AnimationRenderComponent.html#hasAnimation(java.lang.String)" class="member-name-link">hasAnimation(String)</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/AnimationRenderComponent.html" title="class in com.deco2800.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
@@ -3695,8 +3701,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/ResourceBuildingConfig.html#stoneQuarry" class="member-name-link">stoneQuarry</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/ResourceBuildingConfig.html" title="class in com.deco2800.game.entities.configs">ResourceBuildingConfig</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#stoneQuarry" class="member-name-link">stoneQuarry</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ai/tasks/DefaultTask.html#stop()" class="member-name-link">stop()</a> - Method in class com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/DefaultTask.html" title="class in com.deco2800.game.ai.tasks">DefaultTask</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ai/tasks/Task.html#stop()" class="member-name-link">stop()</a> - Method in interface com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/Task.html" title="interface in com.deco2800.game.ai.tasks">Task</a></dt>
@@ -3869,6 +3873,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Toggles between the terminal being open and closed.</div>
 </dd>
+<dt><a href="com/deco2800/game/entities/StructureService.html#toggleRemoveState(boolean)" class="member-name-link">toggleRemoveState(boolean)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html#toggleResourceBuildState(boolean)" class="member-name-link">toggleResourceBuildState(boolean)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html" title="class in com.deco2800.game.entities.factories">ResourceBuildingFactory</a></dt>
 <dd>
 <div class="block">Toggles resource building placement mode</div>
@@ -3878,6 +3884,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Toggles resource building placement mode</div>
 </dd>
 <dt><a href="com/deco2800/game/entities/StructureService.html#toggleUIisVisible()" class="member-name-link">toggleUIisVisible()</a> - Static method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/StructureService.html#toggleUpgradeState(boolean)" class="member-name-link">toggleUpgradeState(boolean)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/StructureService.html" title="class in com.deco2800.game.entities">StructureService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/physics/components/PhysicsComponent.AlignY.html#TOP" class="member-name-link">TOP</a> - Enum constant in enum class com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/PhysicsComponent.AlignY.html" title="enum class in com.deco2800.game.physics.components">PhysicsComponent.AlignY</a></dt>
 <dd>&nbsp;</dd>
@@ -3969,7 +3977,17 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower1II" class="member-name-link">tower1II</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower1III" class="member-name-link">tower1III</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
+<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower2" class="member-name-link">tower2</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower2I" class="member-name-link">tower2I</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower2II" class="member-name-link">tower2II</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower3" class="member-name-link">tower3</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower3I" class="member-name-link">tower3I</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#tower3II" class="member-name-link">tower3II</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/StructureConfig.html#trap" class="member-name-link">trap</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/StructureConfig.html" title="class in com.deco2800.game.entities.configs">StructureConfig</a></dt>
 <dd>&nbsp;</dd>
@@ -4155,7 +4173,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Upgrades the level of the Crystal changes its texture and increases its
  maximum health</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#upgradeStructure(java.util.Map.Entry)" class="member-name-link">upgradeStructure(Map.Entry&lt;String, Rectangle&gt;)</a> - Method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#upgradeStructure(java.lang.String)" class="member-name-link">upgradeStructure(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Function which handles upgrading buildings.</div>
 </dd>
