@@ -66,9 +66,9 @@ public class RangeAttackComponent extends Component{
     */
     @Override
     public void update() {
-        System.out.println("Running RAT");
+//        System.out.println("Running RAT");
         if (targetAcquired) {
-            System.out.println("target acquired true");
+//            System.out.println("target acquired true");
             if (getDistanceToTarget(this.target) <= this.range) {
                 while (getDistanceToTarget(entity) <= this.range) {
                     attackTarget();
@@ -80,7 +80,7 @@ public class RangeAttackComponent extends Component{
             }
         } else {
             for (Entity entity : ServiceLocator.getEntityService().getEntities()) {   
-                System.out.println("Searching for target");
+//                System.out.println("Searching for target");
 
                 HitboxComponent hitboxComponent = entity.getComponent(HitboxComponent.class);
                 if (hitboxComponent != null) {    
