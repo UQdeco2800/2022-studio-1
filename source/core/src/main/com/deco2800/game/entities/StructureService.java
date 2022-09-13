@@ -195,7 +195,7 @@ public class StructureService extends EntityService{
    * @return list of booleans[]{true if the point (screenX, screenY) is clear of structures else return false,
    *                            resourceBuildState, buildEvent}
    */
-  public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent, boolean removeEvent) {
+  public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent, boolean removeEvent, boolean upgradeEvent) {
     boolean isClear = false;
     boolean structureHit = false;
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -218,8 +218,11 @@ public class StructureService extends EntityService{
         } else if (removeEvent) {
           StructureFactory.handleBuildingDestruction(name);
           removeEvent = false;
+        } else if (upgradeEvent) {
+          logger.info("UPGRADE EVENT");
+//        StructureFactory.handleBuildingDestruction(name);
+          upgradeEvent = false;
         }
-
       } else {
         if (uiIsVisible) {
           table1.remove();
@@ -233,7 +236,7 @@ public class StructureService extends EntityService{
     } else {
       isClear = true;
     }
-    return new boolean[]{isClear, resourceBuildState, buildEvent, removeEvent};
+    return new boolean[]{isClear, resourceBuildState, buildEvent, removeEvent, upgradeEvent};
   }
 
   /**
@@ -266,4 +269,9 @@ public class StructureService extends EntityService{
     removeState = !removeState;
     return  removeState;
   }
+
+    public boolean toggleUpgradeState(boolean upgradeState) {
+      upgradeState = !upgradeState;
+      return  upgradeState;
+    }
 }
