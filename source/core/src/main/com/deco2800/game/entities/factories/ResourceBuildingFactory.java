@@ -73,8 +73,8 @@ public class ResourceBuildingFactory {
      */
     public static Entity createWoodCutter() {
 
-        Entity woodQuarry = createBaseStructure("images/anim_demo/woodresoucebuilding.png");
-        BaseEntityConfig config = configs.stoneQuarry;
+        Entity woodQuarry = createBaseStructure("images/anim_demo/woodresourcebuilding.png");
+        BaseEntityConfig config = configs.woodCutter;
 
         woodQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
                 .addComponent(new HealthBarComponent(75, 10));
@@ -113,6 +113,7 @@ public class ResourceBuildingFactory {
 
         structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
+        structure.setScale(1.2f, 1.5f);
         return structure;
     }
 

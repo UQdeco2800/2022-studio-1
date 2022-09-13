@@ -69,7 +69,8 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_1.png",
       "images/clock_sprites/clock_day4_2.png",
       "images/clock_sprites/clock_day4_6.png",
-      "images/clock_sprites/clock_day4_7.png"
+      "images/clock_sprites/clock_day4_7.png",
+      "images/anim_demo/woodresourcebuilding.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);

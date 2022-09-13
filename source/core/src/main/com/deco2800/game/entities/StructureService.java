@@ -193,6 +193,11 @@ public class StructureService extends EntityService{
         ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
         ServiceLocator.getStructureService().registerNamed(entityName, trap);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+      }else if (Objects.equals(name, "stonequarry")) {
+        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
+        ServiceLocator.getGameService().registerEntity(loc, entityName, stonequarry);
+        ServiceLocator.getStructureService().registerNamed(entityName, stonequarry);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       }
     } else {
       if (uiIsVisible) {
