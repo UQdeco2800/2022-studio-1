@@ -23,6 +23,7 @@ import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
@@ -60,7 +61,7 @@ public class ForestGameArea extends GameArea {
       "images/Centaur_right.png",
       "images/landscape_objects/leftPalmTree.png",
       "images/landscape_objects/rightPalmTree.png",
-      "images/landscape_objects/groupPalmTree.png",
+      "images/landscape_objects/groupPalmTrees.png",
       "images/ghost_king.png",
       "images/500_grassTile.png",
       "images/500_waterFullTile.png",
@@ -82,6 +83,7 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/chalice.png",
       "images/landscape_objects/pillar.png",
       "images/landscape_objects/wooden-fence-60x60.png",
+      "images/65x33_tiles/shell.png",
       "images/pirate_crab_NE.png",
       "images/pirate_crab_NW.png",
       "images/pirate_crab_SE.png",
@@ -155,7 +157,7 @@ public class ForestGameArea extends GameArea {
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
 
-    this.crystal = spawnCrystal(60, 60);
+    this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
@@ -293,6 +295,9 @@ public class ForestGameArea extends GameArea {
         case SHIPWRECK_FRONT:
           envObj = ObstacleFactory.createShipwreckFront();
           break;
+        case SHELL:
+          envObj = ObstacleFactory.createShell();
+          break;
         case ROCK:
           // falls through to default
         default:
@@ -327,9 +332,9 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
     spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.TREE);
-
-    spawnEnvironmentalObject(1,
-        EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.SHELL);
     /*
      * // semi random rocks and trees
      * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
@@ -357,8 +362,6 @@ public class ForestGameArea extends GameArea {
      * EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
      * 
      * 
-     * (spawnEnvironmentalObject(1,
-     * EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
      * spawnEnvironmentalObject(2,
      * EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
      * spawnEnvironmentalObject(1,
@@ -411,9 +414,11 @@ public class ForestGameArea extends GameArea {
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
+    System.out.println("Crystal Position: " + x_pos + " " + y_pos);
+    crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
-    crystal.setPosition(new Vector2(60, 0));
+
     return crystal;
   }
 
