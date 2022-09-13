@@ -236,7 +236,7 @@ public static Entity createTrap() {
    *
    * @param structure : the building to refund
    */
-  public static void handleRefund(Entity structure, Float refundMultiplier) {
+  public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
       System.out.println("Checking for inventory component");
       System.out.println("Got inventory component");
