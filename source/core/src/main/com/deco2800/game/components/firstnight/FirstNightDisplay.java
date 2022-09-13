@@ -37,7 +37,7 @@ public class FirstNightDisplay  extends UIComponent {
         rootTable.setFillParent(true);
 
         // load and set Background
-        Texture storylineGradient = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
+        Texture storylineGradient = new Texture(Gdx.files.internal("images/StoryLine/FirstNight.png"));
         TextureRegionDrawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
         rootTable.setBackground(storyBackgroundTexture);
 
