@@ -68,7 +68,7 @@ public class DayNightClockComponent extends UIComponent {
         rightTable.padTop(60f).padRight(10f);
 
         //Bring in the clock
-        clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[currentSprite], Texture.class));
+        clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[0], Texture.class));
         //adding it on screen
        // rightTable.add(clockImage).pad(5);
         rightTable.add(clockImage).left().bottom().size(200f, 200f);
