@@ -58,7 +58,9 @@ public class ForestGameArea extends GameArea {
       "images/Centaur_Back_right.png",
       "images/Centaur_left.png",
       "images/Centaur_right.png",
-      "images/tree.png",
+      "images/landscape_objects/leftPalmTree.png",
+      "images/landscape_objects/rightPalmTree.png",
+      "images/landscape_objects/groupPalmTree.png",
       "images/ghost_king.png",
       "images/500_grassTile.png",
       "images/500_waterFullTile.png",
@@ -91,7 +93,7 @@ public class ForestGameArea extends GameArea {
       "images/Wall-right.png",
       "images/mini_tower.png",
       "images/65x33_tiles/beachV1.png",
-      "images/65x33_tiles/65x33v1Water.png",
+      "images/65x33_tiles/dayWaterTile.png",
       "images/65x33_tiles/groundTileV1.png",
       "images/65x33_tiles/seaweedV4.png",
       "images/65x33_tiles/seaweedV5.png",
@@ -99,8 +101,8 @@ public class ForestGameArea extends GameArea {
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
       "images/Eel_Bright_SW.png",
-      "images/shipRack.png",
-      "images/shipRackFront.png"
+      "images/shipWreckBack.png",
+      "images/shipWreckFront.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -324,6 +326,7 @@ public class ForestGameArea extends GameArea {
   private void spawnEnvironmentalObjects() {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
+    spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.TREE);
 
     spawnEnvironmentalObject(1,
         EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);

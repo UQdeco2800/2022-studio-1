@@ -30,8 +30,9 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    String[] sprites = { "images/landscape_objects/almond-tree-60x62.png",
-        "images/landscape_objects/fig-tree-60x62.png" };
+    String[] sprites = { "images/landscape_objects/leftPalmTree.png",
+        "images/landscape_objects/rightPalmTree.png",
+        "images/landscape_objects/groupPalmTree.png" };
     int index = (int) ((Math.random() * (sprites.length)));
     Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
@@ -209,7 +210,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createShipwreckFront() {
-    Entity shipwreck = createEnvironmentalObject("images/shipRackFront.png",
+    Entity shipwreck = createEnvironmentalObject("images/shipWreckFront.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
         2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
@@ -218,7 +219,7 @@ public class ObstacleFactory {
     shipwreck.setResourceType(ResourceType.WOOD);
     shipwreck.setResourceAmount(50);
 
-    ServiceLocator.getEntityService().registerNamed("shipRackFront@" + shipwreck.getId(), shipwreck);
+    ServiceLocator.getEntityService().registerNamed("shipWreckFront@" + shipwreck.getId(), shipwreck);
     return shipwreck;
   }
 
@@ -228,7 +229,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createShipwreckBack() {
-    Entity shipwreck = createEnvironmentalObject("images/shipRack.png",
+    Entity shipwreck = createEnvironmentalObject("images/shipWreckBack.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
         2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
@@ -237,7 +238,7 @@ public class ObstacleFactory {
     shipwreck.setResourceType(ResourceType.WOOD);
     shipwreck.setResourceAmount(50);
 
-    ServiceLocator.getEntityService().registerNamed("shipRackBack@" + shipwreck.getId(), shipwreck);
+    ServiceLocator.getEntityService().registerNamed("shipWreckBack@" + shipwreck.getId(), shipwreck);
     return shipwreck;
   }
 
