@@ -74,7 +74,7 @@ public class ResourceBuildingFactory {
     public static Entity createWoodCutter() {
 
         Entity woodQuarry = createBaseStructure("images/anim_demo/woodresoucebuilding.png");
-        BaseEntityConfig config = configs.woodQuarry;
+        BaseEntityConfig config = configs.stoneQuarry;
 
         woodQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
                 .addComponent(new HealthBarComponent(75, 10));
