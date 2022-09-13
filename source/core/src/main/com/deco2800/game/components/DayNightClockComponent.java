@@ -9,6 +9,9 @@ import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
+/**
+ * Defines a Clock UI element that displays the current phase of the day/night cycle
+ */
 public class DayNightClockComponent extends UIComponent {
     private Image clockImage;
     private Table rightTable;
@@ -71,6 +74,9 @@ public class DayNightClockComponent extends UIComponent {
 
     private int currentSprite = -1;
 
+    /**
+     * Creates the clock UI component and adds the event listener for EVENT_PART_OF_DAY_PASSED from DayNightCycleService
+     */
     public void create(){
         super.create();
         addClock();
@@ -83,6 +89,9 @@ public class DayNightClockComponent extends UIComponent {
                 this::changeSprite);
     }
 
+    /**
+     * Adds the clock to the top right hand corner of the game screen and adds it to the stage
+     */
     private void addClock(){
         rightTable = new Table();
         rightTable.top().right();
@@ -94,6 +103,10 @@ public class DayNightClockComponent extends UIComponent {
 
         stage.addActor(rightTable);
     }
+
+    /**
+     * Clears the current clock face
+     */
     public void dispose() {
         rightTable.clear();
     }
@@ -103,13 +116,16 @@ public class DayNightClockComponent extends UIComponent {
         //draw is handled by stage
     }
 
+    /**
+     * Called by the event listener on trigger. Updates the current clock face for the next one in the sequence
+     *
+     * @param partOfDay DayNightCycleStatus
+     */
     private void changeSprite(DayNightCycleStatus partOfDay) {
         this.currentSprite += 1;
         this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockTimeOfDaySprites[currentSprite], Texture.class));
 
         rightTable.clear();
         rightTable.add(clockImage).left().bottom().size(200f, 200f);
-
-        //System.out.println(clockSprites[currentSprite]);
     }
 }
