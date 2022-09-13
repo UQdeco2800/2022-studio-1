@@ -7,10 +7,11 @@ import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -42,7 +43,6 @@ public class ShopBuildScreen extends ScreenAdapter {
 
     private final AtlantisSinks game;
     private final Renderer renderer;
-    private final Music music;
     private final PhysicsEngine physicsEngine;
 
     public ShopBuildScreen(AtlantisSinks game) {
@@ -59,7 +59,6 @@ public class ShopBuildScreen extends ScreenAdapter {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic-V1.mp3"));
 
         renderer = RenderFactory.createRenderer();
         renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -67,6 +66,7 @@ public class ShopBuildScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
@@ -99,7 +99,6 @@ public class ShopBuildScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing main game screen");
-        music.dispose();
         renderer.dispose();
         unloadAssets();
 
@@ -133,8 +132,7 @@ public class ShopBuildScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
-        music.setLooping(true);
-        music.play();
+
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
