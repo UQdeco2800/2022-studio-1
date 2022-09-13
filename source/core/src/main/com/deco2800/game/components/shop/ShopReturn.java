@@ -1,7 +1,6 @@
 package com.deco2800.game.components.shop;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,8 +24,6 @@ public class ShopReturn extends UIComponent {
     Table table2;
     Table table3;
 
-    Music music;
-
     private TextButton buildingBtn;
     private TextureRegionDrawable buildingUp;
     private Texture buildingTexture;
@@ -49,11 +46,6 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
-
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().left();
@@ -77,7 +69,6 @@ public class ShopReturn extends UIComponent {
         buildingBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                music.stop();
                 logger.debug("Building Shopping Time!");
                 entity.getEvents().trigger("buildShop");
             }
@@ -93,7 +84,6 @@ public class ShopReturn extends UIComponent {
         artefactBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                music.stop();
                 logger.debug("Artefact Shopping Time!");
                 entity.getEvents().trigger("artefactShop");
             }
@@ -111,7 +101,6 @@ public class ShopReturn extends UIComponent {
         equipmentBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                music.stop();
                 logger.debug("Equipment Shopping Time!");
                 entity.getEvents().trigger("equipmentShop");
             }

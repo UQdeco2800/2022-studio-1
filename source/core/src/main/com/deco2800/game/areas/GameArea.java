@@ -56,6 +56,11 @@ public abstract class GameArea implements Disposable {
     ServiceLocator.getEntityService().addEntity(entity);
   }
 
+  protected void removeEntity(Entity entity) {
+    areaEntities.remove(entity);
+    ServiceLocator.getEntityService().register(entity);
+  }
+
   /**
    * Spawn entity on a given tile. Requires the terrain to be set first.
    *

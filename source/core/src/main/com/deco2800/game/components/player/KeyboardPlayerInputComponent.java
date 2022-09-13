@@ -30,9 +30,20 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
 
   private boolean buildState = false;
+  private boolean removeState = false;
+  private boolean upgradeState = false;
+
   private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
+  private boolean removeEvent = false;
+
+  private boolean upgradeEvent = false;
+
+  private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap"};
+
+  private int structureSelect = 0;
+
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -111,7 +122,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalRestoreHealth();
         return true;
       case Keys.N:
-        resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
+        if (buildState) {
+          structureSelect += 1;
+        }
+        return true;
+      case Keys.Y:
+        if (buildState) {
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+        }
+        if (upgradeState) {
+          upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
+        }
+        removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        return true;
+      case Keys.U:
+        if (buildState) {
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+        }
+        if (removeState) {
+          removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        }
+        upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
@@ -126,30 +157,39 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
     CrystalFactory.crystalClicked(screenX, screenY);
-
-    if (pointer == Input.Buttons.LEFT) {
-      if (buildState) {
-        buildEvent = true;
-        boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent);
-        isClear = updatedValues[0];
-        resourceBuildState = updatedValues[1];
-        buildEvent = updatedValues[2];
-        if (isClear) {
-          if (resourceBuildState) {
-            ServiceLocator.getStructureService().triggerBuildEvent("wall");
-          } else {
-            ServiceLocator.getStructureService().triggerBuildEvent("tower1");
-          }
-        }
-      }
-    }
     return true;
   }
 
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    if (pointer == Input.Buttons.LEFT) {
+      if (buildState) {
+        buildEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        resourceBuildState = updatedValues[1];
+        buildEvent = updatedValues[2];
+        if (isClear) {
+          int i = structureSelect % (structureNames.length);
+          ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
+        }
+      } else if (removeState) {
+        removeEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        removeEvent = updatedValues[3];
+      } else if (upgradeState) {
+        upgradeEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        upgradeEvent = updatedValues[4];
+      }
+    }
+
     if (buildState) {
       if (buildEvent) {
         if (pointer == Input.Buttons.LEFT) {

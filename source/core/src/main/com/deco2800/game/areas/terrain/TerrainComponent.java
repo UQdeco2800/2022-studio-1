@@ -18,7 +18,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
-import com.deco2800.game.screens.MainGameScreen;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
 /**
@@ -82,8 +82,10 @@ public class TerrainComponent extends RenderComponent {
 
   public void spawnIslandBorders(int levelNum) {
     // Dispose of current old borders
-    for (Entity oldWall : walls) {
-      oldWall.dispose();
+    for (int i = 0; i < walls.size(); i++) {
+      walls.get(i).dispose();
+      ServiceLocator.getEntityService().removeNamedEntity("wall" + walls.get(i).getId(), entity);
+      walls.remove(i);
     }
 
     // Create new borders [Note: Make sure walls are registered as a named entity so
@@ -108,7 +110,7 @@ public class TerrainComponent extends RenderComponent {
       wall.setCollectable(false);
 
       walls.add(wall);
-      ServiceLocator.getEntityService().registerNamed("wall", wall);
+      ServiceLocator.getEntityService().registerNamed("wall" + wall.getId(), wall);
       ServiceLocator.getEntityService().addEntity(wall);
     }
   }

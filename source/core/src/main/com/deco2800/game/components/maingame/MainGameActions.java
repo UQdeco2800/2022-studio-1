@@ -7,6 +7,8 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,8 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
     entity.getEvents().addListener("settings", this::onSettings);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+        this::onFirstNight);
   }
 
   /**
@@ -86,6 +90,23 @@ public class MainGameActions extends Component {
     playerStatus.add(currentStatus);
     ServiceLocator.getDayNightCycleService().pause();
     game.setScreen(AtlantisSinks.ScreenType.SHOP);
+  }
+
+  private void onFirstNight(DayNightCycleStatus partOfDay) {
+    switch (partOfDay) {
+      case DAWN:
+        break;
+      case DAY:
+        break;
+      case DUSK:
+        break;
+      case NIGHT:
+        //logger.info("Playing first night scene");
+        //implement game data save functionality
+        //ServiceLocator.getDayNightCycleService().pause();
+        //game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
+        break;
+    }
   }
 
 }

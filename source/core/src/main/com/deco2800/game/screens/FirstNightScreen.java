@@ -1,20 +1,10 @@
 package com.deco2800.game.screens;
 
-import com.deco2800.game.memento.Memento;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.areas.ShopArea;
-import com.deco2800.game.components.gamearea.PerformanceDisplay;
-import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.shop.CommonShopComponents;
-import com.deco2800.game.components.shop.ShopActions;
-import com.deco2800.game.components.shop.ShopArtefactDisplay;
+import com.deco2800.game.components.firstnight.FirstNightDisplay;
+import com.deco2800.game.components.firstnight.FirstNightActions;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -24,25 +14,28 @@ import com.deco2800.game.input.InputService;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
-import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.ui.terminal.Terminal;
-import com.deco2800.game.ui.terminal.TerminalDisplay;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ShopArtefactScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ShopArtefactScreen.class);
+public class FirstNightScreen extends ScreenAdapter{
 
+    private static final Logger logger = LoggerFactory.getLogger(FirstNightScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    public ShopArtefactScreen(AtlantisSinks game) {
+    //load all the texture images
+    private static final String[] storylineTextures = {
+            "images/StoryLine/clearBackground.png",
+            "images/StoryLine/FirstNight.png"
+    };
+
+    public FirstNightScreen(AtlantisSinks game) {
         this.game = game;
 
-        logger.debug("Initialising artefact shop screen services");
-        ServiceLocator.registerTimeSource(new GameTime());
+        logger.debug("Initialising firstNight screen services");
         ServiceLocator.registerInputService(new InputService());
-
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
@@ -51,10 +44,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
-        MainArea.getInstance().setMainArea(new ShopArea());
-
-        logger.debug("Initialising main game screen entities");
-
     }
 
     @Override
@@ -81,51 +70,39 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing shop artefact game screen");
+        logger.debug("Disposing first night screen");
+
         renderer.dispose();
         unloadAssets();
-
-        ServiceLocator.getEntityService().dispose();
         ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getResourceService().dispose();
-
+        ServiceLocator.getEntityService().dispose();
         ServiceLocator.clear();
     }
 
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.loadTextures(storylineTextures);
         ServiceLocator.getResourceService().loadAll();
     }
 
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(storylineTextures);
     }
 
     /**
-     * Creates the main game's ui including components for rendering ui elements to
-     * the screen and
+     * Creates the storyline UI including components for rendering ui elements to the screen and
      * capturing and handling ui input.
      */
     private void createUI() {
-        logger.debug("Creating ui");
+        logger.debug("Creating storyline ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
-        Memento lastStatus = CareTaker.getInstance().getLast();
-
-        Entity uiBuilding = new Entity();
-        uiBuilding.addComponent(new InputDecorator(stage, 10))
-                .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game))
-                .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood(), lastStatus.getItemList()))
-                .addComponent(new ShopArtefactDisplay())
-                .addComponent(new CommonShopComponents())
-                .addComponent(new Terminal())
-                .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiBuilding);
-
+        Entity ui = new Entity();
+        ui.addComponent(new FirstNightDisplay())
+                .addComponent(new InputDecorator(stage, 10))
+                .addComponent(new FirstNightActions(game));
+        ServiceLocator.getEntityService().register(ui);
     }
 }
