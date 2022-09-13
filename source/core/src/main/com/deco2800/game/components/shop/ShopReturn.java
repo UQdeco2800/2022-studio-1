@@ -49,7 +49,7 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic-V1.mp3"));
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();

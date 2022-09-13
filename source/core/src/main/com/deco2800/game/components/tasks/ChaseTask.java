@@ -52,6 +52,8 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     movementTask.update();
     if (movementTask.getStatus() != Status.ACTIVE) {
       movementTask.start();
+    } else {
+      obstacleAvoidance();
     }
   }
 
@@ -101,5 +103,17 @@ public class ChaseTask extends DefaultTask implements PriorityTask {
     }
     debugRenderer.drawLine(from, to);
     return true;
+  }
+
+  // https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/math/Vector2.java
+  // https://javadoc.io/static/com.badlogicgames.gdx/gdx/1.2.0/com/badlogic/gdx/math/Vector2.html
+  private void obstacleAvoidance() {
+    if (isTargetVisible()) {
+      float dst = (Vector2.dst2(owner.getEntity().getCenterPosition().x, owner.getEntity().getCenterPosition().y,
+              target.getCenterPosition().x, target.getCenterPosition().y));
+      if (dst < maxChaseDistance) {
+        movementTask.setTarget(target.getPosition().nor());
+      }
+    }
   }
 }
