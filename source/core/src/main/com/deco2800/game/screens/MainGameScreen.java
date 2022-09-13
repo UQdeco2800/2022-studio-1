@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.MainGameActions;
@@ -36,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * The game screen containing the main game.
@@ -51,31 +53,24 @@ public class MainGameScreen extends ScreenAdapter {
       "images/uiElements/exports/heart.png",
       "images/uiElements/exports/coin.png",
       "images/healthBar.png",
+      "images/empty_healthbar.png",
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
-      "images/atlantisBasicBackground.png"
+      "images/atlantisBasicBackground.png",
+      "images/log.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
 
   private static final String[] mainGameTextureAtlases = {
-      "images/anim_demo/stonequarr.atlas", "images/anim_demo/mainchar.atlas" };
+      "images/anim_demo/stonequarr.atlas", "images/anim_demo/mainchar.atlas", "images/anim_demo/mainchar_anim_final.atlas" };
 
   private final AtlantisSinks game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
-  private CareTaker playerStatus;
-  private ForestGameArea forestGameArea;
 
-  public MainGameScreen(AtlantisSinks game, CareTaker playerStatus) {
+  public MainGameScreen(AtlantisSinks game) {
     this.game = game;
-
-    // creates new caretaker if no caretaker object exists
-    if (playerStatus == null) {
-      this.playerStatus = new CareTaker();
-    } else {
-      this.playerStatus = playerStatus;
-    }
 
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
@@ -83,6 +78,7 @@ public class MainGameScreen extends ScreenAdapter {
     var dayNightCycleService = new DayNightCycleService(ServiceLocator.getTimeSource(),
             FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
     ServiceLocator.registerDayNightCycleService(dayNightCycleService);
+
 
     PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
@@ -102,15 +98,17 @@ public class MainGameScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
-
+    ServiceLocator.getDayNightCycleService().start();
     loadAssets();
 
     logger.debug("Initialising main game screen entities");
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
-    this.forestGameArea = new ForestGameArea(terrainFactory, playerStatus);
-    forestGameArea.create();
+
+    // Singleton MainArea responsible for controlling current map and entities
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
+
     createUI();
-    ServiceLocator.getDayNightCycleService().start();
+
   }
 
   @Override
@@ -180,7 +178,7 @@ public class MainGameScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game, this.playerStatus, forestGameArea.getPlayer()))
+        .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new MainGameBuildingInterface())

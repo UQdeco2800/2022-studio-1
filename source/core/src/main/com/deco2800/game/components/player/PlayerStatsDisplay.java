@@ -1,17 +1,28 @@
 package com.deco2800.game.components.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.PlayerFactory;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+import com.deco2800.game.utils.DrawableUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A ui component for displaying player stats, e.g. health.
@@ -20,17 +31,29 @@ public class PlayerStatsDisplay extends UIComponent {
   Table table;
   private Image heartImage;
   private Image healthBarImage;
-  private Image coinImage;
-  private Label coinLabel;
+  private ProgressBar healthprogressBar;
+  private Label healthBarLabel;
+
   private Image crystalImage;
+  private ProgressBar progressBar;
   private Image crystalBarImage;
   private Label crystalLabel;
 
   private Image stoneCurrencyImage;
   private static Label stoneCurrencyLabel;
 
+  private Image coinImage;
+  private static Label coinLabel;
+
+  private Image woodImage;
+  private static Label woodLabel;
+
+  DayNightCycleStatus status;
+
+
+  Entity crystal;
+  Entity health;
   private static int stoneCount = 0;
-  Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
 
   //Entity resourceBuilding = ServiceLocator.getEntityService().getNamedEntity("stoneQuarry");
 
@@ -42,14 +65,10 @@ public class PlayerStatsDisplay extends UIComponent {
     super.create();
     addActors();
     //will be used to update health
-    //entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
+    entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
     crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
-
-//    if(crystal.getComponent(CombatStatsComponent.class).getHealth() == 900){
-//      healthBarImage.remove();
-//    }
-
   }
+
 
 
   /**
@@ -74,39 +93,65 @@ public class PlayerStatsDisplay extends UIComponent {
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
     //Health Bar Image
-    healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
+    healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class ));
     // Health text level - grabbing percentile - to populate health bar
-    int health = entity.getComponent(CombatStatsComponent.class).getHealth();
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    healthprogressBar = player.getComponent(HealthBarComponent.class).getProgressBar();
+    healthprogressBar.getStyle().background = DrawableUtil.getRectangularColouredDrawable(50, 15, Color.BROWN);
+    healthprogressBar.getStyle().knob = DrawableUtil
+            .getRectangularColouredDrawable(0, 15, Color.RED);
+    healthprogressBar.getStyle().knobBefore = DrawableUtil
+            .getRectangularColouredDrawable(50, 15, Color.RED);
+    //player health
+    int playerHealth = player.getComponent(CombatStatsComponent.class).getHealth();
+    CharSequence playerHealthText = String.format("%d", playerHealth);
+    healthBarLabel = new Label(playerHealthText, skin, "large");
+
 
     //Crystal image
     crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
-    //Crystal bar
-    crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class ));
+    //Get crystal health bar and customise
+    crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    progressBar = crystal.getComponent(HealthBarComponent.class).getProgressBar();
+            progressBar.getStyle().background = DrawableUtil
+                    .getRectangularColouredDrawable(50, 15,  Color.BROWN);
+            progressBar.getStyle().knob = DrawableUtil
+                    .getRectangularColouredDrawable(0, 15, Color.VIOLET);
+            progressBar.getStyle().knobBefore = DrawableUtil
+                    .getRectangularColouredDrawable(50, 15, Color.VIOLET);
+
+    crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
     //crystal health text
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("%d", crystalHealth);
     crystalLabel = new Label(healthText, skin, "large");
-
 
     //Stone image
     stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stoneSuperior.png", Texture.class));
 
     //Stone text. 0 as an initial set up
     int stone = entity.getComponent(InventoryComponent.class).getStone();
-   // CharSequence stoneCount = String.format("x %d", stone);
+    CharSequence stoneCount = String.format("x %d", stone);
 
     stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
+   // wood counter
+    woodImage = new Image(ServiceLocator.getResourceService().getAsset("images/log.png", Texture.class));
 
+    int woodCountInt = entity.getComponent(InventoryComponent.class).getWood();
+    CharSequence woodCount = String.format("x %d", woodCountInt);
 
+    woodLabel = new Label(String.valueOf(woodCount), skin, "large");
+
+    CrystalFactory.recoverCrystalHealth(crystal);
 
 
     table.add(heartImage).pad(5);
-    table.add(healthBarImage).size(200f, 30f).pad(5);
+    table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);
     table.row();
     table.add(crystalImage);
-    table.add(crystalBarImage).size(200f,30f).pad(5);
+    table.stack(progressBar,crystalBarImage).size(190f,30f).pad(5);
     table.add(crystalLabel);
     table.row();
     table.add(coinImage);
@@ -114,6 +159,10 @@ public class PlayerStatsDisplay extends UIComponent {
     table.row();
     table.add(stoneCurrencyImage);
     table.add(stoneCurrencyLabel).pad(0,0,0,0).left();
+    table.row();
+    table.add(woodImage).size(50f);
+    table.add(woodLabel).left();
+
     
     table.row();
     stage.addActor(table);
@@ -127,6 +176,30 @@ public class PlayerStatsDisplay extends UIComponent {
   public void updateCrystalHealthUI(int health) {
     CharSequence text = String.format("%d", health);
     crystalLabel.setText(text);
+  }
+  private void updatePlayerHealthUI(int playerHealth) {
+    CharSequence text = String.format("%d", playerHealth);
+    healthBarLabel.setText(text);
+  }
+
+  public static void updateItems() {
+    CharSequence stone = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getStone());
+    stoneCurrencyLabel.setText(stone);
+    CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
+    coinLabel.setText(gold);
+    CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
+    coinLabel.setText(wood);
+  }
+
+  public void updateResourceAmount() {
+    CharSequence gold = String.format("x %d", entity.getComponent(InventoryComponent.class).getGold());
+    coinLabel.setText(gold);
+
+    CharSequence stone = String.format("x %d", entity.getComponent(InventoryComponent.class).getStone());
+    stoneCurrencyLabel.setText(stone);
+
+    CharSequence wood = String.format("x %d", entity.getComponent(InventoryComponent.class).getWood());
+    woodLabel.setText(wood);
   }
 
   public static void updateStoneCountUI() {
@@ -153,7 +226,40 @@ public class PlayerStatsDisplay extends UIComponent {
     healthBarImage.remove();
     crystalBarImage.remove();
     crystalImage.remove();
+    crystalLabel.remove();
+    progressBar.remove();
     stoneCurrencyImage.remove();
     stoneCurrencyLabel.remove();
+    healthprogressBar.remove();
   }
+
+//  /**
+//   * Recover crystal health at dawn, day, and dusk
+//   */
+//  private void recoverCrystalHealth(DayNightCycleStatus partOfDay) {
+//    System.out.println(partOfDay);
+//    switch (partOfDay){
+//      case DAWN:
+//      case DAY:
+//      case DUSK:
+//        Timer time = new Timer();
+//        TimerTask recoverCrystal = new TimerTask() {
+//        @Override
+//            public void run() {
+//                // DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+//                if (status != DayNightCycleStatus.NIGHT) {
+//                    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+//                    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+//                    int health = combatStatsComponent.getHealth();
+//                    combatStatsComponent.setHealth(health + 10);
+//                }
+//            }
+//        };
+//        time.scheduleAtFixedRate(recoverCrystal, 5000, 5000);
+//        break;
+//      case NIGHT:
+//      case NONE:
+//        break;
+//    }
+//  }
 }

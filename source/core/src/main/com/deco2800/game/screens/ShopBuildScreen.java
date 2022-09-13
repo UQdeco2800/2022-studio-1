@@ -1,10 +1,13 @@
 package com.deco2800.game.screens;
 
 import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
@@ -39,12 +42,11 @@ public class ShopBuildScreen extends ScreenAdapter {
 
     private final AtlantisSinks game;
     private final Renderer renderer;
+    private final Music music;
     private final PhysicsEngine physicsEngine;
-    private CareTaker playerStatus;
 
-    public ShopBuildScreen(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopBuildScreen(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
 
         logger.debug("Initialising main game screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -57,6 +59,7 @@ public class ShopBuildScreen extends ScreenAdapter {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
 
         renderer = RenderFactory.createRenderer();
         renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -96,7 +99,7 @@ public class ShopBuildScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing main game screen");
-
+        music.dispose();
         renderer.dispose();
         unloadAssets();
 
@@ -129,13 +132,15 @@ public class ShopBuildScreen extends ScreenAdapter {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
-
+        Memento lastStatus = CareTaker.getInstance().getLast();
+        music.setLooping(true);
+        music.play();
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game, playerStatus))
-                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
-                        playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
+                .addComponent(new ShopActions(this.game))
+                .addComponent(new InventoryComponent(lastStatus.getGold(),
+                        lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopBuildingDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())

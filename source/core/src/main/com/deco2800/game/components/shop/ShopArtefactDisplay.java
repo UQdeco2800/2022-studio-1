@@ -1,9 +1,12 @@
 package com.deco2800.game.components.shop;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,9 +21,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.artefacts.Artefact;
-import com.deco2800.game.components.shop.artefacts.BestSword;
-import com.deco2800.game.components.shop.artefacts.BetterSword;
-import com.deco2800.game.components.shop.artefacts.StandardSword;
+import com.deco2800.game.entities.configs.ArtefactConfig;
+import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
 /**
@@ -41,8 +44,13 @@ public class ShopArtefactDisplay extends UIComponent {
 
     private CircularLinkedList<Artefact> stock;
     private Node<Artefact> current;
+    private ArtefactConfig stats;
+    private ArtefactConfig prevStats;
+    private ArtefactConfig nextStats;
 
     Label subtitle;
+    Label itemNumber;
+    int i;
 
     private Texture leftTexture;
     private TextureRegionDrawable left;
@@ -54,6 +62,10 @@ public class ShopArtefactDisplay extends UIComponent {
 
     private Image currentItem;
     private Texture currentTexture;
+    private Image prevItem;
+    private Texture prevTexture;
+    private Image nextItem;
+    private Texture nextTexture;
 
     private Texture goldenCategoryTexture;
     private TextureRegionDrawable goldenDrawable;
@@ -86,11 +98,11 @@ public class ShopArtefactDisplay extends UIComponent {
 
         table3 = new Table();
         table3.setFillParent(true);
-        table3.center().left().padLeft(350).padTop(100);
+        table3.center().left().padLeft(150).padTop(100);
 
         table4 = new Table();
         table4.setFillParent(true);
-        table4.center().right().padRight(350).padTop(100);
+        table4.center().right().padRight(150).padTop(100);
 
         table5 = new Table();
         table5.setFillParent(true);
@@ -110,14 +122,28 @@ public class ShopArtefactDisplay extends UIComponent {
 
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<Artefact>();
-        stock.add(new StandardSword());
-        stock.add(new BetterSword());
-        stock.add(new BestSword());
+        List<Artefact> artefactOptions = Artefact.getAllartefactTypes();
+        for (Artefact e : artefactOptions) {
+            stock.add(e);
+        }
         current = stock.head;
+        i = 1;
+        itemNumber = new Label("Item " + i + "/" + artefactOptions.size(), skin, "button");
+        itemNumber.setFontScale(1f);
+        itemNumber.setColor(skin.getColor("black"));
 
+        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
+        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
+        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
         // Create the current artefact to display
-        currentTexture = new Texture(Gdx.files.internal(current.t.getCategoryTexture()));
+        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
         currentItem = new Image(currentTexture);
+
+        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+        prevItem = new Image(prevTexture);
+
+        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+        nextItem = new Image(nextTexture);
 
         // Create textures for arrows, price, descrition and buy button
         brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
@@ -139,7 +165,7 @@ public class ShopArtefactDisplay extends UIComponent {
 
         // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
-                Integer.toString(current.t.getPrice()), skin.getColor("black"),
+                Integer.toString(stats.goldCost), skin.getColor("black"),
                 "button", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
@@ -147,7 +173,7 @@ public class ShopArtefactDisplay extends UIComponent {
 
         // create description sticker
         descriptionDisplay = ShopUtils.createImageTextButton(
-                current.t.getName() + "\n" + current.t.getDescription(),
+                stats.name + "\n" + stats.description,
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
@@ -174,12 +200,20 @@ public class ShopArtefactDisplay extends UIComponent {
                         current = stock.head.next;
                         stock.head = stock.head.next;
                         stock.tail = temp;
-
-                        priceDisplay.setText(Integer.toString(current.t.getPrice()));
+                        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
+                        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
+                        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
+                        priceDisplay.setText(Integer.toString(stats.goldCost));
                         descriptionDisplay
-                                .setText(current.t.getName() + "\n" + current.t.getDescription());
+                                .setText(stats.name + "\n" + stats.description);
+                        i = i == artefactOptions.size() ? 1 : i + 1;
+                        itemNumber.setText("Item " + i + "/" + artefactOptions.size());
                         currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
+                                new Texture(Gdx.files.internal(stats.itemBackgroundImagePath))));
+                        prevItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
+                        nextItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
                     }
                 });
 
@@ -192,12 +226,20 @@ public class ShopArtefactDisplay extends UIComponent {
                         current = stock.head.prev;
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
-
-                        priceDisplay.setText(Integer.toString(current.t.getPrice()));
+                        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
+                        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
+                        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
+                        priceDisplay.setText(Integer.toString(stats.goldCost));
                         descriptionDisplay
-                                .setText(current.t.getName() + "\n" + current.t.getDescription());
+                                .setText(stats.name + "\n" + stats.description);
+                        i = i == 1 ? artefactOptions.size() : i - 1;
+                        itemNumber.setText("Item " + i + "/" + artefactOptions.size());
                         currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
+                                new Texture(Gdx.files.internal(stats.itemBackgroundImagePath))));
+                        prevItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
+                        nextItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
                     }
                 });
 
@@ -207,13 +249,19 @@ public class ShopArtefactDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Buy button clicked");
 
-                        if (entity.getComponent(InventoryComponent.class).hasGold(current.t.getPrice())) {
+                        if (entity.getComponent(InventoryComponent.class).hasGold(stats.goldCost)) {
                             logger.info("Sufficient Gold");
-                            entity.getComponent(InventoryComponent.class).addGold(-1 * current.t.getPrice());
+                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
                             Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
                             coinSound.play();
+                            buyButton.setColor(121, 15, 85, 1);
+                            entity.getComponent(InventoryComponent.class).addItems(current.t);
+
                         } else {
                             logger.info("Insufficient gold!");
+                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                            buyButton.setColor(255, 0, 0, 1);
                         }
                         entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ");
@@ -235,7 +283,11 @@ public class ShopArtefactDisplay extends UIComponent {
 
         // Add items to the stage
         table3.add(leftButton).width(100).height(100);
+        table2.add(prevItem).width(250).height(250);
         table2.add(currentItem).width(450).height(450);
+        table2.add(nextItem).width(250).height(250);
+        table2.row();
+        table2.add(itemNumber).colspan(3).center();
         table4.add(rightButton).width(100).height(100);
         table5.add(priceDisplay).width(300).height(300);
         table1.add(descriptionDisplay).width(450).height(450);

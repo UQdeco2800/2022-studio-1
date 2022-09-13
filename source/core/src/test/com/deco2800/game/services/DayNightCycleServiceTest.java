@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,10 +28,10 @@ public class DayNightCycleServiceTest {
     @BeforeEach
     void beforeEach() {
         config = new DayNightCycleConfig();
-        config.dawnLength = 100;
-        config.dayLength = 400;
-        config.duskLength = 100;
-        config.nightLength = 500;
+        config.dawnLength = 150;
+        config.dayLength = 600;
+        config.duskLength = 150;
+        config.nightLength = 300;
         config.maxDays = 1;
         ServiceLocator.registerTimeSource(new GameTime());
         var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
@@ -140,6 +141,42 @@ public class DayNightCycleServiceTest {
     }
 
     @Test
+    public void whenSendingFirstDayPassedEventDayShouldBeginAtOne() throws InterruptedException {
+        AtomicInteger dayPassed = new AtomicInteger(0);
+        AtomicBoolean firstDayPassed = new AtomicBoolean(false);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED, (Integer day) -> {
+            if (!firstDayPassed.get()) {
+                firstDayPassed.set(true);
+                dayPassed.set(day);
+            }
+        });
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(1, dayPassed.get());
+    }
+
+    @Test
+    public void shouldGoThroughCorrectSequenceOfDays() throws InterruptedException {
+        List<Integer> days = List.of(1, 2, 3);
+        List<Integer> daysPassed = new ArrayList<>();
+        this.config.maxDays = 3;
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED, (Integer day) -> {
+            daysPassed.add(day);
+        });
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300);
+
+        // Sequence should be 1,2,3
+        int i = 0;
+        for (var day : days) {
+            assertEquals(day, daysPassed.get(i));
+            i++;
+        }
+    }
+
+    @Test
     public void shouldResumeDayTimeAfterBeingPausedAndResumedMultipleTimes() {
         CompletableFuture<Object> job = this.dayNightCycleService.start();
         this.dayNightCycleService.pause();
@@ -187,5 +224,87 @@ public class DayNightCycleServiceTest {
         job.join();
 
         assertTrue(this.dayNightCycleService.getCurrentDayMillis() > 1000);
+    }
+
+    @Test
+    public void shouldCycleThroughAllWedgesOfDay() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        AtomicBoolean firstDayPassed = new AtomicBoolean(false);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+            if (firstDayPassed.get()) {
+                wedges.incrementAndGet();
+            }
+        });
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            if (s == DayNightCycleStatus.DAY) {
+                firstDayPassed.set(true);
+            }
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(4, wedges.get());
+    }
+
+    @Test
+    public void shouldCycleThroughAllWedgesOfNight() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        AtomicBoolean firstDayPassed = new AtomicBoolean(false);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+            if (firstDayPassed.get()) {
+                wedges.incrementAndGet();
+            }
+        });
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            if (s == DayNightCycleStatus.NIGHT) {
+                firstDayPassed.set(true);
+            }
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        // Night is the end and no second iteration is made, instead of expecting 2 expect 1
+        assertEquals(1, wedges.get());
+    }
+
+    @Test
+    public void shouldGoThroughAllEightWedges() throws InterruptedException {
+        AtomicInteger wedges = new AtomicInteger(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, wedges::incrementAndGet);
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            wedges.incrementAndGet();
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        assertEquals(8, wedges.get());
+    }
+
+    @Test
+    public void shouldHaveDelaysBetweenAllWedges() throws InterruptedException {
+        AtomicLong lastTimeSinceEvent = new AtomicLong(System.currentTimeMillis());
+        AtomicLong totalMillis = new AtomicLong(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+            totalMillis.set(totalMillis.get() + (System.currentTimeMillis() - lastTimeSinceEvent.get()));
+            lastTimeSinceEvent.set(System.currentTimeMillis());
+        });
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            totalMillis.set(totalMillis.get() + (System.currentTimeMillis() - lastTimeSinceEvent.get()));
+            lastTimeSinceEvent.set(System.currentTimeMillis());
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        // margin of error of 300 milliseconds
+        assertTrue(Math.abs(((config.dayLength+config.dawnLength+config.nightLength+config.duskLength)*config.maxDays) -
+                totalMillis.get()) <= 300);
     }
 }

@@ -1,9 +1,12 @@
 package com.deco2800.game.screens;
 
+import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
@@ -31,11 +34,10 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
     private final AtlantisSinks game;
     private final Renderer renderer;
-    private CareTaker playerStatus;
+    private final Music music;
 
-    public ShopArtefactScreen(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopArtefactScreen(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
 
         logger.debug("Initialising artefact shop screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -44,6 +46,8 @@ public class ShopArtefactScreen extends ScreenAdapter {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
 
         renderer = RenderFactory.createRenderer();
 
@@ -79,7 +83,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing shop artefact game screen");
-
+        music.dispose();
         renderer.dispose();
         unloadAssets();
 
@@ -110,13 +114,16 @@ public class ShopArtefactScreen extends ScreenAdapter {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
+        Memento lastStatus = CareTaker.getInstance().getLast();
+        music.setLooping(true);
+        music.play();
 
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game, playerStatus))
-                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
-                        playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
+                .addComponent(new ShopActions(this.game))
+                .addComponent(new InventoryComponent(lastStatus.getGold(),
+                        lastStatus.getStone(), lastStatus.getWood(), lastStatus.getItemList()))
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())

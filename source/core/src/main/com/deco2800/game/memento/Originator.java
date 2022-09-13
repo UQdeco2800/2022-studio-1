@@ -1,7 +1,9 @@
 package com.deco2800.game.memento;
 
+import java.util.HashMap;
 import java.util.List;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +18,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Originator {
     private static final Logger logger = LoggerFactory.getLogger(Originator.class);
-    protected int state, gold, stone, wood, currentHealth, attack;
-    protected List<Artefact> items;
+    protected int state, gold, stone, wood, currentHealth, attack, defense;
+    protected Equipments weapon;
+    protected Equipments chestplate;
+    protected Equipments helmet;
+    protected HashMap<Artefact, Integer> items;
 
     /**
      * Originator constructor which can create a new originator to store the current
@@ -32,6 +37,54 @@ public class Originator {
 
     public int getState() {
         return state;
+    }
+
+    /**
+     * returns the weapon enum of the previously saved record
+     * @return weapon enum
+     */
+    public Equipments getWeapon() {
+        return weapon;
+    }
+
+    /**
+     * returns the chestplate enum of the previously saved record
+     * @return chestplate enum
+     */
+    public Equipments getChestplate() {
+        return chestplate;
+    }
+
+    /**
+     * returns the helmet enum of the previously saved record
+     * @return helmet enum
+     */
+    public Equipments getHelmet() {
+        return helmet;
+    }
+
+    /**
+     *  sets the weapon enum
+     * @param weapon - weapon to be stored
+     */
+    public void setWeapon(Equipments weapon) {
+        this.weapon = weapon;
+    }
+
+    /**
+     *  sets the chestplate enum
+     * @param chestplate - chestplate to be stored
+     */
+    public void setChestplate(Equipments chestplate) {
+        this.chestplate = chestplate;
+    }
+
+    /**
+     *  sets the helmet enum
+     * @param helmet - helmet to be stored
+     */
+    public void setHelmet(Equipments helmet) {
+        this.helmet = helmet;
     }
 
     /**
@@ -109,6 +162,20 @@ public class Originator {
     }
 
     /**
+     * sets the defense multiplier
+     * @param defense - defense multiplier value
+     */
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    /**
+     * returns the defense multiplier
+     */
+    public int getDefense() {
+        return defense;
+    }
+    /**
      * returns the current health of the player
      * 
      * @return - current health of the player
@@ -132,7 +199,7 @@ public class Originator {
      * 
      * @return - the list of artefacts items in player's inventory
      */
-    public List<Artefact> getItemList() {
+    public HashMap<Artefact, Integer> getItemList() {
         return items;
     }
 
@@ -141,7 +208,7 @@ public class Originator {
      * 
      * @param items - list of artefacts items in player's inventory
      */
-    public void setItems(List<Artefact> items) {
+    public void setItems(HashMap<Artefact, Integer> items) {
         this.items = items;
     }
 
@@ -151,7 +218,7 @@ public class Originator {
      * @return - the new memento generated from the current originator
      */
     public Memento saveStateToMemento() {
-        return new Memento(state, gold, stone, wood, currentHealth, items, attack);
+        return new Memento(state, gold, stone, wood, currentHealth, items, attack, defense, weapon, chestplate, helmet);
     }
 
     /**
@@ -165,11 +232,18 @@ public class Originator {
         wood = memento.getWood();
         currentHealth = memento.getCurrentHealth();
         items = memento.getItemList();
+        attack = memento.getAttack();
+        defense = memento.getDefense();
+        weapon = memento.getWeapon();
+        chestplate = memento.getChestplate();
+        helmet = memento.getHelmet();
     }
 
     @Override
     public String toString() {
-        return "State " + state + " : Current Health = " + currentHealth + ", Base Attack Value: " + attack +
-                ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood + " , items in inventory: " + items;
+        return "State " + state + " : Current Health = " + currentHealth + ", Attack Value: " + attack +
+                ", Defense Value: " + defense + ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood +
+                " , items in inventory: " + items + ", weapon: " + weapon + ", chestplate: " + chestplate +
+                ", helmet: " + helmet;
     }
 }
