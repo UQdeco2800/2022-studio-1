@@ -1,8 +1,10 @@
 package com.deco2800.game.components.infrastructure;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
@@ -11,6 +13,7 @@ import com.deco2800.game.physics.BodyUserData;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
  * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
@@ -75,8 +78,9 @@ public class TrapComponent extends Component {
     
     
     //TODO ------------------------ADD THIS BACK IN------------------------
-    
-    //StructureFactory.handleBuildingDestruction(this.getEntity());
+    GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(this.getEntity().getPosition().x, this.getEntity().getPosition().y);
+    String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
+    StructureFactory.handleBuildingDestruction(name);
 
     }
 }

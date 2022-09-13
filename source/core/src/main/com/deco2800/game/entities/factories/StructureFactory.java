@@ -68,7 +68,7 @@ public class StructureFactory {
  */
 public static Entity createTrap() {
   //TODO change trap texture
-  Entity trap = createBaseStructure("images/stoneQuarryTest.png");
+  Entity trap = createBaseStructure("images/trap.png");
   BaseStructureConfig config = configs.trap;
 
   trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
@@ -127,15 +127,15 @@ public static Entity createTrap() {
  */
   public static Entity createTower2(int level) {
     //@TODO Change string constant
-    String TOWER2I = "images/mini_tower.png";
-    String TOWER2II = "images/mini_tower.png";
+    String TOWER2I = "images/tower.png";
+    String TOWER2II = "images/tower.png";
     Entity tower2;
     BaseStructureConfig config;
 
-    tower2 = createBaseStructure("images/mini_tower.png");
+    tower2 = createBaseStructure("images/tower.png");
     switch(level) {
       case 1: //Represents the base level structure
-        tower2 = createBaseStructure("images/mini_tower.png");
+        tower2 = createBaseStructure("images/tower.png");
         config = configs.tower2;
 
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
@@ -169,15 +169,15 @@ public static Entity createTrap() {
    */
   public static Entity createTower3(int level) {
     //@TODO Change string constant
-    String TOWER3I = "images/mini_tower.png";
-    String TOWER3II = "images/mini_tower.png";
+    String TOWER3I = "images/turret.png";
+    String TOWER3II = "images/turret.png";
     Entity tower3;
     BaseStructureConfig config;
 
-    tower3 = createBaseStructure("images/mini_tower.png");
+    tower3 = createBaseStructure("images/turret.png");
     switch(level) {
       case 1: //Represents the base level structure
-      tower3 = createBaseStructure("images/mini_tower.png");
+      tower3 = createBaseStructure("images/turret.png");
         config = configs.tower3;
 
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1))
