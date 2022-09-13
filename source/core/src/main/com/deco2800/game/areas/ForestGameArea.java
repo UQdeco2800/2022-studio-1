@@ -137,14 +137,16 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnPirateCrabEnemy();
+    //spawnPirateCrabEnemy();
 
-    spawnElectricEelEnemy();
+    //spawnElectricEelEnemy();
 
     // Spawn ninja starfish/starfishes
+
     for (int i=0; i<MAX_NUM_ENEMIES; i++) {
       spawnNinjaStarfish();
     }
+
 
     spawnEnvironmentalObjects();
 
