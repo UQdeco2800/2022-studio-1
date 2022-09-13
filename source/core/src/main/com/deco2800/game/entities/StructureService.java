@@ -220,7 +220,7 @@ public class StructureService extends EntityService{
           removeEvent = false;
         } else if (upgradeEvent) {
           logger.info("UPGRADE EVENT");
-//        StructureFactory.handleBuildingDestruction(name);
+          StructureFactory.upgradeStructure(name);
           upgradeEvent = false;
         }
       } else {

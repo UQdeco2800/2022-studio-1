@@ -157,7 +157,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
     CrystalFactory.crystalClicked(screenX, screenY);
+    return true;
+  }
 
+  /** @see InputProcessor#touchUp(int, int, int, int) */
+  @Override
+  public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (pointer == Input.Buttons.LEFT) {
       if (buildState) {
         buildEvent = true;
@@ -184,12 +189,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         upgradeEvent = updatedValues[4];
       }
     }
-    return true;
-  }
 
-  /** @see InputProcessor#touchUp(int, int, int, int) */
-  @Override
-  public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (buildState) {
       if (buildEvent) {
         if (pointer == Input.Buttons.LEFT) {
