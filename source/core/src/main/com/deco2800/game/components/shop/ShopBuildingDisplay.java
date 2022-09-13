@@ -1,5 +1,15 @@
 package com.deco2800.game.components.shop;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.configs.ShopBuildingConfig;
+import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.shop.artefacts.BestLog;
-import com.deco2800.game.components.shop.artefacts.BetterLog;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
-import com.deco2800.game.components.shop.artefacts.StandardLog;
 import com.deco2800.game.ui.UIComponent;
 
 /**
@@ -41,8 +48,13 @@ public class ShopBuildingDisplay extends UIComponent {
 
     private CircularLinkedList<ShopBuilding> stock;
     private Node<ShopBuilding> current;
+    private ShopBuildingConfig stats;
+    private ShopBuildingConfig prevStats;
+    private ShopBuildingConfig nextStats;
 
     Label subtitle;
+    Label itemNumber;
+    int i;
 
     private Texture leftTexture;
     private TextureRegionDrawable left;
@@ -54,11 +66,17 @@ public class ShopBuildingDisplay extends UIComponent {
 
     private Image currentItem;
     private Texture currentTexture;
+    private Image prevItem;
+    private Texture prevTexture;
+    private Image nextItem;
+    private Texture nextTexture;
 
     private Texture goldenCategoryTexture;
     private TextureRegionDrawable goldenDrawable;
     private Texture brownCategoryTexture;
     private TextureRegionDrawable brownDrawable;
+    private Texture redCategoryTexture;
+    private TextureRegionDrawable redDrawable;
 
     private TextButton descriptionDisplay;
     private TextButton buyButton;
@@ -86,11 +104,11 @@ public class ShopBuildingDisplay extends UIComponent {
 
         table3 = new Table();
         table3.setFillParent(true);
-        table3.center().left().padLeft(350).padTop(100);
+        table3.center().left().padLeft(150).padTop(100);
 
         table4 = new Table();
         table4.setFillParent(true);
-        table4.center().right().padRight(350).padTop(100);
+        table4.center().right().padRight(150).padTop(100);
 
         table5 = new Table();
         table5.setFillParent(true);
@@ -109,23 +127,41 @@ public class ShopBuildingDisplay extends UIComponent {
         table8.top().left().padLeft(75).padTop(115);
 
         // Create linked list of the available shop stock
-        stock = new CircularLinkedList<ShopBuilding>();
-        stock.add(new StandardLog());
-        stock.add(new BetterLog());
-        stock.add(new BestLog());
+        stock = new CircularLinkedList<>();
+        List<ShopBuilding> buildingOptions = ShopBuilding.getAllBuildingTypes();
+        for (ShopBuilding b : buildingOptions) {
+            stock.add(b);
+        }
         current = stock.head;
+        i = 1;
+        itemNumber = new Label("Item " + i + "/" + buildingOptions.size(), skin, "button");
+        itemNumber.setFontScale(1f);
+        itemNumber.setColor(skin.getColor("black"));
 
-        // Create the current artefact to display
-        currentTexture = new Texture(Gdx.files.internal(current.t.getCategoryTexture()));
+        // reads the current buildings's attributes
+        prevStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.prev.t));
+        stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
+        nextStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.next.t));
+
+        // Create the current building to display
+        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
         currentItem = new Image(currentTexture);
+
+        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+        prevItem = new Image(prevTexture);
+
+        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+        nextItem = new Image(nextTexture);
 
         // Create textures for arrows, price, descrition and buy button
         brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
         goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
         goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
         brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+        redDrawable = new TextureRegionDrawable(redCategoryTexture);
         left = new TextureRegionDrawable(leftTexture);
         right = new TextureRegionDrawable(rightTexture);
 
@@ -139,15 +175,17 @@ public class ShopBuildingDisplay extends UIComponent {
 
         // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
-                "Stone: " + Integer.toString(current.t.getStonePrice()) + " Wood: " + Integer.toString(current.t.getWoodPrice()), skin.getColor("black"),
-                "button", 1f,
+                "Stone: " + Integer.toString(stats.stoneCost) + " Wood: "
+                        + Integer.toString(stats.woodCost),
+                skin.getColor("black"),
+                "font_small", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
                 true);
 
         // create description sticker
         descriptionDisplay = ShopUtils.createImageTextButton(
-                current.t.getName() + "\n" + current.t.getDescription(),
+                stats.name + "\n" + stats.description,
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
@@ -175,11 +213,27 @@ public class ShopBuildingDisplay extends UIComponent {
                         stock.head = stock.head.next;
                         stock.tail = temp;
 
-                        priceDisplay.setText("Stone: " + Integer.toString(current.t.getStonePrice()) + " Wood: " + Integer.toString(current.t.getWoodPrice()));
+                        // read the stats of the new current
+                        prevStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.prev.t));
+                        stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
+                        nextStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.next.t));
+
+                        priceDisplay.setText("Stone: " + Integer.toString(stats.stoneCost) + " Wood: "
+                                + Integer.toString(stats.woodCost));
                         descriptionDisplay
-                                .setText(current.t.getName() + "\n" + current.t.getDescription());
+                                .setText(stats.name + "\n" + stats.description);
+                        i = i == buildingOptions.size() ? 1 : i + 1;
+                        itemNumber.setText("Item " + i + "/" + buildingOptions.size());
                         currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
+                                new Texture(Gdx.files.internal(stats.itemBackgroundImagePath))));
+                        prevItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
+                        nextItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
+
+                        System.out.println("Current building in display:" + current.t.toString());
                     }
                 });
 
@@ -193,11 +247,25 @@ public class ShopBuildingDisplay extends UIComponent {
                         stock.head = stock.head.prev;
                         stock.tail = temp.prev;
 
-                        priceDisplay.setText("Stone: " + Integer.toString(current.t.getStonePrice()) + " Wood: " + Integer.toString(current.t.getWoodPrice()));
+                        prevStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.prev.t));
+                        stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
+                        nextStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.next.t));
+
+                        priceDisplay.setText("Stone: " + Integer.toString(stats.woodCost) + " Wood: "
+                                + Integer.toString(stats.woodCost));
                         descriptionDisplay
-                                .setText(current.t.getName() + "\n" + current.t.getDescription());
+                                .setText(stats.name + "\n" + stats.description);
+                        i = i == 1 ? buildingOptions.size() : i - 1;
+                        itemNumber.setText("Item " + i + "/" + buildingOptions.size());
                         currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(current.t.getCategoryTexture()))));
+                                new Texture(Gdx.files.internal(stats.itemBackgroundImagePath))));
+                        prevItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
+                        nextItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
+                        System.out.println("Current building in display:" + current.t.toString());
                     }
                 });
 
@@ -207,21 +275,26 @@ public class ShopBuildingDisplay extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.info("Buy button clicked");
 
-                        if (entity.getComponent(InventoryComponent.class).hasStone(current.t.getStonePrice()) &&
-                                entity.getComponent(InventoryComponent.class).hasWood(current.t.getWoodPrice())) {
+                        if (entity.getComponent(InventoryComponent.class).hasStone(stats.stoneCost) &&
+                                entity.getComponent(InventoryComponent.class).hasWood(stats.woodCost)) {
                             logger.info("Sufficient stone");
-                            entity.getComponent(InventoryComponent.class).addWood(-1 * current.t.getWoodPrice());
-                            entity.getComponent(InventoryComponent.class).addStone(-1 * current.t.getStonePrice());
+                            entity.getComponent(InventoryComponent.class).addWood(-1 * stats.woodCost);
+                            entity.getComponent(InventoryComponent.class).addStone(-1 * stats.stoneCost);
                             Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
                             rockSound.play();
+                            buyButton.setColor(121, 15, 85, 1);
                         } else {
                             logger.info("Insufficient stone!");
+                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                            buyButton.setColor(255, 0, 0, 1);
                         }
                         entity.getComponent(CommonShopComponents.class).getStoneButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ");
+                        entity.getComponent(CommonShopComponents.class).getWoodButton().setText(
+                                Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ");
                     }
                 });
-
         backButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -237,7 +310,11 @@ public class ShopBuildingDisplay extends UIComponent {
 
         // Add items to the stage
         table3.add(leftButton).width(100).height(100);
+        table2.add(prevItem).width(250).height(250);
         table2.add(currentItem).width(450).height(450);
+        table2.add(nextItem).width(250).height(250);
+        table2.row();
+        table2.add(itemNumber).colspan(3).center();
         table4.add(rightButton).width(100).height(100);
         table5.add(priceDisplay).width(300).height(300);
         table1.add(descriptionDisplay).width(450).height(450);
@@ -258,7 +335,6 @@ public class ShopBuildingDisplay extends UIComponent {
     @Override
     public void draw(SpriteBatch batch) {
         // draw is handled by the stage
-
     }
 
     @Override

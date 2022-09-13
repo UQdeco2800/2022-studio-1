@@ -18,6 +18,8 @@ public class DayNightCycleService {
 
     public static final String EVENT_PART_OF_DAY_PASSED = "partOfDayPassed";
 
+    public static final String EVENT_INTERMITTENT_PART_OF_DAY_CLOCK = "moveClock";
+
     private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
 
@@ -37,6 +39,14 @@ public class DayNightCycleService {
 
     private final DayNightCycleConfig config;
     private final GameTime timer;
+
+    private long timeSinceLastPartOfDay;
+
+    private long timePerHalveOfPartOfDay;
+
+    private int partOfDayHalveIteration;
+
+    private int lastPartOfDayHalveIteration;
 
     private EventHandler events;
 
@@ -212,6 +222,19 @@ public class DayNightCycleService {
                     durationPaused = 0;
                 }
 
+                // Move clock for parts of day with more than one half
+                if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
+                        this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
+                    long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
+                    if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration || partOfDayHalveIteration == 1) &&
+                            partOfDayHalveIteration != lastPartOfDayHalveIteration) {
+                        Gdx.app.postRunnable(() -> {
+                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
+                        });
+                        partOfDayHalveIteration++;
+                    }
+                }
+
                 // Definitely a better way to do this but this works for now
                 this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
                         config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused;
@@ -248,6 +271,7 @@ public class DayNightCycleService {
 
                     this.currentDayMillis = 0;
                 }
+
             } else {
                 // Keep track of how long the game has been paused this time.
                 durationPaused = this.timer.getTimeSince(this.timePaused);
@@ -270,6 +294,17 @@ public class DayNightCycleService {
         Gdx.app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
         });
+        this.timeSinceLastPartOfDay = System.currentTimeMillis();
+        if (nextPartOfDay == DayNightCycleStatus.NIGHT) {
+            this.timePerHalveOfPartOfDay = config.nightLength / 2;
+            lastPartOfDayHalveIteration = 2;
+            this.partOfDayHalveIteration = 1;
+        }
+        if (nextPartOfDay == DayNightCycleStatus.DAY) {
+            this.timePerHalveOfPartOfDay = config.dayLength / 4;
+            lastPartOfDayHalveIteration = 4;
+            this.partOfDayHalveIteration = 1;;
+        }
     }
 
     /**

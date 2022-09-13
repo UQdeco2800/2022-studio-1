@@ -10,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Component used to store information related to combat such as health, attack, etc. Any entities
- * which engage it combat should have an instance of this class registered. This class can be
+ * Component used to store information related to combat such as health, attack,
+ * etc. Any entities
+ * which engage it combat should have an instance of this class registered. This
+ * class can be
  * extended for more specific combat needs.
  */
 public class CombatStatsComponent extends Component {
@@ -39,7 +41,8 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Combat Stats Component with extra parameter level to enable levelling up of entities
+   * Combat Stats Component with extra parameter level to enable levelling up of
+   * entities
    */
   public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
     setHealth(health);
@@ -48,11 +51,13 @@ public class CombatStatsComponent extends Component {
     setLevel(level);
     this.currentAttack = baseAttack;
   }
+
   /**
-   * Combat Stats Component with maxHealth parameter to enable increase of maxHealth with each level upgrade independent
+   * Combat Stats Component with maxHealth parameter to enable increase of
+   * maxHealth with each level upgrade independent
    * to current health
    */
-  public CombatStatsComponent(int health, int baseAttack, int defense , int level, int maxHealth) {
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level, int maxHealth) {
     setHealth(health);
     setBaseAttack(baseAttack);
     setLevel(level);
@@ -78,7 +83,9 @@ public class CombatStatsComponent extends Component {
     return health;
   }
 
-  public int getLevel(){ return level; }
+  public int getLevel() {
+    return level;
+  }
 
   /**
    * Sets the entity's health. Health has a minimum bound of 0.
@@ -87,12 +94,12 @@ public class CombatStatsComponent extends Component {
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      if ( health <= maxHealth) {
+      if (health <= maxHealth) {
         this.health = health;
       }
-//      }else {
-//        logger.info("max health is reached");
-//      }
+      // }else {
+      // logger.info("max health is reached");
+      // }
     } else {
       this.health = 0;
     }
@@ -106,7 +113,7 @@ public class CombatStatsComponent extends Component {
     if (level >= 1) {
       this.level = level;
     }
-    
+
     if (entity != null) {
       entity.getEvents().trigger("updateLevel", this.level);
     } else if (level < 1) {
@@ -171,7 +178,7 @@ public class CombatStatsComponent extends Component {
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
+    int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
     setHealth(newHealth);
     Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
     hurtSound.play();
@@ -187,7 +194,8 @@ public class CombatStatsComponent extends Component {
 
   /**
    * Returns the base health of the entity
-   * @return int 
+   * 
+   * @return int
    */
   public int getBaseHealth() {
     return this.baseHealth;

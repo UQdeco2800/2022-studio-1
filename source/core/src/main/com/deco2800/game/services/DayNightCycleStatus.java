@@ -8,5 +8,5 @@ public enum DayNightCycleStatus {
     DAWN,
     DAY,
     DUSK,
-    NIGHT;
+    NIGHT
 }
