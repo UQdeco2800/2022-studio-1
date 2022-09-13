@@ -47,7 +47,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic-V1.mp3"));
 
         renderer = RenderFactory.createRenderer();
 
