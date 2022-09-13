@@ -87,6 +87,10 @@ public class DayNightClockComponent extends UIComponent {
     private void changeSprite() {
         this.currentSprite = (this.currentSprite + 1) % this.clockSprites.length;
         this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[currentSprite], Texture.class));
+
+        rightTable.clear();
+        rightTable.add(clockImage).left().bottom().size(200f, 200f);
+
         //System.out.println(clockSprites[currentSprite]);
     }
 }
