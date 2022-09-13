@@ -111,14 +111,16 @@ public class AtlantisSinks extends Game {
         return new ShopArtefactScreen(this);
       case EQUIPMENT_SHOP:
         return new ShopEquipmentScreen(this);
-      default:
+      case FIRST_NIGHT:
+        return new FirstNightScreen(this);
+        default:
         return null;
     }
   }
 
   public enum ScreenType {
     MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP
+    EQUIPMENT_SHOP, FIRST_NIGHT
   }
 
   /**
