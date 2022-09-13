@@ -47,7 +47,7 @@
     "health" : 250,
     "baseAttack" : 24,
     "gold" : 70,
-    "woood" : 0,
+    "wood" : 0,
     "stone" : 30
   },
   "tower3": {
