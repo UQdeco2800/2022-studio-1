@@ -14,6 +14,7 @@ import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.maingame.MainGameExitDisplay;
 import com.deco2800.game.components.maingame.MainGameInterface;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.StructureService;
@@ -22,7 +23,6 @@ import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -53,7 +53,23 @@ public class MainGameScreen extends ScreenAdapter {
       "images/uiElements/exports/crystal.png",
       "images/uiElements/exports/stoneSuperior.png",
       "images/atlantisBasicBackground.png",
-      "images/log.png"
+      "images/log.png",
+      "images/clock_sprites/clock_day1_1.png",
+      "images/clock_sprites/clock_day1_2.png",
+      "images/clock_sprites/clock_day1_6.png",
+      "images/clock_sprites/clock_day1_7.png",
+      "images/clock_sprites/clock_day2_1.png",
+      "images/clock_sprites/clock_day2_2.png",
+      "images/clock_sprites/clock_day2_6.png",
+      "images/clock_sprites/clock_day2_7.png",
+      "images/clock_sprites/clock_day3_1.png",
+      "images/clock_sprites/clock_day3_2.png",
+      "images/clock_sprites/clock_day3_6.png",
+      "images/clock_sprites/clock_day3_7.png",
+      "images/clock_sprites/clock_day4_1.png",
+      "images/clock_sprites/clock_day4_2.png",
+      "images/clock_sprites/clock_day4_6.png",
+      "images/clock_sprites/clock_day4_7.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
@@ -181,6 +197,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new MainGameBuildingInterface())
+            .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());

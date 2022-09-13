@@ -229,7 +229,7 @@ public class DayNightCycleService {
                     if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration || partOfDayHalveIteration == 1) &&
                             partOfDayHalveIteration != lastPartOfDayHalveIteration) {
                         Gdx.app.postRunnable(() -> {
-                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK);
+                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
                         });
                         partOfDayHalveIteration++;
                     }
