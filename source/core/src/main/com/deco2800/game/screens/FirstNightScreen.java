@@ -27,10 +27,7 @@ public class FirstNightScreen extends ScreenAdapter{
 
     //load all the texture images
     private static final String[] storylineTextures = {
-            "test/files/storylineBackground1.png",
-            "test/files/clearBackground.png",
-            "test/files/sub1.png",
-
+            "images/StoryLine/clearBackground.png",
     };
 
     public FirstNightScreen(AtlantisSinks game) {

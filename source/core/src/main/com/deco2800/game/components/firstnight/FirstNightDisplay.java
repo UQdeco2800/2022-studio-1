@@ -37,13 +37,13 @@ public class FirstNightDisplay  extends UIComponent {
         rootTable.setFillParent(true);
 
         // load and set Background
-        Texture storylineGradient = new Texture(Gdx.files.internal("test/files/atlantisBasicBackground.png"));
+        Texture storylineGradient = new Texture(Gdx.files.internal("images/atlantisBasicBackground.png"));
         TextureRegionDrawable storyBackgroundTexture = new TextureRegionDrawable(storylineGradient);
         rootTable.setBackground(storyBackgroundTexture);
 
         // create a transparent screen to act as button
         // this allows the screens transition
-        Drawable clear = new TextureRegionDrawable(new Texture(Gdx.files.internal("test/files/clearBackground.png")));
+        Drawable clear = new TextureRegionDrawable(new Texture(Gdx.files.internal("images/StoryLine/clearBackground.png")));
         ImageButton backButton = new ImageButton(clear, clear);
 
         // Triggers the transition to next frame when the screen is clicked
