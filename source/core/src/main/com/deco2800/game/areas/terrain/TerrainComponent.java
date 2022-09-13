@@ -1,5 +1,6 @@
 package com.deco2800.game.areas.terrain;
 
+import java.security.Provider.Service;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,7 +11,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.physics.PhysicsLayer;
+import com.deco2800.game.physics.components.ColliderComponent;
+import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.screens.MainGameScreen;
@@ -27,6 +32,7 @@ public class TerrainComponent extends RenderComponent {
   private int currentMapLvl = 0;
   private ArrayList<ArrayList<GridPoint2>> bordersList;
   private ArrayList<ArrayList<GridPoint2>> landTilesList;
+  private ArrayList<Entity> walls;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -70,13 +76,13 @@ public class TerrainComponent extends RenderComponent {
 
     this.bordersList = bordersPositionList;
     this.landTilesList = landTilesList;
+    this.walls = new ArrayList<>();
 
   }
 
   public void spawnIslandBorders(int levelNum) {
     // Dispose of current old borders
-    Entity oldWall = null;
-    while ((oldWall = ServiceLocator.getEntityService().getNamedEntity("wall")) != null) {
+    for (Entity oldWall : walls) {
       oldWall.dispose();
     }
 
@@ -84,7 +90,27 @@ public class TerrainComponent extends RenderComponent {
     // we can dispose of them above]
     ArrayList<GridPoint2> borders = bordersList.get(levelNum); // list of tile positions for where the border should be
                                                                // placed
+    for (int i = 0; i < borders.size(); i++) {
+      Entity wall = new Entity()
+          .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
+          .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
+      wall.setName("wall");
+      wall.setScale(1f, 0.5997f);
 
+      Vector2 worldPos = tileToWorldPosition(borders.get(i));
+      float tileSize = getTileSize();
+
+      worldPos.x += (tileSize / 2) - wall.getCenterPosition().x;
+
+      worldPos.y += (tileSize / 2) - wall.getCenterPosition().y;
+
+      wall.setPosition(worldPos);
+      wall.setCollectable(false);
+
+      walls.add(wall);
+      ServiceLocator.getEntityService().registerNamed("wall", wall);
+      ServiceLocator.getEntityService().addEntity(wall);
+    }
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -92,8 +118,8 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public GridPoint2 worldToTilePosition(float x, float y) {
-    x = (((x/0.5f)-(y/0.25f))/2);
-    y = (((y/0.25f)+(x/0.5f))/2);
+    x = (((x / 0.5f) - (y / 0.25f)) / 2);
+    y = (((y / 0.25f) + (x / 0.5f)) / 2);
     return new GridPoint2((int) x, (int) y);
   }
 
@@ -116,6 +142,10 @@ public class TerrainComponent extends RenderComponent {
     return currentMapLvl;
   }
 
+  public ArrayList<Entity> getWalls() {
+    return walls;
+  }
+
   /**
    * Expands the map by hiding the current layer, and making the next level
    * visible
@@ -124,6 +154,7 @@ public class TerrainComponent extends RenderComponent {
     getMap().getLayers().get(currentMapLvl).setVisible(false);
     this.currentMapLvl++;
     getMap().getLayers().get(currentMapLvl).setVisible(true);
+    spawnIslandBorders(this.currentMapLvl);
   }
 
   /**
@@ -134,6 +165,7 @@ public class TerrainComponent extends RenderComponent {
     getMap().getLayers().get(currentMapLvl).setVisible(false);
     this.currentMapLvl--;
     getMap().getLayers().get(currentMapLvl).setVisible(true);
+    spawnIslandBorders(this.currentMapLvl);
   }
 
   public float getTileSize() {

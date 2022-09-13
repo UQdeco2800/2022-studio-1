@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -188,6 +189,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getEntityService().addEntity(terrainEntity);
 
     GridPoint2 tileBounds = terrain.getMapBounds(0);
+    terrain.spawnIslandBorders(terrain.getCurrentMapLvl());
     // spawnWorldBorders();
   }
 
@@ -503,6 +505,20 @@ public class ForestGameArea extends GameArea {
     ElectricEelEnemy.setName("Mr. Electricity");
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
+  }
+
+  @Override
+  public boolean isWallHere(GridPoint2 pos) {
+    boolean mapEntities = super.isWallHere(pos);
+    Vector2 worldPos = terrain.tileToWorldPosition(pos);
+
+    for (Entity wall : terrain.getWalls()) {
+      if (wall.getPosition().x == worldPos.x && wall.getPosition().y == worldPos.y) {
+        return true;
+      }
+    }
+
+    return mapEntities;
   }
 
   private void playMusic() {
