@@ -6,8 +6,6 @@ import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class InventoryComponent extends Component {
 
   private HashMap<ResourceType, Integer> inventory = new HashMap<>();
   
-  private List<Artefact> items = new ArrayList<>();
+  private HashMap<Artefact, Integer> items = new HashMap<>();
 
   public InventoryComponent(int gold, int stone, int wood,
       Equipments weapon, Equipments chestplate, Equipments helmet) {
@@ -39,6 +37,12 @@ public class InventoryComponent extends Component {
     setChestplate(chestplate);
   }
 
+  public InventoryComponent(int gold, int stone, int wood, HashMap<Artefact, Integer> items) {
+    inventory.put(GOLD, gold);
+    inventory.put(STONE, stone);
+    inventory.put(WOOD, wood);
+    setItems(items);
+  }
   public InventoryComponent(int gold, int stone, int wood) {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
@@ -189,15 +193,19 @@ public class InventoryComponent extends Component {
     inventory.replace(resourceType, inventory.get(resourceType) + amount);
   }
 
-  public void setItems(List<Artefact> items) {
+  public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
   }
 
   public void addItems(Artefact item) {
-    this.items.add(item);
+    if(items.get(item) == null) {
+      items.put(item, 1);
+    } else {
+      items.replace(item, items.get(item) + 1);
+    }
   }
 
-  public List<Artefact> getItems() {
+  public HashMap<Artefact, Integer> getItems() {
     return this.items;
   }
 }

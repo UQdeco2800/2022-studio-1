@@ -13,7 +13,6 @@ import java.util.*;
 /**
  * Provides a global access point for entities to register themselves. This allows for iterating
  * over entities to perform updates each loop. All game entities should be registered here.
- *
  * Avoid adding additional state here! Global access is often the easy but incorrect answer to
  * sharing data.
  */
@@ -99,6 +98,12 @@ public class EntityService {
     if (null != toRemove) {
       entityMap.remove(toRemove);
     }
+  }
+
+  public void removeNamedEntity (String name, Entity entity) {
+    logger.debug("Unregistering {} in entity service", entity);
+    this.namedEntities.remove(name, entity);
+    this.unregister(entity);
   }
 
   /**

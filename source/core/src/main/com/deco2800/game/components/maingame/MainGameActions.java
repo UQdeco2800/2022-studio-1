@@ -104,7 +104,7 @@ public class MainGameActions extends Component {
         //logger.info("Playing first night scene");
         //implement game data save functionality
         //ServiceLocator.getDayNightCycleService().pause();
-        game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
+        //game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
         break;
     }
   }

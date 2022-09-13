@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -229,7 +230,7 @@ public class DayNightCycleServiceTest {
     public void shouldCycleThroughAllWedgesOfDay() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
         AtomicBoolean firstDayPassed = new AtomicBoolean(false);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
             if (firstDayPassed.get()) {
                 wedges.incrementAndGet();
             }
@@ -251,7 +252,7 @@ public class DayNightCycleServiceTest {
     public void shouldCycleThroughAllWedgesOfNight() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
         AtomicBoolean firstDayPassed = new AtomicBoolean(false);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
             if (firstDayPassed.get()) {
                 wedges.incrementAndGet();
             }
@@ -266,13 +267,16 @@ public class DayNightCycleServiceTest {
         this.dayNightCycleService.start().join();
         Thread.sleep(300); // flakey fix
 
-        assertEquals(2, wedges.get());
+        // Night is the end and no second iteration is made, instead of expecting 2 expect 1
+        assertEquals(1, wedges.get());
     }
 
     @Test
     public void shouldGoThroughAllEightWedges() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, wedges::incrementAndGet);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
+            wedges.incrementAndGet();
+        });
 
         this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
             wedges.incrementAndGet();
@@ -282,5 +286,27 @@ public class DayNightCycleServiceTest {
         Thread.sleep(300); // flakey fix
 
         assertEquals(8, wedges.get());
+    }
+
+    @Test
+    public void shouldHaveDelaysBetweenAllWedges() throws InterruptedException {
+        AtomicLong lastTimeSinceEvent = new AtomicLong(System.currentTimeMillis());
+        AtomicLong totalMillis = new AtomicLong(0);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
+            totalMillis.set(totalMillis.get() + (System.currentTimeMillis() - lastTimeSinceEvent.get()));
+            lastTimeSinceEvent.set(System.currentTimeMillis());
+        });
+
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
+            totalMillis.set(totalMillis.get() + (System.currentTimeMillis() - lastTimeSinceEvent.get()));
+            lastTimeSinceEvent.set(System.currentTimeMillis());
+        });
+
+        this.dayNightCycleService.start().join();
+        Thread.sleep(300); // flakey fix
+
+        // margin of error of 300 milliseconds
+        assertTrue(Math.abs(((config.dayLength+config.dawnLength+config.nightLength+config.duskLength)*config.maxDays) -
+                totalMillis.get()) <= 300);
     }
 }

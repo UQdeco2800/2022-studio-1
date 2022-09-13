@@ -22,6 +22,7 @@ public class AtlantisSinks extends Game {
   private ScreenType screenType;
 
   public static boolean gameRunning = false;
+  public static boolean playEpilogue = true;
 
   @Override
   public void create() {
@@ -60,7 +61,7 @@ public class AtlantisSinks extends Game {
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
     } else if (screenType == ScreenType.SHOP | screenType == ScreenType.BUILD_SHOP
-        | screenType == ScreenType.ARTEFACT_SHOP) {
+        | screenType == ScreenType.ARTEFACT_SHOP | screenType == ScreenType.EQUIPMENT_SHOP) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
@@ -92,13 +93,14 @@ public class AtlantisSinks extends Game {
    * @param screenType screen type
    * @return new screen
    */
-    
   private Screen newScreen(ScreenType screenType, ScreenType prevScreen) {
     gameRunning = screenType == ScreenType.MAIN_GAME;
     this.screenType = screenType;
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
+      case STORY_LINE:
+        return new StoryLineScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
       case SETTINGS:
@@ -119,7 +121,7 @@ public class AtlantisSinks extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
+    MAIN_MENU, STORY_LINE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
     EQUIPMENT_SHOP, FIRST_NIGHT
   }
 

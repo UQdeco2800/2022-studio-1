@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -32,8 +33,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
-
-  private SortedMap<String, Rectangle> structureRects = new TreeMap<>();
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -127,45 +126,21 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
     CrystalFactory.crystalClicked(screenX, screenY);
+
     if (pointer == Input.Buttons.LEFT) {
       if (buildState) {
         buildEvent = true;
         boolean isClear = false;
-        if (!structureRects.isEmpty()) {
-          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY,
-              structureRects, resourceBuildState, buildEvent);
-          isClear = updatedValues[0];
-          resourceBuildState = updatedValues[1];
-          buildEvent = updatedValues[2];
-        } else {
-          isClear = true;
-        }
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent);
+        isClear = updatedValues[0];
+        resourceBuildState = updatedValues[1];
+        buildEvent = updatedValues[2];
         if (isClear) {
           if (resourceBuildState) {
-            ServiceLocator.getStructureService().triggerBuildEvent("wall", structureRects);
+            ServiceLocator.getStructureService().triggerBuildEvent("wall");
           } else {
-            ServiceLocator.getStructureService().triggerBuildEvent("tower1", structureRects);
+            ServiceLocator.getStructureService().triggerBuildEvent("tower1");
           }
-        }
-      }
-    }
-    return true;
-  }
-
-  /** @see InputProcessor#touchDragged(int, int, int) */
-  @Override
-  public boolean touchDragged(int screenX, int screenY, int pointer) {
-    if (buildState) {
-      if (buildEvent) {
-        if (pointer == Input.Buttons.LEFT) {
-          Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-          CameraComponent camComp = camera.getComponent(CameraComponent.class);
-          Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-          Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-          mousePosV2.x -= 0.5;
-          mousePosV2.y -= 0.5;
-          ServiceLocator.getStructureService().getLastEntity().setPosition(mousePosV2);
-          structureRects.get(structureRects.lastKey()).setPosition(mousePosV2);
         }
       }
     }
