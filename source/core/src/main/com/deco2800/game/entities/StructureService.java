@@ -20,6 +20,7 @@ import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,6 +176,11 @@ public class StructureService extends EntityService{
         ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
         Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+      } else if (Objects.equals(name, "woodCutter")) {
+        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
+        ServiceLocator.getGameService().registerEntity(loc, entityName, woodCutter);
+        ServiceLocator.getStructureService().registerNamed(entityName, woodCutter);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       }
     } else {
       if (uiIsVisible) {
