@@ -230,7 +230,7 @@ public class DayNightCycleServiceTest {
     public void shouldCycleThroughAllWedgesOfDay() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
         AtomicBoolean firstDayPassed = new AtomicBoolean(false);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
             if (firstDayPassed.get()) {
                 wedges.incrementAndGet();
             }
@@ -252,7 +252,7 @@ public class DayNightCycleServiceTest {
     public void shouldCycleThroughAllWedgesOfNight() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
         AtomicBoolean firstDayPassed = new AtomicBoolean(false);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
             if (firstDayPassed.get()) {
                 wedges.incrementAndGet();
             }
@@ -274,7 +274,9 @@ public class DayNightCycleServiceTest {
     @Test
     public void shouldGoThroughAllEightWedges() throws InterruptedException {
         AtomicInteger wedges = new AtomicInteger(0);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, wedges::incrementAndGet);
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
+            wedges.incrementAndGet();
+        });
 
         this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, (DayNightCycleStatus s) -> {
             wedges.incrementAndGet();
@@ -290,7 +292,7 @@ public class DayNightCycleServiceTest {
     public void shouldHaveDelaysBetweenAllWedges() throws InterruptedException {
         AtomicLong lastTimeSinceEvent = new AtomicLong(System.currentTimeMillis());
         AtomicLong totalMillis = new AtomicLong(0);
-        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, () -> {
+        this.dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, (DayNightCycleStatus s) -> {
             totalMillis.set(totalMillis.get() + (System.currentTimeMillis() - lastTimeSinceEvent.get()));
             lastTimeSinceEvent.set(System.currentTimeMillis());
         });

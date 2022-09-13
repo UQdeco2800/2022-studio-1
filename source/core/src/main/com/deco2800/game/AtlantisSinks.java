@@ -22,6 +22,7 @@ public class AtlantisSinks extends Game {
   private ScreenType screenType;
 
   public static boolean gameRunning = false;
+  public static boolean playEpilogue = true;
 
   @Override
   public void create() {
@@ -92,13 +93,14 @@ public class AtlantisSinks extends Game {
    * @param screenType screen type
    * @return new screen
    */
-
   private Screen newScreen(ScreenType screenType, ScreenType prevScreen) {
     gameRunning = screenType == ScreenType.MAIN_GAME;
     this.screenType = screenType;
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
+      case STORY_LINE:
+        return new StoryLineScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this);
       case SETTINGS:
@@ -117,8 +119,7 @@ public class AtlantisSinks extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP
+    MAIN_MENU, STORY_LINE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP, EQUIPMENT_SHOP
   }
 
   /**
