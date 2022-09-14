@@ -96,7 +96,6 @@ public class ForestGameArea extends GameArea {
       "images/crystal.png",
       "images/crystal_level2.png",
       "images/crystal_level3.png",
-      "images/stoneQuarryTest.png",
       "images/Wall-right.png",
       "images/mini_tower.png",
       "images/trap.png",

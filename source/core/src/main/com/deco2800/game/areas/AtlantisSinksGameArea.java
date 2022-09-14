@@ -68,7 +68,6 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/crystal.png",
             "images/crystal_level2.png",
             "images/crystal_level3.png",
-            "images/stoneQuarryTest.png",
             "images/Wall-right.png",
             "images/mini_tower.png",
             "images/65x33_tiles/beachV1.png",
