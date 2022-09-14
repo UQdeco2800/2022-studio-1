@@ -67,6 +67,23 @@ public class ResourceBuildingFactory {
     }
 
     /**
+     * Creates a Wood Quarry entity
+     *
+     * @return Wood quarry entity
+     */
+    public static Entity createWoodCutter() {
+
+        Entity woodQuarry = createBaseStructure("images/anim_demo/woodresoucebuilding.png");
+        BaseEntityConfig config = configs.woodQuarry;
+
+        woodQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+                .addComponent(new HealthBarComponent(75, 10));
+        woodQuarry.getComponent(TextureRenderComponent.class).scaleEntity();
+        woodQuarry.setScale(1.5f, 1.2f);
+        return woodQuarry;
+    }
+
+    /**
      * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
      * @param texture image representation for created structure
      * @return structure entity

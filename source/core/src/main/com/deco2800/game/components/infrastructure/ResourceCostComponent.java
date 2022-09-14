@@ -12,32 +12,64 @@ public class ResourceCostComponent extends Component{
 
     /**
      * Resource Cost Component constructor for objects which only cost gold.
+     * Gold has a minimum value of 0
      * @param gold
      */
     public ResourceCostComponent(int gold) {
-        this.gold = gold;
+        if (gold >=0 ) {
+            this.gold = gold;
+        } else {
+            this.gold = 0;
+        }
     }
 
     /**
      * Resource Cost Component with extra parameter for stone.
+     * Gold and stone have a minimum value of 0
      * @param gold
      * @param stone
      */
     public ResourceCostComponent(int gold, int stone) {
-        this.gold = gold;
-        this.stone = stone;
+        if (gold >=0 ) {
+            this.gold = gold;
+        } else {
+            this.gold = 0;
+        }
+        
+        if (stone >=0 ) {
+            this.stone = stone;
+        } else {
+            this.stone = 0;
+        }
+
     }
     
     /**
      * Resource Cost Component with extra parameters for stone and wood.
+     * 
+     * All three parameters have a minimum value of 0
      * @param gold
      * @param stone
      * @param wood
      */
     public ResourceCostComponent(int gold, int stone, int wood) {
-        this.gold = gold;
-        this.stone = stone;
-        this.wood = wood;
+        if (gold >=0 ) {
+            this.gold = gold;
+        } else {
+            this.gold = 0;
+        }
+        
+        if (stone >=0 ) {
+            this.stone = stone;
+        } else {
+            this.stone = 0;
+        }
+
+        if (wood >=0 ) {
+            this.wood = wood;
+        } else {
+            this.wood = 0;
+        }
     }
 
     /**

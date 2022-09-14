@@ -1,0 +1,12 @@
+{
+    "type": "building",
+    "name": "Wall",
+    "goldCost": 0,
+    "stoneCost": 100,
+    "woodCost": 50,
+    "attack": 0,
+    "defense": 0,
+    "description": "Blocks incoming enemies",
+    "itemImagePath": "images/shop-wall.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/wall-framed.png"
+}
