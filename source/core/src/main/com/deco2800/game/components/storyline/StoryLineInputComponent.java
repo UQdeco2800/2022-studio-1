@@ -21,9 +21,6 @@ public class StoryLineInputComponent extends InputComponent {
         switch (key) {
             case Input.Keys.SPACE:
                 return true;
-            case Input.Keys.S:
-                entity.getEvents().trigger("skip");
-                return true;
             default:
                 return false;
         }
@@ -39,6 +36,9 @@ public class StoryLineInputComponent extends InputComponent {
     public boolean keyUp(int key) {
         switch (key) {
             case Input.Keys.SPACE:
+                return true;
+            case Input.Keys.S:
+                entity.getEvents().trigger("skip");
                 return true;
             default:
                 return false;
