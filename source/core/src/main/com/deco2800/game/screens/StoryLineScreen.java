@@ -3,8 +3,8 @@ package com.deco2800.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.storyline.StoryLineActions;
-import com.deco2800.game.components.storyline.StoryLineDisplay;
+import com.deco2800.game.components.storyline.prologue.prologueAction;
+import com.deco2800.game.components.storyline.prologue.prologueDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -103,10 +103,10 @@ public class StoryLineScreen extends ScreenAdapter{
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForStoryLine();
         Entity ui = new Entity();
-        ui.addComponent(new StoryLineDisplay())
+        ui.addComponent(new prologueDisplay())
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(inputComponent)
-                .addComponent(new StoryLineActions(game));
+                .addComponent(new prologueAction(game));
         ServiceLocator.getEntityService().register(ui);
     }
 }

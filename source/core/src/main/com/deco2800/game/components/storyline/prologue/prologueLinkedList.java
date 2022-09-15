@@ -1,4 +1,4 @@
-package com.deco2800.game.components.storyline;
+package com.deco2800.game.components.storyline.prologue;
 
 /**
  * The functionality is inspired from Satya Bhasale work in /shop/CircularLinkedList.java
