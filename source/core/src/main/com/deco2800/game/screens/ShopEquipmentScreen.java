@@ -7,10 +7,13 @@ import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -33,7 +36,7 @@ import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
 public class ShopEquipmentScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShopEquipmentScreen.class);
 
     private static final String[] mainGameTextures = { "images/heart.png" };
 
@@ -64,6 +67,8 @@ public class ShopEquipmentScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
@@ -96,7 +101,6 @@ public class ShopEquipmentScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing main game screen");
-
         renderer.dispose();
         unloadAssets();
 

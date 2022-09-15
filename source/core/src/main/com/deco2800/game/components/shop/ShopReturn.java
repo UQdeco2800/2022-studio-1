@@ -46,23 +46,22 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().left();
-        table1.padLeft(400).padTop(100);
+        table1.padLeft(300).padTop(100);
 
         table2 = new Table();
         table2.setFillParent(true);
         table2.center().right();
-        table2.padRight(400).padTop(100);
+        table2.padRight(300).padTop(100);
 
         table3 = new Table();
         table3.setFillParent(true);
         table3.center();
         table3.padTop(100);
 
-        buildingTexture = new Texture(Gdx.files.internal("images/building-category-button.png"));
+        buildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
         buildingUp = new TextureRegionDrawable(buildingTexture);
         buildingBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 1f,
                 buildingUp, buildingUp,
@@ -77,7 +76,7 @@ public class ShopReturn extends UIComponent {
         String buildingText = "Buildings";
         buildingTitle = new Label(buildingText, skin, "large");
 
-        artefactTexture = new Texture(Gdx.files.internal("images/category-button-standard.png"));
+        artefactTexture = new Texture(Gdx.files.internal("images/shop-items-framed/health-potion-framed.png"));
         artUp = new TextureRegionDrawable(artefactTexture);
         artefactBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 1f,
                 artUp, artUp,
@@ -92,7 +91,7 @@ public class ShopReturn extends UIComponent {
         String artefactText = "Artefacts";
         artefactTitle = new Label(artefactText, skin, "large");
 
-        equipmentTexture = new Texture(Gdx.files.internal("images/category-button-standard"
+        equipmentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/sword-framed"
                 + ".png"));
         equipmentUp = new TextureRegionDrawable(equipmentTexture);
         equipmentBtn = ShopUtils.createImageTextButton("", skin.getColor("black"),
@@ -106,7 +105,7 @@ public class ShopReturn extends UIComponent {
                 entity.getEvents().trigger("equipmentShop");
             }
         });
-        String equipmentText = "Equipments";
+        String equipmentText = "Equipment";
         equipmentTitle = new Label(equipmentText, skin, "large");
 
         table1.add(buildingBtn).width(350).height(350);

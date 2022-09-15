@@ -4,9 +4,12 @@ import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
@@ -48,6 +51,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
 
@@ -78,7 +82,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing shop artefact game screen");
-
         renderer.dispose();
         unloadAssets();
 
@@ -116,7 +119,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood()))
+                        lastStatus.getStone(), lastStatus.getWood(), lastStatus.getItemList()))
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())

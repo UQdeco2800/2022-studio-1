@@ -5,4 +5,5 @@ package com.deco2800.game.entities.configs;
  */
 public class ResourceBuildingConfig {
     public BaseEntityConfig stoneQuarry = new BaseEntityConfig();
+    public BaseEntityConfig woodCutter = new BaseEntityConfig();
 }

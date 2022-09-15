@@ -9,6 +9,7 @@ public class ArtefactConfig {
     public int attack = 1;
     public int defense = 1;
     public int health = 1;
+    public int time = 0;
     public String description = "Description of the equipment";
     public String itemImagePath = "images/shop-sword.png";
     public String itemBackgroundImagePath = "images/shop-items-framed/sword-framed.png";
