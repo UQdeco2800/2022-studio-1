@@ -1,4 +1,4 @@
-package com.deco2800.game.components.storyline.prologue;
+package com.deco2800.game.components.storyline;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,26 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.components.storyline.frames.Frame;
-import com.deco2800.game.components.storyline.frames.prologue1;
-import com.deco2800.game.components.storyline.frames.prologue2;
-import com.deco2800.game.components.storyline.frames.prologue3;
-import com.deco2800.game.components.storyline.frames.prologue4;
+import com.deco2800.game.components.storyline.epilogue.*;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * An ui component for displaying the storyline.
- */
-public class prologueDisplay extends UIComponent {
+public class epilogueDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(prologueDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table rootTable;
-/*    private Table charTable;
-    private Table subsTable;
-    private TextButton subtitlesDisplay;
-    private Image sub;*/
+    /*    private Table charTable;
+        private Table subsTable;
+        private TextButton subtitlesDisplay;
+        private Image sub;*/
     private StoryLinkedList<Frame> frameset;
     private Node<Frame> currentFrame;
 
@@ -59,10 +52,9 @@ public class prologueDisplay extends UIComponent {
 
         //load the epilogue screens
         frameset = new StoryLinkedList<>();
-        frameset.add(new prologue1());
-        frameset.add(new prologue2());
-        frameset.add(new prologue3());
-        frameset.add(new prologue4());
+        frameset.add(new epilogue1());
+        frameset.add(new epilogue2());
+        frameset.add(new epilogue3());
         currentFrame = frameset.header;
 
         // load and set Background

@@ -1,4 +1,4 @@
-package com.deco2800.game.components.storyline.frames;
+package com.deco2800.game.components.storyline.epilogue;
 
 public abstract class Frame {
 

@@ -1,4 +1,4 @@
-package com.deco2800.game.components.storyline.prologue;
+package com.deco2800.game.components.storyline;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -8,7 +8,7 @@ import com.deco2800.game.input.InputComponent;
  * Input handler for the storyline UI for keyboard input.
  * This input handler only uses keyboard input.
  */
-public class prologueInputComponent extends InputComponent {
+public class storyLineInputComponent extends InputComponent {
 
     /**
      * Triggers storyline UI events on specific keycodes.
