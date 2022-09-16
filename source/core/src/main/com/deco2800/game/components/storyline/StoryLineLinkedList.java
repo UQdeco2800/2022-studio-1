@@ -32,3 +32,4 @@ class StoryLinkedList<F> {
         }
     }
 }
+
