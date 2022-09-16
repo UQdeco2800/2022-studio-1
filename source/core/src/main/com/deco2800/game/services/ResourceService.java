@@ -5,9 +5,24 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.components.infrastructure.ResourceBuilding;
+import com.deco2800.game.components.infrastructure.ResourceType;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.events.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Service for loading resources, e.g. textures, texture atlases, sounds, music, etc. Add new load
@@ -17,6 +32,17 @@ public class ResourceService implements Disposable {
 
   private static final Logger logger = LoggerFactory.getLogger(ResourceService.class);
   private final AssetManager assetManager;
+  EventHandler resourceEvents = new EventHandler();
+  private Image stoneCurrencyImage;
+  private static Label stoneCurrencyLabel;
+
+  private Image coinImage;
+  private static Label coinLabel;
+
+  private Image woodImage;
+  private static Label woodLabel;
+
+  private ResourceType resourceType;
 
   public ResourceService() {
     this(new AssetManager());
@@ -174,6 +200,49 @@ public class ResourceService implements Disposable {
         logger.error("Could not unload {}", assetName);
       }
     }
+  }
+
+  public int getWoodBuildings() {
+    int count = 0;
+    for (String i : ServiceLocator.getStructureService().getAllNamedEntities().keySet()) {
+      if (i.contains("woodCutter")) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  public int getStoneBuildings() {
+    int count = 0;
+    for (String i : ServiceLocator.getStructureService().getAllNamedEntities().keySet()) {
+      if (i.contains("stonequarry")) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  public void triggerCollectEvent() {
+    if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY &&
+            ServiceLocator.getDayNightCycleService().getCurrentDayNumber() != 1) {
+      collectResources();
+    }
+  }
+
+  /**
+   * Retrieves the resources produced and adds them to the players inventory.
+   */
+  public void collectResources() {
+    MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).addResources(ResourceType.WOOD,
+            ServiceLocator.getResourceService().getWoodBuildings() * 20);
+    MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).addResources(ResourceType.STONE,
+            ServiceLocator.getResourceService().getStoneBuildings() * 20);
+    PlayerStatsDisplay.updateItems();
+  }
+
+
+  public EventHandler getEvents() {
+    return resourceEvents;
   }
 
   @Override
