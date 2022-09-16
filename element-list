@@ -18,7 +18,8 @@ com.deco2800.game.components.shop
 com.deco2800.game.components.shop.artefacts
 com.deco2800.game.components.shop.equipments
 com.deco2800.game.components.storyline
-com.deco2800.game.components.storyline.frames
+com.deco2800.game.components.storyline.epilogue
+com.deco2800.game.components.storyline.prologue
 com.deco2800.game.components.tasks
 com.deco2800.game.concurrency
 com.deco2800.game.entities
