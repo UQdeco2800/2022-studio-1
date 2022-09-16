@@ -1,4 +1,4 @@
-package com.deco2800.game.components.storyline.frames;
+package com.deco2800.game.components.storyline.prologue;
 
 /**
  * prologue3 is child class of Frame
