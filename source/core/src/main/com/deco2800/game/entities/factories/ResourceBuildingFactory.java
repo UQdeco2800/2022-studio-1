@@ -63,7 +63,7 @@ public class ResourceBuildingFactory {
                 .addComponent(new HealthBarComponent(75, 10));
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
-        stoneQuarry.setScale(1.5f, 1.2f);
+        stoneQuarry.setScale(1.5f, 1f);
         return stoneQuarry;
     }
 
@@ -74,13 +74,18 @@ public class ResourceBuildingFactory {
      */
     public static Entity createWoodCutter() {
 
-        Entity woodQuarry = createBaseStructure("images/anim_demo/woodresourcebuilding.png");
+        AnimationRenderComponent res_bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/woodresource.atlas", TextureAtlas.class));
+        res_bul_animator.addAnimation("woqu", 0.5f, Animation.PlayMode.LOOP);
+
+        Entity woodQuarry = createBaseStructure_forAnim("images/anim_demo/woodresource.atlas");
         BaseEntityConfig config = configs.woodCutter;
 
         woodQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+                .addComponent(res_bul_animator)
                 .addComponent(new HealthBarComponent(75, 10));
-        woodQuarry.getComponent(TextureRenderComponent.class).scaleEntity();
-        woodQuarry.setScale(1.5f, 1.2f);
+        woodQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
+        res_bul_animator.startAnimation("woqu");
+        woodQuarry.setScale(1.7f, 1.5f);
         return woodQuarry;
     }
 
@@ -114,7 +119,6 @@ public class ResourceBuildingFactory {
 
         structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
-        structure.setScale(1.2f, 1.5f);
         return structure;
     }
 
