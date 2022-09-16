@@ -55,6 +55,7 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
   private static final int BOSS_DAY = 2;
+  private static final int MIN_NUM_STARFISH = 1;
   private static final int MAX_NUM_STARFISH = 3;
 
   private static final String[] forestTextures = {
@@ -478,6 +479,9 @@ public class ForestGameArea extends GameArea {
         for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
           spawnElectricEelEnemy();
         }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_STARFISH, MAX_NUM_STARFISH); i++) {
+          spawnNinjaStarfishEnemy();
+        }
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
@@ -519,6 +523,14 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(entity, randomPos, true, true);
   }
 
+  // Remove an enemy if its health point is less or equal 0;
+  private void removeEnemy(Entity entity) {
+    if (entity.getComponent(CombatStatsComponent.class).isDead()) {
+      entity.dispose();
+    }
+    ServiceLocator.getEntityService().unregister(entity);
+  }
+
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
@@ -527,33 +539,11 @@ public class ForestGameArea extends GameArea {
   }
 
   // Spawn the starfish as ranged enemy
-  private void spawnNinjaStarfish() {
-    Entity ninjaStarfish = NPCFactory.createStarFish(player, crystal);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    //Get the position from 2D coordinates
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
-    // Create the starfish entity
-    // Check if the day night cycle has started
-    while (!ServiceLocator.getDayNightCycleService().hasStarted()) {
-      // Check the current status is night
-      if (!ServiceLocator.getDayNightCycleService().getCurrentCycleStatus().equals(DayNightCycleStatus.NIGHT)) {
-        spawnEntityAt(ninjaStarfish, randomPos, true, true);
-        break;
-      } else {
-        // Remove ninja starfish in other situations
-        removeEntity(ninjaStarfish);
-        // Restart the while loop again
-        spawnNinjaStarfish();
-      }
-    }
-    // Register ninja starfish in the world
-    ServiceLocator.getEntityService().addEntity(ninjaStarfish);
-    ServiceLocator.getEntityService().register(ninjaStarfish);
+  private void spawnNinjaStarfishEnemy() {
+    Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
+    ninjaStarfishEnemy.setName("Mr. Starfish");
+    this.entityMapping.addEntity(ninjaStarfishEnemy);
+    spawnEnemy(ninjaStarfishEnemy);
   }
 
   private void playMusic() {

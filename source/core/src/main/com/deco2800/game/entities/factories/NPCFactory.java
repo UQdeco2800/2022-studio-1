@@ -173,8 +173,8 @@ public class NPCFactory {
   }
 
   // Create starfish as a new entity
-  public static Entity createStarFish(Entity target, Entity crystal) {
-    Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
+  public static Entity createStarFishEnemy(Entity target, Entity crystal) {
+    Entity ninjaStarfishEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
     /** AnimationRenderComponent animator =
@@ -184,14 +184,14 @@ public class NPCFactory {
     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
     */
-    ninjaStarfish
+    ninjaStarfishEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent)
-            .addComponent(new DayNightCycleComponent());
+            .addComponent(textureRenderComponent);
 
-    ninjaStarfish.getComponent(TextureRenderComponent.class).scaleEntity();
-    return ninjaStarfish;
+    ninjaStarfishEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ninjaStarfishEnemy.getId(), ninjaStarfishEnemy);
+    return ninjaStarfishEnemy;
   }
 
   /**
