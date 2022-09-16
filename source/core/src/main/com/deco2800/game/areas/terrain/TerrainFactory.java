@@ -123,7 +123,7 @@ public class TerrainFactory {
             resourceService.getAsset("images/65x33_tiles/seaweedV4.png", Texture.class));
         TextureRegion isoSeaweed2 = new TextureRegion(
             resourceService.getAsset("images/65x33_tiles/seaweedV5.png", Texture.class));
-        return createForestDemoTerrain(1f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
+        return createForestDemoTerrain(30f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
       default:
         return null;
     }

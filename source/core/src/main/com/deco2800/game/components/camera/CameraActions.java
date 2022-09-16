@@ -79,14 +79,14 @@ public class CameraActions extends Component {
                 CameraComponent cameraComp = entity.getComponent(CameraComponent.class);
                 OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
                 if (panning && this.debug) {
-                        camera.translate(panDirection.x / 3,
-                                        panDirection.y / 3,
+                        camera.translate(panDirection.x * 5,
+                                        panDirection.y * 5,
                                         0);
                         camera.update();
                 }
 
                 if (zoomIn && this.debug) {
-                        float newZoomValue = camera.zoom - 0.05f;
+                        float newZoomValue = camera.zoom - 5f;
                         if (newZoomValue > 0) {
                                 camera.zoom = newZoomValue;
                                 camera.update();
@@ -95,9 +95,9 @@ public class CameraActions extends Component {
                 }
 
                 if (zoomOut && this.debug) {
-                        float newZoomValue = camera.zoom + 0.05f;
-                        if (newZoomValue <= 2) {
-                                camera.zoom += 0.05f;
+                        float newZoomValue = camera.zoom + 5f;
+                        if (newZoomValue <= 500) {
+                                camera.zoom = newZoomValue;
                                 camera.update();
                         }
                 }
