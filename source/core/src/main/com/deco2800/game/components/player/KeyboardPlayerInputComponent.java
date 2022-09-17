@@ -127,6 +127,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           structureSelect += 1;
         }
         return true;
+      case Keys.H:
+        for(int i = 0; i <=10; i++) {
+//          for(int j = 0; j<=120; j++) {
+          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,0);
+          System.out.println(pos);
+        }
+        for(int i = 0; i <=10; i++) {
+//          for(int j = 0; j<=120; j++) {
+          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,1);
+          System.out.println(pos);
+        }
+//        }
       case Keys.Y:
         if (buildState) {
           buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
@@ -169,7 +181,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     System.out.println(mousePosV2);
-    System.out.println(ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(0, 0));
+    GridPoint2 tilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    System.out.println(tilePos);
 
     return true;
   }

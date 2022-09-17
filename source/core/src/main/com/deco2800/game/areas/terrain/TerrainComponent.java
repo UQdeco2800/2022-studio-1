@@ -91,10 +91,21 @@ public class TerrainComponent extends RenderComponent {
     return tileToWorldPosition(tilePos.x, tilePos.y);
   }
 
+  /**
+   * float x must be world position x - using camera.unproject
+   * float y must be world position y - using camera.unproject
+   */
   public GridPoint2 worldToTilePosition(float x, float y) {
-    x = (((x/16f)-(y/8f))/2)+16f;
-    y = (((y/8f)+(x/16f))/2);
-    return new GridPoint2((int) x, (int) y);
+    if (y < 0) {
+      int tileY = (int) (y/4);
+      int tileX = (int) ((8*tileY)-x)/8;
+      return new GridPoint2(tileX, tileY);
+
+    } else { //y >= 0
+      int tileX = (int) (x/8);
+      int tileY = (int) ((tileX*(-4))-y)/4;
+      return new GridPoint2(tileX, tileY);
+    }
   }
 
   public Vector2 tileToWorldPosition(int x, int y) {
