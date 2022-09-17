@@ -227,6 +227,7 @@ public class StructureService extends EntityService{
     mousePosV2.y -= 0.5;
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
     if (ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name") != null) {
+      logger.info("mapPos ==> {}", mapPos);
       String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
       if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3")) {
         structureHit = true;

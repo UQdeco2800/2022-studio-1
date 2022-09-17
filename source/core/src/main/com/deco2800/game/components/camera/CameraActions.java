@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
 
+import java.util.logging.Logger;
+
 public class CameraActions extends Component {
         private boolean panning = false;
         private boolean zoomIn = false;
@@ -86,7 +88,8 @@ public class CameraActions extends Component {
                 }
 
                 if (zoomIn && this.debug) {
-                        float newZoomValue = camera.zoom - 5f;
+                        float newZoomValue = camera.zoom - 1f;
+                        System.out.println(camera.zoom);
                         if (newZoomValue > 0) {
                                 camera.zoom = newZoomValue;
                                 camera.update();
@@ -95,7 +98,7 @@ public class CameraActions extends Component {
                 }
 
                 if (zoomOut && this.debug) {
-                        float newZoomValue = camera.zoom + 5f;
+                        float newZoomValue = camera.zoom + 1f;
                         if (newZoomValue <= 500) {
                                 camera.zoom = newZoomValue;
                                 camera.update();

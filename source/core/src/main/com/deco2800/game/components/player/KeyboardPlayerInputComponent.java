@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
@@ -157,6 +158,19 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
     CrystalFactory.crystalClicked(screenX, screenY);
+    return true;
+  }
+
+  @Override
+  public boolean mouseMoved(int screenX, int screenY) {
+
+    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    System.out.println(mousePosV2);
+    System.out.println(ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(0, 0));
+
     return true;
   }
 

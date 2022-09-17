@@ -24,7 +24,7 @@ public class TextureRenderComponent extends RenderComponent {
 
   /** Scale the entity to a width of 1 and a height matching the texture's ratio */
   public void scaleEntity() {
-    entity.setScale(1f, (float) texture.getHeight() / texture.getWidth());
+    entity.setScale(16, 16*(float) texture.getHeight() / texture.getWidth());
   }
 
   @Override
