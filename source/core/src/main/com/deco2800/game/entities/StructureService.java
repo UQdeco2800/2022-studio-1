@@ -57,7 +57,7 @@ public class StructureService extends EntityService{
 
   private static String structureKey;
   
-  private static HashMap<int[], ArrayList<Object>> tiles = new HashMap<int[], ArrayList<Object>>();
+  private static HashMap<Coordinate, Tile> tiles = new HashMap<Coordinate, Tile>();
 
 
   /**
@@ -297,5 +297,24 @@ public class StructureService extends EntityService{
     public boolean toggleUpgradeState(boolean upgradeState) {
       upgradeState = !upgradeState;
       return  upgradeState;
+    }
+
+    /**
+     * Takes a coordinate and returns the associated tile's type
+     * @param coordinate (int x, int y)
+     * @return String 
+     */
+    public String getTileType(Coordinate coordinate) {
+      return tiles.get(coordinate).getTileType();
+    }
+
+    /**
+     * Takes a coordinate and returns the associated tile's entity 
+     * or null if there is none
+     * @param coordinate (int x, int y)
+     * @return Entity or NULL
+     */
+    public Entity getEntity(Coordinate coordinate) {
+      return tiles.get(coordinate).getEntity();
     }
 }
