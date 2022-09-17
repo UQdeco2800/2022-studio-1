@@ -104,7 +104,9 @@ public class CombatStatsComponent extends Component {
       // remove entity if health point is 0
       if (isDead()) {
         entity.dispose();
-      };
+      } else {
+        setHealth(getHealth());
+      }
     }
 
     if (entity != null) {
