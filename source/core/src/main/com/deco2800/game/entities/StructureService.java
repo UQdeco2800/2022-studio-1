@@ -317,4 +317,24 @@ public class StructureService extends EntityService{
     public Entity getEntity(Coordinate coordinate) {
       return tiles.get(coordinate).getEntity();
     }
+
+    /**
+     * Takes a coordinate and Entity, and sets the corresponding tile's 
+     * Entity parameter
+     * @param coordinate Coordinate
+     * @param entity Entity
+     */
+    public void setEntity(Coordinate coordinate, Entity entity) {
+      tiles.get(coordinate).setEntity(entity);
+    }
+
+    /**
+     * Takes a coordinate and Entity, and sets the corresponding tile's 
+     * tileType parameter
+     * @param coordinate
+     * @param tileType
+     */
+    public void setTileType(Coordinate coordinate, String tileType) {
+      tiles.get(coordinate).setTileType(tileType);
+    }
 }
