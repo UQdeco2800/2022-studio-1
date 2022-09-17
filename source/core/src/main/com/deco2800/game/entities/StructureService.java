@@ -25,7 +25,7 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -56,6 +56,8 @@ public class StructureService extends EntityService{
   private static String structureName;
 
   private static String structureKey;
+  
+  private static HashMap<int[], ArrayList<Object>> tiles = new HashMap<int[], ArrayList<Object>>();
 
 
   /**
