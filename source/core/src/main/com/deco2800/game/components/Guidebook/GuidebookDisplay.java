@@ -13,6 +13,8 @@ public class GuidebookDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookDisplay.class);
     private static final float Z_INDEX = 2f;
 
+    private boolean visability;
+
 
 
     @Override

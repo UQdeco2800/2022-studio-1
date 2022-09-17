@@ -3,7 +3,7 @@ package com.deco2800.game.components.maingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -16,13 +16,17 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
-import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.utils.StringDecorator;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 
 public class MainGameBuildingInterface extends UIComponent {
@@ -32,6 +36,10 @@ public class MainGameBuildingInterface extends UIComponent {
     private Label buildingTitle;
 
     private boolean visability;
+
+
+    Entity buildingHealth;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -44,11 +52,9 @@ public class MainGameBuildingInterface extends UIComponent {
 
     }
 
+
+
     public Table makeUIPopUp(Boolean value, float x, float y, String structureName, String structureKey) {
-        float uiWidth = 650f;
-        float uiHeight = 200f;
-        float screenHeight = Gdx.graphics.getHeight();
-        float screenWidth = Gdx.graphics.getWidth();
 
         // code below will work later but crashed at the moment
         //int gold = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
@@ -56,21 +62,28 @@ public class MainGameBuildingInterface extends UIComponent {
         int baseAttack = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(CombatStatsComponent.class).getBaseAttack();
         int sell = 0;
 
+        float uiHeight = 200f;
+        float screenHeight = Gdx.graphics.getHeight();
 
-        x = (x - 0.5f * uiWidth);
-        x = Math.max(x, 0f);
-        x = Math.min(x, screenWidth - uiWidth);
 
         y = screenHeight - y + 100;
         if (y + uiHeight > screenHeight) {
             y -= uiHeight + 100;
         }
 
+        float uiWidth = 650f;
+        float screenWidth = Gdx.graphics.getWidth();
+
+        x = (x - 0.5f * uiWidth);
+        x = Math.max(x, 0f);
+        x = Math.min(x, screenWidth - uiWidth);
+
         visability = value;
 
         BuildingUI = new Table();
         BuildingUI.setSize(uiWidth, uiHeight);
         BuildingUI.setPosition(x, y);
+
 
         BuildingUI.setVisible(visability);
 
@@ -79,11 +92,13 @@ public class MainGameBuildingInterface extends UIComponent {
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
+        String buildingName = structureKey + " ";
+
         //insert pop up label (with name of the building)
-        String buildingType = (structureKey + "").replaceAll("[0-9]", "").toUpperCase();
-        String buildingLevel = (structureKey + "").replaceAll("[A-Za-z]", "");
-        String buildingName = buildingLevel.equals("") ?
-                buildingType : String.format(buildingType + " (Level %s)", buildingLevel);
+//        String buildingType = (structureKey + "").replaceAll("[0-9]", "").toUpperCase();
+//        String buildingLevel = (structureKey + "").replaceAll("[A-Za-z]", "");
+//        String buildingName = buildingLevel.equals("") ?
+//                buildingType : String.format(buildingType + " (Level %s)", buildingLevel);
         buildingTitle = new Label(buildingName, skin, "large");
 
         // Insert building health image and bar
@@ -91,8 +106,18 @@ public class MainGameBuildingInterface extends UIComponent {
         Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
         //Health Bar Image
-        Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class));
+        Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
         Label healthAmount = new Label(Integer.toString(health), skin, "large");
+
+        //Health Bar image
+        buildingHealth = ServiceLocator.getEntityService().getNamedEntity(structureKey);
+        progressBar = buildingHealth.getComponent(HealthBarComponent.class).getProgressBar();
+        progressBar.getStyle().background = DrawableUtil
+                .getRectangularColouredDrawable(50, 15,  Color.BROWN);
+        progressBar.getStyle().knob = DrawableUtil
+                .getRectangularColouredDrawable(0, 15, Color.MAROON);
+        progressBar.getStyle().knobBefore = DrawableUtil
+                .getRectangularColouredDrawable(50, 15, Color.MAROON);
 
 
         //upgrade button
@@ -144,7 +169,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         Table healthInfo = new Table();
         healthInfo.add(heartImage);
-        healthInfo.add(healthBarImage).size(200f,30f);
+        healthInfo.stack(progressBar,healthBarImage).size(200f,30f);
 
         healthInfo.add(healthAmount);
 
@@ -171,6 +196,12 @@ public class MainGameBuildingInterface extends UIComponent {
 
         return BuildingUI;
     }
+
+    public boolean isVisability() {
+        return visability;
+    }
+
+
 
     private Array<StringDecorator<Graphics.DisplayMode>> getDisplayModes(Graphics.Monitor monitor) {
         Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes(monitor);
