@@ -97,6 +97,8 @@ public class MainGameActions extends Component {
       case DAWN:
         break;
       case DAY:
+        //testing purpose only
+        //game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
         break;
       case DUSK:
         break;

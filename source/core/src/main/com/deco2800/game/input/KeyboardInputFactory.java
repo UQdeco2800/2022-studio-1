@@ -2,7 +2,7 @@ package com.deco2800.game.input;
 
 import com.deco2800.game.components.camera.KeyboardCameraInputComponent;
 import com.deco2800.game.components.player.KeyboardPlayerInputComponent;
-import com.deco2800.game.components.storyline.StoryLineInputComponent;
+import com.deco2800.game.components.storyline.storyLineInputComponent;
 import com.deco2800.game.ui.terminal.KeyboardTerminalInputComponent;
 
 import org.slf4j.Logger;
@@ -48,11 +48,12 @@ public class KeyboardInputFactory extends InputFactory {
     }
 
     /**
-     * Creates an input handler for the Storyline
+     * Creates an input handler for the prolgoue Storyline
      * @return Storyline input handler
      */
     public InputComponent createForStoryLine() {
         logger.debug("Creating Storyline input handler");
-        return new StoryLineInputComponent();
+        return new storyLineInputComponent();
     }
+
 }
