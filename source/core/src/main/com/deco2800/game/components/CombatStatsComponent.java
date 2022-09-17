@@ -101,7 +101,10 @@ public class CombatStatsComponent extends Component {
       // logger.info("max health is reached");
       // }
     } else {
-      this.health = 0;
+      // remove entity if health point is 0
+      if (isDead()) {
+        entity.dispose();
+      };
     }
 
     if (entity != null) {

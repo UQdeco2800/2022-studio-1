@@ -104,12 +104,12 @@ public class PlayerActions extends Component {
                 ServiceLocator.getEntityService().getNamedEntity("player").getComponent(CombatStatsComponent.class);
         System.out.println(enemyTarget.getHealth());
         enemyTarget.hit(combatStats);
-        if (enemyTarget.getHealth() < 1) {
+        /* if (enemyTarget.getHealth() < 1) {
           closestEnemy.dispose();
         } else {
           enemyTarget.setHealth(enemyTarget.getHealth());
           System.out.println(enemyTarget.getHealth());
-        }
+        } **/
       }
     } else if (null != closestEntity) {
        if (null == closestEntity.getName()) {

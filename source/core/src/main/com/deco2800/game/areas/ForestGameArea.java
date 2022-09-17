@@ -466,21 +466,71 @@ public class ForestGameArea extends GameArea {
   private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay) {
       case DAWN:
+        switch (dayNum) {
+          case 1:
+            for (int i = 0; i < 1; i++) {
+              spawnNinjaStarfishEnemy();
+            }
+            break;
+          case 2:
+            for (int i = 0; i < 2; i++) {
+              spawnNinjaStarfishEnemy();
+            }
+            break;
+          case 3:
+            for (int i = 0; i < 3; i++) {
+              spawnNinjaStarfishEnemy();
+            }
+            break;
+          default:
+            System.out.println("There is not any ninja starfish spawned!");
+        }
         break;
       case DAY:
         break;
       case DUSK:
         break;
       case NIGHT:
-        for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
-          spawnPirateCrabEnemy();
+        switch (dayNum) {
+          case 1:
+            for (int i = 0; i < 1; i++) {
+              spawnPirateCrabEnemy();
+            }
+            break;
+          case 2:
+            for (int i = 0; i < 2; i++) {
+              spawnPirateCrabEnemy();
+            }
+            break;
+          case 3:
+            for (int i = 0; i < 3; i++) {
+              spawnPirateCrabEnemy();
+            }
+            break;
+          default:
+            System.out.println("There is not any pirate crab spawned!");;
         }
-        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
-          spawnElectricEelEnemy();
+
+        switch (dayNum) {
+          case 1:
+            for (int i = 0; i < 1; i++) {
+              spawnElectricEelEnemy();
+            }
+            break;
+          case 2:
+            for (int i = 0; i < 2; i++) {
+              spawnElectricEelEnemy();
+            }
+            break;
+          case 3:
+            for (int i = 0; i < 3; i++) {
+              spawnElectricEelEnemy();
+            }
+            break;
+          default:
+            System.out.println("There is not any electric Eel spawned!");
         }
-        for (int i = 0; i < MathUtils.random(MIN_NUM_STARFISH, MAX_NUM_STARFISH); i++) {
-          spawnNinjaStarfishEnemy();
-        }
+
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
@@ -520,14 +570,6 @@ public class ForestGameArea extends GameArea {
         .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
-  }
-
-  // Remove an enemy if its health point is less or equal 0;
-  private void removeEnemy(Entity entity) {
-    if (entity.getComponent(CombatStatsComponent.class).isDead()) {
-      entity.dispose();
-    }
-    ServiceLocator.getEntityService().unregister(entity);
   }
 
   private void spawnElectricEelEnemy() {
