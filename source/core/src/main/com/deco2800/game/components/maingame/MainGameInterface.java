@@ -56,6 +56,23 @@ public class MainGameInterface extends UIComponent {
         TextureRegionDrawable downAchievements = new TextureRegionDrawable(achievementsTexture);
         ImageButton achievementsButton = new ImageButton(upAchievements, downAchievements);
 
+        //Guidebook button
+        Texture guideBookTexture = new Texture(Gdx.files.internal("images/uiElements/exports/help-button.png"));
+        TextureRegionDrawable upGuidebook = new TextureRegionDrawable(guideBookTexture);
+        TextureRegionDrawable downGuidebook = new TextureRegionDrawable(guideBookTexture);
+        ImageButton guideBookButton = new ImageButton(upGuidebook, downGuidebook);
+
+        //trigger for guidebook
+        guideBookButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Guidebook button clicked");
+                        entity.getEvents().trigger("guideBook");
+                    }
+                }
+        );
+
         // Triggers an event when the button is pressed.
         inventoryButton.addListener(
                 new ChangeListener() {
@@ -86,7 +103,7 @@ public class MainGameInterface extends UIComponent {
                         entity.getEvents().trigger("shop");
                     }
                 });
-
+        rightSideTable.add(guideBookButton).right().bottom();
         rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
         leftSideTable.add(shopButton).left().bottom().size(150f, 150f);

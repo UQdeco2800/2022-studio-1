@@ -65,7 +65,10 @@ public class AtlantisSinks extends Game {
     } else if (screenType == ScreenType.SHOP | screenType == ScreenType.BUILD_SHOP
         | screenType == ScreenType.ARTEFACT_SHOP | screenType == ScreenType.EQUIPMENT_SHOP) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
-    } else {
+    } else if (screenType ==screenType.GUIDEBOOK) {
+      Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
+    }
+    else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
     setScreen(newScreen(screenType, null));
@@ -119,6 +122,10 @@ public class AtlantisSinks extends Game {
         return new FirstNightScreen(this);
       case STORY_LINE_EPILOGUE:
         return new EpilogueScreen(this);
+      case GUIDEBOOK:
+        return new GuidebookScreen(this);
+      case BUILD_GUIDEBOOK:
+        return new GuidebookBuildScreen(this);
       default:
         return null;
     }
@@ -126,7 +133,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE
+    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK, BUILD_GUIDEBOOK
   }
 
   /**
