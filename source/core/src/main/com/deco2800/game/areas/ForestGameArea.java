@@ -578,12 +578,23 @@ public class ForestGameArea extends GameArea {
     switch (dayNum) {
       case 1:
         entity.getComponent(CombatStatsComponent.class).setLevel(1);
+        entity.getComponent(CombatStatsComponent.class).setMaxHealth(10);
+        entity.getComponent(CombatStatsComponent.class).setHealth(10);
+        entity.getComponent(CombatStatsComponent.class).setBaseAttack(10);
         break;
       case 2:
         entity.getComponent(CombatStatsComponent.class).setLevel(2);
+        entity.getComponent(CombatStatsComponent.class).setMaxHealth(20);
+        entity.getComponent(CombatStatsComponent.class).setHealth(20);
+        entity.getComponent(CombatStatsComponent.class).setBaseAttack(20);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(20);
         break;
       case 3:
         entity.getComponent(CombatStatsComponent.class).setLevel(3);
+        entity.getComponent(CombatStatsComponent.class).setMaxHealth(30);
+        entity.getComponent(CombatStatsComponent.class).setHealth(30);
+        entity.getComponent(CombatStatsComponent.class).setBaseAttack(30);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(30);
       default:
         System.out.println("Level is invalided");
     }
