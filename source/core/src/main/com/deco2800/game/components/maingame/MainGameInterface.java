@@ -103,7 +103,7 @@ public class MainGameInterface extends UIComponent {
                         entity.getEvents().trigger("shop");
                     }
                 });
-        rightSideTable.add(guideBookButton).right().bottom();
+        rightSideTable.add(guideBookButton).right().bottom().size(150f, 150f);
         rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
         leftSideTable.add(shopButton).left().bottom().size(150f, 150f);

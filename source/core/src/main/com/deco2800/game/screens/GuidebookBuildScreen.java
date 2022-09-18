@@ -1,5 +1,7 @@
 package com.deco2800.game.screens;
 
+import com.deco2800.game.areas.GuidebookArea;
+import com.deco2800.game.components.Guidebook.GuidebookDisplay;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
@@ -11,13 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.shop.CommonShopComponents;
-import com.deco2800.game.components.shop.ShopActions;
-import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -37,7 +35,8 @@ import com.deco2800.game.ui.terminal.TerminalDisplay;
 public class GuidebookBuildScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookBuildScreen.class);
 
-    private static final String[] mainGameTextures = { "images/heart.png" };
+    private static final String[] mainGameTextures = { "images/heart.png",
+            "images/guidebook-open.png"};
 
     private static final Vector2 CAMERA_POSITION = new Vector2(30f, 0f);
 
@@ -66,7 +65,7 @@ public class GuidebookBuildScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
-        MainArea.getInstance().setMainArea(new ShopArea());
+        MainArea.getInstance().setMainArea(new GuidebookArea());
 
         logger.debug("Initialising main game screen entities");
         TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
@@ -132,19 +131,6 @@ public class GuidebookBuildScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
-
-        Entity uiBuilding = new Entity();
-        uiBuilding.addComponent(new InputDecorator(stage, 10))
-                .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game))
-                .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood()))
-                .addComponent(new ShopBuildingDisplay())
-                .addComponent(new CommonShopComponents())
-                .addComponent(new Terminal())
-                .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiBuilding);
 
     }
 }
