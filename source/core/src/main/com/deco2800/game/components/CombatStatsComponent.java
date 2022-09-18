@@ -123,6 +123,24 @@ public class CombatStatsComponent extends Component {
     } else if (level < 1) {
       logger.error("level cannot be 0 or minus");
     }
+
+    switch (level) {
+      case 1 -> {
+        setMaxHealth(10);
+        setHealth(10);
+        setBaseAttack(10);
+      }
+      case 2 -> {
+        setMaxHealth(20);
+        setHealth(20);
+        setBaseAttack(20);
+      }
+      case 3 -> {
+        setMaxHealth(30);
+        setHealth(30);
+        setBaseAttack(30);
+      }
+    }
   }
 
   /**

@@ -469,6 +469,7 @@ public class ForestGameArea extends GameArea {
         switch (dayNum) {
           case 1:
             for (int i = 0; i < 1; i++) {
+
               spawnNinjaStarfishEnemy();
             }
             break;
@@ -555,6 +556,7 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
     pirateCrabEnemy.setName("Mr. Crabs");
+    levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
   }
@@ -572,9 +574,25 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(entity, randomPos, true, true);
   }
 
+  private void levelUp(Entity entity) {
+    switch (dayNum) {
+      case 1:
+        entity.getComponent(CombatStatsComponent.class).setLevel(1);
+        break;
+      case 2:
+        entity.getComponent(CombatStatsComponent.class).setLevel(2);
+        break;
+      case 3:
+        entity.getComponent(CombatStatsComponent.class).setLevel(3);
+      default:
+        System.out.println("Level is invalided");
+    }
+  }
+
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
+    levelUp(ElectricEelEnemy);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -583,6 +601,7 @@ public class ForestGameArea extends GameArea {
   private void spawnNinjaStarfishEnemy() {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
+    levelUp(ninjaStarfishEnemy);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
   }
