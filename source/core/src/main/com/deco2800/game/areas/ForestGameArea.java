@@ -469,32 +469,6 @@ public class ForestGameArea extends GameArea {
         switch (dayNum) {
           case 1:
             for (int i = 0; i < 1; i++) {
-
-              spawnNinjaStarfishEnemy();
-            }
-            break;
-          case 2:
-            for (int i = 0; i < 2; i++) {
-              spawnNinjaStarfishEnemy();
-            }
-            break;
-          case 3:
-            for (int i = 0; i < 3; i++) {
-              spawnNinjaStarfishEnemy();
-            }
-            break;
-          default:
-            System.out.println("There is not any ninja starfish spawned!");
-        }
-        break;
-      case DAY:
-        break;
-      case DUSK:
-        break;
-      case NIGHT:
-        switch (dayNum) {
-          case 1:
-            for (int i = 0; i < 1; i++) {
               spawnPirateCrabEnemy();
             }
             break;
@@ -532,9 +506,36 @@ public class ForestGameArea extends GameArea {
             System.out.println("There is not any electric Eel spawned!");
         }
 
+        switch (dayNum) {
+          case 1:
+            for (int i = 0; i < 1; i++) {
+              spawnNinjaStarfishEnemy();
+            }
+            break;
+          case 2:
+            for (int i = 0; i < 2; i++) {
+              spawnNinjaStarfishEnemy();
+            }
+            break;
+          case 3:
+            for (int i = 0; i < 3; i++) {
+              spawnNinjaStarfishEnemy();
+            }
+            break;
+          default:
+            System.out.println("There is not any ninja starfish spawned!");
+        }
+
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
+        break;
+      case DAY:
+        break;
+      case DUSK:
+        break;
+      case NIGHT:
+
         break;
     }
   }
@@ -581,20 +582,21 @@ public class ForestGameArea extends GameArea {
         entity.getComponent(CombatStatsComponent.class).setMaxHealth(10);
         entity.getComponent(CombatStatsComponent.class).setHealth(10);
         entity.getComponent(CombatStatsComponent.class).setBaseAttack(10);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(1);
         break;
       case 2:
         entity.getComponent(CombatStatsComponent.class).setLevel(2);
         entity.getComponent(CombatStatsComponent.class).setMaxHealth(20);
         entity.getComponent(CombatStatsComponent.class).setHealth(20);
         entity.getComponent(CombatStatsComponent.class).setBaseAttack(20);
-        entity.getComponent(CombatStatsComponent.class).setBaseDefense(20);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(2);
         break;
       case 3:
         entity.getComponent(CombatStatsComponent.class).setLevel(3);
         entity.getComponent(CombatStatsComponent.class).setMaxHealth(30);
         entity.getComponent(CombatStatsComponent.class).setHealth(30);
         entity.getComponent(CombatStatsComponent.class).setBaseAttack(30);
-        entity.getComponent(CombatStatsComponent.class).setBaseDefense(30);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(3);
       default:
         System.out.println("Level is invalided");
     }

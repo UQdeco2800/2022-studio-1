@@ -106,6 +106,7 @@ public class CombatStatsComponent extends Component {
         entity.dispose();
       }
       this.health = 0;
+      System.out.println("Killed " + this.entity.getName());
     }
 
     if (entity != null) {
