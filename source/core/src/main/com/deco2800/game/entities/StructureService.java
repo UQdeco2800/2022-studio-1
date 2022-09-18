@@ -298,43 +298,5 @@ public class StructureService extends EntityService{
       upgradeState = !upgradeState;
       return  upgradeState;
     }
-
-    /**
-     * Takes a coordinate and returns the associated tile's type
-     * @param coordinate (int x, int y)
-     * @return String 
-     */
-    public String getTileType(Coordinate coordinate) {
-      return tiles.get(coordinate).getTileType();
-    }
-
-    /**
-     * Takes a coordinate and returns the associated tile's entity 
-     * or null if there is none
-     * @param coordinate (int x, int y)
-     * @return Entity or NULL
-     */
-    public Entity getEntity(Coordinate coordinate) {
-      return tiles.get(coordinate).getEntity();
-    }
-
-    /**
-     * Takes a coordinate and Entity, and sets the corresponding tile's 
-     * Entity parameter
-     * @param coordinate Coordinate
-     * @param entity Entity
-     */
-    public void setEntity(Coordinate coordinate, Entity entity) {
-      tiles.get(coordinate).setEntity(entity);
-    }
-
-    /**
-     * Takes a coordinate and Entity, and sets the corresponding tile's 
-     * tileType parameter
-     * @param coordinate
-     * @param tileType
-     */
-    public void setTileType(Coordinate coordinate, String tileType) {
-      tiles.get(coordinate).setTileType(tileType);
-    }
+    
 }
