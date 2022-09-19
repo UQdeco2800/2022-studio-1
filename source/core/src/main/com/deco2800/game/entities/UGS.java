@@ -47,13 +47,43 @@ public class UGS {
     public void setTileType(String coordinate, String tileType) {
         tiles.get(coordinate).setTileType(tileType);
     }
+
     /**
      * Adds a new entry to the UGS 
      * @param String "xy"
      * @param tile Tile
      */
-    public void put(String coordinate, Tile tile) {
+    public void add(String coordinate, Tile tile) {
         tiles.put(coordinate, tile);
+    }
+
+    /**
+     * Function for setting / updating tiles for an entity whose size is greater than 1x1.
+     * 
+     * Function takes an x,y dimension and will set/update the coordinates within those dimensions from the x,y
+     * origin to contain the entity.
+     * 
+     * e.g.
+     * origin is 1,0 
+     * dimensionX = 2
+     * dimensionY = 2
+     * 
+     *  _ _ _      _ _ _       
+     * |_|_|_|    |_|x|x|
+     * |_|_|_| -> |_|x|x|
+     * |_|_|_|    |_|_|_|
+     * 
+     * @param origin String
+     * @param entity Entity
+     * @param dimensionX Int
+     * @param dimensionY Int
+     */
+    public void setLargeEntity(String origin, Entity entity, int dimensionX, int dimensionY) {
+        String[] originCoords = origin.split(",");
+        int originX = Integer.parseInt(originCoords[0]);
+        int originY = Integer.parseInt(originCoords[1]);
+        
+        
     }
 
     /**
