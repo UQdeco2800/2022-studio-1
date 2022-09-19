@@ -114,4 +114,47 @@ class UGSTest {
         assertEquals(tiles.getTileType(coordinate1), "");
 
     }
+
+    @Test
+    void TestSetLargeEntity() {
+        UGS tiles = new UGS();
+        EntityService entityService = new EntityService();
+        Entity entity = spy(Entity.class);
+        entityService.register(entity);
+
+        //Generated a 20x20 grid
+        for (int x = 0; x < 20; x++) {
+            for (int y = 0; y < 20; y++) {
+                String coord = UGS.generateCoordinate(x, y);
+                Tile tile = new Tile();
+                tiles.add(coord, tile);
+            }
+        }
+        String origin = UGS.generateCoordinate(0, 0);
+       
+        //Set Large entity at 0,0 with width and height of 5
+        tiles.setLargeEntity(origin, entity, 5, 5);
+       
+        //Check all tiles were set correctly
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                String coord = UGS.generateCoordinate(x, y);
+                assertEquals(tiles.getEntity(coord), entity);
+            }
+        }
+
+        //Check tiles along x axis of the cube were not changed
+        for (int x = 0; x < 6; x++) {
+            String coord = UGS.generateCoordinate(x, 6);
+            assertEquals(tiles.getEntity(coord), null);
+        }
+
+        //Check tiles along y axis of the cube were not changed
+        for (int y = 0; y < 6; y++) {
+            String coord = UGS.generateCoordinate(6, y);
+            assertEquals(tiles.getEntity(coord), null);
+        }
+
+
+    }      
 }

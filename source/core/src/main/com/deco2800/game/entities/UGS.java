@@ -2,8 +2,13 @@ package com.deco2800.game.entities;
 
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UGS {
     private HashMap<String, Tile> tiles;
+    private static final Logger logger = LoggerFactory.getLogger(UGS.class);
+
     
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
@@ -82,8 +87,15 @@ public class UGS {
         String[] originCoords = origin.split(",");
         int originX = Integer.parseInt(originCoords[0]);
         int originY = Integer.parseInt(originCoords[1]);
-        
-        
+
+        for (int x = 0; x < dimensionX; x++) {
+            for (int y = 0; y < dimensionY; y++) {
+                int coordX = originX + x;
+                int coordY = originY + y;
+                String coordinate = generateCoordinate(coordX, coordY);
+                this.setEntity(coordinate, entity);
+            }
+        }
     }
 
     /**
