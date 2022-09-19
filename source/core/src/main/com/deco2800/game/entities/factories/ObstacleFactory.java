@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.Environmental.CollisionEffectComponent.CollisionEffect;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.entities.Entity;
@@ -30,8 +31,9 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createTree() {
-    String[] sprites = { "images/landscape_objects/almond-tree-60x62.png",
-        "images/landscape_objects/fig-tree-60x62.png" };
+    String[] sprites = { "images/landscape_objects/leftPalmTree.png",
+        "images/landscape_objects/rightPalmTree.png",
+        "images/landscape_objects/groupPalmTrees.png" };
     int index = (int) ((Math.random() * (sprites.length)));
     Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
@@ -209,7 +211,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createShipwreckFront() {
-    Entity shipwreck = createEnvironmentalObject("images/shipRackFront.png",
+    Entity shipwreck = createEnvironmentalObject("images/shipWreckFront.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
         2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
@@ -218,7 +220,7 @@ public class ObstacleFactory {
     shipwreck.setResourceType(ResourceType.WOOD);
     shipwreck.setResourceAmount(50);
 
-    ServiceLocator.getEntityService().registerNamed("shipRackFront@" + shipwreck.getId(), shipwreck);
+    ServiceLocator.getEntityService().registerNamed("shipWreckFront@" + shipwreck.getId(), shipwreck);
     return shipwreck;
   }
 
@@ -228,7 +230,7 @@ public class ObstacleFactory {
    * @return entity
    */
   public static Entity createShipwreckBack() {
-    Entity shipwreck = createEnvironmentalObject("images/shipRack.png",
+    Entity shipwreck = createEnvironmentalObject("images/shipWreckBack.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
         2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
@@ -237,8 +239,20 @@ public class ObstacleFactory {
     shipwreck.setResourceType(ResourceType.WOOD);
     shipwreck.setResourceAmount(50);
 
-    ServiceLocator.getEntityService().registerNamed("shipRackBack@" + shipwreck.getId(), shipwreck);
+    ServiceLocator.getEntityService().registerNamed("shipWreckBack@" + shipwreck.getId(), shipwreck);
     return shipwreck;
+  }
+
+  public static Entity createShell() {
+    Entity shell = createEnvironmentalObject("images/65x33_tiles/shell.png",
+        EnvironmentalComponent.EnvironmentalObstacle.SHELL, 0.5f, 0.5f, 0.5f,
+        CollisionEffectComponent.CollisionEffect.NONE, 1f);
+
+    shell.setName("Shell");
+    shell.setCollectable(false);
+
+    ServiceLocator.getEntityService().register(shell);
+    return shell;
   }
 
   /**

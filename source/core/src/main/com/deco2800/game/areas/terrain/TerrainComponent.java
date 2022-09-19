@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
+import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.ServiceLocator;
 
 /**
@@ -88,6 +89,12 @@ public class TerrainComponent extends RenderComponent {
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
     return tileToWorldPosition(tilePos.x, tilePos.y);
+  }
+
+  public GridPoint2 worldToTilePosition(float x, float y) {
+    x = (((x/0.5f)-(y/0.25f))/2);
+    y = (((y/0.25f)+(x/0.5f))/2);
+    return new GridPoint2((int) x, (int) y);
   }
 
   public Vector2 tileToWorldPosition(int x, int y) {

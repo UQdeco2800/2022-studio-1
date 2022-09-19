@@ -9,6 +9,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.infrastructure.ResourceBuilding;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
@@ -62,8 +63,30 @@ public class ResourceBuildingFactory {
                 .addComponent(new HealthBarComponent(75, 10));
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
-        stoneQuarry.setScale(1.5f, 1.2f);
+        stoneQuarry.setScale(1.5f, 1f);
         return stoneQuarry;
+    }
+
+    /**
+     * Creates a Wood Quarry entity
+     *
+     * @return Wood quarry entity
+     */
+    public static Entity createWoodCutter() {
+
+        AnimationRenderComponent res_bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/woodresource.atlas", TextureAtlas.class));
+        res_bul_animator.addAnimation("woqu", 0.5f, Animation.PlayMode.LOOP);
+
+        Entity woodQuarry = createBaseStructure_forAnim("images/anim_demo/woodresource.atlas");
+        BaseEntityConfig config = configs.woodCutter;
+
+        woodQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+                .addComponent(res_bul_animator)
+                .addComponent(new HealthBarComponent(75, 10));
+        woodQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
+        res_bul_animator.startAnimation("woqu");
+        woodQuarry.setScale(1.7f, 1.5f);
+        return woodQuarry;
     }
 
     /**

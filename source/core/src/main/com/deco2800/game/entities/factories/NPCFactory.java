@@ -7,6 +7,7 @@ import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.npc.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.npc.GhostAnimationController;
@@ -28,6 +29,7 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -126,20 +128,28 @@ public class NPCFactory {
   public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
     Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
+    //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/front_eel_anim/eel_anim_data.atlas", TextureAtlas.class));
+    animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
 
     ElectricEelEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent);
+            .addComponent(animator)
+            .addComponent(new GhostAnimationController());
 
-    ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
+
+
+    ElectricEelEnemy.setScale(1.2f, 1.2f);
 
     return ElectricEelEnemy;
   }
-
-
 
   /**
    * Creates a melee boss entity
@@ -171,7 +181,27 @@ public class NPCFactory {
     return boss;
   }
 
+  // Create starfish as a new entity
+  public static Entity createStarFish(Entity target, Entity crystal) {
+    Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
+    EnemyConfig config = configs.ninjaStarfish;
+    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
+    /** AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService()
+                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+    */
+    ninjaStarfish
+            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(textureRenderComponent)
+            .addComponent(new DayNightCycleComponent());
 
+    ninjaStarfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    return ninjaStarfish;
+  }
 
   /**
    * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.

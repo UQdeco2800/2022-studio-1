@@ -22,6 +22,7 @@ public class MainGameInterface extends UIComponent {
     private Table leftSideTable;
     private Table rightSideTable;
 
+
     @Override
     public void create() {
         super.create();

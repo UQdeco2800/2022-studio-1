@@ -54,7 +54,8 @@ public class EnvironmentalComponent extends Component {
         GEYSER(ResourceTypes.STONE, 10),
         WOODEN_FENCE(ResourceTypes.WOOD, 5),
         SHIPWRECK_FRONT(ResourceTypes.WOOD, 30),
-        SHIPWRECK_BACK(ResourceTypes.WOOD, 50);
+        SHIPWRECK_BACK(ResourceTypes.WOOD, 50),
+        SHELL(ResourceTypes.NONE, 0);
 
         private int resourceValue;
         private ResourceTypes type;

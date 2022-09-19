@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.services.ServiceLocator;
@@ -132,16 +133,19 @@ public class HealthBarComponent extends RenderComponent {
 
         // Added if statement to not display health bar on top of crystal
         //System.out.println(this.entity.getPosition());
+        //Entity player = MainArea.getInstance().getGameArea().getPlayer();
 
         if (this.entity!= null) {
             if (!Objects.equals(this.entity.getPosition(), new Vector2(60, 0))) {
+                if(!Objects.equals(this.entity.getName(),"player")) {
 
-                float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
-                        - (this.healthBarWidth / 2f);
-                float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
-                this.progressBar.setPosition(healthBarXPos, healthBarYPos);
-
+                    float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
+                            - (this.healthBarWidth / 2f);
+                    float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
+                    this.progressBar.setPosition(healthBarXPos, healthBarYPos);
+                }
             }
+
         }
         /* We need to temporarily render in pixels */
         if (batch != null) {

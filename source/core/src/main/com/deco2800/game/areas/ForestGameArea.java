@@ -4,11 +4,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.rendering.DayNightCycleComponent;
+import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.memento.CareTaker;
+import com.sun.tools.javac.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
@@ -23,6 +28,7 @@ import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
@@ -44,12 +50,12 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_TREES = 5;
   private static final int MIN_NUM_ROCKS = 2;
   private static final int MAX_NUM_ROCKS = 3;
-
   private static final int MIN_NUM_CRABS = 1;
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
   private static final int BOSS_DAY = 2;
+  private static final int MAX_NUM_STARFISH = 3;
 
   private static final String[] forestTextures = {
       "images/box_boy.png",
@@ -58,7 +64,9 @@ public class ForestGameArea extends GameArea {
       "images/Centaur_Back_right.png",
       "images/Centaur_left.png",
       "images/Centaur_right.png",
-      "images/tree.png",
+      "images/landscape_objects/leftPalmTree.png",
+      "images/landscape_objects/rightPalmTree.png",
+      "images/landscape_objects/groupPalmTrees.png",
       "images/ghost_king.png",
       "images/500_grassTile.png",
       "images/500_waterFullTile.png",
@@ -80,6 +88,7 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/chalice.png",
       "images/landscape_objects/pillar.png",
       "images/landscape_objects/wooden-fence-60x60.png",
+      "images/65x33_tiles/shell.png",
       "images/pirate_crab_NE.png",
       "images/pirate_crab_NW.png",
       "images/pirate_crab_SE.png",
@@ -87,11 +96,13 @@ public class ForestGameArea extends GameArea {
       "images/crystal.png",
       "images/crystal_level2.png",
       "images/crystal_level3.png",
-      "images/stoneQuarryTest.png",
       "images/Wall-right.png",
       "images/mini_tower.png",
+      "images/trap.png",
+      "images/turret.png",
+      "images/tower.png",
       "images/65x33_tiles/beachV1.png",
-      "images/65x33_tiles/65x33v1Water.png",
+      "images/65x33_tiles/dayWaterTile.png",
       "images/65x33_tiles/groundTileV1.png",
       "images/65x33_tiles/seaweedV4.png",
       "images/65x33_tiles/seaweedV5.png",
@@ -100,11 +111,24 @@ public class ForestGameArea extends GameArea {
       "images/Eel_Bright_NW.png",
       "images/Eel_Bright_SW.png",
       "images/shipRack.png",
-      "images/shipRackFront.png"
+      "images/shipRackFront.png",
+          "images/TOWER1I.png",
+          "images/TOWER1II.png",
+          "images/TOWER1III.png",
+          "images/TOWER2I.png",
+          "images/TOWER2II.png",
+          "images/TOWER2III.png",
+          "images/TOWER3I.png",
+          "images/TOWER3II.png",
+          "images/TOWER3III.png",
+      "images/shipWreckBack.png",
+      "images/shipWreckFront.png",
+      "images/ElectricEel.png",
+      "images/starfish.png"
   };
 
   private static final String[] forestTextureAtlases = {
-      "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas"
+      "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/front_eel_anim/eel_anim_data.atlas"
   };
 
   // Sound effect files
@@ -113,7 +137,8 @@ public class ForestGameArea extends GameArea {
   };
   // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
-  private static final String[] forestMusic = { backgroundMusic };
+  private static final String backgroundSounds = "sounds/BgCricket.mp3";
+  private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
   // private EnvironmentalCollision entityMapping;
@@ -142,6 +167,7 @@ public class ForestGameArea extends GameArea {
   public void create() {
 
     loadAssets();
+    ServiceLocator.getGameService().setUpEntities(120);
 
     displayUI();
 
@@ -152,7 +178,7 @@ public class ForestGameArea extends GameArea {
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
 
-    this.crystal = spawnCrystal(60, 60);
+    this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
@@ -290,6 +316,9 @@ public class ForestGameArea extends GameArea {
         case SHIPWRECK_FRONT:
           envObj = ObstacleFactory.createShipwreckFront();
           break;
+        case SHELL:
+          envObj = ObstacleFactory.createShell();
+          break;
         case ROCK:
           // falls through to default
         default:
@@ -323,9 +352,10 @@ public class ForestGameArea extends GameArea {
   private void spawnEnvironmentalObjects() {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
-
-    spawnEnvironmentalObject(1,
-        EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.TREE);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
+    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
+    spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.SHELL);
     /*
      * // semi random rocks and trees
      * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
@@ -353,8 +383,6 @@ public class ForestGameArea extends GameArea {
      * EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
      * 
      * 
-     * (spawnEnvironmentalObject(1,
-     * EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
      * spawnEnvironmentalObject(2,
      * EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
      * spawnEnvironmentalObject(1,
@@ -407,9 +435,11 @@ public class ForestGameArea extends GameArea {
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
+    System.out.println("Crystal Position: " + x_pos + " " + y_pos);
+    crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
-    crystal.setPosition(new Vector2(60, 0));
+
     return crystal;
   }
 
@@ -495,11 +525,48 @@ public class ForestGameArea extends GameArea {
     spawnEnemy(ElectricEelEnemy);
   }
 
+  // Spawn the starfish as ranged enemy
+  private void spawnNinjaStarfish() {
+    Entity ninjaStarfish = NPCFactory.createStarFish(player, crystal);
+    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
+
+    //Get the position from 2D coordinates
+    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
+    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
+        terrainFactory.getIslandSize().x + waterWidth - 4);
+    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
+
+    // Create the starfish entity
+    // Check if the day night cycle has started
+    while (!ServiceLocator.getDayNightCycleService().hasStarted()) {
+      // Check the current status is night
+      if (!ServiceLocator.getDayNightCycleService().getCurrentCycleStatus().equals(DayNightCycleStatus.NIGHT)) {
+        spawnEntityAt(ninjaStarfish, randomPos, true, true);
+        break;
+      } else {
+        // Remove ninja starfish in other situations
+        removeEntity(ninjaStarfish);
+        // Restart the while loop again
+        spawnNinjaStarfish();
+      }
+    }
+    // Register ninja starfish in the world
+    ServiceLocator.getEntityService().addEntity(ninjaStarfish);
+    ServiceLocator.getEntityService().register(ninjaStarfish);
+  }
+
   private void playMusic() {
+    // Background Music
     Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
+
+    // Background Ambience
+    Music ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
+    ambience.setLooping(true);
+    ambience.setVolume(0.1f);
+    ambience.play();
   }
 
   private void loadAssets() {
@@ -529,6 +596,7 @@ public class ForestGameArea extends GameArea {
   public void dispose() {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
     this.unloadAssets();
   }
 

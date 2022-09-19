@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
@@ -44,6 +46,7 @@ public class ShopScreen extends ScreenAdapter {
         ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         loadAssets();
         createUI();
@@ -75,8 +78,7 @@ public class ShopScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing main game screen");
-
+        logger.debug("Disposing shop screen");
         renderer.dispose();
         unloadAssets();
 
