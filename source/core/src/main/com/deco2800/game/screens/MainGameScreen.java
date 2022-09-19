@@ -107,6 +107,7 @@ public class MainGameScreen extends ScreenAdapter {
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
+    ServiceLocator.registerResourceManagementService(new ResourceManagementService());
 
 
     renderer = RenderFactory.createRenderer();
