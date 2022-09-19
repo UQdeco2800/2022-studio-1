@@ -39,7 +39,7 @@ import java.util.Objects;
  * Avoid adding additional state here! Global access is often the easy but incorrect answer to
  * sharing data.
  */
-public class StructureService extends EntityService{
+public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
