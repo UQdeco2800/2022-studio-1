@@ -57,7 +57,7 @@ public class StructureService extends EntityService{
 
   private static String structureKey;
   
-  private static HashMap<Coordinate, Tile> tiles = new HashMap<Coordinate, Tile>();
+  private static HashMap<String, Tile> tiles = new HashMap<String, Tile>();
 
 
   /**
