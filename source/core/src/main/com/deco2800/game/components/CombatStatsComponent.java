@@ -101,9 +101,13 @@ public class CombatStatsComponent extends Component {
       // logger.info("max health is reached");
       // }
     } else {
-      // remove entity if health point is 0
-      if (isDead()) {
-        entity.dispose();
+      // create an enemy list to contain all enemies
+      String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
+      // remove enemies if health point is 0
+      for (String enemy : enemies) {
+        if (entity.getName().contains(enemy) && isDead()) {
+          entity.dispose();
+        }
       }
       this.health = 0;
     }
