@@ -1,7 +1,11 @@
 package com.deco2800.game.screens;
 
 import com.deco2800.game.areas.GuidebookArea;
+import com.deco2800.game.components.Guidebook.GuidebookActions;
+import com.deco2800.game.components.Guidebook.GuidebookDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.settingsmenu.MusicSettings;
+import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
 import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,15 +113,10 @@ public class GuidebookScreen extends ScreenAdapter {
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
 
-        Entity uiExit = new Entity();
-        uiExit.addComponent(new InputDecorator(stage, 10))
-                .addComponent(new PerformanceDisplay())
-                .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood()))
-                .addComponent(new Terminal())
-                .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiExit);
+        Entity ui = new Entity();
+        ui.addComponent(new GuidebookDisplay()).addComponent(new InputDecorator(stage, 10));
+        ui.addComponent(new GuidebookActions(game)).addComponent(new InputDecorator(stage, 9));
+        ServiceLocator.getEntityService().register(ui);
 
     }
 }

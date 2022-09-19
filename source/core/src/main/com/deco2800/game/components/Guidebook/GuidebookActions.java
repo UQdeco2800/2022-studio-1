@@ -30,8 +30,8 @@ public class GuidebookActions extends Component {
     @Override
     public void create() {
         entity.getEvents().addListener("exit", this::onExit);
-        entity.getEvents().addListener("mainShop", this::onMainGuidebook);
-        entity.getEvents().addListener("buildGuidebook", this::onBuildGuidebook);
+        entity.getEvents().addListener("mainGuidebook", this::onMainGuidebook);
+        //entity.getEvents().addListener("buildGuidebook", this::onBuildGuidebook);
     }
 
     /**
@@ -39,7 +39,6 @@ public class GuidebookActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting guidebook screen");
-        saveStatus();
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
@@ -50,6 +49,7 @@ public class GuidebookActions extends Component {
         logger.info("Entering main Guidebook screen");
         saveStatus();
         game.setScreen(AtlantisSinks.ScreenType.GUIDEBOOK);
+
     }
 
     /**
@@ -65,13 +65,13 @@ public class GuidebookActions extends Component {
 
         playerStatus.add(currentStatus.saveStateToMemento());
     }
-    /**
-     * Swaps to the Building Guidebook screen.
-     */
-    private void onBuildGuidebook() {
-        logger.info("Entering Build Guidebook screen");
-        game.setScreen(AtlantisSinks.ScreenType.BUILD_GUIDEBOOK);
-    }
+//    /**
+//     * Swaps to the Building Guidebook screen.
+//     */
+//    private void onBuildGuidebook() {
+//        logger.info("Build Guidebook screen");
+//        game.setScreen(AtlantisSinks.ScreenType.BUILD_GUIDEBOOK);
+//    }
 
 
 

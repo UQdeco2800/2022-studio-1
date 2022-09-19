@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.shop.ShopBuildingDisplay;
+import com.deco2800.game.components.shop.ShopUtils;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,23 +47,44 @@ public class GuidebookDisplay extends UIComponent {
         Drawable backgroundColour = new TextureRegionDrawable(colour);
         book.setBackground(backgroundColour);
 
-        // inserting exit Button
-        Texture exitButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/exit_button.png"));
-        TextureRegionDrawable exitUp = new TextureRegionDrawable(exitButton1);
-        TextureRegionDrawable exitDown = new TextureRegionDrawable(exitButton1);
-        ImageButton exitButton = new ImageButton(exitUp, exitDown);
 
-        exitButton.addListener(
+        // inserting back Button
+        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        TextureRegionDrawable exitUp = new TextureRegionDrawable(backTexture);
+        TextureRegionDrawable exitDown = new TextureRegionDrawable(backTexture);
+        ImageButton backButton = new ImageButton(exitUp, exitDown);
+
+        Texture titleTexture = new Texture(Gdx.files.internal("images/uiElements/exports/guidebook-heading-frame.png"));
+        TextureRegionDrawable titleUp = new TextureRegionDrawable(titleTexture);
+        TextureRegionDrawable titleDown = new TextureRegionDrawable(titleTexture);
+        TextButton title = ShopUtils.createImageTextButton(
+                "Enter Page Title",
+                skin.getColor("black"),
+                "button", 1f, titleUp, titleDown, skin, true);
+
+        backButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Exit button clicked");
+                        logger.debug("Back button clicked");
                         entity.getEvents().trigger("exit");
                     }
                 });
 
-        book.add(exitButton);
+        Table leftPage = new Table();
+        leftPage.setFillParent(true);
+
+        Table rightPage = new Table();
+        rightPage.setFillParent(true);
+
+        
+        book.add(title).left().top().padLeft(20f);
+        book.add(backButton).size(30f,30f).top().right();
+
+
         stage.addActor(book);
+
+        System.out.println("Got the display");
     }
 
 //    public Table GuidebookPopup () {

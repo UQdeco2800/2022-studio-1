@@ -124,8 +124,6 @@ public class AtlantisSinks extends Game {
         return new EpilogueScreen(this);
       case GUIDEBOOK:
         return new GuidebookScreen(this);
-      case BUILD_GUIDEBOOK:
-        return new GuidebookBuildScreen(this);
       default:
         return null;
     }
@@ -133,7 +131,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK, BUILD_GUIDEBOOK
+    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK
   }
 
   /**
