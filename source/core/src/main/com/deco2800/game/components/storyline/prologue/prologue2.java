@@ -1,11 +1,11 @@
-package com.deco2800.game.components.storyline.frames;
+package com.deco2800.game.components.storyline.prologue;
 
 /**
  * prologue2 is child class of Frame
  */
 public class prologue2 extends Frame {
     static String SUBTITLES = "This is frame 2";
-    static String BACKGROUND = "images/StoryLine/storylineBackground2.png";
+    static String BACKGROUND = "images/StoryLine/prologue2.png";
     static String CHARACTER = "";
 
     public prologue2() {

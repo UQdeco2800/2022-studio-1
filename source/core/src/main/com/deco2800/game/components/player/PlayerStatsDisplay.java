@@ -128,7 +128,7 @@ public class PlayerStatsDisplay extends UIComponent {
     crystalLabel = new Label(healthText, skin, "large");
 
     //Stone image
-    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/stoneSuperior.png", Texture.class));
+    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/icon_stone.png", Texture.class));
 
     //Stone text. 0 as an initial set up
     int stone = entity.getComponent(InventoryComponent.class).getStone();
@@ -137,7 +137,7 @@ public class PlayerStatsDisplay extends UIComponent {
     stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
 
    // wood counter
-    woodImage = new Image(ServiceLocator.getResourceService().getAsset("images/log.png", Texture.class));
+    woodImage = new Image(ServiceLocator.getResourceService().getAsset("images/icon_wood.png", Texture.class));
 
     int woodCountInt = entity.getComponent(InventoryComponent.class).getWood();
     CharSequence woodCount = String.format("x %d", woodCountInt);
@@ -188,7 +188,7 @@ public class PlayerStatsDisplay extends UIComponent {
     CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
     coinLabel.setText(gold);
     CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
-    coinLabel.setText(wood);
+    woodLabel.setText(wood);
   }
 
   public void updateResourceAmount() {

@@ -3,8 +3,8 @@ package com.deco2800.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.storyline.StoryLineActions;
-import com.deco2800.game.components.storyline.StoryLineDisplay;
+import com.deco2800.game.components.storyline.epilogueDisplay;
+import com.deco2800.game.components.storyline.storyLineAction;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -18,21 +18,21 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StoryLineScreen extends ScreenAdapter{
+public class EpilogueScreen extends ScreenAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(StoryLineScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(EpilogueScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
     //load all the texture images
     private static final String[] storylineTextures = {
-            "test/files/storylineBackground1.png",
+            "images/StoryLine/SL_1.png",
+            "images/StoryLine/SL_2.png",
+            "images/StoryLine/SL_3.png",
             "test/files/clearBackground.png",
-            "test/files/storylineBackground2.png",
-            "test/files/storylineBackground3.png",
     };
 
-    public StoryLineScreen(AtlantisSinks game) {
+    public EpilogueScreen(AtlantisSinks game) {
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
@@ -71,7 +71,7 @@ public class StoryLineScreen extends ScreenAdapter{
 
     @Override
     public void dispose() {
-        logger.debug("Disposing storyline screen");
+        logger.debug("Disposing epilogue screen");
 
         renderer.dispose();
         unloadAssets();
@@ -98,14 +98,15 @@ public class StoryLineScreen extends ScreenAdapter{
      * capturing and handling ui input.
      */
     private void createUI() {
-        logger.debug("Creating storyline ui");
+        logger.debug("Creating epilogue ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForStoryLine();
         Entity ui = new Entity();
-        ui.addComponent(new StoryLineDisplay())
+        ui.addComponent(new epilogueDisplay())
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(inputComponent)
-                .addComponent(new StoryLineActions(game));
+                .addComponent(new storyLineAction(game));
         ServiceLocator.getEntityService().register(ui);
     }
+
 }

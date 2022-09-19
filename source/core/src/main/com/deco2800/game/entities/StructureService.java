@@ -39,7 +39,7 @@ import java.util.Objects;
  * Avoid adding additional state here! Global access is often the easy but incorrect answer to
  * sharing data.
  */
-public class StructureService extends EntityService{
+public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
@@ -192,6 +192,11 @@ public class StructureService extends EntityService{
         Entity trap = StructureFactory.createTrap();
         ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
         ServiceLocator.getStructureService().registerNamed(entityName, trap);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+      }else if (Objects.equals(name, "stonequarry")) {
+        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
+        ServiceLocator.getGameService().registerEntity(loc, entityName, stonequarry);
+        ServiceLocator.getStructureService().registerNamed(entityName, stonequarry);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       }
     } else {

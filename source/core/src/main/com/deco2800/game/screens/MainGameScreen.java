@@ -51,9 +51,9 @@ public class MainGameScreen extends ScreenAdapter {
       "images/healthBar.png",
       "images/empty_healthbar.png",
       "images/uiElements/exports/crystal.png",
-      "images/uiElements/exports/stoneSuperior.png",
+      "images/icon_stone.png",
       "images/atlantisBasicBackground.png",
-      "images/log.png",
+      "images/icon_wood.png",
       "images/clock_sprites/clock_day1_1.png",
       "images/clock_sprites/clock_day1_2.png",
       "images/clock_sprites/clock_day1_6.png",
@@ -69,13 +69,14 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_1.png",
       "images/clock_sprites/clock_day4_2.png",
       "images/clock_sprites/clock_day4_6.png",
-      "images/clock_sprites/clock_day4_7.png"
+      "images/clock_sprites/clock_day4_7.png",
+      "images/anim_demo/woodresourcebuilding.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
 
   private static final String[] mainGameTextureAtlases = {
-      "images/anim_demo/stonequarr.atlas", "images/anim_demo/mainchar.atlas", "images/anim_demo/mainchar_anim_final.atlas" };
+      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/mainchar_anim_final.atlas" };
 
   private final AtlantisSinks game;
   private final Renderer renderer;
@@ -106,6 +107,7 @@ public class MainGameScreen extends ScreenAdapter {
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
+    ServiceLocator.registerResourceManagementService(new ResourceManagementService());
 
 
     renderer = RenderFactory.createRenderer();
@@ -189,6 +191,9 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
+
+    //Testing purpose only
+    //ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
