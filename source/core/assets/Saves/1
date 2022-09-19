@@ -1,9 +1,0 @@
-{
-id: 19
-components: {
-	24: {
-		class: com.deco2800.game.components.Environmental.EnvironmentalComponent
-	}
-}
-eventHandler: {}
-}

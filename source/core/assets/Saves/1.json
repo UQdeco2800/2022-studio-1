@@ -1,10 +1,14 @@
 {
-id: 19
+id: 20
 components: {
 	24: {
 		class: com.deco2800.game.components.Environmental.EnvironmentalComponent
-		environmentalObstacle: TREE
+		environmentalObstacle: UNDEFINED
 	}
 }
 eventHandler: {}
+position: {
+	x: 59.007576
+	y: -0.25
+}
 }

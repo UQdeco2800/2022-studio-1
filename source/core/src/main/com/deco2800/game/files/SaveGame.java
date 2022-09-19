@@ -1,7 +1,9 @@
 package com.deco2800.game.files;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Json;
+import com.deco2800.game.components.Component;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
@@ -23,21 +25,38 @@ public class SaveGame {
     //private Json
 
     private static void saveEntityService(int slotNumber) {
-        Entity environmentalObject = new Entity()
-                .addComponent(new EnvironmentalComponent().setObstacle(EnvironmentalComponent.EnvironmentalObstacle.TREE));
-                /*.addComponent(new CollisionEffectComponent(collisionEffect, speedModifier));
-        environmentalObject.setName("EnvironmentalObject");
-        environmentalObject.setCollectable(false);
-        environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-        environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
-        environmentalObject.scaleHeight(heightScale);
-        PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
-        return environmentalObject;*/
+        Entity environmentalObject = new Entity();
+        environmentalObject.addComponent(new CollisionEffectComponent(CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1))
+        .addComponent(new EnvironmentalComponent()).addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE));
 
-        FileLoader.writeClass(environmentalObject, savePath, FileLoader.Location.LOCAL);
+        ArrayList<Entity> environmentalObjects = new ArrayList<>();
+        Entity test = new Entity();
+        for (Entity ent: ServiceLocator.getEntityService().getEntityMap().values()) {
+            if (ent.getComponent(EnvironmentalComponent.class) != null) {
+                test.addComponent(ent.getComponent(EnvironmentalComponent.class));
+                test.setPosition(ent.getPosition());
+                break;
+            }
+        }
 
-        Entity tree_return = FileLoader.readClass(Entity.class, savePath, FileLoader.Location.LOCAL);
-        System.out.println(tree_return.getCenterPosition());
+
+
+
+        //Texture is a no go
+        //test.add(environmentalObject.getComponent(TextureRenderComponent.class));
+
+        FileLoader.writeClass(test, savePath, FileLoader.Location.LOCAL);
+
+        //Entity tree_return = FileLoader.readClass(Entity.class, savePath, FileLoader.Location.LOCAL);
+        //System.out.println(tree_return.getCenterPosition());
+        Entity testReturned = FileLoader.readClass(Entity.class, savePath, FileLoader.Location.LOCAL);
+
+        System.out.println(testReturned + "TEST RETURNED");
+
+        testReturned.addComponent(new TextureRenderComponent("images/crystal.png"));
+        testReturned.setScale(new Vector2(1,1));
+        ServiceLocator.getEntityService().register(testReturned);
+        //testReturned.setPosition();
 
     }
 
