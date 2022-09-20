@@ -103,33 +103,5 @@ class CrystalTest {
         assertNotEquals(1100, combatStatsComponent.getHealth());
     }
 
-    /**
-     * Check whether the function is exist in CrystalFactory
-     * @throws Exception
-     */
-    @Test
-    static void checkIfCrystalClassIsUpgradable() throws Exception {
-        CrystalFactory crystalMethod = mock(CrystalFactory.class);
-        /*
-        Assume method upgradeCrystal is not in CrystalFactory
-        Then catch the method and assert method is null
-         */ 
-        // Class[] test = null;
-        // try {
-        //     Class[] param = null;
-        //     Method upgradeCrystalExist = crystalMethod.getClass().getMethod("upgradeCrystal", param);
-        //     // when(crystal_.getClass().getMethod("upgradeCrystal", param)).thenReturn(true);
-        // } catch (NoSuchMethodException e) {
-        //     assertTrue(null == null);
-        // }
-        if (crystalMethod != null) {
-            assertTrue(crystalMethod.hasMethod("upgradeCrystal"));
-            assertTrue(crystalMethod.hasMethod("triggerCrystal"));
-            assertTrue(crystalMethod.hasMethod("upgradeCrystal"));
-            assertTrue(crystalMethod.hasMethod("crystalClicked"));
-            assertTrue(crystalMethod.hasMethod("recoverCrystalHealth"));
-        } else {
-            throw new Exception("Method is not exist");
-        }
-    }
+
 }
