@@ -207,31 +207,6 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-
-  private static Entity createBaseNPC(Entity target) {
-    AITaskComponent aiComponent =
-        new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
-    Entity npc =
-        new Entity()
-            .addComponent(new PhysicsComponent())
-            .addComponent(new PhysicsMovementComponent())
-            .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
-            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
-            .addComponent(aiComponent)
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
-
-  /**
    * For luke
    * */
   // TODO: Luke make this look better and fix up NPC != enemy
@@ -280,6 +255,40 @@ public class NPCFactory {
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
     return enemy;
   }
+
+  /**
+   * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+
+  private static Entity createBaseNPC(String texture) {
+        AITaskComponent aiComponent =
+            new AITaskComponent()
+                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+        Entity npc =
+            new Entity()
+                .addComponent(new PhysicsComponent())
+                .addComponent(new PhysicsMovementComponent())
+                .addComponent(new ColliderComponent())
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
+                .addComponent(new TextureRenderComponent(texture))
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(aiComponent);
+    
+        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        return npc;
+      }
+
+      public static Entity createArmoryNPC(String texture) {
+        Entity ArmoryNPC = createBaseNPC(texture);
+        NPCConfig config = configs.ArmoryNPC;
+        ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
+        ArmoryNPC.setScale(1f, 1f);
+    
+        return ArmoryNPC;
+      }
 
   private NPCFactory() {
     throw new IllegalStateException("Instantiating static util class");

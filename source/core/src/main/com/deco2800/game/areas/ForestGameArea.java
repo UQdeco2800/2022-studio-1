@@ -185,6 +185,8 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObjects();
 
     playMusic();
+
+    spawnNPC("images/crystal.png");
   }
 
   private void displayUI() {
@@ -553,6 +555,13 @@ public class ForestGameArea extends GameArea {
     // Register ninja starfish in the world
     ServiceLocator.getEntityService().addEntity(ninjaStarfish);
     ServiceLocator.getEntityService().register(ninjaStarfish);
+  }
+
+  private void spawnNPC(String texture) {
+    Entity ArmoryNPC = NPCFactory.createArmoryNPC(texture);
+    ArmoryNPC.setName("Mr. Blacksmith");
+    this.entityMapping.addEntity(ArmoryNPC);
+    spawnEnemy(ArmoryNPC);
   }
 
   private void playMusic() {
