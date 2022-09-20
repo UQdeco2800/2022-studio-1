@@ -595,11 +595,14 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getEntityService().register(ninjaStarfish);
   }
 
-  private void spawnNPCharacter(String texture) {
-    Entity ArmoryNPC = NPCFactory.createArmoryNPC(texture);
-    ArmoryNPC.setName("Mr. Blacksmith");
-    this.entityMapping.addEntity(ArmoryNPC);
-    spawnEnemy(ArmoryNPC);
+  private Entity spawnNPCharacter(String texture) {
+    Entity NPC = NPCFactory.createArmoryNPC(texture);
+    NPC.setName("Mr. Blacksmith");
+    this.entityMapping.addEntity(NPC);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
+        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
+    spawnEntityAt(NPC, randomPos, true, true);
+    return NPC;
   }
 
   private void playMusic() {
