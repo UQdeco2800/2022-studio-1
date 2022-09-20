@@ -128,7 +128,7 @@ public class ForestGameArea extends GameArea {
   };
 
   private static final String[] forestTextureAtlases = {
-      "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/front_eel_anim/eel_anim_data.atlas"
+          "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/eel_animations/eel.atlas"
   };
 
   // Sound effect files
