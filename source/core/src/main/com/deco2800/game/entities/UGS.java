@@ -108,4 +108,84 @@ public class UGS {
         return String.format("%d,%d", x, y);
     }
   
+    /**
+     * 
+     *  --------------------Does not account for tile type--------------------
+     * Checks whether an entity can move in the given direction, and returns True if the move was carried 
+     * out correctly. If the move can be carried out, removes the entity from the current tile and adds it
+     * to the new tile.
+     * 
+     * Takes a coordinate string as the currentPosition, and a boolean for yDirection and xDirection. 
+     * yDirection: True if moving up (i.e. pressing w key) else false for moving down (s key)
+     * xDirection: True if moving to the right (i.e. pressing d key ) else false for moving to the left (a key)
+     * 
+     * E.g. currentPosition: "3,3"
+     * yDirection: True
+     * xDirection: False
+     * 
+     * Moves from 3,3 -> "2,2"
+     *                   <x-1, y-1>
+     * @param currentPosition String
+     * @param yDirection Boolean
+     * @param xDirection Boolean
+     */
+    public boolean moveEntity(Entity entity, String currentPosition, boolean xDirection, boolean yDirection) {
+        String[] currentCoords = currentPosition.split(",");
+        int currentX = Integer.parseInt(currentCoords[0]);
+        int currentY = Integer.parseInt(currentCoords[1]);
+
+        if (xDirection) { //If xDirection is true then x coordinate increases [+1]
+            if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
+                int newX = currentX + 1;
+                int newY = currentY - 1;
+                String coordinate = generateCoordinate(newX, newY);
+
+                if (getEntity(coordinate) == null) { //Check no entity in new tile
+                    setEntity(currentPosition, null); //Clear entity from currentPosition
+                    setEntity(coordinate, entity); //Update entity to new position
+                } else {
+                    return false; 
+                }
+            } else {
+                //xDirection true [+1], yDirection false [+1]
+                int newX = currentX + 1;
+                int newY = currentY + 1;
+                String coordinate = generateCoordinate(newX, newY);
+
+                if (getEntity(coordinate) == null) { //Check no entity in new tile
+                    setEntity(currentPosition, null); //Clear entity from currentPosition
+                    setEntity(coordinate, entity); //Update entity to new position
+                } else {
+                    return false; 
+                }
+            } 
+        } else { //If xDirection is false then x coordinate decreases [-1]
+            if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
+                int newX = currentX - 1;
+                int newY = currentY - 1;
+                String coordinate = generateCoordinate(newX, newY);
+
+                if (getEntity(coordinate) == null) { //Check no entity in new tile
+                    setEntity(currentPosition, null); //Clear entity from currentPosition
+                    setEntity(coordinate, entity); //Update entity to new position
+                } else {
+                    return false; 
+                }
+            } else {
+                //xDirection false [-1], yDirection false [+1]
+                int newX = currentX - 1;
+                int newY = currentY + 1;
+                String coordinate = generateCoordinate(newX, newY);
+
+                if (getEntity(coordinate) == null) { //Check no entity in new tile
+                    setEntity(currentPosition, null); //Clear entity from currentPosition
+                    setEntity(coordinate, entity); //Update entity to new position
+                } else {
+                    return false; 
+                }
+            } 
+
+        }
+        return false;
+    }
 }
