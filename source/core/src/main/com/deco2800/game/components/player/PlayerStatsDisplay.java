@@ -188,7 +188,7 @@ public class PlayerStatsDisplay extends UIComponent {
     CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
     coinLabel.setText(gold);
     CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
-    coinLabel.setText(wood);
+    woodLabel.setText(wood);
   }
 
   public void updateResourceAmount() {

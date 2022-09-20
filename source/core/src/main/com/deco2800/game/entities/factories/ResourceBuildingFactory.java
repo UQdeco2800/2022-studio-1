@@ -9,6 +9,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.infrastructure.ResourceBuilding;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
