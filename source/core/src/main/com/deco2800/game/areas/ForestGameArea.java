@@ -468,6 +468,10 @@ public class ForestGameArea extends GameArea {
     put(2, "textureB");
   }};
 
+  /**
+   * Spawns an NPC during the day and removes them at night.
+   * @param partOfDay the current part of the day.
+   */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
     switch (partOfDay) {
