@@ -16,6 +16,12 @@ public class GhostAnimationController extends Component {
     animator = this.entity.getComponent(AnimationRenderComponent.class);
     entity.getEvents().addListener("wanderStart", this::animateWander);
     entity.getEvents().addListener("chaseStart", this::animateChase);
+
+    //Eel animations for each direction
+    entity.getEvents().addListener("front_right", this::animateFrontRight );
+    entity.getEvents().addListener("front_left", this::animateFrontLeft);
+    entity.getEvents().addListener("back_right", this::animateBackRight);
+    entity.getEvents().addListener("back_left", this::animateBackLeft);
   }
 
   void animateWander() {
@@ -25,4 +31,9 @@ public class GhostAnimationController extends Component {
   void animateChase() {
     animator.startAnimation("angry_float");
   }
+
+  void animateFrontLeft(){animator.startAnimation("fl");}
+  void animateFrontRight(){animator.startAnimation("fr");}
+  void animateBackRight(){animator.startAnimation("br");}
+  void animateBackLeft(){animator.startAnimation("bl");}
 }

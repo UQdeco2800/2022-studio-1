@@ -1,170 +1,177 @@
-eel_anim_texture.png
+eel.png
 size: 2048, 768
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-BL1
+bl
   rotate: false
   xy: 0, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BL2
+bl
   rotate: false
   xy: 256, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BL3
+bl
   rotate: false
   xy: 512, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BL4
+bl
   rotate: false
   xy: 768, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BL5
+bl
   rotate: false
   xy: 1024, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BL6
+bl
   rotate: false
   xy: 1280, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BR1
+br
   rotate: false
   xy: 1536, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BR2
+br
   rotate: false
   xy: 1792, 0
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BR3
+br
   rotate: false
   xy: 0, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BR4
+br
   rotate: false
   xy: 256, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BR5
+br
   rotate: false
   xy: 512, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-BR6
+br
   rotate: false
   xy: 768, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FL1
+default
   rotate: false
   xy: 1024, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FL2
+fl
+  rotate: false
+  xy: 1024, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
   rotate: false
   xy: 1280, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FL3
+fl
   rotate: false
   xy: 1536, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FL4
+fl
   rotate: false
   xy: 1792, 256
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FL5
+fl
   rotate: false
   xy: 0, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FL6
+fl
   rotate: false
   xy: 256, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FR1
+fr
   rotate: false
   xy: 512, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FR2
+fr
   rotate: false
   xy: 768, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FR3
+fr
   rotate: false
   xy: 1024, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FR4
+fr
   rotate: false
   xy: 1280, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FR5
+fr
   rotate: false
   xy: 1536, 512
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-FR6
+fr
   rotate: false
   xy: 1792, 512
   size: 256, 256

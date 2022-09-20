@@ -128,15 +128,28 @@ public class NPCFactory {
   public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
     Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
+    //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
+
+    AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/eel_animations/eel.atlas", TextureAtlas.class));
+    animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
 
     ElectricEelEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent);
+            .addComponent(animator)
+            .addComponent(new GhostAnimationController());
 
-    ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
+
+
+    ElectricEelEnemy.setScale(1.2f, 1.2f);
 
     return ElectricEelEnemy;
   }
