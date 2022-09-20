@@ -10,7 +10,6 @@ public class CameraActions extends Component {
         private boolean zoomIn = false;
         private boolean zoomOut = false;
         private Vector2 panDirection = Vector2.Zero.cpy();
-        private boolean debug = false;
 
         @Override
         public void create() {
@@ -20,14 +19,6 @@ public class CameraActions extends Component {
                 entity.getEvents().addListener("zoomStop", this::stopZoom);
                 entity.getEvents().addListener("stopZoomOut", this::stopZoomOut);
                 entity.getEvents().addListener("zoomOut", this::zoomOut);
-                entity.getEvents().addListener("toggleDebug", this::toggleDebug);
-        }
-
-        /**
-         * Toggles debug mode.
-         */
-        void toggleDebug() {
-                this.debug = !this.debug;
         }
 
         /**
@@ -78,14 +69,14 @@ public class CameraActions extends Component {
         public void update() {
                 CameraComponent cameraComp = entity.getComponent(CameraComponent.class);
                 OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
-                if (panning && this.debug) {
+                if (panning) {
                         camera.translate(panDirection.x / 3,
                                         panDirection.y / 3,
                                         0);
                         camera.update();
                 }
 
-                if (zoomIn && this.debug) {
+                if (zoomIn) {
                         float newZoomValue = camera.zoom - 0.05f;
                         if (newZoomValue > 0) {
                                 camera.zoom = newZoomValue;
@@ -94,7 +85,7 @@ public class CameraActions extends Component {
 
                 }
 
-                if (zoomOut && this.debug) {
+                if (zoomOut) {
                         float newZoomValue = camera.zoom + 0.05f;
                         if (newZoomValue <= 2) {
                                 camera.zoom += 0.05f;
