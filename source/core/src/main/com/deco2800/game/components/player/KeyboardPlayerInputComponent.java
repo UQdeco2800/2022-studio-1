@@ -176,13 +176,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean mouseMoved(int screenX, int screenY) {
 
-    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    System.out.println(mousePosV2);
-    GridPoint2 tilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    System.out.println(tilePos);
+//    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+//    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+//    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+//    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+//    System.out.println(mousePosV2);
+//    GridPoint2 tilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+//    System.out.println(tilePos);
 
     return true;
   }

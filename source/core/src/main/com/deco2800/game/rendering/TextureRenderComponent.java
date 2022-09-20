@@ -3,6 +3,7 @@ package com.deco2800.game.rendering;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.services.ServiceLocator;
 
 /** Render a static texture. */
@@ -24,7 +25,8 @@ public class TextureRenderComponent extends RenderComponent {
 
   /** Scale the entity to a width of 1 and a height matching the texture's ratio */
   public void scaleEntity() {
-    entity.setScale(16, 16*(float) texture.getHeight() / texture.getWidth());
+    int tileSize = (int) ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    entity.setScale((tileSize/2), (tileSize/2)*(float) texture.getHeight() / texture.getWidth());
   }
 
   @Override

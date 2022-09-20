@@ -155,10 +155,9 @@ public class StructureService extends EntityService{
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    mousePosV2.x -= 0.5;
-    mousePosV2.y -= 0.5;
     GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-
+    Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+    System.out.println(worldLoc);
     String entityName = loc.toString();
     entityName = name + entityName;
 
@@ -168,38 +167,37 @@ public class StructureService extends EntityService{
         Entity wall = StructureFactory.createWall();
         ServiceLocator.getGameService().registerEntity(loc, entityName, wall);
         ServiceLocator.getStructureService().registerNamed(entityName, wall);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       } else if (Objects.equals(name, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1);
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower1);
         ServiceLocator.getStructureService().registerNamed(entityName, tower1);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       } else if (Objects.equals(name, "tower2")) {
         Entity tower2 = StructureFactory.createTower2(1);
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower2);
         ServiceLocator.getStructureService().registerNamed(entityName, tower2);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-        Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       } else if (Objects.equals(name, "woodCutter")) {
         Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
         ServiceLocator.getGameService().registerEntity(loc, entityName, woodCutter);
         ServiceLocator.getStructureService().registerNamed(entityName, woodCutter);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       }else if (Objects.equals(name, "tower3")) {
         Entity tower3 = StructureFactory.createTower3(1);
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower3);
         ServiceLocator.getStructureService().registerNamed(entityName, tower3);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       }else if (Objects.equals(name, "trap")) {
         Entity trap = StructureFactory.createTrap();
         ServiceLocator.getGameService().registerEntity(loc, entityName, trap);
         ServiceLocator.getStructureService().registerNamed(entityName, trap);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       }else if (Objects.equals(name, "stonequarry")) {
         Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
         ServiceLocator.getGameService().registerEntity(loc, entityName, stonequarry);
         ServiceLocator.getStructureService().registerNamed(entityName, stonequarry);
-        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
+        ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
       }
     } else {
       if (uiIsVisible) {
@@ -225,8 +223,6 @@ public class StructureService extends EntityService{
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    mousePosV2.x -= 0.5;
-    mousePosV2.y -= 0.5;
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
     if (ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name") != null) {
       logger.info("mapPos ==> {}", mapPos);
