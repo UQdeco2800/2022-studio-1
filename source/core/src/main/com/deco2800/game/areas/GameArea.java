@@ -83,7 +83,7 @@ public abstract class GameArea implements Disposable {
       worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
     }
 
-    entity.setPosition(worldPos);
+    entity.setTileGridPosition(tilePos);
 
     spawnEntity(entity);
   }
