@@ -25,7 +25,7 @@ import com.deco2800.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private final GridPoint2 MAP_SIZE = new GridPoint2(10, 10);
+  private final GridPoint2 MAP_SIZE = new GridPoint2(20, 20);
 
   private GridPoint2 island_size = new GridPoint2();
 
@@ -123,7 +123,7 @@ public class TerrainFactory {
             resourceService.getAsset("images/65x33_tiles/seaweedV4.png", Texture.class));
         TextureRegion isoSeaweed2 = new TextureRegion(
             resourceService.getAsset("images/65x33_tiles/seaweedV5.png", Texture.class));
-        return createForestDemoTerrain(8f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
+        return createForestDemoTerrain(32f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
       default:
         return null;
     }
@@ -154,7 +154,7 @@ public class TerrainFactory {
       case ORTHOGONAL:
         return new OrthogonalTiledMapRenderer(tiledMap, tileScale);
       case ISOMETRIC:
-        return new IsometricTiledMapRenderer(tiledMap, tileScale);
+        return new IsoTileRenderer(tiledMap, tileScale);
       case HEXAGONAL:
         return new HexagonalTiledMapRenderer(tiledMap, tileScale);
       default:

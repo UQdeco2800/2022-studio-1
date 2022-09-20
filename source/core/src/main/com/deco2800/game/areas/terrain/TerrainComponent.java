@@ -10,11 +10,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.ServiceLocator;
+
+import javax.management.ValueExp;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -96,16 +99,11 @@ public class TerrainComponent extends RenderComponent {
    * float y must be world position y - using camera.unproject
    */
   public GridPoint2 worldToTilePosition(float x, float y) {
-    if (y < 0) {
-      int tileY = (int) (y/4);
-      int tileX = (int) ((8*tileY)-x)/8;
-      return new GridPoint2(tileX, tileY);
-
-    } else { //y >= 0
-      int tileX = (int) (x/8);
-      int tileY = (int) ((tileX*(-4))-y)/4;
-      return new GridPoint2(tileX, tileY);
-    }
+    Vector2 screenPosition = new Vector2(x, y);
+    Vector3 tilePosition = IsoTileRenderer.translateScreenToIso(screenPosition);
+    GridPoint2 tilePos = new GridPoint2((int) (tilePosition.x + (tileSize/2)), (int)(tilePosition.y - (tileSize/2)));
+    tilePos = new GridPoint2((int) (tilePos.x/tileSize), (int) (tilePos.y/tileSize));
+    return tilePos;
   }
 
   public Vector2 tileToWorldPosition(int x, int y) {
