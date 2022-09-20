@@ -1,7 +1,6 @@
 package com.deco2800.game.services;
 
 import com.badlogic.gdx.Gdx;
-import com.deco2800.game.components.infrastructure.ResourceBuilding;
 import com.deco2800.game.concurrency.JobSystem;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
