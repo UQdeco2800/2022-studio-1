@@ -136,14 +136,13 @@ public class HealthBarComponent extends RenderComponent {
         //Entity player = MainArea.getInstance().getGameArea().getPlayer();
 
         if (this.entity!= null) {
-            if (!Objects.equals(this.entity.getPosition(), new Vector2(60, 0))) {
-                if(!Objects.equals(this.entity.getName(),"player")) {
+            if (!Objects.equals(this.entity.getName(),"crystal")&&!Objects.equals(this.entity.getName(),"player")) {
 
                     float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
                             - (this.healthBarWidth / 2f);
                     float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
                     this.progressBar.setPosition(healthBarXPos, healthBarYPos);
-                }
+
             }
 
         }

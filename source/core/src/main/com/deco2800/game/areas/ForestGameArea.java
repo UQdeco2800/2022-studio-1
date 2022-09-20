@@ -36,7 +36,9 @@ import com.deco2800.game.services.ServiceLocator;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -147,6 +149,8 @@ public class ForestGameArea extends GameArea {
   private Entity player;
   private Entity crystal;
   private int dayNum = 1;
+  private int NPCNum = 0;
+
 
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
@@ -156,6 +160,8 @@ public class ForestGameArea extends GameArea {
         this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnSetEnemies);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+            this::spawnNPC);
 
   }
 
@@ -480,6 +486,37 @@ public class ForestGameArea extends GameArea {
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
+        break;
+    }
+  }
+
+  Map<Integer, String> NPC_textures = new HashMap<Integer, String>() {{
+    put(1, "textureA");
+    put(2, "textureB");
+  }};
+
+  private void spawnNPC(DayNightCycleStatus partOfDay) {
+    int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
+    switch (partOfDay) {
+      case DAWN:
+      case DAY:
+      case DUSK:
+        //System.out.println(partOfDay);
+        //System.out.println(StructuresNum);
+        if(NPCNum != StructuresNum){
+          System.out.println(NPCNum);
+          System.out.println(StructuresNum);
+          for (int i = NPCNum; i < StructuresNum; i++) {
+            //spawnElectricEelEnemy();
+            System.out.println("spawned");
+            System.out.println(NPC_textures.get(1));
+          }
+          NPCNum = StructuresNum;
+        }
+        break;
+      case NIGHT:
+        //dispose NPCs
+        //NPCNum = 0;
         break;
     }
   }
