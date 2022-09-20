@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
  * unlikely that changes will need to be made here.
  */
 public class Component {
-  private static final Logger logger = LoggerFactory.getLogger(Component.class);
-  protected Entity entity;
+  private transient static final Logger logger = LoggerFactory.getLogger(Component.class);
+  protected transient Entity entity;
   protected boolean enabled = true;
 
   /**

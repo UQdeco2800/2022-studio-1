@@ -6,6 +6,7 @@ import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
@@ -166,6 +167,9 @@ public class ForestGameArea extends GameArea {
   @Override
   public void create() {
 
+
+
+
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
 
@@ -185,6 +189,7 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObjects();
 
     playMusic();
+    SaveGame.saveGameState(1);
   }
 
   private void displayUI() {
