@@ -304,7 +304,7 @@ public class DayNightCycleService {
             this.partOfDayHalveIteration = 1;
         }
         if (nextPartOfDay == DayNightCycleStatus.DAY) {
-            ServiceLocator.getResourceService().triggerCollectEvent();
+            events.trigger("morning");
             this.timePerHalveOfPartOfDay = config.dayLength / 4;
             lastPartOfDayHalveIteration = 4;
             this.partOfDayHalveIteration = 1;;
