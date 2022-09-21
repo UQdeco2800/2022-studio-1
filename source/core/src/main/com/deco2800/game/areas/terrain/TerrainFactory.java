@@ -25,7 +25,7 @@ import com.deco2800.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
-  private final GridPoint2 MAP_SIZE = new GridPoint2(20, 20);
+  private final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
 
   private GridPoint2 island_size = new GridPoint2();
 

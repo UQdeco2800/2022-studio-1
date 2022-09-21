@@ -55,8 +55,6 @@ public class CrystalFactory {
         crystal.setName("crystal");
         crystal.setCollectable(false);
         ServiceLocator.getEntityService().registerNamed(name, crystal);
-        ServiceLocator.getEntityService().getNamedEntity("crystal").setTileGridPosition(new GridPoint2(60, 60));
-
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         crystal.getComponent(TextureRenderComponent.class).scaleEntity();
