@@ -303,7 +303,6 @@ public class DayNightCycleService {
             this.partOfDayHalveIteration = 1;
         }
         if (nextPartOfDay == DayNightCycleStatus.DAY) {
-            events.trigger("morning");
             this.timePerHalveOfPartOfDay = config.dayLength / 4;
             lastPartOfDayHalveIteration = 4;
             this.partOfDayHalveIteration = 1;;
@@ -318,6 +317,4 @@ public class DayNightCycleService {
     public EventHandler getEvents() {
         return events;
     }
-
-
 }

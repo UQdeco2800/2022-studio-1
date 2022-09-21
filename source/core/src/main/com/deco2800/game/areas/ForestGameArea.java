@@ -596,6 +596,7 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(NPC,randomPos, true, true);
     //NPC.setPosition(terrainFactory.getMapSize().x / 3, terrainFactory.getMapSize().y / 3);
     //ServiceLocator.getEntityService().addEntity(NPC);
+
   }
 
   private void playMusic() {
