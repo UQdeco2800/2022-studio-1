@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 public class UGS {
     private HashMap<String, Tile> tiles;
     private static final Logger logger = LoggerFactory.getLogger(UGS.class);
+    static int MAPSIZE = 120; 
 
-    
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
     }
@@ -99,7 +99,7 @@ public class UGS {
     }
 
     /**
-     * Returns a coordinate given an x and y value
+     * Generates a coordinate given an x and y value
      * @param x integer
      * @param y integer
      * @return String 
@@ -188,4 +188,21 @@ public class UGS {
         }
         return false;
     }
+    public UGS generateUGS() {
+        UGS ugs = new UGS();
+        Tile tile = new Tile();
+        for (int x = 0; x < MAPSIZE; x++) {
+            for (int y = 0; y < MAPSIZE; y++) {
+                String coordinate = generateCoordinate(x, y);
+                ugs.add(coordinate,tile);
+                return ugs;
+            }
+        }
+        return ugs;
+    }
+    //120x120 map 
+    //Generate a full map
+    //Adding entities handles adding to game world as well
+    // If collision adding entity update logger
+    //Add method to return a copy of UGS
 }
