@@ -12,6 +12,7 @@ public class Achievement {
     private int id;
 
     private AchievementType achievementType;
+    private String name;
     private String description;
     private int totalAchieved;
     private boolean isCompleted;
@@ -32,6 +33,14 @@ public class Achievement {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getTotalAchieved() {
