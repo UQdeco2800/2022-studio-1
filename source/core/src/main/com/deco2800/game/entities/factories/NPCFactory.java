@@ -7,7 +7,6 @@ import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.npc.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.npc.GhostAnimationController;
@@ -32,6 +31,9 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -262,7 +264,14 @@ public class NPCFactory {
    * @return entity
    */
 
-  private static Entity createBaseNPC(String texture) {
+  public static Entity createBaseNPC() {
+
+    String[] NPC_textures = { "images/shipWreckBack.png",
+            "images/landscape_objects/chalice.png",
+            "images/landscape_objects/pillar.png" };
+
+    int index = (int) ((Math.random() * (NPC_textures.length)));
+
         AITaskComponent aiComponent =
             new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
@@ -271,23 +280,22 @@ public class NPCFactory {
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
-                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                //.addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
-                .addComponent(new TextureRenderComponent(texture))
-                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
-    
+        npc.setName("NPC");
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 
-      public static Entity createArmoryNPC(String texture) {
-        Entity ArmoryNPC = createBaseNPC(texture);
-        NPCConfig config = configs.ArmoryNPC;
-        ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
-        ArmoryNPC.setScale(1f, 1f);
+      public static Entity createNPC(String texture) {
+        Entity NPC = createBaseNPC();
+        //NPCConfig config = configs.ArmoryNPC;
+        //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
+        NPC.setScale(0.8f, 0.8f);
     
-        return ArmoryNPC;
+        return NPC;
       }
 
   private NPCFactory() {
