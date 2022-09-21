@@ -160,14 +160,18 @@ public class StructureService extends EntityService{
     System.out.println(worldLoc);
     String entityName = loc.toString();
     entityName = name + entityName;
+    String stringTileCoords = ServiceLocator.getUGSService().generateCoordinate(loc.x, loc.y);
 
     structureKey = name;
     if (!uiIsVisible) {
       if (Objects.equals(name, "wall")) {
         Entity wall = StructureFactory.createWall();
+        logger.info("this is the wall entity ==> {}", wall);
         ServiceLocator.getGameService().registerEntity(loc, entityName, wall);
         ServiceLocator.getStructureService().registerNamed(entityName, wall);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(worldLoc);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, wall);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
       } else if (Objects.equals(name, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1);
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower1);

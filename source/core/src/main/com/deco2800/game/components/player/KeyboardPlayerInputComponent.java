@@ -168,7 +168,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
     CrystalFactory.crystalClicked(screenX, screenY);
     return true;
   }

@@ -3,6 +3,7 @@ package com.deco2800.game.services;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.areas.GameService;
 import com.deco2800.game.entities.StructureService;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
@@ -28,6 +29,7 @@ public class ServiceLocator {
   private static StructureService structureService;
   private static DayNightCycleService dayNightCycleService;
   private static GameService gameService;
+  private static UGS ugsService;
 
   public static EntityService getEntityService() {
     return entityService;
@@ -58,6 +60,8 @@ public class ServiceLocator {
   }
 
   public static StructureService getStructureService() { return structureService; }
+
+  public static UGS getUGSService() {return ugsService;}
 
   public static DayNightCycleService getDayNightCycleService () {
     return dayNightCycleService;
@@ -101,6 +105,11 @@ public class ServiceLocator {
   public static void registerStructureService( StructureService source) {
     logger.debug("Registering structure service {}", source);
     structureService = source;
+  }
+
+  public static void registerUGSService( UGS source) {
+    logger.debug("Registering structure service {}", source);
+    ugsService = source;
   }
 
     public static void registerDayNightCycleService(DayNightCycleService source) {

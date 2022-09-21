@@ -6,6 +6,7 @@ import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
@@ -168,6 +169,8 @@ public class ForestGameArea extends GameArea {
 
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
+    ServiceLocator.getUGSService().generateUGS();
+
 
     displayUI();
 

@@ -104,7 +104,7 @@ public class UGS {
      * @param y integer
      * @return String 
      */
-    public static String generateCoordinate(int x, int y) {
+    public String generateCoordinate(int x, int y) {
         return String.format("%d,%d", x, y);
     }
   
@@ -188,17 +188,18 @@ public class UGS {
         }
         return false;
     }
-    public UGS generateUGS() {
-        UGS ugs = new UGS();
+    public void generateUGS() {
         Tile tile = new Tile();
         for (int x = 0; x < MAPSIZE; x++) {
             for (int y = 0; y < MAPSIZE; y++) {
                 String coordinate = generateCoordinate(x, y);
-                ugs.add(coordinate,tile);
-                return ugs;
+                this.add(coordinate,tile);
             }
         }
-        return ugs;
+    }
+
+    public HashMap<String, Tile> printUGS() {
+        return this.tiles;
     }
     //120x120 map 
     //Generate a full map
