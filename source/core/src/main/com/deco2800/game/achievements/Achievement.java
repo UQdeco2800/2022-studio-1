@@ -12,7 +12,6 @@ public class Achievement {
     private int id;
 
     private AchievementType achievementType;
-    private String name;
     private String image;
     private String description;
     private int totalAchieved;
@@ -26,14 +25,6 @@ public class Achievement {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getImage() {
