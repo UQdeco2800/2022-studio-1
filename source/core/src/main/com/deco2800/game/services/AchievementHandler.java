@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class AchievementHandler {
     private ArrayList<Achievement> achievements;
-    FileHandle f = Gdx.files.internal("Achievements/playerAchievements.json");
+    private final FileHandle f = Gdx.files.internal("Achievements/playerAchievements.json");
 
 
     public AchievementHandler(String achievementList) {
@@ -37,6 +37,9 @@ public class AchievementHandler {
     public void run() {
         // Update achievement status'
         // Need listeners for stat achievements
+
+        // while game is running do:
+        // save state every x seconds?
 
         // On game stop
         saveAchievements();
