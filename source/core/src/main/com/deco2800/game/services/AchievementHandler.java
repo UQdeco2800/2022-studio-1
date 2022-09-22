@@ -36,8 +36,29 @@ public class AchievementHandler {
 
     public void run() {
         // Update achievement status'
+        // Need listeners for stat achievements
 
         // On game stop
         saveAchievements();
+    }
+
+    public void updateStatAchievement(AchievementType type) {
+        // no stat achievements fall into misc type so shouldn't have to deal with them
+        switch (type) {
+            case RESOURCES:
+                // update resources achievement progress
+                break;
+            case BUILDINGS:
+                // update resources achievement progress
+                break;
+            case KILLS:
+                //
+                break;
+            case UPGRADES:
+                //
+                break;
+            case GAME:
+                // update game stats achievement
+        }
     }
 }
