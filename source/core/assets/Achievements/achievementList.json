@@ -1,0 +1,22 @@
+[
+  {
+    "class": "com.deco2800.game.achievements.Achievement",
+    "id": 1,
+    "achievementType": "BUILDINGS",
+    "name": "Master Builder",
+    "description": "Build one of each type of building",
+    "totalAchieved": 0,
+    "isCompleted": false,
+    "achievementData": "a,b,c"
+  },
+  {
+    "class": "com.deco2800.game.achievements.Achievement",
+    "id": 2,
+    "achievementType": "GAME",
+    "name": "Beginner",
+    "description": "Complete a game",
+    "totalAchieved": 1,
+    "isCompleted": false,
+    "achievementData": "1,10,25,50"
+  }
+]
