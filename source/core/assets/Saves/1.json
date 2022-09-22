@@ -1,14 +1,63 @@
+[
 {
-id: 20
-components: {
-	24: {
-		class: com.deco2800.game.components.Environmental.EnvironmentalComponent
-		environmentalObstacle: UNDEFINED
+	images/65x33_tiles/shell.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 59.007576
+		y: 1.25
 	}
 }
-eventHandler: {}
-position: {
-	x: 59.007576
-	y: -0.25
+{
+	images/shipWreckBack.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 62.25
+		y: -1
+	}
 }
+{
+	images/landscape_objects/groupPalmTrees.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 60.05042
+		y: -2.25
+	}
 }
+{
+	images/landscape_objects/leftPalmTree.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 62.05042
+		y: -1.75
+	}
+}
+{
+	images/65x33_tiles/shell.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 61.507576
+		y: 2
+	}
+}
+{
+	images/65x33_tiles/shell.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 66.007576
+		y: 2.25
+	}
+}
+{
+	images/landscape_objects/pillar.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 67.64286
+	}
+}
+{
+	images/landscape_objects/chalice.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 58.75
+	}
+}
+{
+	images/shipWreckFront.png: {
+		class: com.badlogic.gdx.math.Vector2
+		x: 62.25
+		y: 3
+	}
+}
+]
