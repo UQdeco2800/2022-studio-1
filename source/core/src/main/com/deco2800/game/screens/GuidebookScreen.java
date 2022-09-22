@@ -1,8 +1,14 @@
 package com.deco2800.game.screens;
 
 import com.deco2800.game.areas.GuidebookArea;
+import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Guidebook.GuidebookActions;
 import com.deco2800.game.components.Guidebook.GuidebookDisplay;
+import com.deco2800.game.components.Guidebook.GuidebookExitDisplay;
+import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.MainGameExitDisplay;
+import com.deco2800.game.components.maingame.MainGameInterface;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.settingsmenu.MusicSettings;
 import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
@@ -36,6 +42,10 @@ public class GuidebookScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
 
+    private static final String[] mainGameTextures = {
+            "images/guidebook-open.png"
+    };
+
     public GuidebookScreen(AtlantisSinks game) {
         this.game = game;
 
@@ -46,6 +56,7 @@ public class GuidebookScreen extends ScreenAdapter {
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
+
 
         renderer = RenderFactory.createRenderer();
         MainArea.getInstance().setMainArea(new GuidebookArea());
@@ -95,11 +106,14 @@ public class GuidebookScreen extends ScreenAdapter {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
         ServiceLocator.getResourceService().loadAll();
+        resourceService.loadTextures(mainGameTextures);
+        ServiceLocator.getResourceService().loadAll();
     }
 
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
+        resourceService.unloadAssets(mainGameTextures);
     }
 
     /**
@@ -116,7 +130,7 @@ public class GuidebookScreen extends ScreenAdapter {
         Entity ui = new Entity();
         ui.addComponent(new GuidebookDisplay()).addComponent(new InputDecorator(stage, 10));
         ui.addComponent(new GuidebookActions(game)).addComponent(new InputDecorator(stage, 9));
+        ui.addComponent(new GuidebookExitDisplay()).addComponent(new InputDecorator(stage, 11));
         ServiceLocator.getEntityService().register(ui);
-
     }
 }

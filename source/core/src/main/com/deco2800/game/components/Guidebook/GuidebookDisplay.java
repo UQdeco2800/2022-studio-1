@@ -38,66 +38,63 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     private void addActors() {
-        book = new Table();
+      book = new Table();
+//      book.setSize(Gdx.graphics.getWidth() - 100f, Gdx.graphics.getHeight() - 100f);
+//
+//
+//      book.setPosition(Gdx.graphics.getHeight()/2f , Gdx.graphics.getWidth()/2f );
+//
         book.setFillParent(true);
+        book.top().left().padLeft(75).padTop(115);
 
 
-        //Background Colour
-        Texture colour = new Texture(Gdx.files.internal("images/guidebook-open.png"));
-        Drawable backgroundColour = new TextureRegionDrawable(colour);
-        book.setBackground(backgroundColour);
+
+      //Background Colour
+//      Texture colour = new Texture(Gdx.files.internal("images/guidebook-open.png"));
+//      Drawable backgroundColour = new TextureRegionDrawable(colour);
+
+      Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
 
 
-        // inserting back Button
-        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
-        TextureRegionDrawable exitUp = new TextureRegionDrawable(backTexture);
-        TextureRegionDrawable exitDown = new TextureRegionDrawable(backTexture);
-        ImageButton backButton = new ImageButton(exitUp, exitDown);
 
-        Texture titleTexture = new Texture(Gdx.files.internal("images/uiElements/exports/guidebook-heading-frame.png"));
-        TextureRegionDrawable titleUp = new TextureRegionDrawable(titleTexture);
-        TextureRegionDrawable titleDown = new TextureRegionDrawable(titleTexture);
-        TextButton title = ShopUtils.createImageTextButton(
-                "Enter Page Title",
-                skin.getColor("black"),
-                "button", 1f, titleUp, titleDown, skin, true);
+      Texture titleTexture = new Texture(Gdx.files.internal("images/uiElements/exports/guidebook-heading-frame.png"));
+      TextureRegionDrawable titleUp = new TextureRegionDrawable(titleTexture);
+      TextureRegionDrawable titleDown = new TextureRegionDrawable(titleTexture);
+      TextButton title = ShopUtils.createImageTextButton(
+              "Enter Page Title",
+               skin.getColor("black"),
+               "button", 1f, titleUp, titleDown, skin, true);
 
-        backButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Back button clicked");
-                        entity.getEvents().trigger("exit");
-                    }
-                });
+      Table page1 = new Table();
+      page1.setFillParent(true);
+      page1.center();
 
-        Table leftPage = new Table();
-        leftPage.setFillParent(true);
+      Table leftPage = new Table();
+      leftPage.setFillParent(true);
+      leftPage.left();
+      leftPage.padLeft(100f).padRight(100f);
 
-        Table rightPage = new Table();
-        rightPage.setFillParent(true);
+      Table rightPage = new Table();
+      rightPage.setFillParent(true);
+      rightPage.right();
+      rightPage.padRight(100f);
 
-        
-        book.add(title).left().top().padLeft(20f);
-        book.add(backButton).size(30f,30f).top().right();
+      rightPage.add(title);
+      leftPage.add(title);
+      page1.add(rightPage);
+      page1.add(leftPage);
+      book.add(bookImage).center().size(1770f, 900f);
 
 
-        stage.addActor(book);
+      stage.addActor(book);
+      stage.addActor(page1);
+      stage.addActor(rightPage);
+      stage.addActor(leftPage);
 
-        System.out.println("Got the display");
+
+
     }
 
-//    public Table GuidebookPopup () {
-//        Table book = new Table();
-//        Table page1 = new Table();
-//        //Background Colour
-//        Texture colour = new Texture(Gdx.files.internal("images/uiElements/startscreen/guidebook-open.png"));
-//        Drawable backgroundColour = new TextureRegionDrawable(colour);
-//        book.setBackground(backgroundColour);
-//
-//        stage.addActor(book);
-//        return book;
-//    }
 
     @Override
     public void draw(SpriteBatch batch) {
