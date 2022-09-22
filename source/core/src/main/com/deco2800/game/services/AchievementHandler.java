@@ -27,15 +27,11 @@ public class AchievementHandler {
     }
 
     public void saveAchievements() {
-        Json json = new Json();
 
-        this.f.writeString(json.prettyPrint(this.achievements), false);
     }
 
     public void loadAchievements(FileHandle fH) {
-        Json json = new Json();
 
-        this.achievements = json.fromJson(ArrayList.class, Achievement.class, fH);
     }
 
     public void run() {
