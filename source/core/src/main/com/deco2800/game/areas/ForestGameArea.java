@@ -147,8 +147,8 @@ public class ForestGameArea extends GameArea {
         this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnSetEnemies);
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-            this::spawnNPC);
+//    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+//            this::spawnNPC);
   }
 
   /**
@@ -172,8 +172,6 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
-    //spawnNPCharacter("images/shipWreckBack.png");
-
 
     spawnEnvironmentalObjects();
 
@@ -469,10 +467,8 @@ public class ForestGameArea extends GameArea {
         if(NPCNum != StructuresNum){
           System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
-            //spawnElectricEelEnemy();
-            System.out.println("spawned");
+            //System.out.println("spawned");
             spawnNPCharacter();
-            System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
             NPCNum++;
 
           }
