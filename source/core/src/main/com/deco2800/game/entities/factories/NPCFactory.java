@@ -285,7 +285,9 @@ public class NPCFactory {
                 .addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
         npc.setName("NPC");
-        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        npc.setCollectable(false);
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 

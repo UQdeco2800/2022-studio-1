@@ -119,6 +119,7 @@ public class CrystalFactory {
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
         //System.out.println(mousePosV2);
+        //crystal position x = 60.0, y = 0.0
         if (59.8 < mousePosV2.x && mousePosV2.x < 60.2) {
             if (-0.375 < mousePosV2.y && mousePosV2.y < 0.375) {
 //                crystal.getComponent(CombatStatsComponent.class).upgrade();
