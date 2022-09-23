@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -39,13 +36,9 @@ public class GuidebookDisplay extends UIComponent {
 
     private void addActors() {
       book = new Table();
-//      book.setSize(Gdx.graphics.getWidth() - 100f, Gdx.graphics.getHeight() - 100f);
-//
-//
-//      book.setPosition(Gdx.graphics.getHeight()/2f , Gdx.graphics.getWidth()/2f );
-//
+
         book.setFillParent(true);
-        book.top().left().padLeft(75).padTop(115);
+        book.center();
 
 
 
@@ -65,6 +58,12 @@ public class GuidebookDisplay extends UIComponent {
                skin.getColor("black"),
                "button", 1f, titleUp, titleDown, skin, true);
 
+      String labelContent = "This is just random words to fill the page, hopefully in the future it will be content for the game :)";
+      labelContent = lineAmount(labelContent);
+      Label sampleContent = new Label(labelContent, skin, "large");
+
+
+
       Table page1 = new Table();
       page1.setFillParent(true);
       page1.center();
@@ -79,22 +78,31 @@ public class GuidebookDisplay extends UIComponent {
       rightPage.right();
       rightPage.padRight(100f);
 
-      rightPage.add(title);
+      rightPage.add(title).center();
+      rightPage.row();
+      rightPage.add(sampleContent).right();
+
       leftPage.add(title);
+      leftPage.row();
+      rightPage.add(sampleContent).left();
+
       page1.add(rightPage);
       page1.add(leftPage);
-      book.add(bookImage).center().size(1770f, 900f);
 
+
+      book.add(bookImage).center().size(1770f, 900f);
+      book.add(page1);
 
       stage.addActor(book);
-      stage.addActor(page1);
-      stage.addActor(rightPage);
-      stage.addActor(leftPage);
-
-
-
     }
 
+    public String lineAmount(String labelContent) {
+        String str = labelContent;
+        if(labelContent.length() >= 50) {
+           str = labelContent.replace("(.{0,50}\b)","$1\n");
+        }
+        return str;
+    }
 
     @Override
     public void draw(SpriteBatch batch) {

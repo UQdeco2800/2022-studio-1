@@ -156,28 +156,6 @@ public class CrystalFactory {
         time.scheduleAtFixedRate(recoverCrystal, 3000, 3000);
     }
 
-    /**
-     * Used for testing whether the function is exist
-     * @param methodName
-     * @return
-     */
-    public boolean hasMethod(String methodName) {
-        switch(methodName) {
-            case "createCrystal": 
-                return true;
-            case "triggerCrystal":
-                return true;
-            case "upgradeCrystal":
-                return true;
-            case "crystalClicked":
-                return true;
-            case "recoverCrystalHealth":
-                return true;
-            default:
-                return false;
-        }
-    } 
-
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
     }

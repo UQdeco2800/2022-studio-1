@@ -3,40 +3,30 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
-import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.maingame.MainGameActions;
-import com.deco2800.game.rendering.DayNightCycleComponent;
-import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
-import com.deco2800.game.memento.CareTaker;
-import com.sun.tools.javac.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
-import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
-import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -128,7 +118,7 @@ public class ForestGameArea extends GameArea {
   };
 
   private static final String[] forestTextureAtlases = {
-      "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/front_eel_anim/eel_anim_data.atlas"
+          "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas", "images/eel_animations/eel.atlas"
   };
 
   // Sound effect files
@@ -147,6 +137,7 @@ public class ForestGameArea extends GameArea {
   private Entity player;
   private Entity crystal;
   private int dayNum = 1;
+  private int NPCNum = 0;
 
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
@@ -156,7 +147,8 @@ public class ForestGameArea extends GameArea {
         this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnSetEnemies);
-
+//    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+//            this::spawnNPC);
   }
 
   /**
@@ -177,7 +169,6 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
@@ -185,13 +176,14 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObjects();
 
     playMusic();
+
   }
 
   private void displayUI() {
     Entity ui = new Entity();
+
     ui.addComponent(new GameAreaDisplay("Atlantis Sinks"));
-    spawnEntity(ui);
-  }
+
 
   @Override
   public Entity getPlayer() {
@@ -435,7 +427,7 @@ public class ForestGameArea extends GameArea {
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
-    System.out.println("Crystal Position: " + x_pos + " " + y_pos);
+    //System.out.println("Crystal Position: " + x_pos + " " + y_pos);
     crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
@@ -457,6 +449,41 @@ public class ForestGameArea extends GameArea {
       }
     }
 
+  }
+
+
+
+  /**
+   * Spawns NPCs  during the day and removes them at night.
+   * @param partOfDay the current part of the day.
+   */
+  private void spawnNPC(DayNightCycleStatus partOfDay) {
+    int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
+    switch (partOfDay) {
+      case DAWN:
+      case DAY:
+      case DUSK:
+
+        if(NPCNum != StructuresNum){
+          System.out.println(NPCNum);
+          for (int i = NPCNum; i < StructuresNum; i++) {
+            //System.out.println("spawned");
+            spawnNPCharacter();
+            NPCNum++;
+
+          }
+          //System.out.println(ServiceLocator.getEntityService().getNamedEntity("0").getPosition());
+        }
+        break;
+      case NIGHT:
+        //dispose NPCs
+        for (int i = 0; i < NPCNum; i++) {
+            Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
+            NPC.dispose();
+        }
+        NPCNum = 0;
+        break;
+    }
   }
 
   /**
@@ -553,6 +580,19 @@ public class ForestGameArea extends GameArea {
     // Register ninja starfish in the world
     ServiceLocator.getEntityService().addEntity(ninjaStarfish);
     ServiceLocator.getEntityService().register(ninjaStarfish);
+  }
+
+  private void spawnNPCharacter() {
+    Entity NPC = NPCFactory.createBaseNPC();
+    //Entity NPC = NPCFactory.createNPC(texture);
+    ServiceLocator.getEntityService().registerNamed(String.valueOf(NPCNum),NPC);
+    this.entityMapping.addEntity(NPC);
+    GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
+            .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
+    spawnEntityAt(NPC,randomPos, true, true);
+    //NPC.setPosition(terrainFactory.getMapSize().x / 3, terrainFactory.getMapSize().y / 3);
+    //ServiceLocator.getEntityService().addEntity(NPC);
+
   }
 
   private void playMusic() {
