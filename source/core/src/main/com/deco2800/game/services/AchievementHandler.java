@@ -8,25 +8,27 @@ import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementHandler {
-    private List<Achievement> achievements;
+    private final List<Achievement> achievements;
     private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
     private final Json json;
+    private long lastSaved;
 
 
     public AchievementHandler() {
         json = new Json();
         json.setElementType(AchievementData.class,"achievements", Achievement.class);
         json.setOutputType(JsonWriter.OutputType.json);
-        if (Files.exists(Path.of(achievementsFileHandle.path()))){
-            //Load from file
 
+        if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))){
+            //Load from file
+            //this.achievements = this.loadAchievements(achievementsFileHandle);    <- this is the real line but method broken
+            this.achievements = new ArrayList<>();
         }
         else {
             this.achievements = AchievementFactory.createInitialAchievements();
@@ -39,13 +41,21 @@ public class AchievementHandler {
     }
 
     public void saveAchievements() {
-        AchievementData achievementData = new AchievementData(System.currentTimeMillis() ,
-                new ArrayList(this.achievements));
+        this.lastSaved = System.currentTimeMillis();
+
+        AchievementData achievementData = new AchievementData(this.lastSaved ,
+                new ArrayList<>(this.achievements));
+
         achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
     }
 
-    public void loadAchievements(FileHandle fH) {
+    public ArrayList<Achievement> loadAchievements(FileHandle fH) {
+        Json json = new Json();
 
+        AchievementData temp = json.fromJson(AchievementData.class, fH);
+        this.lastSaved = temp.getLastSaved();
+
+        return temp.getAchievements();
     }
 
     public void run() {
