@@ -27,7 +27,7 @@ public class AchievementHandler {
 
         if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))){
             //Load from file
-            //this.achievements = this.loadAchievements(achievementsFileHandle);    <- this is the real line but method broken
+            //this.achievements = this.loadAchievements(achievementsFileHandle);   // <- this is the real line but method broken
             this.achievements = new ArrayList<>();
         }
         else {
@@ -50,8 +50,6 @@ public class AchievementHandler {
     }
 
     public ArrayList<Achievement> loadAchievements(FileHandle fH) {
-        Json json = new Json();
-
         AchievementData temp = json.fromJson(AchievementData.class, fH);
         this.lastSaved = temp.getLastSaved();
 
