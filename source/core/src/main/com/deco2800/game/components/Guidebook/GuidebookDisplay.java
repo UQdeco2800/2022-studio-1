@@ -94,6 +94,7 @@ public class GuidebookDisplay extends UIComponent {
       book.add(page1);
 
       stage.addActor(book);
+      stage.addActor(page1);
     }
 
     public String lineAmount(String labelContent) {
