@@ -183,7 +183,7 @@ public class ForestGameArea extends GameArea {
     Entity ui = new Entity();
 
     ui.addComponent(new GameAreaDisplay("Atlantis Sinks"));
-
+  }
 
   @Override
   public Entity getPlayer() {
