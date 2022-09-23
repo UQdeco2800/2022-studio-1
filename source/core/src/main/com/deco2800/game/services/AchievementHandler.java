@@ -17,7 +17,7 @@ import java.util.List;
 public class AchievementHandler {
     private List<Achievement> achievements;
     private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
-    private Json json;
+    private final Json json;
 
 
     public AchievementHandler() {
@@ -30,8 +30,7 @@ public class AchievementHandler {
         }
         else {
             this.achievements = AchievementFactory.createInitialAchievements();
-            AchievementData achievementData =new AchievementData(System.currentTimeMillis() ,new ArrayList(this.achievements));
-            achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
+            this.saveAchievements();
         }
     }
 
@@ -40,7 +39,9 @@ public class AchievementHandler {
     }
 
     public void saveAchievements() {
-
+        AchievementData achievementData = new AchievementData(System.currentTimeMillis() ,
+                new ArrayList(this.achievements));
+        achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
     }
 
     public void loadAchievements(FileHandle fH) {
