@@ -228,7 +228,7 @@ public class DayNightCycleService {
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
                         this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
                     long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
-                    if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration || partOfDayHalveIteration == 1) &&
+                    if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration) &&
                             partOfDayHalveIteration != lastPartOfDayHalveIteration) {
                         Gdx.app.postRunnable(() -> {
                             events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
@@ -305,7 +305,7 @@ public class DayNightCycleService {
         if (nextPartOfDay == DayNightCycleStatus.DAY) {
             this.timePerHalveOfPartOfDay = config.dayLength / 4;
             lastPartOfDayHalveIteration = 4;
-            this.partOfDayHalveIteration = 1;;
+            this.partOfDayHalveIteration = 1;
         }
     }
 
