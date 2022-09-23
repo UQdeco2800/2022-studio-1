@@ -3,26 +3,39 @@ package com.deco2800.game.services;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.deco2800.game.achievements.Achievement;
+import com.deco2800.game.achievements.AchievementData;
+import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AchievementHandler {
-    private ArrayList<Achievement> achievements;
-    private final FileHandle f = Gdx.files.internal("Achievements/playerAchievements.json");
+    private List<Achievement> achievements;
+    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
+    private Json json;
 
 
-    public AchievementHandler(String achievementList) {
-        if (f.length() == 0) {
-            FileHandle newAchievements = Gdx.files.internal(achievementList);
-            loadAchievements(newAchievements);
-        } else {
-            loadAchievements(f);
+    public AchievementHandler() {
+        json = new Json();
+        json.setElementType(AchievementData.class,"achievements", Achievement.class);
+        json.setOutputType(JsonWriter.OutputType.json);
+        if (Files.exists(Path.of(achievementsFileHandle.path()))){
+            //Load from file
+
+        }
+        else {
+            this.achievements = AchievementFactory.createInitialAchievements();
+            AchievementData achievementData =new AchievementData(System.currentTimeMillis() ,new ArrayList(this.achievements));
+            achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
         }
     }
 
-    public ArrayList<Achievement> getAchievements() {
+    public List<Achievement> getAchievements() {
         return this.achievements;
     }
 
