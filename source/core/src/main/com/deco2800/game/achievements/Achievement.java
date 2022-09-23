@@ -16,13 +16,18 @@ public class Achievement {
     private String description;
     private int totalAchieved;
     private boolean isCompleted;
+    private boolean isStat;
+
     private String achievementData; // CSV or JSON formatted data specific to this particular achievement
 
-    public Achievement(int id, AchievementType achievementType, String name, String description) {
+    public Achievement(int id, AchievementType achievementType, boolean isStat, String name, String description) {
         this.id = id;
         this.achievementType = achievementType;
         this.name = name;
         this.description = description;
+        this.isCompleted = false;
+        this.isStat = isStat;
+        this.achievementData = "";
     }
 
     public int getId() {
@@ -79,6 +84,14 @@ public class Achievement {
 
     public void setAchievementType(AchievementType achievementType) {
         this.achievementType = achievementType;
+    }
+
+    public boolean isStat() {
+        return isStat;
+    }
+
+    public void setStat(boolean stat) {
+        isStat = stat;
     }
 
     @Override
