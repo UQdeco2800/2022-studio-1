@@ -24,6 +24,10 @@ public class AchievementData {
         this.achievements = achievements;
     }
 
+
+    public AchievementData() {
+
+    }
     public AchievementData(long lastSaved, ArrayList<Achievement> achievements) {
         LastSaved = lastSaved;
         this.achievements = achievements;

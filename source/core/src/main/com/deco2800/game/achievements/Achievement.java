@@ -20,6 +20,10 @@ public class Achievement {
 
     private String achievementData; // CSV or JSON formatted data specific to this particular achievement
 
+    public Achievement() {
+
+    }
+
     public Achievement(int id, AchievementType achievementType, boolean isStat, String name, String description) {
         this.id = id;
         this.achievementType = achievementType;

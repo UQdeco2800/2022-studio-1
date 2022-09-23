@@ -8,6 +8,7 @@ import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -27,8 +28,7 @@ public class AchievementHandler {
 
         if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))){
             //Load from file
-            //this.achievements = this.loadAchievements(achievementsFileHandle);   // <- this is the real line but method broken
-            this.achievements = new ArrayList<>();
+            this.achievements = this.loadAchievements(achievementsFileHandle);   // <- this is the real line but method broken
         }
         else {
             this.achievements = AchievementFactory.createInitialAchievements();
