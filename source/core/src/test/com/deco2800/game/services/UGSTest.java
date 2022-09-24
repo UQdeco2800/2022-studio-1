@@ -15,18 +15,28 @@ import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.extensions.GameExtension;
 
 class UGSTest {
+    /**
+     * Tests that a UGS is created correctly
+     */
     @Test
     void shouldCreateUGS() {
         UGS tiles = new UGS();
         assertEquals(tiles.getClass(), UGS.class);
     }
 
+    /**
+     * Tests that a coordinate is generated correctly 
+     */
     @Test
     void shouldGenerateCoordinate(){
         String string = UGS.generateCoordinate(1,1);
         assertEquals(string, "1,1");
     }
 
+    /**
+     * Tests that a Tile can be added to the UGS, and that the UGS returns 
+     * the same result if the same key is provided
+     */
     @Test
     void testReturnSmallHashmap() {
         UGS tiles = new UGS();
@@ -40,6 +50,9 @@ class UGSTest {
 
     }
 
+    /**
+     * Tests a Tile within the UGS can be updated 
+     */
     @Test 
     void testSetTileType() {
         UGS tiles = new UGS();
@@ -53,6 +66,10 @@ class UGSTest {
         assertEquals(tiles.getTileType(coordinate), "Grass");
     }
 
+    /**
+     * Tests that a Tile within the UGS can be updated to contain a 
+     * new entity
+     */
     @Test 
     void testSetEntity() {
         UGS tiles = new UGS();
@@ -69,6 +86,10 @@ class UGSTest {
         assertEquals(tiles.getEntity(coordinate), entity);
     }
 
+    /**
+     * Tests a Tile created with a tileType can be be updated with a 
+     * new entity type
+     */
     @Test
     @ExtendWith(GameExtension.class)
     void testReturnEntitySmallHashmap() {
@@ -87,6 +108,9 @@ class UGSTest {
         assertEquals(tiles.getEntity(coordinate), entity);
     }
 
+    /**
+     * Tests the UGS returns the correct tileType given it contains multiple tiles
+     */
     @Test
     void testReturnMultipleTiles(){
         UGS tiles = new UGS();
@@ -99,11 +123,14 @@ class UGSTest {
 
         tiles.add(coordinate1, tile1);
         tiles.add(coordinate2, tile2);
-        tiles.add(coordinate2, tile2);
+        tiles.add(coordinate3, tile3);
 
         assertEquals(tiles.getTileType(coordinate2), "water");
     }
 
+    /**
+     * Tests the return value of the UGS is independent of the input 
+     */
     @Test
     void testReturnGeneratedTiles() {
         UGS tiles = new UGS();
@@ -115,6 +142,9 @@ class UGSTest {
 
     }
 
+    /**
+     * Tests the UGS can be updated with a large entity
+     */
     @Test
     void TestSetLargeEntity() {
         UGS tiles = new UGS();

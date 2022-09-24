@@ -12,7 +12,8 @@ public class UGS {
 
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
-    }
+        generateUGS();
+    }   
 
     /**
      * Takes a String (concatenated x,y value) and returns the associated tile's type
@@ -104,7 +105,7 @@ public class UGS {
      * @param y integer
      * @return String 
      */
-    public String generateCoordinate(int x, int y) {
+    public static String generateCoordinate(int x, int y) {
         return String.format("%d,%d", x, y);
     }
   
@@ -188,10 +189,15 @@ public class UGS {
         }
         return false;
     }
+
+    /**
+     * Generates a Mapsize x Mapsize sized grid and initialises a Tile object
+     * in each coordinate. 
+     */
     public void generateUGS() {
-        Tile tile = new Tile();
         for (int x = 0; x < MAPSIZE; x++) {
             for (int y = 0; y < MAPSIZE; y++) {
+                Tile tile = new Tile();
                 String coordinate = generateCoordinate(x, y);
                 this.add(coordinate,tile);
             }
