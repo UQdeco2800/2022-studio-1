@@ -2,8 +2,11 @@ package com.deco2800.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.MainGameNpcInterface;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Provides a global access point for entities to register themselves. This allows for iterating
- * over entities to perform updates each loop. All game entities should be registered here.
+ * Provides a global access point for NPC entities to register themselves. This allows for iterating
+ * over NPC entities to perform updates each loop. All NPC entities should be registered here.
  *
- * Avoid adding additional state here! Global access is often the easy but incorrect answer to
- * sharing data.
  */
 public class NpcService extends EntityService {
     private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
@@ -27,8 +28,8 @@ public class NpcService extends EntityService {
 
     private final Map<String, Entity> namedNpc = new HashMap<String, Entity>();
     private int npcNum = 0;
-
-
+    private static Table Conversation;
+    private static boolean isVisible;
 
     public void setNpcNum(int num) {
         this.npcNum = num;
@@ -39,10 +40,8 @@ public class NpcService extends EntityService {
     }
 
 
-
-
     /**
-     * Register a new entity with the entity service. The entity will be created and start updating.
+     * Register a new entity with the NPC service. The entity will be created and start updating.
      * @param entity new entity.
      */
     @Override
@@ -93,7 +92,7 @@ public class NpcService extends EntityService {
 
 
     /**
-     * Unregister an entity with the entity service. The entity will be removed and stop updating.
+     * Unregister an entity with the NPC service. The entity will be removed and stop updating.
      * @param entity entity to be removed.
      */
     @Override
@@ -123,6 +122,11 @@ public class NpcService extends EntityService {
         }
     }
 
+    /**
+     * Determine if NPCs on map are being clicked on
+     * @param screenX x coordinate
+     * @param screenY y coordinate
+     */
     public static boolean npcClicked(int screenX, int screenY) {
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
@@ -130,6 +134,11 @@ public class NpcService extends EntityService {
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
+        //System.out.println(isVisible);
+        if (isVisible) {
+            Conversation.remove();
+            isVisible = false;
+        }
 
         for (int i = 0; i < ServiceLocator.getNpcService().getNpcNum(); i++) {
             Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
@@ -138,11 +147,14 @@ public class NpcService extends EntityService {
 
             if (xPos-0.2 < mousePosV2.x && mousePosV2.x < xPos+0.2) {
                 if (yPos-0.2 < mousePosV2.y && mousePosV2.y < yPos+0.2) {
-                    System.out.println("npc clicked");
+                    //System.out.println("npc clicked");
                     //initiate conversation
+                    Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true, screenX, screenY);
+                    isVisible = true;
                     return true;
                 }
             }
+
         }
 
         return false;

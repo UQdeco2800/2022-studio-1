@@ -65,6 +65,7 @@ public class CrystalFactory {
 
     /**
      * Spawns Crystal outside of Game Area class
+     * @param texture path of texture for new Crystal Entity
      *
      */
     public static void triggerCrystal(String texture) {
@@ -109,6 +110,8 @@ public class CrystalFactory {
 
     /**
      * Determine if crystal is being clicked
+     * @param screenX x coordinate
+     * @param screenY y coordinate
      */
     public static boolean crystalClicked(int screenX, int screenY) {
         //testing crystal upgrade on click
