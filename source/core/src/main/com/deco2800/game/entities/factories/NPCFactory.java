@@ -125,6 +125,7 @@ public class NPCFactory {
     return pirateCrabEnemy;
   }
 
+  //Kept code to change back to texture if need be
   public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
     Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
@@ -142,13 +143,13 @@ public class NPCFactory {
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
+            //.addComponent(textureRenderComponent);
             .addComponent(new GhostAnimationController());
 
-    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    //ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
+    //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-
-
     ElectricEelEnemy.setScale(1.2f, 1.2f);
 
     return ElectricEelEnemy;
