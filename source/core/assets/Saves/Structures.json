@@ -1,0 +1,83 @@
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER2I.png
+	position: {
+		x: 64.975
+		y: -0.3312497
+	}
+	name: "tower2(65, 64)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 55.6375
+		y: -4.6437507
+	}
+	name: "wall(64, 55)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 57.325
+		y: -2.2062504
+	}
+	name: "wall(61, 57)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: stonequarry
+	position: {
+		x: 51.5875
+		y: -0.85625017
+	}
+	name: "stonequarry(53, 51)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER1I.png
+	position: {
+		x: 60.23125
+		y: -5.1875005
+	}
+	name: "tower1(70, 60)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/trap.png
+	position: {
+		x: 54.00625
+		y: 1.9562502
+	}
+	name: "trap(50, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER3I.png
+	position: {
+		x: 57.75625
+		y: 3.5125003
+	}
+	name: "tower3(50, 57)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: wood
+	position: {
+		x: 58.825
+		y: -3.6687505
+	}
+	name: "woodCutter(66, 58)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 54.49375
+		y: -3.8187504
+	}
+	name: "wall(62, 54)"
+}
+]

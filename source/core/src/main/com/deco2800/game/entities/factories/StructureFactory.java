@@ -263,6 +263,10 @@ public static Entity createTrap() {
    */
   public static void handleBuildingDestruction(String name) {
     Entity structure = ServiceLocator.getStructureService().getNamedEntity(name);
+
+    if (structure == null) {
+      return;
+    }
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
     switch(buildingHealth) {
       case 0: //Building destroyed

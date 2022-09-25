@@ -151,12 +151,13 @@ public class ForestGameArea extends GameArea {
 
   public ForestGameArea(TerrainFactory terrainFactory) {
     super();
+
     this.terrainFactory = terrainFactory;
 
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-        this::dayChange);
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-        this::spawnSetEnemies);
+//    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+//        this::dayChange);
+//    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+//        this::spawnSetEnemies);
 
   }
 
@@ -189,7 +190,7 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObjects();
 
     playMusic();
-    SaveGame.saveGameState(1);
+    SaveGame.loadGameState();
   }
 
   private void displayUI() {

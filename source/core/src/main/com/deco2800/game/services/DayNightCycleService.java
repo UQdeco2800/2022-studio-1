@@ -22,35 +22,41 @@ public class DayNightCycleService {
 
     public static final String EVENT_INTERMITTENT_PART_OF_DAY_CLOCK = "moveClock";
 
-    private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
+    private transient static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
 
-    private DayNightCycleStatus currentCycleStatus;
+    public DayNightCycleStatus currentCycleStatus;
 
-    private DayNightCycleStatus lastCycleStatus;
-    private int currentDayNumber;
-    private long currentDayMillis;
+    public DayNightCycleStatus lastCycleStatus;
 
-    private long timePaused;
+    public int currentDayNumber;
+    public long currentDayMillis;
 
-    private long totalDurationPaused;
+    public long timePaused;
 
-    private boolean isPaused;
+    public long totalDurationPaused;
 
-    private boolean isStarted;
+    public boolean isPaused;
 
-    private final DayNightCycleConfig config;
-    private final GameTime timer;
+    public boolean isStarted;
 
-    private long timeSinceLastPartOfDay;
+    public DayNightCycleConfig config;
+    public GameTime timer;
 
-    private long timePerHalveOfPartOfDay;
+    public long timeSinceLastPartOfDay;
 
-    private int partOfDayHalveIteration;
+    public long timePerHalveOfPartOfDay;
 
-    private int lastPartOfDayHalveIteration;
+    public int partOfDayHalveIteration;
 
-    private EventHandler events;
+    public int lastPartOfDayHalveIteration;
+
+    private transient EventHandler events;
+
+    /**
+     * Empty method here for save game functionality DO NOT USE
+     */
+    public DayNightCycleService() {}
 
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
         this.events = new EventHandler(); //
@@ -68,6 +74,7 @@ public class DayNightCycleService {
         this.config = config;
         this.timer = timer;
     }
+
 
     /**
      * Returns whether the current day night cycle has ended.
