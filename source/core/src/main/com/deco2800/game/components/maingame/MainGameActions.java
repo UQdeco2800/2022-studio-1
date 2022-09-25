@@ -33,6 +33,8 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
     entity.getEvents().addListener("settings", this::onSettings);
+    entity.getEvents().addListener("load", this::onSave);
+    entity.getEvents().addListener("save", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
   }
@@ -44,6 +46,24 @@ public class MainGameActions extends Component {
     logger.info("Exiting main game screen");
     CareTaker.deleteAll();
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+  }
+
+  /**
+   * Intended for saving a game state.
+   * WIP!!!
+   * Save functionality is not actually implemented.
+   */
+  private void onSave() {
+    logger.info("Save game");
+  }
+
+  /**
+   * Intended for loading a saved game state.
+   * WIP!!!
+   * Load functionality is not actually implemented.
+   */
+  private void onLoad() {
+    logger.info("Load game");
   }
 
   /**
