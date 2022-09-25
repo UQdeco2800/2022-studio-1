@@ -20,7 +20,7 @@ public class AchievementFactory {
 
                 new Achievement(5, AchievementType.KILLS,true, "Enemy Kills", "You've killed %d enemies"),
 
-                new Achievement(6, AchievementType.UPGRADES, true, "Perform upgrades", "You've completed %d upgrades"),
+                new Achievement(6, AchievementType.UPGRADES, true, "Perform crystal upgrades", "You've completed %d crystal upgrades"),
 
                 new Achievement(7, AchievementType.GAME, true, "Complete games", "You've completed %d games"),
                 new Achievement(8, AchievementType.GAME, true, "Buy items from the shop", "You've bought %d items from the shop"),
