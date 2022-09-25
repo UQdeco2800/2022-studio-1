@@ -285,7 +285,12 @@ public class NPCFactory {
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
                 .addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
-        npc.setName("NPC");
+
+        if (index == 0){
+          npc.setName("SpecialNPC");
+        }else {
+          npc.setName("NPC");
+        }
         npc.setCollectable(false);
         npc.setScale(0.7f, 0.7f);
 

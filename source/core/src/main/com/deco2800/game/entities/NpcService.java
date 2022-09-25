@@ -1,5 +1,6 @@
 package com.deco2800.game.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.maingame.MainGameNpcInterface;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ public class NpcService extends EntityService {
     private int npcNum = 0;
     private static Table Conversation;
     private static boolean isVisible;
+    private int npcType;
 
     public void setNpcNum(int num) {
         this.npcNum = num;
@@ -37,6 +40,14 @@ public class NpcService extends EntityService {
 
     public int getNpcNum() {
         return npcNum;
+    }
+
+    public void setNpcType(int num) {
+        this.npcType = num;
+    }
+
+    public int getNpcType() {
+        return npcType;
     }
 
 
@@ -149,8 +160,10 @@ public class NpcService extends EntityService {
                 if (yPos-0.2 < mousePosV2.y && mousePosV2.y < yPos+0.2) {
                     //System.out.println("npc clicked");
                     //initiate conversation
-                    Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true, screenX, screenY);
-                    isVisible = true;
+                    if(NPC.getName()=="SpecialNPC") {
+                        Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true, screenX, screenY);
+                        isVisible = true;
+                    }
                     return true;
                 }
             }

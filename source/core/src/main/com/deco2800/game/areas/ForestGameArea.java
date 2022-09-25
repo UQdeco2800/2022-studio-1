@@ -175,7 +175,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnNPCharacter();
+//    spawnNPCharacter();
     spawnEnvironmentalObjects();
 
     playMusic();
