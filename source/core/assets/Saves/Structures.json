@@ -1,172 +1,82 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
+	texture: images/TOWER2I.png
 	position: {
-		x: 62
-		y: -2.25
+		x: 64.975
+		y: -0.3312497
 	}
-	name: "wall(66, 56)"
+	name: "tower2(65, 64)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 59.5
-		y: -2
+		x: 55.6375
+		y: -4.6437507
 	}
-	name: "wall(63, 55)"
+	name: "wall(64, 55)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 57.325
+		y: -2.2062504
+	}
+	name: "wall(61, 57)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: stonequarry
+	position: {
+		x: 51.5875
+		y: -0.85625017
+	}
+	name: "stonequarry(53, 51)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/TOWER1I.png
 	position: {
-		x: 59.475
-		y: 2.3437502
+		x: 60.23125
+		y: -5.1875005
 	}
-	name: "tower1(55, 58)"
+	name: "tower1(70, 60)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/trap.png
+	position: {
+		x: 54.00625
+		y: 1.9562502
+	}
+	name: "trap(50, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER3I.png
+	position: {
+		x: 57.75625
+		y: 3.5125003
+	}
+	name: "tower3(50, 57)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: wood
+	position: {
+		x: 58.825
+		y: -3.6687505
+	}
+	name: "woodCutter(66, 58)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 65
-		y: -2.75
-	}
-	name: "wall(70, 58)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 57.5
-		y: -1.5
-	}
-	name: "wall(60, 54)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 51
-		y: 0.75
-	}
-	name: "wall(50, 52)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 66
-		y: -2.75
-	}
-	name: "wall(72, 59)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 56.2375
-		y: 0.98125017
-	}
-	name: "wall(54, 56)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 51
-		y: 0.75
-	}
-	name: "wall(50, 51)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 63.5
-		y: -2.5
-	}
-	name: "wall(68, 57)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 67
-		y: -3.25
-	}
-	name: "wall(74, 60)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/TOWER1I.png
-	position: {
-		x: 60.4875
-		y: 2.3062503
-	}
-	name: "tower1(56, 59)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 61
-		y: -2.25
-	}
-	name: "wall(65, 56)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 56
-		y: -1.25
-	}
-	name: "wall(59, 53)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 55.8
-		y: 3.4687502
-	}
-	name: "wall(49, 55)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 55
-		y: -0.75
-	}
-	name: "wall(57, 52)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 50.5
-		y: 0.5
-	}
-	name: "wall(49, 51)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 50.5
-		y: 0.5
-	}
-	name: "wall(49, 50)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 58.5
-		y: -1.5
+		x: 54.49375
+		y: -3.8187504
 	}
 	name: "wall(62, 54)"
 }
