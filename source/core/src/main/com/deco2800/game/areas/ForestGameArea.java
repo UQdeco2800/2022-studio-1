@@ -114,7 +114,8 @@ public class ForestGameArea extends GameArea {
       "images/shipWreckBack.png",
       "images/shipWreckFront.png",
       "images/ElectricEel.png",
-      "images/starfish.png"
+      "images/starfish.png",
+      "images/NpcPlaceholder.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -174,6 +175,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
+    spawnNPCharacter();
     spawnEnvironmentalObjects();
 
     playMusic();
@@ -470,9 +472,6 @@ public class ForestGameArea extends GameArea {
           for (int i = NPCNum; i < StructuresNum; i++) {
             //System.out.println("spawned");
             spawnNPCharacter();
-            NPCNum++;
-            ServiceLocator.getNpcService().setNpcNum(NPCNum);
-
           }
         }
         break;
@@ -592,6 +591,8 @@ public class ForestGameArea extends GameArea {
     GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
             .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
     spawnEntityAt(NPC,randomPos, true, true);
+    NPCNum++;
+    ServiceLocator.getNpcService().setNpcNum(NPCNum);
     //NPC.setPosition(terrainFactory.getMapSize().x / 3, terrainFactory.getMapSize().y / 3);
     //ServiceLocator.getEntityService().addEntity(NPC);
 

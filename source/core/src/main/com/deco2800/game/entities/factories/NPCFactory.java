@@ -286,6 +286,8 @@ public class NPCFactory {
                 .addComponent(aiComponent);
         npc.setName("NPC");
         npc.setCollectable(false);
+        npc.setScale(0.7f, 0.7f);
+
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
