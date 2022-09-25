@@ -33,8 +33,8 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
     entity.getEvents().addListener("settings", this::onSettings);
-    entity.getEvents().addListener("load", this::onSave);
-    entity.getEvents().addListener("save", this::onLoad);
+    entity.getEvents().addListener("save", this::onSave);
+    entity.getEvents().addListener("load", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
   }
