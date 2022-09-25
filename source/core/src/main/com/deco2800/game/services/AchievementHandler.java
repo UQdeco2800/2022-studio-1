@@ -8,12 +8,16 @@ import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.events.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for handling the loading, updating and saving of game achievements
@@ -22,12 +26,28 @@ public class AchievementHandler {
     public static final String EVENT_CRYSTAL_UPGRADED = "crystalUpgraded";
     public static final String EVENT_BUILDING_PLACED = "buildingPlaced";
     public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
+
+    public static final String EVENT_RESOURCE_ADDED = "resourceAdded";
+    public static final String EVENT_STAT_ACHIEVEMENT_MADE = "statAchieved";
+
+    /* for non stat achievements */
+    public static final String EVENT_ACHIEVEMENT_MADE = "achievementMade";
+
+    public static final int STAT_ACHIEVEMENT_1_MILESTONE = 1;
+
+    public static final int STAT_ACHIEVEMENT_10_MILESTONE = 10;
+
+    public static final int STAT_ACHIEVEMENT_25_MILESTONE = 25;
+
+    public static final int STAT_ACHIEVEMENT_50_MILESTONE = 50;
+
     private EventHandler events;
     private final List<Achievement> achievements;
     private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
     private final Json json;
     private long lastSaved;
 
+    private final Logger logger = LoggerFactory.getLogger(AchievementHandler.class);
 
     /**
      * Initialise the achievement handler. Uses default achievements if no achievement
@@ -97,9 +117,12 @@ public class AchievementHandler {
     public void run() {
         // Update achievement status'
         // Need listeners for stat achievements
-        this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievement);
-        this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievement);
-        this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievement);
+        this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievementByType);
+        this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievementByType);
+        this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievementByType);
+
+        // resource stat listeners
+        this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
 
         // while game is running do:
         // save state every x seconds?
@@ -109,18 +132,35 @@ public class AchievementHandler {
     }
 
     /**
+     * Updates the stats of a resource stat achievement
+     *
+     * @param resourceType the resource type (WOOD, STONE, GOLD)
+     * @param amount the amount of resource being added
+     */
+    private void updateResourceStatOnResourceAdded(ResourceType resourceType, int amount) {
+
+      Optional<Achievement> achievementOptional =  switch (resourceType) {
+            case WOOD -> achievements.stream().filter(a -> a.getId() == 1).findFirst();
+            case STONE -> achievements.stream().filter(a -> a.getId() ==2).findFirst();
+            case GOLD -> achievements.stream().filter(a -> a.getId() == 3).findFirst();
+          case ARTIFACT -> Optional.empty();
+        };
+
+      achievementOptional.ifPresent(a -> incrementTotalAchievedForStatAchievement(a, amount));
+      saveAchievements();
+    }
+
+    /**
      * Basic method to update the stat type achievements when changes are made to the game state.
      * @param type AchievementType
      */
-    public void updateStatAchievement(AchievementType type, int increase) {
+    public void updateStatAchievementByType(AchievementType type, int increase) {
         // no stat achievements fall into misc type so shouldn't have to deal with them
         Achievement achievement = new Achievement();
 
         switch (type) {
             case RESOURCES:
-                // update resources achievement progress
-                // achievements 0, 1, 2
-                achievement = this.achievements.get(0);
+                // handled outside
                 break;
             case BUILDINGS:
                 // update resources achievement progress
@@ -137,14 +177,80 @@ public class AchievementHandler {
                 // update game stats achievement
         }
 
-        // need to add csv values to achievement factory
-        achievement.setTotalAchieved(achievement.getTotalAchieved() + increase);
-        String[] data = achievement.getAchievementData().split(",");
+        incrementTotalAchievedForStatAchievement(achievement, increase);
+        saveAchievements();
+    }
 
-        if ((Integer.parseInt(data[data.length - 1])) <= achievement.getTotalAchieved()) {
-            achievement.setCompleted(true);
+    /**
+     * Correct updates the total achieved for a stat achievement.
+     * checks if a milestone is reached and broadcasts message
+     *
+     * @param achievement the stat achievement
+     * @param increase amount to increase by
+     */
+    public void incrementTotalAchievedForStatAchievement(Achievement achievement, int increase) {
+
+        achievement.setTotalAchieved(achievement.getTotalAchieved() + increase);
+        checkStatAchievementMilestones(achievement);
+    }
+
+
+    /**
+     * Specific to Stat achievements.
+     * Check whether a new achievement milestone is reached and broadcasts it.
+     * If the last milestone is reached all achievements for that stat have been achieved.
+     *
+     * @param achievement the stat achievement
+     */
+    public void checkStatAchievementMilestones(Achievement achievement) {
+        long totalAchieved = achievement.getTotalAchieved();
+
+        if (totalAchieved == STAT_ACHIEVEMENT_1_MILESTONE ||
+            totalAchieved == STAT_ACHIEVEMENT_10_MILESTONE ||
+            totalAchieved == STAT_ACHIEVEMENT_25_MILESTONE ||
+            totalAchieved == STAT_ACHIEVEMENT_50_MILESTONE) {
+            broadcastStatAchievementMilestoneReached(achievement);
         }
 
-        saveAchievements();
+        if (totalAchieved == STAT_ACHIEVEMENT_50_MILESTONE) {
+            broadcastStatAchievementMilestoneReached(achievement);
+            achievement.setCompleted(true);
+        }
+    }
+
+    /**
+     * Broadcast the new achievement milestone reached to interested parties.
+     * This is useful for any UI elements that need to display a popup more specific
+     * to stat events.
+     *
+     * @param achievement the stat achievement with the new milestone
+     */
+    private void broadcastStatAchievementMilestoneReached(Achievement achievement) {
+        this.events.trigger(EVENT_STAT_ACHIEVEMENT_MADE, achievement);
+    }
+
+    /**
+     * Broadcast that a none stat achievement has been reached
+     *
+     * @param achievement the non-stat achievement
+     */
+    private void broadcastAchievementMade(Achievement achievement) {
+        this.events.trigger(EVENT_ACHIEVEMENT_MADE, achievement);
+    }
+
+    /**
+     * Marks an achievement completed
+     * @param id the id of the a
+     * @param broadcast whether to broadcast a completion message
+     *                  true if so false otherwise
+     */
+    public void markAchievementCompletedById(long id, boolean broadcast) {
+
+        achievements.stream().filter(a -> a.getId() == id).findFirst().ifPresent(a -> {
+            a.setCompleted(true);
+            if (broadcast) {
+                broadcastAchievementMade(a);
+            }
+        });
     }
 }
