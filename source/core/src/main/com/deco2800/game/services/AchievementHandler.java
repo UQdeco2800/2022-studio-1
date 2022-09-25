@@ -21,6 +21,10 @@ public class AchievementHandler {
     private long lastSaved;
 
 
+    /**
+     * Initialise the achievement handler. Uses default achievements if no achievement
+     * file already exists
+     */
     public AchievementHandler() {
         json = new Json();
         json.setElementType(AchievementData.class,"achievements", Achievement.class);
@@ -36,26 +40,42 @@ public class AchievementHandler {
         }
     }
 
+    /**
+     * Getter method for the achievement list
+     * @return List
+     */
     public List<Achievement> getAchievements() {
         return this.achievements;
     }
 
+    /**
+     * Saves the current state of the achievement list with the current time
+     */
     public void saveAchievements() {
         this.lastSaved = System.currentTimeMillis();
 
-        AchievementData achievementData = new AchievementData(this.lastSaved ,
+        AchievementData achievementData = new AchievementData(this.lastSaved,
                 new ArrayList<>(this.achievements));
 
         achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
     }
 
+    /**
+     * Loads the achievement list from the achievement file
+     * @param fH FileHandle
+     * @return ArrayList
+     */
     public ArrayList<Achievement> loadAchievements(FileHandle fH) {
-        AchievementData temp = json.fromJson(AchievementData.class, fH);
-        this.lastSaved = temp.getLastSaved();
+        AchievementData data = json.fromJson(AchievementData.class, fH);
+        this.lastSaved = data.getLastSaved();
 
-        return temp.getAchievements();
+        return data.getAchievements();
     }
 
+    /**
+     * Runs the achievement handler. Updates status of achievements in the list when progress is
+     * made towards them.
+     */
     public void run() {
         // Update achievement status'
         // Need listeners for stat achievements
@@ -67,6 +87,10 @@ public class AchievementHandler {
         saveAchievements();
     }
 
+    /**
+     * Basic method to update the stat type achievements when changes are made to the game state.
+     * @param type AchievementType
+     */
     public void updateStatAchievement(AchievementType type) {
         // no stat achievements fall into misc type so shouldn't have to deal with them
         switch (type) {
