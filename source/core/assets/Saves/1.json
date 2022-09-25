@@ -1,63 +1,80 @@
 [
 {
-	images/65x33_tiles/shell.png: {
-		class: com.badlogic.gdx.math.Vector2
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 63.25
+		y: 2.5
+	}
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
 		x: 59.007576
-		y: 1.25
+		y: 1.75
 	}
 }
 {
-	images/shipWreckBack.png: {
-		class: com.badlogic.gdx.math.Vector2
-		x: 62.25
-		y: -1
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/groupPalmTrees.png
+	position: {
+		x: 57.55042
+		y: 1
 	}
 }
 {
-	images/landscape_objects/groupPalmTrees.png: {
-		class: com.badlogic.gdx.math.Vector2
-		x: 60.05042
-		y: -2.25
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/leftPalmTree.png
+	position: {
+		x: 56.55042
+		y: -1.5
 	}
 }
 {
-	images/landscape_objects/leftPalmTree.png: {
-		class: com.badlogic.gdx.math.Vector2
-		x: 62.05042
-		y: -1.75
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/pillar.png
+	position: {
+		x: 67.14286
+		y: 0.25
 	}
 }
 {
-	images/65x33_tiles/shell.png: {
-		class: com.badlogic.gdx.math.Vector2
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
 		x: 61.507576
-		y: 2
+		y: 4.5
 	}
 }
 {
-	images/65x33_tiles/shell.png: {
-		class: com.badlogic.gdx.math.Vector2
-		x: 66.007576
-		y: 2.25
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 56.25
+		y: -0.5
 	}
 }
 {
-	images/landscape_objects/pillar.png: {
-		class: com.badlogic.gdx.math.Vector2
-		x: 67.64286
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/rightPalmTree.png
+	position: {
+		x: 62.55042
 	}
 }
 {
-	images/landscape_objects/chalice.png: {
-		class: com.badlogic.gdx.math.Vector2
-		x: 58.75
-	}
-}
-{
-	images/shipWreckFront.png: {
-		class: com.badlogic.gdx.math.Vector2
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/chalice.png
+	position: {
 		x: 62.25
-		y: 3
+		y: -1.25
+	}
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 63.507576
 	}
 }
 ]

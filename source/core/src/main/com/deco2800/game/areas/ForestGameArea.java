@@ -189,7 +189,7 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObjects();
 
     playMusic();
-    SaveGame.saveGameState(1);
+    SaveGame.loadGameState();
   }
 
   private void displayUI() {
