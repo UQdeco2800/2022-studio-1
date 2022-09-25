@@ -29,6 +29,7 @@ public class Achievement {
         this.achievementType = achievementType;
         this.name = name;
         this.description = description;
+        this.totalAchieved = 0;
         this.isCompleted = false;
         this.isStat = isStat;
         this.achievementData = "";

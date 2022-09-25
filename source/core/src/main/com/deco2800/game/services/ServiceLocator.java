@@ -65,8 +65,12 @@ public class ServiceLocator {
 
   public static StructureService getStructureService() { return structureService; }
 
-  public static DayNightCycleService getDayNightCycleService () {
+  public static DayNightCycleService getDayNightCycleService() {
     return dayNightCycleService;
+  }
+
+  public static AchievementHandler getAchievementHandler() {
+    return achievementHandler;
   }
 
   public static void registerEntityService(EntityService service) {
