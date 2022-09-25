@@ -176,7 +176,6 @@ public class InventoryComponent extends Component {
    */
   public void addGold(int gold) {
     setGold(inventory.get(GOLD) + gold);
-    this.triggerResourceAddedEvent(GOLD, gold);
   }
 
   /**
@@ -186,8 +185,6 @@ public class InventoryComponent extends Component {
    */
   public void addStone(int stone) {
     setStone(inventory.get(STONE) + stone);
-    this.triggerResourceAddedEvent(STONE, stone);
-
   }
 
   /**
@@ -197,11 +194,11 @@ public class InventoryComponent extends Component {
    */
   public void addWood(int wood) {
     setWood(inventory.get(WOOD) + wood);
-    this.triggerResourceAddedEvent(WOOD, wood);
   }
 
   public void addResources(ResourceType resourceType, int amount) {
     inventory.replace(resourceType, inventory.get(resourceType) + amount);
+    this.triggerResourceAddedEvent(resourceType, amount);
   }
 
   public void setItems(HashMap<Artefact, Integer> items) {

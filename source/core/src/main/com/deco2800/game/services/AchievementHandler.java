@@ -68,6 +68,21 @@ public class AchievementHandler {
             this.achievements = AchievementFactory.createInitialAchievements();
             this.saveAchievements();
         }
+
+        listenOnEvents();
+    }
+
+
+    /**
+     * Listens for events from outside
+     */
+    private void listenOnEvents() {
+        this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievementByType);
+        this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievementByType);
+        this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievementByType);
+
+        // resource stat listeners
+        this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
     }
 
     /**
@@ -115,15 +130,6 @@ public class AchievementHandler {
      * made towards them.
      */
     public void run() {
-        // Update achievement status'
-        // Need listeners for stat achievements
-        this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievementByType);
-        this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievementByType);
-        this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievementByType);
-
-        // resource stat listeners
-        this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
-
         // while game is running do:
         // save state every x seconds?
 
@@ -227,6 +233,7 @@ public class AchievementHandler {
      */
     private void broadcastStatAchievementMilestoneReached(Achievement achievement) {
         this.events.trigger(EVENT_STAT_ACHIEVEMENT_MADE, achievement);
+        logger.debug("Stat achievement of type: {} has been achieved", achievement.getAchievementType());
     }
 
     /**
