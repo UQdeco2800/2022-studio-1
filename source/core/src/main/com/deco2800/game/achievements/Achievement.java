@@ -14,9 +14,9 @@ public class Achievement {
     private AchievementType achievementType;
     private String name;
     private String description;
-    private int totalAchieved;
-    private boolean isCompleted;
-    private boolean isStat;
+    private Integer totalAchieved;
+    private Boolean isCompleted;
+    private Boolean isStat;
 
     private String achievementData; // CSV or JSON formatted data specific to this particular achievement
 
@@ -59,11 +59,11 @@ public class Achievement {
         this.name = name;
     }
 
-    public int getTotalAchieved() {
+    public Integer getTotalAchieved() {
         return totalAchieved;
     }
 
-    public void setTotalAchieved(int totalAchieved) {
+    public void setTotalAchieved(Integer totalAchieved) {
         this.totalAchieved = totalAchieved;
     }
 

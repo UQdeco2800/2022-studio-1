@@ -2,10 +2,12 @@ package com.deco2800.game.achievements;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AchievementData {
     private long LastSaved;
-    private ArrayList<Achievement> achievements;
+
+    private List<Achievement> achievements;
 
     public long getLastSaved() {
         return LastSaved;
@@ -15,7 +17,7 @@ public class AchievementData {
         LastSaved = lastSaved;
     }
 
-    public ArrayList<Achievement> getAchievements() {
+    public List<Achievement> getAchievements() {
         return this.achievements;
     }
 
@@ -28,7 +30,7 @@ public class AchievementData {
     public AchievementData() {
 
     }
-    public AchievementData(long lastSaved, ArrayList<Achievement> achievements) {
+    public AchievementData(long lastSaved, List<Achievement> achievements) {
         LastSaved = lastSaved;
         this.achievements = achievements;
     }

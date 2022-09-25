@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,8 +106,7 @@ public class AchievementHandler {
     public void saveAchievements() {
         this.lastSaved = System.currentTimeMillis();
 
-        AchievementData achievementData = new AchievementData(this.lastSaved,
-                new ArrayList<>(this.achievements));
+        AchievementData achievementData = new AchievementData(this.lastSaved, this.achievements);
 
         achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
     }
@@ -118,7 +116,7 @@ public class AchievementHandler {
      * @param fH FileHandle
      * @return ArrayList
      */
-    public ArrayList<Achievement> loadAchievements(FileHandle fH) {
+    public List<Achievement> loadAchievements(FileHandle fH) {
         AchievementData data = json.fromJson(AchievementData.class, fH);
         this.lastSaved = data.getLastSaved();
 
