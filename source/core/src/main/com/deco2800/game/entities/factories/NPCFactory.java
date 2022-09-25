@@ -285,8 +285,17 @@ public class NPCFactory {
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
                 .addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
-        npc.setName("NPC");
-        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+
+        if (index == 0){
+          npc.setName("SpecialNPC");
+        }else {
+          npc.setName("NPC");
+        }
+        npc.setCollectable(false);
+        npc.setScale(0.7f, 0.7f);
+
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 

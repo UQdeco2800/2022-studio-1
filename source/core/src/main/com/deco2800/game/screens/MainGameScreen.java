@@ -10,13 +10,11 @@ import com.deco2800.game.areas.GameService;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
-import com.deco2800.game.components.maingame.MainGameActions;
-import com.deco2800.game.components.maingame.MainGameExitDisplay;
-import com.deco2800.game.components.maingame.MainGameInterface;
-import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.*;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
@@ -124,7 +122,7 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
     ServiceLocator.registerResourceManagementService(new ResourceManagementService());
-
+    ServiceLocator.registerNpcService(new NpcService());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -218,7 +216,8 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new MainGameBuildingInterface())
-            .addComponent(new DayNightClockComponent())
+        .addComponent(new MainGameNpcInterface())
+        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
