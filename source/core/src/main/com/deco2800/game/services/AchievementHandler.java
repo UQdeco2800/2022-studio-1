@@ -21,6 +21,7 @@ import java.util.List;
 public class AchievementHandler {
     public static final String EVENT_CRYSTAL_UPGRADED = "crystalUpgraded";
     public static final String EVENT_BUILDING_PLACED = "buildingPlaced";
+    public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
     private EventHandler events;
     private final List<Achievement> achievements;
     private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
@@ -98,6 +99,7 @@ public class AchievementHandler {
         // Need listeners for stat achievements
         this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievement);
         this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievement);
+        this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievement);
 
         // while game is running do:
         // save state every x seconds?
