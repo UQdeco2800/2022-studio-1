@@ -23,32 +23,90 @@ import java.util.Optional;
  * Service for handling the loading, updating and saving of game achievements
  */
 public class AchievementHandler {
+    /**
+     * Event string for crystal upgrade
+     */
     public static final String EVENT_CRYSTAL_UPGRADED = "crystalUpgraded";
+
+    /**
+     * Event string for building placement
+     */
     public static final String EVENT_BUILDING_PLACED = "buildingPlaced";
+
+    /**
+     * Event string for enemies killed
+     */
     public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
 
+    /**
+     * Event string for resources being added
+     */
     public static final String EVENT_RESOURCE_ADDED = "resourceAdded";
+
+    /**
+     * Event string for stat achievement completion
+     */
     public static final String EVENT_STAT_ACHIEVEMENT_MADE = "statAchieved";
 
     /* for non stat achievements */
+    /**
+     * Event string for regular achievement completion
+     */
     public static final String EVENT_ACHIEVEMENT_MADE = "achievementMade";
 
+    /**
+     * Default stat achievement first level
+     */
     public static final int STAT_ACHIEVEMENT_1_MILESTONE = 1;
 
+    /**
+     * Default stat achievement second level
+     */
     public static final int STAT_ACHIEVEMENT_10_MILESTONE = 10;
 
+    /**
+     * Default stat achievement third level
+     */
     public static final int STAT_ACHIEVEMENT_25_MILESTONE = 25;
 
+    /**
+     * Default stat achievement forth level
+     */
     public static final int STAT_ACHIEVEMENT_50_MILESTONE = 50;
 
-    private EventHandler events;
+    /**
+     * Achievement handler event handler
+     */
+    private final EventHandler events;
+
+    /**
+     * List of achievements being managed by the service
+     */
     private final List<Achievement> achievements;
 
+    /**
+     * Map of stat achievements to their stat milestones
+     */
     private final Map<Integer, List<Integer>> customStatMilestones;
+
+    /**
+     * File handler for the player achievement file
+     */
     private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
+
+    /**
+     * Used for reading and writing to the player achievement file
+     */
     private final Json json;
+
+    /**
+     * Stores the last time the status of the achievement handler was saved to the player achievement file
+     */
     private long lastSaved;
 
+    /**
+     * Logs status updated from the service
+     */
     private final Logger logger = LoggerFactory.getLogger(AchievementHandler.class);
 
     /**
@@ -247,7 +305,7 @@ public class AchievementHandler {
      * Broadcast the new achievement milestone reached to interested parties.
      * This is useful for any UI elements that need to display a popup more specific
      * to stat events.
-     *
+     * <p>
      * TotalAchieved should reflect the newly achieved milestone
      *
      * @param achievement the stat achievement with the new milestone
