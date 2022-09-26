@@ -1,8 +1,8 @@
 package com.deco2800.game.components.camera;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
 
@@ -94,9 +94,13 @@ public class CameraActions extends Component {
                 OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
                 if (playerMoving) {
 
-                        Vector2 difference = new Vector2(playerPosition.x - camera.position.x,
-                                        playerPosition.y - camera.position.y);
+                        Vector2 camPosition = new Vector2(camera.position.x, camera.position.y);
+                        camPosition.interpolate(playerPosition, 0.1f, Interpolation.swing);
+
+                        Vector2 difference = new Vector2(camera.position.x - camPosition.x,
+                                        camera.position.y - camPosition.y);
                         System.out.println("Difference: " + difference.toString());
+
                         camera.translate(difference);
 
                         // camera.translate();
@@ -109,7 +113,7 @@ public class CameraActions extends Component {
                 }
 
                 if (zoomIn) {
-                        float newZoomValue = camera.zoom - 0.05f;
+                        float newZoomValue = camera.zoom - 0.02f;
                         if (newZoomValue > 0) {
                                 camera.zoom = newZoomValue;
                                 camera.update();
@@ -118,9 +122,9 @@ public class CameraActions extends Component {
                 }
 
                 if (zoomOut) {
-                        float newZoomValue = camera.zoom + 0.05f;
+                        float newZoomValue = camera.zoom + 0.02f;
                         if (newZoomValue <= 2) {
-                                camera.zoom += 0.05f;
+                                camera.zoom = newZoomValue;
                                 camera.update();
                         }
                 }
