@@ -99,12 +99,8 @@ public class CameraActions extends Component {
 
                         Vector2 difference = new Vector2(camera.position.x - camPosition.x,
                                         camera.position.y - camPosition.y);
-                        System.out.println("Difference: " + difference.toString());
 
                         camera.translate(difference);
-
-                        // camera.translate();
-                        // camera.lookAt(playerPosition.x, playerPosition.y, camera.position.z);
                         camera.update();
                 } else if (panning) {
                         camera.translate(panDirection.x / 3,
