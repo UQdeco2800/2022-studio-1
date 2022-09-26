@@ -223,7 +223,6 @@ public class Originator {
         currentHealth = memento.getCurrentHealth();
         items = memento.getItemList();
         attack = memento.getAttack();
-        defense = memento.getDefense();
         weapon = memento.getWeapon();
         armor = memento.getArmor();
         equipmentsList = memento.getEquipmentsList();

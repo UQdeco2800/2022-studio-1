@@ -25,11 +25,13 @@ public class CombatStatsComponent extends Component {
   private int level;
   private int defense;
   private int currentAttack;
+  private int attackMultiplier;
   private int maxHealth = 10000;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    setAttackMultiplier(1);
     this.baseHealth = health;
     this.currentAttack = baseAttack;
   }
@@ -38,6 +40,7 @@ public class CombatStatsComponent extends Component {
     setHealth(health);
     setBaseAttack(baseAttack);
     setBaseDefense(defense);
+    setAttackMultiplier(1);
   }
 
   /**
@@ -49,6 +52,7 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
+    setBaseDefense(defense);
     this.currentAttack = baseAttack;
   }
 
@@ -147,13 +151,20 @@ public class CombatStatsComponent extends Component {
     }
   }
 
+  public void setAttackMultiplier(int multiplier) {
+    this.attackMultiplier = multiplier;
+  }
+
+  public int getAttackMultiplier() {
+    return attackMultiplier;
+  }
   /**
    * Returns the entity's base attack damage.
    *
    * @return base attack damage
    */
   public int getBaseAttack() {
-    return currentAttack;
+    return baseAttack;
   }
 
   public void addAttack(int attackPower) {

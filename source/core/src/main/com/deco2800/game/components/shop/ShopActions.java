@@ -66,7 +66,7 @@ public class ShopActions extends Component {
         currentStatus.setStone(entity.getComponent(InventoryComponent.class).getWood());
         if (game.getScreenType() == AtlantisSinks.ScreenType.EQUIPMENT_SHOP) {
             currentStatus.setDefense(entity.getComponent(CombatStatsComponent.class).getBaseDefense());
-            currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getBaseAttack());
+            currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getAttackMultiplier());
             currentStatus.setWeapon(entity.getComponent(InventoryComponent.class).getWeapon());
             currentStatus.setArmor(entity.getComponent(InventoryComponent.class).getArmor());
             currentStatus.setEquipmentsList(entity.getComponent(InventoryComponent.class).getEquipmentList());

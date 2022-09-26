@@ -82,7 +82,7 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getWood(),
         player.getComponent(CombatStatsComponent.class).getHealth(),
         player.getComponent(InventoryComponent.class).getItems(),
-        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        player.getComponent(CombatStatsComponent.class).getAttackMultiplier(),
         player.getComponent(CombatStatsComponent.class).getBaseDefense(),
         player.getComponent(InventoryComponent.class).getWeapon(),
         player.getComponent(InventoryComponent.class).getArmor(),
