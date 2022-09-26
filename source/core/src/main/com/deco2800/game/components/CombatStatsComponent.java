@@ -153,6 +153,8 @@ public class CombatStatsComponent extends Component {
 
   public void setAttackMultiplier(int multiplier) {
     this.attackMultiplier = multiplier;
+    revertAttack();
+    addAttack(baseAttack * (multiplier - 1));
   }
 
   public int getAttackMultiplier() {
@@ -167,6 +169,9 @@ public class CombatStatsComponent extends Component {
     return baseAttack;
   }
 
+  public int getCurrentAttack() {
+    return currentAttack;
+  }
   public void addAttack(int attackPower) {
     currentAttack += attackPower;
   }
@@ -182,14 +187,14 @@ public class CombatStatsComponent extends Component {
    */
   public void setBaseAttack(int attack) {
     if (attack >= 0) {
-      this.currentAttack = attack;
+      this.baseAttack = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
+    int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
     setHealth(newHealth);
     Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
     hurtSound.play();
