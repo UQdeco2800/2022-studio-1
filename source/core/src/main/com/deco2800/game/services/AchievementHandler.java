@@ -117,8 +117,8 @@ public class AchievementHandler {
         this.events = new EventHandler();
 
         json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
         json.setElementType(AchievementData.class,"achievements", Achievement.class);
+        json.setOutputType(JsonWriter.OutputType.json);
 
         if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))){
             //Load from file
