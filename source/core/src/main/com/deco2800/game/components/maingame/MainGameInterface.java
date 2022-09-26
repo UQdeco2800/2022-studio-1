@@ -5,10 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +27,10 @@ public class MainGameInterface extends UIComponent {
     private Table leftSideTable;
     private Table rightSideTable;
     private Table table1;
-    private Table table2;
+    private Group group;
+//    private Table table2;
+//    private Table table3;
+//    private Table table4;
 
     private boolean checkHiden = false;
     @Override
@@ -40,15 +48,40 @@ public class MainGameInterface extends UIComponent {
         leftSideTable.bottom().left();
         leftSideTable.setFillParent(true);
 
-        table1 = new Table();
-        table1.center();
-//        table1.setSize(50f,50f);
-        table1.setFillParent(true);
+        group = new Group();
+//        table1.setSize(800f,800f);
+
+//        table2 = new Table();
+//        table2.center().setPosition();
+//        table2.setFillParent(true);
 
         Texture inventoryInterfaceTexture = new Texture(Gdx.files.internal("images/popup-border.png"));
         TextureRegionDrawable inventory = new TextureRegionDrawable(inventoryInterfaceTexture);
         ImageButton inventoryFrame = new ImageButton(inventory,inventory);
-//        inventoryFrame.setSize(100,100);
+        inventoryFrame.setSize(800f,800f);
+        inventoryFrame.setPosition(Gdx.graphics.getWidth() / 2 - inventoryFrame.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - inventoryFrame.getHeight() / 2);
+
+        Texture crossTexture = new Texture(Gdx.files.internal("images/cross.png"));
+        TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
+        ImageButton crossFrame = new ImageButton(cross,cross);
+        crossFrame.setSize(40f,40f);
+        crossFrame.setPosition(inventoryFrame.getWidth() - 400f, inventoryFrame.getHeight() - 150f);
+
+        Label subtitle = new Label("Inventory", skin, "title");
+        subtitle.setFontScale(1f);
+        subtitle.setColor(skin.getColor("black"));
+        subtitle.setPosition(inventoryFrame.getWidth() - 350f,inventoryFrame.getHeight() - 150f);
+
+        Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
+        heartImage.setSize(40f,40f);
+        heartImage.setPosition(inventoryFrame.getWidth(), inventoryFrame.getHeight() - 150f);
+
+        Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class));
+//        int health = ServiceLocator.getStructureService().getNamedEntity("player").getComponent(CombatStatsComponent.class).getHealth();
+//        Label healthAmount = new Label(Integer.toString(health), skin, "large");
+        healthBarImage.setSize(200f,30f);
+        healthBarImage.setPosition(inventoryFrame.getWidth() + 50f, inventoryFrame.getHeight() - 150f);
 
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
@@ -76,7 +109,7 @@ public class MainGameInterface extends UIComponent {
                         logger.debug("Inventory button clicked");
                         entity.getEvents().trigger("inventory");
                         if(checkHiden == false){
-                            table1.setVisible(true);
+                            group.setVisible(true);
                             checkHiden = !checkHiden;
                         }
                     }
@@ -103,17 +136,34 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
+        crossFrame.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Close inventory page");
+                        if(checkHiden == true){
+                            group.setVisible(false);
+                            checkHiden = !checkHiden;
+                        }
+                    }
+                });
+
         rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
         leftSideTable.add(shopButton).left().bottom().size(150f, 150f);
         // adding settings to the left
         leftSideTable.add(achievementsButton).left().bottom().size(100f, 100f);
-        table1.add(inventoryFrame);
-        table1.setVisible(false);
+        group.addActor(inventoryFrame);
+        group.addActor(crossFrame);
+        group.addActor(subtitle);
+        group.addActor(heartImage);
+        group.addActor(healthBarImage);
+//        group.addActor(healthAmount);
+        group.setVisible(false);
 
         stage.addActor(leftSideTable);
         stage.addActor(rightSideTable);
-        stage.addActor(table1);
+        stage.addActor(group);
     }
 
     @Override
@@ -130,7 +180,7 @@ public class MainGameInterface extends UIComponent {
     public void dispose() {
         leftSideTable.clear();
         rightSideTable.clear();
-        table1.clear();
+        group.clear();
         super.dispose();
     }
 }
