@@ -69,6 +69,7 @@ public class ShopActions extends Component {
             currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getBaseAttack());
             currentStatus.setWeapon(entity.getComponent(InventoryComponent.class).getWeapon());
             currentStatus.setArmor(entity.getComponent(InventoryComponent.class).getArmor());
+            currentStatus.setEquipmentsList(entity.getComponent(InventoryComponent.class).getEquipmentList());
         } else if (game.getScreenType() == AtlantisSinks.ScreenType.ARTEFACT_SHOP) {
             currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
         }

@@ -284,7 +284,9 @@ public class ShopEquipmentDisplay extends UIComponent {
 
                                     // if the current weapon is the same as the weapon that the player is buying,
                                     // alert it as invalid purchase
-                                    if (entity.getComponent(InventoryComponent.class).getWeapon() == current.t) {
+                                    if (entity.getComponent(InventoryComponent.class).getWeapon() == current.t
+                                        || entity.getComponent(InventoryComponent.class)
+                                            .getEquipmentList().contains(current.t)) {
                                         logger.info("Already has weapon, invalid purchase!");
                                         filesound.play();
                                         buyButton.setColor(255, 0, 0, 1);
@@ -306,6 +308,7 @@ public class ShopEquipmentDisplay extends UIComponent {
 
                                         // sets player weapon to new weapon and change attack accordingly
                                         entity.getComponent(InventoryComponent.class).setWeapon(current.t);
+                                        entity.getComponent(InventoryComponent.class).addEquipmentToList(current.t);
                                         entity.getComponent(CombatStatsComponent.class).setBaseAttack(
                                                 entity.getComponent(CombatStatsComponent.class).getBaseAttack()
                                                         * stats.attack);
@@ -317,6 +320,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                                     buyButton.setColor(121, 15, 85, 1);
 
                                     entity.getComponent(InventoryComponent.class).setWeapon(current.t);
+                                    entity.getComponent(InventoryComponent.class).addEquipmentToList(current.t);
                                     entity.getComponent(CombatStatsComponent.class).setBaseAttack(
                                             entity.getComponent(CombatStatsComponent.class).getBaseAttack()
                                                     * stats.attack);
@@ -324,8 +328,9 @@ public class ShopEquipmentDisplay extends UIComponent {
 
                             } else {
                                 // invalid purchase if the armor is already in inventory
-                                if (entity.getComponent(InventoryComponent.class)
-                                        .getArmor() == current.t) {
+                                if (entity.getComponent(InventoryComponent.class).getArmor() == current.t ||
+                                        entity.getComponent(InventoryComponent.class)
+                                                .getEquipmentList().contains(current.t)) {
                                     logger.info("Already has this armor, invalid purchase!");
                                     filesound.play();
                                     buyButton.setColor(255, 0, 0, 1);
@@ -335,6 +340,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                                     entity.getComponent(CombatStatsComponent.class).setBaseDefense(
                                             stats.defense);
 
+                                    entity.getComponent(InventoryComponent.class).addEquipmentToList(current.t);
                                     entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
                                     coinSound.play();
                                     buyButton.setColor(121, 15, 85, 1);

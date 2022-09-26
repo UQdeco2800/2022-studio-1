@@ -5,7 +5,5 @@
   "stone": 50,
   "wood": 50,
   "baseDefense": 10,
-  "favouriteColour": "peach",
-  "weapon": null,
-  "armor": null
+  "favouriteColour": "peach"
 }

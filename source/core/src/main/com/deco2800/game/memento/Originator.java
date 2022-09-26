@@ -22,6 +22,7 @@ public class Originator {
     protected Equipments weapon;
     protected Equipments armor;
     protected HashMap<Artefact, Integer> items;
+    protected List<Equipments> equipmentsList;
 
     /**
      * Originator constructor which can create a new originator to store the current
@@ -193,13 +194,21 @@ public class Originator {
         this.items = items;
     }
 
+    public List<Equipments> getEquipmentsList() {
+        return equipmentsList;
+    }
+
+    public void setEquipmentsList(List<Equipments> equipmentsList) {
+        this.equipmentsList = equipmentsList;
+    }
+
     /**
      * converts the originator object to a memento to store in the caretaker
      * 
      * @return - the new memento generated from the current originator
      */
     public Memento saveStateToMemento() {
-        return new Memento(state, gold, stone, wood, currentHealth, items, attack, defense, weapon, armor);
+        return new Memento(state, gold, stone, wood, currentHealth, items, attack, defense, weapon, armor, equipmentsList);
     }
 
     /**
@@ -217,12 +226,14 @@ public class Originator {
         defense = memento.getDefense();
         weapon = memento.getWeapon();
         armor = memento.getArmor();
+        equipmentsList = memento.getEquipmentsList();
     }
 
     @Override
     public String toString() {
         return "State " + state + " : Current Health = " + currentHealth + ", Attack Value: " + attack +
                 ", Defense Value: " + defense + ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood +
-                " , items in inventory: " + items + ", weapon: " + weapon + ", armor: " + armor;
+                " , items in inventory: " + items + ", weapon: " + weapon + ", armor: " + armor +
+                ", equipments list: " + equipmentsList;
     }
 }

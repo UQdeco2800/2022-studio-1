@@ -18,6 +18,7 @@ public class Memento {
     private Equipments weapon;
     private Equipments armor;
     private HashMap<Artefact, Integer> items;
+    private List<Equipments> equipmentsList;
 
     /**
      * constructor for a new memento
@@ -36,7 +37,7 @@ public class Memento {
      *
      */
     public Memento(int state, int gold, int stone, int wood, int currentHealth, HashMap<Artefact, Integer> items, int attack
-                   , int defense, Equipments weapon, Equipments armor) {
+                   , int defense, Equipments weapon, Equipments armor, List<Equipments> equipmentsList) {
         this.state = state;
         this.gold = gold;
         this.stone = stone;
@@ -47,6 +48,7 @@ public class Memento {
         this.defense = defense;
         this.weapon = weapon;
         this.armor = armor;
+        this.equipmentsList = equipmentsList;
     }
 
     /**
@@ -131,5 +133,9 @@ public class Memento {
      */
     public HashMap<Artefact, Integer> getItemList() {
         return items;
+    }
+
+    public List<Equipments> getEquipmentsList() {
+        return equipmentsList;
     }
 }

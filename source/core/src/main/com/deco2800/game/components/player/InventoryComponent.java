@@ -25,17 +25,18 @@ public class InventoryComponent extends Component {
   private Equipments armor;
 
   private HashMap<ResourceType, Integer> inventory = new HashMap<>();
-  private List<Equipments> equipment = new ArrayList<>();
+  private List<Equipments> equipmentList = new ArrayList<>();
   
   private HashMap<Artefact, Integer> items = new HashMap<>();
 
   public InventoryComponent(int gold, int stone, int wood,
-      Equipments weapon, Equipments armor) {
+      Equipments weapon, Equipments armor, List<Equipments> equipmentsList) {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
     setWeapon(weapon);
     setArmor(armor);
+    setEquipmentList(equipmentsList);
   }
 
   public InventoryComponent(int gold, int stone, int wood, HashMap<Artefact, Integer> items) {
@@ -186,6 +187,17 @@ public class InventoryComponent extends Component {
     inventory.replace(resourceType, inventory.get(resourceType) + amount);
   }
 
+  public void setEquipmentList(List<Equipments> equipmentsList) {
+    this.equipmentList = equipmentsList;
+  }
+
+  public List<Equipments> getEquipmentList() {
+    return equipmentList;
+  }
+
+  public void addEquipmentToList(Equipments equipment) {
+    equipmentList.add(equipment);
+  }
   public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
   }

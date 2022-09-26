@@ -140,7 +140,7 @@ public class ShopEquipmentScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood(),
-                        lastStatus.getWeapon(), lastStatus.getArmor()))
+                        lastStatus.getWeapon(), lastStatus.getArmor(), lastStatus.getEquipmentsList()))
                 .addComponent(new CombatStatsComponent(lastStatus.getCurrentHealth(), lastStatus.getAttack(),
                         lastStatus.getDefense()))
                 .addComponent(new ShopEquipmentDisplay())
