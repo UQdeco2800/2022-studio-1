@@ -7,8 +7,8 @@ public class AchievementFactory {
 
 
     public static Map<Integer, List<Integer>> createCustomStatAchievementMileStones() {
-        return Map.of(1, List.of(20, 40, 60, 100),
-                      3, List.of(20, 40, 60, 100));
+        return Map.of(1, List.of(50, 100, 150, 200),
+                      2, List.of(10, 20, 50, 100));
     }
     /**
      * Creates all initial achievements in game

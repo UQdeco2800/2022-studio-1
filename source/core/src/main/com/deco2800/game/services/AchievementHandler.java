@@ -252,7 +252,7 @@ public class AchievementHandler {
      */
     private void broadcastStatAchievementMilestoneReached(Achievement achievement) {
         this.events.trigger(EVENT_STAT_ACHIEVEMENT_MADE, achievement);
-        logger.debug("Stat achievement of type: {} has been achieved", achievement.getAchievementType());
+        logger.info("Stat achievement of type: {} has been achieved", achievement.getAchievementType());
     }
 
     /**
