@@ -7,7 +7,6 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
-import com.deco2800.game.screens.AchievementBaseScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;

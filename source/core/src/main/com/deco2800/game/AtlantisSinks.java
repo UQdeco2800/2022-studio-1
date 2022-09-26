@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
+import com.deco2800.game.screens.achievements.AchievementBaseScreen;
+import com.deco2800.game.screens.achievements.AchievementBuildingScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +120,7 @@ public class AtlantisSinks extends Game {
       case STORY_LINE_EPILOGUE:
         return new EpilogueScreen(this);
       case ACHIEVEMENT:
-        return new AchievementBaseScreen(this);
+        return new AchievementBuildingScreen(this);
       default:
         return null;
     }

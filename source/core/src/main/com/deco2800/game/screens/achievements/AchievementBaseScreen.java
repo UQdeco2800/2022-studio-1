@@ -1,4 +1,4 @@
-package com.deco2800.game.screens;
+package com.deco2800.game.screens.achievements;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Base game screen for displaying the player's achievements. To be extended for displaying actual
- * achievement pages. (change to abstract when other screens are implemented)
+ * achievement pages.
  */
-public class AchievementBaseScreen extends ScreenAdapter {
+public abstract class AchievementBaseScreen extends ScreenAdapter {
     /**
      * Logger class for the AchievementBaseScreen
      */
