@@ -209,17 +209,33 @@ public class AchievementHandler {
     public void checkStatAchievementMilestones(Achievement achievement) {
         long totalAchieved = achievement.getTotalAchieved();
 
-        if (totalAchieved == STAT_ACHIEVEMENT_1_MILESTONE ||
-            totalAchieved == STAT_ACHIEVEMENT_10_MILESTONE ||
-            totalAchieved == STAT_ACHIEVEMENT_25_MILESTONE ||
-            totalAchieved == STAT_ACHIEVEMENT_50_MILESTONE) {
-            broadcastStatAchievementMilestoneReached(achievement);
+        // use standard milestones
+        if (achievement.getMilestones().isEmpty()) {
+            if (totalAchieved == STAT_ACHIEVEMENT_1_MILESTONE ||
+                    totalAchieved == STAT_ACHIEVEMENT_10_MILESTONE ||
+                    totalAchieved == STAT_ACHIEVEMENT_25_MILESTONE ||
+                    totalAchieved == STAT_ACHIEVEMENT_50_MILESTONE) {
+                broadcastStatAchievementMilestoneReached(achievement);
+            }
+
+            // has last milestone been achieved
+            if (totalAchieved == STAT_ACHIEVEMENT_50_MILESTONE) {
+                achievement.setCompleted(true);
+            }
+        } else { // use custom milestones
+            for(Integer milestone : achievement.getMilestones()) {
+                if (milestone == totalAchieved) {
+                    broadcastStatAchievementMilestoneReached(achievement);
+                }
+            }
+
+            // Has last milestone been achieved
+            if (achievement.getMilestones().get(achievement.getMilestones().size() - 1) == totalAchieved) {
+                achievement.setCompleted(true);
+            }
         }
 
-        if (totalAchieved == STAT_ACHIEVEMENT_50_MILESTONE) {
-            broadcastStatAchievementMilestoneReached(achievement);
-            achievement.setCompleted(true);
-        }
+
     }
 
     /**

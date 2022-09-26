@@ -1,5 +1,7 @@
 package com.deco2800.game.achievements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -18,13 +20,14 @@ public class Achievement {
     private Boolean isCompleted;
     private Boolean isStat;
 
+    private List<Integer> milestones = new ArrayList<>();
     private String achievementData; // CSV or JSON formatted data specific to this particular achievement
 
     public Achievement() {
 
     }
 
-    public Achievement(int id, AchievementType achievementType, boolean isStat, String name, String description) {
+    public Achievement(int id, AchievementType achievementType, boolean isStat, String name, String description, List<Integer> milestones) {
         this.id = id;
         this.achievementType = achievementType;
         this.name = name;
@@ -33,6 +36,7 @@ public class Achievement {
         this.isCompleted = false;
         this.isStat = isStat;
         this.achievementData = "";
+        this.milestones = milestones;
     }
 
     public int getId() {
@@ -97,6 +101,10 @@ public class Achievement {
 
     public void setStat(boolean stat) {
         isStat = stat;
+    }
+
+    public List<Integer> getMilestones() {
+        return milestones;
     }
 
     @Override
