@@ -3,14 +3,11 @@ package com.deco2800.game.screens;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.achievements.Achievement;
-import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.achievements.AchievementActions;
 import com.deco2800.game.components.achievements.AchievementBaseDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
-import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.rendering.RenderService;
@@ -22,15 +19,19 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-
 /**
  * Base game screen for displaying the player's achievements. To be extended for displaying actual
- * achievement pages.
+ * achievement pages. (change to abstract when other screens are implemented)
  */
 public class AchievementBaseScreen extends ScreenAdapter {
+    /**
+     * Logger class for the AchievementBaseScreen
+     */
     private static final Logger logger = LoggerFactory.getLogger(AchievementBaseScreen.class);
 
+    /**
+     * Array of achievement icon textures
+     */
     private static final String[] achievementTextures = {
             "images/achievements/Building_Icon.png",
             "images/achievements/Game_Icon.png",
@@ -41,16 +42,24 @@ public class AchievementBaseScreen extends ScreenAdapter {
             "images/uiElements/exports/exit_button.png"
     };
 
+    /**
+     * Instance of AtlantisSinks game
+     */
     private final AtlantisSinks game;
 
+    /**
+     * Stores the screen renderer
+     */
     private final Renderer renderer;
 
-    private AtlantisSinks.ScreenType backScreen;
-
+    /**
+     * Initialises the AchievementBaseScreen with all necessary services and assets
+     * @param game AtlantisSinks
+     */
     public AchievementBaseScreen(AtlantisSinks game) {
         this.game = game;
 
-        logger.debug("Initialising {} screen services", this.getClass().toString());
+        logger.debug("Initialising {} screen services", this.getClass().getName());
         ServiceLocator.registerTimeSource(new GameTime());
 
         ServiceLocator.registerInputService(new InputService());
@@ -60,12 +69,11 @@ public class AchievementBaseScreen extends ScreenAdapter {
         ServiceLocator.registerAchievementHandler(new AchievementHandler());
 
         this.renderer = RenderFactory.createRenderer();
-        //MainArea.getInstance().setMainArea(new AchievementArea());
 
         loadAssets();
         createUI();
 
-        logger.debug("Initialising {} screen entities", this.getClass().toString());
+        logger.debug("Initialising {} screen entities", this.getClass().getName());
     }
 
     @Override
@@ -103,6 +111,9 @@ public class AchievementBaseScreen extends ScreenAdapter {
         ServiceLocator.clear();
     }
 
+    /**
+     * Helps load game assets to the resource service
+     */
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
@@ -110,11 +121,17 @@ public class AchievementBaseScreen extends ScreenAdapter {
         resourceService.loadAll();
     }
 
+    /**
+     * Helps unload assets from the resource service
+     */
     private void unloadAssets() {
         logger.debug("Unloading assets");
         ServiceLocator.getResourceService().unloadAssets(achievementTextures);
     }
 
+    /**
+     * Creates UI elements for the achievement screen
+     */
     private void createUI() {
         logger.debug("Creating achievement UI");
         Stage stage = ServiceLocator.getRenderService().getStage();

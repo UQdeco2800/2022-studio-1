@@ -5,14 +5,31 @@ import com.deco2800.game.components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Dictates actions taken by the achievement screen when buttons have been clicked
+ */
 public class AchievementActions extends Component {
+    /**
+     * Logger class for the AchievementActions class
+     */
     private static final Logger logger = LoggerFactory.getLogger(AchievementActions.class);
+
+    /**
+     * Game instance for AtlantisSinks
+     */
     private final AtlantisSinks game;
 
+    /**
+     * Initialises the achievement screen actions
+     * @param game AtlantisSinks
+     */
     public AchievementActions(AtlantisSinks game) {
         this.game = game;
     }
 
+    /**
+     * Registers listeners for all buttons in the AchievementBaseScreen
+     */
     @Override
     public void create() {
         entity.getEvents().addListener(AchievementBaseDisplay.EVENT_BUILDING_BUTTON_CLICKED, this::onBuilding);
@@ -24,30 +41,51 @@ public class AchievementActions extends Component {
         entity.getEvents().addListener(AchievementBaseDisplay.EVENT_EXIT_BUTTON_CLICKED, this::onExit);
     }
 
+    /**
+     * Loads the BuildingAchievementScreen
+     */
     private void onBuilding() {
         logger.info("Building achievement screen");
     }
 
+    /**
+     * Loads the GameAchievementScreen
+     */
     private void onGame() {
         logger.info("Game achievement screen");
     }
 
+    /**
+     * Loads the KillAchievementScreen
+     */
     private void onKill() {
         logger.info("Kill achievement screen");
     }
 
+    /**
+     * Loads the ResourceAchievementScreen
+     */
     private void onResource() {
         logger.info("Resource achievement screen");
     }
 
+    /**
+     * Loads the UpgradeAchievementScreen
+     */
     private void onUpgrade() {
         logger.info("Upgrade achievement screen");
     }
 
+    /**
+     * Loads the MiscAchievementScreen
+     */
     private void onMisc() {
         logger.info("Misc achievement screen");
     }
 
+    /**
+     * Returns to the main game screen
+     */
     private void onExit() {
         logger.info("Exiting achievement screens");
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);

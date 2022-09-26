@@ -13,32 +13,76 @@ import com.deco2800.game.screens.AchievementBaseScreen;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 
+/**
+ * Base achievement display class to be extended by achievement type screens
+ */
 public class AchievementBaseDisplay extends UIComponent {
+    /**
+     * Event string for building achievement button press
+     */
     public static final String EVENT_BUILDING_BUTTON_CLICKED = "buildingButtonClicked";
+
+    /**
+     * Event string for game achievement button press
+     */
     public static final String EVENT_GAME_BUTTON_CLICKED = "gameButtonClicked";
+
+    /**
+     * Event string for kill achievement button press
+     */
     public static final String EVENT_KILL_BUTTON_CLICKED = "killButtonClicked";
+
+    /**
+     * Event string for resource achievement button press
+     */
     public static final String EVENT_RESOURCE_BUTTON_CLICKED = "resourceButtonClicked";
+
+    /**
+     * Event string for resource achievement button press
+     */
     public static final String EVENT_UPGRADE_BUTTON_CLICKED = "upgradeButtonClicked";
+
+    /**
+     * Event string for misc achievement button press
+     */
     public static final String EVENT_MISC_BUTTON_CLICKED = "miscButtonClicked";
+
+    /**
+     * Event string for exit button press
+     */
     public static final String EVENT_EXIT_BUTTON_CLICKED = "exitButtonClicked";
 
+    /**
+     * Hashmap of button types and their events
+     */
     private final HashMap<String, String> events = new HashMap<>();
 
+    /**
+     * Logger for the AchievementBaseDisplay class
+     */
     private static final Logger logger = LoggerFactory.getLogger(AchievementBaseScreen.class);
 
     private static final float Z_INDEX = 2f;
 
+    /**
+     * Table for displaying all screen content
+     */
     private Table rootTable;
 
+    /**
+     * Create the achievement base display
+     */
     public void create() {
         super.create();
         mapEvents();
         addActors();
     }
 
+    /**
+     * Adds content tables to the resource stage
+     */
     private void addActors() {
         rootTable = new Table();
         rootTable.setFillParent(true);
@@ -128,6 +172,11 @@ public class AchievementBaseDisplay extends UIComponent {
         rootTable.clear();
     }
 
+    /**
+     * Creates an ImageButton from a provided image
+     * @param image String: File location
+     * @return ImageButton
+     */
     private ImageButton createButton(String image) {
         Texture buttonTexture = new Texture(Gdx.files.internal(image));
         TextureRegionDrawable up = new TextureRegionDrawable(buttonTexture);
@@ -136,6 +185,11 @@ public class AchievementBaseDisplay extends UIComponent {
         return new ImageButton(up, down);
     }
 
+    /**
+     * Add listener to the provided ImageButton
+     * @param button ImageButton
+     * @param name String
+     */
     private void addButtonEvent(ImageButton button, String name) {
         button.addListener(
                 new ChangeListener() {
@@ -147,6 +201,9 @@ public class AchievementBaseDisplay extends UIComponent {
                 });
     }
 
+    /**
+     * Maps button names to event strings
+     */
     private void mapEvents() {
         this.events.put("Building", EVENT_BUILDING_BUTTON_CLICKED);
         this.events.put("Game", EVENT_GAME_BUTTON_CLICKED);
