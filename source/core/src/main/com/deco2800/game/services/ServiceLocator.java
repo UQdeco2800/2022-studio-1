@@ -30,8 +30,8 @@ public class ServiceLocator {
   private static DayNightCycleService dayNightCycleService;
   private static GameService gameService;
   private static ResourceManagementService resourceManagementService;
+  private static AchievementHandler achievementHandler;
   private static NpcService NpcService;
-
 
   public static EntityService getEntityService() {
     return entityService;
@@ -67,8 +67,12 @@ public class ServiceLocator {
 
   public static StructureService getStructureService() { return structureService; }
 
-  public static DayNightCycleService getDayNightCycleService () {
+  public static DayNightCycleService getDayNightCycleService() {
     return dayNightCycleService;
+  }
+
+  public static AchievementHandler getAchievementHandler() {
+    return achievementHandler;
   }
 
   public static NpcService getNpcService () { return NpcService; }
@@ -122,6 +126,11 @@ public class ServiceLocator {
     logger.debug("Registering resource management service {}", source);
     resourceManagementService = source;
   }
+
+public static void registerAchievementHandler(AchievementHandler source){
+    achievementHandler = source;
+}
+
   public static void registerNpcService(NpcService source) {
     logger.debug("Registering Npc service {}", source);
     NpcService = source;
