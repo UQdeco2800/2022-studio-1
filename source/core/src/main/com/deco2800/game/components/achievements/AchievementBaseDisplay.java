@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -101,7 +102,9 @@ public class AchievementBaseDisplay extends UIComponent {
         exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
 
         // Add display content
+        // fonts -> https://libgdxinfo.wordpress.com/basic-label/
 
+        displayTable.add(new Label("Achievements", skin, "large")).expandX().top().center();
 
         // Display main content
         contentTable.add(navigationTable).left().bottom().expandY();
