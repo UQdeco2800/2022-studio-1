@@ -15,6 +15,7 @@ public class EntityClassification extends Component {
         NONE,
         BOSS,
         ENEMY,
+        NPC,
         PLAYER;
     }
 
