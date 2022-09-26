@@ -27,6 +27,15 @@ public class Tile {
     }
 
     /**
+     * Creates a new Tile object and initialises it with a given Entity
+     * @param entity
+     */
+    public Tile(Entity entity) {
+        this.tileType = "";
+        this.entity = entity;
+        this.entityInfo = new ArrayList<>();
+    }
+    /**
      * Creates a new Tile object and initialises it with the provided
      * values for tileType and entity
      * @param tileType string
