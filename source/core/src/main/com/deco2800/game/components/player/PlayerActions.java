@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
@@ -14,6 +15,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.RenderService;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.TextureRenderComponent;
 
@@ -120,6 +122,7 @@ public class PlayerActions extends Component {
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
           closestEnemy.dispose();
+          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
         } else {
           enemyTarget.setHealth(enemyTarget.getHealth());
           System.out.println(enemyTarget.getHealth());
