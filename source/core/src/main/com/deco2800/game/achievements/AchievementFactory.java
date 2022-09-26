@@ -1,9 +1,21 @@
 package com.deco2800.game.achievements;
 
 import java.util.List;
+import java.util.Map;
 
 public class AchievementFactory {
 
+
+    /**
+     * Creates a map for custom stat achievements milestones.
+     * The keys are achievement ids and the list values are milestones
+     *
+     * @return map of stat milestones
+     */
+    public static Map<Integer, List<Integer>> createCustomStatAchievementMileStones() {
+        return Map.of(1, List.of(50, 100, 150, 200),
+                      2, List.of(10, 20, 50, 100));
+    }
     /**
      * Creates all initial achievements in game
      *
@@ -20,7 +32,7 @@ public class AchievementFactory {
 
                 new Achievement(5, AchievementType.KILLS,true, "Enemy Kills", "You've killed %d enemies"),
 
-                new Achievement(6, AchievementType.UPGRADES, true, "Perform upgrades", "You've completed %d upgrades"),
+                new Achievement(6, AchievementType.UPGRADES, true, "Perform crystal upgrades", "You've completed %d crystal upgrades"),
 
                 new Achievement(7, AchievementType.GAME, true, "Complete games", "You've completed %d games"),
                 new Achievement(8, AchievementType.GAME, true, "Buy items from the shop", "You've bought %d items from the shop"),
