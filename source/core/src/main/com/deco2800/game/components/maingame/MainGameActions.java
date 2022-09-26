@@ -7,6 +7,7 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
+import com.deco2800.game.screens.AchievementBaseScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
@@ -33,6 +34,7 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
     entity.getEvents().addListener("settings", this::onSettings);
+    entity.getEvents().addListener("achievement", this::onAchievements);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
   }
@@ -111,4 +113,24 @@ public class MainGameActions extends Component {
     }
   }
 
+  private void onAchievements() {
+    logger.info("Exiting main game screen");
+
+    CareTaker playerStatus = CareTaker.getInstance();
+    Memento currentStatus = new Memento(playerStatus.size(),
+            player.getComponent(InventoryComponent.class).getGold(),
+            player.getComponent(InventoryComponent.class).getStone(),
+            player.getComponent(InventoryComponent.class).getWood(),
+            player.getComponent(CombatStatsComponent.class).getHealth(),
+            player.getComponent(InventoryComponent.class).getItems(),
+            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+            player.getComponent(InventoryComponent.class).getWeapon(),
+            player.getComponent(InventoryComponent.class).getChestplate(),
+            player.getComponent(InventoryComponent.class).getHelmet());
+    playerStatus.add(currentStatus);
+
+    ServiceLocator.getDayNightCycleService().pause();
+    game.setScreen(AtlantisSinks.ScreenType.ACHIEVEMENT);
+  }
 }

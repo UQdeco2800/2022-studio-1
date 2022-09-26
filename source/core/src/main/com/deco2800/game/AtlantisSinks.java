@@ -117,6 +117,8 @@ public class AtlantisSinks extends Game {
         return new FirstNightScreen(this);
       case STORY_LINE_EPILOGUE:
         return new EpilogueScreen(this);
+      case ACHIEVEMENT:
+        return new AchievementBaseScreen(this);
       default:
         return null;
     }
@@ -124,7 +126,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE
+    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, ACHIEVEMENT
   }
 
   /**
