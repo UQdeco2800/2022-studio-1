@@ -21,8 +21,10 @@ public class MainGameInterface extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table leftSideTable;
     private Table rightSideTable;
+    private Table table1;
+    private Table table2;
 
-
+    private boolean checkHiden = false;
     @Override
     public void create() {
         super.create();
@@ -37,6 +39,16 @@ public class MainGameInterface extends UIComponent {
         leftSideTable = new Table();
         leftSideTable.bottom().left();
         leftSideTable.setFillParent(true);
+
+        table1 = new Table();
+        table1.center();
+//        table1.setSize(50f,50f);
+        table1.setFillParent(true);
+
+        Texture inventoryInterfaceTexture = new Texture(Gdx.files.internal("images/popup-border.png"));
+        TextureRegionDrawable inventory = new TextureRegionDrawable(inventoryInterfaceTexture);
+        ImageButton inventoryFrame = new ImageButton(inventory,inventory);
+//        inventoryFrame.setSize(100,100);
 
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
@@ -63,6 +75,10 @@ public class MainGameInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Inventory button clicked");
                         entity.getEvents().trigger("inventory");
+                        if(checkHiden == false){
+                            table1.setVisible(true);
+                            checkHiden = !checkHiden;
+                        }
                     }
                 });
 
@@ -92,9 +108,12 @@ public class MainGameInterface extends UIComponent {
         leftSideTable.add(shopButton).left().bottom().size(150f, 150f);
         // adding settings to the left
         leftSideTable.add(achievementsButton).left().bottom().size(100f, 100f);
+        table1.add(inventoryFrame);
+        table1.setVisible(false);
 
         stage.addActor(leftSideTable);
         stage.addActor(rightSideTable);
+        stage.addActor(table1);
     }
 
     @Override
@@ -111,6 +130,7 @@ public class MainGameInterface extends UIComponent {
     public void dispose() {
         leftSideTable.clear();
         rightSideTable.clear();
+        table1.clear();
         super.dispose();
     }
 }

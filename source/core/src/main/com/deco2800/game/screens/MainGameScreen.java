@@ -212,7 +212,6 @@ public class MainGameScreen extends ScreenAdapter {
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())
-            .addComponent(new MainGameInventory())
         .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
