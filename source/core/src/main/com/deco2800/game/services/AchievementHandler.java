@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -42,6 +43,8 @@ public class AchievementHandler {
 
     private EventHandler events;
     private final List<Achievement> achievements;
+
+    private final Map<Integer, List<Integer>> customStatMilestones;
     private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
     private final Json json;
     private long lastSaved;
@@ -56,8 +59,8 @@ public class AchievementHandler {
         this.events = new EventHandler();
 
         json = new Json();
-        json.setElementType(AchievementData.class,"achievements", Achievement.class);
         json.setOutputType(JsonWriter.OutputType.json);
+        json.setElementType(AchievementData.class,"achievements", Achievement.class);
 
         if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))){
             //Load from file
@@ -67,6 +70,8 @@ public class AchievementHandler {
             this.achievements = AchievementFactory.createInitialAchievements();
             this.saveAchievements();
         }
+
+        this.customStatMilestones = AchievementFactory.createCustomStatAchievementMileStones();
 
         listenOnEvents();
     }
@@ -210,7 +215,7 @@ public class AchievementHandler {
         long totalAchieved = achievement.getTotalAchieved();
 
         // use standard milestones
-        if (achievement.getMilestones().isEmpty()) {
+        if (customStatMilestones.get(achievement.getId()) == null) {
             if (totalAchieved == STAT_ACHIEVEMENT_1_MILESTONE ||
                     totalAchieved == STAT_ACHIEVEMENT_10_MILESTONE ||
                     totalAchieved == STAT_ACHIEVEMENT_25_MILESTONE ||
@@ -223,14 +228,14 @@ public class AchievementHandler {
                 achievement.setCompleted(true);
             }
         } else { // use custom milestones
-            for(Integer milestone : achievement.getMilestones()) {
+            for(Integer milestone : customStatMilestones.get(achievement.getId())) {
                 if (milestone == totalAchieved) {
                     broadcastStatAchievementMilestoneReached(achievement);
                 }
             }
 
             // Has last milestone been achieved
-            if (achievement.getMilestones().get(achievement.getMilestones().size() - 1) == totalAchieved) {
+            if (customStatMilestones.get(achievement.getId()).get(customStatMilestones.get(achievement.getId()).size() - 1) == totalAchieved) {
                 achievement.setCompleted(true);
             }
         }
