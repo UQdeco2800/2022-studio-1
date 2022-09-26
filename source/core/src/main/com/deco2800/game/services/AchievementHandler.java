@@ -248,6 +248,8 @@ public class AchievementHandler {
      * This is useful for any UI elements that need to display a popup more specific
      * to stat events.
      *
+     * TotalAchieved should reflect the newly achieved milestone
+     *
      * @param achievement the stat achievement with the new milestone
      */
     private void broadcastStatAchievementMilestoneReached(Achievement achievement) {

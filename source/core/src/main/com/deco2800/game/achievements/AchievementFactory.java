@@ -6,6 +6,12 @@ import java.util.Map;
 public class AchievementFactory {
 
 
+    /**
+     * Creates a map for custom stat achievements milestones.
+     * The keys are achievement ids and the list values are milestones
+     *
+     * @return map of stat milestones
+     */
     public static Map<Integer, List<Integer>> createCustomStatAchievementMileStones() {
         return Map.of(1, List.of(50, 100, 150, 200),
                       2, List.of(10, 20, 50, 100));
