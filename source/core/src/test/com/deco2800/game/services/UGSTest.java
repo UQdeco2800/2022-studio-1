@@ -66,33 +66,14 @@ class UGSTest {
         assertEquals(tiles.getTileType(coordinate), "Grass");
     }
 
-    /**
-     * Tests that a Tile within the UGS can be updated to contain a 
-     * new entity
-     */
-    @Test 
-    void testSetEntity() {
-        UGS tiles = new UGS();
-        EntityService entityService = new EntityService();
-        Entity entity = spy(Entity.class);
-        entityService.register(entity);
-        String coordinate = UGS.generateCoordinate(0,0);
-        Tile tile = new Tile("");
-        tiles.add(coordinate, tile);
-
-        assertEquals(tiles.getEntity(coordinate), null);
-
-        tiles.setEntity(coordinate, entity);
-        assertEquals(tiles.getEntity(coordinate), entity);
-    }
-
+    
     /**
      * Tests a Tile created with a tileType can be be updated with a 
      * new entity type
      */
     @Test
     @ExtendWith(GameExtension.class)
-    void testReturnEntitySmallHashmap() {
+    void testSetEntity() {
         EntityService entityService = new EntityService();
         Entity entity = spy(Entity.class);
         entityService.register(entity);
