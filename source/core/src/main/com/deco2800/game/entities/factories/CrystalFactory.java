@@ -3,6 +3,7 @@ package com.deco2800.game.entities.factories;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
@@ -14,6 +15,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -100,6 +102,7 @@ public class CrystalFactory {
             Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
             terrain.getComponent(TerrainComponent.class).incrementMapLvl();
 
+            ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_UPGRADED, AchievementType.UPGRADES, 1);
         } else
             System.out.println("Crystal has reached max level");
     }
