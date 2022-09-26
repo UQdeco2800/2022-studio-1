@@ -32,7 +32,6 @@ public class MainGameInterface extends UIComponent {
 //    private Table table3;
 //    private Table table4;
 
-    private boolean checkHiden = false;
     @Override
     public void create() {
         super.create();
@@ -83,6 +82,28 @@ public class MainGameInterface extends UIComponent {
         healthBarImage.setSize(200f,30f);
         healthBarImage.setPosition(inventoryFrame.getWidth() + 50f, inventoryFrame.getHeight() - 150f);
 
+        Texture leftTexture = new Texture(Gdx.files.internal("images/box-border.png"));
+        TextureRegionDrawable leftDrawable = new TextureRegionDrawable(leftTexture);
+        ImageButton leftBox = new ImageButton(leftDrawable,leftDrawable);
+        leftBox.setSize(350f,630f);
+        leftBox.setPosition(inventoryFrame.getWidth() - 415f, inventoryFrame.getHeight() - 720f);
+
+        Texture leftTitleTexture = new Texture(Gdx.files.internal("images/description-box.png"));
+        TextureRegionDrawable leftTitleDrawable = new TextureRegionDrawable(leftTitleTexture);
+        ImageButton leftTitleBox = new ImageButton(leftTitleDrawable,leftTitleDrawable);
+        leftTitleBox.setSize(350f,60f);
+        leftTitleBox.setPosition(leftBox.getWidth() + 25f, leftBox.getHeight() - 100f);
+
+        Label leftTitle = new Label("Equipment", skin, "small");
+        leftTitle.setColor(skin.getColor("black"));
+        leftTitle.setPosition(leftBox.getWidth() + 150f, leftBox.getHeight() - 80f);
+
+        Texture rightTexture = new Texture(Gdx.files.internal("images/box-border.png"));
+        TextureRegionDrawable rightDrawable = new TextureRegionDrawable(rightTexture);
+        ImageButton rightBox = new ImageButton(rightDrawable,rightDrawable);
+        rightBox.setSize(350f,630f);
+        rightBox.setPosition(inventoryFrame.getWidth() - 85f, inventoryFrame.getHeight() - 720f);
+
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
         TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
@@ -107,11 +128,7 @@ public class MainGameInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Inventory button clicked");
-                        entity.getEvents().trigger("inventory");
-                        if(checkHiden == false){
-                            group.setVisible(true);
-                            checkHiden = !checkHiden;
-                        }
+                        group.setVisible(true);
                     }
                 });
 
@@ -141,10 +158,7 @@ public class MainGameInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Close inventory page");
-                        if(checkHiden == true){
-                            group.setVisible(false);
-                            checkHiden = !checkHiden;
-                        }
+                        group.setVisible(false);
                     }
                 });
 
@@ -154,11 +168,15 @@ public class MainGameInterface extends UIComponent {
         // adding settings to the left
         leftSideTable.add(achievementsButton).left().bottom().size(100f, 100f);
         group.addActor(inventoryFrame);
-        group.addActor(crossFrame);
         group.addActor(subtitle);
         group.addActor(heartImage);
         group.addActor(healthBarImage);
 //        group.addActor(healthAmount);
+        group.addActor(leftBox);
+        group.addActor(rightBox);
+        group.addActor(crossFrame);
+        group.addActor(leftTitleBox);
+        group.addActor(leftTitle);
         group.setVisible(false);
 
         stage.addActor(leftSideTable);
