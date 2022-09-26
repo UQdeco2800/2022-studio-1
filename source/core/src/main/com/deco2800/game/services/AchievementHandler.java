@@ -187,18 +187,6 @@ public class AchievementHandler {
     }
 
     /**
-     * Runs the achievement handler. Updates status of achievements in the list when progress is
-     * made towards them.
-     */
-    public void run() {
-        // while game is running do:
-        // save state every x seconds?
-
-        // On game stop
-        saveAchievements();
-    }
-
-    /**
      * Updates the stats of a resource stat achievement
      *
      * @param resourceType the resource type (WOOD, STONE, GOLD)
@@ -297,8 +285,6 @@ public class AchievementHandler {
                 achievement.setCompleted(true);
             }
         }
-
-
     }
 
     /**
