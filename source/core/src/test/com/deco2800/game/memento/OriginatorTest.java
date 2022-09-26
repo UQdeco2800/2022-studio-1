@@ -65,17 +65,10 @@ class OriginatorTest {
     }
 
     @Test
-    void shouldSaveChestplate() {
+    void shouldSaveArmor() {
         Originator test = new Originator(1);
-        test.setChestplate(Equipments.CHESTPLATE);
-        assertEquals(Equipments.CHESTPLATE, test.getChestplate());
-    }
-
-    @Test
-    void shouldSaveHelmet() {
-        Originator test = new Originator(1);
-        test.setHelmet(Equipments.HELMET);
-        assertEquals(Equipments.HELMET, test.getHelmet());
+        test.setArmor(Equipments.CHESTPLATE);
+        assertEquals(Equipments.CHESTPLATE, test.getArmor());
     }
 
     @Test

@@ -12,6 +12,5 @@ public class PlayerConfig extends BaseEntityConfig  {
   public int baseDefense = 1;
   public String favouriteColour = "none";
   public Equipments weapon = null;
-  public Equipments chestplate = null;
-  public Equipments helmet = null;
+  public Equipments armor = null;
 }

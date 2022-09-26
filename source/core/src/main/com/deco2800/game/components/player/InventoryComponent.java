@@ -6,6 +6,8 @@ import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,21 +22,20 @@ import static com.deco2800.game.components.infrastructure.ResourceType.*;
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private Equipments weapon;
-  private Equipments helmet;
-  private Equipments chestplate;
+  private Equipments armor;
 
   private HashMap<ResourceType, Integer> inventory = new HashMap<>();
+  private List<Equipments> equipment = new ArrayList<>();
   
   private HashMap<Artefact, Integer> items = new HashMap<>();
 
   public InventoryComponent(int gold, int stone, int wood,
-      Equipments weapon, Equipments chestplate, Equipments helmet) {
+      Equipments weapon, Equipments armor) {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
     setWeapon(weapon);
-    setHelmet(helmet);
-    setChestplate(chestplate);
+    setArmor(armor);
   }
 
   public InventoryComponent(int gold, int stone, int wood, HashMap<Artefact, Integer> items) {
@@ -53,24 +54,16 @@ public class InventoryComponent extends Component {
     this.weapon = weapon;
   }
 
-  public void setHelmet(Equipments helmet) {
-    this.helmet = helmet;
-  }
-
-  public void setChestplate(Equipments chestplate) {
-    this.chestplate = chestplate;
+  public void setArmor(Equipments helmet) {
+    this.armor = helmet;
   }
 
   public Equipments getWeapon() {
     return this.weapon;
   }
 
-  public Equipments getHelmet() {
-    return this.helmet;
-  }
-
-  public Equipments getChestplate() {
-    return this.chestplate;
+  public Equipments getArmor() {
+    return this.armor;
   }
 
   /**

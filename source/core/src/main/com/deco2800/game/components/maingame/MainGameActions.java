@@ -61,8 +61,7 @@ public class MainGameActions extends Component {
             player.getComponent(CombatStatsComponent.class).getBaseAttack(),
             player.getComponent(CombatStatsComponent.class).getBaseDefense(),
             player.getComponent(InventoryComponent.class).getWeapon(),
-            player.getComponent(InventoryComponent.class).getChestplate(),
-            player.getComponent(InventoryComponent.class).getHelmet());
+            player.getComponent(InventoryComponent.class).getArmor());
     CareTaker.getInstance().add(currentStatus);
     game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME);
   }
@@ -85,8 +84,7 @@ public class MainGameActions extends Component {
         player.getComponent(CombatStatsComponent.class).getBaseAttack(),
         player.getComponent(CombatStatsComponent.class).getBaseDefense(),
         player.getComponent(InventoryComponent.class).getWeapon(),
-        player.getComponent(InventoryComponent.class).getChestplate(),
-        player.getComponent(InventoryComponent.class).getHelmet());
+        player.getComponent(InventoryComponent.class).getArmor());
     playerStatus.add(currentStatus);
     ServiceLocator.getDayNightCycleService().pause();
     game.setScreen(AtlantisSinks.ScreenType.SHOP);

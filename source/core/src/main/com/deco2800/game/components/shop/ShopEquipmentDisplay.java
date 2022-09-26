@@ -323,87 +323,21 @@ public class ShopEquipmentDisplay extends UIComponent {
                                 }
 
                             } else {
-
-                                // checks if the equipment is of type helmet
-                                if (current.t == Equipments.HELMET) {
-                                    if (entity.getComponent(InventoryComponent.class).getHelmet() != null) {
-
-                                        // invalid purchase if the helmet that are bought is already in the inventory
-                                        if (entity.getComponent(InventoryComponent.class).getHelmet() == current.t) {
-                                            logger.info("Already has helmet, invalid purchase!");
-                                            filesound.play();
-                                            buyButton.setColor(255, 0, 0, 1);
-                                        } else {
-
-                                            // read the old helmet stat
-                                            EquipmentConfig prevHelmet = FileLoader.readClass(EquipmentConfig.class,
-                                                    Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
-                                                            .getHelmet()));
-                                            // remove old helmet effect from player combat stat
-                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                            - prevHelmet.defense);
-
-                                            // sets new helmet to player inventory and changes stat accordingly
-                                            entity.getComponent(InventoryComponent.class).setHelmet(current.t);
-                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                            + stats.defense);
-
-                                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
-                                            coinSound.play();
-                                            buyButton.setColor(121, 15, 85, 1);
-                                        }
-                                    } else {
-                                        entity.getComponent(InventoryComponent.class).setHelmet(current.t);
-                                        entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                                entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                        + stats.defense);
-                                        entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
-                                        coinSound.play();
-                                        buyButton.setColor(121, 15, 85, 1);
-                                    }
-
+                                // invalid purchase if the armor is already in inventory
+                                if (entity.getComponent(InventoryComponent.class)
+                                        .getArmor() == current.t) {
+                                    logger.info("Already has this armor, invalid purchase!");
+                                    filesound.play();
+                                    buyButton.setColor(255, 0, 0, 1);
                                 } else {
-                                    if (entity.getComponent(InventoryComponent.class).getChestplate() != null) {
+                                    // adds new armor to player inventory and stat
+                                    entity.getComponent(InventoryComponent.class).setArmor(current.t);
+                                    entity.getComponent(CombatStatsComponent.class).setBaseDefense(
+                                            stats.defense);
 
-                                        // invalid purchase if the chestplate is already in inventory
-                                        if (entity.getComponent(InventoryComponent.class)
-                                                .getChestplate() == current.t) {
-                                            logger.info("Already has chestplate, invalid purchase!");
-                                            filesound.play();
-                                            buyButton.setColor(255, 0, 0, 1);
-                                        } else {
-
-                                            // reads old chestplate stat
-                                            EquipmentConfig prevChestplate = FileLoader.readClass(EquipmentConfig.class,
-                                                    Equipments.getFilepath(entity.getComponent(InventoryComponent.class)
-                                                            .getChestplate()));
-
-                                            // remove old chestplate effect from player
-                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                            - prevChestplate.defense);
-
-                                            // adds new chestplate to player inventory and stat
-                                            entity.getComponent(InventoryComponent.class).setChestplate(current.t);
-                                            entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                                    entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                            + stats.defense);
-
-                                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
-                                            coinSound.play();
-                                            buyButton.setColor(121, 15, 85, 1);
-                                        }
-                                    } else {
-                                        entity.getComponent(InventoryComponent.class).setChestplate(current.t);
-                                        entity.getComponent(CombatStatsComponent.class).setBaseDefense(
-                                                entity.getComponent(CombatStatsComponent.class).getBaseDefense()
-                                                        + stats.defense);
-                                        entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
-                                        coinSound.play();
-                                        buyButton.setColor(121, 15, 85, 1);
-                                    }
+                                    entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
+                                    coinSound.play();
+                                    buyButton.setColor(121, 15, 85, 1);
                                 }
                             }
                         } else {

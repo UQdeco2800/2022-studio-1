@@ -16,8 +16,7 @@ import java.util.List;
 public class Memento {
     private int state, gold, stone, wood, attack, currentHealth, defense;
     private Equipments weapon;
-    private Equipments chestplate;
-    private Equipments helmet;
+    private Equipments armor;
     private HashMap<Artefact, Integer> items;
 
     /**
@@ -33,12 +32,11 @@ public class Memento {
      *                      boost)
      * @param defense       - defense multiplier from armor
      * @param weapon        - current weapon
-     * @param chestplate    - current chestplate
-     * @param helmet        - current helmet
+     * @param armor         - current armor
      *
      */
     public Memento(int state, int gold, int stone, int wood, int currentHealth, HashMap<Artefact, Integer> items, int attack
-                   , int defense, Equipments weapon, Equipments chestplate, Equipments helmet) {
+                   , int defense, Equipments weapon, Equipments armor) {
         this.state = state;
         this.gold = gold;
         this.stone = stone;
@@ -48,8 +46,7 @@ public class Memento {
         this.attack = attack;
         this.defense = defense;
         this.weapon = weapon;
-        this.chestplate = chestplate;
-        this.helmet = helmet;
+        this.armor = armor;
     }
 
     /**
@@ -123,20 +120,10 @@ public class Memento {
     }
 
     /**
-     * retrieve the chestplate that the player currently has
-     * @return - current chestplate
+     * retrieve the armor that the player currently has
+     * @return - current armor
      */
-    public Equipments getChestplate() {
-        return chestplate;
-    }
-
-    /**
-     * retrieve the helmet that the player currently has
-     * @return - current helmet
-     */
-    public Equipments getHelmet() {
-        return helmet;
-    }
+    public Equipments getArmor() {return armor;}
     /**
      * retrieve the list of artefact items saved in the memento
      * 
