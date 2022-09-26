@@ -7,7 +7,7 @@ import java.util.List;
 public class AchievementData {
     private long LastSaved;
 
-    private List<Achievement> achievements;
+    private ArrayList achievements;
 
     public long getLastSaved() {
         return LastSaved;
@@ -22,7 +22,7 @@ public class AchievementData {
     }
 
 
-    public void setAchievements(ArrayList<Achievement> achievements) {
+    public void setAchievements(ArrayList achievements) {
         this.achievements = achievements;
     }
 
@@ -30,7 +30,7 @@ public class AchievementData {
     public AchievementData() {
 
     }
-    public AchievementData(long lastSaved, List<Achievement> achievements) {
+    public AchievementData(long lastSaved, ArrayList achievements) {
         LastSaved = lastSaved;
         this.achievements = achievements;
     }

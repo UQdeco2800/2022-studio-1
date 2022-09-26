@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -169,7 +170,7 @@ public class AchievementHandler {
     public void saveAchievements() {
         this.lastSaved = System.currentTimeMillis();
 
-        AchievementData achievementData = new AchievementData(this.lastSaved, this.achievements);
+        AchievementData achievementData = new AchievementData(this.lastSaved, new ArrayList(this.achievements));
 
         achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
     }
