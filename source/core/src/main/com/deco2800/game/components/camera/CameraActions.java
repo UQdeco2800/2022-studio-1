@@ -2,11 +2,14 @@ package com.deco2800.game.components.camera;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
 
 public class CameraActions extends Component {
         private boolean panning = false;
+        private boolean playerMoving = false;
+        private Vector2 playerPosition = Vector2.Zero.cpy();
         private boolean zoomIn = false;
         private boolean zoomOut = false;
         private Vector2 panDirection = Vector2.Zero.cpy();
@@ -15,6 +18,8 @@ public class CameraActions extends Component {
         public void create() {
                 entity.getEvents().addListener("pan", this::pan);
                 entity.getEvents().addListener("stopPan", this::stopPan);
+                entity.getEvents().addListener("playerMovementPan", this::playerMovementPan);
+                entity.getEvents().addListener("stopPlayerMovementPan", this::stopPlayerMovementPan);
                 entity.getEvents().addListener("zoom", this::zoom);
                 entity.getEvents().addListener("zoomStop", this::stopZoom);
                 entity.getEvents().addListener("stopZoomOut", this::stopZoomOut);
@@ -51,7 +56,6 @@ public class CameraActions extends Component {
         void pan(Vector2 direction) {
                 this.panDirection = direction;
                 this.panning = true;
-
         }
 
         /**
@@ -63,16 +67,44 @@ public class CameraActions extends Component {
         }
 
         /**
+         * Sets the position of the camera to the players position in response to
+         * players movement.
+         * Re-attaches camera to player, and disables manual panning
+         * 
+         * @param position
+         */
+        void playerMovementPan(Vector2 position) {
+                this.playerMoving = true;
+                this.playerPosition = position;
+        }
+
+        /**
+         * Stops the camera from panning (upon player not moving)
+         */
+        void stopPlayerMovementPan() {
+                this.playerMoving = false;
+        }
+
+        /**
          * Updates the current position of the camera.
          */
         @Override
         public void update() {
                 CameraComponent cameraComp = entity.getComponent(CameraComponent.class);
                 OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
-                if (panning) {
+                if (playerMoving) {
+
+                        Vector2 difference = new Vector2(playerPosition.x - camera.position.x,
+                                        playerPosition.y - camera.position.y);
+                        System.out.println("Difference: " + difference.toString());
+                        camera.translate(difference);
+
+                        // camera.translate();
+                        // camera.lookAt(playerPosition.x, playerPosition.y, camera.position.z);
+                        camera.update();
+                } else if (panning) {
                         camera.translate(panDirection.x / 3,
-                                        panDirection.y / 3,
-                                        0);
+                                        panDirection.y / 3);
                         camera.update();
                 }
 
