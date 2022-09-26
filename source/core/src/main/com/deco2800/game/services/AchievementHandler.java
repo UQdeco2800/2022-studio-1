@@ -170,7 +170,7 @@ public class AchievementHandler {
     public void saveAchievements() {
         this.lastSaved = System.currentTimeMillis();
 
-        AchievementData achievementData = new AchievementData(this.lastSaved, new ArrayList(this.achievements));
+        AchievementData achievementData = new AchievementData(this.lastSaved, new ArrayList<>(this.achievements));
 
         achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
     }
