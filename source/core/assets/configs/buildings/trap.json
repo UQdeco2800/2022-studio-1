@@ -1,0 +1,12 @@
+{
+    "type": "building",
+    "name": "Trap",
+    "goldCost": 0,
+    "stoneCost": 25,
+    "woodCost": 25,
+    "attack": 10,
+    "defense": 0,
+    "description": "Inflict damage to enemy when stepped on",
+    "itemImagePath": "images/shop-attack-building.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png"
+}
