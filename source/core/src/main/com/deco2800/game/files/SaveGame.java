@@ -43,6 +43,7 @@ public class SaveGame {
 
             if (ent.getComponent(EnvironmentalComponent.class) != null && ent.getComponent(TextureRenderComponent.class) != null) {
                 environmentalObjects.add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath()).setPosition(ent.getPosition()).setName(ent.getName()));
+
             }
         }
 
@@ -71,9 +72,11 @@ public class SaveGame {
             }
 
             newEnvironmentalObject.setPosition(obstacle.position);
+
             newEnvironmentalObject.setName(obstacle.name);
             ServiceLocator.getEntityService().register(newEnvironmentalObject);
             ServiceLocator.getGameService().removeNamedEntity(newEnvironmentalObject.getName(), newEnvironmentalObject);
+
         }
         logger.debug("Finished Loading Environment");
     }

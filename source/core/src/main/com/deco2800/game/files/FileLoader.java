@@ -52,6 +52,7 @@ public class FileLoader {
 
     T object;
     try {
+      System.out.println(file);
       object = json.fromJson(type, file);
     } catch (Exception e) {
       logger.error(e.getMessage());
