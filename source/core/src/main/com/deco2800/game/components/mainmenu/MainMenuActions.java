@@ -38,11 +38,11 @@ public class MainMenuActions extends Component {
   }
 
   /**
-   * Intended for loading a saved game state.
-   * Load functionality is not actually implemented.
+   * Generate Main Game with load param
    */
   private void onLoad() {
     logger.info("Load game");
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
   }
 
   /**

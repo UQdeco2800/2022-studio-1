@@ -52,6 +52,12 @@ public class MainMenuDisplay extends UIComponent {
     TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
     ImageButton homeButton = new ImageButton(homeUp, homeDown);
 
+    // inserting load Button TEXTURE IS STILL WIP
+    Texture loadButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/heart.png"));
+    TextureRegionDrawable loadUp = new TextureRegionDrawable(loadButton1);
+    TextureRegionDrawable loadDown = new TextureRegionDrawable(loadButton1);
+    ImageButton loadButton = new ImageButton(loadUp, loadDown);
+
     // inserting settings Button
     Texture settingsButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
     TextureRegionDrawable settingsUp = new TextureRegionDrawable(settingsButton1);
@@ -74,6 +80,15 @@ public class MainMenuDisplay extends UIComponent {
           }
         });
 
+    loadButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent event, Actor actor) {
+                logger.debug("Load button clicked");
+                entity.getEvents().trigger("load");
+              }
+            }
+    );
 
     settingsButton.addListener(
         new ChangeListener() {
@@ -96,6 +111,8 @@ public class MainMenuDisplay extends UIComponent {
     mainTable.add(title).padBottom(50f);
     mainTable.row();
     mainTable.add(homeButton);
+    mainTable.row();
+    mainTable.add(loadButton);
     mainTable.row();
     mainTable.add(exitButton);
 
