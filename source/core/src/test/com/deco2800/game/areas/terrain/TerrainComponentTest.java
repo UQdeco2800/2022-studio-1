@@ -44,9 +44,8 @@ class TerrainComponentTest {
     TiledMap map = mock(TiledMap.class);
     TiledMapRenderer mapRenderer = mock(TiledMapRenderer.class);
     GridPoint2 islandSize = new GridPoint2(30, 30);
-    ArrayList<ArrayList<GridPoint2>> bordersList = new ArrayList<>();
     ArrayList<ArrayList<GridPoint2>> landTilesList = new ArrayList<>();
-    return new TerrainComponent(camera, map, mapRenderer, orientation, tileSize, islandSize, bordersList,
+    return new TerrainComponent(camera, map, mapRenderer, orientation, tileSize, islandSize,
         landTilesList);
   }
 }

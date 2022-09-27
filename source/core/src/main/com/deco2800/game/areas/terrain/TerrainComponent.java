@@ -19,6 +19,8 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
 /**
@@ -30,7 +32,7 @@ import com.deco2800.game.services.ServiceLocator;
 public class TerrainComponent extends RenderComponent {
   private static final int TERRAIN_LAYER = 0;
   private int currentMapLvl = 0;
-  private ArrayList<ArrayList<GridPoint2>> bordersList;
+  private int isNight = 0;
   private ArrayList<ArrayList<GridPoint2>> landTilesList;
   private ArrayList<Entity> walls;
 
@@ -52,7 +54,6 @@ public class TerrainComponent extends RenderComponent {
       TerrainOrientation orientation,
       float tileSize,
       GridPoint2 island_size,
-      ArrayList<ArrayList<GridPoint2>> bordersPositionList,
       ArrayList<ArrayList<GridPoint2>> landTilesList) {
     this.camera = camera;
     this.tiledMap = map;
@@ -74,45 +75,12 @@ public class TerrainComponent extends RenderComponent {
       this.dayNightCycleComponent = ServiceLocator.getRenderService().getDayNightCycleComponent();
     }
 
-    this.bordersList = bordersPositionList;
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+        this::partOfDayPassed);
+
     this.landTilesList = landTilesList;
     this.walls = new ArrayList<>();
 
-  }
-
-  public void spawnIslandBorders(int levelNum) {
-    // Dispose of current old borders
-    for (int i = 0; i < walls.size(); i++) {
-      walls.get(i).dispose();
-      ServiceLocator.getEntityService().removeNamedEntity("wall" + walls.get(i).getId(), entity);
-      walls.remove(i);
-    }
-
-    // Create new borders [Note: Make sure walls are registered as a named entity so
-    // we can dispose of them above]
-    ArrayList<GridPoint2> borders = bordersList.get(levelNum); // list of tile positions for where the border should be
-                                                               // placed
-    for (int i = 0; i < borders.size(); i++) {
-      Entity wall = new Entity()
-          .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-          .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
-      wall.setName("wall");
-      wall.setScale(1f, 0.5997f);
-
-      Vector2 worldPos = tileToWorldPosition(borders.get(i));
-      float tileSize = getTileSize();
-
-      worldPos.x += (tileSize / 2) - wall.getCenterPosition().x;
-
-      worldPos.y += (tileSize / 2) - wall.getCenterPosition().y;
-
-      wall.setPosition(worldPos);
-      wall.setCollectable(false);
-
-      walls.add(wall);
-      ServiceLocator.getEntityService().registerNamed("wall" + wall.getId(), wall);
-      ServiceLocator.getEntityService().addEntity(wall);
-    }
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -153,10 +121,9 @@ public class TerrainComponent extends RenderComponent {
    * visible
    */
   public void incrementMapLvl() {
-    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl++;
-    getMap().getLayers().get(currentMapLvl).setVisible(true);
-    spawnIslandBorders(this.currentMapLvl);
+    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(true);
   }
 
   /**
@@ -164,10 +131,21 @@ public class TerrainComponent extends RenderComponent {
    * visible.
    */
   public void decrementMapLvl() {
-    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl--;
-    getMap().getLayers().get(currentMapLvl).setVisible(true);
-    spawnIslandBorders(this.currentMapLvl);
+    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(true);
+  }
+
+  public void partOfDayPassed(DayNightCycleStatus partOfDay) {
+    if (partOfDay == DayNightCycleStatus.DAY) {
+      getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(false);
+      getMap().getLayers().get(currentMapLvl * 2).setVisible(true);
+      isNight = 0;
+    } else {
+      getMap().getLayers().get(currentMapLvl * 2).setVisible(false);
+      getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(true);
+      isNight = 1;
+    }
   }
 
   public float getTileSize() {

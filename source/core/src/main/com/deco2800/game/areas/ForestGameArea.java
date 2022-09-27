@@ -49,8 +49,6 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_STARFISH = 3;
 
   private static final String[] forestTextures = {
-      "images/box_boy.png",
-      "images/box_boy_leaf.png",
       "images/Centaur_Back_left.png",
       "images/Centaur_Back_right.png",
       "images/Centaur_left.png",
@@ -58,14 +56,6 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/leftPalmTree.png",
       "images/landscape_objects/rightPalmTree.png",
       "images/landscape_objects/groupPalmTrees.png",
-      "images/ghost_king.png",
-      "images/500_grassTile.png",
-      "images/500_waterFullTile.png",
-      "images/500_waterAndDirtFullTile.png",
-      "images/waterFinalVersion.png",
-      "images/fullSizedDirt.png",
-      "images/waterDirtMerged.png",
-      "images/trial3GrassTile.png",
       "images/wallTransparent.png",
       "images/landscape_objects/almond-tree-60x62.png",
       "images/landscape_objects/fig-tree-60x62.png",
@@ -92,11 +82,18 @@ public class ForestGameArea extends GameArea {
       "images/trap.png",
       "images/turret.png",
       "images/tower.png",
-      "images/65x33_tiles/beachV1.png",
-      "images/65x33_tiles/dayWaterTile.png",
-      "images/65x33_tiles/groundTileV1.png",
-      "images/65x33_tiles/seaweedV4.png",
-      "images/65x33_tiles/seaweedV5.png",
+      "images/65x33_tiles/sand.png",
+      "images/65x33_tiles/sand_night.png",
+      "images/65x33_tiles/seaweed_1.png",
+      "images/65x33_tiles/seaweed_1_night.png",
+      "images/65x33_tiles/seaweed_2.png",
+      "images/65x33_tiles/seaweed_2_night.png",
+      "images/65x33_tiles/seaweed_3.png",
+      "images/65x33_tiles/seaweed_3_night.png",
+      "images/65x33_tiles/shoreline.png",
+      "images/65x33_tiles/shoreline_night.png",
+      "images/65x33_tiles/water.png",
+      "images/65x33_tiles/water_night.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
@@ -174,10 +171,10 @@ public class ForestGameArea extends GameArea {
     // objects are created
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
-    this.player = spawnPlayer();
+    // this.player = spawnPlayer();
 
     // spawnNPCharacter();
-    spawnEnvironmentalObjects();
+    // spawnEnvironmentalObjects();
 
     playMusic();
 
@@ -203,19 +200,6 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
     ServiceLocator.getEntityService().addEntity(terrainEntity);
 
-    GridPoint2 tileBounds = terrain.getMapBounds(0);
-    terrain.spawnIslandBorders(terrain.getCurrentMapLvl());
-    // spawnWorldBorders();
-  }
-
-  private void createBorderWall(int x, int y) {
-    System.out.printf("Spawning word border\n");
-    GridPoint2 pos = new GridPoint2(x, y);
-    Entity wall = ObstacleFactory.createWall(0.1f, 0.1f);
-    if (isWallHere(pos)) {
-      return;
-    }
-    spawnEntityAt(wall, new GridPoint2(x, y), false, true);
   }
 
   /**
