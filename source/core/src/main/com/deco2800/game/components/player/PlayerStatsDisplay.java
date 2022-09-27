@@ -189,6 +189,9 @@ public class PlayerStatsDisplay extends UIComponent {
     coinLabel.setText(gold);
     CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
     woodLabel.setText(wood);
+
+    //updates the objective
+    ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("showObjective");
   }
 
   public void updateResourceAmount() {
