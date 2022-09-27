@@ -1,0 +1,17 @@
+{
+currentCycleStatus: DAWN
+lastCycleStatus: NONE
+currentDayMillis: 6010
+isStarted: true
+config: {
+	dawnLength: 15000
+	dayLength: 60000
+	duskLength: 15000
+	nightLength: 30000
+	maxDays: 4
+}
+timer: {
+	startTime: 1664255420836
+}
+timeSinceLastPartOfDay: 1664255420841
+}
