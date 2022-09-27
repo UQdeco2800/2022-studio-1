@@ -183,6 +183,121 @@ public class MainGameInterface extends UIComponent {
         rightBox.setSize(350f,650f);
         rightBox.setPosition(inventoryFrame.getX() + 410f, inventoryFrame.getY() + 50f);
 
+        Texture rightHealthTexture = new Texture(Gdx.files.internal("images/description-box.png"));
+        TextureRegionDrawable rightHealthDrawable = new TextureRegionDrawable(rightHealthTexture);
+        ImageButton rightHealthFrame = new ImageButton(rightHealthDrawable,rightHealthDrawable);
+        rightHealthFrame.setSize(350f,60f);
+        rightHealthFrame.setPosition(rightBox.getX() - 50f, rightBox.getY() + 460f);
+
+        Label healthTitle = new Label("Health", skin, "small");
+        healthTitle.setColor(skin.getColor("white"));
+        healthTitle.setPosition(rightBox.getX() + 80f, rightBox.getY() + 480f);
+
+        Texture potionTexture = new Texture(Gdx.files.internal("images/shop-health-potion.png"));
+        TextureRegionDrawable potionDrawable = new TextureRegionDrawable(potionTexture);
+        ImageButton potion = new ImageButton(potionDrawable,potionDrawable);
+        potion.setSize(40f,40f);
+        potion.setPosition(rightBox.getX() + 50f, rightBox.getY() + 405f);
+
+        Label potionQuantity = new Label("X1", skin, "large");
+        potionQuantity.setColor(skin.getColor("black"));
+        potionQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 405f);
+
+        Texture potionUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        TextureRegionDrawable potionUseDrawable = new TextureRegionDrawable(potionUseTexture);
+        ImageButton potionUseButton = new ImageButton(potionUseDrawable,potionUseDrawable);
+        potionUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 365f);
+
+        Label potionUse = new Label("USE", skin, "small");
+        potionUse.setColor(skin.getColor("black"));
+        potionUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 410f);
+
+        Texture clockTexture = new Texture(Gdx.files.internal("images/shop-clock.png"));
+        TextureRegionDrawable clockDrawable = new TextureRegionDrawable(clockTexture);
+        ImageButton clock = new ImageButton(clockDrawable,clockDrawable);
+        clock.setSize(40f,40f);
+        clock.setPosition(rightBox.getX() + 50f, rightBox.getY() + 355f);
+
+        Label clockQuantity = new Label("X1", skin, "large");
+        clockQuantity.setColor(skin.getColor("black"));
+        clockQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 355f);
+
+        Texture clockUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        TextureRegionDrawable clockUseDrawable = new TextureRegionDrawable(clockUseTexture);
+        ImageButton clockUseButton = new ImageButton(clockUseDrawable,clockUseDrawable);
+        clockUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 315f);
+
+        Label clockUse = new Label("USE", skin, "small");
+        clockUse.setColor(skin.getColor("black"));
+        clockUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 360f);
+
+        Texture bedTexture = new Texture(Gdx.files.internal("images/shop-bed.png"));
+        TextureRegionDrawable bedDrawable = new TextureRegionDrawable(bedTexture);
+        ImageButton bed = new ImageButton(bedDrawable,bedDrawable);
+        bed.setSize(40f,40f);
+        bed.setPosition(rightBox.getX() + 50f, rightBox.getY() + 305f);
+
+        Label bedQuantity = new Label("X1", skin, "large");
+        bedQuantity.setColor(skin.getColor("black"));
+        bedQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 305f);
+
+        Texture bedUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        TextureRegionDrawable bedUseDrawable = new TextureRegionDrawable(bedUseTexture);
+        ImageButton bedUseButton = new ImageButton(bedUseDrawable,bedUseDrawable);
+        bedUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 265f);
+
+        Label bedUse = new Label("USE", skin, "small");
+        bedUse.setColor(skin.getColor("black"));
+        bedUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 310f);
+
+        Texture rightBuildingTexture = new Texture(Gdx.files.internal("images/description-box.png"));
+        TextureRegionDrawable rightBuildingDrawable = new TextureRegionDrawable(rightBuildingTexture);
+        ImageButton rightBuildingFrame = new ImageButton(rightBuildingDrawable,rightBuildingDrawable);
+        rightBuildingFrame.setSize(350f,60f);
+        rightBuildingFrame.setPosition(rightBox.getX() - 50f, rightBox.getY() + 255f);
+
+        Label buildingTitle = new Label("Buildings", skin, "small");
+        buildingTitle.setColor(skin.getColor("white"));
+        buildingTitle.setPosition(rightBox.getX() + 80f, rightBox.getY() + 275f);
+
+        Texture quarryTexture = new Texture(Gdx.files.internal("images/shop-quarry.png"));
+        TextureRegionDrawable quarryDrawable = new TextureRegionDrawable(quarryTexture);
+        ImageButton quarry = new ImageButton(quarryDrawable,quarryDrawable);
+        quarry.setSize(40f,40f);
+        quarry.setPosition(rightBox.getX() + 50f, rightBox.getY() + 220f);
+
+        Label quarryQuantity = new Label("X1", skin, "large");
+        quarryQuantity.setColor(skin.getColor("black"));
+        quarryQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 220f);
+
+        Texture quarryUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        TextureRegionDrawable quarryUseDrawable = new TextureRegionDrawable(quarryUseTexture);
+        ImageButton quarryUseButton = new ImageButton(quarryUseDrawable,quarryUseDrawable);
+        quarryUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 185f);
+
+        Label quarryUse = new Label("USE", skin, "small");
+        quarryUse.setColor(skin.getColor("black"));
+        quarryUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 230f);
+
+        Texture attackBuildingTexture = new Texture(Gdx.files.internal("images/shop-attack-building.png"));
+        TextureRegionDrawable attackBuildingDrawable = new TextureRegionDrawable(attackBuildingTexture);
+        ImageButton attackBuilding = new ImageButton(attackBuildingDrawable,attackBuildingDrawable);
+        attackBuilding.setSize(40f,40f);
+        attackBuilding.setPosition(rightBox.getX() + 50f, rightBox.getY() + 175f);
+
+        Label attackBuildingQuantity = new Label("X1", skin, "large");
+        attackBuildingQuantity.setColor(skin.getColor("black"));
+        attackBuildingQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 175f);
+
+        Texture attackBuildingUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        TextureRegionDrawable attackBuildingUseDrawable = new TextureRegionDrawable(attackBuildingUseTexture);
+        ImageButton attackBuildingUseButton = new ImageButton(attackBuildingUseDrawable,attackBuildingUseDrawable);
+        attackBuildingUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 135f);
+
+        Label attackBuildingUse = new Label("USE", skin, "small");
+        attackBuildingUse.setColor(skin.getColor("black"));
+        attackBuildingUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 180f);
+
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
         TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
@@ -259,6 +374,51 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
+        potionUseButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("potion use");
+                        // Add potion function
+                    }
+                });
+
+        clockUseButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("clock use");
+                        // Add clock function
+                    }
+                });
+
+        bedUseButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("bed use");
+                        // Add bed function
+                    }
+                });
+
+        quarryUseButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("quarry use");
+                        // Add quarry function
+                    }
+                });
+
+        attackBuildingUseButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("attack building use");
+                        // Add attack building function
+                    }
+                });
+
         rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
         leftSideTable.add(shopButton).left().bottom().size(150f, 150f);
@@ -287,6 +447,30 @@ public class MainGameInterface extends UIComponent {
         group.addActor(defenceItem);
         group.addActor(defence);
         group.addActor(rightBox);
+        group.addActor(rightHealthFrame);
+        group.addActor(healthTitle);
+        group.addActor(potion);
+        group.addActor(potionQuantity);
+        group.addActor(potionUseButton);
+        group.addActor(potionUse);
+        group.addActor(clock);
+        group.addActor(clockQuantity);
+        group.addActor(clockUseButton);
+        group.addActor(clockUse);
+        group.addActor(bed);
+        group.addActor(bedQuantity);
+        group.addActor(bedUseButton);
+        group.addActor(bedUse);
+        group.addActor(rightBuildingFrame);
+        group.addActor(buildingTitle);
+        group.addActor(quarry);
+        group.addActor(quarryQuantity);
+        group.addActor(quarryUseButton);
+        group.addActor(quarryUse);
+        group.addActor(attackBuilding);
+        group.addActor(attackBuildingQuantity);
+        group.addActor(attackBuildingUseButton);
+        group.addActor(attackBuildingUse);
         group.addActor(crossFrame);
         group.setVisible(false);
 
