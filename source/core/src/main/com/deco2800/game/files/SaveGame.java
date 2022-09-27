@@ -42,7 +42,8 @@ public class SaveGame {
         for (Entity ent: ServiceLocator.getEntityService().getEntityMap().values()) {
 
             if (ent.getComponent(EnvironmentalComponent.class) != null && ent.getComponent(TextureRenderComponent.class) != null) {
-                environmentalObjects.add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath()).setPosition(ent.getPosition()));
+                environmentalObjects.add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath()).setPosition(ent.getPosition()).setName(ent.getName()));
+
             }
         }
 
@@ -71,6 +72,11 @@ public class SaveGame {
             }
 
             newEnvironmentalObject.setPosition(obstacle.position);
+
+            newEnvironmentalObject.setName(obstacle.name);
+            ServiceLocator.getEntityService().register(newEnvironmentalObject);
+            ServiceLocator.getGameService().removeNamedEntity(newEnvironmentalObject.getName(), newEnvironmentalObject);
+
         }
         logger.debug("Finished Loading Environment");
     }
@@ -217,7 +223,6 @@ public class SaveGame {
         DayNightCycleService savedDayNightCycle = FileLoader.readClass(DayNightCycleService.class, saveGameData, FileLoader.Location.LOCAL);
         DayNightCycleService currentService = ServiceLocator.getDayNightCycleService();
 
-        System.out.println("CURRENT DAY IS " + savedDayNightCycle.currentDayNumber);
         currentService.currentCycleStatus = savedDayNightCycle.currentCycleStatus;
         currentService.lastCycleStatus = savedDayNightCycle.lastCycleStatus;
         currentService.currentDayNumber = savedDayNightCycle.currentDayNumber;
