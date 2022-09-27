@@ -65,44 +65,44 @@ public class MainGameInterface extends UIComponent {
         TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
         ImageButton crossFrame = new ImageButton(cross,cross);
         crossFrame.setSize(40f,40f);
-        crossFrame.setPosition(inventoryFrame.getWidth() - 400f, inventoryFrame.getHeight() - 150f);
+        crossFrame.setPosition(inventoryFrame.getX() + 60f, inventoryFrame.getY() + 610f);
 
         Label subtitle = new Label("Inventory", skin, "title");
         subtitle.setFontScale(1f);
         subtitle.setColor(skin.getColor("black"));
-        subtitle.setPosition(inventoryFrame.getWidth() - 350f,inventoryFrame.getHeight() - 150f);
+        subtitle.setPosition(inventoryFrame.getX() + 110f, inventoryFrame.getY() + 610f);
 
         Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
         heartImage.setSize(40f,40f);
-        heartImage.setPosition(inventoryFrame.getWidth(), inventoryFrame.getHeight() - 150f);
+        heartImage.setPosition(inventoryFrame.getX() + 400f, inventoryFrame.getY() + 610f);
 
         Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class));
 //        int health = ServiceLocator.getStructureService().getNamedEntity("player").getComponent(CombatStatsComponent.class).getHealth();
 //        Label healthAmount = new Label(Integer.toString(health), skin, "large");
         healthBarImage.setSize(200f,30f);
-        healthBarImage.setPosition(inventoryFrame.getWidth() + 50f, inventoryFrame.getHeight() - 150f);
+        healthBarImage.setPosition(inventoryFrame.getX() + 450f, inventoryFrame.getY() + 610f);
 
         Texture leftTexture = new Texture(Gdx.files.internal("images/box-border.png"));
         TextureRegionDrawable leftDrawable = new TextureRegionDrawable(leftTexture);
         ImageButton leftBox = new ImageButton(leftDrawable,leftDrawable);
-        leftBox.setSize(350f,630f);
-        leftBox.setPosition(inventoryFrame.getWidth() - 415f, inventoryFrame.getHeight() - 720f);
+        leftBox.setSize(350f,650f);
+        leftBox.setPosition(inventoryFrame.getX() + 60f, inventoryFrame.getY() + 50f);
 
         Texture leftTitleTexture = new Texture(Gdx.files.internal("images/description-box.png"));
         TextureRegionDrawable leftTitleDrawable = new TextureRegionDrawable(leftTitleTexture);
         ImageButton leftTitleBox = new ImageButton(leftTitleDrawable,leftTitleDrawable);
         leftTitleBox.setSize(350f,60f);
-        leftTitleBox.setPosition(leftBox.getWidth() + 25f, leftBox.getHeight() - 100f);
+        leftTitleBox.setPosition(leftBox.getX(), leftBox.getY() + 460f);
 
         Label leftTitle = new Label("Equipment", skin, "small");
         leftTitle.setColor(skin.getColor("black"));
-        leftTitle.setPosition(leftBox.getWidth() + 150f, leftBox.getHeight() - 80f);
+        leftTitle.setPosition(leftBox.getX() + 120f, leftBox.getY() + 480f);
 
         Texture rightTexture = new Texture(Gdx.files.internal("images/box-border.png"));
         TextureRegionDrawable rightDrawable = new TextureRegionDrawable(rightTexture);
         ImageButton rightBox = new ImageButton(rightDrawable,rightDrawable);
-        rightBox.setSize(350f,630f);
-        rightBox.setPosition(inventoryFrame.getWidth() - 85f, inventoryFrame.getHeight() - 720f);
+        rightBox.setSize(350f,650f);
+        rightBox.setPosition(inventoryFrame.getX() + 410f, inventoryFrame.getY() + 50f);
 
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
@@ -174,9 +174,9 @@ public class MainGameInterface extends UIComponent {
 //        group.addActor(healthAmount);
         group.addActor(leftBox);
         group.addActor(rightBox);
-        group.addActor(crossFrame);
         group.addActor(leftTitleBox);
         group.addActor(leftTitle);
+        group.addActor(crossFrame);
         group.setVisible(false);
 
         stage.addActor(leftSideTable);
