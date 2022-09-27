@@ -61,18 +61,20 @@ public class MainGameActions extends Component {
    * Save functionality is not actually implemented.
    */
   private void onSave() {
-    logger.info("Save game");
+    logger.info("Save game starting");
     SaveGame.saveGameState();
+    logger.info("Save game finished");
   }
 
   /**
    * Load the game state from the playable state
    */
   private void onLoad() {
-    logger.info("Load game");
+    logger.info("Load game staring");
     CareTaker.deleteAll();
     game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
     SaveGame.loadGameState();
+    logger.info("Load game finished");
   }
 
   /**

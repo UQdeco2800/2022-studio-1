@@ -307,7 +307,7 @@ public class DayNightCycleService {
         Gdx.app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
         });
-        this.timeSinceLastPartOfDay = System.currentTimeMillis();
+        this.timeSinceLastPartOfDay = this.timer.getTime();
         if (nextPartOfDay == DayNightCycleStatus.NIGHT) {
             this.timePerHalveOfPartOfDay = config.nightLength / 2;
             lastPartOfDayHalveIteration = 2;
