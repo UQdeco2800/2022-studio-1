@@ -9,9 +9,14 @@ import org.slf4j.LoggerFactory;
  * and disposing. Components can be attached to an entity to give it specific behaviour. It is
  * unlikely that changes will need to be made here.
  */
-public abstract class Component {
-  private static final Logger logger = LoggerFactory.getLogger(Component.class);
-  protected Entity entity;
+
+//public abstract class Component {
+  //private static final Logger logger = LoggerFactory.getLogger(Component.class);
+  //protected Entity entity;
+
+public class Component {
+  private transient static final Logger logger = LoggerFactory.getLogger(Component.class);
+  protected transient Entity entity;
   protected boolean enabled = true;
 
   /**

@@ -41,6 +41,7 @@ public class AnimationRenderComponent extends RenderComponent {
   private Animation<TextureRegion> currentAnimation;
   private String currentAnimationName;
   private float animationPlayTime;
+  private String animationName;
 
   /**
    * Create the component for a given texture atlas.
@@ -53,6 +54,14 @@ public class AnimationRenderComponent extends RenderComponent {
   }
 
   /**
+   * Returns animation name
+   * @return animation name
+   */
+  public String getAnimationName() {
+    return animationName;
+  }
+
+  /**
    * Register an animation from the texture atlas. Will play once when called with startAnimation()
    * @param name Name of the animation. Must match the name of this animation inside the texture
    *             atlas.
@@ -60,6 +69,7 @@ public class AnimationRenderComponent extends RenderComponent {
    * @return true if added successfully, false otherwise
    */
   public boolean addAnimation(String name, float frameDuration) {
+    this.animationName = name;
     return addAnimation(name, frameDuration, PlayMode.NORMAL);
   }
 

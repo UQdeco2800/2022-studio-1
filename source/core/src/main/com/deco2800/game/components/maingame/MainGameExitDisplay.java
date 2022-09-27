@@ -67,6 +67,40 @@ public class MainGameExitDisplay extends UIComponent {
           }
         });
 
+    // inserting load Button TEXTURE IS STILL WIP
+    Texture loadTexture = new Texture(Gdx.files.internal("images/coin.png"));
+    TextureRegionDrawable upLoad = new TextureRegionDrawable(loadTexture);
+    TextureRegionDrawable downLoad = new TextureRegionDrawable(loadTexture);
+    ImageButton loadButton = new ImageButton(upLoad, downLoad);
+
+    loadButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent event, Actor actor) {
+                logger.debug("Load button clicked on game page");
+                entity.getEvents().trigger("load");
+              }
+            }
+    );
+
+    // inserting save Button TEXTURE IS STILL WIP
+    Texture saveTexture = new Texture(Gdx.files.internal("images/inventory.png"));
+    TextureRegionDrawable upSave = new TextureRegionDrawable(saveTexture);
+    TextureRegionDrawable downSave = new TextureRegionDrawable(saveTexture);
+    ImageButton saveButton = new ImageButton(upSave, downSave);
+
+    saveButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent event, Actor actor) {
+                logger.debug("Save button clicked on game page");
+                entity.getEvents().trigger("save");
+              }
+            }
+    );
+
+    table.add(saveButton).size(50f).pad(5);
+    table.add(loadButton).size(50f).pad(5);
     table.add(settingsButton).size(50f).pad(5);
     table.add(backButton).size(50f).pad(5);
     table.row();

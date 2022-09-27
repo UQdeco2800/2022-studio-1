@@ -10,16 +10,15 @@ import com.deco2800.game.areas.GameService;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
-import com.deco2800.game.components.maingame.MainGameActions;
-import com.deco2800.game.components.maingame.MainGameExitDisplay;
-import com.deco2800.game.components.maingame.MainGameInterface;
-import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.*;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
@@ -99,9 +98,9 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
 
-  public MainGameScreen(AtlantisSinks game) {
+  public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
     this.game = game;
-
+  System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -125,7 +124,8 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
     ServiceLocator.registerResourceManagementService(new ResourceManagementService());
-
+    ServiceLocator.registerAchievementHandler(new AchievementHandler());
+    ServiceLocator.registerNpcService(new NpcService());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
@@ -138,7 +138,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     // Singleton MainArea responsible for controlling current map and entities
     //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
-    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
     createUI();
 
@@ -219,7 +219,8 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameExitDisplay())
         .addComponent(new MainGameInterface())
         .addComponent(new MainGameBuildingInterface())
-            .addComponent(new DayNightClockComponent())
+        .addComponent(new MainGameNpcInterface())
+        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
