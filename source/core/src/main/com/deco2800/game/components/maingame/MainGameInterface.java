@@ -13,10 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.deco2800.game.entities.factories.PlayerFactory.createPlayer;
 
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
@@ -28,9 +33,6 @@ public class MainGameInterface extends UIComponent {
     private Table rightSideTable;
     private Table table1;
     private Group group;
-//    private Table table2;
-//    private Table table3;
-//    private Table table4;
 
     @Override
     public void create() {
@@ -48,11 +50,6 @@ public class MainGameInterface extends UIComponent {
         leftSideTable.setFillParent(true);
 
         group = new Group();
-//        table1.setSize(800f,800f);
-
-//        table2 = new Table();
-//        table2.center().setPosition();
-//        table2.setFillParent(true);
 
         Texture inventoryInterfaceTexture = new Texture(Gdx.files.internal("images/popup-border.png"));
         TextureRegionDrawable inventory = new TextureRegionDrawable(inventoryInterfaceTexture);
@@ -77,8 +74,6 @@ public class MainGameInterface extends UIComponent {
         heartImage.setPosition(inventoryFrame.getX() + 400f, inventoryFrame.getY() + 610f);
 
         Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class));
-//        int health = ServiceLocator.getStructureService().getNamedEntity("player").getComponent(CombatStatsComponent.class).getHealth();
-//        Label healthAmount = new Label(Integer.toString(health), skin, "large");
         healthBarImage.setSize(200f,30f);
         healthBarImage.setPosition(inventoryFrame.getX() + 450f, inventoryFrame.getY() + 610f);
 
@@ -95,8 +90,92 @@ public class MainGameInterface extends UIComponent {
         leftTitleBox.setPosition(leftBox.getX(), leftBox.getY() + 460f);
 
         Label leftTitle = new Label("Equipment", skin, "small");
-        leftTitle.setColor(skin.getColor("black"));
-        leftTitle.setPosition(leftBox.getX() + 120f, leftBox.getY() + 480f);
+        leftTitle.setColor(skin.getColor("white"));
+        leftTitle.setPosition(leftBox.getX() + 125f, leftBox.getY() + 480f);
+
+        Texture leftArrowTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
+        TextureRegionDrawable leftArrowDrawable = new TextureRegionDrawable(leftArrowTexture);
+        ImageButton leftArrow = new ImageButton(leftArrowDrawable,leftArrowDrawable);
+        leftArrow.setSize(50f,50f);
+        leftArrow.setPosition(leftBox.getX() + 20f, leftBox.getY() + 380f);
+
+        Texture prevTexture = new Texture(Gdx.files.internal("images/shop-items-framed/shield-framed.png"));
+        TextureRegionDrawable prevDrawable = new TextureRegionDrawable(prevTexture);
+        ImageButton prev = new ImageButton(prevDrawable,prevDrawable);
+        prev.setSize(50f,50f);
+        prev.setPosition(leftBox.getX() + 75f, leftBox.getY() + 380f);
+
+        Texture currTexture = new Texture(Gdx.files.internal("images/shop-items-framed/sword-framed.png"));
+        TextureRegionDrawable currDrawable = new TextureRegionDrawable(currTexture);
+        ImageButton curr = new ImageButton(currDrawable,currDrawable);
+        curr.setSize(70f,70f);
+        curr.setPosition(leftBox.getX() + 135f, leftBox.getY() + 380f);
+
+        Texture nextTexture = new Texture(Gdx.files.internal("images/shop-items-framed/helmet-framed.png"));
+        TextureRegionDrawable nextDrawable = new TextureRegionDrawable(nextTexture);
+        ImageButton next = new ImageButton(nextDrawable,nextDrawable);
+        next.setSize(50f,50f);
+        next.setPosition(leftBox.getX() + 215f, leftBox.getY() + 380f);
+
+        Texture rightArrowTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
+        TextureRegionDrawable rightArrowDrawable = new TextureRegionDrawable(rightArrowTexture);
+        ImageButton rightArrow = new ImageButton(rightArrowDrawable,rightArrowDrawable);
+        rightArrow.setSize(50f,50f);
+        rightArrow.setPosition(leftBox.getX() + 275f, leftBox.getY() + 380f);
+
+        Texture leftSmallTitle1Texture = new Texture(Gdx.files.internal("images/description-box.png"));
+        TextureRegionDrawable leftSmallTitle1Drawable = new TextureRegionDrawable(leftSmallTitle1Texture);
+        ImageButton leftSmallTitle1 = new ImageButton(leftSmallTitle1Drawable,leftSmallTitle1Drawable);
+        leftSmallTitle1.setSize(150f,60f);
+        leftSmallTitle1.setPosition(leftBox.getX() + 20f, leftBox.getY() + 320f);
+
+        Label leftTitle1 = new Label("DISARM", skin, "small");
+        leftTitle1.setColor(skin.getColor("white"));
+        leftTitle1.setPosition(leftBox.getX() + 50f, leftBox.getY() + 340f);
+
+        Texture leftSmallTitle2Texture = new Texture(Gdx.files.internal("images/description-box.png"));
+        TextureRegionDrawable leftSmallTitle2Drawable = new TextureRegionDrawable(leftSmallTitle2Texture);
+        ImageButton leftSmallTitle2 = new ImageButton(leftSmallTitle2Drawable,leftSmallTitle2Drawable);
+        leftSmallTitle2.setSize(150f,60f);
+        leftSmallTitle2.setPosition(leftBox.getX() + 170f, leftBox.getY() + 320f);
+
+        Label leftTitle2 = new Label("Equip", skin, "small");
+        leftTitle2.setColor(skin.getColor("white"));
+        leftTitle2.setPosition(leftBox.getX() + 210f, leftBox.getY() + 340f);
+
+        Texture descriptionTexture = new Texture(Gdx.files.internal("images/description-box.png"));
+        TextureRegionDrawable descriptionDrawable = new TextureRegionDrawable(descriptionTexture);
+        ImageButton description = new ImageButton(descriptionDrawable,descriptionDrawable);
+        description.setSize(description.getWidth()/2,description.getHeight()/5);
+        description.setPosition(leftBox.getX(), leftBox.getY() + 250f);
+
+        Texture selectedTexture = new Texture(Gdx.files.internal("images/selected-item-box.png"));
+        TextureRegionDrawable selectedDrawable = new TextureRegionDrawable(selectedTexture);
+        ImageButton selected = new ImageButton(selectedDrawable,selectedDrawable);
+        selected.setSize(selected.getWidth()/3,selected.getHeight()/4);
+        selected.setPosition(leftBox.getX() + 60f, leftBox.getY() + 160f);
+
+        Texture attackItemTexture = new Texture(Gdx.files.internal("images/shop-items-framed/sword-framed.png"));
+        TextureRegionDrawable attackItemDrawable = new TextureRegionDrawable(attackItemTexture);
+        ImageButton attackItem = new ImageButton(attackItemDrawable,attackItemDrawable);
+        attackItem.setSize(40f,40f);
+        attackItem.setPosition(leftBox.getX() + 115f, leftBox.getY() + 200f);
+
+        Label attack = new Label("Attack", skin, "small");
+        attack.setColor(skin.getColor("black"));
+        attack.setSize(0.3f,0.3f);
+        attack.setPosition(leftBox.getX() + 105f, leftBox.getY() + 190f);
+
+        Texture defenceItemTexture = new Texture(Gdx.files.internal("images/shop-items-framed/helmet-framed.png"));
+        TextureRegionDrawable defenceItemDrawable = new TextureRegionDrawable(defenceItemTexture);
+        ImageButton defenceItem = new ImageButton(defenceItemDrawable,defenceItemDrawable);
+        defenceItem.setSize(40f,40f);
+        defenceItem.setPosition(leftBox.getX() + 190f, leftBox.getY() + 200f);
+
+        Label defence = new Label("Defence", skin, "small");
+        defence.setColor(skin.getColor("black"));
+        defence.setSize(0.3f,0.3f);
+        defence.setPosition(leftBox.getX() + 175f, leftBox.getY() + 190f);
 
         Texture rightTexture = new Texture(Gdx.files.internal("images/box-border.png"));
         TextureRegionDrawable rightDrawable = new TextureRegionDrawable(rightTexture);
@@ -162,6 +241,24 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
+        leftArrow.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Left button clicked");
+                        // Add left Arrow function
+                    }
+                });
+
+        rightArrow.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("Right button clicked");
+                        // Add right Arrow function
+                    }
+                });
+
         rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
         leftSideTable.add(shopButton).left().bottom().size(150f, 150f);
@@ -171,11 +268,25 @@ public class MainGameInterface extends UIComponent {
         group.addActor(subtitle);
         group.addActor(heartImage);
         group.addActor(healthBarImage);
-//        group.addActor(healthAmount);
         group.addActor(leftBox);
-        group.addActor(rightBox);
         group.addActor(leftTitleBox);
         group.addActor(leftTitle);
+        group.addActor(leftArrow);
+        group.addActor(prev);
+        group.addActor(curr);
+        group.addActor(next);
+        group.addActor(rightArrow);
+        group.addActor(leftSmallTitle1);
+        group.addActor(leftSmallTitle2);
+        group.addActor(leftTitle1);
+        group.addActor(leftTitle2);
+        group.addActor(description);
+        group.addActor(selected);
+        group.addActor(attackItem);
+        group.addActor(attack);
+        group.addActor(defenceItem);
+        group.addActor(defence);
+        group.addActor(rightBox);
         group.addActor(crossFrame);
         group.setVisible(false);
 
