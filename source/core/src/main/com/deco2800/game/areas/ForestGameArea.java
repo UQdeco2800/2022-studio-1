@@ -148,16 +148,12 @@ public class ForestGameArea extends GameArea {
   private Entity player;
   private Entity crystal;
   private int dayNum = 1;
+  private Boolean loadGame;
 
-  public ForestGameArea(TerrainFactory terrainFactory) {
+  public ForestGameArea(TerrainFactory terrainFactory, Boolean loadGame) {
     super();
-
+    this.loadGame = loadGame;
     this.terrainFactory = terrainFactory;
-
-//    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-//        this::dayChange);
-//    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-//        this::spawnSetEnemies);
 
   }
 
@@ -167,9 +163,6 @@ public class ForestGameArea extends GameArea {
    */
   @Override
   public void create() {
-
-
-
 
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
@@ -182,15 +175,23 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
+    if (this.loadGame) {
+      SaveGame.loadGameState();
+    } else {
+      spawnEnvironmentalObjects();
+    }
 
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
-    spawnEnvironmentalObjects();
-
     playMusic();
-    SaveGame.loadGameState();
+
+
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+            this::dayChange);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+            this::spawnSetEnemies);
   }
 
   private void displayUI() {

@@ -83,9 +83,9 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
 
-  public MainGameScreen(AtlantisSinks game) {
+  public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
     this.game = game;
-
+  System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -122,7 +122,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     // Singleton MainArea responsible for controlling current map and entities
     //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
-    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
     createUI();
 

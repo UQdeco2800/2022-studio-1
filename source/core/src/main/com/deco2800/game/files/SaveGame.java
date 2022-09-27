@@ -1,4 +1,5 @@
 package com.deco2800.game.files;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
@@ -10,6 +11,9 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.*;
@@ -19,6 +23,7 @@ import java.util.Map;
  * Class that handles all save game mechanics
  */
 public class SaveGame {
+    private static final Logger logger = LoggerFactory.getLogger(SaveGame.class);
     private static String savePathEnvironmental = "Saves/Environmental.json";
     private static String savePathStructures = "Saves/Structures.json";
     private static String saveGameData = "Saves/GameData.json";
@@ -30,7 +35,7 @@ public class SaveGame {
      * Saves environmental objects to enviromental via the use of json
      */
     private static void saveEnvironmentalObjects() {
-
+        logger.debug("Begin Saving Environment");
         ArrayList<Tuple> environmentalObjects = new ArrayList<>();
 
         //loop through all entities and check they have an environmental component, save texture and position
@@ -42,6 +47,7 @@ public class SaveGame {
         }
 
         FileLoader.writeClass(environmentalObjects, savePathEnvironmental, FileLoader.Location.LOCAL);
+        logger.debug("Finished Saving Environment");
     }
 
     /**
@@ -51,6 +57,7 @@ public class SaveGame {
      * @throws IllegalAccessException throw error when invoking method fails
      */
     private static void loadEnvrionmentalObjects() throws InvocationTargetException, IllegalAccessException {
+        logger.debug("Begin Loading Environment");
         ArrayList obstacles = FileLoader.readClass(ArrayList.class, savePathEnvironmental, FileLoader.Location.LOCAL);
 
         for (Object ob: obstacles) {
@@ -65,6 +72,7 @@ public class SaveGame {
 
             newEnvironmentalObject.setPosition(obstacle.position);
         }
+        logger.debug("Finished Loading Environment");
     }
 
     /**
@@ -116,6 +124,7 @@ public class SaveGame {
      * Save all structures
      */
     private static void saveStructures() {
+        logger.debug("Begin Saving Structures");
         ArrayList<Tuple> structuresList = new ArrayList<>();
 
         Map<String, Entity> structures = ServiceLocator.getStructureService().getAllNamedEntities();
@@ -136,6 +145,7 @@ public class SaveGame {
 
 
         FileLoader.writeClass(structuresList, savePathStructures, FileLoader.Location.LOCAL);
+        logger.debug("Finished Saving Structures");
     }
 
     /**
@@ -145,6 +155,7 @@ public class SaveGame {
      * @throws IllegalAccessException when invoking method fails due to permisions
      */
     private static void loadStructures() throws InvocationTargetException, IllegalAccessException {
+        logger.debug("Begin Loading Structures");
         ArrayList structures = FileLoader.readClass(ArrayList.class, savePathStructures, FileLoader.Location.LOCAL);
 
         //loop through all structures and go to correct generation method
@@ -176,15 +187,20 @@ public class SaveGame {
             ServiceLocator.getStructureService().registerNamed(structure.getName(), structure);
             ServiceLocator.getEntityService().registerNamed(structure.getName(), structure);
         }
+        logger.debug("Finished Loading Structures");
     }
 
 
     private static void saveGameData() {
+        logger.debug("Begin Saving Game Related Data");
         DayNightCycleService t = ServiceLocator.getDayNightCycleService();
+        t.currentDayNumber = ServiceLocator.getDayNightCycleService().currentDayNumber;
         FileLoader.writeClass(t, saveGameData, FileLoader.Location.LOCAL);
+        logger.debug("Finished Saving Game Related Data");
     }
 
     private static void loadGameData() {
+        logger.debug("Begin Loading Game Data");
         DayNightCycleService savedDayNightCycle = FileLoader.readClass(DayNightCycleService.class, saveGameData, FileLoader.Location.LOCAL);
         DayNightCycleService currentService = ServiceLocator.getDayNightCycleService();
 
@@ -204,13 +220,15 @@ public class SaveGame {
         currentService.timePerHalveOfPartOfDay = savedDayNightCycle.timePerHalveOfPartOfDay;
         currentService.partOfDayHalveIteration = savedDayNightCycle.partOfDayHalveIteration;
         currentService.lastPartOfDayHalveIteration = savedDayNightCycle.lastPartOfDayHalveIteration;
+        currentService.timer = ServiceLocator.getTimeSource();
+        logger.debug("Finished Loading Game Data");
     }
 
     /**
      * Save all game assets to the save game folder
      */
     public static void saveGameState() {
-
+        logger.debug("Begin Saving");
         try {
 
             environmentalGenerationSetUp();
@@ -224,13 +242,14 @@ public class SaveGame {
         } catch (NoSuchMethodException ignored) {
 
         }
+        logger.debug("Finished Saving");
     }
 
     /**
      * Load all game assets from the save game folder
      */
     public static void loadGameState() {
-
+        logger.debug("Begin Loading");
         try {
 
             structureGenerationSetUp();
@@ -244,7 +263,7 @@ public class SaveGame {
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
             System.out.println("ERROR OCCURED: " + ignored);
         }
-
+        logger.debug("Finished Loading");
     }
 
 

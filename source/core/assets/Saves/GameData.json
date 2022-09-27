@@ -1,8 +1,7 @@
 {
-currentCycleStatus: DUSK
-lastCycleStatus: DAY
-currentDayNumber: 1
-currentDayMillis: 79763
+currentCycleStatus: DAY
+lastCycleStatus: DAWN
+currentDayMillis: 10947
 isStarted: true
 config: {
 	dawnLength: 15000
@@ -12,10 +11,10 @@ config: {
 	maxDays: 4
 }
 timer: {
-	startTime: 1664085926375
+	startTime: 1664243122502
 }
-timeSinceLastPartOfDay: 1664086121425
+timeSinceLastPartOfDay: 1664243089899
 timePerHalveOfPartOfDay: 15000
-partOfDayHalveIteration: 4
+partOfDayHalveIteration: 3
 lastPartOfDayHalveIteration: 4
 }
