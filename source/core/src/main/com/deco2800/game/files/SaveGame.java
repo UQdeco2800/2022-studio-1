@@ -1,7 +1,10 @@
 package com.deco2800.game.files;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.configs.CrystalConfig;
+import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
@@ -10,6 +13,8 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.*;
@@ -21,6 +26,8 @@ import java.util.Map;
 public class SaveGame {
     private static String savePathEnvironmental = "Saves/Environmental.json";
     private static String savePathStructures = "Saves/Structures.json";
+    private static String savePathCrystal = "Saves/Crystal.json";
+    private static String savePathPlayer = "Saves/Player.json";
     private static String saveGameData = "Saves/GameData.json";
 
     private final static HashMap<String, Method> environmentalGeneration = new HashMap<>();
@@ -178,6 +185,46 @@ public class SaveGame {
         }
     }
 
+    /**
+     * Saves the crystal to a JSON file
+     */
+    private static void saveCrystal() {
+        String name = "crystal";
+        Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
+
+        // save crystal level, health, texture, name, and position
+        Tuple crystalRepresentation = new Tuple().setName(name).setPosition(crystal.getPosition());
+        crystalRepresentation.setLevel(crystal.getComponent(CombatStatsComponent.class).getLevel());
+        crystalRepresentation.setHealth(crystal.getComponent(CombatStatsComponent.class).getHealth());
+        crystalRepresentation.setTexture(crystal.getComponent(TextureRenderComponent.class).getTexturePath());
+
+        FileLoader.writeClass(crystalRepresentation, savePathCrystal, FileLoader.Location.LOCAL);
+    }
+
+    /**
+     * Reads crystal from json file
+     * @throws InvocationTargetException when invoking method fails due to invalid method
+     * @throws IllegalAccessException when invoking method fails due to permisions
+     */
+    private static void loadCrystal() throws InvocationTargetException, IllegalAccessException {
+        Tuple crystalRepresentation = FileLoader.readClass(Tuple.class, savePathCrystal, FileLoader.Location.LOCAL);
+        CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
+        //use defaults if no file is provided? TODO also why crystalfactory.create not forestgamearea.spawn?
+        Entity crystal = CrystalFactory.createCrystal(crystalRepresentation.texture, crystalRepresentation.name);
+        crystal.setPosition(crystalRepresentation.position);
+        for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
+            CrystalFactory.upgradeCrystal();
+        }
+        crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
+    }
+
+    private static void savePlayer() {
+        return;
+    }
+
+    private static void loadPlayer() {
+        return;
+    }
 
     private static void saveGameData() {
         DayNightCycleService t = ServiceLocator.getDayNightCycleService();
@@ -219,6 +266,8 @@ public class SaveGame {
             structureGenerationSetUp();
             saveStructures();
 
+            saveCrystal();
+
             saveGameData();
 
         } catch (NoSuchMethodException ignored) {
@@ -238,6 +287,7 @@ public class SaveGame {
 
             environmentalGenerationSetUp();
             loadEnvrionmentalObjects();
+            loadCrystal();
 
             loadGameData();
 

@@ -12,6 +12,7 @@ import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
@@ -103,8 +104,10 @@ public class CrystalFactory {
             Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
             terrain.getComponent(TerrainComponent.class).incrementMapLvl();
 
-        } else
+        } else {
             System.out.println("Crystal has reached max level");
+        }
+        SaveGame.saveGameState();
     }
 
     /**
