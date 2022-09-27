@@ -208,6 +208,10 @@ public class DayNightCycleService {
         this.ended = true;
     }
 
+    public void resume() {
+        this.ended = false;
+    }
+
     /**
      * Pauses the timer for the day night cycle.
      */

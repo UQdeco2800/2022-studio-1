@@ -196,6 +196,19 @@ public class SaveGame {
         DayNightCycleService t = ServiceLocator.getDayNightCycleService();
         t.currentDayNumber = ServiceLocator.getDayNightCycleService().currentDayNumber;
         FileLoader.writeClass(t, saveGameData, FileLoader.Location.LOCAL);
+//        DayNightCycleService savedDayNightCycle = new DayNightCycleService();
+//        savedDayNightCycle.currentDayNumber = currentService.currentDayNumber;
+//        savedDayNightCycle.currentCycleStatus = currentService.currentCycleStatus;
+//        savedDayNightCycle.lastCycleStatus = currentService.lastCycleStatus;
+//        savedDayNightCycle.currentDayMillis = currentService.currentDayMillis;
+//        savedDayNightCycle.timePaused = currentService.timePaused;
+//        savedDayNightCycle.totalDurationPaused = currentService.totalDurationPaused;
+//        savedDayNightCycle.isPaused = currentService.isPaused;
+//        savedDayNightCycle.isStarted = currentService.isStarted;
+//        savedDayNightCycle.timeSinceLastPartOfDay = currentService.timeSinceLastPartOfDay;
+//        savedDayNightCycle.timePerHalveOfPartOfDay = currentService.timePerHalveOfPartOfDay;
+//        savedDayNightCycle.partOfDayHalveIteration = currentService.partOfDayHalveIteration;
+//        savedDayNightCycle.lastPartOfDayHalveIteration = currentService.lastPartOfDayHalveIteration;
         logger.debug("Finished Saving Game Related Data");
     }
 
@@ -204,7 +217,6 @@ public class SaveGame {
         DayNightCycleService savedDayNightCycle = FileLoader.readClass(DayNightCycleService.class, saveGameData, FileLoader.Location.LOCAL);
         DayNightCycleService currentService = ServiceLocator.getDayNightCycleService();
 
-        ServiceLocator.getDayNightCycleService().getEvents();
         System.out.println("CURRENT DAY IS " + savedDayNightCycle.currentDayNumber);
         currentService.currentCycleStatus = savedDayNightCycle.currentCycleStatus;
         currentService.lastCycleStatus = savedDayNightCycle.lastCycleStatus;
@@ -220,7 +232,7 @@ public class SaveGame {
         currentService.timePerHalveOfPartOfDay = savedDayNightCycle.timePerHalveOfPartOfDay;
         currentService.partOfDayHalveIteration = savedDayNightCycle.partOfDayHalveIteration;
         currentService.lastPartOfDayHalveIteration = savedDayNightCycle.lastPartOfDayHalveIteration;
-        currentService.timer = ServiceLocator.getTimeSource();
+
         logger.debug("Finished Loading Game Data");
     }
 
@@ -261,7 +273,7 @@ public class SaveGame {
             loadGameData();
 
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
-            System.out.println("ERROR OCCURED: " + ignored);
+            logger.error("ERROR OCCURED: " + ignored);
         }
         logger.debug("Finished Loading");
     }
