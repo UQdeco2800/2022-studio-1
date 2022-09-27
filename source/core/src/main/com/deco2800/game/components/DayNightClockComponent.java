@@ -16,26 +16,6 @@ public class DayNightClockComponent extends UIComponent {
     private Image clockImage;
     private Table rightTable;
 
-    private final String[] clockTimeOfDaySprites = {
-            "images/clock_sprites/clock_day1_1.png",
-            "images/clock_sprites/clock_day1_2.png",
-            "images/clock_sprites/clock_day1_6.png",
-            "images/clock_sprites/clock_day1_7.png",
-            "images/clock_sprites/clock_day2_1.png",
-            "images/clock_sprites/clock_day2_2.png",
-            "images/clock_sprites/clock_day2_6.png",
-            "images/clock_sprites/clock_day2_7.png",
-            "images/clock_sprites/clock_day3_1.png",
-            "images/clock_sprites/clock_day3_2.png",
-            "images/clock_sprites/clock_day3_6.png",
-            "images/clock_sprites/clock_day3_7.png",
-            "images/clock_sprites/clock_day4_1.png",
-            "images/clock_sprites/clock_day4_2.png",
-            "images/clock_sprites/clock_day4_6.png",
-            "images/clock_sprites/clock_day4_7.png"
-    };
-
-    /*
     private final String[] clockSprites = {
             "images/clock_sprites/clock_day1_1.png",
             "images/clock_sprites/clock_day1_2.png",
@@ -70,7 +50,6 @@ public class DayNightClockComponent extends UIComponent {
             "images/clock_sprites/clock_day4_7.png",
             "images/clock_sprites/clock_day4_8.png"
     };
-    */
 
     private int currentSprite = -1;
 
@@ -82,8 +61,8 @@ public class DayNightClockComponent extends UIComponent {
         addClock();
 
         // Event listener
-        //ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK,
-        //        this::changeSprite);
+        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_INTERMITTENT_PART_OF_DAY_CLOCK,
+                this::changeSprite);
 
         ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                 this::changeSprite);
@@ -123,7 +102,7 @@ public class DayNightClockComponent extends UIComponent {
      */
     private void changeSprite(DayNightCycleStatus partOfDay) {
         this.currentSprite += 1;
-        this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockTimeOfDaySprites[currentSprite], Texture.class));
+        this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[currentSprite], Texture.class));
 
         rightTable.clear();
         rightTable.add(clockImage).left().bottom().size(200f, 200f);

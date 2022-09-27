@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
@@ -18,6 +19,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -65,6 +67,7 @@ public class CrystalFactory {
 
     /**
      * Spawns Crystal outside of Game Area class
+     * @param texture path of texture for new Crystal Entity
      *
      */
     public static void triggerCrystal(String texture) {
@@ -103,12 +106,15 @@ public class CrystalFactory {
             Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
             terrain.getComponent(TerrainComponent.class).incrementMapLvl();
 
+            ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_UPGRADED, AchievementType.UPGRADES, 1);
         } else
             System.out.println("Crystal has reached max level");
     }
 
     /**
      * Determine if crystal is being clicked
+     * @param screenX x coordinate
+     * @param screenY y coordinate
      */
     public static boolean crystalClicked(int screenX, int screenY) {
         //testing crystal upgrade on click
@@ -119,6 +125,7 @@ public class CrystalFactory {
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
         //System.out.println(mousePosV2);
+        //crystal position x = 60.0, y = 0.0
         if (59.8 < mousePosV2.x && mousePosV2.x < 60.2) {
             if (-0.375 < mousePosV2.y && mousePosV2.y < 0.375) {
 //                crystal.getComponent(CombatStatsComponent.class).upgrade();
@@ -155,28 +162,6 @@ public class CrystalFactory {
         };
         time.scheduleAtFixedRate(recoverCrystal, 3000, 3000);
     }
-
-    /**
-     * Used for testing whether the function is exist
-     * @param methodName
-     * @return
-     */
-    public boolean hasMethod(String methodName) {
-        switch(methodName) {
-            case "createCrystal": 
-                return true;
-            case "triggerCrystal":
-                return true;
-            case "upgradeCrystal":
-                return true;
-            case "crystalClicked":
-                return true;
-            case "recoverCrystalHealth":
-                return true;
-            default:
-                return false;
-        }
-    } 
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");
