@@ -18,13 +18,8 @@ public class epilogueDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(prologueDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table rootTable;
-    /*    private Table charTable;
-        private Table subsTable;
-        private TextButton subtitlesDisplay;
-        private Image sub;*/
     private StoryLinkedList<Frame> frameset;
     private Node<Frame> currentFrame;
-
 
     @Override
     public void create() {
@@ -37,18 +32,6 @@ public class epilogueDisplay extends UIComponent {
         //create table and set positioning
         rootTable = new Table();
         rootTable.setFillParent(true);
-
-        /*
-        //Could be used to subimppose a layer later
-
-        charTable = new Table();
-        charTable.setFillParent(true);
-        charTable.center().padTop(100);
-
-        subsTable = new Table();
-        subsTable.setFillParent(true);
-        subsTable.center().bottom().padBottom(50);
-        */
 
         //load the epilogue screens
         frameset = new StoryLinkedList<>();
@@ -66,22 +49,6 @@ public class epilogueDisplay extends UIComponent {
         // this allows the screens transition
         Drawable clear = new TextureRegionDrawable(new Texture(Gdx.files.internal("images/StoryLine/clearBackground.png")));
         ImageButton backButton = new ImageButton(clear, clear);
-
-/*
-        // load the character image
-        Texture currentSubTexture = new Texture(Gdx.files.internal(currentFrame.f.getCharacters()));
-        sub = new Image(currentSubTexture);
-
-        // load the empty dialogue box and populate with text
-        Texture empty = new Texture(Gdx.files.internal("test/files/emptyDialogue.png"));
-        TextureRegionDrawable testDisplay = new TextureRegionDrawable(empty);
-        subtitlesDisplay = ShopUtils.createImageTextButton(
-                currentFrame.f.getSubtitles(),
-                skin.getColor("white"),
-                "button", 1f,
-                testDisplay, testDisplay, skin,
-                true);
-*/
 
         // Triggers the transition to next frame when the screen is clicked
         backButton.addListener(
