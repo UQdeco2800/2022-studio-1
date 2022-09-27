@@ -153,6 +153,12 @@ public class ForestGameArea extends GameArea {
     this.loadGame = loadGame;
     this.terrainFactory = terrainFactory;
 
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+        this::dayChange);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+        this::spawnSetEnemies);
+    // ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+    // this::spawnNPC);
   }
 
   /**
@@ -185,12 +191,8 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-
-
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-            this::dayChange);
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-            this::spawnSetEnemies);
+    // spawnNPCharacter();
+    spawnEnvironmentalObjects();
 
     playMusic();
   }
