@@ -275,7 +275,7 @@ public class MainGameInterface extends UIComponent {
         ImageButton quarryUseButton = new ImageButton(quarryUseDrawable,quarryUseDrawable);
         quarryUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 185f);
 
-        Label quarryUse = new Label("USE", skin, "small");
+        Label quarryUse = new Label("Place", skin, "small");
         quarryUse.setColor(skin.getColor("black"));
         quarryUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 230f);
 
@@ -294,7 +294,7 @@ public class MainGameInterface extends UIComponent {
         ImageButton attackBuildingUseButton = new ImageButton(attackBuildingUseDrawable,attackBuildingUseDrawable);
         attackBuildingUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 135f);
 
-        Label attackBuildingUse = new Label("USE", skin, "small");
+        Label attackBuildingUse = new Label("Place", skin, "small");
         attackBuildingUse.setColor(skin.getColor("black"));
         attackBuildingUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 180f);
 
