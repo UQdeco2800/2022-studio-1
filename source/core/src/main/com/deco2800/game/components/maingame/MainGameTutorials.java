@@ -2,9 +2,12 @@ package com.deco2800.game.components.maingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -12,19 +15,18 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Text;
 
 public class MainGameTutorials extends UIComponent {
-
-    private Table objective;
     private Table hints;
+    private Table objective;
     private final Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    private Image uncheckedWoodTickBox;
+    private Image uncheckedStoneTickBox;
+    private Texture tickBoxImage;
     private boolean woodObjComp = false;
     private boolean stoneObjComp = false;
-    private Image woodObjective;
-    private Image stoneObjective;
+    private static Label woodDisplay;
+    private static Label stoneDisplay;
     private Image treeInteract;
     private Image stoneInteract;
     private Image enemyInteract;
@@ -42,7 +44,7 @@ public class MainGameTutorials extends UIComponent {
 
         objective = new Table();
         objective.top();
-        objective.padTop(50);
+        objective.padTop(20);
         objective.setFillParent(true);
 
         hints = new Table();
@@ -50,11 +52,23 @@ public class MainGameTutorials extends UIComponent {
         hints.padBottom(20);
         hints.setFillParent(true);
 
-        //objective images
-        Texture woodObjectiveImage = new Texture(Gdx.files.internal("images/tutorials/woodObjective.png"));
-        woodObjective = new Image(woodObjectiveImage);
-        Texture stoneObjectiveImage = new Texture(Gdx.files.internal("images/tutorials/stoneObjective.png"));
-        stoneObjective = new Image(stoneObjectiveImage);
+        Texture objectiveImage = new Texture(Gdx.files.internal("images/tutorials/objectiveImage.png"));
+        Image objectiveImg = new Image(objectiveImage);
+
+        int woodCountInt = player.getComponent(InventoryComponent.class).getWood();
+        CharSequence woodCount = String.format("Gather 100 wood:   %d / 100  ", woodCountInt);
+        woodDisplay = new Label(String.valueOf(woodCount), skin, "large");
+
+        //objective mine stone
+        int stoneCountInt = player.getComponent(InventoryComponent.class).getStone();
+        CharSequence stoneCount = String.format("Mine 60 stone:   %d / 60  ", stoneCountInt);
+        stoneDisplay = new Label(String.valueOf(stoneCount), skin, "large");
+
+        //tickBoxes
+        Texture emptyTickBoxImage = new Texture(Gdx.files.internal("images/tutorials/uncheckedTickBox.png"));
+        tickBoxImage = new Texture(Gdx.files.internal("images/tutorials/checkedTickBox.png"));
+        uncheckedWoodTickBox = new Image(emptyTickBoxImage);
+        uncheckedStoneTickBox = new Image(emptyTickBoxImage);
 
         //action button prompts
         Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/treeDialogue.png"));
@@ -64,9 +78,13 @@ public class MainGameTutorials extends UIComponent {
         Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue.png"));
         enemyInteract = new Image(enemyInteractImage);
 
-        objective.add(woodObjective);
+        objective.add(objectiveImg).width(425).height(138).top().center();
         objective.row();
-        objective.add(stoneObjective);
+        objective.add(woodDisplay);
+        objective.add(uncheckedWoodTickBox).width(25).height(25);
+        objective.row();
+        objective.add(stoneDisplay);
+        objective.add(uncheckedStoneTickBox).width(25).height(25);
 
         stage.addActor(objective);
         stage.addActor(hints);
@@ -99,13 +117,21 @@ public class MainGameTutorials extends UIComponent {
         int currentWood = player.getComponent(InventoryComponent.class).getWood();
         int currentStone = player.getComponent(InventoryComponent.class).getStone();
 
-        if (!woodObjComp && currentWood > 100 ){
-            woodObjective.remove();
+        CharSequence currWoodCount = String.format("Gather 100 wood:   %d / 100  ", currentWood);
+        woodDisplay.setText(currWoodCount);
+        CharSequence currStoneCount = String.format("Mine 60 stone:   %d / 60  ", currentStone);
+        stoneDisplay.setText(currStoneCount);
+
+        if (!woodObjComp && currentWood >= 100 ){
+            uncheckedWoodTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
             woodObjComp = true;
         }
-        if (!stoneObjComp && currentStone > 50) {
-            stoneObjective.remove();
+        if (!stoneObjComp && currentStone >= 60) {
+            uncheckedStoneTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
             stoneObjComp = true;
+        }
+        if (stoneObjComp && woodObjComp) {
+            objective.clear();
         }
     }
 
@@ -117,7 +143,7 @@ public class MainGameTutorials extends UIComponent {
     @Override
     public void dispose() {
         hints.clear();
-
+        objective.clear();
         super.dispose();
     }
 }
