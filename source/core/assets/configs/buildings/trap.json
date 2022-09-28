@@ -6,7 +6,7 @@
     "woodCost": 25,
     "attack": 10,
     "defense": 0,
-    "description": "Inflict damage to enemy when stepped on",
+    "description": "damage when stepped",
     "itemImagePath": "images/shop-attack-building.png",
     "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png"
 }
