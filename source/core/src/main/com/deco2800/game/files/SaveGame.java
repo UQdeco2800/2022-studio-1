@@ -4,11 +4,10 @@ import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
-import com.deco2800.game.entities.factories.CrystalFactory;
-import com.deco2800.game.entities.factories.ObstacleFactory;
-import com.deco2800.game.entities.factories.ResourceBuildingFactory;
-import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.events.EventHandler;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
@@ -209,21 +208,33 @@ public class SaveGame {
     private static void loadCrystal() throws InvocationTargetException, IllegalAccessException {
         Tuple crystalRepresentation = FileLoader.readClass(Tuple.class, savePathCrystal, FileLoader.Location.LOCAL);
         CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
-        //use defaults if no file is provided? TODO also why crystalfactory.create not forestgamearea.spawn?
-        Entity crystal = CrystalFactory.createCrystal(crystalRepresentation.texture, crystalRepresentation.name);
-        crystal.setPosition(crystalRepresentation.position);
-        for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
-            CrystalFactory.upgradeCrystal();
+        //use defaults if no file is provided? or just let it load in as is TODO also why crystalfactory.create not forestgamearea.spawn?
+        Entity crystal;
+        if (crystalRepresentation != null) {
+            crystal = CrystalFactory.createCrystal(crystalRepresentation.texture, crystalRepresentation.name);
+            crystal.setPosition(crystalRepresentation.position);
+            for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
+                CrystalFactory.upgradeCrystal();
+            }
+            crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
         }
-        crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
     }
 
     private static void savePlayer() {
-        return;
+        Memento status = CareTaker.getInstance().getLast();
+        if (status != null) {
+            FileLoader.writeClass(status, savePathPlayer, FileLoader.Location.LOCAL);
+        }
     }
 
     private static void loadPlayer() {
-        return;
+        Memento playerStatus = FileLoader.readClass(Memento.class, savePathPlayer, FileLoader.Location.LOCAL);
+        if (playerStatus != null) {
+            CareTaker ct = CareTaker.getInstance();
+            ct.add(playerStatus);
+            Entity player = PlayerFactory.loadPlayer();
+
+        }
     }
 
     private static void saveGameData() {
@@ -267,6 +278,7 @@ public class SaveGame {
             saveStructures();
 
             saveCrystal();
+            savePlayer();
 
             saveGameData();
 
@@ -288,6 +300,7 @@ public class SaveGame {
             environmentalGenerationSetUp();
             loadEnvrionmentalObjects();
             loadCrystal();
+            loadPlayer();
 
             loadGameData();
 
