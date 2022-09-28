@@ -84,7 +84,7 @@ public class SaveGame {
 
             newEnvironmentalObject.setName(obstacle.name);
             ServiceLocator.getEntityService().register(newEnvironmentalObject);
-//            ServiceLocator.getGameService().removeNamedEntity(newEnvironmentalObject.getName(), newEnvironmentalObject);
+            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
 
         }
         logger.debug("Finished Loading Environment");
@@ -212,6 +212,10 @@ public class SaveGame {
         String name = "crystal";
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
 
+        if (crystal == null) {
+            return;
+        }
+
         // save crystal level, health, texture, name, and position
         Tuple crystalRepresentation = new Tuple().setName(name).setPosition(crystal.getPosition());
         crystalRepresentation.setLevel(crystal.getComponent(CombatStatsComponent.class).getLevel());
@@ -232,6 +236,9 @@ public class SaveGame {
         if (crystalRepresentation != null) {
             Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
 //                    CrystalFactory.createCrystal(crystalRepresentation.texture, crystalRepresentation.name);
+            if (crystal == null) {
+                return;
+            }
             crystal.setPosition(crystalRepresentation.position);
             for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
                 CrystalFactory.upgradeCrystal();
@@ -299,19 +306,6 @@ public class SaveGame {
         DayNightCycleService t = ServiceLocator.getDayNightCycleService();
         t.currentDayNumber = ServiceLocator.getDayNightCycleService().currentDayNumber;
         FileLoader.writeClass(t, saveGameData, FileLoader.Location.LOCAL);
-//        DayNightCycleService savedDayNightCycle = new DayNightCycleService();
-//        savedDayNightCycle.currentDayNumber = currentService.currentDayNumber;
-//        savedDayNightCycle.currentCycleStatus = currentService.currentCycleStatus;
-//        savedDayNightCycle.lastCycleStatus = currentService.lastCycleStatus;
-//        savedDayNightCycle.currentDayMillis = currentService.currentDayMillis;
-//        savedDayNightCycle.timePaused = currentService.timePaused;
-//        savedDayNightCycle.totalDurationPaused = currentService.totalDurationPaused;
-//        savedDayNightCycle.isPaused = currentService.isPaused;
-//        savedDayNightCycle.isStarted = currentService.isStarted;
-//        savedDayNightCycle.timeSinceLastPartOfDay = currentService.timeSinceLastPartOfDay;
-//        savedDayNightCycle.timePerHalveOfPartOfDay = currentService.timePerHalveOfPartOfDay;
-//        savedDayNightCycle.partOfDayHalveIteration = currentService.partOfDayHalveIteration;
-//        savedDayNightCycle.lastPartOfDayHalveIteration = currentService.lastPartOfDayHalveIteration;
         logger.debug("Finished Saving Game Related Data");
     }
 

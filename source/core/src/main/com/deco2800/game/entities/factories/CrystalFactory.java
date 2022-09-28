@@ -145,7 +145,12 @@ public class CrystalFactory {
         TimerTask recoverCrystal = new TimerTask() {
             @Override
             public void run() {
-                DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                DayNightCycleStatus status;
+                if (ServiceLocator.getDayNightCycleService() != null) {
+                    status = ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                } else {
+                    return;
+                }
                 //System.out.println(status);
                 switch (status){
                     case DAWN:
