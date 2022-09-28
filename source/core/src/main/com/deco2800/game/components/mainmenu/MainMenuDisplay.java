@@ -87,6 +87,7 @@ public class MainMenuDisplay extends UIComponent {
               }
             });
 
+    //Adds hover state to button
     homeButton.addListener(
             new InputListener() {
                 @Override
@@ -100,6 +101,7 @@ public class MainMenuDisplay extends UIComponent {
                   }
             });
 
+    //triggers load event when pressed
     loadButton.addListener(
             new ClickListener(){
               @Override
@@ -111,6 +113,7 @@ public class MainMenuDisplay extends UIComponent {
             }
     );
 
+    //Adds hover state to button
     loadButton.addListener(
             new InputListener() {
               @Override
