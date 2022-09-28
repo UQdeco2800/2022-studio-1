@@ -3,16 +3,22 @@ package com.deco2800.game.components.maingame;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class listens to events relevant to the Main Game Screen and does
@@ -55,18 +61,20 @@ public class MainGameActions extends Component {
    * Save functionality is not actually implemented.
    */
   private void onSave() {
-    logger.info("Save game");
+    logger.info("Save game starting");
     SaveGame.saveGameState();
+    logger.info("Save game finished");
   }
 
   /**
-   * Intended for loading a saved game state.
-   * WIP!!!
-   * Load functionality is not actually implemented.
+   * Load the game state from the playable state
    */
   private void onLoad() {
-    logger.info("Load game");
+    logger.info("Load game staring");
+    CareTaker.deleteAll();
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
     SaveGame.loadGameState();
+    logger.info("Load game finished");
   }
 
   /**
