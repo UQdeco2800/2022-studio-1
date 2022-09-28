@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.deco2800.game.services.ServiceLocator;
@@ -48,15 +50,19 @@ public class MainMenuDisplay extends UIComponent {
 
     // inserting home Button
     Texture homeButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/start_button.png"));
+    Texture homeButton2 = new Texture(Gdx.files.internal("images/uiElements/exports/start_button_hover.png"));
     TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
     TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
-    ImageButton homeButton = new ImageButton(homeUp, homeDown);
+    TextureRegionDrawable homeChecked = new TextureRegionDrawable(homeButton2);
+    ImageButton homeButton = new ImageButton(homeUp, homeDown, homeChecked);
 
     // inserting load Button TEXTURE IS STILL WIP
-    Texture loadButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/heart.png"));
+    Texture loadButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/load_button.png"));
+    Texture loadButton2 = new Texture(Gdx.files.internal("images/uiElements/exports/load_button_hover.png"));
     TextureRegionDrawable loadUp = new TextureRegionDrawable(loadButton1);
     TextureRegionDrawable loadDown = new TextureRegionDrawable(loadButton1);
-    ImageButton loadButton = new ImageButton(loadUp, loadDown);
+    TextureRegionDrawable loadChecked = new TextureRegionDrawable(loadButton2);
+    ImageButton loadButton = new ImageButton(loadUp, loadDown, loadChecked);
 
     // inserting settings Button
     Texture settingsButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
@@ -72,20 +78,49 @@ public class MainMenuDisplay extends UIComponent {
 
     // Triggers an event when the button is pressed
     homeButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
-            logger.debug("Start button clicked");
-            entity.getEvents().trigger("start");
-          }
-        });
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                logger.debug("Start button clicked");
+                entity.getEvents().trigger("start");
+                return true;
+              }
+            });
+
+    homeButton.addListener(
+            new InputListener() {
+                @Override
+                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      homeButton.setChecked(true);
+                  }
+
+                  @Override
+                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      homeButton.setChecked(false);
+                  }
+            });
 
     loadButton.addListener(
-            new ChangeListener() {
+            new ClickListener(){
               @Override
-              public void changed(ChangeEvent event, Actor actor) {
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 logger.debug("Load button clicked");
                 entity.getEvents().trigger("load");
+                return true;
+              }
+            }
+    );
+
+    loadButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                loadButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                loadButton.setChecked(false);
               }
             }
     );
