@@ -98,11 +98,12 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     public String lineAmount(String labelContent) {
-        String str = labelContent;
-        if(labelContent.length() >= 50) {
-           str = labelContent.replace("(.{0,50}\b)","$1\n");
+        String s = null;
+        if (labelContent.length() > 50) {
+             s = labelContent.replaceFirst("^(.{0,49}\\b(?!\\p{P}|$))","$1" + System.lineSeparator());
+             return s;
         }
-        return str;
+     return labelContent;
     }
 
     @Override
