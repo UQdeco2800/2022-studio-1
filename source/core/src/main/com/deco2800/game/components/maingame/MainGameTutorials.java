@@ -23,8 +23,9 @@ public class MainGameTutorials extends UIComponent {
     private Image uncheckedWoodTickBox;
     private Image uncheckedStoneTickBox;
     private Texture tickBoxImage;
-    private boolean woodObjComp = false;
-    private boolean stoneObjComp = false;
+    private static boolean objectiveStatus = true;
+    private static boolean woodObjComp = false;
+    private static boolean stoneObjComp = false;
     private static Label woodDisplay;
     private static Label stoneDisplay;
     private Image treeInteract;
@@ -78,14 +79,20 @@ public class MainGameTutorials extends UIComponent {
         Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue.png"));
         enemyInteract = new Image(enemyInteractImage);
 
-        objective.add(objectiveImg).width(425).height(138).top().center();
-        objective.row();
-        objective.add(woodDisplay);
-        objective.add(uncheckedWoodTickBox).width(25).height(25);
-        objective.row();
-        objective.add(stoneDisplay);
-        objective.add(uncheckedStoneTickBox).width(25).height(25);
-
+        if (objectiveStatus) {
+            objective.add(objectiveImg).width(425).height(138).top().center();
+            objective.row();
+        }
+        if (!stoneObjComp) {
+            objective.add(stoneDisplay);
+            objective.add(uncheckedStoneTickBox).width(25).height(25);
+            objective.row();
+        }
+        if (!woodObjComp) {
+            objective.add(woodDisplay);
+            objective.add(uncheckedWoodTickBox).width(25).height(25);
+            objective.row();
+        }
         stage.addActor(objective);
         stage.addActor(hints);
     }
@@ -131,6 +138,7 @@ public class MainGameTutorials extends UIComponent {
             stoneObjComp = true;
         }
         if (stoneObjComp && woodObjComp) {
+            objectiveStatus = false;
             objective.clear();
         }
     }
