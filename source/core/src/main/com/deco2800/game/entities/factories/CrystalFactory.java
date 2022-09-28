@@ -9,6 +9,7 @@ import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
@@ -144,7 +145,12 @@ public class CrystalFactory {
         TimerTask recoverCrystal = new TimerTask() {
             @Override
             public void run() {
-                DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                DayNightCycleStatus status;
+                if (ServiceLocator.getDayNightCycleService() != null) {
+                    status = ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                } else {
+                    return;
+                }
                 //System.out.println(status);
                 switch (status){
                     case DAWN:

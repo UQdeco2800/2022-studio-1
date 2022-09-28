@@ -105,6 +105,7 @@ public class MainGameActions extends Component {
    */
   private void openShop() {
     logger.info("Exiting main game screen");
+    SaveGame.saveGameState();
 
     CareTaker playerStatus = CareTaker.getInstance();
     Memento currentStatus = new Memento(playerStatus.size(),
