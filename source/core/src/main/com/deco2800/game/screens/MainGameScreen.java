@@ -18,6 +18,7 @@ import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
@@ -98,9 +99,9 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
 
-  public MainGameScreen(AtlantisSinks game) {
+  public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
     this.game = game;
-
+  System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -138,7 +139,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     // Singleton MainArea responsible for controlling current map and entities
     //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
-    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
     createUI();
 
