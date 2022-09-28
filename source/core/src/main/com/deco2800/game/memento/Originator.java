@@ -3,6 +3,7 @@ package com.deco2800.game.memento;
 import java.util.HashMap;
 import java.util.List;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class Originator {
     protected Equipments weapon;
     protected Equipments armor;
     protected HashMap<Artefact, Integer> items;
+    protected HashMap<ShopBuilding, Integer> buildings;
     protected List<Equipments> equipmentsList;
 
     /**
@@ -202,13 +204,22 @@ public class Originator {
         this.equipmentsList = equipmentsList;
     }
 
+    public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
+        this.buildings = buildings;
+    }
+
+    public HashMap<ShopBuilding, Integer> getBuildings() {
+        return buildings;
+    }
+
     /**
      * converts the originator object to a memento to store in the caretaker
      * 
      * @return - the new memento generated from the current originator
      */
     public Memento saveStateToMemento() {
-        return new Memento(state, gold, stone, wood, currentHealth, items, attack, defense, weapon, armor, equipmentsList);
+        return new Memento(state, gold, stone, wood, currentHealth, items, buildings,
+                attack, defense, weapon, armor, equipmentsList);
     }
 
     /**

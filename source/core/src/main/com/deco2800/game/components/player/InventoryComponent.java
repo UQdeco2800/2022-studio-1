@@ -3,6 +3,7 @@ package com.deco2800.game.components.player;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
@@ -29,27 +30,10 @@ public class InventoryComponent extends Component {
   private List<Equipments> equipmentList = new ArrayList<>();
   
   private HashMap<Artefact, Integer> items = new HashMap<>();
+  private HashMap<ShopBuilding, Integer> buildings = new HashMap<>();
 
   private AchievementHandler achievementHandler;
 
-  public InventoryComponent(int gold, int stone, int wood,
-      Equipments weapon, Equipments armor, List<Equipments> equipmentsList) {
-    inventory.put(GOLD, gold);
-    inventory.put(STONE, stone);
-    inventory.put(WOOD, wood);
-    setWeapon(weapon);
-    setArmor(armor);
-    setEquipmentList(equipmentsList);
-    achievementHandler = ServiceLocator.getAchievementHandler();
-  }
-
-  public InventoryComponent(int gold, int stone, int wood, HashMap<Artefact, Integer> items) {
-    inventory.put(GOLD, gold);
-    inventory.put(STONE, stone);
-    inventory.put(WOOD, wood);
-    setItems(items);
-    achievementHandler = ServiceLocator.getAchievementHandler();
-  }
   public InventoryComponent(int gold, int stone, int wood) {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
@@ -205,8 +189,25 @@ public class InventoryComponent extends Component {
   public void addEquipmentToList(Equipments equipment) {
     equipmentList.add(equipment);
   }
+
   public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
+  }
+
+  public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
+    this.buildings = buildings;
+  }
+
+  public void addBuilding(ShopBuilding building) {
+    if(buildings.get(building) == null) {
+      buildings.put(building, 1);
+    } else {
+      buildings.replace(building, buildings.get(building) + 1);
+    }
+  }
+
+  public HashMap<ShopBuilding, Integer> getBuildings() {
+    return this.buildings;
   }
 
   public void addItems(Artefact item) {

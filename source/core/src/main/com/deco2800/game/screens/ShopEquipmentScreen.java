@@ -135,12 +135,11 @@ public class ShopEquipmentScreen extends ScreenAdapter {
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
 
-        Entity uiBuilding = new Entity();
-        uiBuilding.addComponent(new InputDecorator(stage, 10))
+        Entity uiEquipment = new Entity();
+        uiEquipment.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
-                .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood(),
-                        lastStatus.getWeapon(), lastStatus.getArmor(), lastStatus.getEquipmentsList()))
+                .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new CombatStatsComponent(lastStatus.getCurrentHealth(), lastStatus.getAttack(),
                         lastStatus.getDefense()))
                 .addComponent(new ShopEquipmentDisplay())
@@ -148,7 +147,10 @@ public class ShopEquipmentScreen extends ScreenAdapter {
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiBuilding);
+        uiEquipment.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
+        uiEquipment.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
+        uiEquipment.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
+        ServiceLocator.getEntityService().register(uiEquipment);
 
     }
 }
