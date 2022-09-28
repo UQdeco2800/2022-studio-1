@@ -43,11 +43,11 @@ public class CollisionEffectComponent extends Component {
     }
 
     private CollisionEffect collisionEffect;
-    private ColliderComponent colliderComponent;
-    private PhysicsComponent physicsComponent;
-    private EnvironmentalComponent environmentalComponent;
+    private transient ColliderComponent colliderComponent;
+    private transient PhysicsComponent physicsComponent;
+    private  EnvironmentalComponent environmentalComponent;
     private float speedModifier; //note it might be worth restructuring to have this be standalone rather than relying on environmentalcomponent
-    private HitboxComponent hitboxComponent;
+    private transient HitboxComponent hitboxComponent;
     private boolean AoE;
     private float knockbackForce = 1f;
     private int damage = 1;

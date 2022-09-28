@@ -1,0 +1,10 @@
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/marble-stone-60x40.png
+	position: {
+		x: 5
+		y: 5
+	}
+}
+]

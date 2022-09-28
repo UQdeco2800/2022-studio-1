@@ -4,6 +4,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.files.SaveGame;
+import com.deco2800.game.rendering.DayNightCycleComponent;
+import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -140,18 +144,16 @@ public class ForestGameArea extends GameArea {
   private Entity player;
   private Entity crystal;
   private int dayNum = 1;
+  private Boolean loadGame;
+
   private int NPCNum = ServiceLocator.getNpcService().getNpcNum();
 
-  public ForestGameArea(TerrainFactory terrainFactory) {
+  public ForestGameArea(TerrainFactory terrainFactory, Boolean loadGame) {
     super();
+    this.loadGame = loadGame;
     this.terrainFactory = terrainFactory;
 
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-        this::dayChange);
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-        this::spawnSetEnemies);
-    // ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-    // this::spawnNPC);
+
   }
 
   /**
@@ -172,15 +174,26 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
+
+    if (this.loadGame) {
+      SaveGame.loadGameState();
+    } else {
+      spawnEnvironmentalObjects();
+    }
+
+
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
-    // spawnNPCharacter();
-    spawnEnvironmentalObjects();
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+            this::dayChange);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+            this::spawnSetEnemies);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+            this::spawnNPC);
 
     playMusic();
-
   }
 
   private void displayUI() {
