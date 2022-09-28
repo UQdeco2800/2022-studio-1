@@ -12,22 +12,29 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
 public class MainGameTutorials extends UIComponent {
-    private Table hints;
+    private Table prompts;
+    private Table objectiveHeader;
     private Table objective;
     private final Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    private Image objectiveImg;
     private Image uncheckedWoodTickBox;
     private Image uncheckedStoneTickBox;
+    private Image uncheckedEnemyTickBox;
     private Texture tickBoxImage;
     private static boolean objectiveStatus = true;
     private static boolean woodObjComp = false;
     private static boolean stoneObjComp = false;
+    private static boolean enemyObjComp = false;
+    private static int enemyCountInt;
     private static Label woodDisplay;
     private static Label stoneDisplay;
+    private static Label enemyDisplay;
     private Image treeInteract;
     private Image stoneInteract;
     private Image enemyInteract;
@@ -36,26 +43,35 @@ public class MainGameTutorials extends UIComponent {
     @Override
     public void create() {
         super.create();
-        player.getEvents().addListener("showHints", this::displayHints);
-        player.getEvents().addListener("showObjective", this::displayObjective);
+        player.getEvents().addListener("showPrompts", this::displayPrompts);
+        player.getEvents().addListener("updateObjective", this::updateObjective);
+        player.getEvents().addListener("enemyKill", this::onEnemyKill);
+        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+                this::onNight);
         addActors();
     }
 
     private void addActors() {
 
+        objectiveHeader = new Table();
+        objectiveHeader.top();
+        objectiveHeader.padTop(10);
+        objectiveHeader.setFillParent(true);
+
         objective = new Table();
         objective.top();
-        objective.padTop(20);
+        objective.padTop(150);
         objective.setFillParent(true);
 
-        hints = new Table();
-        hints.bottom();
-        hints.padBottom(20);
-        hints.setFillParent(true);
+        prompts = new Table();
+        prompts.bottom();
+        prompts.padBottom(20);
+        prompts.setFillParent(true);
 
         Texture objectiveImage = new Texture(Gdx.files.internal("images/tutorials/objectiveImage.png"));
-        Image objectiveImg = new Image(objectiveImage);
+        objectiveImg = new Image(objectiveImage);
 
+        //objective chop tree
         int woodCountInt = player.getComponent(InventoryComponent.class).getWood();
         CharSequence woodCount = String.format("Gather 100 wood:   %d / 100  ", woodCountInt);
         woodDisplay = new Label(String.valueOf(woodCount), skin, "large");
@@ -65,11 +81,16 @@ public class MainGameTutorials extends UIComponent {
         CharSequence stoneCount = String.format("Mine 60 stone:   %d / 60  ", stoneCountInt);
         stoneDisplay = new Label(String.valueOf(stoneCount), skin, "large");
 
+        enemyCountInt = 0;
+        CharSequence enemyCount = String.format("Kill 3 enemies:   %d / 3  ", enemyCountInt);
+        enemyDisplay = new Label(String.valueOf(enemyCount), skin, "large");
+
         //tickBoxes
         Texture emptyTickBoxImage = new Texture(Gdx.files.internal("images/tutorials/uncheckedTickBox.png"));
         tickBoxImage = new Texture(Gdx.files.internal("images/tutorials/checkedTickBox.png"));
         uncheckedWoodTickBox = new Image(emptyTickBoxImage);
         uncheckedStoneTickBox = new Image(emptyTickBoxImage);
+        uncheckedEnemyTickBox = new Image(emptyTickBoxImage);
 
         //action button prompts
         Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/treeDialogue.png"));
@@ -80,8 +101,7 @@ public class MainGameTutorials extends UIComponent {
         enemyInteract = new Image(enemyInteractImage);
 
         if (objectiveStatus) {
-            objective.add(objectiveImg).width(425).height(138).top().center();
-            objective.row();
+            objectiveHeader.add(objectiveImg).width(425).height(138).top().center();
         }
         if (!stoneObjComp) {
             objective.add(stoneDisplay);
@@ -93,34 +113,36 @@ public class MainGameTutorials extends UIComponent {
             objective.add(uncheckedWoodTickBox).width(25).height(25);
             objective.row();
         }
+
+        stage.addActor(objectiveHeader);
         stage.addActor(objective);
-        stage.addActor(hints);
+        stage.addActor(prompts);
     }
 
-    private void displayHints() {
+    private void displayPrompts() {
         Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
         Entity closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
         Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
 
-        hints.clear();
+        prompts.clear();
         if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() != DayNightCycleStatus.NIGHT) {
             if (closestEntity != null && closestEntity.isCollectable()) {
                 ResourceType getResource = closestEntity.getResourceType();
                 switch (getResource) {
-                    case WOOD -> hints.add(treeInteract);
-                    case STONE -> hints.add(stoneInteract);
+                    case WOOD -> prompts.add(treeInteract);
+                    case STONE -> prompts.add(stoneInteract);
                     case GOLD -> { //TODO: add gold dialogue
                     }
                 }
             }
         } else if (closestEnemy != null) {
-            hints.add(enemyInteract);
+            prompts.add(enemyInteract);
         }
     }
 
-    private void displayObjective() {
+    private void updateObjective() {
         int currentWood = player.getComponent(InventoryComponent.class).getWood();
         int currentStone = player.getComponent(InventoryComponent.class).getStone();
 
@@ -132,15 +154,36 @@ public class MainGameTutorials extends UIComponent {
         if (!woodObjComp && currentWood >= 100 ){
             uncheckedWoodTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
             woodObjComp = true;
-        }
-        if (!stoneObjComp && currentStone >= 60) {
+        } if (!stoneObjComp && currentStone >= 60) {
             uncheckedStoneTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
             stoneObjComp = true;
-        }
-        if (stoneObjComp && woodObjComp) {
+        } if (stoneObjComp && woodObjComp) {
             objectiveStatus = false;
+            objectiveHeader.clear();
             objective.clear();
         }
+    }
+
+    private void onNight(DayNightCycleStatus partOfDay) {
+        if (partOfDay == DayNightCycleStatus.NIGHT) {
+            objective.clear();
+            objectiveStatus = true;
+            objectiveHeader.add(objectiveImg).width(425).height(138).top().center();
+            objective.add(enemyDisplay);
+            objective.add(uncheckedEnemyTickBox).width(25).height(25);
+        }
+    }
+
+    private void onEnemyKill() {
+        enemyCountInt += 1;
+        CharSequence currEnemyCount = String.format("Kill 3 enemies:   %d / 3  ", enemyCountInt);
+        enemyDisplay.setText(currEnemyCount);
+
+        if (!enemyObjComp && enemyCountInt >= 3) {
+            uncheckedEnemyTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
+            enemyObjComp = true;
+        }
+
     }
 
     @Override
@@ -150,7 +193,7 @@ public class MainGameTutorials extends UIComponent {
 
     @Override
     public void dispose() {
-        hints.clear();
+        prompts.clear();
         objective.clear();
         super.dispose();
     }
