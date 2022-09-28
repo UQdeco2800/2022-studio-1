@@ -5,6 +5,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
 import com.deco2800.game.services.DayNightCycleService;
@@ -55,6 +56,7 @@ public class MainGameActions extends Component {
    */
   private void onSave() {
     logger.info("Save game");
+    SaveGame.saveGameState();
   }
 
   /**
@@ -64,6 +66,7 @@ public class MainGameActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
+    SaveGame.loadGameState();
   }
 
   /**

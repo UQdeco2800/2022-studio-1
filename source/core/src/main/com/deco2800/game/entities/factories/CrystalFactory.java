@@ -107,7 +107,6 @@ public class CrystalFactory {
         } else {
             System.out.println("Crystal has reached max level");
         }
-        SaveGame.saveGameState();
     }
 
     /**

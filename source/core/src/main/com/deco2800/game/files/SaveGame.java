@@ -2,6 +2,10 @@ package com.deco2800.game.files;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.entities.factories.*;
@@ -221,19 +225,53 @@ public class SaveGame {
     }
 
     private static void savePlayer() {
-        Memento status = CareTaker.getInstance().getLast();
-        if (status != null) {
-            FileLoader.writeClass(status, savePathPlayer, FileLoader.Location.LOCAL);
+        String name = "player";
+        Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
+        if (player == null) {
+            return;
         }
+
+        // save player status - look at CareTaker & Memento which would for sure be the more elegant way to do this
+        // in sprint 4, but I don't want to mess with that code this sprint to avoid conflicts
+        HashMap<String, Object> status = new HashMap();
+        status.put("gold", player.getComponent(InventoryComponent.class).getGold());
+        status.put("stone", player.getComponent(InventoryComponent.class).getStone());
+        status.put("wood", player.getComponent(InventoryComponent.class).getWood());
+        status.put("health", player.getComponent(CombatStatsComponent.class).getHealth());
+        status.put("items", player.getComponent(InventoryComponent.class).getItems());
+        status.put("attack", player.getComponent(CombatStatsComponent.class).getBaseAttack());
+        status.put("defence", player.getComponent(CombatStatsComponent.class).getBaseDefense());
+        status.put("weapon", player.getComponent(InventoryComponent.class).getWeapon());
+        status.put("chestplate", player.getComponent(InventoryComponent.class).getChestplate());
+        status.put("helmet", player.getComponent(InventoryComponent.class).getHelmet());
+
+        Tuple p = new Tuple().setPosition(player.getPosition()).setName(name).setPlayerState(status);
+        FileLoader.writeClass(p, savePathPlayer, FileLoader.Location.LOCAL);
     }
 
+    /**
+     * note that this assumes the player has been created already
+     */
     private static void loadPlayer() {
-        Memento playerStatus = FileLoader.readClass(Memento.class, savePathPlayer, FileLoader.Location.LOCAL);
-        if (playerStatus != null) {
-            CareTaker ct = CareTaker.getInstance();
-            ct.add(playerStatus);
-            Entity player = PlayerFactory.loadPlayer();
+        String name = "player";
+        Tuple p = FileLoader.readClass(Tuple.class, savePathPlayer, FileLoader.Location.LOCAL);
+        Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
 
+        if (p != null) {
+            HashMap<String, Object> d = p.playerState;
+            player.getComponent(InventoryComponent.class).setGold((int) d.get("gold"));
+            player.getComponent(InventoryComponent.class).setStone((int) d.get("stone"));
+            player.getComponent(InventoryComponent.class).setWood((int) d.get("wood"));
+            player.getComponent(CombatStatsComponent.class).setHealth((int) d.get("health"));
+            player.getComponent(InventoryComponent.class).setItems((HashMap<Artefact, Integer>) d.get("items"));
+            player.getComponent(CombatStatsComponent.class).setBaseAttack((int) d.get("attack"));
+            player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
+            player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
+            player.getComponent(InventoryComponent.class).setChestplate((Equipments) d.get("chestplate"));
+            player.getComponent(InventoryComponent.class).setHelmet((Equipments) d.get("helmet"));
+
+            player.setPosition(p.position);
+            player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
         }
     }
 
