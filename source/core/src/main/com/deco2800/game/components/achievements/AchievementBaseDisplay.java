@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.screens.achievements.AchievementBaseScreen;
 import com.deco2800.game.ui.UIComponent;
@@ -87,15 +88,41 @@ public class AchievementBaseDisplay extends UIComponent {
         rootTable = new Table();
         rootTable.setFillParent(true);
 
+        rootTable.center();
+
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+
+        float contentHeight = screenHeight * 0.7f;
+        float navBarWidth = screenWidth * 0.2f;
+        float displayWidth = screenWidth * 0.7f;
+
         Table exitTable = new Table();
         Table navigationTable = new Table();
         Table displayTable = new Table();
         Table contentTable = new Table();
 
+        contentTable.setSize(screenWidth, contentHeight);
+        navigationTable.setSize(navBarWidth, contentHeight);
+        displayTable.setSize(displayWidth, contentHeight);
+
         // Title
+        exitTable.add(new Label("Achievements", skin, "large")).expandX().top().center();
 
         // Background Colour
+        Texture colour = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+        Drawable contentBox = new TextureRegionDrawable(colour);
 
+        navigationTable.setBackground(contentBox);
+        displayTable.setBackground(contentBox);
+
+        displayTable.add(new Label("Achievement 1", skin, "large"));
+        displayTable.add(new Label("Achievement 2", skin, "large"));
+        displayTable.add(new Label("Achievement 3", skin, "large"));
+        displayTable.row();
+        displayTable.add(new Label("Achievement 4", skin, "large"));
+        displayTable.add(new Label("Achievement 5", skin, "large"));
+        displayTable.add(new Label("Achievement 6", skin, "large"));
         // Home Button
 
         // Building Button
@@ -148,11 +175,10 @@ public class AchievementBaseDisplay extends UIComponent {
         // Add display content
         // fonts -> https://libgdxinfo.wordpress.com/basic-label/
 
-        displayTable.add(new Label("Achievements", skin, "large")).expandX().top().center();
 
         // Display main content
         contentTable.add(navigationTable).left().bottom().expandY();
-        contentTable.add(displayTable).right().bottom().expandY();
+        contentTable.add(displayTable).right().bottom().fill();
 
         rootTable.add(exitTable).fillX();
         rootTable.row();
