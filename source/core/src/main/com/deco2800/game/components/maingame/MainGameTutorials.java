@@ -86,7 +86,7 @@ public class MainGameTutorials extends UIComponent {
 
         prompts = new Table();
         prompts.bottom();
-        prompts.padBottom(150);
+        prompts.padBottom(250);
         prompts.setFillParent(true);
 
         //arrowDirection background
