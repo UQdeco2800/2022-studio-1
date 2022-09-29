@@ -57,7 +57,7 @@ public class MainGameTutorials extends UIComponent {
         player.getEvents().addListener("showPrompts", this::displayPrompts);
         player.getEvents().addListener("updateObjective", this::updateObjective);
         player.getEvents().addListener("enemyKill", this::onEnemyKill);
-        player.getEvents().addListener("playerControlCompTut", this::onPlayerControl);
+        player.getEvents().addListener("playerControlTut", this::onPlayerControl);
         ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                 this::onNight);
         addActors();
@@ -100,10 +100,10 @@ public class MainGameTutorials extends UIComponent {
 
         //player control prompt:
         //only shows the first time game plays
-        Texture playControl = new Texture(Gdx.files.internal("images/tutorials/playerControlComps.png"));
-        Image playerControlComps = new Image(playControl);
+        Texture playControl = new Texture(Gdx.files.internal("images/tutorials/playerControls.png"));
+        Image playerControl= new Image(playControl);
         if (playerControlComp) {
-            control.add(playerControlComps).width(461).height(187);
+            control.add(playerControl).width(461).height(187);
         }
 
         //objective chop tree
