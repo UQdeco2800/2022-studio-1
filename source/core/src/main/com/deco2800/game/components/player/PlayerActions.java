@@ -123,6 +123,9 @@ public class PlayerActions extends Component {
         System.out.println(enemyTarget.getHealth());
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
+          if (closestEnemy.getName().equals("BOSS")) {
+            this.entity.getEvents().trigger("BossKill");
+          }
           closestEnemy.dispose();
           this.entity.getEvents().trigger("enemyKill");
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);

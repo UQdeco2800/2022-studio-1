@@ -165,6 +165,7 @@ public class NPCFactory {
    */
   public static Entity createMeleeBoss(Entity target) {
     Entity boss = createBaseEnemy(target);
+    boss.setName("BOSS");
     MeleeBossConfig config = configs.meleeBossEnemy;
 
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
