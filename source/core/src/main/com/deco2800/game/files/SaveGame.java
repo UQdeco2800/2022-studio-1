@@ -1,19 +1,26 @@
 package com.deco2800.game.files;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.factories.ObstacleFactory;
-import com.deco2800.game.entities.factories.ResourceBuildingFactory;
-import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.configs.CrystalConfig;
+import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.events.EventHandler;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Memento;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
+import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.*;
@@ -26,6 +33,8 @@ public class SaveGame {
     private static final Logger logger = LoggerFactory.getLogger(SaveGame.class);
     private static String savePathEnvironmental = "Saves/Environmental.json";
     private static String savePathStructures = "Saves/Structures.json";
+    private static String savePathCrystal = "Saves/Crystal.json";
+    private static String savePathPlayer = "Saves/Player.json";
     private static String saveGameData = "Saves/GameData.json";
 
     private final static HashMap<String, Method> environmentalGeneration = new HashMap<>();
@@ -75,7 +84,7 @@ public class SaveGame {
 
             newEnvironmentalObject.setName(obstacle.name);
             ServiceLocator.getEntityService().register(newEnvironmentalObject);
-            ServiceLocator.getGameService().removeNamedEntity(newEnvironmentalObject.getName(), newEnvironmentalObject);
+            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
 
         }
         logger.debug("Finished Loading Environment");
@@ -196,25 +205,107 @@ public class SaveGame {
         logger.debug("Finished Loading Structures");
     }
 
+    /**
+     * Saves the crystal to a JSON file
+     */
+    private static void saveCrystal() {
+        String name = "crystal";
+        Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
+
+        if (crystal == null) {
+            return;
+        }
+
+        // save crystal level, health, texture, name, and position
+        Tuple crystalRepresentation = new Tuple().setName(name).setPosition(crystal.getPosition());
+        crystalRepresentation.setLevel(crystal.getComponent(CombatStatsComponent.class).getLevel());
+        crystalRepresentation.setHealth(crystal.getComponent(CombatStatsComponent.class).getHealth());
+        crystalRepresentation.setTexture(crystal.getComponent(TextureRenderComponent.class).getTexturePath());
+
+        FileLoader.writeClass(crystalRepresentation, savePathCrystal, FileLoader.Location.LOCAL);
+    }
+
+    /**
+     * Reads crystal from json file
+     * @throws InvocationTargetException when invoking method fails due to invalid method
+     * @throws IllegalAccessException when invoking method fails due to permisions
+     */
+    private static void loadCrystal() throws InvocationTargetException, IllegalAccessException {
+        Tuple crystalRepresentation = FileLoader.readClass(Tuple.class, savePathCrystal, FileLoader.Location.LOCAL);
+        CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
+        if (crystalRepresentation != null) {
+            Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+//                    CrystalFactory.createCrystal(crystalRepresentation.texture, crystalRepresentation.name);
+            if (crystal == null) {
+                return;
+            }
+            crystal.setPosition(crystalRepresentation.position);
+            for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
+                CrystalFactory.upgradeCrystal();
+            }
+            crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
+        }
+    }
+
+    private static void savePlayer() {
+        String name = "player";
+        Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
+        if (player == null) {
+            return;
+        }
+        // save player status - look at CareTaker & Memento which would for sure be the more elegant way to do this
+        // in sprint 4, but I don't want to mess with that code this sprint to avoid conflicts
+        HashMap<String, Object> status = new HashMap();
+        status.put("gold", player.getComponent(InventoryComponent.class).getGold());
+        status.put("stone", player.getComponent(InventoryComponent.class).getStone());
+        status.put("wood", player.getComponent(InventoryComponent.class).getWood());
+        status.put("health", player.getComponent(CombatStatsComponent.class).getHealth());
+        status.put("items", player.getComponent(InventoryComponent.class).getItems());
+        status.put("attack", player.getComponent(CombatStatsComponent.class).getBaseAttack());
+        status.put("defence", player.getComponent(CombatStatsComponent.class).getBaseDefense());
+        status.put("weapon", player.getComponent(InventoryComponent.class).getWeapon());
+        status.put("chestplate", player.getComponent(InventoryComponent.class).getChestplate());
+        status.put("helmet", player.getComponent(InventoryComponent.class).getHelmet());
+
+        Tuple p = new Tuple().setPosition(player.getPosition()).setName(name).setPlayerState(status);
+        FileLoader.writeClass(p, savePathPlayer, FileLoader.Location.LOCAL);
+    }
+
+    /**
+     * note that this assumes the player has been created already
+     */
+    private static void loadPlayer() {
+        String name = "player";
+        Tuple p = FileLoader.readClass(Tuple.class, savePathPlayer, FileLoader.Location.LOCAL);
+        Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
+
+        if (player == null) {
+            return;
+        }
+
+        if (p != null) {
+            HashMap<String, Object> d = p.playerState;
+            player.getComponent(InventoryComponent.class).setGold((int) d.get("gold"));
+            player.getComponent(InventoryComponent.class).setStone((int) d.get("stone"));
+            player.getComponent(InventoryComponent.class).setWood((int) d.get("wood"));
+            player.getComponent(CombatStatsComponent.class).setHealth((int) d.get("health"));
+            player.getComponent(InventoryComponent.class).setItems((HashMap<Artefact, Integer>) d.get("items"));
+            player.getComponent(CombatStatsComponent.class).setBaseAttack((int) d.get("attack"));
+            player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
+            player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
+            player.getComponent(InventoryComponent.class).setChestplate((Equipments) d.get("chestplate"));
+            player.getComponent(InventoryComponent.class).setHelmet((Equipments) d.get("helmet"));
+
+            player.setPosition(p.position);
+            player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
+        }
+    }
 
     private static void saveGameData() {
         logger.debug("Begin Saving Game Related Data");
         DayNightCycleService t = ServiceLocator.getDayNightCycleService();
         t.currentDayNumber = ServiceLocator.getDayNightCycleService().currentDayNumber;
         FileLoader.writeClass(t, saveGameData, FileLoader.Location.LOCAL);
-//        DayNightCycleService savedDayNightCycle = new DayNightCycleService();
-//        savedDayNightCycle.currentDayNumber = currentService.currentDayNumber;
-//        savedDayNightCycle.currentCycleStatus = currentService.currentCycleStatus;
-//        savedDayNightCycle.lastCycleStatus = currentService.lastCycleStatus;
-//        savedDayNightCycle.currentDayMillis = currentService.currentDayMillis;
-//        savedDayNightCycle.timePaused = currentService.timePaused;
-//        savedDayNightCycle.totalDurationPaused = currentService.totalDurationPaused;
-//        savedDayNightCycle.isPaused = currentService.isPaused;
-//        savedDayNightCycle.isStarted = currentService.isStarted;
-//        savedDayNightCycle.timeSinceLastPartOfDay = currentService.timeSinceLastPartOfDay;
-//        savedDayNightCycle.timePerHalveOfPartOfDay = currentService.timePerHalveOfPartOfDay;
-//        savedDayNightCycle.partOfDayHalveIteration = currentService.partOfDayHalveIteration;
-//        savedDayNightCycle.lastPartOfDayHalveIteration = currentService.lastPartOfDayHalveIteration;
         logger.debug("Finished Saving Game Related Data");
     }
 
@@ -254,6 +345,9 @@ public class SaveGame {
             structureGenerationSetUp();
             saveStructures();
 
+            saveCrystal();
+            savePlayer();
+
             saveGameData();
 
         } catch (NoSuchMethodException ignored) {
@@ -274,6 +368,8 @@ public class SaveGame {
 
             environmentalGenerationSetUp();
             loadEnvrionmentalObjects();
+            loadCrystal();
+            loadPlayer();
 
             loadGameData();
 
