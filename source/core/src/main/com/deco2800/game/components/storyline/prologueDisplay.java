@@ -36,10 +36,10 @@ public class prologueDisplay extends UIComponent {
         rootTable.setFillParent(true);
 
         prologueFrames = new LinkedList<>();
-        prologueFrames.add("images/StoryLine/prologue1.png");
-        prologueFrames.add("images/StoryLine/prologue2.png");
-        prologueFrames.add("images/StoryLine/prologue3.png");
-        prologueFrames.add("images/StoryLine/prologue4.png");
+        prologueFrames.add("images/StoryLine/prologue1_revised.png");
+        prologueFrames.add("images/StoryLine/prologue2_revised.png");
+        prologueFrames.add("images/StoryLine/prologue3_revised.png");
+        prologueFrames.add("images/StoryLine/prologue4_revised.png");
         currentFrame = 0;
         maxFrame = 4;
 
