@@ -6,11 +6,10 @@ import com.badlogic.gdx.Graphics.Monitor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -194,8 +193,10 @@ public class SettingsMenuDisplay extends UIComponent {
   private Table makeMenuBtns() {
     //TextButton exitBtn = new TextButton("Exit", skin);
     Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+    Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
     TextureRegionDrawable back = new TextureRegionDrawable(backTexture);
-    ImageButton backButton = new ImageButton(back,back);
+    TextureRegionDrawable backHover = new TextureRegionDrawable(backTextureHover);
+    ImageButton backButton = new ImageButton(back,back,backHover);
 
     Texture applyTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
     TextureRegionDrawable apply = new TextureRegionDrawable(applyTexture);
@@ -204,13 +205,26 @@ public class SettingsMenuDisplay extends UIComponent {
     applyButton.padBottom(0);
 
     backButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
-            logger.debug("Exit button clicked");
-            exitMenu();
-          }
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                logger.debug("Exit button clicked");
+                exitMenu();
+                return true;
+              }
         });
+    backButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                backButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                backButton.setChecked(false);
+              }
+            });
 
     applyButton.addListener(
         new ChangeListener() {

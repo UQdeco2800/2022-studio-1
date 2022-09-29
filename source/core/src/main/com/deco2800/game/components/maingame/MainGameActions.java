@@ -24,6 +24,8 @@ public class MainGameActions extends Component {
   private AtlantisSinks game;
   private Entity player;
 
+  private final Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+
   public MainGameActions(AtlantisSinks game, Entity player) {
     this.player = player;
     this.game = game;
@@ -39,6 +41,16 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("load", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
+    //crystal.getEvents().addListener("crystalDeath", this::onDeath);
+  }
+
+  private void onDeath() {
+    logger.info("Testing epilogue screen");
+    //int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
+    //if (crystalHealth == 0) {
+      CareTaker.deleteAll();
+      game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+    //}
   }
 
   /**
@@ -100,6 +112,7 @@ public class MainGameActions extends Component {
    */
   private void openShop() {
     logger.info("Exiting main game screen");
+    SaveGame.saveGameState();
 
     CareTaker playerStatus = CareTaker.getInstance();
     Memento currentStatus = new Memento(playerStatus.size(),
