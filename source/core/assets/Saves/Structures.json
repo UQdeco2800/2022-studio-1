@@ -1,20 +1,20 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/TOWER1I.png
+	texture: images/Wall-right.png
 	position: {
-		x: 60.47883
-		y: -1.5336843
+		x: 60.52609
+		y: -1.0539832
 	}
-	name: "tower1(63, 60)"
+	name: "wall(62, 60)"
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/TOWER3I.png
+	texture: images/Wall-right.png
 	position: {
-		x: 57.653828
-		y: 0.5038154
+		x: 62.21359
+		y: -0.86648333
 	}
-	name: "tower3(56, 57)"
+	name: "wall(63, 62)"
 }
 ]
