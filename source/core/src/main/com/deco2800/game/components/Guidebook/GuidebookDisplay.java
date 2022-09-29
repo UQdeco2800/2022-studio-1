@@ -104,7 +104,7 @@ public class GuidebookDisplay extends UIComponent {
       stage.addActor(book);
       stage.addActor(page1);
     }
-
+    
     public String format(String labelContent, int numberPerLine) {
         StringBuilder formattedString = new StringBuilder();
         int count = 0;
