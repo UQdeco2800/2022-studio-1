@@ -129,11 +129,11 @@ public class MainGameTutorials extends UIComponent {
         uncheckedEnemyTickBox = new Image(emptyTickBoxImage);
 
         //action button prompts
-        Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/treeDialogue.png"));
+        Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/woodDialogue_revised.png"));
         treeInteract = new Image(treeInteractImage);
-        Texture stoneInteractImage = new Texture(Gdx.files.internal("images/tutorials/stoneDialogue.png"));
+        Texture stoneInteractImage = new Texture(Gdx.files.internal("images/tutorials/stoneDialogue_revised.png"));
         stoneInteract = new Image(stoneInteractImage);
-        Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue.png"));
+        Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue_revised.png"));
         enemyInteract = new Image(enemyInteractImage);
 
         //show objective Header image only when objectives are active
