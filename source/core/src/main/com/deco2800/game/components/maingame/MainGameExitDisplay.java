@@ -106,7 +106,7 @@ public class MainGameExitDisplay extends UIComponent {
                   }
               });
       settingsButton.addListener(
-              new TextTooltip("Settings",skin)
+              new TextTooltip("  Settings",skin)
       );
 
     // Inserting load Button
