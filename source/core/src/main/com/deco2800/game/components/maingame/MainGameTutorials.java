@@ -100,7 +100,7 @@ public class MainGameTutorials extends UIComponent {
 
         //player control prompt:
         //only shows the first time game plays
-        Texture playControl = new Texture(Gdx.files.internal("images/tutorials/playerControlComps.png"));
+        Texture playControl = new Texture(Gdx.files.internal("images/tutorials/playerControls.png"));
         Image playerControlComps = new Image(playControl);
         if (playerControlComp) {
             control.add(playerControlComps).width(461).height(187);
