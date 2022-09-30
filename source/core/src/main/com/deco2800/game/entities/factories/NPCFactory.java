@@ -268,10 +268,11 @@ public class NPCFactory {
   public static Entity createBaseNPC() {
 
     String[] NPC_textures = { "images/shipWreckBack.png",
-            "images/landscape_objects/chalice.png",
+            "images/npc1.png",
             "images/landscape_objects/pillar.png" };
 
-    int index = (int) ((Math.random() * (NPC_textures.length)));
+    //int index = (int) ((Math.random() * (NPC_textures.length)));
+    int index = 1;
 
         AITaskComponent aiComponent =
             new AITaskComponent()
@@ -286,26 +287,36 @@ public class NPCFactory {
                 .addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
 
-        if (index == 0){
+        if (index == 1){
           npc.setName("SpecialNPC");
         }else {
           npc.setName("NPC");
         }
         npc.setCollectable(false);
-        npc.setScale(0.7f, 0.7f);
+        npc.setScale(1f, 1f);
 
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 
-      public static Entity createNPC(String texture) {
+      public static Entity createNPC() {
         Entity NPC = createBaseNPC();
         //NPCConfig config = configs.ArmoryNPC;
         //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
-        NPC.setScale(0.8f, 0.8f);
-    
-        return NPC;
+        if (NPC.getName()=="SpecialNPC"){
+//          AnimationRenderComponent animator =
+//                  new AnimationRenderComponent(
+//                          ServiceLocator.getResourceService().getAsset("images/eel_animations/eel.atlas", TextureAtlas.class));
+//          animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
+//          animator.addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
+//          animator.addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
+//          animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
+//                      NPC.addComponent(animator)
+//                  //.addComponent(textureRenderComponent);
+//                  .addComponent(new GhostAnimationController());
+        }
+          return NPC;
       }
 
   private NPCFactory() {

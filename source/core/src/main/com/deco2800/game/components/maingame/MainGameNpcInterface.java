@@ -73,7 +73,7 @@ public class MainGameNpcInterface extends UIComponent{
             }
 
             Label npcLabel = new Label(NPC_dialogues[index], skin, "large");
-            NpcImage = new Image(ServiceLocator.getResourceService().getAsset("images/NpcPlaceholder.png", Texture.class ));
+            NpcImage = new Image(ServiceLocator.getResourceService().getAsset("images/NPC convo.png", Texture.class ));
             LeftTable = new Table();
             LeftTable.left();
             LeftTable.padLeft(30f);
