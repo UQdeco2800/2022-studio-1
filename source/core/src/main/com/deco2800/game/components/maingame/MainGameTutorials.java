@@ -279,7 +279,6 @@ public class MainGameTutorials extends UIComponent {
         stage.addActor(objectiveHeader);
         stage.addActor(objective);
         stage.addActor(prompts);
-        stage.addActor(control);
         this.isHidden = false;
     };
 
@@ -289,7 +288,6 @@ public class MainGameTutorials extends UIComponent {
     private void hideObjectives() {
         objectiveHeader.remove();
         objective.remove();
-        prompts.remove();
         prompts.remove();
         this.isHidden = true;
     }
