@@ -1,1 +1,20 @@
-[]
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 60.52609
+		y: -1.0539832
+	}
+	name: "wall(62, 60)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 62.21359
+		y: -0.86648333
+	}
+	name: "wall(63, 62)"
+}
+]
