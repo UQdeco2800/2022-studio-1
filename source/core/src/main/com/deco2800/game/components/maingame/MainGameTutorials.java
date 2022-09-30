@@ -50,13 +50,13 @@ public class MainGameTutorials extends UIComponent {
     private static boolean space = false;
 
     /* Whether objectives is showing */
-    private boolean isHidden;
+    private boolean isObjectivesHidden;
 
 
     @Override
     public void create() {
         super.create();
-        this.isHidden = false;
+        this.isObjectivesHidden = false;
         player.getEvents().addListener("showPrompts", this::displayPrompts);
         player.getEvents().addListener("updateObjective", this::updateObjective);
         player.getEvents().addListener("enemyKill", this::onEnemyKill);
@@ -263,10 +263,10 @@ public class MainGameTutorials extends UIComponent {
                 .getNamedEntity("ui")
                 .getComponent(AchievementPopupComponent.class);
 
-        if (achievementPopupComponent.isPopupActive() && !isHidden) {
+        if (achievementPopupComponent.isPopupActive() && !isObjectivesHidden) {
             hideObjectives();
         }
-        if(!achievementPopupComponent.isPopupActive() && isHidden) {
+        if(!achievementPopupComponent.isPopupActive() && isObjectivesHidden) {
             showObjectives();
         }
     }
@@ -279,7 +279,7 @@ public class MainGameTutorials extends UIComponent {
         stage.addActor(objectiveHeader);
         stage.addActor(objective);
         stage.addActor(prompts);
-        this.isHidden = false;
+        this.isObjectivesHidden = false;
     };
 
     /**
@@ -289,7 +289,7 @@ public class MainGameTutorials extends UIComponent {
         objectiveHeader.remove();
         objective.remove();
         prompts.remove();
-        this.isHidden = true;
+        this.isObjectivesHidden = true;
     }
 
     @Override
