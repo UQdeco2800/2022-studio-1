@@ -147,14 +147,19 @@ public class AchievementPopupComponent extends UIComponent {
     protected void draw(SpriteBatch batch) {
         if (!popupQueue.isEmpty() && !isPopupActive) {
             var achievement = popupQueue.poll();
+            clearActors();
             if (achievement.isStat()) {
-                clearActors();
                 buildActors(achievement.getAchievementType().getPopupImage(),
                         achievement.getName(), achievement.getDescription().formatted(achievement.getTotalAchieved()));
-                addActors();
-                lastPopupTime = System.currentTimeMillis();
-                isPopupActive = true;
+
+            } else {
+                buildActors(achievement.getAchievementType().getPopupImage(),
+                        achievement.getName(), achievement.getDescription());
             }
+
+            addActors();
+            lastPopupTime = System.currentTimeMillis();
+            isPopupActive = true;
         }
 
         if(isPopupActive && shouldHidePopup()) {
