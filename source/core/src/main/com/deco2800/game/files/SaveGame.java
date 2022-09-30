@@ -6,6 +6,7 @@ import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.*;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -261,11 +263,12 @@ public class SaveGame {
         status.put("wood", player.getComponent(InventoryComponent.class).getWood());
         status.put("health", player.getComponent(CombatStatsComponent.class).getHealth());
         status.put("items", player.getComponent(InventoryComponent.class).getItems());
-        status.put("attack", player.getComponent(CombatStatsComponent.class).getBaseAttack());
+        status.put("attack", player.getComponent(CombatStatsComponent.class).getAttackMultiplier());
         status.put("defence", player.getComponent(CombatStatsComponent.class).getBaseDefense());
         status.put("weapon", player.getComponent(InventoryComponent.class).getWeapon());
-        status.put("chestplate", player.getComponent(InventoryComponent.class).getChestplate());
-        status.put("helmet", player.getComponent(InventoryComponent.class).getHelmet());
+        status.put("armor", player.getComponent(InventoryComponent.class).getArmor());
+        status.put("equipmentList", player.getComponent(InventoryComponent.class).getEquipmentList());
+        status.put("buildings", player.getComponent(InventoryComponent.class).getBuildings());
 
         Tuple p = new Tuple().setPosition(player.getPosition()).setName(name).setPlayerState(status);
         FileLoader.writeClass(p, savePathPlayer, FileLoader.Location.LOCAL);
@@ -290,11 +293,11 @@ public class SaveGame {
             player.getComponent(InventoryComponent.class).setWood((int) d.get("wood"));
             player.getComponent(CombatStatsComponent.class).setHealth((int) d.get("health"));
             player.getComponent(InventoryComponent.class).setItems((HashMap<Artefact, Integer>) d.get("items"));
-            player.getComponent(CombatStatsComponent.class).setBaseAttack((int) d.get("attack"));
+            player.getComponent(CombatStatsComponent.class).setAttackMultiplier((int) d.get("attack"));
             player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
             player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
-            player.getComponent(InventoryComponent.class).setChestplate((Equipments) d.get("chestplate"));
-            player.getComponent(InventoryComponent.class).setHelmet((Equipments) d.get("helmet"));
+            player.getComponent(InventoryComponent.class).setArmor((Equipments) d.get("armor"));
+            player.getComponent(InventoryComponent.class).setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
 
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();

@@ -1,39 +1,42 @@
 {
 position: {
-	x: 60.53763
-	y: -1.5463389
+	x: 59.25
+	y: -0.75
 }
 name: player
 playerState: {
 	gold: {
 		class: java.lang.Integer
-		value: 50
+		value: 1000
 	}
 	weapon: null
-	chestplate: null
+	armor: null
 	defence: {
 		class: java.lang.Integer
-		value: 10
+		value: 1
 	}
 	attack: {
 		class: java.lang.Integer
-		value: 10
+		value: 0
 	}
-	helmet: null
+	buildings: {
+		class: java.util.HashMap
+	}
 	health: {
 		class: java.lang.Integer
 		value: 100
 	}
 	wood: {
 		class: java.lang.Integer
-		value: 60
+		value: 1000
 	}
 	items: {
 		class: java.util.HashMap
 	}
+	equipmentList: []
 	stone: {
 		class: java.lang.Integer
-		value: 50
+		value: 1000
 	}
 }
 }

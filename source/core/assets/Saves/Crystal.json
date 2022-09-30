@@ -4,6 +4,6 @@ position: {
 	x: 60
 }
 name: crystal
-level: 3
-health: 1020
+level: 1
+health: 1000
 }
