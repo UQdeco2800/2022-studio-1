@@ -2,6 +2,10 @@ package com.deco2800.game.entities;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing a 'Tile' in the game world. Only one entity can occupy any one tile at any point in time. 
+ * Provides methods for getting and setting Tiles. 
+ */
 public class Tile {
     private String tileType;
     private Entity entity;
@@ -77,5 +81,12 @@ public class Tile {
      */
     public Entity getEntity() {
         return this.entity;
+    }
+
+    /**
+     * Sets the Tile's entity parameter to null. 
+     */
+    public void clearTile() {
+        this.entity = null;
     }
 }

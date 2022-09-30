@@ -216,9 +216,4 @@ public class UGS {
     public HashMap<String, Tile> printUGS() {
         return this.tiles;
     }
-    //120x120 map 
-    //Generate a full map
-    //Adding entities handles adding to game world as well
-    // If collision adding entity update logger
-    //Add method to return a copy of UGS
 }
