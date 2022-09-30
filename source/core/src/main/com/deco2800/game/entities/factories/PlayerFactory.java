@@ -66,7 +66,7 @@ public class PlayerFactory {
             .addComponent(new AnimationController())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
-            .addComponent(new InventoryComponent(1000, stats.stone, stats.wood))
+            .addComponent(new InventoryComponent(1000, 1000, 1000))
             .addComponent(inputComponent)            
             .addComponent(new PlayerStatsDisplay());
 
@@ -101,6 +101,7 @@ public class PlayerFactory {
       player.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
       player.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
       player.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
+      player.getComponent(InventoryComponent.class).setBuildings(lastStatus.getBuildings());
       player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
       return player;
     }

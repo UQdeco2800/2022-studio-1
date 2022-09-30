@@ -3,7 +3,7 @@
     "name": "Quarry",
     "goldCost": 0,
     "stoneCost": 200,
-    "woodCost": 200,
+    "woodCost": 100,
     "attack": 0,
     "defense": 0,
     "description": "Mines for stone",

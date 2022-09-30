@@ -1,6 +1,7 @@
 package com.deco2800.game.memento;
 
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class Memento {
     private Equipments weapon;
     private Equipments armor;
     private HashMap<Artefact, Integer> items;
+    private HashMap<ShopBuilding, Integer> buildings;
     private List<Equipments> equipmentsList;
 
     /**
@@ -36,14 +38,16 @@ public class Memento {
      * @param armor         - current armor
      *
      */
-    public Memento(int state, int gold, int stone, int wood, int currentHealth, HashMap<Artefact, Integer> items, int attack
-                   , int defense, Equipments weapon, Equipments armor, List<Equipments> equipmentsList) {
+    public Memento(int state, int gold, int stone, int wood, int currentHealth, HashMap<Artefact, Integer> items
+                    , HashMap<ShopBuilding, Integer> buildings, int attack, int defense, Equipments weapon
+                    , Equipments armor, List<Equipments> equipmentsList) {
         this.state = state;
         this.gold = gold;
         this.stone = stone;
         this.wood = wood;
         this.currentHealth = currentHealth;
         this.items = items;
+        this.buildings = buildings;
         this.attack = attack;
         this.defense = defense;
         this.weapon = weapon;
@@ -137,5 +141,9 @@ public class Memento {
 
     public List<Equipments> getEquipmentsList() {
         return equipmentsList;
+    }
+
+    public HashMap<ShopBuilding, Integer> getBuildings() {
+        return buildings;
     }
 }
