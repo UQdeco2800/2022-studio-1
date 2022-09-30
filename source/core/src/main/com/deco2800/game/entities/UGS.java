@@ -5,6 +5,11 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Provides a global access point for entities to register themselves to the UGS. This allows for 
+ * checking for collisions and preventing entities from moving on certain tiles. 
+ * 
+ */
 public class UGS {
     private HashMap<String, Tile> tiles;
     private static final Logger logger = LoggerFactory.getLogger(UGS.class);
@@ -204,6 +209,10 @@ public class UGS {
         }
     }
 
+    /**
+     * Returns a copy of the UGS for testing purposes
+     * @return UGS
+     */
     public HashMap<String, Tile> printUGS() {
         return this.tiles;
     }
