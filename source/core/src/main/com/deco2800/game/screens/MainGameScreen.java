@@ -4,21 +4,20 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.areas.AtlantisSinksGameArea;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.GameService;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
+import com.deco2800.game.components.DayNightClockComponent;
+import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
-import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
-import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
@@ -225,6 +224,7 @@ public class MainGameScreen extends ScreenAdapter {
             .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
             .addComponent(new MainGameTutorials())
+            .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
