@@ -85,7 +85,9 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_6.png",
       "images/clock_sprites/clock_day4_7.png",
       "images/clock_sprites/clock_day4_8.png",
-      "images/anim_demo/woodresourcebuilding.png"
+      "images/anim_demo/woodresourcebuilding.png",
+          "images/storyLine/skipButton.png",
+          "images/storyLine/textBox.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
@@ -220,7 +222,9 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
+            .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
+            .addComponent(new MainGameTutorials())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
