@@ -99,7 +99,7 @@ public class AchievementPopupComponent extends UIComponent {
         background.pack();
 
         content.add(achievementTypeImage);
-        Label achievementTitleLabel = new Label("Achieved:" + title, skin, "default");
+        Label achievementTitleLabel = new Label("Achieved: " + title, skin, "default");
         Label achievementDescriptionLabel = new Label(description, skin, "small");
         details.add(achievementTitleLabel);
         details.row();
@@ -176,5 +176,9 @@ public class AchievementPopupComponent extends UIComponent {
     private boolean shouldHidePopup() {
         long currentTime = System.currentTimeMillis();
         return currentTime - lastPopupTime >= POPUP_TIMEOUT;
+    }
+
+    public boolean isPopupActive() {
+        return isPopupActive;
     }
 }
