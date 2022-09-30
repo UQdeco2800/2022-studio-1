@@ -5,12 +5,12 @@ package com.deco2800.game.achievements;
  * each type can have many achievements
  */
 public enum AchievementType {
-    RESOURCES("Resources","images/achievements/Resource_Icon.png"),
-    BUILDINGS("Buildings","images/achievements/Building_Icon.png"),
-    KILLS("Kills","images/achievements/Kill_Icon.png"),
-    UPGRADES("Upgrades","images/achievements/Upgrade_Icon.png"),
-    GAME ("Game Achievement","images/achievements/Game_Icon.png"),
-    MISC ("Misc", "images/achievements/Misc_Icon.png");
+    RESOURCES("Resources","image.png"),
+    BUILDINGS("Buildings","image.png"),
+    KILLS("Kills","image.png"),
+    UPGRADES("Upgrades","image.png"),
+    GAME ("Game Achievement","image.png"),
+    MISC ("Misc", "image.png");
 
     private final String title;
     private final String image;
