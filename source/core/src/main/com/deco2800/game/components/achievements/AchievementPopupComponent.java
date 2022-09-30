@@ -57,19 +57,13 @@ public class AchievementPopupComponent extends UIComponent {
     private void buildActors(String image, String title, String description) {
         root = new Table();
         root.setFillParent(true);
-        root.debug();
-        root.debugActor();
-        root.debugCell();
         root.padBottom(Gdx.graphics.getHeight() - 120);
 
         content = new Table();
         content.top();
-        content.debug();
-
 
         background = new Table();
         background.top();
-        background.debug();
         background.setFillParent(true);
 
         details = new Table();
@@ -84,7 +78,7 @@ public class AchievementPopupComponent extends UIComponent {
         background.pack();
 
         content.add(achievementTypeImage);
-        achievementTitleLabel = new Label("Achievement Earned: " + title, skin, "default");
+        achievementTitleLabel = new Label("Achieved:" + title, skin, "default");
         achievementDescriptionLabel = new Label(description, skin, "small");
         details.add(achievementTitleLabel);
         details.row();
