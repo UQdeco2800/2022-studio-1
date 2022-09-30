@@ -15,31 +15,38 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 
+/**
+ * Builds and displays an achievement widget that is displayed momentarily when a player
+ * makes a new achievement in the game.
+ * The widget is displayed for 5 seconds
+ */
 public class AchievementPopupComponent extends UIComponent {
 
+    /* The amount of time the popup should show  in milliseconds (5 secs) */
     public static final long POPUP_TIMEOUT = 5000;
-    private Table content;
 
+    /* For UI Layout */
+    private Table content;
     private Table root;
     private Table details;
-
     private Table background;
-    private Image achievementTypeImage;
 
-    private Image achievementPopupBackground;
 
-    private Label achievementTitleLabel;
 
-    private Label achievementDescriptionLabel;
-
+    /* A FIFO Queue for queuing achievements */
     private Queue<Achievement> popupQueue;
 
+    /* Records the last time a popup was displayed */
     private long lastPopupTime;
 
+    /* Whether a popup is currently showing */
     private boolean isPopupActive;
 
 
-
+    /**
+     * Initialises component.
+     * Connects to the player achievements event
+     */
     @Override
     public void create() {
         super.create();
@@ -50,10 +57,24 @@ public class AchievementPopupComponent extends UIComponent {
         ServiceLocator.getAchievementHandler().getEvents().addListener(AchievementHandler.EVENT_ACHIEVEMENT_MADE, this::onAchievementMade);
     }
 
+    /**
+     * On receiving an event that a player has made an achievement.
+     * The achievement is queued and drawn in next draw callback for the
+     * component. First achievement to arrive takes priority.
+     *
+     * @param achievement the achievement achieved
+     */
     private void onAchievementMade(Achievement achievement) {
         this.popupQueue.add(achievement);
     }
 
+    /**
+     * Builds the popup achievement widget to be displayed
+     *
+     * @param image the achievement type image
+     * @param title the title of the achievement
+     * @param description the description of the achievement
+     */
     private void buildActors(String image, String title, String description) {
         root = new Table();
         root.setFillParent(true);
@@ -70,16 +91,16 @@ public class AchievementPopupComponent extends UIComponent {
         details.setFillParent(true);
 
         Texture achievementTypeTexture = new Texture(Gdx.files.internal(image));
-        achievementTypeImage = new Image(achievementTypeTexture);
+        Image achievementTypeImage = new Image(achievementTypeTexture);
 
         Texture backgroundTexture = new Texture(Gdx.files.internal("images/achievements/Notification_Popup_scaled.png"));
-        achievementPopupBackground = new Image(backgroundTexture);
+        Image achievementPopupBackground = new Image(backgroundTexture);
         background.add(achievementPopupBackground);
         background.pack();
 
         content.add(achievementTypeImage);
-        achievementTitleLabel = new Label("Achieved:" + title, skin, "default");
-        achievementDescriptionLabel = new Label(description, skin, "small");
+        Label achievementTitleLabel = new Label("Achieved:" + title, skin, "default");
+        Label achievementDescriptionLabel = new Label(description, skin, "small");
         details.add(achievementTitleLabel);
         details.row();
         details.add(achievementDescriptionLabel);
@@ -92,6 +113,9 @@ public class AchievementPopupComponent extends UIComponent {
         stage.addActor(root);
     }
 
+    /**
+     * Used to remove the popup from stage
+     */
     private void clearActors() {
         /* if root is not null than other aren't */
         if (root != null) {
@@ -102,6 +126,9 @@ public class AchievementPopupComponent extends UIComponent {
         }
     }
 
+    /**
+     * Clean up
+     */
     @Override
     public void dispose() {
         super.dispose();
@@ -109,7 +136,13 @@ public class AchievementPopupComponent extends UIComponent {
     }
 
 
-
+    /**
+     * When the draw method is called we check if the popup queue is not
+     * empty and then display the one first in the list.
+     * Other popups will get their turn when the ones to be shown timeout
+     *
+     * @param batch Batch to render to. (not used) actors added to stage instead
+     */
     @Override
     protected void draw(SpriteBatch batch) {
         if (!popupQueue.isEmpty() && !isPopupActive) {
@@ -130,6 +163,11 @@ public class AchievementPopupComponent extends UIComponent {
         }
     }
 
+    /**
+     * Determines whether to hide the popup based on the default timeout
+     * value
+     * @return true if popup should be hidden false otherwise
+     */
     private boolean shouldHidePopup() {
         long currentTime = System.currentTimeMillis();
         return currentTime - lastPopupTime >= POPUP_TIMEOUT;
