@@ -38,7 +38,11 @@ public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
-  private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);
+  //private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);
+  private static final GridPoint2[] NPC_SPAWNS = { new GridPoint2(61, 60),
+          new GridPoint2(60, 61),
+          new GridPoint2(59, 60),
+          new GridPoint2(60, 59)};
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
   private static final int MAX_ENVIRONMENTAL_OBJECTS = 7;
@@ -432,7 +436,7 @@ public class ForestGameArea extends GameArea {
       case DUSK:
 
         if (NPCNum != StructuresNum) {
-          System.out.println(NPCNum);
+          //System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
             // System.out.println("spawned");
             spawnNPCharacter();
@@ -569,7 +573,8 @@ public class ForestGameArea extends GameArea {
     // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
     //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
     // spawnEntityAt(NPC, randomPos, true, true);
-    spawnEntityAt(NPC, NPC_SPAWN, true, true);
+    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
     // NPC.setPosition(terrainFactory.getMapSize().x / 3,
