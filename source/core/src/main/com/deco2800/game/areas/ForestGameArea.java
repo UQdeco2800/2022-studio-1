@@ -175,17 +175,15 @@ public class ForestGameArea extends GameArea {
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
 
+    this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
+
+    this.player = spawnPlayer();
+
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
       spawnEnvironmentalObjects();
     }
-
-
-    this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
-
-    this.player = spawnPlayer();
-
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
             this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,

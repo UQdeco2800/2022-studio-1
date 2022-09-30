@@ -92,6 +92,7 @@ public class PlayerActions extends Component {
     moving = true;
     Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
     walkSound.play();
+    this.entity.getEvents().trigger("showPrompts");
   }
 
   /**
@@ -101,6 +102,7 @@ public class PlayerActions extends Component {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
+    this.entity.getEvents().trigger("showPrompts");
   }
 
   /**
@@ -122,6 +124,7 @@ public class PlayerActions extends Component {
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
           closestEnemy.dispose();
+          this.entity.getEvents().trigger("enemyKill");
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
         } else {
           enemyTarget.setHealth(enemyTarget.getHealth());
@@ -138,6 +141,7 @@ public class PlayerActions extends Component {
         PlayerStatsDisplay.updateItems();
       }
     }
+    this.entity.getEvents().trigger("showPrompts");
   }
 }
 
