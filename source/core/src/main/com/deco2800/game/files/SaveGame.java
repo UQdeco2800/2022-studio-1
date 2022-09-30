@@ -1,7 +1,5 @@
 package com.deco2800.game.files;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.areas.ForestGameArea;
-import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
@@ -9,24 +7,17 @@ import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.entities.factories.*;
-import com.deco2800.game.events.EventHandler;
-import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.memento.Memento;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
-import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import java.util.*;
 import java.lang.reflect.*;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Class that handles all save game mechanics
@@ -287,6 +278,7 @@ public class SaveGame {
         }
 
         if (p != null) {
+            System.out.println(p.playerState.get("equipmentList").getClass());
             HashMap<String, Object> d = p.playerState;
             player.getComponent(InventoryComponent.class).setGold((int) d.get("gold"));
             player.getComponent(InventoryComponent.class).setStone((int) d.get("stone"));
