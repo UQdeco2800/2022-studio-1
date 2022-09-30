@@ -92,7 +92,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
-        String buildingName = structureKey + " ";
+        String buildingName = structureKey.replaceAll("[^A-Za-z]", "").toUpperCase();
 
         //insert pop up label (with name of the building)
 //        String buildingType = (structureKey + "").replaceAll("[0-9]", "").toUpperCase();
