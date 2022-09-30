@@ -3,6 +3,7 @@ package com.deco2800.game.components.shop;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
@@ -42,7 +43,9 @@ public class ShopActions extends Component {
     private void onExit() {
         logger.info("Exiting shop screen");
         saveStatus();
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        CareTaker.deleteAll();
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
+        SaveGame.loadGameState();
     }
 
     /**
