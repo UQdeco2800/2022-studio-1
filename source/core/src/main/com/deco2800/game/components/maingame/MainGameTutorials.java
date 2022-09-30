@@ -280,7 +280,7 @@ public class MainGameTutorials extends UIComponent {
         stage.addActor(objective);
         stage.addActor(prompts);
         this.isObjectivesHidden = false;
-    };
+    }
 
     /**
      *  Hides the objectives UI
