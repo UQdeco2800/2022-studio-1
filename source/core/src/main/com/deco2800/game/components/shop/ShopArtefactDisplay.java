@@ -90,7 +90,7 @@ public class ShopArtefactDisplay extends UIComponent {
 
         table1 = new Table();
         table1.setFillParent(true);
-        table1.center().bottom().padBottom(-75);
+        table1.center().bottom();
 
         table2 = new Table();
         table2.setFillParent(true);
@@ -106,11 +106,11 @@ public class ShopArtefactDisplay extends UIComponent {
 
         table5 = new Table();
         table5.setFillParent(true);
-        table5.left().bottom().padLeft(250);
+        table5.left().bottom().left();
 
         table6 = new Table();
         table6.setFillParent(true);
-        table6.right().bottom().padRight(250);
+        table6.right().bottom().right();
 
         table7 = new Table();
         table7.setFillParent(true);
@@ -282,17 +282,17 @@ public class ShopArtefactDisplay extends UIComponent {
         subtitle.setColor(skin.getColor("black"));
 
         // Add items to the stage
-        table3.add(leftButton).width(100).height(100);
-        table2.add(prevItem).width(250).height(250);
-        table2.add(currentItem).width(450).height(450);
-        table2.add(nextItem).width(250).height(250);
+        table3.add(leftButton).width(50f).height(50f);
+        table2.add(prevItem).width(100f).height(100f);
+        table2.add(currentItem).width(150f).height(150f);
+        table2.add(nextItem).width(100f).height(100f);
         table2.row();
         table2.add(itemNumber).colspan(3).center();
-        table4.add(rightButton).width(100).height(100);
-        table5.add(priceDisplay).width(300).height(300);
-        table1.add(descriptionDisplay).width(450).height(450);
-        table6.add(buyButton).width(300).height(300);
-        table7.add(backButton).width(50).height(50);
+        table4.add(rightButton).width(50f).height(50f);
+        table5.add(priceDisplay).width(250f).height(150f);
+        table1.add(descriptionDisplay).width(400f).height(200f);
+        table6.add(buyButton).width(250f).height(150f);
+        table7.add(backButton).width(50f).height(50f);
         table8.add(subtitle);
         stage.addActor(table1);
         stage.addActor(table2);

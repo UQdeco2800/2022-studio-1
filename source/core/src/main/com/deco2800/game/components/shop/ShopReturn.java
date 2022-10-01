@@ -49,17 +49,20 @@ public class ShopReturn extends UIComponent {
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().left();
-        table1.padLeft(300).padTop(100);
+        table1.setSize(100f,100f);
+        table1.padLeft(100f).padTop(100f);
 
         table2 = new Table();
         table2.setFillParent(true);
+        table2.setSize(100f,100f);
         table2.center().right();
-        table2.padRight(300).padTop(100);
+        table2.padRight(100f).padTop(100f);
 
         table3 = new Table();
         table3.setFillParent(true);
+        table3.setSize(100f,100f);
         table3.center();
-        table3.padTop(100);
+        table3.padTop(100f);
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
         buildingUp = new TextureRegionDrawable(buildingTexture);
@@ -108,13 +111,13 @@ public class ShopReturn extends UIComponent {
         String equipmentText = "Equipment";
         equipmentTitle = new Label(equipmentText, skin, "large");
 
-        table1.add(buildingBtn).width(350).height(350);
+        table1.add(buildingBtn);
         table1.row();
         table1.add(buildingTitle);
-        table2.add(artefactBtn).width(350).height(350);
+        table2.add(artefactBtn);
         table2.row();
         table2.add(artefactTitle);
-        table3.add(equipmentBtn).width(350).height(350);
+        table3.add(equipmentBtn);
         table3.row();
         table3.add(equipmentTitle);
 
