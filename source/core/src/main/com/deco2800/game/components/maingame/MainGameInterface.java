@@ -265,43 +265,44 @@ public class MainGameInterface extends UIComponent {
         buildingTitle.setColor(skin.getColor("white"));
         buildingTitle.setPosition(rightBox.getX() + 80f, rightBox.getY() + 275f);
 
-        Texture quarryTexture = new Texture(Gdx.files.internal("images/shop-quarry.png"));
-        TextureRegionDrawable quarryDrawable = new TextureRegionDrawable(quarryTexture);
-        ImageButton quarry = new ImageButton(quarryDrawable,quarryDrawable);
-        quarry.setSize(40f,40f);
-        quarry.setPosition(rightBox.getX() + 50f, rightBox.getY() + 220f);
+        Texture buildingLeftArrowTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
+        TextureRegionDrawable buildingLeftArrowDrawable = new TextureRegionDrawable(buildingLeftArrowTexture);
+        ImageButton buildingLeftArrow = new ImageButton(buildingLeftArrowDrawable,buildingLeftArrowDrawable);
+        buildingLeftArrow.setSize(40f,40f);
+        buildingLeftArrow.setPosition(rightBox.getX() + 60f, rightBox.getY() + 205f);
 
-        Label quarryQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getBuildings().getOrDefault(ShopBuilding.QUARRY, 0), skin, "large");
-        quarryQuantity.setColor(skin.getColor("black"));
-        quarryQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 220f);
+        Texture prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
+        TextureRegionDrawable prevBuildingDrawable = new TextureRegionDrawable(prevBuildingTexture);
+        ImageButton prevBuilding = new ImageButton(prevBuildingDrawable,prevBuildingDrawable);
+        prevBuilding.setSize(40f,40f);
+        prevBuilding.setPosition(rightBox.getX() + 105f, rightBox.getY() + 205f);
 
-        Texture quarryUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        TextureRegionDrawable quarryUseDrawable = new TextureRegionDrawable(quarryUseTexture);
-        ImageButton quarryUseButton = new ImageButton(quarryUseDrawable,quarryUseDrawable);
-        quarryUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 185f);
+        Texture currBuildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/quarry-framed.png"));
+        TextureRegionDrawable currBuildingDrawable = new TextureRegionDrawable(currBuildingTexture);
+        ImageButton currBuilding = new ImageButton(currBuildingDrawable,currBuildingDrawable);
+        currBuilding.setSize(50f,50f);
+        currBuilding.setPosition(rightBox.getX() + 150f, rightBox.getY() + 205f);
 
-        Label quarryUse = new Label("Place", skin, "small");
-        quarryUse.setColor(skin.getColor("black"));
-        quarryUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 230f);
+        Texture nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/wall-framed.png"));
+        TextureRegionDrawable nextBuildingDrawable = new TextureRegionDrawable(nextBuildingTexture);
+        ImageButton nextBuilding = new ImageButton(nextBuildingDrawable,nextBuildingDrawable);
+        nextBuilding.setSize(40f,40f);
+        nextBuilding.setPosition(rightBox.getX() + 205f, rightBox.getY() + 205f);
 
-        Texture attackBuildingTexture = new Texture(Gdx.files.internal("images/shop-attack-building.png"));
-        TextureRegionDrawable attackBuildingDrawable = new TextureRegionDrawable(attackBuildingTexture);
-        ImageButton attackBuilding = new ImageButton(attackBuildingDrawable,attackBuildingDrawable);
-        attackBuilding.setSize(40f,40f);
-        attackBuilding.setPosition(rightBox.getX() + 50f, rightBox.getY() + 175f);
+        Texture buildingRightArrowTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
+        TextureRegionDrawable buildingRightArrowDrawable = new TextureRegionDrawable(buildingRightArrowTexture);
+        ImageButton buildingRightArrow = new ImageButton(buildingRightArrowDrawable,buildingRightArrowDrawable);
+        buildingRightArrow.setSize(40f,40f);
+        buildingRightArrow.setPosition(rightBox.getX() + 245f, rightBox.getY() + 205f);
 
-        Label attackBuildingQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getBuildings().getOrDefault(ShopBuilding.TOWER1, 0), skin, "large");
-        attackBuildingQuantity.setColor(skin.getColor("black"));
-        attackBuildingQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 175f);
+        Texture placeButtonTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        TextureRegionDrawable placeButtonDrawable = new TextureRegionDrawable(placeButtonTexture);
+        ImageButton placeButton = new ImageButton(placeButtonDrawable,placeButtonDrawable);
+        placeButton.setPosition(rightBox.getX() + 120f, rightBox.getY() + 135f);
 
-        Texture attackBuildingUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        TextureRegionDrawable attackBuildingUseDrawable = new TextureRegionDrawable(attackBuildingUseTexture);
-        ImageButton attackBuildingUseButton = new ImageButton(attackBuildingUseDrawable,attackBuildingUseDrawable);
-        attackBuildingUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 135f);
-
-        Label attackBuildingUse = new Label("Place", skin, "small");
-        attackBuildingUse.setColor(skin.getColor("black"));
-        attackBuildingUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 180f);
+        Label place = new Label("Place", skin, "small");
+        place.setColor(skin.getColor("black"));
+        place.setPosition(rightBox.getX() + 150f, rightBox.getY() + 180f);
 
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
@@ -406,23 +407,42 @@ public class MainGameInterface extends UIComponent {
                     }
                 });
 
-        quarryUseButton.addListener(
+        bedUseButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("quarry use");
-                        // Add quarry function
+                        logger.debug("bed use");
+                        // Add bed function
                     }
                 });
 
-        attackBuildingUseButton.addListener(
+        buildingLeftArrow.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("attack building use");
-                        // Add attack building function
+                        logger.debug("bed use");
+                        // Add building left arrow function
                     }
                 });
+
+        buildingRightArrow.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("bed use");
+                        // Add building right arrow function
+                    }
+                });
+
+        placeButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("bed use");
+                        // Add place building function
+                    }
+                });
+
 
         rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
         // adding building button to the right
@@ -468,14 +488,13 @@ public class MainGameInterface extends UIComponent {
         group.addActor(bedUse);
         group.addActor(rightBuildingFrame);
         group.addActor(buildingTitle);
-        group.addActor(quarry);
-        group.addActor(quarryQuantity);
-        group.addActor(quarryUseButton);
-        group.addActor(quarryUse);
-        group.addActor(attackBuilding);
-        group.addActor(attackBuildingQuantity);
-        group.addActor(attackBuildingUseButton);
-        group.addActor(attackBuildingUse);
+        group.addActor(buildingLeftArrow);
+        group.addActor(prevBuilding);
+        group.addActor(currBuilding);
+        group.addActor(nextBuilding);
+        group.addActor(buildingRightArrow);
+        group.addActor(placeButton);
+        group.addActor(place);
         group.addActor(crossFrame);
         group.setVisible(false);
 
