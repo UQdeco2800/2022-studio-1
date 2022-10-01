@@ -3,6 +3,13 @@ size: 1900, 560
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 1
 boss_frame
   rotate: false
   xy: 0, 0
