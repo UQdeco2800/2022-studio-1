@@ -7,7 +7,7 @@ name: player
 playerState: {
 	gold: {
 		class: java.lang.Integer
-		value: 1000
+		value: 10000
 	}
 	weapon: null
 	armor: null
@@ -28,7 +28,7 @@ playerState: {
 	}
 	wood: {
 		class: java.lang.Integer
-		value: 1000
+		value: 50
 	}
 	items: {
 		class: java.util.HashMap
@@ -36,7 +36,7 @@ playerState: {
 	equipmentList: []
 	stone: {
 		class: java.lang.Integer
-		value: 1000
+		value: 50
 	}
 }
 }

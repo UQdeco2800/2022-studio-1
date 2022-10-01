@@ -66,8 +66,7 @@ public class PlayerFactory {
             .addComponent(new AnimationController())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
-            .addComponent(new InventoryComponent(10000, stats.stone, stats.wood
-                    , stats.weapon, stats.helmet, stats.chestplate))
+            .addComponent(new InventoryComponent(10000, stats.stone, stats.wood))
             .addComponent(inputComponent)            
             .addComponent(new PlayerStatsDisplay());
 

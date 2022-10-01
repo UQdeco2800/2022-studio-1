@@ -278,7 +278,6 @@ public class SaveGame {
         }
 
         if (p != null) {
-            System.out.println(p.playerState.get("equipmentList").getClass());
             HashMap<String, Object> d = p.playerState;
             player.getComponent(InventoryComponent.class).setGold((int) d.get("gold"));
             player.getComponent(InventoryComponent.class).setStone((int) d.get("stone"));
