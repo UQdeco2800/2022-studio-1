@@ -39,7 +39,8 @@ public abstract class AchievementBaseScreen extends ScreenAdapter {
             "images/achievements/Misc_Icon.png",
             "images/achievements/Resource_Icon.png",
             "images/achievements/Upgrade_Icon.png",
-            "images/uiElements/exports/exit_button.png"
+            "images/uiElements/exports/exit_button.png",
+            "Achievements/AchievementsTitle.png"
     };
 
     /**

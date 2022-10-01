@@ -1,9 +1,12 @@
 package com.deco2800.game.components.achievements;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.deco2800.game.screens.achievements.AchievementBaseScreen;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,70 +105,93 @@ public class AchievementBaseDisplay extends UIComponent {
         contentTable.defaults().pad(10f);
 
         // Title
-        Label title = new Label("Achievements", skin, "large");
+        /*
+        Image title = new Image(new Texture(Gdx.files.internal("Achievements/AchievementsTitle.png")));
+        title.setAlign(Align.center);
+        title.setHeight(Gdx.graphics.getHeight() * 0.2f);
+
+         */
+
+        Label.LabelStyle titleStyle = new Label.LabelStyle();
+        titleStyle.font = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
+        titleStyle.fontColor = Color.BLACK;
+
+        Label title = new Label("Achievements",titleStyle);
+        title.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() * 0.5f);
         title.setAlignment(Align.center);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("Achievements/Badge_Background_Box.png"));
+        Texture background = new Texture(Gdx.files.internal("Achievements/Badge_Background_2540x1033_Box.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("Achievements/Background_Box.png"));
+        Texture badgeBackground = new Texture(Gdx.files.internal("Achievements/Background_1664x824_Box.png")); // _1348x888
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
-        Texture tabBackground = new Texture(Gdx.files.internal("Achievements/Tab_Box.png"));
+        Texture tabBackground = new Texture(Gdx.files.internal("Achievements/Tab_428x824_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
+
+        Texture badgeDescription = new Texture(Gdx.files.internal("Achievements/Badge_Description_1580x126_Box.png"));
+        Drawable badgeDescriptionBox = new TextureRegionDrawable(badgeDescription);
 
         contentTable.setBackground(backgroundBox);
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
-        displayTable.add(new Label("Achievement 1", skin, "large"));
+        Label a1 = new Label("Achievement 1", skin, "large");
+        a1.setAlignment(Align.center);
+
+        Label.LabelStyle badgeStyle = new Label.LabelStyle(a1.getStyle());
+        a1.getStyle().background = badgeDescriptionBox;
+
+        displayTable.add().colspan(5).expand();
         displayTable.row();
-        displayTable.add(new Label("Achievement 2", skin, "large"));
+        displayTable.add(new Label("Achievement 2", skin, "large")).colspan(5).expand();
         displayTable.row();
-        displayTable.add(new Label("Achievement 3", skin, "large"));
+        displayTable.add(new Label("Achievement 3", skin, "large")).colspan(5).expand();
         displayTable.row();
-        displayTable.add(new Label("Achievement 4", skin, "large"));
+        displayTable.add(new Label("Achievement 4", skin, "large")).colspan(5).expand();
         displayTable.row();
-        displayTable.add(new Label("Achievement 5", skin, "large"));
+        displayTable.add(new Label("Achievement 5", skin, "large")).colspan(5).expand();
         displayTable.row();
-        displayTable.add(new Label("Achievement 6", skin, "large"));
+        displayTable.add(new Label("Achievement 6", skin, "large")).colspan(5).expand();
+
+        a1.setStyle(badgeStyle);
         // Home Button
 
         // Building Button
-        ImageButton buildingButton = createButton("images/achievements/Building_Icon.png");
+        ImageButton buildingButton = createButton("images/achievements/Building_64x64_Icon.png");
         this.addButtonEvent(buildingButton, "Building");
 
         navigationTable.add(buildingButton);
 
         // Game Button
-        ImageButton gameButton = createButton("images/achievements/Game_Icon.png");
+        ImageButton gameButton = createButton("images/achievements/Game_64x64_Icon.png");
         this.addButtonEvent(gameButton, "Game");
 
         navigationTable.add(gameButton);
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
+        ImageButton killButton = createButton("images/achievements/Kill_64x64_Icon.png");
         this.addButtonEvent(killButton, "Kill");
 
         navigationTable.add(killButton);
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
+        ImageButton resourceButton = createButton("images/achievements/Resource_64x64_Icon.png");
         this.addButtonEvent(resourceButton, "Resource");
 
         navigationTable.add(resourceButton);
         navigationTable.row();
 
         // Upgrade Button
-        ImageButton upgradeButton = createButton("images/achievements/Upgrade_Icon.png");
+        ImageButton upgradeButton = createButton("images/achievements/Upgrade_64x64_Icon.png");
         this.addButtonEvent(upgradeButton, "Upgrade");
 
         navigationTable.add(upgradeButton);
 
         // Misc Button
-        ImageButton miscButton = createButton("images/achievements/Misc_Icon.png");
+        ImageButton miscButton = createButton("images/achievements/Misc_64x64_Icon.png");
         this.addButtonEvent(miscButton, "Misc");
 
         navigationTable.add(miscButton);
@@ -181,13 +208,13 @@ public class AchievementBaseDisplay extends UIComponent {
         // Display main content
 
         contentTable.add(navigationTable).colspan(2).expand();
-        contentTable.add(displayTable).colspan(3).expand();
+        contentTable.add(displayTable).colspan(5).expand();
 
-        rootTable.add(exitTable).colspan(5).fillX();
+        rootTable.add(exitTable).colspan(7).fillX();
         rootTable.row();
-        rootTable.add(title).colspan(5).fillX();
+        rootTable.add(title).colspan(7).expand();
         rootTable.row();
-        rootTable.add(contentTable).colspan(5).expand();
+        rootTable.add(contentTable).colspan(7).expand();
 
         stage.addActor(rootTable);
         stage.setDebugAll(true);
