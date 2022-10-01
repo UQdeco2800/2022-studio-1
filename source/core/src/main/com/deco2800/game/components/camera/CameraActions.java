@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
 
+import java.util.logging.Logger;
+
 public class CameraActions extends Component {
         private boolean panning = false;
         private boolean playerMoving = false;
