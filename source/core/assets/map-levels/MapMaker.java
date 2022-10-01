@@ -24,6 +24,8 @@ import java.util.TreeSet;
 import java.util.SortedSet;
 import java.lang.Math;
 
+import java.util.concurrent.TimeUnit;
+
 public class MapMaker extends JFrame {
 
         private final int width = 1900;
@@ -319,9 +321,6 @@ public class MapMaker extends JFrame {
                         int x = (int) Math.floor(unRotatedVector[0] / 100);
                         int y = (int) Math.floor(unRotatedVector[1] / 95);
 
-                        System.out.println("(" + x + ", " + y + ")");
-                        System.out.println("Offset: " + panX + ", " + panY);
-
                         if (currentlySelected != null) {
                                 Image tile = ((ImageIcon) currentlySelected.getIcon()).getImage();
                                 imagePositionMap.put(new Coordinate(x, y), tile);
@@ -463,6 +462,11 @@ public class MapMaker extends JFrame {
                                                 continue;
                                         }
 
+                                        if (tileIndex == 'a') {
+                                                currentX++;
+                                                continue;
+                                        }
+
                                         ImageIcon initImage = new ImageIcon(
                                                         textures[Integer.parseInt(String.valueOf(tileIndex))]);
                                         Image image = initImage.getImage();
@@ -472,6 +476,7 @@ public class MapMaker extends JFrame {
 
                                         loadedMap.put(new Coordinate(currentY, currentX), newImage);
                                         currentX++;
+
                                 }
 
                                 stream.close();
