@@ -117,7 +117,7 @@ public class PlayerActions extends Component {
 
     if (null != closestEnemy) {
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
-      if (null != enemyTarget) {
+      if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
         CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
             .getComponent(CombatStatsComponent.class);
         System.out.println(enemyTarget.getHealth());
@@ -135,7 +135,7 @@ public class PlayerActions extends Component {
       if (null == closestEntity.getName()) {
         return;
       }
-      if (closestEntity.isCollectable()) {
+      if (closestEntity.isCollectable() && ServiceLocator.getRangeService().playerInRangeOf(closestEntity)) {
         closestEntity.collectResources();
         closestEntity.dispose();
         PlayerStatsDisplay.updateItems();
