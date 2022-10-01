@@ -21,6 +21,7 @@ import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ import java.util.Objects;
  * Avoid adding additional state here! Global access is often the easy but incorrect answer to
  * sharing data.
  */
-public class StructureService extends EntityService{
+public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
@@ -228,6 +229,7 @@ public class StructureService extends EntityService{
    *                            resourceBuildState, buildEvent}
    */
   public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent, boolean removeEvent, boolean upgradeEvent) {
+    SaveGame.saveGameState();
     boolean isClear = false;
     boolean structureHit = false;
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");

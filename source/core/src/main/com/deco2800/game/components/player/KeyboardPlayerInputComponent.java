@@ -14,6 +14,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
@@ -63,25 +64,30 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.add(Vector2Utils.UP);
         entity.getEvents().trigger("ch_dir_w");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "UP");
         return true;
       case Keys.A:
         walkDirection.add(Vector2Utils.LEFT);
         entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "LEFT");
         return true;
       case Keys.S:
         walkDirection.add(Vector2Utils.DOWN);
         entity.getEvents().trigger("ch_dir_s");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "DOWN");
         return true;
       case Keys.D:
         walkDirection.add(Vector2Utils.RIGHT);
         entity.getEvents().trigger("ch_dir_d");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "RIGHT");
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
         entity.getEvents().trigger("attack_anim");
+        entity.getEvents().trigger("playerControlTut", "SPACE");
         return true;
       default:
         return false;
@@ -169,6 +175,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
     CrystalFactory.crystalClicked(screenX, screenY);
+    NpcService.npcClicked(screenX,screenY);
     return true;
   }
 
@@ -244,6 +251,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     combatStatsComponent.setHealth(health - 30);
     // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
+
+
+
 
   /**
    * Triggers crystal restore health to can be used in the shopping feature (for

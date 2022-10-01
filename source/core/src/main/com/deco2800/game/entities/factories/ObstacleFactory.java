@@ -48,6 +48,24 @@ public class ObstacleFactory {
   }
 
   /**
+   * Creates a tree entity. Overloading used for save/load game
+   *
+   * @return entity
+   */
+  public static Entity createTree(String image) {
+
+    Entity tree = createEnvironmentalObject(image, EnvironmentalComponent.EnvironmentalObstacle.TREE,
+            2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+    tree.setName("Tree");
+    tree.setResourceType(ResourceType.WOOD);
+    tree.setCollectable(true);
+    tree.setResourceAmount(10);
+    ServiceLocator.getEntityService().registerNamed("Tree@" + tree.getId(), tree);
+    return tree;
+  }
+
+
+  /**
    * Creates a rock entity.
    * 
    * @return entity
@@ -67,6 +85,25 @@ public class ObstacleFactory {
     ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
     rock.getComponent(TextureRenderComponent.class).scaleEntity();
 
+    return rock;
+  }
+
+
+  /**
+   * Creates a rock entity. Overloading used for the purpose of save/load game
+   *
+   * @return entity
+   */
+  public static Entity createRock(String image) {
+    Entity rock = createEnvironmentalObject(image, EnvironmentalComponent.EnvironmentalObstacle.ROCK,
+            0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+
+    rock.setName("Rock");
+    rock.setResourceType(ResourceType.STONE);
+    rock.setCollectable(true);
+    rock.setResourceAmount(10);
+
+    ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
     return rock;
   }
 

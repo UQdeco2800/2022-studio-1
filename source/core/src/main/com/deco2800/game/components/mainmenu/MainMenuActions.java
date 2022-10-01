@@ -1,10 +1,7 @@
 package com.deco2800.game.components.mainmenu;
 
-import com.badlogic.gdx.Game;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.services.GameTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MainMenuActions extends Component {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuActions.class);
-  private AtlantisSinks game;
+  private final AtlantisSinks game;
 
   public MainMenuActions(AtlantisSinks game) {
     this.game = game;
@@ -33,19 +30,19 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
-    if (AtlantisSinks.playEpilogue) {
-      game.setScreen(AtlantisSinks.ScreenType.STORY_LINE);
+    if (AtlantisSinks.playPrologue) {
+      game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_PROLOGUE);
     } else {
       game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
   }
 
   /**
-   * Intended for loading a saved game state.
-   * Load functionality is not actually implemented.
+   * Generate Main Game with load param
    */
   private void onLoad() {
     logger.info("Load game");
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
   }
 
   /**

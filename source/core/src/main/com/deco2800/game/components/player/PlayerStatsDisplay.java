@@ -67,6 +67,7 @@ public class PlayerStatsDisplay extends UIComponent {
     //will be used to update health
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
     crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
+
   }
 
 
@@ -188,7 +189,10 @@ public class PlayerStatsDisplay extends UIComponent {
     CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
     coinLabel.setText(gold);
     CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
-    coinLabel.setText(wood);
+    woodLabel.setText(wood);
+
+    //updates the objective
+    ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
   }
 
   public void updateResourceAmount() {
@@ -233,33 +237,4 @@ public class PlayerStatsDisplay extends UIComponent {
     healthprogressBar.remove();
   }
 
-//  /**
-//   * Recover crystal health at dawn, day, and dusk
-//   */
-//  private void recoverCrystalHealth(DayNightCycleStatus partOfDay) {
-//    System.out.println(partOfDay);
-//    switch (partOfDay){
-//      case DAWN:
-//      case DAY:
-//      case DUSK:
-//        Timer time = new Timer();
-//        TimerTask recoverCrystal = new TimerTask() {
-//        @Override
-//            public void run() {
-//                // DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
-//                if (status != DayNightCycleStatus.NIGHT) {
-//                    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-//                    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-//                    int health = combatStatsComponent.getHealth();
-//                    combatStatsComponent.setHealth(health + 10);
-//                }
-//            }
-//        };
-//        time.scheduleAtFixedRate(recoverCrystal, 5000, 5000);
-//        break;
-//      case NIGHT:
-//      case NONE:
-//        break;
-//    }
-//  }
 }
