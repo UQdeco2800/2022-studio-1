@@ -18,6 +18,7 @@ import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
@@ -84,7 +85,9 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_6.png",
       "images/clock_sprites/clock_day4_7.png",
       "images/clock_sprites/clock_day4_8.png",
-      "images/anim_demo/woodresourcebuilding.png"
+      "images/anim_demo/woodresourcebuilding.png",
+          "images/storyLine/skipButton.png",
+          "images/storyLine/textBox.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
@@ -96,9 +99,9 @@ public class MainGameScreen extends ScreenAdapter {
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
 
-  public MainGameScreen(AtlantisSinks game) {
+  public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
     this.game = game;
-
+  System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -122,6 +125,7 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
     ServiceLocator.registerResourceManagementService(new ResourceManagementService());
+    ServiceLocator.registerAchievementHandler(new AchievementHandler());
     ServiceLocator.registerNpcService(new NpcService());
 
     renderer = RenderFactory.createRenderer();
@@ -135,7 +139,7 @@ public class MainGameScreen extends ScreenAdapter {
 
     // Singleton MainArea responsible for controlling current map and entities
     //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
-    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory));
+    MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
     createUI();
 
@@ -218,7 +222,9 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
+            .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
+            .addComponent(new MainGameTutorials())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);

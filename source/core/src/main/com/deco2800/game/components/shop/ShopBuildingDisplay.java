@@ -277,14 +277,16 @@ public class ShopBuildingDisplay extends UIComponent {
 
                         if (entity.getComponent(InventoryComponent.class).hasStone(stats.stoneCost) &&
                                 entity.getComponent(InventoryComponent.class).hasWood(stats.woodCost)) {
-                            logger.info("Sufficient stone");
+                            logger.info("Sufficient resources");
                             entity.getComponent(InventoryComponent.class).addWood(-1 * stats.woodCost);
                             entity.getComponent(InventoryComponent.class).addStone(-1 * stats.stoneCost);
+                            entity.getComponent(InventoryComponent.class).addBuilding(current.t);
                             Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
                             rockSound.play();
                             buyButton.setColor(121, 15, 85, 1);
+                            System.out.println(entity.getComponent(InventoryComponent.class).getBuildings());
                         } else {
-                            logger.info("Insufficient stone!");
+                            logger.info("Insufficient resource!");
                             Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
                             filesound.play();
                             buyButton.setColor(255, 0, 0, 1);

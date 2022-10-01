@@ -119,12 +119,13 @@ public class ShopArtefactScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood(), lastStatus.getItemList()))
+                        lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
+        uiBuilding.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
         ServiceLocator.getEntityService().register(uiBuilding);
 
     }

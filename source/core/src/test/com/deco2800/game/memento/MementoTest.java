@@ -34,7 +34,7 @@ class MementoTest {
     }
 
     @Test
-    void shouldGetEmptyItem() {
+    void shouldGetItem() {
         HashMap<Artefact, Integer> item = new HashMap<>();
         item.put(Artefact.HEALTH_POTION, 4);
         Memento test = new Memento(1, 2, 3, 4, 5, item, 5, 6,
@@ -78,17 +78,20 @@ class MementoTest {
     }
 
     @Test
-    void shouldGetChestplate() {
+    void shouldGetArmor() {
         Memento test = new Memento(1, 2, 3, 4, 5, new HashMap(), 5, 6,
                 null, Equipments.CHESTPLATE, null);
-        assertEquals(Equipments.CHESTPLATE, test.getChestplate());
+        assertEquals(Equipments.CHESTPLATE, test.getArmor());
     }
 
     @Test
-    void shouldGetHelmet() {
+    void shouldGetEquipmentList() {
+        List<Equipments> dummy = new ArrayList<>();
+        dummy.add(Equipments.CHESTPLATE);
         Memento test = new Memento(1, 2, 3, 4, 5, new HashMap(), 5, 6,
-                null, null, Equipments.HELMET);
-        assertEquals(Equipments.HELMET, test.getHelmet());
+                null, null, dummy);
+        assertEquals(Equipments.CHESTPLATE, test.getEquipmentsList().get(0));
     }
+
 
 }

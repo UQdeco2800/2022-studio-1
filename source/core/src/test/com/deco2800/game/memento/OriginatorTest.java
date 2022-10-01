@@ -3,7 +3,10 @@ package com.deco2800.game.memento;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,17 +68,19 @@ class OriginatorTest {
     }
 
     @Test
-    void shouldSaveChestplate() {
+    void shouldSaveArmor() {
         Originator test = new Originator(1);
-        test.setChestplate(Equipments.CHESTPLATE);
-        assertEquals(Equipments.CHESTPLATE, test.getChestplate());
+        test.setArmor(Equipments.CHESTPLATE);
+        assertEquals(Equipments.CHESTPLATE, test.getArmor());
     }
 
     @Test
-    void shouldSaveHelmet() {
+    void shouldSaveArmorInList() {
         Originator test = new Originator(1);
-        test.setHelmet(Equipments.HELMET);
-        assertEquals(Equipments.HELMET, test.getHelmet());
+        List<Equipments> equipmentsList = new ArrayList<>();
+        equipmentsList.add(Equipments.CHESTPLATE);
+        test.setEquipmentsList(equipmentsList);
+        assertEquals(Equipments.CHESTPLATE, test.getEquipmentsList().get(0));
     }
 
     @Test

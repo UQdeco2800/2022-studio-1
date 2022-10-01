@@ -1,0 +1,12 @@
+{
+    "type": "building",
+    "name": "Wood Cutter",
+    "goldCost": 0,
+    "stoneCost": 100,
+    "woodCost": 200,
+    "attack": 0,
+    "defense": 0,
+    "description": "Chops for wood",
+    "itemImagePath": "images/shop-quarry.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png"
+}

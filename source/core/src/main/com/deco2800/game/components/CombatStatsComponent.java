@@ -25,11 +25,13 @@ public class CombatStatsComponent extends Component {
   private int level;
   private int defense;
   private int currentAttack;
+  private int attackMultiplier;
   private int maxHealth = 10000;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    setAttackMultiplier(1);
     this.baseHealth = health;
     this.currentAttack = baseAttack;
   }
@@ -38,6 +40,7 @@ public class CombatStatsComponent extends Component {
     setHealth(health);
     setBaseAttack(baseAttack);
     setBaseDefense(defense);
+    setAttackMultiplier(1);
   }
 
   /**
@@ -49,6 +52,7 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
+    setBaseDefense(defense);
     this.currentAttack = baseAttack;
   }
 
@@ -106,6 +110,9 @@ public class CombatStatsComponent extends Component {
 
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
+      if (health == 0) {
+        entity.getEvents().trigger("crystalDeath");
+      }
     }
   }
 
@@ -147,15 +154,27 @@ public class CombatStatsComponent extends Component {
     }
   }
 
+  public void setAttackMultiplier(int multiplier) {
+    this.attackMultiplier = multiplier;
+    revertAttack();
+    addAttack(baseAttack * (multiplier - 1));
+  }
+
+  public int getAttackMultiplier() {
+    return attackMultiplier;
+  }
   /**
    * Returns the entity's base attack damage.
    *
    * @return base attack damage
    */
   public int getBaseAttack() {
-    return currentAttack;
+    return baseAttack;
   }
 
+  public int getCurrentAttack() {
+    return currentAttack;
+  }
   public void addAttack(int attackPower) {
     currentAttack += attackPower;
   }
@@ -171,14 +190,14 @@ public class CombatStatsComponent extends Component {
    */
   public void setBaseAttack(int attack) {
     if (attack >= 0) {
-      this.currentAttack = attack;
+      this.baseAttack = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
+    int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
     setHealth(newHealth);
     Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
     hurtSound.play();
