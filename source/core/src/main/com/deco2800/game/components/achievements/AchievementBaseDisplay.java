@@ -130,7 +130,6 @@ public class AchievementBaseDisplay extends UIComponent {
         this.addButtonEvent(buildingButton, "Building");
 
         navigationTable.add(buildingButton);
-        navigationTable.row();
 
         // Game Button
         ImageButton gameButton = createButton("images/achievements/Game_Icon.png");
@@ -144,7 +143,6 @@ public class AchievementBaseDisplay extends UIComponent {
         this.addButtonEvent(killButton, "Kill");
 
         navigationTable.add(killButton);
-        navigationTable.row();
 
         // Resource Button
         ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
@@ -158,7 +156,6 @@ public class AchievementBaseDisplay extends UIComponent {
         this.addButtonEvent(upgradeButton, "Upgrade");
 
         navigationTable.add(upgradeButton);
-        navigationTable.row();
 
         // Misc Button
         ImageButton miscButton = createButton("images/achievements/Misc_Icon.png");
@@ -174,8 +171,7 @@ public class AchievementBaseDisplay extends UIComponent {
 
         // Add display content
         // fonts -> https://libgdxinfo.wordpress.com/basic-label/
-
-
+        
         // Display main content
         contentTable.add(navigationTable).left().bottom().expandY();
         contentTable.add(displayTable).right().bottom().fill();
