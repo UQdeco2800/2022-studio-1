@@ -324,34 +324,48 @@ public class MapMaker extends JFrame {
                                 }
                         }
 
-                        SortedSet<Coordinate> sortedKeys = new TreeSet<>(imagePositionMap.keySet());
+                        int xMax = 0;
+                        int yMax = 0;
+
+                        for (Coordinate coord : imagePositionMap.keySet()) {
+                                if (coord.x > xMax) {
+                                        xMax = coord.x;
+                                }
+
+                                if (coord.y > yMax) {
+                                        yMax = coord.y;
+                                }
+                        }
 
                         try {
                                 FileWriter writer = new FileWriter(mapFile, true);
 
-                                int currentY = sortedKeys.first().y;
+                                for (int x = 0; x < xMax + 1; x++) {
+                                        for (int y = 0; y < yMax + 1; y++) {
 
-                                for (Coordinate key : sortedKeys) {
+                                                Image tileImage = imagePositionMap.get(new Coordinate(x, y));
 
-                                        if (key.y > currentY) {
-                                                writer.write("\n");
+                                                if (tileImage != null) {
+
+                                                        Integer textureIndex = imagePathIndexMap.get(tileImage);
+
+                                                        // 0: water
+                                                        // 1: sand
+                                                        // 2:
+                                                        // 3:
+                                                        // 4:
+                                                        // 5:
+                                                        // 6:
+                                                        // 7:
+                                                        // 8:
+                                                        // 9:
+
+                                                        writer.write(textureIndex.toString());
+                                                } else {
+                                                        writer.write('0');
+                                                }
                                         }
-
-                                        Image tileImage = imagePositionMap.get(key);
-                                        Integer textureIndex = imagePathIndexMap.get(tileImage);
-
-                                        // 0: water
-                                        // 1: sand
-                                        // 2:
-                                        // 3:
-                                        // 4:
-                                        // 5:
-                                        // 6:
-                                        // 7:
-                                        // 8:
-                                        // 9:
-
-                                        writer.write(textureIndex.toString());
+                                        writer.write("\n");
                                 }
                                 writer.close();
                         } catch (IOException e) {
@@ -392,7 +406,7 @@ public class MapMaker extends JFrame {
                                                         image.getHeight(null) * 2,
                                                         java.awt.Image.SCALE_SMOOTH);
 
-                                        loadedMap.put(new Coordinate(currentX, currentY), newImage);
+                                        loadedMap.put(new Coordinate(currentY, currentX), newImage);
                                         currentX++;
                                 }
 
