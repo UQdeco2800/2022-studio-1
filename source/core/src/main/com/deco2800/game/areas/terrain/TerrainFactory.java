@@ -230,8 +230,7 @@ public class TerrainFactory {
             cell.setTile(shorelineTile);
             break;
           default:
-            logger.error("Invalid tile type read");
-
+            cell.setTile(waterTile);
         }
 
         // // check if land bit is set

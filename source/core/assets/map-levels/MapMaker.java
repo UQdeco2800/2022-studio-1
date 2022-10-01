@@ -24,8 +24,8 @@ import java.lang.Math;
 
 public class MapMaker extends JFrame {
 
-        private final int width = 1500;
-        private final int height = 1000;
+        private final int width = 1900;
+        private final int height = 1200;
 
         MapPanel mapPanel;
         JPanel tileSelectionPanel;
@@ -132,7 +132,7 @@ public class MapMaker extends JFrame {
 
                 splitPane.setSize(width, height);
                 splitPane.setDividerSize(0);
-                splitPane.setDividerLocation(width - (width / 5));
+                splitPane.setDividerLocation(width - 200);
                 splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
                 splitPane.setLeftComponent((JPanel) mapPanel);
                 splitPane.setRightComponent(tileSelectionPanel);
@@ -169,7 +169,7 @@ public class MapMaker extends JFrame {
 
                 public MapPanel() {
                         super();
-                        setSize(width - (width / 5), height);
+                        setSize(width - 200, height);
                         setVisible(true);
                         setBackground(Color.BLUE);
                         addMouseListener(this);
@@ -265,9 +265,6 @@ public class MapMaker extends JFrame {
                         System.out.println(x);
                         System.out.println(y);
 
-                        if (x < 0 || y < 0)
-                                return;
-
                         if (currentlySelected != null) {
                                 Image tile = ((ImageIcon) currentlySelected.getIcon()).getImage();
                                 imagePositionMap.put(new Coordinate(x, y), tile);
@@ -326,22 +323,32 @@ public class MapMaker extends JFrame {
 
                         int xMax = 0;
                         int yMax = 0;
+                        int xMin = 0;
+                        int yMin = 0;
 
                         for (Coordinate coord : imagePositionMap.keySet()) {
                                 if (coord.x > xMax) {
                                         xMax = coord.x;
                                 }
 
+                                if (coord.x < xMin) {
+                                        xMin = coord.x;
+                                }
+
                                 if (coord.y > yMax) {
                                         yMax = coord.y;
+                                }
+
+                                if (coord.y < yMin) {
+                                        yMin = coord.y;
                                 }
                         }
 
                         try {
                                 FileWriter writer = new FileWriter(mapFile, true);
 
-                                for (int x = 0; x < xMax + 1; x++) {
-                                        for (int y = 0; y < yMax + 1; y++) {
+                                for (int x = xMin; x < xMax + 1; x++) {
+                                        for (int y = yMin; y < yMax + 1; y++) {
 
                                                 Image tileImage = imagePositionMap.get(new Coordinate(x, y));
 
@@ -362,7 +369,7 @@ public class MapMaker extends JFrame {
 
                                                         writer.write(textureIndex.toString());
                                                 } else {
-                                                        writer.write('0');
+                                                        writer.write('a');
                                                 }
                                         }
                                         writer.write("\n");
@@ -454,7 +461,7 @@ public class MapMaker extends JFrame {
 
                 @Override
                 public int hashCode() {
-                        return Integer.parseInt(Integer.toString(y) + Integer.toString(x));
+                        return x * 31 + y;
                 }
 
                 /*
