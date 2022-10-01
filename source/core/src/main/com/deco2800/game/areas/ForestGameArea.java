@@ -5,6 +5,7 @@ import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.screens.MainGameScreen;
@@ -165,6 +166,8 @@ public class ForestGameArea extends GameArea {
 
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
+    ServiceLocator.getUGSService().generateUGS();
+
 
     displayUI();
 
@@ -175,17 +178,15 @@ public class ForestGameArea extends GameArea {
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
 
+    this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
+
+    this.player = spawnPlayer();
+
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
       spawnEnvironmentalObjects();
     }
-
-
-    this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
-
-    this.player = spawnPlayer();
-
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
             this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
