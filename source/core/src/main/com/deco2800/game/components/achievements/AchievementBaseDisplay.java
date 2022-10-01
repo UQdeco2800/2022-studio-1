@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.deco2800.game.screens.achievements.AchievementBaseScreen;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -86,42 +87,47 @@ public class AchievementBaseDisplay extends UIComponent {
      */
     private void addActors() {
         rootTable = new Table();
+        rootTable.defaults().pad(10f);
         rootTable.setFillParent(true);
 
         rootTable.center();
 
-        float screenHeight = Gdx.graphics.getHeight();
-        float screenWidth = Gdx.graphics.getWidth();
-
-        float contentHeight = screenHeight * 0.7f;
-        float navBarWidth = screenWidth * 0.2f;
-        float displayWidth = screenWidth * 0.7f;
-
         Table exitTable = new Table();
         Table navigationTable = new Table();
+        navigationTable.defaults().pad(10f);
         Table displayTable = new Table();
+        displayTable.defaults().pad(10f);
         Table contentTable = new Table();
-
-        contentTable.setSize(screenWidth, contentHeight);
-        navigationTable.setSize(navBarWidth, contentHeight);
-        displayTable.setSize(displayWidth, contentHeight);
+        contentTable.defaults().pad(10f);
 
         // Title
-        exitTable.add(new Label("Achievements", skin, "large")).expandX().top().center();
+        Label title = new Label("Achievements", skin, "large");
+        title.setAlignment(Align.center);
 
         // Background Colour
-        Texture colour = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-        Drawable contentBox = new TextureRegionDrawable(colour);
+        Texture background = new Texture(Gdx.files.internal("Achievements/Badge_Background_Box.png"));
+        Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        navigationTable.setBackground(contentBox);
-        displayTable.setBackground(contentBox);
+        Texture badgeBackground = new Texture(Gdx.files.internal("Achievements/Background_Box.png"));
+        Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
+
+        Texture tabBackground = new Texture(Gdx.files.internal("Achievements/Tab_Box.png"));
+        Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
+
+        contentTable.setBackground(backgroundBox);
+        navigationTable.setBackground(tabBackgroundBox);
+        displayTable.setBackground(badgeBackgroundBox);
 
         displayTable.add(new Label("Achievement 1", skin, "large"));
+        displayTable.row();
         displayTable.add(new Label("Achievement 2", skin, "large"));
+        displayTable.row();
         displayTable.add(new Label("Achievement 3", skin, "large"));
         displayTable.row();
         displayTable.add(new Label("Achievement 4", skin, "large"));
+        displayTable.row();
         displayTable.add(new Label("Achievement 5", skin, "large"));
+        displayTable.row();
         displayTable.add(new Label("Achievement 6", skin, "large"));
         // Home Button
 
@@ -173,14 +179,18 @@ public class AchievementBaseDisplay extends UIComponent {
         // fonts -> https://libgdxinfo.wordpress.com/basic-label/
         
         // Display main content
-        contentTable.add(navigationTable).left().bottom().expandY();
-        contentTable.add(displayTable).right().bottom().fill();
 
-        rootTable.add(exitTable).fillX();
+        contentTable.add(navigationTable).colspan(2).expand();
+        contentTable.add(displayTable).colspan(3).expand();
+
+        rootTable.add(exitTable).colspan(5).fillX();
         rootTable.row();
-        rootTable.add(contentTable).expandX();
+        rootTable.add(title).colspan(5).fillX();
+        rootTable.row();
+        rootTable.add(contentTable).colspan(5).expand();
 
         stage.addActor(rootTable);
+        stage.setDebugAll(true);
     }
 
     @Override
