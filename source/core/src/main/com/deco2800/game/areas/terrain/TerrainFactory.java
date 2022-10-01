@@ -1,8 +1,10 @@
 package com.deco2800.game.areas.terrain;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -11,12 +13,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.renderers.HexagonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.deco2800.game.components.CameraComponent;
@@ -25,6 +24,8 @@ import com.deco2800.game.services.ServiceLocator;
 
 /** Factory for creating game terrains. */
 public class TerrainFactory {
+  private static final Logger logger = LoggerFactory.getLogger(TerrainFactory.class);
+
   private final GridPoint2 MAP_SIZE = new GridPoint2(120, 120);
 
   private GridPoint2 island_size = new GridPoint2();
@@ -206,36 +207,64 @@ public class TerrainFactory {
 
         Cell cell = new Cell();
 
-        // check if land bit is set
-        if ((level.get(x).get(y) & 1) > 0) {
+        switch (level.get(x).get(y)) {
+          case 0: // water
+            cell.setTile(waterTile);
+            spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+            break;
+          case 1: // sand
+            landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
 
-          landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+            // Randomly choose a land tile to use
+            // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
+            // - 5/8 chance for sand tile
+            int r = (int) (Math.random() * 7);
 
-          // Randomly choose a land tile to use
-          // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
-          // - 5/8 chance for sand tile
-          int r = (int) (Math.random() * 7);
+            if (r < 3) {
+              cell.setTile(seaweedTiles[r]);
+            } else {
+              cell.setTile(sandTile);
+            }
+            break;
+          case 2: // shoreline
+            cell.setTile(shorelineTile);
+            break;
+          default:
+            logger.error("Invalid tile type read");
 
-          if (r < 3) {
-            cell.setTile(seaweedTiles[r]);
-          } else {
-            cell.setTile(sandTile);
-          }
-
-        } else if ((level.get(x).get(y) & (1 << 1)) > 0) { // check for shoreline bit
-          cell.setTile(shorelineTile);
-        } else {
-          cell.setTile(waterTile);
         }
 
-        layer.setCell(x + xoff + 1, y + yoff + 1, cell);
+        // // check if land bit is set
+        // if ((level.get(x).get(y) & 1) > 0) {
 
-        // check to see if shoreline bit is set
+        // landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
 
-        // check to see if spawnable bit is set
-        if ((level.get(x).get(y) & (1 << 2)) > 0) {
-          spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
-        }
+        // // Randomly choose a land tile to use
+        // // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
+        // // - 5/8 chance for sand tile
+        // int r = (int) (Math.random() * 7);
+
+        // if (r < 3) {
+        // cell.setTile(seaweedTiles[r]);
+        // } else {
+        // cell.setTile(sandTile);
+        // }
+
+        // } else if ((level.get(x).get(y) & (1 << 1)) > 0) {
+        // check for shoreline bit
+        // cell.setTile(shorelineTile);
+        // } else {
+        // cell.setTile(waterTile);
+        // }
+
+        // layer.setCell(x + xoff + 1, y + yoff + 1, cell);
+
+        // // check to see if shoreline bit is set
+
+        // // check to see if spawnable bit is set
+        // if ((level.get(x).get(y) & (1 << 2)) > 0) {
+        // spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+        // }
 
       }
     }
