@@ -1,1 +1,101 @@
-[]
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER1I.png
+	position: {
+		x: 65.21414
+		y: -0.33444858
+	}
+	name: "tower1(65, 65)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 59.40164
+		y: 2.5155518
+	}
+	name: "wall(54, 59)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER2I.png
+	position: {
+		x: 54.501644
+		y: -0.5969485
+	}
+	name: "tower2(55, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 61.33914
+		y: 1.4405519
+	}
+	name: "wall(58, 61)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER3I.png
+	position: {
+		x: 60.676643
+		y: -3.0344486
+	}
+	name: "tower3(66, 60)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER3I.png
+	position: {
+		x: 64.451645
+		y: -1.8469487
+	}
+	name: "tower3(68, 64)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER2I.png
+	position: {
+		x: 55.239143
+		y: -2.0344489
+	}
+	name: "tower2(59, 55)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 60.376644
+		y: 2.065552
+	}
+	name: "wall(56, 60)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/trap.png
+	position: {
+		x: 63.426643
+		y: -2.2844486
+	}
+	name: "trap(67, 63)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/trap.png
+	position: {
+		x: 57.876644
+		y: 1.990552
+	}
+	name: "trap(53, 57)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER1I.png
+	position: {
+		x: 57.826645
+		y: -2.359449
+	}
+	name: "tower1(62, 57)"
+}
+]
