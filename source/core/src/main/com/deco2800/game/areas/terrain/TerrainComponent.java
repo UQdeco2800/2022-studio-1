@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -20,6 +21,8 @@ import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+
+import javax.management.ValueExp;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -119,10 +122,16 @@ public class TerrainComponent extends RenderComponent {
     return tileToWorldPosition(tilePos.x, tilePos.y);
   }
 
+  /**
+   * float x must be world position x - using camera.unproject
+   * float y must be world position y - using camera.unproject
+   */
   public GridPoint2 worldToTilePosition(float x, float y) {
-    x = (((x / 0.5f) - (y / 0.25f)) / 2);
-    y = (((y / 0.25f) + (x / 0.5f)) / 2);
-    return new GridPoint2((int) x, (int) y);
+    Vector2 screenPosition = new Vector2(x, y);
+    Vector3 tilePosition = IsoTileRenderer.translateScreenToIso(screenPosition);
+    GridPoint2 tilePos = new GridPoint2((int) (tilePosition.x + (tileSize/2)), (int)(tilePosition.y - (tileSize/2)));
+    tilePos = new GridPoint2((int) (tilePos.x/tileSize), (int) (tilePos.y/tileSize));
+    return tilePos;
   }
 
   public Vector2 tileToWorldPosition(int x, int y) {
@@ -132,7 +141,7 @@ public class TerrainComponent extends RenderComponent {
         float yOffset = (x % 2 == 0) ? 0.5f * tileSize : 0f;
         return new Vector2(x * (tileSize + hexLength) / 2, y + yOffset);
       case ISOMETRIC:
-        return new Vector2((x + y) * tileSize / 2, (y - x) * tileSize / 4);
+        return new Vector2(((x + y) * tileSize / 2)+(tileSize/4), ((y - x) * tileSize / 4)+(tileSize/8));
       case ORTHOGONAL:
         return new Vector2(x * tileSize, y * tileSize);
       default:
