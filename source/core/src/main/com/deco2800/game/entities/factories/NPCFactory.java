@@ -179,7 +179,8 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent)
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
-            .addComponent(new EffectNearBy(true, true, true));
+            .addComponent(new EffectNearBy(true, true, true))
+            .addComponent(new ContinuousAttackComponent());
 
     boss.getComponent(TextureRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
