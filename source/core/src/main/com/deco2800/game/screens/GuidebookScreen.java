@@ -1,5 +1,8 @@
 package com.deco2800.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.deco2800.game.areas.GuidebookArea;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Guidebook.GuidebookActions;
@@ -42,12 +45,22 @@ public class GuidebookScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
 
+    private Table guidebook;
+
+    private final long delay = 5000000000L;
+    private long currentTime;
+    private long deltaTime;
+    private long timeElapsed = 0;
+
     private static final String[] mainGameTextures = {
-            "images/guidebook-open.png"
+            "images/guidebook-open.png",
+            "images/uiElements/exports/guidebook-cover.png"
     };
 
     public GuidebookScreen(AtlantisSinks game) {
         this.game = game;
+
+        currentTime = TimeUtils.nanoTime();
 
         logger.debug("Initialising guidebook screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -75,7 +88,13 @@ public class GuidebookScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
+        if (guidebook == null) {
+            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+            return;
+        }
         renderer.resize(width, height);
+        guidebook.remove();
+        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
@@ -131,6 +150,8 @@ public class GuidebookScreen extends ScreenAdapter {
         ui.addComponent(new GuidebookDisplay()).addComponent(new InputDecorator(stage, 10));
         ui.addComponent(new GuidebookActions(game)).addComponent(new InputDecorator(stage, 9));
         ui.addComponent(new GuidebookExitDisplay()).addComponent(new InputDecorator(stage, 11));
-        ServiceLocator.getEntityService().register(ui);
+        ServiceLocator.getEntityService().registerNamed("guidebook", ui);
+
+        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
     }
 }
