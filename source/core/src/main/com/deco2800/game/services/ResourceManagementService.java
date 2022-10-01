@@ -1,36 +1,26 @@
 package com.deco2800.game.services;
 
-        import com.badlogic.gdx.scenes.scene2d.ui.Image;
-        import com.badlogic.gdx.scenes.scene2d.ui.Label;
-        import com.badlogic.gdx.utils.Array;
-        import com.badlogic.gdx.utils.Disposable;
-        import com.deco2800.game.areas.MainArea;
-        import com.deco2800.game.components.infrastructure.ResourceBuilding;
-        import com.deco2800.game.components.infrastructure.ResourceType;
-        import com.deco2800.game.components.player.InventoryComponent;
-        import com.deco2800.game.components.player.PlayerStatsDisplay;
-        import com.deco2800.game.entities.Entity;
-        import com.deco2800.game.entities.EntityService;
-        import com.deco2800.game.events.EventHandler;
-        import org.slf4j.Logger;
-        import org.slf4j.LoggerFactory;
-
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.Map;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.components.infrastructure.ResourceBuilding;
+import com.deco2800.game.components.infrastructure.ResourceType;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.events.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Service for loading resources, e.g. textures, texture atlases, sounds, music, etc. Add new load
- * methods when new types of resources are added to the game.
+ * Manages automatic resource generation for resource buildings (stone quarries and wood cutters)
  */
 public class ResourceManagementService {
-
     private static final Logger logger = LoggerFactory.getLogger(ResourceManagementService.class);
 
     EventHandler resourceEvents = new EventHandler();
 
     public ResourceManagementService() {
-        ServiceLocator.getDayNightCycleService().getEvents().addListener("morning", this::triggerCollectEvent);
+        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::triggerCollectEvent);
     }
 
     public int getWoodBuildings() {
@@ -53,12 +43,16 @@ public class ResourceManagementService {
         return count;
     }
 
-    public void triggerCollectEvent() {
-        // checks if it is morning and that it's not the first day.
+    /**
+     * Checks if it is morning and that it's not the first day. Triggers resource collection if so
+     */
+    public void triggerCollectEvent(DayNightCycleStatus partOfDay) {
         // first day check has been disabled temporarily for ease of debugging
-        if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
+        if (partOfDay == DayNightCycleStatus.DAY) {
+            if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
                 //&& ServiceLocator.getDayNightCycleService().getCurrentDayNumber() != 1) {
-            collectResources();
+                collectResources();
+            }
         }
     }
 
@@ -72,7 +66,6 @@ public class ResourceManagementService {
                 ServiceLocator.getResourceManagementService().getStoneBuildings() * 20);
         PlayerStatsDisplay.updateItems();
     }
-
 
     public EventHandler getEvents() {
         return resourceEvents;

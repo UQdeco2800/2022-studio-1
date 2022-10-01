@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Interpolation.SwingOut;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
@@ -24,6 +25,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.util.Map;
@@ -128,7 +130,7 @@ public static Entity createTrap() {
     //@TODO Change string constant
     String TOWER2I = "images/TOWER2I.png";
     String TOWER2II = "images/TOWER2II.png";
-    String TOWER2III = "images/TOWRER2III.png";
+    String TOWER2III = "images/TOWER2III.png";
     Entity tower2;
     BaseStructureConfig config;
 
@@ -205,6 +207,9 @@ public static Entity createTrap() {
    * @return structure entity
    */
   public static Entity createBaseStructure(String texture) {
+    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BUILDING_PLACED,
+            AchievementType.BUILDINGS, 1);
+
     /* //This is where the defence (aiming and shooting) tasks will be added
     AITaskComponent aiComponent =
         new AITaskComponent()
@@ -263,6 +268,10 @@ public static Entity createTrap() {
    */
   public static void handleBuildingDestruction(String name) {
     Entity structure = ServiceLocator.getStructureService().getNamedEntity(name);
+
+    if (structure == null) {
+      return;
+    }
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
     switch(buildingHealth) {
       case 0: //Building destroyed

@@ -44,6 +44,7 @@ public class FileLoader {
   public static <T> T readClass(Class<T> type, String filename, Location location) {
     logger.debug("Reading class {} from {}", type.getSimpleName(), filename);
     FileHandle file = getFileHandle(filename, location);
+
     if (file == null) {
       logger.error("Failed to create file handle for {}", filename);
       return null;
@@ -51,6 +52,7 @@ public class FileLoader {
 
     T object;
     try {
+      System.out.println(file);
       object = json.fromJson(type, file);
     } catch (Exception e) {
       logger.error(e.getMessage());
