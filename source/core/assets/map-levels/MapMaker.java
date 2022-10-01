@@ -287,7 +287,7 @@ public class MapMaker extends JFrame {
                         }
 
                         Graphics2D g2 = (Graphics2D) g;
-                        int yOffset = panY + (getHeight() / 2) - 33;
+                        int yOffset = panY + (getHeight() / 2) + 33;
 
                         Line2D upBorder = new Line2D.Float(panX, yOffset, 1300 + panX,
                                         yOffset - 650);
@@ -295,13 +295,13 @@ public class MapMaker extends JFrame {
                                         yOffset + 650);
                         g2.draw(upBorder);
                         g2.draw(downBorder);
+
                 }
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
 
-                        double posVector[] = { (double) e.getX() + panX, (double) (getHeight() / 2) -
-                                        e.getY() + panY };
+                        double posVector[] = { (double) e.getX() - panX, (double) (getHeight() / 2) + panY - e.getY() };
 
                         double unScaledVector[] = {
                                         (scalingMatrix[0][0] * posVector[0]) + (scalingMatrix[0][1] * posVector[1]),
@@ -316,11 +316,11 @@ public class MapMaker extends JFrame {
                                                         + (invTransformationMatrix[1][1] * unScaledVector[1])
                         };
 
-                        int x = (int) Math.floor(unRotatedVector[0] / 95);
+                        int x = (int) Math.floor(unRotatedVector[0] / 100);
                         int y = (int) Math.floor(unRotatedVector[1] / 95);
 
-                        System.out.println(x);
-                        System.out.println(y);
+                        System.out.println("(" + x + ", " + y + ")");
+                        System.out.println("Offset: " + panX + ", " + panY);
 
                         if (currentlySelected != null) {
                                 Image tile = ((ImageIcon) currentlySelected.getIcon()).getImage();
