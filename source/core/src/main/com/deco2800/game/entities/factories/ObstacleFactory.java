@@ -42,6 +42,8 @@ public class ObstacleFactory {
     tree.setCollectable(true);
     tree.setResourceAmount(10);
     ServiceLocator.getEntityService().registerNamed("Tree@" + tree.getId(), tree);
+    tree.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return tree;
   }
 
@@ -81,6 +83,8 @@ public class ObstacleFactory {
     rock.setResourceAmount(10);
 
     ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
+    rock.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return rock;
   }
 
@@ -119,6 +123,8 @@ public class ObstacleFactory {
     vine.setResourceAmount(5);
 
     ServiceLocator.getEntityService().registerNamed("Vine@" + vine.getId(), vine);
+    vine.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return vine;
   }
 
@@ -139,6 +145,8 @@ public class ObstacleFactory {
     spikyBush.setResourceAmount(20);
 
     ServiceLocator.getEntityService().registerNamed("SpikeyBush@" + spikyBush.getId(), spikyBush);
+    spikyBush.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return spikyBush;
   }
 
@@ -158,6 +166,8 @@ public class ObstacleFactory {
     geyser.setResourceAmount(10);
 
     ServiceLocator.getEntityService().registerNamed("Geyser@" + geyser.getId(), geyser);
+    geyser.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return geyser;
   }
 
@@ -171,6 +181,7 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
         3f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
     ServiceLocator.getEntityService().registerNamed("Billboard@" + billboard.getId(), billboard);
+
 
     billboard.setName("Billboard");
     billboard.setCollectable(false);
@@ -220,6 +231,8 @@ public class ObstacleFactory {
     pillar.setResourceAmount(10);
 
     ServiceLocator.getEntityService().registerNamed("Pillar@" + pillar.getId(), pillar);
+    pillar.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return pillar;
   }
 
@@ -258,6 +271,8 @@ public class ObstacleFactory {
     shipwreck.setResourceAmount(50);
 
     ServiceLocator.getEntityService().registerNamed("shipWreckFront@" + shipwreck.getId(), shipwreck);
+    shipwreck.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return shipwreck;
   }
 
@@ -277,6 +292,8 @@ public class ObstacleFactory {
     shipwreck.setResourceAmount(50);
 
     ServiceLocator.getEntityService().registerNamed("shipWreckBack@" + shipwreck.getId(), shipwreck);
+    shipwreck.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return shipwreck;
   }
 
@@ -289,6 +306,8 @@ public class ObstacleFactory {
     shell.setCollectable(false);
 
     ServiceLocator.getEntityService().register(shell);
+    shell.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return shell;
   }
 
@@ -315,6 +334,8 @@ public class ObstacleFactory {
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);
+    environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
+
     PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
     return environmentalObject;
   }
