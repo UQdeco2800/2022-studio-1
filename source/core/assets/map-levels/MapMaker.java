@@ -8,6 +8,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -19,13 +22,20 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 import java.util.SortedSet;
-import java.awt.Graphics;
 import java.lang.Math;
 
 public class MapMaker extends JFrame {
 
         private final int width = 1900;
         private final int height = 1200;
+
+        private final int UP = 38;
+        private final int RIGHT = 39;
+        private final int LEFT = 37;
+        private final int DOWN = 40;
+
+        private int panX = 0;
+        private int panY = 0;
 
         MapPanel mapPanel;
         JPanel tileSelectionPanel;
@@ -87,6 +97,7 @@ public class MapMaker extends JFrame {
                                         currentlySelected = button;
                                 }
                         });
+                        button.setFocusable(false);
                 }
 
                 JButton eraser = new JButton("Eraser");
@@ -99,6 +110,7 @@ public class MapMaker extends JFrame {
                                 currentlySelected = null;
                         }
                 });
+                eraser.setFocusable(false);
 
                 JButton saveButton = new JButton("Save Map");
                 saveButton.addActionListener(new ActionListener() {
@@ -108,6 +120,7 @@ public class MapMaker extends JFrame {
                         }
 
                 });
+                saveButton.setFocusable(false);
 
                 JButton loadButton = new JButton("Load Map");
                 loadButton.addActionListener(new ActionListener() {
@@ -115,12 +128,52 @@ public class MapMaker extends JFrame {
                                 mapPanel.readFromFile();
                         }
                 });
+                loadButton.setFocusable(false);
 
                 tileSelectionPanel.add(eraser);
                 tileSelectionPanel.add(saveButton);
                 tileSelectionPanel.add(loadButton);
 
                 return tileSelectionPanel;
+        }
+
+        private void setupKeyBindings(JComponent frame, MapPanel mapPanel) {
+                frame.getInputMap().put(KeyStroke.getKeyStroke(UP, 0, true), "up");
+                frame.getInputMap().put(KeyStroke.getKeyStroke(DOWN, 0, true), "down");
+                frame.getInputMap().put(KeyStroke.getKeyStroke(RIGHT, 0, true), "right");
+                frame.getInputMap().put(KeyStroke.getKeyStroke(LEFT, 0, true), "left");
+
+                frame.getActionMap().put("up", new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                panY += 50;
+                                mapPanel.repaint();
+                        }
+                });
+
+                frame.getActionMap().put("down", new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                panY -= 50;
+                                mapPanel.repaint();
+                        }
+                });
+
+                frame.getActionMap().put("left", new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                panX += 50;
+                                mapPanel.repaint();
+                        }
+                });
+
+                frame.getActionMap().put("right", new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                panX -= 50;
+                                mapPanel.repaint();
+                        }
+                });
         }
 
         private void setUpContent(Container container) {
@@ -139,6 +192,11 @@ public class MapMaker extends JFrame {
                 splitPane.setVisible(true);
 
                 container.add(splitPane);
+
+                setupKeyBindings(splitPane, mapPanel);
+                setupKeyBindings(tileSelectionPanel, mapPanel);
+                setupKeyBindings(mapPanel, mapPanel);
+                setupKeyBindings(this.getRootPane(), mapPanel);
 
         }
 
@@ -225,28 +283,30 @@ public class MapMaker extends JFrame {
                                 // y = (getHeight() / 2) - (rotatedVector[1] / scalingMatrix[1][1]);
 
                                 // System.out.println("x: " + x + " y: " + y);
-
-                                g.drawImage(set.getValue(), (int) x, (int) y, null);
+                                g.drawImage(set.getValue(), (int) x + panX, (int) y + panY, null);
                         }
+
+                        Graphics2D g2 = (Graphics2D) g;
+                        int yOffset = panY + (getHeight() / 2) - 33;
+
+                        Line2D upBorder = new Line2D.Float(panX, yOffset, 1300 + panX,
+                                        yOffset - 650);
+                        Line2D downBorder = new Line2D.Float(panX, yOffset, 1300 + panX,
+                                        yOffset + 650);
+                        g2.draw(upBorder);
+                        g2.draw(downBorder);
                 }
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
 
-                        double posVector[] = { (double) e.getX(), (double) (getHeight() / 2) -
-                                        e.getY() };
+                        double posVector[] = { (double) e.getX() + panX, (double) (getHeight() / 2) -
+                                        e.getY() + panY };
 
                         double unScaledVector[] = {
                                         (scalingMatrix[0][0] * posVector[0]) + (scalingMatrix[0][1] * posVector[1]),
                                         (scalingMatrix[1][0] * posVector[0]) + (scalingMatrix[1][1] * posVector[1])
                         };
-
-                        // System.out.println(transformationMatrix[0][0] + "," +
-                        // transformationMatrix[0][1]);
-                        // System.out.println(transformationMatrix[1][0] + "," +
-                        // transformationMatrix[1][1]);
-                        System.out.println("Unscaled Vector: " + unScaledVector[0] + " " +
-                                        unScaledVector[1]);
 
                         double unRotatedVector[] = {
 
@@ -255,9 +315,6 @@ public class MapMaker extends JFrame {
                                         (invTransformationMatrix[1][0] * unScaledVector[0])
                                                         + (invTransformationMatrix[1][1] * unScaledVector[1])
                         };
-
-                        System.out.println("UnrotatedVector: " + unRotatedVector[0] + " " +
-                                        unRotatedVector[1]);
 
                         int x = (int) Math.floor(unRotatedVector[0] / 95);
                         int y = (int) Math.floor(unRotatedVector[1] / 95);
