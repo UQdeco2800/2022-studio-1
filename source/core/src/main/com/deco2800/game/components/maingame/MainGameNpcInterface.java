@@ -76,10 +76,11 @@ public class MainGameNpcInterface extends UIComponent{
             NpcImage = new Image(ServiceLocator.getResourceService().getAsset("images/NPC convo.png", Texture.class ));
             LeftTable = new Table();
             LeftTable.left();
-            LeftTable.padLeft(30f);
+            LeftTable.padLeft(10f);
+            LeftTable.padRight(10f);
             //LeftTable.setFillParent(true);
 
-            LeftTable.add(NpcImage).center();
+            LeftTable.add(NpcImage).size(175f,200f).center();
             ConversationUI.add(LeftTable).size(225f, 300f);
             ConversationUI.add(npcLabel);
             ConversationUI.setBackground(backgroundColour);
