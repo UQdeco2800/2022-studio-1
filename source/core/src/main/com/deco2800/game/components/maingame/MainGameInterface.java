@@ -12,7 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
@@ -199,7 +203,7 @@ public class MainGameInterface extends UIComponent {
         potion.setSize(40f,40f);
         potion.setPosition(rightBox.getX() + 50f, rightBox.getY() + 405f);
 
-        Label potionQuantity = new Label("X1", skin, "large");
+        Label potionQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.HEALTH_POTION, 0), skin, "large");
         potionQuantity.setColor(skin.getColor("black"));
         potionQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 405f);
 
@@ -218,7 +222,7 @@ public class MainGameInterface extends UIComponent {
         clock.setSize(40f,40f);
         clock.setPosition(rightBox.getX() + 50f, rightBox.getY() + 355f);
 
-        Label clockQuantity = new Label("X1", skin, "large");
+        Label clockQuantity = new Label("X"+ MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.CLOCK, 0), skin, "large");
         clockQuantity.setColor(skin.getColor("black"));
         clockQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 355f);
 
@@ -237,7 +241,8 @@ public class MainGameInterface extends UIComponent {
         bed.setSize(40f,40f);
         bed.setPosition(rightBox.getX() + 50f, rightBox.getY() + 305f);
 
-        Label bedQuantity = new Label("X1", skin, "large");
+        System.out.println(MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems());
+        Label bedQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.BED, 0), skin, "large");
         bedQuantity.setColor(skin.getColor("black"));
         bedQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 305f);
 
@@ -266,7 +271,7 @@ public class MainGameInterface extends UIComponent {
         quarry.setSize(40f,40f);
         quarry.setPosition(rightBox.getX() + 50f, rightBox.getY() + 220f);
 
-        Label quarryQuantity = new Label("X1", skin, "large");
+        Label quarryQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getBuildings().getOrDefault(ShopBuilding.QUARRY, 0), skin, "large");
         quarryQuantity.setColor(skin.getColor("black"));
         quarryQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 220f);
 
@@ -285,7 +290,7 @@ public class MainGameInterface extends UIComponent {
         attackBuilding.setSize(40f,40f);
         attackBuilding.setPosition(rightBox.getX() + 50f, rightBox.getY() + 175f);
 
-        Label attackBuildingQuantity = new Label("X1", skin, "large");
+        Label attackBuildingQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getBuildings().getOrDefault(ShopBuilding.TOWER1, 0), skin, "large");
         attackBuildingQuantity.setColor(skin.getColor("black"));
         attackBuildingQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 175f);
 

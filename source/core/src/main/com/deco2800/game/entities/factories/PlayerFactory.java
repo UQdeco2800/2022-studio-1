@@ -7,7 +7,9 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.PlayerConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
@@ -64,8 +66,7 @@ public class PlayerFactory {
             .addComponent(new AnimationController())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
-            .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood
-                    , stats.weapon, stats.helmet, stats.chestplate))
+            .addComponent(new InventoryComponent(10000, stats.stone, stats.wood))
             .addComponent(inputComponent)            
             .addComponent(new PlayerStatsDisplay());
 
@@ -91,16 +92,16 @@ public class PlayerFactory {
       Memento lastStatus = CareTaker.getInstance().getLast();
       Entity player = createPlayer();
       player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
-      player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());
+      player.getComponent(CombatStatsComponent.class).setAttackMultiplier(lastStatus.getAttack());
       player.getComponent(CombatStatsComponent.class).setBaseDefense(lastStatus.getDefense());
       player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
       player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
       player.getComponent(InventoryComponent.class).setStone(lastStatus.getStone());
       player.getComponent(InventoryComponent.class).setWood(lastStatus.getWood());
       player.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
-      player.getComponent(InventoryComponent.class).setChestplate(lastStatus.getChestplate());
-      player.getComponent(InventoryComponent.class).setHelmet(lastStatus.getHelmet());
-
+      player.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
+      player.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
+      player.getComponent(InventoryComponent.class).setBuildings(lastStatus.getBuildings());
       player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
       return player;
     }

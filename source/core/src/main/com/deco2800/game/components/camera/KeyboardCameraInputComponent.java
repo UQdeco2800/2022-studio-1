@@ -48,9 +48,6 @@ public class KeyboardCameraInputComponent extends InputComponent {
                                 zoomOut = true;
                                 triggerZoomOutEvent();
                                 return true;
-                        case Keys.P:
-                                triggerToggleDebug();
-                                return true;
                         default:
                                 return false;
                 }
@@ -124,12 +121,5 @@ public class KeyboardCameraInputComponent extends InputComponent {
                 } else {
                         entity.getEvents().trigger("stopZoomOut");
                 }
-        }
-
-        /**
-         * Triggers Camera Debug mode.
-         */
-        private void triggerToggleDebug() {
-                entity.getEvents().trigger("toggleDebug");
         }
 }
