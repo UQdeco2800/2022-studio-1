@@ -142,7 +142,7 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
-        changeDisplay(AchievementType.SUMMARY);
+        changeDisplay(this.displayTable, AchievementType.SUMMARY);
 
         // Home Button
 
@@ -219,23 +219,24 @@ public class AchievementDisplay extends UIComponent {
         rootTable.clear();
     }
 
-    public void changeDisplay(AchievementType type) {
-        this.displayTable.add(new Label(type.getTitle(), skin)).colspan(5).expand();
-        this.displayTable.row();
+    public static void changeDisplay(Table displayTable, AchievementType type) {
+        displayTable.clear();
+        displayTable.add(new Label(type.getTitle(), skin)).colspan(5).expand();
+        displayTable.row();
 
         switch (type) {
             case SUMMARY:
-                this.displayTable.add(new Label("Building Achievements", skin)).colspan(5).expand();
-                this.displayTable.row();
-                this.displayTable.add(new Label("Game Achievements", skin)).colspan(5).expand();
-                this.displayTable.row();
-                this.displayTable.add(new Label("Kill Achievements", skin)).colspan(5).expand();
-                this.displayTable.row();
-                this.displayTable.add(new Label("Resource Achievements", skin)).colspan(5).expand();
-                this.displayTable.row();
-                this.displayTable.add(new Label("Upgrade Achievements", skin)).colspan(5).expand();
-                this.displayTable.row();
-                this.displayTable.add(new Label("Misc Achievements", skin)).colspan(5).expand();
+                displayTable.add(new Label("Building Achievements", skin)).colspan(5).expand();
+                displayTable.row();
+                displayTable.add(new Label("Game Achievements", skin)).colspan(5).expand();
+                displayTable.row();
+                displayTable.add(new Label("Kill Achievements", skin)).colspan(5).expand();
+                displayTable.row();
+                displayTable.add(new Label("Resource Achievements", skin)).colspan(5).expand();
+                displayTable.row();
+                displayTable.add(new Label("Upgrade Achievements", skin)).colspan(5).expand();
+                displayTable.row();
+                displayTable.add(new Label("Misc Achievements", skin)).colspan(5).expand();
                 break;
             case BUILDINGS:
                 // Display building badges
@@ -282,7 +283,7 @@ public class AchievementDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         logger.debug("{} button clicked", name);
-                        entity.getEvents().trigger(events.get(name), this);
+                        entity.getEvents().trigger(events.get(name), displayTable);
                     }
                 });
     }

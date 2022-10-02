@@ -1,5 +1,6 @@
 package com.deco2800.game.components.achievements;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.components.Component;
@@ -45,56 +46,57 @@ public class AchievementActions extends Component {
     /**
      * Loads the BuildingAchievementScreen
      */
-    private void onBuilding(AchievementDisplay display) {
+    private void onBuilding(Table displayTable) {
         logger.info("Building achievement screen");
-        display.changeDisplay(AchievementType.BUILDINGS);
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.BUILDINGS);
     }
 
     /**
      * Loads the GameAchievementScreen
      */
-    private void onGame(AchievementDisplay display) {
+    private void onGame(Table displayTable) {
         logger.info("Game achievement screen");
-        display.changeDisplay(AchievementType.SUMMARY);
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.GAME);
     }
 
     /**
      * Loads the KillAchievementScreen
      */
-    private void onKill(AchievementDisplay display) {
+    private void onKill(Table displayTable) {
         logger.info("Kill achievement screen");
-        display.changeDisplay(AchievementType.KILLS);
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.KILLS);
     }
 
     /**
      * Loads the ResourceAchievementScreen
      */
-    private void onResource(AchievementDisplay display) {
+    private void onResource(Table displayTable) {
         logger.info("Resource achievement screen");
-        display.changeDisplay(AchievementType.RESOURCES);
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.RESOURCES);
     }
 
     /**
      * Loads the UpgradeAchievementScreen
      */
-    private void onUpgrade(AchievementDisplay display) {
+    private void onUpgrade(Table displayTable) {
         logger.info("Upgrade achievement screen");
-        display.changeDisplay(AchievementType.UPGRADES);
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.UPGRADES);
     }
 
     /**
      * Loads the MiscAchievementScreen
      */
-    private void onMisc(AchievementDisplay display) {
+    private void onMisc(Table displayTable) {
         logger.info("Misc achievement screen");
-        display.changeDisplay(AchievementType.MISC);
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.MISC);
     }
 
     /**
      * Returns to the main game screen
      */
-    private void onExit(AchievementDisplay display) {
+    private void onExit(Table displayTable) {
         logger.info("Exiting achievement screens");
+        displayTable.clear();
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 }
