@@ -220,7 +220,10 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.GridPoint2</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#worldToTilePosition(float,float)" class="member-name-link">worldToTilePosition</a><wbr>(float&nbsp;x,
  float&nbsp;y)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">float x must be world position x - using camera.unproject
+ float y must be world position y - using camera.unproject</div>
+</div>
 </div>
 </div>
 </div>
@@ -282,6 +285,8 @@ loadScripts(document, 'script');</script>
 <h3>worldToTilePosition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.math.GridPoint2</span>&nbsp;<span class="element-name">worldToTilePosition</span><wbr><span class="parameters">(float&nbsp;x,
  float&nbsp;y)</span></div>
+<div class="block">float x must be world position x - using camera.unproject
+ float y must be world position y - using camera.unproject</div>
 </section>
 </li>
 <li>
