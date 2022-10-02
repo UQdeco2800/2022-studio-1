@@ -129,7 +129,7 @@ public class TerrainFactory {
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
-    return new IsometricTiledMapRenderer(tiledMap, tileScale);
+    return new IsoTileRenderer(tiledMap, tileScale);
   }
 
   /**
