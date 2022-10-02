@@ -37,6 +37,7 @@ public class TerrainFactory {
   private static ArrayList<ArrayList<GridPoint2>> spawnableTilesList; //
   private static ArrayList<ArrayList<GridPoint2>> bordersPositionList; // These data structures need to be
   private static ArrayList<ArrayList<GridPoint2>> landTilesList; // made more efficient in a later sprint
+  private static ArrayList<GridPoint2> centerPoints;
 
   private final OrthographicCamera camera;
   private final TerrainOrientation orientation;
@@ -68,6 +69,7 @@ public class TerrainFactory {
     levels = new ArrayList<>();
     spawnableTilesList = new ArrayList<>();
     landTilesList = new ArrayList<>();
+    centerPoints = new ArrayList<>();
 
     try {
       for (int i = 0; i < 5; i++) {
@@ -78,6 +80,11 @@ public class TerrainFactory {
 
         int ci;
         int y = 0;
+
+        String centerString = in.readLine();
+        String split[] = centerString.split(" ");
+
+        centerPoints.add(new GridPoint2(Integer.parseInt(split[0]), Integer.parseInt(split[1])));
 
         levelDetails.add(new ArrayList<>());
         while ((ci = in.read()) != -1) {
@@ -141,7 +148,7 @@ public class TerrainFactory {
 
     TerrainTile waterTile = loadTile("water", TileType.WATER, resourceService);
     TerrainTile sandTile = loadTile("sand", TileType.SAND, resourceService);
-    TerrainTile[] seaweedTiles = new TerrainTile[3];
+    TerrainTile seaweedTiles[] = new TerrainTile[3];
     TerrainTile shorelineTile = loadTile("shoreline", TileType.SHORELINE, resourceService);
 
     TerrainTile waterNightTile = loadTile("water_night", TileType.WATER, resourceService);
@@ -199,8 +206,8 @@ public class TerrainFactory {
     ArrayList<GridPoint2> spawnableTiles = new ArrayList<>();
     ArrayList<GridPoint2> landTiles = new ArrayList<>();
 
-    int xoff = (int) (Math.floor((map_size.x - level.size()) / 2));
-    int yoff = (int) (Math.floor((map_size.y - level.get(0).size()) / 2));
+    int xoff = (int) (Math.floor(((map_size.x / 2) - centerPoints.get(levelNum).x)));
+    int yoff = (int) (Math.floor(((map_size.y / 2) - centerPoints.get(levelNum).y)));
 
     for (int x = 0; x < level.size(); x++) {
       for (int y = 0; y < level.get(x).size(); y++) {
@@ -233,37 +240,7 @@ public class TerrainFactory {
             cell.setTile(waterTile);
         }
 
-        // // check if land bit is set
-        // if ((level.get(x).get(y) & 1) > 0) {
-
-        // landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
-
-        // // Randomly choose a land tile to use
-        // // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
-        // // - 5/8 chance for sand tile
-        // int r = (int) (Math.random() * 7);
-
-        // if (r < 3) {
-        // cell.setTile(seaweedTiles[r]);
-        // } else {
-        // cell.setTile(sandTile);
-        // }
-
-        // } else if ((level.get(x).get(y) & (1 << 1)) > 0) {
-        // check for shoreline bit
-        // cell.setTile(shorelineTile);
-        // } else {
-        // cell.setTile(waterTile);
-        // }
-
-        // layer.setCell(x + xoff + 1, y + yoff + 1, cell);
-
-        // // check to see if shoreline bit is set
-
-        // // check to see if spawnable bit is set
-        // if ((level.get(x).get(y) & (1 << 2)) > 0) {
-        // spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
-        // }
+        layer.setCell(x + xoff, y + yoff, cell);
 
       }
     }

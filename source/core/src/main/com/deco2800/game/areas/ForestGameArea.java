@@ -171,10 +171,10 @@ public class ForestGameArea extends GameArea {
     // objects are created
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
-    // this.player = spawnPlayer();
+    this.player = spawnPlayer();
 
-    // spawnNPCharacter();
-    // spawnEnvironmentalObjects();
+    spawnNPCharacter();
+    spawnEnvironmentalObjects();
 
     playMusic();
 

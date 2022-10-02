@@ -44,6 +44,10 @@ public class MapMaker extends JFrame {
 
         private JButton currentlySelected = null;
 
+        JButton centerTileButton;
+        private Coordinate centerTile = null;
+        private boolean centerTileSelected = false;
+
         private HashMap<Image, Integer> imagePathIndexMap;
 
         private String[] textures = {
@@ -58,6 +62,8 @@ public class MapMaker extends JFrame {
                         "../images/65x33_tiles/shoreline.png",
                         "../images/65x33_tiles/shoreline.png"
         };
+
+        private String centerTileTexture = "../images/65x33_tiles/sand_night.png";
 
         private JButton makeTileButton(String imagePath) {
 
@@ -78,7 +84,7 @@ public class MapMaker extends JFrame {
         }
 
         private JPanel setUpTileSelectionPanel() {
-                tileSelectionPanel = new JPanel(new GridLayout(13, 1));
+                tileSelectionPanel = new JPanel(new GridLayout(14, 1));
                 tileSelectionPanel.setSize(width / 5, height);
                 tileSelectionPanel.setVisible(true);
 
@@ -97,10 +103,31 @@ public class MapMaker extends JFrame {
                                         }
                                         button.setBorderPainted(true);
                                         currentlySelected = button;
+
+                                        if (centerTileSelected) {
+                                                centerTileSelected = false;
+                                        }
+
                                 }
                         });
                         button.setFocusable(false);
                 }
+
+                centerTileButton = makeTileButton(centerTileTexture);
+                tileSelectionPanel.add(centerTileButton);
+                centerTileButton.addActionListener(new ActionListener() {
+
+                        public void actionPerformed(ActionEvent evt) {
+
+                                if (currentlySelected != null) {
+                                        currentlySelected.setBorderPainted(false);
+                                }
+                                centerTileButton.setBorderPainted(true);
+                                currentlySelected = centerTileButton;
+                                centerTileSelected = true;
+                        }
+                });
+                centerTileButton.setFocusable(false);
 
                 JButton eraser = new JButton("Eraser");
                 eraser.addActionListener(new ActionListener() {
@@ -110,6 +137,10 @@ public class MapMaker extends JFrame {
                                         currentlySelected.setBorderPainted(false);
                                 }
                                 currentlySelected = null;
+
+                                if (centerTileSelected) {
+                                        centerTileSelected = false;
+                                }
                         }
                 });
                 eraser.setFocusable(false);
@@ -325,7 +356,19 @@ public class MapMaker extends JFrame {
                                 Image tile = ((ImageIcon) currentlySelected.getIcon()).getImage();
                                 imagePositionMap.put(new Coordinate(x, y), tile);
 
+                                if (centerTileSelected) {
+                                        if (centerTile != null) {
+                                                imagePositionMap.remove(centerTile);
+                                        }
+                                        centerTile = new Coordinate(x, y);
+                                }
+
                         } else { // Eraser is selected
+
+                                if (((ImageIcon) centerTileButton.getIcon()).getImage() == imagePositionMap
+                                                .get(new Coordinate(x, y))) {
+                                        centerTile = null;
+                                }
                                 imagePositionMap.remove(new Coordinate(x, y));
                         }
                         repaint();
@@ -355,6 +398,10 @@ public class MapMaker extends JFrame {
 
                         if (imagePositionMap.size() == 0) {
                                 JOptionPane.showMessageDialog(null, "No tiles have been placed!");
+                                return;
+                        }
+                        if (centerTile == null) {
+                                JOptionPane.showMessageDialog(null, "No center tile defined.");
                                 return;
                         }
 
@@ -403,6 +450,10 @@ public class MapMaker extends JFrame {
                         try {
                                 FileWriter writer = new FileWriter(mapFile, true);
 
+                                int centerX = centerTile.x + (-xMin);
+                                int centerY = centerTile.y + (-yMin);
+                                writer.write(centerX + " " + centerY + "\n");
+
                                 for (int x = xMin; x < xMax + 1; x++) {
                                         for (int y = yMin; y < yMax + 1; y++) {
 
@@ -410,8 +461,14 @@ public class MapMaker extends JFrame {
 
                                                 if (tileImage != null) {
 
-                                                        Integer textureIndex = imagePathIndexMap.get(tileImage);
+                                                        Integer textureIndex;
 
+                                                        if (centerTile.x == x && centerTile.y == y) {
+                                                                System.out.println(centerTile);
+                                                                textureIndex = Integer.valueOf(1);
+                                                        } else {
+                                                                textureIndex = imagePathIndexMap.get(tileImage);
+                                                        }
                                                         // 0: water
                                                         // 1: sand
                                                         // 2:
@@ -452,6 +509,30 @@ public class MapMaker extends JFrame {
                                 int byteRead;
                                 int currentY = 0;
                                 int currentX = 0;
+
+                                // read in center pos
+                                String temp = "0";
+                                int centerX = 0;
+                                int centerY = 0;
+                                while ((byteRead = stream.read()) != -1) {
+                                        if (((char) byteRead) == '\n')
+                                                break;
+                                        if (Character.isWhitespace((char) byteRead)) {
+                                                centerX = Integer.valueOf(temp);
+                                                temp = "0";
+                                                break;
+                                        }
+                                        temp += (char) byteRead;
+                                }
+
+                                while ((byteRead = stream.read()) != -1) {
+                                        if (((char) byteRead) == '\n') {
+                                                centerY = Integer.valueOf(temp);
+                                                break;
+                                        }
+                                        temp += (char) byteRead;
+                                }
+
                                 while ((byteRead = stream.read()) != -1) {
 
                                         char tileIndex = (char) byteRead;
@@ -463,6 +544,17 @@ public class MapMaker extends JFrame {
                                         }
 
                                         if (tileIndex == 'a') {
+                                                currentX++;
+                                                continue;
+                                        }
+
+                                        if (currentX == centerX && currentY == centerY) {
+                                                ImageIcon initImage = new ImageIcon(centerTileTexture);
+                                                Image image = initImage.getImage();
+                                                Image newImage = image.getScaledInstance(image.getWidth(null) * 2,
+                                                                image.getHeight(null) * 2,
+                                                                java.awt.Image.SCALE_SMOOTH);
+                                                loadedMap.put(new Coordinate(currentX, currentY), newImage);
                                                 currentX++;
                                                 continue;
                                         }
@@ -481,7 +573,9 @@ public class MapMaker extends JFrame {
 
                                 stream.close();
 
-                        } catch (IOException e) {
+                        } catch (
+
+                        IOException e) {
                                 e.printStackTrace();
                         }
 
