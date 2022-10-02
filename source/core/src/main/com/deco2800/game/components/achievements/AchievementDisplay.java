@@ -160,46 +160,46 @@ public class AchievementDisplay extends UIComponent {
         // Home Button
         ImageButton summaryButton = createButton("images/achievements/summaryIcon.png");
         this.addButtonEvent(summaryButton, "Summary");
-        navigationTable.add(summaryButton).colspan(2);
+        navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
 
         // Building Button
-        ImageButton buildingButton = createButton("images/achievements/Building_64x64_Icon.png");
+        ImageButton buildingButton = createButton("images/achievements/Building_Icon.png");
         this.addButtonEvent(buildingButton, "Building");
 
-        navigationTable.add(buildingButton);
+        navigationTable.add(buildingButton).expand();
 
         // Game Button
-        ImageButton gameButton = createButton("images/achievements/Game_64x64_Icon.png");
+        ImageButton gameButton = createButton("images/achievements/Game_Icon.png");
         this.addButtonEvent(gameButton, "Game");
 
-        navigationTable.add(gameButton);
+        navigationTable.add(gameButton).expand();
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kill_64x64_Icon.png");
+        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
         this.addButtonEvent(killButton, "Kill");
 
-        navigationTable.add(killButton);
+        navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resource_64x64_Icon.png");
+        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
         this.addButtonEvent(resourceButton, "Resource");
 
-        navigationTable.add(resourceButton);
+        navigationTable.add(resourceButton).expand();
         navigationTable.row();
 
         // Upgrade Button
-        ImageButton upgradeButton = createButton("images/achievements/Upgrade_64x64_Icon.png");
+        ImageButton upgradeButton = createButton("images/achievements/Upgrade_Icon.png");
         this.addButtonEvent(upgradeButton, "Upgrade");
 
-        navigationTable.add(upgradeButton);
+        navigationTable.add(upgradeButton).expand();
 
         // Misc Button
-        ImageButton miscButton = createButton("images/achievements/Misc_64x64_Icon.png");
+        ImageButton miscButton = createButton("images/achievements/Misc_Icon.png");
         this.addButtonEvent(miscButton, "Misc");
 
-        navigationTable.add(miscButton);
+        navigationTable.add(miscButton).expand();
 
         // Back Button
         ImageButton exitButton = createButton("images/uiElements/exports/back.png");
