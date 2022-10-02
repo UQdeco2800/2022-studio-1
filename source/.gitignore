@@ -117,5 +117,8 @@ Thumbs.db
 ## Desktop Gradle Build
 /desktop/build.gradle
 
-## Save data
+
+## Save Files
+/Saves/*
+/assets/Saves/*
 /core/assets/Saves/*
