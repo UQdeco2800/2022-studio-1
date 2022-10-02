@@ -91,7 +91,7 @@ public class PlayerActions extends Component {
     this.faceDirecetion = direction;
     moving = true;
     Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
-    walkSound.play();
+    // walkSound.play();
     this.entity.getEvents().trigger("showPrompts");
   }
 

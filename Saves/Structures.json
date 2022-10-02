@@ -3,45 +3,18 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 62.287502
-		y: -0.5625002
+		x: 58.731907
+		y: 1.2841454
 	}
-	name: "wall(63, 62)"
+	name: "wall(56, 58)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 60.8875
-		y: 0.93750036
+		x: 59.50691
+		y: 0.9591453
 	}
-	name: "wall(59, 60)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 61.875
-		y: 0.8500005
-	}
-	name: "wall(60, 61)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 62.5875
-		y: 0.16249985
-	}
-	name: "wall(62, 62)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 60.25
-		y: 1.1500006
-	}
-	name: "wall(57, 60)"
+	name: "wall(57, 59)"
 }
 ]
