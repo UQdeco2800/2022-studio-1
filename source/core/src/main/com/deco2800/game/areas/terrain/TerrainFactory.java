@@ -116,7 +116,7 @@ public class TerrainFactory {
    * @return Terrain component which renders the terrain
    */
   public TerrainComponent createTerrain(TerrainType terrainType) {
-    float tileWorldSize = 1f;
+    float tileWorldSize = 16f;
     ResourceService resourceService = ServiceLocator.getResourceService();
 
     TextureRegion water = new TextureRegion(resourceService.getAsset("images/65x33_tiles/water.png", Texture.class));
