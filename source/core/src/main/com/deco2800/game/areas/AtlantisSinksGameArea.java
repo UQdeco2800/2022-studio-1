@@ -16,8 +16,10 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -81,7 +83,10 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/Eel_Bright_NW.png",
             "images/Eel_Bright_SW.png",
             "images/shipRack.png",
-            "images/shipRackFront.png"
+            "images/shipRackFront.png",
+            "images/NpcPlaceholder.png",
+            "images/NPC convo.png",
+            "images/npc1.png"
     };
 
     private static final String[] gameSounds = { "sounds/sword_swing.mp3" };
@@ -89,6 +94,11 @@ public class AtlantisSinksGameArea extends GameArea {
     private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
     private static final String[] gameMusic = { backgroundMusic };
     private final TerrainFactory terrainFactory;
+    private int NPCNum = ServiceLocator.getNpcService().getNpcNum();
+    private static final GridPoint2[] NPC_SPAWNS = { new GridPoint2(61, 60),
+        new GridPoint2(60, 61),
+        new GridPoint2(59, 60),
+        new GridPoint2(60, 59)};
 
     public AtlantisSinksGameArea(TerrainFactory terrainFactory) {
         super();
@@ -195,6 +205,56 @@ public class AtlantisSinksGameArea extends GameArea {
         Entity wall = ObstacleFactory.createWall(1f, 0.5f);
         super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
     }
+
+    /**
+   * Spawns NPCs during the day and removes them at night.
+   * 
+   * @param partOfDay the current part of the day.
+   */
+  private void spawnNPC(DayNightCycleStatus partOfDay) {
+    int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
+    switch (partOfDay) {
+      case DAWN:
+      case DAY:
+      case DUSK:
+
+        if (NPCNum != StructuresNum) {
+          //System.out.println(NPCNum);
+          for (int i = NPCNum; i < StructuresNum; i++) {
+            // System.out.println("spawned");
+            spawnNPCharacter();
+          }
+        }
+        break;
+      case NIGHT:
+        // dispose NPCs
+        for (int i = 0; i < NPCNum; i++) {
+          Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
+          NPC.dispose();
+        }
+        NPCNum = 0;
+        ServiceLocator.getNpcService().setNpcNum(NPCNum);
+        break;
+    }
+  }
+
+  private void spawnNPCharacter() {
+    // Entity NPC = NPCFactory.createBaseNPC();
+    Entity NPC = NPCFactory.createNPC();
+    ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
+    this.entityMapping.addEntity(NPC);
+    // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
+    //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
+    // spawnEntityAt(NPC, randomPos, true, true);
+    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
+    NPCNum++;
+    ServiceLocator.getNpcService().setNpcNum(NPCNum);
+    // NPC.setPosition(terrainFactory.getMapSize().x / 3,
+    // terrainFactory.getMapSize().y / 3);
+    // ServiceLocator.getEntityService().addEntity(NPC);
+
+  }
 
     private void loadAssets() {
         logger.debug("Loading assets");

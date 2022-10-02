@@ -297,7 +297,7 @@ public class NPCFactory {
           npc.setName("NPC");
         }
         npc.setCollectable(false);
-        npc.setScale(1f, 1f);
+        npc.setScale(5f, 5f);
 
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
@@ -306,20 +306,18 @@ public class NPCFactory {
 
       public static Entity createNPC() {
         Entity NPC = createBaseNPC();
-        //NPCConfig config = configs.ArmoryNPC;
+        // NPCConfig config = configs.NPC1;
         //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
-        if (NPC.getName()=="SpecialNPC"){
-//          AnimationRenderComponent animator =
-//                  new AnimationRenderComponent(
-//                          ServiceLocator.getResourceService().getAsset("images/eel_animations/eel.atlas", TextureAtlas.class));
-//          animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
-//          animator.addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
-//          animator.addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
-//          animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
-//                      NPC.addComponent(animator)
-//                  //.addComponent(textureRenderComponent);
-//                  .addComponent(new GhostAnimationController());
-        }
+        // if (NPC.getName()=="SpecialNPC"){
+        AnimationRenderComponent animator =
+                 new AnimationRenderComponent(
+                         ServiceLocator.getResourceService().getAsset("images/npc_animations/NPC1sprite.atlas", TextureAtlas.class));
+        animator.addAnimation("fn", 0.1f, Animation.PlayMode.LOOP);
+        NPC.addComponent(animator);
+        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
+        NPC.getComponent(AnimationRenderComponent.class).startAnimation("fn");
+                //  .addComponent(textureRenderComponent);
+        // }
           return NPC;
       }
 
