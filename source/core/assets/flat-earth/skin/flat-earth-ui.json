@@ -150,8 +150,8 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 		color: color
 	}
 	tooltip-c: {
-		name: tooltip
-		color: color
+		name: textfield
+		color: black
 	}
 	touchpad-c: {
 		name: touchpad
@@ -449,8 +449,9 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 	default: {
-		label: default
+		label: {font: font}
 		background: tooltip-c
+		wrapWidth: 120
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
