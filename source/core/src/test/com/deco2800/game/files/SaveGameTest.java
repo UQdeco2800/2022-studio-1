@@ -1,6 +1,7 @@
 package com.deco2800.game.files;
 
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
@@ -23,7 +24,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
 public class SaveGameTest {
@@ -107,6 +108,8 @@ public class SaveGameTest {
             Files.deleteIfExists(Path.of(filePath + "Environmental.json"));
             Files.deleteIfExists(Path.of(filePath + "GameData.json"));
             Files.deleteIfExists(Path.of(filePath + "Structures.json"));
+            Files.deleteIfExists(Path.of(filePath + "Player.json"));
+            Files.deleteIfExists(Path.of(filePath + "Crystal.json"));
         } catch (IOException ignored) {
 
         }
@@ -130,6 +133,12 @@ public class SaveGameTest {
         ServiceLocator.registerPhysicsService(physicsService);
 
         resourceService.loadTextures(forestTextures);
+
+        //mock terrain to avoid nullpointerexception when scaling entities
+        TerrainComponent terrain = mock(TerrainComponent.class);
+        when(terrain.getTileSize()).thenReturn(1f);
+        Entity terrainEntity = new Entity().addComponent(terrain);
+        ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
         while (!resourceService.loadForMillis(10)) {
 
@@ -532,7 +541,7 @@ public class SaveGameTest {
         SaveGame.loadGameState();
 
 
-        assertEquals( 1, ServiceLocator.getEntityService().getAllNamedEntities().size());
+        assertEquals( 2, ServiceLocator.getEntityService().getAllNamedEntities().size());
     }
 
     @Test
@@ -560,6 +569,6 @@ public class SaveGameTest {
         SaveGame.loadGameState();
         System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
 
-        assertEquals( 3, ServiceLocator.getEntityService().getAllNamedEntities().size());
+        assertEquals( 4, ServiceLocator.getEntityService().getAllNamedEntities().size());
     }
 }
