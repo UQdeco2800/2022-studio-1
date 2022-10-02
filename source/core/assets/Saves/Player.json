@@ -1,15 +1,18 @@
 {
 position: {
-	x: 59.25
-	y: -0.75
+	x: 59.04475
+	y: -0.5820318
 }
 name: player
 playerState: {
 	gold: {
 		class: java.lang.Integer
-		value: 10000
+		value: 9895
 	}
-	weapon: null
+	weapon: {
+		class: com.deco2800.game.components.shop.equipments.Equipments
+		value: BOW_AND_ARROW
+	}
 	armor: null
 	defence: {
 		class: java.lang.Integer
@@ -17,11 +20,9 @@ playerState: {
 	}
 	attack: {
 		class: java.lang.Integer
-		value: 0
+		value: 3
 	}
-	buildings: {
-		class: java.util.HashMap
-	}
+	buildings: null
 	health: {
 		class: java.lang.Integer
 		value: 100
@@ -33,7 +34,20 @@ playerState: {
 	items: {
 		class: java.util.HashMap
 	}
-	equipmentList: []
+	equipmentList: [
+		{
+			class: com.deco2800.game.components.shop.equipments.Equipments
+			value: AXE
+		}
+		{
+			class: com.deco2800.game.components.shop.equipments.Equipments
+			value: SWORD
+		}
+		{
+			class: com.deco2800.game.components.shop.equipments.Equipments
+			value: BOW_AND_ARROW
+		}
+	]
 	stone: {
 		class: java.lang.Integer
 		value: 50

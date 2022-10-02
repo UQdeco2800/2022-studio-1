@@ -233,7 +233,6 @@ public class ShopBuildingDisplay extends UIComponent {
                         nextItem.setDrawable(new TextureRegionDrawable(
                                 new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
 
-                        System.out.println("Current building in display:" + current.t.toString());
                     }
                 });
 
@@ -265,7 +264,6 @@ public class ShopBuildingDisplay extends UIComponent {
                                 new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
                         nextItem.setDrawable(new TextureRegionDrawable(
                                 new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
-                        System.out.println("Current building in display:" + current.t.toString());
                     }
                 });
 
