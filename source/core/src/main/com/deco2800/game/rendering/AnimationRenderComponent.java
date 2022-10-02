@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -41,6 +42,7 @@ public class AnimationRenderComponent extends RenderComponent {
   private Animation<TextureRegion> currentAnimation;
   private String currentAnimationName;
   private float animationPlayTime;
+  private String animationName;
 
   /**
    * Create the component for a given texture atlas.
@@ -53,6 +55,14 @@ public class AnimationRenderComponent extends RenderComponent {
   }
 
   /**
+   * Returns animation name
+   * @return animation name
+   */
+  public String getAnimationName() {
+    return animationName;
+  }
+
+  /**
    * Register an animation from the texture atlas. Will play once when called with startAnimation()
    * @param name Name of the animation. Must match the name of this animation inside the texture
    *             atlas.
@@ -60,6 +70,7 @@ public class AnimationRenderComponent extends RenderComponent {
    * @return true if added successfully, false otherwise
    */
   public boolean addAnimation(String name, float frameDuration) {
+    this.animationName = name;
     return addAnimation(name, frameDuration, PlayMode.NORMAL);
   }
 
@@ -92,7 +103,8 @@ public class AnimationRenderComponent extends RenderComponent {
   /** Scale the entity to a width of 1 and a height matching the texture's ratio */
   public void scaleEntity() {
     TextureRegion defaultTexture = this.atlas.findRegion("default");
-    entity.setScale(1f, (float) defaultTexture.getRegionHeight() / defaultTexture.getRegionWidth());
+    int tileSize = (int) ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    entity.setScale((tileSize/2), (tileSize/2)*(float) defaultTexture.getRegionHeight() / defaultTexture.getRegionWidth());
   }
 
   /**

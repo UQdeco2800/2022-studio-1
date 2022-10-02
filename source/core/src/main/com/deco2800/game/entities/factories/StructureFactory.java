@@ -130,7 +130,7 @@ public static Entity createTrap() {
     //@TODO Change string constant
     String TOWER2I = "images/TOWER2I.png";
     String TOWER2II = "images/TOWER2II.png";
-    String TOWER2III = "images/TOWRER2III.png";
+    String TOWER2III = "images/TOWER2III.png";
     Entity tower2;
     BaseStructureConfig config;
 
@@ -268,6 +268,10 @@ public static Entity createTrap() {
    */
   public static void handleBuildingDestruction(String name) {
     Entity structure = ServiceLocator.getStructureService().getNamedEntity(name);
+
+    if (structure == null) {
+      return;
+    }
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
     switch(buildingHealth) {
       case 0: //Building destroyed

@@ -30,8 +30,8 @@ import java.util.HashSet;
  * and when triggered should call methods within this class.
  */
 public class PlayerActions extends Component {
-  private Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
-  private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private Vector2 MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
+  private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
 
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
@@ -92,6 +92,7 @@ public class PlayerActions extends Component {
     moving = true;
     Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
     walkSound.play();
+    this.entity.getEvents().trigger("showPrompts");
   }
 
   /**
@@ -101,6 +102,7 @@ public class PlayerActions extends Component {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
+    this.entity.getEvents().trigger("showPrompts");
   }
 
   /**
@@ -115,13 +117,14 @@ public class PlayerActions extends Component {
 
     if (null != closestEnemy) {
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
-      if (null != enemyTarget) {
+      if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
         CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
             .getComponent(CombatStatsComponent.class);
         System.out.println(enemyTarget.getHealth());
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
           closestEnemy.dispose();
+          this.entity.getEvents().trigger("enemyKill");
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
         } else {
           enemyTarget.setHealth(enemyTarget.getHealth());
@@ -132,12 +135,13 @@ public class PlayerActions extends Component {
       if (null == closestEntity.getName()) {
         return;
       }
-      if (closestEntity.isCollectable()) {
+      if (closestEntity.isCollectable() && ServiceLocator.getRangeService().playerInRangeOf(closestEntity)) {
         closestEntity.collectResources();
         closestEntity.dispose();
         PlayerStatsDisplay.updateItems();
       }
     }
+    this.entity.getEvents().trigger("showPrompts");
   }
 }
 

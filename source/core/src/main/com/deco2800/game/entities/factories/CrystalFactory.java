@@ -1,9 +1,5 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,6 +9,7 @@ import com.deco2800.game.components.*;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
@@ -73,7 +70,7 @@ public class CrystalFactory {
     public static void triggerCrystal(String texture) {
         Entity crystal = createCrystal(texture, "crystal2");
         ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
-        crystal.setPosition(new Vector2(60, 0));
+        crystal.setPosition(new Vector2(ServiceLocator.getEntityService().getNamedEntity("crystal").getPosition().x, ServiceLocator.getEntityService().getNamedEntity("crystal").getPosition().y));
     }
 
     /**
@@ -124,10 +121,14 @@ public class CrystalFactory {
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
+        Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+        float xPos = crystal.getPosition().x;
+        float yPos = crystal.getPosition().y;
+
         //System.out.println(mousePosV2);
         //crystal position x = 60.0, y = 0.0
-        if (59.8 < mousePosV2.x && mousePosV2.x < 60.2) {
-            if (-0.375 < mousePosV2.y && mousePosV2.y < 0.375) {
+        if (xPos-0.2 < mousePosV2.x && mousePosV2.x < xPos+0.2) {
+            if (yPos-0.2 < mousePosV2.y && mousePosV2.y < yPos+0.2) {
 //                crystal.getComponent(CombatStatsComponent.class).upgrade();
                 upgradeCrystal();
                 return true;
@@ -144,7 +145,12 @@ public class CrystalFactory {
         TimerTask recoverCrystal = new TimerTask() {
             @Override
             public void run() {
-                DayNightCycleStatus status =  ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                DayNightCycleStatus status;
+                if (ServiceLocator.getDayNightCycleService() != null) {
+                    status = ServiceLocator.getDayNightCycleService().getCurrentCycleStatus();
+                } else {
+                    return;
+                }
                 //System.out.println(status);
                 switch (status){
                     case DAWN:

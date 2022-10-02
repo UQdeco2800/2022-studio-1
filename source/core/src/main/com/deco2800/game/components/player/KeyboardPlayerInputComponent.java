@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
@@ -19,7 +20,7 @@ import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
-import net.dermetfan.gdx.physics.box2d.PositionController;
+
 
 import java.util.*;
 
@@ -63,25 +64,30 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.add(Vector2Utils.UP);
         entity.getEvents().trigger("ch_dir_w");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "UP");
         return true;
       case Keys.A:
         walkDirection.add(Vector2Utils.LEFT);
         entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "LEFT");
         return true;
       case Keys.S:
         walkDirection.add(Vector2Utils.DOWN);
         entity.getEvents().trigger("ch_dir_s");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "DOWN");
         return true;
       case Keys.D:
         walkDirection.add(Vector2Utils.RIGHT);
         entity.getEvents().trigger("ch_dir_d");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "RIGHT");
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
         entity.getEvents().trigger("attack_anim");
+        entity.getEvents().trigger("playerControlTut", "SPACE");
         return true;
       default:
         return false;
@@ -127,6 +133,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           structureSelect += 1;
         }
         return true;
+      case Keys.H:
+        for(int i = 0; i <=10; i++) {
+//          for(int j = 0; j<=120; j++) {
+          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,0);
+          System.out.println(pos);
+        }
+        for(int i = 0; i <=10; i++) {
+//          for(int j = 0; j<=120; j++) {
+          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,1);
+          System.out.println(pos);
+        }
+//        }
       case Keys.Y:
         if (buildState) {
           buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
@@ -156,9 +174,22 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
     CrystalFactory.crystalClicked(screenX, screenY);
     NpcService.npcClicked(screenX,screenY);
+    return true;
+  }
+
+  @Override
+  public boolean mouseMoved(int screenX, int screenY) {
+
+//    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+//    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+//    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+//    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+//    System.out.println(mousePosV2);
+//    GridPoint2 tilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+//    System.out.println(tilePos);
+
     return true;
   }
 

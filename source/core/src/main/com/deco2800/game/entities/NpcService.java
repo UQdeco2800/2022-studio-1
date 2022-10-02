@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.maingame.MainGameNpcInterface;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -161,7 +163,7 @@ public class NpcService extends EntityService {
                     //System.out.println("npc clicked");
                     //initiate conversation
                     if(NPC.getName()=="SpecialNPC") {
-                        Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true, screenX, screenY);
+                        Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true);
                         isVisible = true;
                     }
                     return true;

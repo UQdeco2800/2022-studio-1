@@ -20,6 +20,7 @@ public class storyLineInputComponent extends InputComponent {
     public boolean keyUp(int key) {
         switch (key) {
             case Input.Keys.SPACE:
+                entity.getEvents().trigger("next");
                 return true;
             case Input.Keys.S:
                 entity.getEvents().trigger("skip");

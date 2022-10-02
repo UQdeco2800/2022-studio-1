@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
 
+import java.util.logging.Logger;
+
 public class CameraActions extends Component {
         private boolean panning = false;
         private boolean playerMoving = false;
@@ -94,11 +96,11 @@ public class CameraActions extends Component {
                 OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
                 if (playerMoving) {
 
-                        Vector2 camPosition = new Vector2(camera.position.x, camera.position.y);
-                        camPosition.interpolate(playerPosition, 0.1f, Interpolation.swing);
+                        Vector2 intermediatePosition = new Vector2(camera.position.x, camera.position.y);
+                        intermediatePosition.interpolate(playerPosition, 0.1f, Interpolation.swing);
 
-                        Vector2 difference = new Vector2(camera.position.x - camPosition.x,
-                                        camera.position.y - camPosition.y);
+                        Vector2 difference = new Vector2(camera.position.x - intermediatePosition.x,
+                                        camera.position.y - intermediatePosition.y);
 
                         camera.translate(difference);
                         camera.update();

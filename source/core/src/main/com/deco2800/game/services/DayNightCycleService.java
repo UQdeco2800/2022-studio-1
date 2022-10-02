@@ -2,13 +2,10 @@ package com.deco2800.game.services;
 
 import com.badlogic.gdx.Gdx;
 import com.deco2800.game.concurrency.JobSystem;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -22,35 +19,41 @@ public class DayNightCycleService {
 
     public static final String EVENT_INTERMITTENT_PART_OF_DAY_CLOCK = "moveClock";
 
-    private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
+    private transient static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
 
-    private DayNightCycleStatus currentCycleStatus;
+    public DayNightCycleStatus currentCycleStatus;
 
-    private DayNightCycleStatus lastCycleStatus;
-    private int currentDayNumber;
-    private long currentDayMillis;
+    public DayNightCycleStatus lastCycleStatus;
 
-    private long timePaused;
+    public int currentDayNumber;
+    public long currentDayMillis;
 
-    private long totalDurationPaused;
+    public long timePaused;
 
-    private boolean isPaused;
+    public long totalDurationPaused;
 
-    private boolean isStarted;
+    public boolean isPaused;
 
-    private final DayNightCycleConfig config;
-    private final GameTime timer;
+    public boolean isStarted;
 
-    private long timeSinceLastPartOfDay;
+    public DayNightCycleConfig config;
+    public GameTime timer;
 
-    private long timePerHalveOfPartOfDay;
+    public long timeSinceLastPartOfDay;
 
-    private int partOfDayHalveIteration;
+    public long timePerHalveOfPartOfDay;
 
-    private int lastPartOfDayHalveIteration;
+    public int partOfDayHalveIteration;
 
-    private EventHandler events;
+    public int lastPartOfDayHalveIteration;
+
+    private transient EventHandler events;
+
+    /**
+     * Empty method here for save game functionality DO NOT USE
+     */
+    public DayNightCycleService() {}
 
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
         this.events = new EventHandler(); //
@@ -68,6 +71,7 @@ public class DayNightCycleService {
         this.config = config;
         this.timer = timer;
     }
+
 
     /**
      * Returns whether the current day night cycle has ended.
@@ -201,6 +205,10 @@ public class DayNightCycleService {
         this.ended = true;
     }
 
+    public void resume() {
+        this.ended = false;
+    }
+
     /**
      * Pauses the timer for the day night cycle.
      */
@@ -296,7 +304,7 @@ public class DayNightCycleService {
         Gdx.app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
         });
-        this.timeSinceLastPartOfDay = System.currentTimeMillis();
+        this.timeSinceLastPartOfDay = this.timer.getTime();
         if (nextPartOfDay == DayNightCycleStatus.NIGHT) {
             this.timePerHalveOfPartOfDay = config.nightLength / 2;
             lastPartOfDayHalveIteration = 2;
