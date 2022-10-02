@@ -1,6 +1,8 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
@@ -16,10 +18,6 @@ import com.deco2800.game.entities.factories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
@@ -385,8 +383,9 @@ public class ForestGameArea extends GameArea {
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.loadPlayer();
     ServiceLocator.getEntityService().registerNamed("player", newPlayer);
-
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(PLAYER_SPAWN.x, PLAYER_SPAWN.y);
+    ServiceLocator.getUGSService().setEntity(tileCoords, newPlayer);
     return newPlayer;
   }
 
