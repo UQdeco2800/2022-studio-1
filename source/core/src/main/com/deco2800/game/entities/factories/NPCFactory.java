@@ -7,7 +7,6 @@ import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.npc.EffectNearBy;
 import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.npc.GhostAnimationController;
@@ -32,6 +31,9 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
@@ -125,6 +127,7 @@ public class NPCFactory {
     return pirateCrabEnemy;
   }
 
+  //Kept code to change back to texture if need be
   public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
     Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
@@ -142,13 +145,13 @@ public class NPCFactory {
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
+            //.addComponent(textureRenderComponent);
             .addComponent(new GhostAnimationController());
 
-    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    //ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
+    //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-
-
     ElectricEelEnemy.setScale(1.2f, 1.2f);
 
     return ElectricEelEnemy;
@@ -207,31 +210,6 @@ public class NPCFactory {
   }
 
   /**
-   * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
-   *
-   * @return entity
-   */
-
-  private static Entity createBaseNPC(Entity target) {
-    AITaskComponent aiComponent =
-        new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
-    Entity npc =
-        new Entity()
-            .addComponent(new PhysicsComponent())
-            .addComponent(new PhysicsMovementComponent())
-            .addComponent(new ColliderComponent())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-            .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
-            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
-            .addComponent(aiComponent)
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
-    return npc;
-  }
-
-  /**
    * For luke
    * */
   // TODO: Luke make this look better and fix up NPC != enemy
@@ -280,6 +258,55 @@ public class NPCFactory {
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
     return enemy;
   }
+
+  /**
+   * Creates a generic NPC to be used as a base entity by more specific NPC creation methods.
+   *
+   * @return entity
+   */
+
+  public static Entity createBaseNPC() {
+
+    String[] NPC_textures = { "images/shipWreckBack.png",
+            "images/landscape_objects/chalice.png",
+            "images/landscape_objects/pillar.png" };
+
+    int index = (int) ((Math.random() * (NPC_textures.length)));
+
+        AITaskComponent aiComponent =
+            new AITaskComponent()
+                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+        Entity npc =
+            new Entity()
+                .addComponent(new PhysicsComponent())
+                .addComponent(new PhysicsMovementComponent())
+                .addComponent(new ColliderComponent())
+                //.addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
+                .addComponent(new TextureRenderComponent(NPC_textures[index]))
+                .addComponent(aiComponent);
+
+        if (index == 0){
+          npc.setName("SpecialNPC");
+        }else {
+          npc.setName("NPC");
+        }
+        npc.setCollectable(false);
+        npc.setScale(0.7f, 0.7f);
+
+
+    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        return npc;
+      }
+
+      public static Entity createNPC(String texture) {
+        Entity NPC = createBaseNPC();
+        //NPCConfig config = configs.ArmoryNPC;
+        //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
+        NPC.setScale(0.8f, 0.8f);
+    
+        return NPC;
+      }
 
   private NPCFactory() {
     throw new IllegalStateException("Instantiating static util class");

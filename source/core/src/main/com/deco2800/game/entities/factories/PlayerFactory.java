@@ -81,6 +81,8 @@ public class PlayerFactory {
     player.getComponent(AnimationRenderComponent.class).startAnimation("w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
     player.setScale(2.5f, 2.5f);
+//    player.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return player;
   }
 

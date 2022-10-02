@@ -20,7 +20,7 @@ public class ResourceManagementService {
     EventHandler resourceEvents = new EventHandler();
 
     public ResourceManagementService() {
-        ServiceLocator.getDayNightCycleService().getEvents().addListener("morning", this::triggerCollectEvent);
+        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::triggerCollectEvent);
     }
 
     public int getWoodBuildings() {
@@ -46,11 +46,13 @@ public class ResourceManagementService {
     /**
      * Checks if it is morning and that it's not the first day. Triggers resource collection if so
      */
-    public void triggerCollectEvent() {
+    public void triggerCollectEvent(DayNightCycleStatus partOfDay) {
         // first day check has been disabled temporarily for ease of debugging
-        if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
+        if (partOfDay == DayNightCycleStatus.DAY) {
+            if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
                 //&& ServiceLocator.getDayNightCycleService().getCurrentDayNumber() != 1) {
-            collectResources();
+                collectResources();
+            }
         }
     }
 
