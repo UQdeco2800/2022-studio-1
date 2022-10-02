@@ -25,7 +25,7 @@ public class ProjectileFactory {
 
     private static Entity makeProjectile() {
         Entity projectile = new Entity()
-                .addComponent(new TextureRenderComponent("images/ElectricEel.png"))
+                .addComponent(new TextureRenderComponent("images/eel_projectile.png"))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
