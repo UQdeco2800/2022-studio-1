@@ -44,49 +44,49 @@ public class AchievementActions extends Component {
     /**
      * Loads the BuildingAchievementScreen
      */
-    private void onBuilding() {
+    private void onBuilding(AchievementDisplay display) {
         logger.info("Building achievement screen");
     }
 
     /**
      * Loads the GameAchievementScreen
      */
-    private void onGame() {
+    private void onGame(AchievementDisplay display) {
         logger.info("Game achievement screen");
     }
 
     /**
      * Loads the KillAchievementScreen
      */
-    private void onKill() {
+    private void onKill(AchievementDisplay display) {
         logger.info("Kill achievement screen");
     }
 
     /**
      * Loads the ResourceAchievementScreen
      */
-    private void onResource() {
+    private void onResource(AchievementDisplay display) {
         logger.info("Resource achievement screen");
     }
 
     /**
      * Loads the UpgradeAchievementScreen
      */
-    private void onUpgrade() {
+    private void onUpgrade(AchievementDisplay display) {
         logger.info("Upgrade achievement screen");
     }
 
     /**
      * Loads the MiscAchievementScreen
      */
-    private void onMisc() {
+    private void onMisc(AchievementDisplay display) {
         logger.info("Misc achievement screen");
     }
 
     /**
      * Returns to the main game screen
      */
-    private void onExit() {
+    private void onExit(AchievementDisplay display) {
         logger.info("Exiting achievement screens");
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }

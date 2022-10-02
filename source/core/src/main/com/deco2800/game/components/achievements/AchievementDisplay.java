@@ -126,16 +126,16 @@ public class AchievementDisplay extends UIComponent {
         title.setAlignment(Align.center);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("Achievements/Badge_Background_2540x1033_Box.png"));
+        Texture background = new Texture(Gdx.files.internal("images/achievements/Badge_Background_2540x1033_Box.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("Achievements/Background_1664x824_Box.png")); // _1348x888
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/Background_1664x824_Box.png")); // _1348x888
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
-        Texture tabBackground = new Texture(Gdx.files.internal("Achievements/Tab_428x824_Box.png")); //
+        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_428x824_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
 
-        Texture badgeDescription = new Texture(Gdx.files.internal("Achievements/Badge_Description_1580x126_Box.png"));
+        Texture badgeDescription = new Texture(Gdx.files.internal("images/achievements/Badge_Description_1580x126_Box.png"));
         Drawable badgeDescriptionBox = new TextureRegionDrawable(badgeDescription);
 
         contentTable.setBackground(backgroundBox);
@@ -282,7 +282,7 @@ public class AchievementDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         logger.debug("{} button clicked", name);
-                        entity.getEvents().trigger(events.get(name));
+                        entity.getEvents().trigger(events.get(name), this);
                     }
                 });
     }
