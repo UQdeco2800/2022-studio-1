@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -102,6 +105,7 @@ public class GuidebookDisplay extends UIComponent {
     public Table[] getGuidebook() {
         return new Table[]{book, content, controls};
     }
+
     public Table[] displayBook() {
 
         book = new Table();
@@ -127,6 +131,26 @@ public class GuidebookDisplay extends UIComponent {
         TextureRegionDrawable upNext = new TextureRegionDrawable(nextPageTexture);
         TextureRegionDrawable downNext = new TextureRegionDrawable(nextPageTexture);
         ImageButton nextPageButton = new ImageButton(upNext, downNext);
+
+
+        nextPageButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("next page clicked");
+                        entity.getEvents().trigger("nextPage");
+                    }
+                });
+
+        backPageButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("back page clicked");
+                        entity.getEvents().trigger("backPage");
+                    }
+                });
+
 
         String labelContent = "This is just random words to fill the page\n, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :)This is just random words to fill the page, hopefully in the future it will be content for the game :)";
         int pixelsPerCharacter = 10;

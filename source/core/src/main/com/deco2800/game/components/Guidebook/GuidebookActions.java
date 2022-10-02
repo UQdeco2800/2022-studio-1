@@ -31,8 +31,21 @@ public class GuidebookActions extends Component {
     public void create() {
         entity.getEvents().addListener("exit", this::onExit);
         entity.getEvents().addListener("mainGuidebook", this::onMainGuidebook);
-        //entity.getEvents().addListener("buildGuidebook", this::onBuildGuidebook);
+        entity.getEvents().addListener("backPage", this::backPage);
+        entity.getEvents().addListener("nextPage", this::nextPage);
+
+        
     }
+    private void nextPage() {
+
+    }
+
+    private void backPage() {
+
+    }
+
+
+
 
     /**
      * Swaps to the Main game screen. updates player status before exiting the shop
@@ -65,13 +78,6 @@ public class GuidebookActions extends Component {
 
         playerStatus.add(currentStatus.saveStateToMemento());
     }
-//    /**
-//     * Swaps to the Building Guidebook screen.
-//     */
-//    private void onBuildGuidebook() {
-//        logger.info("Build Guidebook screen");
-//        game.setScreen(AtlantisSinks.ScreenType.BUILD_GUIDEBOOK);
-//    }
 
 
 
