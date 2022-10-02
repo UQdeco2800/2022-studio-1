@@ -61,6 +61,14 @@ public class RangeService {
         return radialPerimeter;
     }
 
+    public String getPlayerTile() {
+        Entity player = MainArea.getInstance().getGameArea().getPlayer();
+        Vector2 playerPos = player.getPosition();
+        GridPoint2 gPlayerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(playerPos.x, playerPos.y);
+        String key = UGS.generateCoordinate(gPlayerPos.x, gPlayerPos.y);
+        return key;
+    }
+
     //using this to test if we can get the players new tile position. Important for range.
     public void testingPurposes() {
         String location = UGS.generateCoordinate(60, 60);
@@ -93,11 +101,11 @@ public class RangeService {
         HashMap<Artefact, Integer> invent = MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems();
 
         if (invent.containsKey(Equipments.BOW_AND_ARROW)) {
-            if (ugs.contains(toCompare)) {
+            if (aroundPlayer.contains(toCompare)) {
                 inRange = true;
             }
         } else /*if (invent.containsKey(Equipments.SWORD) || invent.containsKey(Equipments.AXE) || invent.containsKey(Equipments.TRIDENT)) */{
-            if (ugs.contains(toCompare)) {
+            if (aroundPlayer.contains(toCompare)) {
                 inRange = true;
             }
         }
