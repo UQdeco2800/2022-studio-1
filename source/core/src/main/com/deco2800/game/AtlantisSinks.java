@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
+import com.deco2800.game.screens.AchievementScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,6 +118,8 @@ public class AtlantisSinks extends Game {
         return new FirstNightScreen(this);
       case STORY_LINE_EPILOGUE:
         return new EpilogueScreen(this);
+      case ACHIEVEMENT:
+        return new AchievementScreen(this);
       case MAIN_GAME_LOAD:
         return new MainGameScreen(this, true);
       default:
@@ -126,7 +129,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, MAIN_GAME_LOAD
+    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, ACHIEVEMENT, MAIN_GAME_LOAD
   }
 
   /**

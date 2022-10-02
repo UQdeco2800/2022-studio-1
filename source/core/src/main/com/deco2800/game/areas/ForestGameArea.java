@@ -151,8 +151,6 @@ public class ForestGameArea extends GameArea {
     super();
     this.loadGame = loadGame;
     this.terrainFactory = terrainFactory;
-
-
   }
 
   /**

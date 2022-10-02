@@ -3,22 +3,16 @@ package com.deco2800.game.components.maingame;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
-import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class listens to events relevant to the Main Game Screen and does
@@ -42,6 +36,7 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
     entity.getEvents().addListener("settings", this::onSettings);
+    entity.getEvents().addListener("achievement", this::onAchievements);
     entity.getEvents().addListener("save", this::onSave);
     entity.getEvents().addListener("load", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
@@ -155,4 +150,24 @@ public class MainGameActions extends Component {
     }
   }
 
+  private void onAchievements() {
+    logger.info("Exiting main game screen");
+
+    CareTaker playerStatus = CareTaker.getInstance();
+    Memento currentStatus = new Memento(playerStatus.size(),
+            player.getComponent(InventoryComponent.class).getGold(),
+            player.getComponent(InventoryComponent.class).getStone(),
+            player.getComponent(InventoryComponent.class).getWood(),
+            player.getComponent(CombatStatsComponent.class).getHealth(),
+            player.getComponent(InventoryComponent.class).getItems(),
+            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+            player.getComponent(InventoryComponent.class).getWeapon(),
+            player.getComponent(InventoryComponent.class).getChestplate(),
+            player.getComponent(InventoryComponent.class).getHelmet());
+    playerStatus.add(currentStatus);
+
+    ServiceLocator.getDayNightCycleService().pause();
+    game.setScreen(AtlantisSinks.ScreenType.ACHIEVEMENT);
+  }
 }
