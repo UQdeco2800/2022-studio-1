@@ -45,9 +45,7 @@ public class ShopActions extends Component {
         if (game.getScreenType() != AtlantisSinks.ScreenType.SHOP) {
             saveStatus();
         }
-        CareTaker.deleteAll();
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
-        SaveGame.loadGameState();
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
     /**

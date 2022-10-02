@@ -241,7 +241,6 @@ public class MainGameInterface extends UIComponent {
         bed.setSize(40f,40f);
         bed.setPosition(rightBox.getX() + 50f, rightBox.getY() + 305f);
 
-        System.out.println(MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems());
         Label bedQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.BED, 0), skin, "large");
         bedQuantity.setColor(skin.getColor("black"));
         bedQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 305f);

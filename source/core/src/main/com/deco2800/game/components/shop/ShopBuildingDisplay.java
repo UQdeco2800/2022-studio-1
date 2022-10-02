@@ -284,7 +284,6 @@ public class ShopBuildingDisplay extends UIComponent {
                             Sound rockSound = Gdx.audio.newSound(Gdx.files.internal("sounds/rock.mp3"));
                             rockSound.play();
                             buyButton.setColor(121, 15, 85, 1);
-                            System.out.println(entity.getComponent(InventoryComponent.class).getBuildings());
                         } else {
                             logger.info("Insufficient resource!");
                             Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));

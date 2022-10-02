@@ -22,6 +22,7 @@ import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -100,8 +101,8 @@ public class MainGameScreen extends ScreenAdapter {
   private final PhysicsEngine physicsEngine;
 
   public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
+
     this.game = game;
-  System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 

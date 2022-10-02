@@ -1,9 +1,7 @@
 {
 currentCycleStatus: DAWN
 lastCycleStatus: NONE
-currentDayMillis: 7470
-timePaused: 2741
-totalDurationPaused: 7440
+currentDayMillis: 5360
 isStarted: true
 config: {
 	dawnLength: 15000
@@ -13,7 +11,7 @@ config: {
 	maxDays: 4
 }
 timer: {
-	startTime: 1664590308563
+	startTime: 1664703121301
 }
-timeSinceLastPartOfDay: 23
+timeSinceLastPartOfDay: 27
 }
