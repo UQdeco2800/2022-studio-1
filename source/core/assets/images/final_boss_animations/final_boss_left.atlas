@@ -1,0 +1,75 @@
+final_boss_left.png
+size: 1895, 560
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+boss_side2_frame1
+  rotate: false
+  xy: 0, 0
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame2
+  rotate: false
+  xy: 379, 0
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame3
+  rotate: false
+  xy: 758, 0
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame4
+  rotate: false
+  xy: 1137, 0
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame5
+  rotate: false
+  xy: 1516, 0
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame6
+  rotate: false
+  xy: 0, 280
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame7
+  rotate: false
+  xy: 379, 280
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame8
+  rotate: false
+  xy: 758, 280
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame9
+  rotate: false
+  xy: 1137, 280
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2_frame10
+  rotate: false
+  xy: 1516, 280
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
