@@ -1,7 +1,12 @@
 {
 position: {
+<<<<<<< HEAD
 	x: 981.9758
 	y: 3.817852
+=======
+	x: 974.4281
+	y: 36.104538
+>>>>>>> ef82d4c404cc0054d96af0b127dde18af3095406
 }
 name: player
 playerState: {
