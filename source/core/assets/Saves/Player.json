@@ -1,7 +1,7 @@
 {
 position: {
-	x: 60.53763
-	y: -1.5463389
+	x: 965.04926
+	y: 16.753757
 }
 name: player
 playerState: {
@@ -26,7 +26,7 @@ playerState: {
 	}
 	wood: {
 		class: java.lang.Integer
-		value: 60
+		value: 50
 	}
 	items: {
 		class: java.util.HashMap
