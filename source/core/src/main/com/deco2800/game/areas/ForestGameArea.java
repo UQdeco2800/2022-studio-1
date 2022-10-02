@@ -161,7 +161,6 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getGameService().setUpEntities(120);
     ServiceLocator.getUGSService().generateUGS();
 
-
     displayUI();
 
     spawnTerrain();
@@ -175,12 +174,9 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-<<<<<<< HEAD
     spawnNPCharacter();
     spawnEnvironmentalObjects();
-=======
     spawnMeleeBoss();
->>>>>>> main
 
     if (this.loadGame) {
       SaveGame.loadGameState();
@@ -188,11 +184,11 @@ public class ForestGameArea extends GameArea {
       spawnEnvironmentalObjects();
     }
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
-            this::dayChange);
+        this::dayChange);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-            this::spawnSetEnemies);
+        this::spawnSetEnemies);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-            this::spawnNPC);
+        this::spawnNPC);
 
     playMusic();
   }
