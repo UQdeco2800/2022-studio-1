@@ -124,7 +124,7 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas"
+      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas"
   };
 
   // Sound effect files
@@ -151,8 +151,6 @@ public class ForestGameArea extends GameArea {
     super();
     this.loadGame = loadGame;
     this.terrainFactory = terrainFactory;
-
-
   }
 
   /**
@@ -179,6 +177,8 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
+
+    spawnMeleeBoss();
 
     if (this.loadGame) {
       SaveGame.loadGameState();
