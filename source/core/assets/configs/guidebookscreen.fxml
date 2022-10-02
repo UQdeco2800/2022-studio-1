@@ -31,8 +31,8 @@
     <pageOne>
         <header>How to Play</header>
         <body>
-            Protect the crystal from the sea enemies by using your character to source materials and currency to create weaponry and buildings that attack. Use the day to build up your defences and prepare for the havoc of the night.
-            The game is won when all 4  night cycles, which includes the big boss level, are beaten.
+            Protect the crystal from the sea enemies by using your character to source materials and currency to create weaponry and buildings that attack and defend. Use the day to build up your defences and prepare for the havoc of the night.
+            The game is won when all 4-night cycles, which includes the big boss level, are beaten.
             The game is lost when the crystal has lost all health.
         </body>
     </pageOne>
@@ -41,7 +41,7 @@
         <header>Crystal</header>
         <body>
             The crystal must be protected at all costs. The health of the crystal rises with the help of upgrades found in the shop and durations of time without being attacked and falls with the exposure to enemies. You can track the crystal health with the crystal health status bar.
-            Tip: build your defences in the optimal positions to beat the enemies.
+            Tip: build your defences in the best positions to beat the enemies.
         </body>
     </pageTwo>
 
@@ -56,7 +56,8 @@
 
     <pageFour>
         <header>Day and Night Cycles</header>
-        <body>There are 4 days and 4 nights.
+        <body>
+            There are 4 days and 4 nights.
             The daytime cycle is when to prepare for the night by building up forces and the night is where the battle begins against the enemies.
             Survive the night cycles to progress through the game.
         </body>
@@ -64,27 +65,33 @@
 
     <pageFive>
         <header>Enemies</header>
-        <body>At night the enemies will attack the main character and the crystal. To attack the enemies press spacebar. On the final night cycle, beat the big boss to win the game.
-            Pirate Crab: [Add what enemy does]
+        <body>
+            At night, the enemies will attack the main character and the crystal.
+            To attack the enemies press spacebar.
+            On the final night cycle, beat the big boss to win the game.
+            Pirate Crab: Attacks from melee distance. Will pursue the crystal and attack in their path.
             Electric Eel: Shoots electric projectiles from a distance. Targets characters, buildings and the crystal.
-            Ninja Starfish: Shoots [Add what enemy does]
-            Final Boss:  [Add what enemy does]
+            Ninja Starfish: Shoots projectiles from a distance. Targets characters, buildings and the crystal.
+            Final Boss: Has increased health, and an area of effect on nearby melee enemies which increases difficulty.
+
         </body>
     </pageFive>
 
     <pageSix>
         <header>Type of Buildings</header>
         <body>
-            There are a variety of buildings with different attacking and protection measures. All buildings are purchased from the shop and once in play can be upgraded by clicking on the building pop-up.
-            Building 1: [insert what building does]
-            Building 2:  [insert what building does]
+            There are a variety of buildings with different attacking and protection measures. All buildings are bought from the shop and once in play can be upgraded by clicking on the building pop-up.
+            Building Type 1 - Ranged: Overall, there are six different Towers. Towers 1-4 are true towers (each with two levels). The Trojan Horse and Turret Towers additionally cause damage, though have no levels or height. All Towers actively create damage when an enemy comes into a predetermined tile range.
+            Building Type 2 - Trap: Traps cause damage to enemies when walked over. There are three different traps: Spike Trap, Marble Trap, and Claw Trap.
+            Building Type 3 - Obstacle: Obstacles hinder the enemies from moving efficiently with the ultimate purpose of slowing them down in their attack. There are four different obstacles: Wooden Fence, Brick Wall, House, and Temple. Walls and fences can be placed as protection measures to restrict access to parts of land whilst the House and Temple are used to distract and protect enemies from other priority elements in the game.
         </body>
     </pageSix>
 
     <pageSeven>
         <header>Resource Buildings</header>
-        <body>The Stone Quarry and Wood Cutter buildings are used to generate resources for further building upgrades.
-            Resource buildings can be purchased in the shop.
+        <body>
+            The Stone Quarry and Wood Cutter buildings are used to generate resources for further building upgrades.
+            Resource buildings can be bought in the shop.
             The Stone Quarry costs 50 wood to place and will generate 100 stone each morning.
             The Wood Cutter costs 50 stone to place and will generate 100 wood each morning.
         </body>
@@ -92,26 +99,28 @@
 
     <pageEight>
         <header>Currency</header>
-        <body>There are 3 types of currency: coins, wood, and stones.
-            The coins are used in the shop, wood is used for [insert what wood is used for] and stones are used for [insert what stones are used for].
+        <body>
+            There are 3 types of currency: coins, wood, and stones.
+            The coins are used in the shop, wood and stones are used for buying buildings.
         </body>
     </pageEight>
 
     <pageNine>
         <header>Shop</header>
         <body>
-            The shop is where you can buy items that help better your chances against the enemies. Use coins to purchase goods.
+            The shop is where you can buy items that help better your chances against the enemies. Use coins to buy goods.
             Items and buildings can be bought from the shop, once bought, it will be added into the player’s inventory.
             Go back to the game screen and open the inventory to access the items that the player just bought.
-            There are three types of shop available, Building, Equipment and Artefact.
-            Buildings can be bought to help defend and attack the enemy, Equipment can be bought to enhance the player’s attack and defence ability, when a new equipment is bought, it will be equipped automatically, to disarm/change the equipment, go to the inventory page to access the other equipment.
-            Artefact are miscellaneous items that can assist the player in terms of boosting their stat.
+            There are three types of shop available, Building, Equipment and Artefact. Buildings can be bought to help defend and attack the enemy.
+            Equipment can be bought to enhance the player’s attack and defence ability, when new equipment is bought, it will be equipped automatically, to disarm/change the equipment, go to the inventory page to access the other equipment.
+            Artefacts are miscellaneous items that can aid the player in terms of boosting their stat.
         </body>
     </pageNine>
 
     <pageTen>
         <header>Inventory</header>
-        <body>The inventory stores items bought in the shop.
+        <body>
+            The inventory stores items bought in the shop.
             You can click on items to apply them into the game.
         </body>
     </pageTen>
@@ -119,7 +128,8 @@
     <pageEleven>
         <header>Achievements</header>
         <body>
-            You can go to achievements from the game’s main menu to see which achievements you’ve achieved and then browse around to see the others you could achieve in the future.
+            You can go to achievements from the achievement icon in the bottom left corner of the screen to see which achievements you’ve achieved and then browse around to see the others you could achieve in the future.
+            Achievements can be completed across multiple games and give you goals to work towards and inspire you to try different things.
         </body>
     </pageEleven>
 </AnchorPane>
