@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.Page;
 import com.deco2800.game.ui.UIComponent;
@@ -142,6 +145,24 @@ public class GuidebookDisplay extends UIComponent {
 
         String leftPageContent = pages[currentPage].content;
         String rightPageContent = pages[currentPage + 1].content;
+
+        nextPageButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("next page clicked");
+                        entity.getEvents().trigger("nextPage");
+                    }
+                });
+
+        backPageButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.debug("back page clicked");
+                        entity.getEvents().trigger("backPage");
+                    }
+                });
 
         int pixelsPerCharacter = 10;
         int charactersPerLine = (int) (0.7 * 0.5 * bookWidth / pixelsPerCharacter);
