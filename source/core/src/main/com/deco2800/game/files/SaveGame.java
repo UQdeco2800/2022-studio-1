@@ -256,7 +256,7 @@ public class SaveGame {
         if (player == null) {
             return;
         }
-        // save player status - look at CareTaker & Memento which would for sure be the more elegant way to do this
+        // save player status - look at CareTaker and Memento which would for sure be the more elegant way to do this
         // in sprint 4, but I don't want to mess with that code this sprint to avoid conflicts
         HashMap<String, Object> status = new HashMap();
         status.put("gold", player.getComponent(InventoryComponent.class).getGold());
