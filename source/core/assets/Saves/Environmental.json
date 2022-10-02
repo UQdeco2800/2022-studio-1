@@ -1,38 +1,10 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
+	texture: images/landscape_objects/marble-stone-60x40.png
 	position: {
-		x: 992
-		y: 19.96923
+		x: 5
+		y: 5
 	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 920
-		y: -0.030769348
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/chalice.png
-	position: {
-		x: 992
-		y: 26
-	}
-	name: Chalice
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 1000
-		y: -0.030769348
-	}
-	name: Shell
 }
 ]
