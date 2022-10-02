@@ -219,7 +219,7 @@ public class AchievementDisplay extends UIComponent {
         rootTable.add(contentTable).colspan(8).expand();
 
         stage.addActor(rootTable);
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
     }
 
     @Override
