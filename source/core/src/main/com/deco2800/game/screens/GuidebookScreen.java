@@ -59,7 +59,7 @@ public class GuidebookScreen extends ScreenAdapter {
     private final Renderer renderer;
 
     public static Page[] guideBookJSON;
-    private Table guidebook;
+    private Table[] guidebook;
 
     private final long delay = 5000000000L;
     private long currentTime;
@@ -108,7 +108,12 @@ public class GuidebookScreen extends ScreenAdapter {
             return;
         }
         renderer.resize(width, height);
-        guidebook.remove();
+        for (Table table: guidebook) {
+            if (table == null) {
+                continue;
+            }
+            table.remove();
+        }
         guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
@@ -182,6 +187,6 @@ public class GuidebookScreen extends ScreenAdapter {
             return;
         }
         Page[] pages = gson.fromJson((Reader) buffer, Page[].class);
-        System.out.println(pages[0].content);
+        System.out.println(pages[1].content);
     }
 }

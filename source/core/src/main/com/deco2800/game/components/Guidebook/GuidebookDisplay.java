@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -20,6 +21,8 @@ public class GuidebookDisplay extends UIComponent {
 
     private Table content;
     private Table book;
+
+    private Table controls;
 
 
 
@@ -96,10 +99,10 @@ public class GuidebookDisplay extends UIComponent {
 //        stage.addActor(bookContainer);
     }
 
-    public Table getGuidebook() {
-        return content;
+    public Table[] getGuidebook() {
+        return new Table[]{book, content, controls};
     }
-    public Table displayBook() {
+    public Table[] displayBook() {
 
         book = new Table();
         book.setFillParent(true);
@@ -114,6 +117,16 @@ public class GuidebookDisplay extends UIComponent {
         float pageHeight = 0.8f * bookHeight;
 
         Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
+
+        Texture backPageTexture = new Texture(Gdx.files.internal("images/back_page.png"));
+        TextureRegionDrawable upBack = new TextureRegionDrawable(backPageTexture);
+        TextureRegionDrawable downBack = new TextureRegionDrawable(backPageTexture);
+        ImageButton backPageButton = new ImageButton(upBack, downBack);
+
+        Texture nextPageTexture = new Texture(Gdx.files.internal("images/next_page.png"));
+        TextureRegionDrawable upNext = new TextureRegionDrawable(nextPageTexture);
+        TextureRegionDrawable downNext = new TextureRegionDrawable(nextPageTexture);
+        ImageButton nextPageButton = new ImageButton(upNext, downNext);
 
         String labelContent = "This is just random words to fill the page\n, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :)This is just random words to fill the page, hopefully in the future it will be content for the game :)";
         int pixelsPerCharacter = 10;
@@ -130,6 +143,10 @@ public class GuidebookDisplay extends UIComponent {
         content.setSize(bookWidth, pageHeight);
         content.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
 
+        controls = new Table();
+        controls.setSize(bookWidth, pageHeight);
+        controls.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
+
         Table leftPage = new Table();
         leftPage.debug();
         leftPage.setSize(0.5f * bookWidth, bookHeight);
@@ -144,12 +161,15 @@ public class GuidebookDisplay extends UIComponent {
         content.add(leftPage);
         content.add(rightPage);
 
-        book.add(bookImage).center().size(bookWidth, bookHeight);
+        book.add(bookImage).expandX().expandY().center().size(bookWidth, bookHeight);
+        controls.add(backPageButton).expandX().expandY().bottom().left().size(0.05f * bookWidth).padLeft(0.07f * bookWidth);
+        controls.add(nextPageButton).expandX().expandY().bottom().right().size(0.05f * bookWidth).padRight(0.07f * bookWidth);
 
         stage.addActor(book);
         stage.addActor(content);
+        stage.addActor(controls);
 
-        return content;
+        return new Table[]{book, content, controls};
     }
 
 //    public Table openBook() {
