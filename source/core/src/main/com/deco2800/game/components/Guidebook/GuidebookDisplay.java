@@ -4,22 +4,12 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.deco2800.game.components.shop.ShopBuildingDisplay;
-import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.Array;
-import java.util.ArrayList;
 
 
 public class GuidebookDisplay extends UIComponent {
@@ -28,7 +18,8 @@ public class GuidebookDisplay extends UIComponent {
 
     public static boolean isClosed = true;
 
-    private Table bookContainer;
+    private Table content;
+    private Table book;
 
 
 
@@ -106,15 +97,11 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     public Table getGuidebook() {
-        return bookContainer;
+        return content;
     }
     public Table displayBook() {
 
-        bookContainer = new Table();
-        bookContainer.setFillParent(true);
-        bookContainer.center();
-
-        Table book = new Table();
+        book = new Table();
         book.setFillParent(true);
         book.center();
 
@@ -138,10 +125,10 @@ public class GuidebookDisplay extends UIComponent {
         leftContent.setAlignment(Align.topLeft);
         rightContent.setAlignment(Align.topLeft);
 
-        Table page1 = new Table();
-        page1.debug();
-        page1.setSize(bookWidth, pageHeight);
-        page1.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
+        content = new Table();
+        content.debug();
+        content.setSize(bookWidth, pageHeight);
+        content.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
 
         Table leftPage = new Table();
         leftPage.debug();
@@ -153,42 +140,41 @@ public class GuidebookDisplay extends UIComponent {
         rightPage.setSize(0.5f * bookWidth, bookHeight);
         rightPage.add(rightContent).expandX().fillX().expandY().fillY().top().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
 
-        page1.row().fillX().expandX().fillY().expandY();
-        page1.add(leftPage);
-        page1.add(rightPage);
+        content.row().fillX().expandX().fillY().expandY();
+        content.add(leftPage);
+        content.add(rightPage);
 
         book.add(bookImage).center().size(bookWidth, bookHeight);
 
-        bookContainer.stack(book, page1.padTop(50f).padBottom(80f));
+        stage.addActor(book);
+        stage.addActor(content);
 
-        stage.addActor(bookContainer);
-
-        return bookContainer;
+        return content;
     }
 
-    public Table openBook() {
-        bookContainer = new Table();
-        bookContainer.setFillParent(true);
-        bookContainer.center();
-
-        Table book = new Table();
-        book.setFillParent(true);
-        book.center();
-
-        float screenHeight = Gdx.graphics.getHeight();
-
-        float bookHeight = screenHeight * 0.8f;
-        float bookWidth = bookHeight * 0.809f;
-
-        Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-cover.png", Texture.class));
-
-        book.add(bookImage).center().size(bookWidth, bookHeight);
-        bookContainer.add(book).center();
-
-        stage.addActor(bookContainer);
-
-        return bookContainer;
-    }
+//    public Table openBook() {
+//        bookContainer = new Table();
+//        bookContainer.setFillParent(true);
+//        bookContainer.center();
+//
+//        Table book = new Table();
+//        book.setFillParent(true);
+//        book.center();
+//
+//        float screenHeight = Gdx.graphics.getHeight();
+//
+//        float bookHeight = screenHeight * 0.8f;
+//        float bookWidth = bookHeight * 0.809f;
+//
+//        Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-cover.png", Texture.class));
+//
+//        book.add(bookImage).center().size(bookWidth, bookHeight);
+//        bookContainer.add(book).center();
+//
+//        stage.addActor(bookContainer);
+//
+//        return bookContainer;
+//    }
 
     public String format(String labelContent, int numberPerLine) {
         StringBuilder formattedString = new StringBuilder();

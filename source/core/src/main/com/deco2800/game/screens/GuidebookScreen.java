@@ -1,7 +1,9 @@
 package com.deco2800.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.deco2800.game.areas.GuidebookArea;
 import com.deco2800.game.components.DayNightClockComponent;
@@ -15,7 +17,10 @@ import com.deco2800.game.components.maingame.MainGameInterface;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.settingsmenu.MusicSettings;
 import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
+import com.deco2800.game.entities.configs.StructureConfig;
+import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.memento.Memento;
+import com.deco2800.game.services.configs.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +44,21 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
+import com.google.gson.Gson;
+
+import java.io.*;
+import java.nio.Buffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 public class GuidebookScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
+    public static Page[] guideBookJSON;
     private Table guidebook;
 
     private final long delay = 5000000000L;
@@ -58,6 +72,7 @@ public class GuidebookScreen extends ScreenAdapter {
     };
 
     public GuidebookScreen(AtlantisSinks game) {
+
         this.game = game;
 
         currentTime = TimeUtils.nanoTime();
@@ -153,5 +168,20 @@ public class GuidebookScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().registerNamed("guidebook", ui);
 
         guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+
+        parse();
+    }
+
+    private void parse() {
+        Gson gson = new Gson();
+        BufferedReader buffer = null;
+        try {
+            buffer = Files.newBufferedReader(Paths.get("configs/guidebookcontent.json"));
+        } catch (IOException e) {
+            System.out.println("File not valid");
+            return;
+        }
+        Page[] pages = gson.fromJson((Reader) buffer, Page[].class);
+        System.out.println(pages[0].content);
     }
 }

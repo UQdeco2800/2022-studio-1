@@ -1,52 +1,62 @@
-{
-  "Guidebook": {
-    "tableOfContents": {
-      "header": "Table of Contents",
-      "body": "Page 1 - How to Play\n        Page 2 - Crystal\n        Page 3 - Main Character\n        Page 4 - Day and Night Cycles\n        Page 5 - Enemies\n        Page 6 - Types of Buildings\n        Page 7 - Resource Buildings\n        Page 8 – Currency\n        Page 9 – Shop\n        Page 10 – Inventory\n        Page 11 - Achievements"
-    },
-    "pageOne": {
-      "header": "How to Play",
-      "body": "Protect the crystal from the sea enemies by using your character to source materials and currency to create weaponry and buildings that attack and defend. Use the day to build up your defences and prepare for the havoc of the night.\n            The game is won when all 4-night cycles, which includes the big boss level, are beaten.\n            The game is lost when the crystal has lost all health."
-    },
-    "pageTwo": {
-      "header": "Crystal",
-      "body": "The crystal must be protected at all costs. The health of the crystal rises with the help of upgrades found in the shop and durations of time without being attacked and falls with the exposure to enemies. You can track the crystal health with the crystal health status bar.\n            Tip: build your defences in the best positions to beat the enemies."
-    },
-    "pageThree": {
-      "header": "Main Character",
-      "body": "Use your character to source materials and fight enemies.\n            By pressing the spacebar the player can attack whatever is closest to them and gain resources for killing/mining.\n            Note the main character has infinite lives."
-    },
-    "pageFour": {
-      "header": "Day and Night Cycles",
-      "body": "There are 4 days and 4 nights.\n            The daytime cycle is when to prepare for the night by building up forces and the night is where the battle begins against the enemies.\n            Survive the night cycles to progress through the game."
-    },
-    "pageFive": {
-      "header": "Enemies",
-      "body": "At night, the enemies will attack the main character and the crystal.\n            To attack the enemies press spacebar.\n            On the final night cycle, beat the big boss to win the game.\n            Pirate Crab: Attacks from melee distance. Will pursue the crystal and attack in their path.\n            Electric Eel: Shoots electric projectiles from a distance. Targets characters, buildings and the crystal.\n            Ninja Starfish: Shoots projectiles from a distance. Targets characters, buildings and the crystal.\n            Final Boss: Has increased health, and an area of effect on nearby melee enemies which increases difficulty."
-    },
-    "pageSix": {
-      "header": "Type of Buildings",
-      "body": "There are a variety of buildings with different attacking and protection measures. All buildings are bought from the shop and once in play can be upgraded by clicking on the building pop-up.\n            Building Type 1 - Ranged: Overall, there are six different Towers. Towers 1-4 are true towers (each with two levels). The Trojan Horse and Turret Towers additionally cause damage, though have no levels or height. All Towers actively create damage when an enemy comes into a predetermined tile range.\n            Building Type 2 - Trap: Traps cause damage to enemies when walked over. There are three different traps: Spike Trap, Marble Trap, and Claw Trap.\n            Building Type 3 - Obstacle: Obstacles hinder the enemies from moving efficiently with the ultimate purpose of slowing them down in their attack. There are four different obstacles: Wooden Fence, Brick Wall, House, and Temple. Walls and fences can be placed as protection measures to restrict access to parts of land whilst the House and Temple are used to distract and protect enemies from other priority elements in the game."
-    },
-    "pageSeven": {
-      "header": "Resource Buildings",
-      "body": "The Stone Quarry and Wood Cutter buildings are used to generate resources for further building upgrades.\n            Resource buildings can be bought in the shop.\n            The Stone Quarry costs 50 wood to place and will generate 100 stone each morning.\n            The Wood Cutter costs 50 stone to place and will generate 100 wood each morning."
-    },
-    "pageEight": {
-      "header": "Currency",
-      "body": "There are 3 types of currency: coins, wood, and stones.\n            The coins are used in the shop, wood and stones are used for buying buildings."
-    },
-    "pageNine": {
-      "header": "Shop",
-      "body": "The shop is where you can buy items that help better your chances against the enemies. Use coins to buy goods.\n            Items and buildings can be bought from the shop, once bought, it will be added into the player’s inventory.\n            Go back to the game screen and open the inventory to access the items that the player just bought.\n            There are three types of shop available, Building, Equipment and Artefact. Buildings can be bought to help defend and attack the enemy.\n            Equipment can be bought to enhance the player’s attack and defence ability, when new equipment is bought, it will be equipped automatically, to disarm/change the equipment, go to the inventory page to access the other equipment.\n            Artefacts are miscellaneous items that can aid the player in terms of boosting their stat."
-    },
-    "pageTen": {
-      "header": "Inventory",
-      "body": "The inventory stores items bought in the shop.\n            You can click on items to apply them into the game."
-    },
-    "pageEleven": {
-      "header": "Achievements",
-      "body": "You can go to achievements from the achievement\n            icon in the bottom left corner of the screen to see which achievements you’ve achieved and then browse around to see the others you could achieve in the future.\n            Achievements can be completed across multiple games and give you goals to work towards and inspire you to try different things."
-    }
+[
+  {
+    "pageNumber": 0,
+    "header": "Table of Contents",
+    "content": "Page 1 - How to Play\n        Page 2 - Crystal\n        Page 3 - Main Character\n        Page 4 - Day and Night Cycles\n        Page 5 - Enemies\n        Page 6 - Types of Buildings\n        Page 7 - Resource Buildings\n        Page 8 – Currency\n        Page 9 – Shop\n        Page 10 – Inventory\n        Page 11 - Achievements"
+  },
+  {
+    "pageNumber": 1,
+    "header": "How to Play",
+    "content": "Protect the crystal from the sea enemies by using your character to source materials and currency to create weaponry and buildings that attack and defend. Use the day to build up your defences and prepare for the havoc of the night.\n            The game is won when all 4-night cycles, which includes the big boss level, are beaten.\n            The game is lost when the crystal has lost all health."
+  },
+  {
+    "pageNumber": 2,
+    "header": "Crystal",
+    "content": "The crystal must be protected at all costs. The health of the crystal rises with the help of upgrades found in the shop and durations of time without being attacked and falls with the exposure to enemies. You can track the crystal health with the crystal health status bar.\n            Tip: build your defences in the best positions to beat the enemies."
+  },
+  {
+    "pageNumber": 3,
+    "header": "Main Character",
+    "content": "Use your character to source materials and fight enemies.\n            By pressing the spacebar the player can attack whatever is closest to them and gain resources for killing/mining.\n            Note the main character has infinite lives."
+  },
+  {
+    "pageNumber": 4,
+    "header": "Day and Night Cycles",
+    "content": "There are 4 days and 4 nights.\n            The daytime cycle is when to prepare for the night by building up forces and the night is where the battle begins against the enemies.\n            Survive the night cycles to progress through the game."
+  },
+  {
+    "pageNumber": 5,
+    "header": "Enemies",
+    "content": "At night, the enemies will attack the main character and the crystal.\n            To attack the enemies press spacebar.\n            On the final night cycle, beat the big boss to win the game.\n            Pirate Crab: Attacks from melee distance. Will pursue the crystal and attack in their path.\n            Electric Eel: Shoots electric projectiles from a distance. Targets characters, buildings and the crystal.\n            Ninja Starfish: Shoots projectiles from a distance. Targets characters, buildings and the crystal.\n            Final Boss: Has increased health, and an area of effect on nearby melee enemies which increases difficulty."
+  },
+  {
+    "pageNumber": 6,
+    "header": "Type of Buildings",
+    "content": "There are a variety of buildings with different attacking and protection measures. All buildings are bought from the shop and once in play can be upgraded by clicking on the building pop-up.\n            Building Type 1 - Ranged: Overall, there are six different Towers. Towers 1-4 are true towers (each with two levels). The Trojan Horse and Turret Towers additionally cause damage, though have no levels or height. All Towers actively create damage when an enemy comes into a predetermined tile range.\n            Building Type 2 - Trap: Traps cause damage to enemies when walked over. There are three different traps: Spike Trap, Marble Trap, and Claw Trap.\n            Building Type 3 - Obstacle: Obstacles hinder the enemies from moving efficiently with the ultimate purpose of slowing them down in their attack. There are four different obstacles: Wooden Fence, Brick Wall, House, and Temple. Walls and fences can be placed as protection measures to restrict access to parts of land whilst the House and Temple are used to distract and protect enemies from other priority elements in the game."
+  },
+  {
+    "pageNumber": 7,
+    "header": "Resource Buildings",
+    "content": "The Stone Quarry and Wood Cutter buildings are used to generate resources for further building upgrades.\n            Resource buildings can be bought in the shop.\n            The Stone Quarry costs 50 wood to place and will generate 100 stone each morning.\n            The Wood Cutter costs 50 stone to place and will generate 100 wood each morning."
+  },
+  {
+    "pageNumber": 8,
+    "header": "Currency",
+    "content": "There are 3 types of currency: coins, wood, and stones.\n            The coins are used in the shop, wood and stones are used for buying buildings."
+  },
+  {
+    "pageNumber": 9,
+    "header": "Shop",
+    "content": "The shop is where you can buy items that help better your chances against the enemies. Use coins to buy goods.\n            Items and buildings can be bought from the shop, once bought, it will be added into the player’s inventory.\n            Go back to the game screen and open the inventory to access the items that the player just bought.\n            There are three types of shop available, Building, Equipment and Artefact. Buildings can be bought to help defend and attack the enemy.\n            Equipment can be bought to enhance the player’s attack and defence ability, when new equipment is bought, it will be equipped automatically, to disarm/change the equipment, go to the inventory page to access the other equipment.\n            Artefacts are miscellaneous items that can aid the player in terms of boosting their stat."
+  },
+  {
+    "pageNumber": 10,
+    "header": "Inventory",
+    "content": "The inventory stores items bought in the shop.\n            You can click on items to apply them into the game."
+  },
+  {
+    "pageNumber": 11,
+    "header": "Achievements",
+    "content": "You can go to achievements from the achievement\n            icon in the bottom left corner of the screen to see which achievements you’ve achieved and then browse around to see the others you could achieve in the future.\n            Achievements can be completed across multiple games and give you goals to work towards and inspire you to try different things."
   }
-}
+]
