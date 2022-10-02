@@ -36,7 +36,7 @@ import java.util.Map;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(61, 60);
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
   private static final int MAX_ENVIRONMENTAL_OBJECTS = 7;
@@ -398,7 +398,8 @@ public class ForestGameArea extends GameArea {
     crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
-
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(x_pos, y_pos);
+    ServiceLocator.getUGSService().setEntity(tileCoords, crystal);
     return crystal;
   }
 
