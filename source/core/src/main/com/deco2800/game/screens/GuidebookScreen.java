@@ -57,8 +57,6 @@ public class GuidebookScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
-
-    public static Page[] guideBookJSON;
     private Table[] guidebook;
 
     private final long delay = 5000000000L;
@@ -173,20 +171,5 @@ public class GuidebookScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().registerNamed("guidebook", ui);
 
         guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
-
-        parse();
-    }
-
-    private void parse() {
-        Gson gson = new Gson();
-        BufferedReader buffer = null;
-        try {
-            buffer = Files.newBufferedReader(Paths.get("configs/guidebookcontent.json"));
-        } catch (IOException e) {
-            System.out.println("File not valid");
-            return;
-        }
-        Page[] pages = gson.fromJson((Reader) buffer, Page[].class);
-        System.out.println(pages[1].content);
     }
 }

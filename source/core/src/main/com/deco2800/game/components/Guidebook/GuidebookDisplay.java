@@ -8,9 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.services.configs.Page;
 import com.deco2800.game.ui.UIComponent;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class GuidebookDisplay extends UIComponent {
@@ -24,7 +32,10 @@ public class GuidebookDisplay extends UIComponent {
 
     private Table controls;
 
+    private static final Page[] pages = parseGuidebookContentJson();
+    public static final int maxPages = pages.length;
 
+    public static int currentPage = 0;
 
     @Override
     public void create() {
@@ -102,6 +113,7 @@ public class GuidebookDisplay extends UIComponent {
     public Table[] getGuidebook() {
         return new Table[]{book, content, controls};
     }
+
     public Table[] displayBook() {
 
         book = new Table();
@@ -128,12 +140,15 @@ public class GuidebookDisplay extends UIComponent {
         TextureRegionDrawable downNext = new TextureRegionDrawable(nextPageTexture);
         ImageButton nextPageButton = new ImageButton(upNext, downNext);
 
-        String labelContent = "This is just random words to fill the page\n, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :)This is just random words to fill the page, hopefully in the future it will be content for the game :)";
+        String leftPageContent = pages[currentPage].content;
+        String rightPageContent = pages[currentPage + 1].content;
+
         int pixelsPerCharacter = 10;
         int charactersPerLine = (int) (0.7 * 0.5 * bookWidth / pixelsPerCharacter);
-        labelContent = format(labelContent, charactersPerLine);
-        Label leftContent = new Label(labelContent, skin, "small");
-        Label rightContent = new Label(labelContent, skin, "small");
+        leftPageContent = format(leftPageContent, charactersPerLine);
+        rightPageContent = format(rightPageContent, charactersPerLine);
+        Label leftContent = new Label(leftPageContent, skin, "small");
+        Label rightContent = new Label(rightPageContent, skin, "small");
 
         leftContent.setAlignment(Align.topLeft);
         rightContent.setAlignment(Align.topLeft);
@@ -150,16 +165,16 @@ public class GuidebookDisplay extends UIComponent {
         Table leftPage = new Table();
         leftPage.debug();
         leftPage.setSize(0.5f * bookWidth, bookHeight);
-        leftPage.add(leftContent).expandX().fillX().expandY().fillY().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
+        leftPage.add(leftContent).expandX().fillX().expandY().fillY();
 
         Table rightPage = new Table();
         rightPage.debug();
         rightPage.setSize(0.5f * bookWidth, bookHeight);
-        rightPage.add(rightContent).expandX().fillX().expandY().fillY().top().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
+        rightPage.add(rightContent).expandX().fillX().expandY().fillY();
 
-        content.row().fillX().expandX().fillY().expandY();
-        content.add(leftPage);
-        content.add(rightPage);
+        content.row().fillX().expandX().fillY().expandY().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
+        content.add(leftPage).align(Align.left);
+        content.add(rightPage).align(Align.right);
 
         book.add(bookImage).expandX().expandY().center().size(bookWidth, bookHeight);
         controls.add(backPageButton).expandX().expandY().bottom().left().size(0.05f * bookWidth).padLeft(0.07f * bookWidth);
@@ -201,13 +216,27 @@ public class GuidebookDisplay extends UIComponent {
         int count = 0;
         for (String word: labelContent.split(" ")) {
             if (count + word.length() >= numberPerLine) {
-                formattedString.append('\n');
+                if (!word.contains("\n")) formattedString.append('\n');
+                count = 0;
+            } else if (word.contains("\n")) {
                 count = 0;
             }
             formattedString.append(word).append(" ");
             count += word.length() + 1;
         }
         return formattedString.toString();
+    }
+
+    private static Page[] parseGuidebookContentJson() {
+        Gson gson = new Gson();
+        BufferedReader buffer;
+        try {
+            buffer = Files.newBufferedReader(Paths.get("configs/guidebookcontent.json"));
+        } catch (IOException e) {
+            System.out.println("File not valid");
+            return null;
+        }
+        return gson.fromJson((Reader) buffer, Page[].class);
     }
 
     @Override
