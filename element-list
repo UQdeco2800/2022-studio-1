@@ -10,6 +10,7 @@ com.deco2800.game.components.camera
 com.deco2800.game.components.Environmental
 com.deco2800.game.components.firstnight
 com.deco2800.game.components.gamearea
+com.deco2800.game.components.Guidebook
 com.deco2800.game.components.infrastructure
 com.deco2800.game.components.maingame
 com.deco2800.game.components.mainmenu
