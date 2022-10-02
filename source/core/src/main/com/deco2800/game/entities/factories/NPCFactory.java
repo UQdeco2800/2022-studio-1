@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.npc.ContinuousAttackComponent;
-import com.deco2800.game.components.npc.EffectNearBy;
+import com.deco2800.game.components.npc.*;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
-import com.deco2800.game.components.npc.EntityClassification;
-import com.deco2800.game.components.npc.GhostAnimationController;
 import com.deco2800.game.components.tasks.*;
 import com.deco2800.game.components.tasks.RangedMovementTask;
 import com.deco2800.game.components.tasks.WanderTask;
@@ -170,25 +167,27 @@ public class NPCFactory {
   public static Entity createMeleeBoss(Entity target) {
     Entity boss = createBaseEnemy(target);
     MeleeBossConfig config = configs.meleeBossEnemy;
-
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
+    AnimationRenderComponent animator = new AnimationRenderComponent(
+            ServiceLocator.getResourceService().getAsset("images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
+    animator.addAnimation("boss_frame", 0.1f, Animation.PlayMode.LOOP);
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     boss
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent)
+            .addComponent(animator)
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
             .addComponent(new EffectNearBy(true, true, true))
             .addComponent(new ContinuousAttackComponent());
 
-    boss.getComponent(TextureRenderComponent.class).scaleEntity();
+    boss.setScale(2, 2);
+    boss.getComponent(AnimationRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
     boss.getComponent(EffectNearBy.class).enableSpeed();
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
-
+    boss.getComponent(AnimationRenderComponent.class).startAnimation("boss_frame");
     return boss;
   }
 

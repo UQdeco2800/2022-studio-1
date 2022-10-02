@@ -1,7 +1,6 @@
 package com.deco2800.game.components.npc;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
@@ -12,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Continuous attack component - melee enemies will attack non-enemy attackable objects periodically while colliding
+ */
 public class ContinuousAttackComponent extends Component {
     private ArrayList<Entity> colliders;
     private CombatStatsComponent combatStats;
@@ -30,7 +32,6 @@ public class ContinuousAttackComponent extends Component {
             @Override
             public void run() {
                 for (Entity e : colliders) {
-//                    combatStats.hit(e.getComponent(CombatStatsComponent.class));
                     int attack = combatStats.getBaseAttack();
                     int health = e.getComponent(CombatStatsComponent.class).getHealth();
                     e.getComponent(CombatStatsComponent.class).setHealth(health - attack);
