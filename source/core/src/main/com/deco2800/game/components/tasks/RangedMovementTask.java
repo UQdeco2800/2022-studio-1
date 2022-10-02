@@ -55,7 +55,6 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
     public void update() {
         movementTask.setTarget(target.getPosition());
         movementTask.update();
-        animationDirection((int)target.getPosition().x,(int)target.getPosition().y);
 
         if (movementTask.getStatus() != Status.ACTIVE) {
             movementTask.start();
@@ -66,7 +65,6 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
     public void stop() {
         super.stop();
         movementTask.stop();
-        animationDirection((int)target.getPosition().x,(int)target.getPosition().y);
     }
 
     @Override
