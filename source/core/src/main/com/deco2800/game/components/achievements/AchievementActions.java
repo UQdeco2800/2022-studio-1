@@ -1,6 +1,7 @@
 package com.deco2800.game.components.achievements;
 
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,7 @@ public class AchievementActions extends Component {
      */
     private void onBuilding(AchievementDisplay display) {
         logger.info("Building achievement screen");
+        display.changeDisplay(AchievementType.BUILDINGS);
     }
 
     /**
@@ -53,6 +55,7 @@ public class AchievementActions extends Component {
      */
     private void onGame(AchievementDisplay display) {
         logger.info("Game achievement screen");
+        display.changeDisplay(AchievementType.SUMMARY);
     }
 
     /**
@@ -60,6 +63,7 @@ public class AchievementActions extends Component {
      */
     private void onKill(AchievementDisplay display) {
         logger.info("Kill achievement screen");
+        display.changeDisplay(AchievementType.KILLS);
     }
 
     /**
@@ -67,6 +71,7 @@ public class AchievementActions extends Component {
      */
     private void onResource(AchievementDisplay display) {
         logger.info("Resource achievement screen");
+        display.changeDisplay(AchievementType.RESOURCES);
     }
 
     /**
@@ -74,6 +79,7 @@ public class AchievementActions extends Component {
      */
     private void onUpgrade(AchievementDisplay display) {
         logger.info("Upgrade achievement screen");
+        display.changeDisplay(AchievementType.UPGRADES);
     }
 
     /**
@@ -81,6 +87,7 @@ public class AchievementActions extends Component {
      */
     private void onMisc(AchievementDisplay display) {
         logger.info("Misc achievement screen");
+        display.changeDisplay(AchievementType.MISC);
     }
 
     /**
