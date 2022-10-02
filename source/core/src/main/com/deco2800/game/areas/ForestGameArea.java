@@ -510,6 +510,8 @@ public class ForestGameArea extends GameArea {
         .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
+    ServiceLocator.getUGSService().setEntity(tileCoords, entity);
   }
 
   private void spawnElectricEelEnemy() {

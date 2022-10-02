@@ -82,6 +82,7 @@ public class RangeService {
     }
 
 
+
     public Boolean playerInRangeOf (Entity toCompare) {
         Entity player = MainArea.getInstance().getGameArea().getPlayer();
         ArrayList<Entity> ugs = registeredInUGS();
