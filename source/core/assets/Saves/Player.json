@@ -1,7 +1,7 @@
 {
 position: {
-	x: 974.4281
-	y: 36.104538
+	x: 987.9728
+	y: -10.135124
 }
 name: player
 playerState: {
@@ -33,7 +33,7 @@ playerState: {
 	}
 	stone: {
 		class: java.lang.Integer
-		value: 50
+		value: 60
 	}
 }
 }

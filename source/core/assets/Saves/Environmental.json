@@ -3,71 +3,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 928
-		y: -12.030769
+		x: 912
+		y: 19.96923
 	}
 	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 960
-		y: -20.03077
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
-	position: {
-		x: 1008
-		y: 2.550725
-	}
-	name: Tree
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/chalice.png
 	position: {
-		x: 944
-		y: -14
+		x: 952
+		y: -2
 	}
 	name: Chalice
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/pillar.png
+	texture: images/landscape_objects/rightPalmTree.png
 	position: {
-		x: 1040
-		y: 47
+		x: 960
+		y: 34.550724
 	}
-	name: Pillar
+	name: Tree
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/landscape_objects/rightPalmTree.png
 	position: {
-		x: 936
-		y: -17.2
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 928
-		y: -5.2
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
-	position: {
-		x: 1024
-		y: 18.550724
+		x: 968
+		y: -17.449276
 	}
 	name: Tree
 }
@@ -75,8 +39,26 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 936
-		y: 15.969231
+		x: 1000
+		y: 23.96923
+	}
+	name: Shell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 984
+		y: -1.1999998
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 912
+		y: 3.9692307
 	}
 	name: Shell
 }
@@ -84,9 +66,18 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/leftPalmTree.png
 	position: {
-		x: 944
-		y: 10.550725
+		x: 1000
+		y: -1.449275
 	}
 	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 944
+		y: 34.8
+	}
+	name: ShipwreckBack
 }
 ]

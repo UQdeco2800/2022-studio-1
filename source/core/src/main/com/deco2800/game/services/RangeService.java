@@ -78,9 +78,8 @@ public class RangeService {
                 inUGS.add(i.getEntity());
             }
         }
-        return inUGS;
+         return inUGS;
     }
-
 
 
     public Boolean playerInRangeOf (Entity toCompare) {
@@ -93,11 +92,11 @@ public class RangeService {
         HashMap<Artefact, Integer> invent = MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems();
 
         if (invent.containsKey(Equipments.BOW_AND_ARROW)) {
-            if (Math.abs(playerPos.x - entityPos.x) < 15 && Math.abs(playerPos.y - entityPos.y) < 15) {
+            if (ugs.contains(toCompare)) {
                 inRange = true;
             }
         } else /*if (invent.containsKey(Equipments.SWORD) || invent.containsKey(Equipments.AXE) || invent.containsKey(Equipments.TRIDENT)) */{
-            if (Math.abs(playerPos.x - entityPos.x) < 5 && Math.abs(playerPos.y - entityPos.y) < 5) {
+            if (ugs.contains(toCompare)) {
                 inRange = true;
             }
         }

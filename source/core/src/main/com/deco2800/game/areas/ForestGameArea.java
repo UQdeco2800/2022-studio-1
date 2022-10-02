@@ -299,6 +299,8 @@ public class ForestGameArea extends GameArea {
       this.entityMapping.addEntity(envObj);
 
       spawnEntityAt(envObj, randomPos, true, true);
+      String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
+      ServiceLocator.getUGSService().setEntity(tileCoords, envObj);
     }
   }
 
