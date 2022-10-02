@@ -32,13 +32,13 @@ public class AchievementActions extends Component {
      */
     @Override
     public void create() {
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_BUILDING_BUTTON_CLICKED, this::onBuilding);
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_GAME_BUTTON_CLICKED, this::onGame);
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_KILL_BUTTON_CLICKED, this::onKill);
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_RESOURCE_BUTTON_CLICKED, this::onResource);
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_UPGRADE_BUTTON_CLICKED, this::onUpgrade);
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_MISC_BUTTON_CLICKED, this::onMisc);
-        entity.getEvents().addListener(AchievementBaseDisplay.EVENT_EXIT_BUTTON_CLICKED, this::onExit);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_BUILDING_BUTTON_CLICKED, this::onBuilding);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_GAME_BUTTON_CLICKED, this::onGame);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_KILL_BUTTON_CLICKED, this::onKill);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_RESOURCE_BUTTON_CLICKED, this::onResource);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_UPGRADE_BUTTON_CLICKED, this::onUpgrade);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_MISC_BUTTON_CLICKED, this::onMisc);
+        entity.getEvents().addListener(AchievementDisplay.EVENT_EXIT_BUTTON_CLICKED, this::onExit);
     }
 
     /**

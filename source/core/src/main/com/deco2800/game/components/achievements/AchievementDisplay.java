@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -14,17 +13,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.deco2800.game.screens.achievements.AchievementBaseScreen;
-import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.screens.AchievementScreen;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
  */
-public class AchievementBaseDisplay extends UIComponent {
+public class AchievementDisplay extends UIComponent {
     /**
      * Event string for building achievement button press
      */
@@ -68,7 +68,7 @@ public class AchievementBaseDisplay extends UIComponent {
     /**
      * Logger for the AchievementBaseDisplay class
      */
-    private static final Logger logger = LoggerFactory.getLogger(AchievementBaseScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementScreen.class);
 
     private static final float Z_INDEX = 2f;
 
@@ -76,6 +76,11 @@ public class AchievementBaseDisplay extends UIComponent {
      * Table for displaying all screen content
      */
     private Table rootTable;
+
+    /**
+     * Table for containing all achievement badges
+     */
+    private Table displayTable;
 
     /**
      * Create the achievement base display
@@ -99,7 +104,7 @@ public class AchievementBaseDisplay extends UIComponent {
         Table exitTable = new Table();
         Table navigationTable = new Table();
         navigationTable.defaults().pad(10f);
-        Table displayTable = new Table();
+        this.displayTable = new Table();
         displayTable.defaults().pad(10f);
         Table contentTable = new Table();
         contentTable.defaults().pad(10f);
@@ -137,25 +142,8 @@ public class AchievementBaseDisplay extends UIComponent {
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
-        Label a1 = new Label("Achievement 1", skin, "large");
-        a1.setAlignment(Align.center);
+        changeDisplay(AchievementType.SUMMARY);
 
-        Label.LabelStyle badgeStyle = new Label.LabelStyle(a1.getStyle());
-        a1.getStyle().background = badgeDescriptionBox;
-
-        displayTable.add().colspan(5).expand();
-        displayTable.row();
-        displayTable.add(new Label("Achievement 2", skin, "large")).colspan(5).expand();
-        displayTable.row();
-        displayTable.add(new Label("Achievement 3", skin, "large")).colspan(5).expand();
-        displayTable.row();
-        displayTable.add(new Label("Achievement 4", skin, "large")).colspan(5).expand();
-        displayTable.row();
-        displayTable.add(new Label("Achievement 5", skin, "large")).colspan(5).expand();
-        displayTable.row();
-        displayTable.add(new Label("Achievement 6", skin, "large")).colspan(5).expand();
-
-        a1.setStyle(badgeStyle);
         // Home Button
 
         // Building Button
@@ -229,6 +217,45 @@ public class AchievementBaseDisplay extends UIComponent {
     public void dispose() {
         super.dispose();
         rootTable.clear();
+    }
+
+    public void changeDisplay(AchievementType type) {
+        this.displayTable.add(new Label(type.getTitle(), skin)).colspan(5).expand();
+        this.displayTable.row();
+
+        switch (type) {
+            case SUMMARY:
+                this.displayTable.add(new Label("Building Achievements", skin)).colspan(5).expand();
+                this.displayTable.row();
+                this.displayTable.add(new Label("Game Achievements", skin)).colspan(5).expand();
+                this.displayTable.row();
+                this.displayTable.add(new Label("Kill Achievements", skin)).colspan(5).expand();
+                this.displayTable.row();
+                this.displayTable.add(new Label("Resource Achievements", skin)).colspan(5).expand();
+                this.displayTable.row();
+                this.displayTable.add(new Label("Upgrade Achievements", skin)).colspan(5).expand();
+                this.displayTable.row();
+                this.displayTable.add(new Label("Misc Achievements", skin)).colspan(5).expand();
+                break;
+            case BUILDINGS:
+                // Display building badges
+                break;
+            case GAME:
+                // display game badges
+                break;
+            case KILLS:
+                // display kill badges
+                break;
+            case RESOURCES:
+                // display resource badges
+                break;
+            case UPGRADES:
+                // display upgrades badges
+                break;
+            case MISC:
+                // display misc badges
+                break;
+        }
     }
 
     /**

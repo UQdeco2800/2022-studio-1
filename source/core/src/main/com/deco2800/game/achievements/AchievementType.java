@@ -5,6 +5,7 @@ package com.deco2800.game.achievements;
  * each type can have many achievements
  */
 public enum AchievementType {
+    SUMMARY("Summary", "", ""),
     RESOURCES("Resources","images/achievements/Resource_Icon.png",
             "images/achievements/Resource_64x64_Icon.png"),
     BUILDINGS("Buildings","images/achievements/Building_Icon.png",

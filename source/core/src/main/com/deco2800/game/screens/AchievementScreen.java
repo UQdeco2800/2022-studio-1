@@ -1,10 +1,10 @@
-package com.deco2800.game.screens.achievements;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.achievements.AchievementActions;
-import com.deco2800.game.components.achievements.AchievementBaseDisplay;
+import com.deco2800.game.components.achievements.AchievementDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -23,11 +23,11 @@ import org.slf4j.LoggerFactory;
  * Base game screen for displaying the player's achievements. To be extended for displaying actual
  * achievement pages.
  */
-public abstract class AchievementBaseScreen extends ScreenAdapter {
+public class AchievementScreen extends ScreenAdapter {
     /**
      * Logger class for the AchievementBaseScreen
      */
-    private static final Logger logger = LoggerFactory.getLogger(AchievementBaseScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementScreen.class);
 
     /**
      * Array of achievement icon textures
@@ -57,7 +57,7 @@ public abstract class AchievementBaseScreen extends ScreenAdapter {
      * Initialises the AchievementBaseScreen with all necessary services and assets
      * @param game AtlantisSinks
      */
-    public AchievementBaseScreen(AtlantisSinks game) {
+    public AchievementScreen(AtlantisSinks game) {
         this.game = game;
 
         logger.debug("Initialising {} screen services", this.getClass().getName());
@@ -138,7 +138,7 @@ public abstract class AchievementBaseScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
 
         Entity ui = new Entity();
-        ui.addComponent(new AchievementBaseDisplay())
+        ui.addComponent(new AchievementDisplay())
                 .addComponent(new InputDecorator(stage, 10))
                 .addComponent(new AchievementActions(this.game));
         ServiceLocator.getEntityService().registerNamed("AchievementUI", ui);
