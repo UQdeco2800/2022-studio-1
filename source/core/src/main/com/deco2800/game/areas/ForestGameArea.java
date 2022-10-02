@@ -1,10 +1,13 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.screens.MainGameScreen;
@@ -15,10 +18,6 @@ import com.deco2800.game.entities.factories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
@@ -128,7 +127,7 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas"
+      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas"
   };
 
   // Sound effect files
@@ -155,8 +154,6 @@ public class ForestGameArea extends GameArea {
     super();
     this.loadGame = loadGame;
     this.terrainFactory = terrainFactory;
-
-
   }
 
   /**
@@ -168,6 +165,8 @@ public class ForestGameArea extends GameArea {
 
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
+    ServiceLocator.getUGSService().generateUGS();
+
 
     displayUI();
 
@@ -181,6 +180,8 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
+
+    spawnMeleeBoss();
 
     if (this.loadGame) {
       SaveGame.loadGameState();
@@ -385,8 +386,9 @@ public class ForestGameArea extends GameArea {
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.loadPlayer();
     ServiceLocator.getEntityService().registerNamed("player", newPlayer);
-
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(PLAYER_SPAWN.x, PLAYER_SPAWN.y);
+    ServiceLocator.getUGSService().setEntity(tileCoords, newPlayer);
     return newPlayer;
   }
 
@@ -399,7 +401,8 @@ public class ForestGameArea extends GameArea {
     crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
-
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(x_pos, y_pos);
+    ServiceLocator.getUGSService().setEntity(tileCoords, crystal);
     return crystal;
   }
 

@@ -1,9 +1,0 @@
-{
-texture: images/crystal.png
-position: {
-	x: 60
-}
-name: crystal
-level: 3
-health: 1020
-}
