@@ -118,26 +118,6 @@ public class TerrainFactory {
   public TerrainComponent createTerrain(TerrainType terrainType) {
     float tileWorldSize = 1f;
     ResourceService resourceService = ServiceLocator.getResourceService();
-<<<<<<< HEAD
-=======
-    switch (terrainType) {
-      case FOREST_DEMO_ISO:
-        TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/dayWaterTile.png", Texture.class));
-        TextureRegion isoSand = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/beachV1.png", Texture.class));
-        TextureRegion isoGround = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/groundTileV1.png", Texture.class));
-        TextureRegion isoSeaweed1 = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/seaweedV4.png", Texture.class));
-        TextureRegion isoSeaweed2 = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/seaweedV5.png", Texture.class));
-        return createForestDemoTerrain(16f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
-      default:
-        return null;
-    }
-  }
->>>>>>> main
 
     TextureRegion water = new TextureRegion(resourceService.getAsset("images/65x33_tiles/water.png", Texture.class));
     GridPoint2 tilePixelSize = new GridPoint2(water.getRegionWidth(), water.getRegionHeight());
@@ -149,20 +129,7 @@ public class TerrainFactory {
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
-<<<<<<< HEAD
     return new IsometricTiledMapRenderer(tiledMap, tileScale);
-=======
-    switch (orientation) {
-      case ORTHOGONAL:
-        return new OrthogonalTiledMapRenderer(tiledMap, tileScale);
-      case ISOMETRIC:
-        return new IsoTileRenderer(tiledMap, tileScale);
-      case HEXAGONAL:
-        return new HexagonalTiledMapRenderer(tiledMap, tileScale);
-      default:
-        return null;
-    }
->>>>>>> main
   }
 
   /**
