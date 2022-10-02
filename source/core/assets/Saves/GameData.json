@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
 currentCycleStatus: DAWN
 lastCycleStatus: NONE
@@ -15,3 +16,4 @@ timer: {
 }
 timeSinceLastPartOfDay: 96
 }
+

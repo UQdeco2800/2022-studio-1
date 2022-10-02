@@ -55,6 +55,7 @@ public class PlayerFactory {
     player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
     player_start.addAnimation("da", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("death_anim", 0.3f, Animation.PlayMode.NORMAL);
 
     Entity player =
         new Entity()

@@ -1,7 +1,7 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
+	texture: images/landscape_objects/marble-stone-60x40.png
 	position: {
 		x: 912
 		y: 19.96923
@@ -79,5 +79,6 @@
 		y: 34.8
 	}
 	name: ShipwreckBack
+
 }
 ]
