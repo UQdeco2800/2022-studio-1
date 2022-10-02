@@ -12,8 +12,6 @@ import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.events.EventHandler;
-import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.memento.Memento;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
@@ -209,6 +207,7 @@ public class SaveGame {
      * Saves the crystal to a JSON file
      */
     private static void saveCrystal() {
+        logger.debug("Begin Saving Crystal");
         String name = "crystal";
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
 
@@ -223,6 +222,7 @@ public class SaveGame {
         crystalRepresentation.setTexture(crystal.getComponent(TextureRenderComponent.class).getTexturePath());
 
         FileLoader.writeClass(crystalRepresentation, savePathCrystal, FileLoader.Location.LOCAL);
+        logger.debug("End Saving Crystal");
     }
 
     /**
@@ -231,6 +231,7 @@ public class SaveGame {
      * @throws IllegalAccessException when invoking method fails due to permisions
      */
     private static void loadCrystal() throws InvocationTargetException, IllegalAccessException {
+        logger.debug("Begin Loading Crystal");
         Tuple crystalRepresentation = FileLoader.readClass(Tuple.class, savePathCrystal, FileLoader.Location.LOCAL);
         CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
         if (crystalRepresentation != null) {
@@ -245,9 +246,11 @@ public class SaveGame {
             }
             crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
         }
+        logger.debug("End Loading Crystal");
     }
 
     private static void savePlayer() {
+        logger.debug("Begin Saving Player");
         String name = "player";
         Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
         if (player == null) {
@@ -269,12 +272,14 @@ public class SaveGame {
 
         Tuple p = new Tuple().setPosition(player.getPosition()).setName(name).setPlayerState(status);
         FileLoader.writeClass(p, savePathPlayer, FileLoader.Location.LOCAL);
+        logger.debug("End Saving Player");
     }
 
     /**
      * note that this assumes the player has been created already
      */
     private static void loadPlayer() {
+        logger.debug("Begin Loading Player");
         String name = "player";
         Tuple p = FileLoader.readClass(Tuple.class, savePathPlayer, FileLoader.Location.LOCAL);
         Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
@@ -299,6 +304,7 @@ public class SaveGame {
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
         }
+        logger.debug("End Loading Player");
     }
 
     private static void saveGameData() {
