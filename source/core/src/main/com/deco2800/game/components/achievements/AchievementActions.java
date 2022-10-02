@@ -34,6 +34,7 @@ public class AchievementActions extends Component {
      */
     @Override
     public void create() {
+        entity.getEvents().addListener(AchievementDisplay.EVENT_SUMMARY_BUTTON_CLICKED, this::onSummary);
         entity.getEvents().addListener(AchievementDisplay.EVENT_BUILDING_BUTTON_CLICKED, this::onBuilding);
         entity.getEvents().addListener(AchievementDisplay.EVENT_GAME_BUTTON_CLICKED, this::onGame);
         entity.getEvents().addListener(AchievementDisplay.EVENT_KILL_BUTTON_CLICKED, this::onKill);
@@ -44,7 +45,17 @@ public class AchievementActions extends Component {
     }
 
     /**
-     * Loads the BuildingAchievementScreen
+     * Populates the display table with the achievement summary
+     * @param displayTable Table
+     */
+    private void onSummary(Table displayTable) {
+        logger.info("Achievement Summary screen");
+        AchievementDisplay.changeDisplay(displayTable, AchievementType.SUMMARY);
+    }
+
+    /**
+     * Populates display table with building achievements
+     * @param displayTable Table
      */
     private void onBuilding(Table displayTable) {
         logger.info("Building achievement screen");
@@ -52,7 +63,8 @@ public class AchievementActions extends Component {
     }
 
     /**
-     * Loads the GameAchievementScreen
+     * Populates the display table with game achievements
+     * @param displayTable Table
      */
     private void onGame(Table displayTable) {
         logger.info("Game achievement screen");
@@ -60,7 +72,8 @@ public class AchievementActions extends Component {
     }
 
     /**
-     * Loads the KillAchievementScreen
+     * Populates the display table with kill achievements
+     * @param displayTable Table
      */
     private void onKill(Table displayTable) {
         logger.info("Kill achievement screen");
@@ -68,7 +81,8 @@ public class AchievementActions extends Component {
     }
 
     /**
-     * Loads the ResourceAchievementScreen
+     * Populates the display table with resources achievements
+     * @param displayTable Table
      */
     private void onResource(Table displayTable) {
         logger.info("Resource achievement screen");
@@ -76,7 +90,8 @@ public class AchievementActions extends Component {
     }
 
     /**
-     * Loads the UpgradeAchievementScreen
+     * Populates the display table with upgrade achievements
+     * @param displayTable Table
      */
     private void onUpgrade(Table displayTable) {
         logger.info("Upgrade achievement screen");
@@ -84,7 +99,8 @@ public class AchievementActions extends Component {
     }
 
     /**
-     * Loads the MiscAchievementScreen
+     * Populates the display table with misc achievements
+     * @param displayTable Table
      */
     private void onMisc(Table displayTable) {
         logger.info("Misc achievement screen");
@@ -93,6 +109,7 @@ public class AchievementActions extends Component {
 
     /**
      * Returns to the main game screen
+     * @param displayTable Table
      */
     private void onExit(Table displayTable) {
         logger.info("Exiting achievement screens");

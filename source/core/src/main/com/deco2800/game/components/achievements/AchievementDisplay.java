@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -13,11 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.screens.AchievementScreen;
+import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -25,6 +31,11 @@ import java.util.Objects;
  * Base achievement display class to be extended by achievement type screens
  */
 public class AchievementDisplay extends UIComponent {
+    /**
+     * Event string for achievement summary button press
+     */
+    public static final String EVENT_SUMMARY_BUTTON_CLICKED = "summaryButtonClicked";
+
     /**
      * Event string for building achievement button press
      */
@@ -110,6 +121,7 @@ public class AchievementDisplay extends UIComponent {
         contentTable.defaults().pad(10f);
 
         // Title
+        // fonts -> https://libgdxinfo.wordpress.com/basic-label/
         /*
         Image title = new Image(new Texture(Gdx.files.internal("Achievements/AchievementsTitle.png")));
         title.setAlign(Align.center);
@@ -142,9 +154,14 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
+        // Add display content
         changeDisplay(this.displayTable, AchievementType.SUMMARY);
 
         // Home Button
+        ImageButton summaryButton = createButton("images/achievements/summaryIcon.png");
+        this.addButtonEvent(summaryButton, "Summary");
+        navigationTable.add(summaryButton).colspan(2);
+        navigationTable.row();
 
         // Building Button
         ImageButton buildingButton = createButton("images/achievements/Building_64x64_Icon.png");
@@ -189,20 +206,17 @@ public class AchievementDisplay extends UIComponent {
         this.addButtonEvent(exitButton, "Exit");
 
         exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
-
-        // Add display content
-        // fonts -> https://libgdxinfo.wordpress.com/basic-label/
         
         // Display main content
 
         contentTable.add(navigationTable).colspan(2).expand();
-        contentTable.add(displayTable).colspan(5).expand();
+        contentTable.add(displayTable).colspan(6).expand();
 
-        rootTable.add(exitTable).colspan(7).fillX();
+        rootTable.add(exitTable).colspan(8).fillX();
         rootTable.row();
-        rootTable.add(title).colspan(7).expand();
+        rootTable.add(title).colspan(8).expand();
         rootTable.row();
-        rootTable.add(contentTable).colspan(7).expand();
+        rootTable.add(contentTable).colspan(8).expand();
 
         stage.addActor(rootTable);
         stage.setDebugAll(true);
@@ -221,41 +235,34 @@ public class AchievementDisplay extends UIComponent {
 
     public static void changeDisplay(Table displayTable, AchievementType type) {
         displayTable.clear();
-        displayTable.add(new Label(type.getTitle(), skin)).colspan(5).expand();
+        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expand();
         displayTable.row();
 
-        switch (type) {
-            case SUMMARY:
-                displayTable.add(new Label("Building Achievements", skin)).colspan(5).expand();
-                displayTable.row();
-                displayTable.add(new Label("Game Achievements", skin)).colspan(5).expand();
-                displayTable.row();
-                displayTable.add(new Label("Kill Achievements", skin)).colspan(5).expand();
-                displayTable.row();
-                displayTable.add(new Label("Resource Achievements", skin)).colspan(5).expand();
-                displayTable.row();
-                displayTable.add(new Label("Upgrade Achievements", skin)).colspan(5).expand();
-                displayTable.row();
-                displayTable.add(new Label("Misc Achievements", skin)).colspan(5).expand();
-                break;
-            case BUILDINGS:
-                // Display building badges
-                break;
-            case GAME:
-                // display game badges
-                break;
-            case KILLS:
-                // display kill badges
-                break;
-            case RESOURCES:
-                // display resource badges
-                break;
-            case UPGRADES:
-                // display upgrades badges
-                break;
-            case MISC:
-                // display misc badges
-                break;
+        int achievementsAdded = 0;
+        ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
+
+        if (type == AchievementType.SUMMARY) {
+            displayTable.add(new Label("Building Achievements", skin)).colspan(3).expand();
+            displayTable.add(new Label("Game Achievements", skin)).colspan(3).expand();
+            displayTable.row();
+            displayTable.add(new Label("Kill Achievements", skin)).colspan(3).expand();
+            displayTable.add(new Label("Resource Achievements", skin)).colspan(3).expand();
+            displayTable.row();
+            displayTable.add(new Label("Upgrade Achievements", skin)).colspan(3).expand();
+            displayTable.add(new Label("Misc Achievements", skin)).colspan(3).expand();
+            return;
+        }
+
+        for (Achievement achievement : achievements) {
+            if (achievement.getAchievementType() == type) {
+                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
+                    displayTable.row();
+                }
+
+                displayTable.add(new Label(achievement.getName(), skin)).colspan(3).expand();
+
+                achievementsAdded++;
+            }
         }
     }
 
@@ -292,6 +299,7 @@ public class AchievementDisplay extends UIComponent {
      * Maps button names to event strings
      */
     private void mapEvents() {
+        this.events.put("Summary", EVENT_SUMMARY_BUTTON_CLICKED);
         this.events.put("Building", EVENT_BUILDING_BUTTON_CLICKED);
         this.events.put("Game", EVENT_GAME_BUTTON_CLICKED);
         this.events.put("Kill", EVENT_KILL_BUTTON_CLICKED);
