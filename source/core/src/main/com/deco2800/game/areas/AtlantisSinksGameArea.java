@@ -14,6 +14,7 @@ import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
