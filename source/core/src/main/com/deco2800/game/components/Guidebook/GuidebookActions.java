@@ -43,6 +43,7 @@ public class GuidebookActions extends Component {
         GuidebookDisplay.currentPage = (proposedNextPage < GuidebookDisplay.maxPages) ? proposedNextPage : currentPage;
         Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table: guidebook) {
+            System.out.println("Going next page");
             table.remove();
         }
         ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
@@ -55,6 +56,7 @@ public class GuidebookActions extends Component {
 
         Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table: guidebook) {
+            System.out.println("Going back a page");
             table.remove();
         }
         ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();

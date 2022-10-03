@@ -102,11 +102,14 @@ public class GuidebookScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
+        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table: guidebook) {
             if (table == null) {
                 continue;
+            } else {
+                System.out.println("Removing resize table");
+                table.remove();
             }
-            table.remove();
         }
         guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
         logger.trace("Resized renderer: ({} x {})", width, height);
