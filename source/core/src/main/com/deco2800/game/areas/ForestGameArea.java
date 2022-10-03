@@ -1,17 +1,10 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.maingame.MainGameActions;
 import com.deco2800.game.components.npc.BossAnimationController;
-import com.deco2800.game.entities.UGS;
 import com.deco2800.game.files.SaveGame;
-import com.deco2800.game.rendering.DayNightCycleComponent;
-import com.deco2800.game.screens.MainGameScreen;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -29,9 +22,7 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -439,7 +430,6 @@ public class ForestGameArea extends GameArea {
     //System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
       case DAWN:
-        spawnNPCharacter();
       case DAY:
       case DUSK:
 
@@ -452,7 +442,7 @@ public class ForestGameArea extends GameArea {
         }
         break;
       case NIGHT:
-        // Despawn NPCs
+        // Dispose NPCs
         for (int i = 0; i < NPCNum; i++) {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
@@ -578,14 +568,15 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnNPCharacter() {
-    // Entity NPC = NPCFactory.createBaseNPC();
-    Entity NPC = NPCFactory.createNPC();
+    Entity NPC;
+    if(NPCNum % 3 == 0) {
+       NPC = NPCFactory.createNormalNPC();
+    } else {
+      NPC = NPCFactory.createSpecialNPC();
+    }
 
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
-    //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
-    // spawnEntityAt(NPC, randomPos, true, true);
     int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
