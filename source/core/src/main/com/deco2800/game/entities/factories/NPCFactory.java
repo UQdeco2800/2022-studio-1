@@ -276,7 +276,7 @@ public class NPCFactory {
 
         AITaskComponent aiComponent =
             new AITaskComponent()
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                .addTask(new WanderTask(new Vector2(50f, 50f), 2f));
         Entity npc =
             new Entity()
                 .addComponent(new PhysicsComponent())
@@ -293,7 +293,7 @@ public class NPCFactory {
           npc.setName("NPC");
         }
         npc.setCollectable(false);
-        npc.setScale(1f, 1f);
+        npc.setScale(5f, 5f);
 
 
     PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
