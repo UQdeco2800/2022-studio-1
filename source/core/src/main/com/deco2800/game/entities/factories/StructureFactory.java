@@ -62,6 +62,8 @@ public class StructureFactory {
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
+
+
     return wall;
   }
 

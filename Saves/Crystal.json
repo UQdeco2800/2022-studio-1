@@ -1,0 +1,10 @@
+{
+texture: images/crystal.png
+position: {
+	x: 964
+	y: 2
+}
+name: crystal
+level: 1
+health: 1000
+}
