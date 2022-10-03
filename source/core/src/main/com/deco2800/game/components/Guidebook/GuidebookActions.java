@@ -30,6 +30,7 @@ public class GuidebookActions extends Component {
     private AtlantisSinks game;
     private Renderer renderer;
     private CareTaker playerStatus;
+    public int currentPage;
 
     public GuidebookActions(AtlantisSinks game) {
         this.game = game;
@@ -69,6 +70,7 @@ public class GuidebookActions extends Component {
     }
 
     private void backPage() {
+        currentPage = GuidebookDisplay.currentPage;
         int proposedBackPage = GuidebookDisplay.currentPage - 2;
         if (proposedBackPage < 0) {
             return;
@@ -91,8 +93,6 @@ public class GuidebookActions extends Component {
 
         flicking.schedule(flickTask, 250, MILLISECONDS);
     }
-
-
 
 
     /**
@@ -127,8 +127,5 @@ public class GuidebookActions extends Component {
 
         playerStatus.add(currentStatus.saveStateToMemento());
     }
-
-
-
 
 }
