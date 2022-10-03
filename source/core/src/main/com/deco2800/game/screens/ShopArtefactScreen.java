@@ -121,11 +121,11 @@ public class ShopArtefactScreen extends ScreenAdapter {
                 .addComponent(new InventoryComponent(lastStatus.getGold(),
                         lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopArtefactDisplay())
-                .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
         uiBuilding.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
+        uiBuilding.addComponent(new CommonShopComponents());
         ServiceLocator.getEntityService().register(uiBuilding);
 
     }
