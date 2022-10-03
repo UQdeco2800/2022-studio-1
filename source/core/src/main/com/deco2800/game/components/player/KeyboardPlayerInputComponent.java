@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
@@ -46,7 +43,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   private int structureSelect = 0;
 
-
   public KeyboardPlayerInputComponent() {
     super(5);
   }
@@ -84,11 +80,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerWalkEvent();
         entity.getEvents().trigger("playerControlTut", "RIGHT");
         return true;
-      case Keys.SPACE:
+      case Keys.E:
+        entity.getEvents().trigger("weapons");
+        return true;
+      /*case Keys.SPACE:
         entity.getEvents().trigger("attack");
         entity.getEvents().trigger("attack_anim");
         entity.getEvents().trigger("playerControlTut", "SPACE");
-        return true;
+        return true;*/
       default:
         return false;
     }
@@ -103,6 +102,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean keyUp(int keycode) {
     switch (keycode) {
+      case Keys.Q:
+        entity.getEvents().trigger("playerDeath");
+        entity.setScale(11f, 10.5f);
+        return true;
       case Keys.W:
         walkDirection.sub(Vector2Utils.UP);
         triggerWalkEvent();
@@ -163,9 +166,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
         upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
         return true;
-      case Keys.SPACE:
+      /*case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
-        return true;
+        return true;*/
       default:
         return false;
     }
