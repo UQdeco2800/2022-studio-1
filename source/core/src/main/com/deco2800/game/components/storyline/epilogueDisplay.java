@@ -25,7 +25,7 @@ public class epilogueDisplay extends UIComponent {
     public void create() {
         super.create();
         addActors();
-        //entity.getEvents().addListener("next", this::nextScreen);
+        entity.getEvents().addListener("next", this::nextScreen);
     }
 
     private void addActors() {

@@ -40,16 +40,13 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("load", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
-    entity.getEvents().addListener("crystalDeath", this::onDeath);
+    ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("crystalDeath", this::onDeath);
   }
 
   private void onDeath() {
     logger.info("Testing epilogue screen");
-    //int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
-    //if (crystalHealth == 0) {
-      CareTaker.deleteAll();
-      game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
-    //}
+    CareTaker.deleteAll();
+    game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
   }
 
   /**
