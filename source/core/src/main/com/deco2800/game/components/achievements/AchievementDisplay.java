@@ -140,10 +140,10 @@ public class AchievementDisplay extends UIComponent {
         title.setAlignment(Align.center);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("images/achievements/Badge_Background_2540x1033_Box.png"));
+        Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/Background_1664x824_Box.png")); // _1348x888
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png")); // _1348x888
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
