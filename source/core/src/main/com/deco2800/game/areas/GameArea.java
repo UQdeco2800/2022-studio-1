@@ -54,7 +54,6 @@ public abstract class GameArea implements Disposable {
    */
   protected void spawnEntity(Entity entity) {
     areaEntities.add(entity);
-    ServiceLocator.getEntityService().register(entity);
     ServiceLocator.getEntityService().addEntity(entity);
   }
 
@@ -85,12 +84,13 @@ public abstract class GameArea implements Disposable {
       worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
     }
 
-//    System.out.print("tile pos => ");
-//    System.out.println(tilePos);
-//    Vector2 convertedTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(tilePos);
-//    System.out.print("convertedTilePos ==> ");
-//    System.out.println(convertedTilePos);
-//    entity.setTileGridPosition(tilePos);
+    System.out.print("tile pos => ");
+    System.out.println(tilePos);
+    Vector2 convertedTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
+        .getComponent(TerrainComponent.class).tileToWorldPosition(tilePos);
+    System.out.print("convertedTilePos ==> ");
+    System.out.println(convertedTilePos);
+    // entity.setTileGridPosition(tilePos);
     entity.setPosition(worldPos);
 
     spawnEntity(entity);
