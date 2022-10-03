@@ -474,6 +474,12 @@ public class ForestGameArea extends GameArea {
   private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay) {
       case DAWN:
+        break;
+      case DAY:
+        break;
+      case DUSK:
+        break;
+      case NIGHT:
         switch (dayNum) {
           case 1:
             for (int i = 0; i < 1; i++) {
@@ -534,21 +540,6 @@ public class ForestGameArea extends GameArea {
             System.out.println("There is not any ninja starfish spawned!");
         }
 
-        if (dayNum == BOSS_DAY) {
-          spawnMeleeBoss();
-        }
-        break;
-      case DAY:
-        break;
-      case DUSK:
-        break;
-      case NIGHT:
-        for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
-          spawnPirateCrabEnemy();
-        }
-        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
-          spawnElectricEelEnemy();
-        }
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
