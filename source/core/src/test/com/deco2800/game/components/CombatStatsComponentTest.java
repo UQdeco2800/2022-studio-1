@@ -122,12 +122,12 @@ class CombatStatsComponentTest {
     CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0,1,500);
     assertEquals(100, stats.getHealth());
 
-    //health remains the same as a health value that exceeds max health is invalid
+    //health is capped at the max health value
     stats.setHealth(5000);
-    assertEquals(100, stats.getHealth());
+    assertEquals(500, stats.getHealth());
 
     stats.addHealth(600);
-    assertEquals(100, stats.getHealth());
+    assertEquals(500, stats.getHealth());
 
     stats.setHealth(400);
     assertEquals(400, stats.getHealth());
