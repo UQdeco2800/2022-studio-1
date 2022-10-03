@@ -1,13 +1,13 @@
 {
 position: {
-	x: 60.53763
-	y: -1.5463389
+	x: 968.84875
+	y: 3.2790682
 }
 name: player
 playerState: {
 	gold: {
 		class: java.lang.Integer
-		value: 50
+		value: 66
 	}
 	weapon: null
 	chestplate: null
@@ -26,7 +26,7 @@ playerState: {
 	}
 	wood: {
 		class: java.lang.Integer
-		value: 60
+		value: 50
 	}
 	items: {
 		class: java.util.HashMap

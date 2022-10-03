@@ -85,9 +85,11 @@ public class GameService {
     public void removeNamedEntity (String name, Entity entity) {
         logger.debug("Unregistering {} in entity service", entity);
         for (GridPoint2 key : entityMap.keySet()) {
-            if (entityMap.get(key).get("name").equals(name)) {
-                logger.info("found entity to delete");
-                entityMap.get(key).replace(name, null);
+            if (entityMap.get(key).get("name") != null) {
+                if (entityMap.get(key).get("name").equals(name)) {
+                    logger.info("found entity to delete");
+                    entityMap.get(key).replace(name, null);
+                }
             }
         }
         ServiceLocator.getEntityService().removeNamedEntity(name, entity);

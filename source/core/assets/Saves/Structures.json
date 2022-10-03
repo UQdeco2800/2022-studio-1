@@ -1,1 +1,47 @@
-[]
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 964
+		y: -6
+	}
+	name: "wall(59, 59)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 956
+		y: -2
+	}
+	name: "wall(60, 59)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 955.298
+		y: 53.41276
+	}
+	name: "wall(57, 59)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER1I.png
+	position: {
+		x: 964
+		y: -6
+	}
+	name: "tower1(61, 59)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 956
+		y: -2
+	}
+	name: "wall(58, 59)"
+}
+]

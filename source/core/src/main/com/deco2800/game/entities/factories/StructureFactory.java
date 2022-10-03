@@ -243,18 +243,18 @@ public static Entity createTrap() {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-      System.out.println("Checking for inventory component");
-      System.out.println("Got inventory component");
+//      System.out.println("Checking for inventory component");
+//      System.out.println("Got inventory component");
       //Get the cost of the building
       int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
       int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
       int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-      System.out.println("refund: " + refundMultiplier);
+//      System.out.println("refund: " + refundMultiplier);
       //Add (<resource> * refundMultiplier) to PLAYER's inventory
-      System.out.println("before: " + player.getComponent(InventoryComponent.class).getGold());
+//      System.out.println("before: " + player.getComponent(InventoryComponent.class).getGold());
 
       player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
-      System.out.println("After: " + player.getComponent(InventoryComponent.class).getGold());
+//      System.out.println("After: " + player.getComponent(InventoryComponent.class).getGold());
       player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
       player.getComponent(InventoryComponent.class).addWood((int)(wood * refundMultiplier));
   }
@@ -267,7 +267,7 @@ public static Entity createTrap() {
    *
    */
   public static void handleBuildingDestruction(String name) {
-    Entity structure = ServiceLocator.getStructureService().getNamedEntity(name);
+    Entity structure = ServiceLocator.getEntityService().getNamedEntity(name);
 
     if (structure == null) {
       return;
@@ -277,6 +277,7 @@ public static Entity createTrap() {
       case 0: //Building destroyed
         ServiceLocator.getStructureService().unregisterNamed(name);
         ServiceLocator.getEntityService().getNamedEntity(name).dispose();
+        ServiceLocator.getGameService().removeNamedEntity(name, structure);
         break;
 
       default:
@@ -286,6 +287,7 @@ public static Entity createTrap() {
         handleRefund(structure, refundMultiplier);
         ServiceLocator.getStructureService().unregisterNamed(name);
         ServiceLocator.getEntityService().getNamedEntity(name).dispose();
+        ServiceLocator.getGameService().removeNamedEntity(name, structure);
         break;
     }
   }
@@ -319,14 +321,14 @@ public static Entity createTrap() {
         switch(level) {
           //Only two possible upgrades 1->2 and 2->3
           case 1:
-            System.out.println("Tower upgraded1");
+//            System.out.println("Tower upgraded1");
             tower1 = StructureFactory.createTower1(2);
             ServiceLocator.getEntityService().registerNamed(structName, tower1);
             ServiceLocator.getStructureService().registerNamed(structName, tower1);
             ServiceLocator.getStructureService().getNamedEntity(structName).setPosition(location);
             break;
           case 2:
-            System.out.println("Tower upgraded2");
+//            System.out.println("Tower upgraded2");
             tower1 = StructureFactory.createTower1(3);
             ServiceLocator.getEntityService().registerNamed(structName, tower1);
             ServiceLocator.getStructureService().registerNamed(structName, tower1);
