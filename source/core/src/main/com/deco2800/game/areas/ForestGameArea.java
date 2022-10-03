@@ -16,6 +16,7 @@ import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.Environmental.ValueTuple;
+import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
@@ -59,8 +60,6 @@ public class ForestGameArea extends GameArea {
       "images/wallTransparent.png",
       "images/landscape_objects/almond-tree-60x62.png",
       "images/landscape_objects/fig-tree-60x62.png",
-      "images/landscape_objects/limestone-boulder-60x60.png",
-      "images/landscape_objects/marble-stone-60x40.png",
       "images/landscape_objects/vines.png",
       "images/landscape_objects/cypress-tree-60x100.png",
       "images/landscape_objects/geyser.png",
@@ -108,6 +107,8 @@ public class ForestGameArea extends GameArea {
       "images/65x33_tiles/shorelineRight_night.png",
       "images/65x33_tiles/water.png",
       "images/65x33_tiles/water_night.png",
+      "images/seastack1.png",
+      "images/seastack2.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
       "images/Eel_Bright_NW.png",
@@ -193,7 +194,7 @@ public class ForestGameArea extends GameArea {
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
-      // spawnEnvironmentalObjects();
+      spawnEnvironmentalObjects();
     }
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
         this::dayChange);
@@ -282,16 +283,21 @@ public class ForestGameArea extends GameArea {
 
       int counter = 0;
       // check for possible collision and reroll location until valid
-      while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
-          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
-        randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
 
-        // safety to avoid infinite looping on loading screen.
-        // If cant spawn the object then space has ran out on map
-        if (counter > 1000) {
-          return;
+      if (type == EnvironmentalObstacle.ROCK) {
+        randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
+      } else {
+        while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+            || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+          randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+
+          // safety to avoid infinite looping on loading screen.
+          // If cant spawn the object then space has ran out on map
+          if (counter > 1000) {
+            return;
+          }
+          counter++;
         }
-        counter++;
       }
       this.entityMapping.addEntity(envObj);
 
@@ -313,6 +319,7 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
     spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.SHELL);
+    spawnEnvironmentalObject(40, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
     /*
      * // semi random rocks and trees
      * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
@@ -551,6 +558,7 @@ public class ForestGameArea extends GameArea {
     while (!ServiceLocator.getDayNightCycleService().hasStarted()) {
       // Check the current status is night
       if (!ServiceLocator.getDayNightCycleService().getCurrentCycleStatus().equals(DayNightCycleStatus.NIGHT)) {
+        ServiceLocator.getEntityService().registerNamed("NinjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
         spawnEntityAt(ninjaStarfish, randomPos, true, true);
         break;
       } else {
