@@ -38,7 +38,11 @@ public class NpcService extends EntityService {
     private int npcType;
 
     public void setNpcNum(int num) {
-        this.npcNum = num;
+        if (num < 0){
+            //logger.error("number of NPCs cannot be negative");
+        }else {
+            this.npcNum = num;
+        }
     }
 
     public int getNpcNum() {
