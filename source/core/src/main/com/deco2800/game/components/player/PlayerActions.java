@@ -1,35 +1,21 @@
 package com.deco2800.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.PhysicsComponent;
-import com.deco2800.game.rendering.AnimationRenderComponent;
-import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.rendering.TextureRenderComponent;
-
-import java.security.Provider;
-import java.security.Provider.Service;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Action component for interacting with the player. Player events should be
- * initialised in create()
- * and when triggered should call methods within this class.
+ * initialised in create() and should call methods within this class when triggered
  */
 public class PlayerActions extends Component {
   private Vector2 MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
@@ -46,6 +32,8 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
+
+    entity.getEvents().addListener("playerDeath", this::die);
   }
 
   @Override
@@ -144,9 +132,6 @@ public class PlayerActions extends Component {
                 .getComponent(CombatStatsComponent.class);
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
-          GridPoint2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(closestEnemy.getPosition().x, closestEnemy.getPosition().y);
-          String location = UGS.generateCoordinate(pos.x, pos.y);
-          ServiceLocator.getUGSService().dispose(location);
           closestEnemy.dispose();
           this.entity.getEvents().trigger("enemyKill");
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
@@ -158,9 +143,6 @@ public class PlayerActions extends Component {
     } else if (closestEntity != null) {
       if (closestEntity.isCollectable()) {
         closestEntity.collectResources();
-        GridPoint2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(closestEntity.getPosition().x, closestEntity.getPosition().y);
-        String location = UGS.generateCoordinate(pos.x, pos.y);
-        ServiceLocator.getUGSService().dispose(location);
         closestEntity.dispose();
         PlayerStatsDisplay.updateItems();
       }
@@ -169,9 +151,17 @@ public class PlayerActions extends Component {
 
   }
 
+  /**
+   * Kill the entity
+   */
+  public void die() {
+    entity.getEvents().trigger("death_anim");
+//    entity.dispose();
+
+  }
 
 }
-// deprecated attack fucntion
+// deprecated attack function
 //    closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
 //        (int) current.getPosition().y);
 //    Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,

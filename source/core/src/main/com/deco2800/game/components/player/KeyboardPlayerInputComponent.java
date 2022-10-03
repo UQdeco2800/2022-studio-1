@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
@@ -45,7 +42,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap", "stonequarry", "woodCutter"};
 
   private int structureSelect = 0;
-
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -103,6 +99,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean keyUp(int keycode) {
     switch (keycode) {
+      case Keys.Q:
+        entity.getEvents().trigger("playerDeath");
+        return true;
       case Keys.W:
         walkDirection.sub(Vector2Utils.UP);
         triggerWalkEvent();
