@@ -432,12 +432,13 @@ public class ForestGameArea extends GameArea {
     switch (partOfDay) {
 
       case DAWN:
-      // Spawns NPCs that already existed
-      if(activeNPCs.size() > 0) {
-        for(Entity npc : activeNPCs) {
-          spawnNPCharacter();
+        // Spawns NPCs that already existed
+        if (activeNPCs.size() > 0) {
+          for (Entity npc : activeNPCs) {
+            spawnNPCharacter();
+          }
         }
-      }
+        break;
 
       case DAY:
         break;
