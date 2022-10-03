@@ -276,8 +276,8 @@ public class NPCFactory {
         //     "images/npc1.png",
             "images/npcs/NPC-V2.2.png" };
 
-     //int index = (int) ((Math.random() * (NPC_textures.length)));
-        int index = 1;
+     int index = (int) ((Math.random() * (NPC_textures.length)));
+     //   int index = 1;
 
         AITaskComponent aiComponent =
             new AITaskComponent()
