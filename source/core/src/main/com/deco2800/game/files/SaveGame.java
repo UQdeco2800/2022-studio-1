@@ -247,7 +247,8 @@ public class SaveGame {
     }
 
     /**
-     * Reads crystal from json file
+     * Reads crystal from json file. Assumes the crystal already exists in the game
+     * engine.
      * 
      * @throws InvocationTargetException when invoking method fails due to invalid
      *                                   method
@@ -274,6 +275,9 @@ public class SaveGame {
         logger.debug("End Loading Crystal");
     }
 
+    /**
+     * saves the player to a JSON file
+     */
     private static void savePlayer() {
         logger.debug("Begin Saving Player");
         String name = "player";
@@ -281,8 +285,8 @@ public class SaveGame {
         if (player == null) {
             return;
         }
-        // save player status - look at CareTaker & Memento which would for sure be the
-        // more elegant way to do this
+        // save player status - look at CareTaker and Memento which would for sure be
+        // the more elegant way to do this
         // in sprint 4, but I don't want to mess with that code this sprint to avoid
         // conflicts
         HashMap<String, Object> status = new HashMap();
@@ -304,7 +308,8 @@ public class SaveGame {
     }
 
     /**
-     * note that this assumes the player has been created already
+     * Loads the player from the JSON file. Assumes the player already exists in the
+     * game engine
      */
     private static void loadPlayer() {
         logger.debug("Begin Loading Player");

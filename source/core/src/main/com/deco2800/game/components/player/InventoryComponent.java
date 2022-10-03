@@ -41,10 +41,9 @@ public class InventoryComponent extends Component {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
-    /*
-     * equipmentList.add(Equipments.AXE);
-     * setArmor(Equipments.AXE);
-     */
+    equipmentList.add(Equipments.AXE);
+    setArmor(Equipments.AXE);
+
     achievementHandler = ServiceLocator.getAchievementHandler();
   }
 

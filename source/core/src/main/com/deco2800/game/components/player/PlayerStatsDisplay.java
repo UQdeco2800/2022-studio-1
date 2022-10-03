@@ -50,12 +50,9 @@ public class PlayerStatsDisplay extends UIComponent {
 
   DayNightCycleStatus status;
 
-
   Entity crystal;
   Entity health;
   private static int stoneCount = 0;
-
-  //Entity resourceBuilding = ServiceLocator.getEntityService().getNamedEntity("stoneQuarry");
 
   /**
    * Creates reusable ui styles and adds actors to the stage.
@@ -69,8 +66,6 @@ public class PlayerStatsDisplay extends UIComponent {
     crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
 
   }
-
-
 
   /**
    * Creates actors and positions them on the stage using a table.
@@ -237,5 +232,4 @@ public class PlayerStatsDisplay extends UIComponent {
     stoneCurrencyLabel.remove();
     healthprogressBar.remove();
   }
-
 }
