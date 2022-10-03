@@ -118,7 +118,6 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     public Table[] displayBook() {
-
         book = new Table();
         book.setFillParent(true);
         book.center();

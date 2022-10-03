@@ -1,5 +1,6 @@
 package com.deco2800.game.components.Guidebook;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
@@ -37,11 +38,26 @@ public class GuidebookActions extends Component {
         
     }
     private void nextPage() {
-
+        int currentPage = GuidebookDisplay.currentPage;
+        int proposedNextPage = GuidebookDisplay.currentPage + 2;
+        GuidebookDisplay.currentPage = (proposedNextPage < GuidebookDisplay.maxPages) ? proposedNextPage : currentPage;
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+        for (Table table: guidebook) {
+            table.remove();
+        }
+        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
     }
 
     private void backPage() {
+        int currentPage = GuidebookDisplay.currentPage;
+        int proposedBackPage = GuidebookDisplay.currentPage - 2;
+        GuidebookDisplay.currentPage = (proposedBackPage >= 0) ? proposedBackPage : currentPage;
 
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+        for (Table table: guidebook) {
+            table.remove();
+        }
+        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
     }
 
 
