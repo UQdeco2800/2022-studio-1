@@ -15,8 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Action component for interacting with the player. Player events should be
- * initialised in create()
- * and when triggered should call methods within this class.
+ * initialised in create() and should call methods within this class when triggered
  */
 public class PlayerActions extends Component {
   private Vector2 MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
@@ -156,6 +155,7 @@ public class PlayerActions extends Component {
    * Kill the entity
    */
 //  public void die() {
+//    //play animation
 //    entity.dispose();
 //  }
 
