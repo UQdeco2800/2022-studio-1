@@ -106,22 +106,25 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayerTile()" class="member-name-link">getPlayerTile</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This function returns whats in the UGS in the tile where the player is standing.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#perimeter(com.deco2800.game.entities.Entity)" class="member-name-link">perimeter</a><wbr>(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;middle)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This function allows you to pass in an entity and retrieve an array containing every entity store in the UGS that
+ are in the 8 squares around it: (Top Left, Directly Above, Top Right, Right, Bottom Right, Directly Bellow, Bottom Left, Left)</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#playerInRangeOf(com.deco2800.game.entities.Entity)" class="member-name-link">playerInRangeOf</a><wbr>(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;toCompare)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This function allows the user to check if an entity is in range of the player.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registeredInUGS()" class="member-name-link">registeredInUGS</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testingPurposes()" class="member-name-link">testingPurposes</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withinTowerRange(com.deco2800.game.entities.Entity)" class="member-name-link">withinTowerRange</a><wbr>(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;toCompare)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">This function filters through the UGS and returns a list of all entities that are registered in the UGS</div>
+</div>
 </div>
 </div>
 </div>
@@ -157,36 +160,51 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="perimeter(com.deco2800.game.entities.Entity)">
 <h3>perimeter</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</span>&nbsp;<span class="element-name">perimeter</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;middle)</span></div>
+<div class="block">This function allows you to pass in an entity and retrieve an array containing every entity store in the UGS that
+ are in the 8 squares around it: (Top Left, Directly Above, Top Right, Right, Bottom Right, Directly Bellow, Bottom Left, Left)</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>middle</code> - the entity whose perimeter you want to find</dd>
+<dt>Returns:</dt>
+<dd>an array list containing the perimeter in the form above</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getPlayerTile()">
 <h3>getPlayerTile</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getPlayerTile</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="testingPurposes()">
-<h3>testingPurposes</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">testingPurposes</span>()</div>
+<div class="block">This function returns whats in the UGS in the tile where the player is standing. This is a short term solution
+ to the enemies not yet moving in the UGS.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the string generated key that is stored in the hashmap of where the player is standing</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="registeredInUGS()">
 <h3>registeredInUGS</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</span>&nbsp;<span class="element-name">registeredInUGS</span>()</div>
+<div class="block">This function filters through the UGS and returns a list of all entities that are registered in the UGS</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>an array containing all entities that are within the UGS</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="playerInRangeOf(com.deco2800.game.entities.Entity)">
 <h3>playerInRangeOf</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">playerInRangeOf</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;toCompare)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="withinTowerRange(com.deco2800.game.entities.Entity)">
-<h3>withinTowerRange</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">withinTowerRange</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;toCompare)</span></div>
+<div class="block">This function allows the user to check if an entity is in range of the player. So enemies can use this to attack
+ etc.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>toCompare</code> - an entity that you want to see if its around the player</dd>
+<dt>Returns:</dt>
+<dd>true if its within the players perimeter and false if its not</dd>
+</dl>
 </section>
 </li>
 </ul>
