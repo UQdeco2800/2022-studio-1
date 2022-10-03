@@ -57,6 +57,7 @@ public class PlayerFactory {
     player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
     player_start.addAnimation("da", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("death_anim", 0.3f, Animation.PlayMode.NORMAL);
 
     Entity player =
         new Entity()
@@ -77,11 +78,13 @@ public class PlayerFactory {
     player.setCollectable(false);
 
     ServiceLocator.getEntityService().registerNamed("player", player);
-    PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+    PhysicsUtils.setScaledCollider(player, 15f, 15f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
-    player.setScale(2.5f, 2.5f);
+    player.setScale(15f, 15f);
+//    player.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return player;
   }
 

@@ -13,7 +13,7 @@ public class AchievementFactory {
      * @return map of stat milestones
      */
     public static Map<Integer, List<Integer>> createCustomStatAchievementMileStones() {
-        return Map.of(1, List.of(50, 100, 150, 200),
+        return Map.of(1, List.of(50, 60, 100, 150),
                       2, List.of(10, 20, 50, 100));
     }
     /**

@@ -4,6 +4,7 @@ import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.areas.GameService;
 import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
@@ -22,6 +23,7 @@ public class ServiceLocator {
   private static final Logger logger = LoggerFactory.getLogger(ServiceLocator.class);
   private static EntityService entityService;
   private static RenderService renderService;
+  private static RangeService rangeService;
   private static PhysicsService physicsService;
   private static GameTime timeSource;
   private static InputService inputService;
@@ -29,6 +31,7 @@ public class ServiceLocator {
   private static StructureService structureService;
   private static DayNightCycleService dayNightCycleService;
   private static GameService gameService;
+  private static UGS ugsService;
   private static ResourceManagementService resourceManagementService;
   private static AchievementHandler achievementHandler;
   private static NpcService NpcService;
@@ -39,6 +42,10 @@ public class ServiceLocator {
 
   public static GameService getGameService() {
     return gameService;
+  }
+
+  public static RangeService getRangeService() {
+    return rangeService;
   }
 
   public static RenderService getRenderService() {
@@ -67,7 +74,10 @@ public class ServiceLocator {
 
   public static StructureService getStructureService() { return structureService; }
 
-  public static DayNightCycleService getDayNightCycleService() {
+  public static UGS getUGSService() {return ugsService;}
+
+  public static DayNightCycleService getDayNightCycleService () {
+
     return dayNightCycleService;
   }
 
@@ -81,6 +91,11 @@ public class ServiceLocator {
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
     entityService = service;
+  }
+
+  public static void registerRangeService(RangeService service) {
+    logger.debug("Registering entity service {}", service);
+    rangeService = service;
   }
 
   public static void registerGameService(GameService service) {
@@ -116,6 +131,11 @@ public class ServiceLocator {
   public static void registerStructureService( StructureService source) {
     logger.debug("Registering structure service {}", source);
     structureService = source;
+  }
+
+  public static void registerUGSService( UGS source) {
+    logger.debug("Registering structure service {}", source);
+    ugsService = source;
   }
 
     public static void registerDayNightCycleService(DayNightCycleService source) {
