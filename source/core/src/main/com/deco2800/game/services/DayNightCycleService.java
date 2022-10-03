@@ -2,13 +2,10 @@ package com.deco2800.game.services;
 
 import com.badlogic.gdx.Gdx;
 import com.deco2800.game.concurrency.JobSystem;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.CompletableFuture;
 
 /**

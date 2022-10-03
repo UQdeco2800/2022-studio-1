@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.npc.EffectNearBy;
+import com.deco2800.game.components.npc.*;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
-import com.deco2800.game.components.npc.EntityClassification;
-import com.deco2800.game.components.npc.GhostAnimationController;
 import com.deco2800.game.components.tasks.*;
 import com.deco2800.game.components.tasks.RangedMovementTask;
 import com.deco2800.game.components.tasks.WanderTask;
@@ -118,7 +116,9 @@ public class NPCFactory {
     pirateCrabEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent);
+            .addComponent(new ContinuousAttackComponent())
+            .addComponent(textureRenderComponent)
+            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
@@ -146,7 +146,8 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
             //.addComponent(textureRenderComponent);
-            .addComponent(new GhostAnimationController());
+            .addComponent(new GhostAnimationController())
+            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
     //ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
@@ -166,24 +167,27 @@ public class NPCFactory {
   public static Entity createMeleeBoss(Entity target) {
     Entity boss = createBaseEnemy(target);
     MeleeBossConfig config = configs.meleeBossEnemy;
-
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/boss_enemy_angle1.png");
+    AnimationRenderComponent animator = new AnimationRenderComponent(
+            ServiceLocator.getResourceService().getAsset("images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
+    animator.addAnimation("boss_frame", 0.1f, Animation.PlayMode.LOOP);
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     boss
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent)
+            .addComponent(animator)
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
-            .addComponent(new EffectNearBy(true, true, true));
+            .addComponent(new EffectNearBy(true, true, true))
+            .addComponent(new ContinuousAttackComponent());
 
-    boss.getComponent(TextureRenderComponent.class).scaleEntity();
+    boss.setScale(2, 2);
+    boss.getComponent(AnimationRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
     boss.getComponent(EffectNearBy.class).enableSpeed();
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
-
+    boss.getComponent(AnimationRenderComponent.class).startAnimation("boss_frame");
     return boss;
   }
 
@@ -302,20 +306,18 @@ public class NPCFactory {
 
       public static Entity createNPC() {
         Entity NPC = createBaseNPC();
-        //NPCConfig config = configs.ArmoryNPC;
+        // NPCConfig config = configs.NPC1;
         //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
-        if (NPC.getName()=="SpecialNPC"){
-//          AnimationRenderComponent animator =
-//                  new AnimationRenderComponent(
-//                          ServiceLocator.getResourceService().getAsset("images/eel_animations/eel.atlas", TextureAtlas.class));
-//          animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
-//          animator.addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
-//          animator.addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
-//          animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
-//                      NPC.addComponent(animator)
-//                  //.addComponent(textureRenderComponent);
-//                  .addComponent(new GhostAnimationController());
-        }
+        // if (NPC.getName()=="SpecialNPC"){
+        AnimationRenderComponent animator =
+                 new AnimationRenderComponent(
+                         ServiceLocator.getResourceService().getAsset("images/npc_animations/NPC1sprite.atlas", TextureAtlas.class));
+        animator.addAnimation("fn", 0.1f, Animation.PlayMode.LOOP);
+        NPC.addComponent(animator);
+        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
+        NPC.getComponent(AnimationRenderComponent.class).startAnimation("fn");
+                //  .addComponent(textureRenderComponent);
+        // }
           return NPC;
       }
 

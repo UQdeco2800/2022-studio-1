@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -68,6 +69,9 @@ public class MainGameExitDisplay extends UIComponent {
                       backButton.setChecked(false);
                   }
               });
+      backButton.addListener(
+              new TextTooltip("Back to Main Menu",skin)
+      );
 
     // Entering the system button
     Texture settingTexture = new Texture(Gdx.files.internal("images/settingsGame.png"));
@@ -101,6 +105,9 @@ public class MainGameExitDisplay extends UIComponent {
                       settingsButton.setChecked(false);
                   }
               });
+      settingsButton.addListener(
+              new TextTooltip("  Settings",skin)
+      );
 
     // Inserting load Button
     Texture loadTexture = new Texture(Gdx.files.internal("images/loadButton.png"));
@@ -134,6 +141,9 @@ public class MainGameExitDisplay extends UIComponent {
                       loadButton.setChecked(false);
                   }
               });
+      loadButton.addListener(
+              new TextTooltip("Load Game",skin)
+      );
 
     // Inserting save Button
     Texture saveTexture = new Texture(Gdx.files.internal("images/saveButton.png"));
@@ -167,6 +177,9 @@ public class MainGameExitDisplay extends UIComponent {
                       saveButton.setChecked(false);
                   }
               });
+      saveButton.addListener(
+              new TextTooltip("Save Game",skin)
+      );
 
     table.add(saveButton).size(50f).pad(5);
     table.add(loadButton).size(50f).pad(5);
