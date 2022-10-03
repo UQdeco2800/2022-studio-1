@@ -120,7 +120,7 @@ public class UGS {
 
     /**
      * This function is to be called anytime you
-     * @param tile the generated coordinate key that maps to the entity you want to remove
+     * @param toRemove the generated coordinate key that maps to the entity you want to remove
      */
     public void dispose(Entity toRemove) {
         if (ServiceLocator.getRangeService().registeredInUGS().contains(toRemove)) {
