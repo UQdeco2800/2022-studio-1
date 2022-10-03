@@ -1,5 +1,7 @@
 package com.deco2800.game.components.Guidebook;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
@@ -7,9 +9,16 @@ import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.screens.GuidebookScreen;
+import com.deco2800.game.screens.GuidebookStatus;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * This class listens to events relevant to the Main Game Screen and does
@@ -21,6 +30,7 @@ public class GuidebookActions extends Component {
     private AtlantisSinks game;
     private Renderer renderer;
     private CareTaker playerStatus;
+    public int currentPage;
 
     public GuidebookActions(AtlantisSinks game) {
         this.game = game;
@@ -37,14 +47,52 @@ public class GuidebookActions extends Component {
         
     }
     private void nextPage() {
+        int proposedNextPage = GuidebookDisplay.currentPage + 2;
+        if (proposedNextPage >= GuidebookDisplay.maxPages) {
+            return;
+        }
+        GuidebookDisplay.currentPage = proposedNextPage;
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+        for (Table table: guidebook) {
+            table.remove();
+        }
+        GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_NEXT;
+        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
 
+        ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
+
+        Runnable flickTask = () -> {
+            GuidebookScreen.renderTrigger = 1;
+            Gdx.graphics.requestRendering();
+        };
+
+        flicking.schedule(flickTask, 250, MILLISECONDS);
     }
 
     private void backPage() {
+        currentPage = GuidebookDisplay.currentPage;
+        int proposedBackPage = GuidebookDisplay.currentPage - 2;
+        if (proposedBackPage < 0) {
+            return;
+        }
+        GuidebookDisplay.currentPage = proposedBackPage;
 
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+        for (Table table: guidebook) {
+            table.remove();
+        }
+        GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_PREVIOUS;
+        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+
+        ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
+
+        Runnable flickTask = () -> {
+            GuidebookScreen.renderTrigger = 1;
+            Gdx.graphics.requestRendering();
+        };
+
+        flicking.schedule(flickTask, 250, MILLISECONDS);
     }
-
-
 
 
     /**
@@ -53,6 +101,7 @@ public class GuidebookActions extends Component {
     private void onExit() {
         logger.info("Exiting guidebook screen");
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }
 
     /**
@@ -78,8 +127,5 @@ public class GuidebookActions extends Component {
 
         playerStatus.add(currentStatus.saveStateToMemento());
     }
-
-
-
 
 }
