@@ -36,6 +36,8 @@ public class ServiceLocator {
   private static AchievementHandler achievementHandler;
   private static NpcService NpcService;
 
+  public static UGS getUGSService() {return ugsService;}
+
   public static EntityService getEntityService() {
     return entityService;
   }
@@ -74,7 +76,6 @@ public class ServiceLocator {
 
   public static StructureService getStructureService() { return structureService; }
 
-  public static UGS getUGSService() {return ugsService;}
 
   public static DayNightCycleService getDayNightCycleService () {
 

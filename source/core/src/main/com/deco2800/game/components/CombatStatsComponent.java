@@ -94,21 +94,38 @@ public class CombatStatsComponent extends Component {
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      if (health <= maxHealth) {
+      if (health > maxHealth) {
+        this.health = maxHealth;
+      } else {
         this.health = health;
       }
-      // }else {
-      // logger.info("max health is reached");
-      // }
     } else {
       this.health = 0;
+      killEntity(entity.getName());
     }
 
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
-      if (health == 0) {
+    }
+  }
+
+  /**
+   * Triggers listener events when certain entities should be killed. Each entity can be handled separately.
+   *
+   * @param entityName the name of the entity to kill
+   */
+  public void killEntity(String entityName) {
+    //String entityName = entity.getName();
+    switch (entityName) {
+      case "player":
+        entity.getEvents().trigger("playerDeath");
+        break;
+      case "crystal":
+        System.out.println("trigger case crystal death");
         entity.getEvents().trigger("crystalDeath");
-      }
+        break;
+      default:
+        //do nothing
     }
   }
 
