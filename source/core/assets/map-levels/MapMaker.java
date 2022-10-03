@@ -53,14 +53,14 @@ public class MapMaker extends JFrame {
         private String[] textures = {
                         "../images/65x33_tiles/water.png",
                         "../images/65x33_tiles/sand.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png",
-                        "../images/65x33_tiles/shoreline.png"
+                        "../images/65x33_tiles/shorelineBottom.png",
+                        "../images/65x33_tiles/shorelineTop.png",
+                        "../images/65x33_tiles/shorelineBottomRight.png",
+                        "../images/65x33_tiles/shorelineBottomLeft.png",
+                        "../images/65x33_tiles/shorelineTopRight.png",
+                        "../images/65x33_tiles/shorelineTopLeft.png",
+                        "../images/65x33_tiles/shorelineLeft.png",
+                        "../images/65x33_tiles/shorelineRight.png"
         };
 
         private String centerTileTexture = "../images/65x33_tiles/sand_night.png";
@@ -462,9 +462,7 @@ public class MapMaker extends JFrame {
                                                 if (tileImage != null) {
 
                                                         Integer textureIndex;
-
                                                         if (centerTile.x == x && centerTile.y == y) {
-                                                                System.out.println(centerTile);
                                                                 textureIndex = Integer.valueOf(1);
                                                         } else {
                                                                 textureIndex = imagePathIndexMap.get(tileImage);
@@ -559,14 +557,21 @@ public class MapMaker extends JFrame {
                                                 continue;
                                         }
 
-                                        ImageIcon initImage = new ImageIcon(
-                                                        textures[Integer.parseInt(String.valueOf(tileIndex))]);
-                                        Image image = initImage.getImage();
-                                        Image newImage = image.getScaledInstance(image.getWidth(null) * 2,
-                                                        image.getHeight(null) * 2,
-                                                        java.awt.Image.SCALE_SMOOTH);
+                                        Integer tileImageIndex = Integer.parseInt(String.valueOf(tileIndex));
+                                        Image tileImage = null;
+                                        for (Entry<Image, Integer> entry : imagePathIndexMap.entrySet()) {
+                                                if (entry.getValue().equals(tileImageIndex)) {
+                                                        tileImage = entry.getKey();
+                                                }
+                                        }
 
-                                        loadedMap.put(new Coordinate(currentY, currentX), newImage);
+                                        if (tileImage == null) {
+                                                System.out.println("Invalid file!");
+                                                stream.close();
+                                                return;
+                                        }
+
+                                        loadedMap.put(new Coordinate(currentY, currentX), tileImage);
                                         currentX++;
 
                                 }
