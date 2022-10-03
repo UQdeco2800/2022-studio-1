@@ -146,7 +146,7 @@ public class AchievementDisplay extends UIComponent {
         Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/Background_1664x824_Box.png")); // _1348x888
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
-        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_428x824_Box.png")); //
+        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
 
         Texture badgeDescription = new Texture(Gdx.files.internal("images/achievements/Badge_Description_1580x126_Box.png"));
@@ -160,7 +160,7 @@ public class AchievementDisplay extends UIComponent {
         changeDisplay(this.displayTable, AchievementType.SUMMARY);
 
         // Home Button
-        ImageButton summaryButton = createButton("images/achievements/summaryIcon.png");
+        ImageButton summaryButton = createButton("images/achievements/Summary_Button.png");
         this.addButtonEvent(summaryButton, "Summary");
         navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
