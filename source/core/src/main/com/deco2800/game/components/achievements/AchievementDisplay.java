@@ -179,13 +179,13 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
+        ImageButton killButton = createButton("images/achievements/Kills_Icon.png");
         this.addButtonEvent(killButton, "Kill");
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
+        ImageButton resourceButton = createButton("images/achievements/Resourse_Icon.png");
         this.addButtonEvent(resourceButton, "Resource");
 
         navigationTable.add(resourceButton).expand();
@@ -210,6 +210,8 @@ public class AchievementDisplay extends UIComponent {
         exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
         
         // Display main content
+        displayTable.align(Align.top);
+        displayTable.pad(50f);
 
         contentTable.add(navigationTable).colspan(2).expand();
         contentTable.add(displayTable).colspan(6).expand();
@@ -325,7 +327,7 @@ public class AchievementDisplay extends UIComponent {
     /**
      * Builds an achievement card actor read to be displayed
      *
-     * @param achievement the achievement to create th card for
+     * @param achievement the achievement to create the card for
      * @return the actor (Table)
      */
     public static Table buildAchievementCard(Achievement achievement) {
@@ -334,42 +336,70 @@ public class AchievementDisplay extends UIComponent {
         Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
         Image backgroundImg = new Image(backgroundTexture);
         achievementCard.setBackground(backgroundImg.getDrawable());
+
         Table achievementCardHeader = new Table();
         Texture achievementTypeTexture = new Texture(Gdx.files.internal(achievement.getAchievementType().getPopupImage()));
         Image achievementTypeImage = new Image(achievementTypeTexture);
+        achievementTypeImage.setAlign(Align.left);
         achievementCardHeader.add(achievementTypeImage);
         achievementCardHeader.add(new Label(achievement.getName(), skin, "small"));
         achievementCard.add(achievementCardHeader).expand();
         achievementCard.row();
         var descriptionLabel = new Label(achievement.getDescription(), skin, "small");
         achievementCard.add(descriptionLabel).colspan(3).expand();
+        achievementCard.row();
         if (achievement.isStat()) {
             descriptionLabel.setText(achievement.getDescription().formatted(achievement.getTotalAchieved()));
-            achievementCard.row();
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).padBottom(20);
+        } else {
+            achievementCard.add(new Label("", skin, "large"));
         }
         achievementCard.pack();
 
         return achievementCard;
     }
 
+    public static Table buildAchievementSummaryCard(AchievementType type) {
+        Table summaryCard = new Table();
+        summaryCard.pad(30f);
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompleted(type) ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Image backgroundImg = new Image(backgroundTexture);
+        summaryCard.setBackground(backgroundImg.getDrawable());
+
+        Table summaryCardHeader = new Table();
+        Texture summaryTypeTexture = new Texture(Gdx.files.internal(type.getPopupImage()));
+        Image summaryTypeImage = new Image(summaryTypeTexture);
+        summaryTypeImage.setAlign(Align.left);
+        summaryCardHeader.add(summaryTypeImage);
+        summaryCardHeader.add(new Label(type.getTitle(), skin, "small"));
+        summaryCard.add(summaryCardHeader).expand();
+        summaryCard.row();
+
+        return summaryCard;
+    }
+
     public static void changeDisplay(Table displayTable, AchievementType type) {
         displayTable.clear();
-        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expand();
+        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expandX();
         displayTable.row();
 
         int achievementsAdded = 0;
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
 
         if (type == AchievementType.SUMMARY) {
-            displayTable.add(new Label("Building Achievements", skin)).colspan(3).expand();
-            displayTable.add(new Label("Game Achievements", skin)).colspan(3).expand();
-            displayTable.row();
-            displayTable.add(new Label("Kill Achievements", skin)).colspan(3).expand();
-            displayTable.add(new Label("Resource Achievements", skin)).colspan(3).expand();
-            displayTable.row();
-            displayTable.add(new Label("Upgrade Achievements", skin)).colspan(3).expand();
-            displayTable.add(new Label("Misc Achievements", skin)).colspan(3).expand();
+            for (AchievementType achievementType : AchievementType.values()) {
+                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
+                    displayTable.row();
+                } else if (achievementType == AchievementType.SUMMARY) {
+                    continue;
+                }
+
+                displayTable.add(buildAchievementSummaryCard(achievementType)).colspan(3).fillX();
+
+                achievementsAdded++;
+            }
+
             return;
         }
 
@@ -379,7 +409,7 @@ public class AchievementDisplay extends UIComponent {
                     displayTable.row();
                 }
 
-                displayTable.add(buildAchievementCard(achievement)).colspan(3).expand();
+                displayTable.add(buildAchievementCard(achievement)).colspan(3).fillX();
 
                 achievementsAdded++;
             }
