@@ -284,7 +284,8 @@ public class ForestGameArea extends GameArea {
       int counter = 0;
       // check for possible collision and reroll location until valid
 
-      if (type == EnvironmentalObstacle.ROCK) {
+      if (type == EnvironmentalObstacle.ROCK || type == EnvironmentalObstacle.SHIPWRECK_BACK
+          || type == EnvironmentalObstacle.SHIPWRECK_FRONT) {
         randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
       } else {
         while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
@@ -313,8 +314,8 @@ public class ForestGameArea extends GameArea {
    * Object numbers must fall within set bounds.
    */
   private void spawnEnvironmentalObjects() {
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
-    spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
+    spawnEnvironmentalObject(30, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK);
+    spawnEnvironmentalObject(30, EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_FRONT);
     spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.TREE);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT);
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);

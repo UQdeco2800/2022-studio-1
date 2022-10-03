@@ -258,7 +258,7 @@ public class ObstacleFactory {
   public static Entity createShipwreckFront() {
     Entity shipwreck = createEnvironmentalObject("images/shipWreckFront.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
-        2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        20f, 1f, 1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     shipwreck.setName("ShipwreckFront");
     shipwreck.setCollectable(true);
@@ -266,7 +266,6 @@ public class ObstacleFactory {
     shipwreck.setResourceAmount(50);
 
     ServiceLocator.getEntityService().registerNamed("shipWreckFront@" + shipwreck.getId(), shipwreck);
-    shipwreck.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shipwreck;
   }
@@ -279,7 +278,7 @@ public class ObstacleFactory {
   public static Entity createShipwreckBack() {
     Entity shipwreck = createEnvironmentalObject("images/shipWreckBack.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
-        2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        20f, 1f, 1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     shipwreck.setName("ShipwreckBack");
     shipwreck.setCollectable(true);
@@ -287,7 +286,6 @@ public class ObstacleFactory {
     shipwreck.setResourceAmount(50);
 
     ServiceLocator.getEntityService().registerNamed("shipWreckBack@" + shipwreck.getId(), shipwreck);
-    shipwreck.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shipwreck;
   }
@@ -327,9 +325,7 @@ public class ObstacleFactory {
     environmentalObject.setName("EnvironmentalObject");
     environmentalObject.setCollectable(false);
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
-    environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);
-    environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
 
     PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
     return environmentalObject;
