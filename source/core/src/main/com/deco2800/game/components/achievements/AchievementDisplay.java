@@ -345,18 +345,66 @@ public class AchievementDisplay extends UIComponent {
         achievementCardHeader.add(new Label(achievement.getName(), skin, "small"));
         achievementCard.add(achievementCardHeader).expand();
         achievementCard.row();
-        var descriptionLabel = new Label(achievement.getDescription(), skin, "small");
+
+        ArrayList<String> achievementDescription = splitDescription(achievement.getDescription());
+
+        var descriptionLabel = new Label(achievementDescription.get(0), skin, "small");
         achievementCard.add(descriptionLabel).colspan(3).expand();
         achievementCard.row();
         if (achievement.isStat()) {
             descriptionLabel.setText(achievement.getDescription().formatted(achievement.getTotalAchieved()));
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).padBottom(20);
         } else {
-            achievementCard.add(new Label("", skin, "large"));
+            for (String s : achievementDescription) {
+                if (achievementDescription.indexOf(s) == 0) {
+                    continue;
+                }
+
+                achievementCard.add(new Label(s, skin, "small")).colspan(3).expand();
+                achievementCard.row();
+            }
+
+            if (achievementDescription.size() == 1) {
+                achievementCard.add(new Label("", skin, "small"));
+            }
         }
         achievementCard.pack();
 
         return achievementCard;
+    }
+
+    /**
+     * Split a description string into multiple lines
+     * @param description String
+     * @return ArrayList
+     */
+    public static ArrayList<String> splitDescription(String description) {
+        ArrayList<String> splitDescription = new ArrayList<>();
+        String[] temp = description.split(" ");
+        int rowLength = 0;
+        int maxRowLength = 5;
+
+        StringBuilder row = new StringBuilder();
+
+        for (String s : temp) {
+            if (rowLength >= maxRowLength) {
+                if (row.isEmpty()) {
+                    return splitDescription;
+                }
+
+                splitDescription.add(row.toString());
+                rowLength = 0;
+                row = new StringBuilder();
+            }
+
+            row.append(s);
+            row.append(" ");
+            rowLength++;
+        }
+
+        splitDescription.add(row.toString());
+
+        return splitDescription;
     }
 
     public static Table buildAchievementSummaryCard(AchievementType type) {
