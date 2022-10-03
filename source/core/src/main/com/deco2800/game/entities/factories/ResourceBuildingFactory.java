@@ -1,11 +1,13 @@
 package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
@@ -65,7 +67,7 @@ public class ResourceBuildingFactory {
                 .addComponent(new HealthBarComponent(75, 10));
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
-        stoneQuarry.setScale(1.5f, 1f);
+        stoneQuarry.setScale(10f, 8.1f);
         return stoneQuarry;
     }
 
@@ -87,28 +89,8 @@ public class ResourceBuildingFactory {
                 .addComponent(new HealthBarComponent(75, 10));
         woodQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         res_bul_animator.startAnimation("woqu");
-        woodQuarry.setScale(1.7f, 1.5f);
+        woodQuarry.setScale(13.5f, 11.5f);
         return woodQuarry;
-    }
-
-    /**
-     * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
-     * @param texture image representation for created structure
-     * @return structure entity
-     */
-    public static Entity createBaseStructure(String texture) {
-        Entity structure =
-                new Entity()
-                        .addComponent(new TextureRenderComponent(texture))
-                        .addComponent(new PhysicsComponent())
-                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                        .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
-
-        structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-        structure.getComponent(TextureRenderComponent.class).scaleEntity();
-        PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
-        return structure;
     }
 
     private static Entity createBaseStructure_forAnim(String texture) {

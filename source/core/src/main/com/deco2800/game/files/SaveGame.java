@@ -1,4 +1,5 @@
 package com.deco2800.game.files;
+
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -9,6 +10,7 @@ import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.entities.factories.*;
+import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
@@ -40,11 +42,15 @@ public class SaveGame {
         logger.debug("Begin Saving Environment");
         ArrayList<Tuple> environmentalObjects = new ArrayList<>();
 
-        //loop through all entities and check they have an environmental component, save texture and position
-        for (Entity ent: ServiceLocator.getEntityService().getEntityMap().values()) {
+        // loop through all entities and check they have an environmental component,
+        // save texture and position
+        for (Entity ent : ServiceLocator.getEntityService().getEntityMap().values()) {
 
-            if (ent.getComponent(EnvironmentalComponent.class) != null && ent.getComponent(TextureRenderComponent.class) != null) {
-                environmentalObjects.add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath()).setPosition(ent.getPosition()).setName(ent.getName()));
+            if (ent.getComponent(EnvironmentalComponent.class) != null
+                    && ent.getComponent(TextureRenderComponent.class) != null) {
+                environmentalObjects
+                        .add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath())
+                                .setPosition(ent.getPosition()).setName(ent.getName()));
 
             }
         }
@@ -57,18 +63,20 @@ public class SaveGame {
      * Loads all environmental objects from saves/environmental via the use of json
      *
      * @throws InvocationTargetException throw error when invoking methods fails
-     * @throws IllegalAccessException throw error when invoking method fails
+     * @throws IllegalAccessException    throw error when invoking method fails
      */
     private static void loadEnvrionmentalObjects() throws InvocationTargetException, IllegalAccessException {
         logger.debug("Begin Loading Environment");
         ArrayList obstacles = FileLoader.readClass(ArrayList.class, savePathEnvironmental, FileLoader.Location.LOCAL);
 
-        for (Object ob: obstacles) {
+        for (Object ob : obstacles) {
             Tuple obstacle = (Tuple) ob;
             Entity newEnvironmentalObject;
 
-            if (obstacle.texture.contains("Tree") || obstacle.texture.contains("limestone-boulder") || obstacle.texture.contains("marble-stone")) {
-                newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null, obstacle.texture);
+            if (obstacle.texture.contains("Tree") || obstacle.texture.contains("limestone-boulder")
+                    || obstacle.texture.contains("marble-stone")) {
+                newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null,
+                        obstacle.texture);
             } else {
                 newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null);
             }
@@ -84,30 +92,45 @@ public class SaveGame {
     }
 
     /**
-     * Helper method that generates a map mapping textures to each corresponding creator method in obstacle factory
+     * Helper method that generates a map mapping textures to each corresponding
+     * creator method in obstacle factory
      *
      * @throws NoSuchMethodException if the method doesnt exist or has been changed
      */
     private static void environmentalGenerationSetUp() throws NoSuchMethodException {
         environmentalGeneration.put("images/shipWreckBack.png", ObstacleFactory.class.getMethod("createShipwreckBack"));
-        environmentalGeneration.put("images/shipWreckFront.png", ObstacleFactory.class.getMethod("createShipwreckFront"));
+        environmentalGeneration.put("images/shipWreckFront.png",
+                ObstacleFactory.class.getMethod("createShipwreckFront"));
         environmentalGeneration.put("images/65x33_tiles/shell.png", ObstacleFactory.class.getMethod("createShell"));
-        environmentalGeneration.put("images/landscape_objects/wooden-fence-60x60.png", ObstacleFactory.class.getMethod("createWoodenFence"));
-        environmentalGeneration.put("images/landscape_objects/pillar.png", ObstacleFactory.class.getMethod("createPillar"));
-        environmentalGeneration.put("images/landscape_objects/chalice.png", ObstacleFactory.class.getMethod("createAoeSpeedArtefact"));
-        environmentalGeneration.put("images/landscape_objects/billboard.png", ObstacleFactory.class.getMethod("createBillboard"));
-        environmentalGeneration.put("images/landscape_objects/geyser.png", ObstacleFactory.class.getMethod("createGeyser"));
-        environmentalGeneration.put("images/landscape_objects/cypress-tree-60x100.png", ObstacleFactory.class.getMethod("createSpikyTree"));
-        environmentalGeneration.put("images/landscape_objects/vines.png", ObstacleFactory.class.getMethod("createVine"));
-        environmentalGeneration.put( "images/landscape_objects/limestone-boulder-60x60.png", ObstacleFactory.class.getMethod("createRock", String.class));
-        environmentalGeneration.put("images/landscape_objects/marble-stone-60x40.png", ObstacleFactory.class.getMethod("createRock", String.class));
-        environmentalGeneration.put("images/landscape_objects/leftPalmTree.png", ObstacleFactory.class.getMethod("createTree", String.class));
-        environmentalGeneration.put("images/landscape_objects/rightPalmTree.png", ObstacleFactory.class.getMethod("createTree", String.class));
-        environmentalGeneration.put("images/landscape_objects/groupPalmTrees.png", ObstacleFactory.class.getMethod("createTree", String.class));
+        environmentalGeneration.put("images/landscape_objects/wooden-fence-60x60.png",
+                ObstacleFactory.class.getMethod("createWoodenFence"));
+        environmentalGeneration.put("images/landscape_objects/pillar.png",
+                ObstacleFactory.class.getMethod("createPillar"));
+        environmentalGeneration.put("images/landscape_objects/chalice.png",
+                ObstacleFactory.class.getMethod("createAoeSpeedArtefact"));
+        environmentalGeneration.put("images/landscape_objects/billboard.png",
+                ObstacleFactory.class.getMethod("createBillboard"));
+        environmentalGeneration.put("images/landscape_objects/geyser.png",
+                ObstacleFactory.class.getMethod("createGeyser"));
+        environmentalGeneration.put("images/landscape_objects/cypress-tree-60x100.png",
+                ObstacleFactory.class.getMethod("createSpikyTree"));
+        environmentalGeneration.put("images/landscape_objects/vines.png",
+                ObstacleFactory.class.getMethod("createVine"));
+        environmentalGeneration.put("images/landscape_objects/limestone-boulder-60x60.png",
+                ObstacleFactory.class.getMethod("createRock", String.class));
+        environmentalGeneration.put("images/landscape_objects/marble-stone-60x40.png",
+                ObstacleFactory.class.getMethod("createRock", String.class));
+        environmentalGeneration.put("images/landscape_objects/leftPalmTree.png",
+                ObstacleFactory.class.getMethod("createTree", String.class));
+        environmentalGeneration.put("images/landscape_objects/rightPalmTree.png",
+                ObstacleFactory.class.getMethod("createTree", String.class));
+        environmentalGeneration.put("images/landscape_objects/groupPalmTrees.png",
+                ObstacleFactory.class.getMethod("createTree", String.class));
     }
 
     /**
-     * Helper method that generates a map for textures to corresponding creator method in obstacle factory
+     * Helper method that generates a map for textures to corresponding creator
+     * method in obstacle factory
      *
      * @throws NoSuchMethodException if the method does not exist
      */
@@ -137,20 +160,22 @@ public class SaveGame {
 
         Map<String, Entity> structures = ServiceLocator.getStructureService().getAllNamedEntities();
 
-        //loop through all entities saving texture, position and name of structure
-        for (String name: structures.keySet()) {
+        // loop through all entities saving texture, position and name of structure
+        for (String name : structures.keySet()) {
             if (structures.get(name).getComponent(TextureRenderComponent.class) != null) {
-                structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition()).setTexture(structures.get(name).getComponent(TextureRenderComponent.class).getTexturePath()));
+                structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
+                        .setTexture(structures.get(name).getComponent(TextureRenderComponent.class).getTexturePath()));
             } else if (structures.get(name).getComponent(AnimationRenderComponent.class) != null) {
                 if (name.contains("wood")) {
-                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition()).setTexture("wood"));
-                } else if (name.contains("stonequarry")){
-                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition()).setTexture("stonequarry"));
+                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
+                            .setTexture("wood"));
+                } else if (name.contains("stonequarry")) {
+                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
+                            .setTexture("stonequarry"));
                 }
 
             }
         }
-
 
         FileLoader.writeClass(structuresList, savePathStructures, FileLoader.Location.LOCAL);
         logger.debug("Finished Saving Structures");
@@ -159,15 +184,17 @@ public class SaveGame {
     /**
      * Load and store all structures back onto the map
      *
-     * @throws InvocationTargetException when invoking method fails due to invalid method
-     * @throws IllegalAccessException when invoking method fails due to permisions
+     * @throws InvocationTargetException when invoking method fails due to invalid
+     *                                   method
+     * @throws IllegalAccessException    when invoking method fails due to
+     *                                   permisions
      */
     private static void loadStructures() throws InvocationTargetException, IllegalAccessException {
         logger.debug("Begin Loading Structures");
         ArrayList structures = FileLoader.readClass(ArrayList.class, savePathStructures, FileLoader.Location.LOCAL);
 
-        //loop through all structures and go to correct generation method
-        for (Object st: structures) {
+        // loop through all structures and go to correct generation method
+        for (Object st : structures) {
             Tuple structureRepresentation = (Tuple) st;
             Entity structure;
 
@@ -175,7 +202,7 @@ public class SaveGame {
 
                 int count = 1;
 
-                //count level of tower
+                // count level of tower
                 for (int i = 0; i < structureRepresentation.texture.length(); i++) {
                     if (structureRepresentation.texture.indexOf(i) == 'I') {
                         count++;
@@ -187,7 +214,6 @@ public class SaveGame {
 
                 structure = (Entity) structureGeneration.get(structureRepresentation.texture).invoke(null);
             }
-
 
             structure.setPosition(structureRepresentation.position);
             structure.setName(structureRepresentation.name);
@@ -202,6 +228,7 @@ public class SaveGame {
      * Saves the crystal to a JSON file
      */
     private static void saveCrystal() {
+        logger.debug("Begin Saving Crystal");
         String name = "crystal";
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
 
@@ -216,19 +243,25 @@ public class SaveGame {
         crystalRepresentation.setTexture(crystal.getComponent(TextureRenderComponent.class).getTexturePath());
 
         FileLoader.writeClass(crystalRepresentation, savePathCrystal, FileLoader.Location.LOCAL);
+        logger.debug("End Saving Crystal");
     }
 
     /**
      * Reads crystal from json file
-     * @throws InvocationTargetException when invoking method fails due to invalid method
-     * @throws IllegalAccessException when invoking method fails due to permisions
+     * 
+     * @throws InvocationTargetException when invoking method fails due to invalid
+     *                                   method
+     * @throws IllegalAccessException    when invoking method fails due to
+     *                                   permisions
      */
     private static void loadCrystal() throws InvocationTargetException, IllegalAccessException {
+        logger.debug("Begin Loading Crystal");
         Tuple crystalRepresentation = FileLoader.readClass(Tuple.class, savePathCrystal, FileLoader.Location.LOCAL);
         CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
         if (crystalRepresentation != null) {
             Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-//                    CrystalFactory.createCrystal(crystalRepresentation.texture, crystalRepresentation.name);
+            // CrystalFactory.createCrystal(crystalRepresentation.texture,
+            // crystalRepresentation.name);
             if (crystal == null) {
                 return;
             }
@@ -238,16 +271,20 @@ public class SaveGame {
             }
             crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
         }
+        logger.debug("End Loading Crystal");
     }
 
     private static void savePlayer() {
+        logger.debug("Begin Saving Player");
         String name = "player";
         Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
         if (player == null) {
             return;
         }
-        // save player status - look at CareTaker & Memento which would for sure be the more elegant way to do this
-        // in sprint 4, but I don't want to mess with that code this sprint to avoid conflicts
+        // save player status - look at CareTaker & Memento which would for sure be the
+        // more elegant way to do this
+        // in sprint 4, but I don't want to mess with that code this sprint to avoid
+        // conflicts
         HashMap<String, Object> status = new HashMap();
         status.put("gold", player.getComponent(InventoryComponent.class).getGold());
         status.put("stone", player.getComponent(InventoryComponent.class).getStone());
@@ -263,12 +300,14 @@ public class SaveGame {
 
         Tuple p = new Tuple().setPosition(player.getPosition()).setName(name).setPlayerState(status);
         FileLoader.writeClass(p, savePathPlayer, FileLoader.Location.LOCAL);
+        logger.debug("End Saving Player");
     }
 
     /**
      * note that this assumes the player has been created already
      */
     private static void loadPlayer() {
+        logger.debug("Begin Loading Player");
         String name = "player";
         Tuple p = FileLoader.readClass(Tuple.class, savePathPlayer, FileLoader.Location.LOCAL);
         Entity player = ServiceLocator.getEntityService().getNamedEntity(name);
@@ -289,11 +328,13 @@ public class SaveGame {
             player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
             player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
             player.getComponent(InventoryComponent.class).setArmor((Equipments) d.get("armor"));
-            player.getComponent(InventoryComponent.class).setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
+            player.getComponent(InventoryComponent.class)
+                    .setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
 
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
         }
+        logger.debug("End Loading Player");
     }
 
     private static void saveGameData() {
@@ -306,7 +347,8 @@ public class SaveGame {
 
     private static void loadGameData() {
         logger.debug("Begin Loading Game Data");
-        DayNightCycleService savedDayNightCycle = FileLoader.readClass(DayNightCycleService.class, saveGameData, FileLoader.Location.LOCAL);
+        DayNightCycleService savedDayNightCycle = FileLoader.readClass(DayNightCycleService.class, saveGameData,
+                FileLoader.Location.LOCAL);
         DayNightCycleService currentService = ServiceLocator.getDayNightCycleService();
 
         currentService.currentCycleStatus = savedDayNightCycle.currentCycleStatus;
@@ -373,6 +415,5 @@ public class SaveGame {
         }
         logger.debug("Finished Loading");
     }
-
 
 }
