@@ -231,7 +231,6 @@ public class ShopEquipmentDisplay extends UIComponent {
                         nextItem.setDrawable(new TextureRegionDrawable(
                                 new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
 
-                        System.out.println("Current equipment in display:" + current.t.toString());
                     }
                 });
 
@@ -261,7 +260,6 @@ public class ShopEquipmentDisplay extends UIComponent {
                                 new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
                         nextItem.setDrawable(new TextureRegionDrawable(
                                 new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
-                        System.out.println("Current equipment in display:" + current.t.toString());
                     }
                 });
 

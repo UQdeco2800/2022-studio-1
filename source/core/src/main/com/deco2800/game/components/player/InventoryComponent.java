@@ -5,6 +5,7 @@ import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -207,7 +208,7 @@ public class InventoryComponent extends Component {
   }
 
   public HashMap<ShopBuilding, Integer> getBuildings() {
-    return this.buildings;
+    return buildings;
   }
 
   public void addItems(Artefact item) {
