@@ -165,6 +165,14 @@ public class AchievementHandler {
     }
 
     /**
+     * Getter method for last time achievements were saved
+     * @return long
+     */
+    public long getLastSaved() {
+        return this.lastSaved;
+    }
+
+    /**
      * Saves the current state of the achievement list with the current time
      */
     public void saveAchievements() {
