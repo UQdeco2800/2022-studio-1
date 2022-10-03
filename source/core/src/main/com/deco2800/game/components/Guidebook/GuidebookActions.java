@@ -63,8 +63,6 @@ public class GuidebookActions extends Component {
     }
 
 
-
-
     /**
      * Swaps to the Main game screen. updates player status before exiting the shop
      */
@@ -96,8 +94,5 @@ public class GuidebookActions extends Component {
 
         playerStatus.add(currentStatus.saveStateToMemento());
     }
-
-
-
 
 }
