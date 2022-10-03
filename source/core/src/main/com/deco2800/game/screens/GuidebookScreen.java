@@ -108,7 +108,6 @@ public class GuidebookScreen extends ScreenAdapter {
             if (table == null) {
                 continue;
             } else {
-                System.out.println("Removing resize table");
                 table.remove();
             }
         }

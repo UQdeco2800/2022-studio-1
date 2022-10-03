@@ -22,6 +22,7 @@ public class GuidebookActions extends Component {
     private AtlantisSinks game;
     private Renderer renderer;
     private CareTaker playerStatus;
+    public int currentPage;
 
     public GuidebookActions(AtlantisSinks game) {
         this.game = game;
@@ -43,20 +44,18 @@ public class GuidebookActions extends Component {
         GuidebookDisplay.currentPage = (proposedNextPage < GuidebookDisplay.maxPages) ? proposedNextPage : currentPage;
         Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table: guidebook) {
-            System.out.println("Going next page");
             table.remove();
         }
         ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
     }
 
     private void backPage() {
-        int currentPage = GuidebookDisplay.currentPage;
+        currentPage = GuidebookDisplay.currentPage;
         int proposedBackPage = GuidebookDisplay.currentPage - 2;
         GuidebookDisplay.currentPage = (proposedBackPage >= 0) ? proposedBackPage : currentPage;
 
         Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table: guidebook) {
-            System.out.println("Going back a page");
             table.remove();
         }
         ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
