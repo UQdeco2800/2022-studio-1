@@ -89,6 +89,7 @@ public class CombatStatsComponent extends Component {
 
   /**
    * Sets the entity's health. Health has a minimum bound of 0.
+   * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
    *
    * @param health health
    */
@@ -101,7 +102,6 @@ public class CombatStatsComponent extends Component {
       }
     } else {
       this.health = 0;
-      killEntity(entity.getName());
     }
 
     if (entity != null) {
@@ -121,7 +121,6 @@ public class CombatStatsComponent extends Component {
         entity.getEvents().trigger("playerDeath");
         break;
       case "crystal":
-        System.out.println("trigger case crystal death");
         entity.getEvents().trigger("crystalDeath");
         break;
       default:
