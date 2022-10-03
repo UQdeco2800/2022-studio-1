@@ -18,6 +18,8 @@ import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
+import java.util.Objects;
+
 public class MainGameTutorials extends UIComponent {
     private Table prompts;
     private Table objectiveHeader;
@@ -171,13 +173,17 @@ public class MainGameTutorials extends UIComponent {
 
         prompts.clear();
         if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() != DayNightCycleStatus.NIGHT) {
-            if (closestEntity != null && closestEntity.isCollectable()) {
-                ResourceType getResource = closestEntity.getResourceType();
-                switch (getResource) {
-                    case WOOD -> prompts.add(treeInteract);
-                    case STONE -> prompts.add(stoneInteract);
-                    case GOLD -> { //TODO: add gold dialogue
+            if (closestEntity != null) {
+                if (closestEntity.isCollectable()){
+                    ResourceType getResource = closestEntity.getResourceType();
+                    switch (getResource) {
+                        case WOOD -> prompts.add(treeInteract);
+                        case STONE -> prompts.add(stoneInteract);
+                        case GOLD -> { //TODO: add gold dialogue
+                        }
                     }
+                } else if (Objects.equals(closestEntity.getName(), "SpecialNPC")) {
+                    prompts.add(enemyInteract); //TODO: replace with npc prompt
                 }
             }
         } else if (closestEnemy != null) {
