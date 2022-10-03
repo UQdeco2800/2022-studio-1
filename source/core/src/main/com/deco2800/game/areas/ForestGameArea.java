@@ -437,6 +437,7 @@ public class ForestGameArea extends GameArea {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
     switch (partOfDay) {
       case DAWN:
+        spawnNPCharacter();
       case DAY:
       case DUSK:
 
@@ -449,11 +450,12 @@ public class ForestGameArea extends GameArea {
         }
         break;
       case NIGHT:
-        // dispose NPCs
+        // Despawn NPCs
         for (int i = 0; i < NPCNum; i++) {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
+
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
