@@ -2,11 +2,23 @@ package com.deco2800.game.components.player;
 
 import com.deco2800.game.components.Component;
 import com.deco2800.game.rendering.AnimationRenderComponent;
-
+import com.deco2800.game.components.shop.equipments.Equipments;
+//import com.deco2800.game.components.shop;;
 /**
  * This class listens to events relevant to a main player entity's state and plays the animation when one
  * of the events is triggered.
  */
+
+class Node<T> {
+  T t;
+  public Node<T> next;
+  public Node<T> prev;
+
+  public Node(T t) {
+      this.t = t;
+  }
+}
+
 public class AnimationController extends Component {
   AnimationRenderComponent animator;
 
