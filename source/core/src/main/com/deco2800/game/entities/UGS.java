@@ -113,6 +113,10 @@ public class UGS {
     public static String generateCoordinate(int x, int y) {
         return String.format("%d,%d", x, y);
     }
+
+    public void dispose(String tile) {
+        tiles.get(tile).setEntity(null);
+    }
   
     /**
      * 
