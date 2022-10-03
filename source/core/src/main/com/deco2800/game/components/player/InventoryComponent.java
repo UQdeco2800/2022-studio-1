@@ -220,6 +220,12 @@ public class InventoryComponent extends Component {
     }
   }
 
+  public void removeBuilding(ShopBuilding building) {
+    if (buildings.get(building) != null) {
+      buildings.replace(building, buildings.get(building) - 1);
+    }
+  }
+
   public int getBuildingCount(ShopBuilding building) {
     if (buildings.get(building) == null) {
       return 0;
@@ -240,7 +246,7 @@ public class InventoryComponent extends Component {
     }
   }
 
-  public Boolean useItem (Artefact item) {
+  public Boolean useItem(Artefact item) {
     if (items.getOrDefault(item, 0) >= 1) {
       items.replace(item, items.get(item) - 1);
       return true;
