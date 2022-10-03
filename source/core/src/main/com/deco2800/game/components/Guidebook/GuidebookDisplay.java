@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.screens.GuidebookStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.Page;
 import com.deco2800.game.ui.UIComponent;
@@ -28,7 +28,7 @@ public class GuidebookDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookDisplay.class);
     private static final float Z_INDEX = 2f;
 
-    public static boolean isClosed = true;
+    public static GuidebookStatus bookStatus = GuidebookStatus.CLOSED;
 
     private Table content;
     private Table book;
@@ -48,69 +48,6 @@ public class GuidebookDisplay extends UIComponent {
 
 
     private void addActors() {
-//        bookContainer = new Table();
-//        bookContainer.setFillParent(true);
-//        bookContainer.center();
-//
-//        Table book = new Table();
-//        book.setFillParent(true);
-//        book.center();
-//
-//        float screenHeight = Gdx.graphics.getHeight();
-//        float screenWidth = Gdx.graphics.getWidth();
-//
-//        float bookHeight = screenHeight * 0.8f;
-//        float bookWidth = bookHeight * 1.618f;
-//
-//        float pageHeight = 0.8f * bookHeight;
-//
-//        //Background Colour
-////      Texture colour = new Texture(Gdx.files.internal("images/guidebook-open.png"));
-////      Drawable backgroundColour = new TextureRegionDrawable(colour);
-//
-//        Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
-//
-//        Texture titleTexture = new Texture(Gdx.files.internal("images/uiElements/exports/guidebook-heading-frame.png"));
-//        TextureRegionDrawable titleUp = new TextureRegionDrawable(titleTexture);
-//        TextureRegionDrawable titleDown = new TextureRegionDrawable(titleTexture);
-//        TextButton title = ShopUtils.createImageTextButton(
-//                "Enter Page Title",
-//                skin.getColor("black"),
-//                "button", 1f, titleUp, titleDown, skin, true);
-//
-//        String labelContent = "This is just random words to fill the page\n, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :) This is just random words to fill the page, hopefully in the future it will be content for the game :)This is just random words to fill the page, hopefully in the future it will be content for the game :)";
-//        int pixelsPerCharacter = 10;
-//        int charactersPerLine = (int) (0.7 * 0.5 * bookWidth / pixelsPerCharacter);
-//        labelContent = format(labelContent, charactersPerLine);
-//        Label leftContent = new Label(labelContent, skin, "small");
-//        Label rightContent = new Label(labelContent, skin, "small");
-//
-//        leftContent.setAlignment(Align.topLeft);
-//        rightContent.setAlignment(Align.topLeft);
-//
-//        Table page1 = new Table();
-//        page1.debug();
-//        page1.setSize(bookWidth, pageHeight);
-//        page1.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
-//
-//        Table leftPage = new Table();
-//        leftPage.debug();
-//        leftPage.setSize(0.5f * bookWidth, bookHeight);
-//        leftPage.add(leftContent).expandX().fillX().expandY().fillY().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
-//
-//        Table rightPage = new Table();
-//        rightPage.debug();
-//        rightPage.setSize(0.5f * bookWidth, bookHeight);
-//        rightPage.add(rightContent).expandX().fillX().expandY().fillY().top().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
-//
-//        page1.row().fillX().expandX().fillY().expandY();
-//        page1.add(leftPage);
-//        page1.add(rightPage);
-//
-//        book.add(bookImage).center().size(bookWidth, bookHeight);
-//
-//        bookContainer.stack(book, page1.padTop(50f).padBottom(80f));
-//        stage.addActor(bookContainer);
     }
 
     public Table[] getGuidebook() {
@@ -118,6 +55,62 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     public Table[] displayBook() {
+        switch (bookStatus) {
+            case CLOSED, OPENING, FLICK_NEXT, FLICK_PREVIOUS -> {
+                return displayBookTransition();
+            }
+            case OPEN -> {
+                return displayOpenBook();
+            }
+        }
+        return new Table[]{book, content, controls};
+    }
+
+    private Table[] displayBookTransition() {
+        book = new Table();
+        book.setFillParent(true);
+        book.center();
+
+        float screenHeight = Gdx.graphics.getHeight();
+
+        String imagePath = "";
+
+        float bookHeight = 0;
+        float bookWidth = 0;
+
+        switch (bookStatus) {
+            case CLOSED -> {
+                imagePath = "images/uiElements/exports/guidebook-cover.png";
+                bookHeight = screenHeight * 0.8f;
+                bookWidth = bookHeight * 0.809f;
+            }
+            case OPENING -> {
+                imagePath = "images/uiElements/exports/guidebook-opening.png";
+                bookHeight = screenHeight * 0.8f;
+                bookWidth = bookHeight * 0.809f;
+            }
+            case FLICK_NEXT -> {
+                imagePath = "images/uiElements/exports/guidebook-next.png";
+                bookHeight = screenHeight * 0.85f;
+                bookWidth = bookHeight * 1.52f;
+            }
+            case FLICK_PREVIOUS -> {
+                imagePath = "images/uiElements/exports/guidebook-previous.png";
+                bookHeight = screenHeight * 0.85f;
+                bookWidth = bookHeight * 1.52f;
+            }
+        }
+
+        Image bookImage = new Image(ServiceLocator.getResourceService().getAsset(imagePath, Texture.class));
+
+        book.add(bookImage).center().size(bookWidth, bookHeight);
+
+        stage.addActor(book);
+
+        return new Table[]{book, content, controls};
+    }
+
+    private Table[] displayOpenBook() {
         book = new Table();
         book.setFillParent(true);
         book.center();
@@ -223,30 +216,6 @@ public class GuidebookDisplay extends UIComponent {
 
         return new Table[]{book, content, controls};
     }
-
-//    public Table openBook() {
-//        bookContainer = new Table();
-//        bookContainer.setFillParent(true);
-//        bookContainer.center();
-//
-//        Table book = new Table();
-//        book.setFillParent(true);
-//        book.center();
-//
-//        float screenHeight = Gdx.graphics.getHeight();
-//
-//        float bookHeight = screenHeight * 0.8f;
-//        float bookWidth = bookHeight * 0.809f;
-//
-//        Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-cover.png", Texture.class));
-//
-//        book.add(bookImage).center().size(bookWidth, bookHeight);
-//        bookContainer.add(book).center();
-//
-//        stage.addActor(bookContainer);
-//
-//        return bookContainer;
-//    }
 
     public String format(String labelContent, int numberPerLine) {
         StringBuilder formattedString = new StringBuilder();

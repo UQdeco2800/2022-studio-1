@@ -38,6 +38,7 @@
     "pageNumber": 7,
     "header": "Resource Buildings",
     "content": "The Stone Quarry and Wood Cutter buildings are used to generate resources for further building upgrades. \nResource buildings can be bought in the shop. \nThe Stone Quarry costs 50 wood to place and will generate 100 stone each morning. \nThe Wood Cutter costs 50 stone to place and will generate 100 wood each morning."
+    
   },
   {
     "pageNumber": 8,

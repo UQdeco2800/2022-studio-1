@@ -1,6 +1,7 @@
 package com.deco2800.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Json;
@@ -46,35 +47,34 @@ import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 import com.google.gson.Gson;
 
-import java.io.*;
-import java.nio.Buffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.*;
+
 
 public class GuidebookScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
-    private Table[] guidebook;
+    private static Table[] guidebook;
 
-    private final long delay = 5000000000L;
-    private long currentTime;
-    private long deltaTime;
-    private long timeElapsed = 0;
+    public static int renderTrigger = 0;
 
     private static final String[] mainGameTextures = {
             "images/guidebook-open.png",
             "images/uiElements/exports/guidebook-cover.png",
+            "images/uiElements/exports/guidebook-opening.png",
+            "images/uiElements/exports/guidebook-next.png",
+            "images/uiElements/exports/guidebook-previous.png",
             "images/uiElements/exports/guidebook-heading-frame.png"
     };
 
     public GuidebookScreen(AtlantisSinks game) {
 
         this.game = game;
-
-        currentTime = TimeUtils.nanoTime();
 
         logger.debug("Initialising guidebook screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -96,6 +96,20 @@ public class GuidebookScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if (renderTrigger == 1) {
+            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+            for (Table table: guidebook) {
+                if (table != null) {
+                    table.remove();
+                }
+            }
+            switch (GuidebookDisplay.bookStatus) {
+                case CLOSED -> GuidebookDisplay.bookStatus = GuidebookStatus.OPENING;
+                case OPENING, FLICK_NEXT, FLICK_PREVIOUS -> GuidebookDisplay.bookStatus = GuidebookStatus.OPEN;
+            }
+            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+            renderTrigger = 0;
+        }
         ServiceLocator.getEntityService().update();
         renderer.render();
     }
@@ -108,7 +122,6 @@ public class GuidebookScreen extends ScreenAdapter {
             if (table == null) {
                 continue;
             } else {
-                System.out.println("Removing resize table");
                 table.remove();
             }
         }
@@ -171,5 +184,23 @@ public class GuidebookScreen extends ScreenAdapter {
         ServiceLocator.getEntityService().registerNamed("guidebook", ui);
 
         guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+
+        ScheduledExecutorService opening = Executors.newSingleThreadScheduledExecutor();
+
+        Runnable openingTask = () -> {
+            GuidebookScreen.renderTrigger = 1;
+            Gdx.graphics.requestRendering();
+
+            ScheduledExecutorService open = Executors.newSingleThreadScheduledExecutor();
+            Runnable openTask = () -> {
+                GuidebookScreen.renderTrigger = 1;
+                Gdx.graphics.requestRendering();
+            };
+
+            open.schedule(openTask, 250, MILLISECONDS);
+        };
+
+        opening.schedule(openingTask, 750, MILLISECONDS);
     }
+
 }
