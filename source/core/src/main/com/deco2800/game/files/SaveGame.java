@@ -226,7 +226,7 @@ public class SaveGame {
     }
 
     /**
-     * Reads crystal from json file
+     * Reads crystal from json file. Assumes the crystal already exists in the game engine.
      * @throws InvocationTargetException when invoking method fails due to invalid method
      * @throws IllegalAccessException when invoking method fails due to permisions
      */
@@ -249,6 +249,10 @@ public class SaveGame {
         logger.debug("End Loading Crystal");
     }
 
+
+    /**
+     * saves the player to a JSON file
+     */
     private static void savePlayer() {
         logger.debug("Begin Saving Player");
         String name = "player";
@@ -276,7 +280,7 @@ public class SaveGame {
     }
 
     /**
-     * note that this assumes the player has been created already
+     * Loads the player from the JSON file. Assumes the player already exists in the game engine
      */
     private static void loadPlayer() {
         logger.debug("Begin Loading Player");
