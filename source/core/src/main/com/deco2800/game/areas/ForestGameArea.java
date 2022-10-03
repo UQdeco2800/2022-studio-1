@@ -198,8 +198,8 @@ public class ForestGameArea extends GameArea {
 
   private void displayUI() {
     Entity ui = new Entity();
-    ui.addComponent(new GameAreaDisplay("Atlantis"));
-    spawnEntity(ui);
+
+    ui.addComponent(new GameAreaDisplay("Atlantis Sinks"));
   }
 
   @Override
@@ -300,6 +300,8 @@ public class ForestGameArea extends GameArea {
       this.entityMapping.addEntity(envObj);
 
       spawnEntityAt(envObj, randomPos, true, true);
+      String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
+      ServiceLocator.getUGSService().setEntity(tileCoords, envObj);
     }
   }
 
@@ -573,6 +575,8 @@ public class ForestGameArea extends GameArea {
         .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
+    ServiceLocator.getUGSService().setEntity(tileCoords, entity);
   }
 
   private void levelUp(Entity entity) {

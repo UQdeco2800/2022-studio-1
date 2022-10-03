@@ -36,8 +36,6 @@ public class MainGameExitDisplay extends UIComponent {
     table.top().right();
     table.setFillParent(true);
 
-    // TextButton mainMenuBtn = new TextButton("Exit", skin);
-
     // Entering the back button
     Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
     Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
