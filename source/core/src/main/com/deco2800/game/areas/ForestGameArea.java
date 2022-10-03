@@ -134,7 +134,7 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas","images/npc_animations/NPC1sprite.atlas"
+      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas","images/npc_animations/NPC1sprite.atlas", "images/npc_animations/npc.atlas"
   };
 
   // Sound effect files
@@ -578,8 +578,8 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnNPCharacter() {
-    Entity NPC = NPCFactory.createBaseNPC();
-    //Entity NPC = NPCFactory.createNPC();
+    // Entity NPC = NPCFactory.createBaseNPC();
+    Entity NPC = NPCFactory.createNPC();
 
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);

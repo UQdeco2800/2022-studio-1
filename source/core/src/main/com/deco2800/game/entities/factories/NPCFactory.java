@@ -273,7 +273,7 @@ public class NPCFactory {
   public static Entity createBaseNPC() {
 
     String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
-            "images/npc1.png",
+        //     "images/npc1.png",
             "images/npcs/NPC-V2.2.png" };
 
      //int index = (int) ((Math.random() * (NPC_textures.length)));
@@ -301,7 +301,7 @@ public class NPCFactory {
         }
         
         npc.setCollectable(false);
-        npc.setScale(5f, 5f);
+        // npc.setScale(5f, 5f);
 
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
@@ -314,11 +314,11 @@ public class NPCFactory {
         // if (NPC.getName()=="SpecialNPC"){
         AnimationRenderComponent animator =
                  new AnimationRenderComponent(
-                         ServiceLocator.getResourceService().getAsset("images/npc_animations/NPC1sprite.atlas", TextureAtlas.class));
-        animator.addAnimation("fn", 0.1f, Animation.PlayMode.LOOP);
+                         ServiceLocator.getResourceService().getAsset("images/npc_animations/npc.atlas", TextureAtlas.class));
+        animator.addAnimation("NPC", 0.1f, Animation.PlayMode.LOOP);
         NPC.addComponent(animator);
         NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
-        NPC.getComponent(AnimationRenderComponent.class).startAnimation("fn");
+        NPC.getComponent(AnimationRenderComponent.class).startAnimation("NPC");
                 //  .addComponent(textureRenderComponent);
         // }
           return NPC;
