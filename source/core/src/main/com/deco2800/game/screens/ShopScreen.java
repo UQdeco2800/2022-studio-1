@@ -116,8 +116,8 @@ public class ShopScreen extends ScreenAdapter {
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopActions(this.game))
-                .addComponent(new ShopReturn())
                 .addComponent(new CommonShopComponents())
+                .addComponent(new ShopReturn())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());

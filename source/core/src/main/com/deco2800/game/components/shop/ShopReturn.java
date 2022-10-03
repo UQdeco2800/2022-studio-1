@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class ShopReturn extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopReturn.class);
     private static final float Z_INDEX = 2f;
-
+    Table rootTable;
     Table table1;
     Table table2;
     Table table3;
@@ -46,21 +47,28 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
+        rootTable = new Table();
+        rootTable.setFillParent(true);
+
+        // Background Colour
+        Texture colour = new Texture(Gdx.files.internal("images/shop-background.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+        rootTable.setBackground(backgroundColour);
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().left();
-        table1.setSize(100f,100f);
+        table1.setSize(100f, 100f);
         table1.padLeft(100f).padTop(100f);
 
         table2 = new Table();
         table2.setFillParent(true);
-        table2.setSize(100f,100f);
+        table2.setSize(100f, 100f);
         table2.center().right();
         table2.padRight(100f).padTop(100f);
 
         table3 = new Table();
         table3.setFillParent(true);
-        table3.setSize(100f,100f);
+        table3.setSize(100f, 100f);
         table3.center();
         table3.padTop(100f);
 
@@ -120,7 +128,7 @@ public class ShopReturn extends UIComponent {
         table3.add(equipmentBtn);
         table3.row();
         table3.add(equipmentTitle);
-
+        stage.addActor(rootTable);
         stage.addActor(table1);
         stage.addActor(table2);
         stage.addActor(table3);

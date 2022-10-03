@@ -143,13 +143,13 @@ public class ShopEquipmentScreen extends ScreenAdapter {
                 .addComponent(new CombatStatsComponent(lastStatus.getCurrentHealth(), lastStatus.getAttack(),
                         lastStatus.getDefense()))
                 .addComponent(new ShopEquipmentDisplay())
-                .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
         uiEquipment.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
         uiEquipment.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
         uiEquipment.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
+        uiEquipment.addComponent(new CommonShopComponents());
         ServiceLocator.getEntityService().register(uiEquipment);
 
     }

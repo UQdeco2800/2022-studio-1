@@ -1,5 +1,5 @@
 final_boss.png
-size: 1900, 560
+size: 1900, 1120
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -80,3 +80,73 @@ boss_frame
   orig: 380, 280
   offset: 0, 0
   index: 10
+boss_side2
+  rotate: false
+  xy: 0, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 379, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 758, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1137, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1516, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 0, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 379, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 758, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1137, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1516, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
