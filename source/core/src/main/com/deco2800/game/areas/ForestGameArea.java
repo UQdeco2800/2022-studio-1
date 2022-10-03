@@ -36,7 +36,12 @@ import java.util.Map;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(61, 60);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
+  //private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);
+  private static final GridPoint2[] NPC_SPAWNS = { new GridPoint2(61, 60),
+          new GridPoint2(60, 61),
+          new GridPoint2(59, 60),
+          new GridPoint2(60, 59)};
   private static final GridPoint2 STRUCTURE_SPAWN = new GridPoint2(65, 65);
   private static final float WALL_WIDTH = 0.1f;
   private static final int MAX_ENVIRONMENTAL_OBJECTS = 7;
@@ -120,12 +125,16 @@ public class ForestGameArea extends GameArea {
       "images/shipWreckFront.png",
       "images/ElectricEel.png",
       "images/starfish.png",
-      "images/NpcPlaceholder.png"
+      "images/NpcPlaceholder.png",
+      "images/NPC convo.png",
+      "images/npc1.png",
+      "images/npcs/NPC-V2.2.png",
+      "images/npcs/NPC-V2.1.png"
   };
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas"
+      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas","images/npc_animations/NPC1sprite.atlas"
   };
 
   // Sound effect files
@@ -179,12 +188,14 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnMeleeBoss();
+    //spawnMeleeBoss();
+
+    //spawnNPCharacter();
 
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
-      spawnEnvironmentalObjects();
+      // spawnEnvironmentalObjects();
     }
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
             this::dayChange);
@@ -193,7 +204,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
             this::spawnNPC);
 
-    playMusic();
+    // playMusic();
   }
 
   private void displayUI() {
@@ -429,13 +440,15 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
+    //System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
       case DAWN:
+        spawnNPCharacter();
       case DAY:
       case DUSK:
 
         if (NPCNum != StructuresNum) {
-          System.out.println(NPCNum);
+          //System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
             // System.out.println("spawned");
             spawnNPCharacter();
@@ -443,11 +456,12 @@ public class ForestGameArea extends GameArea {
         }
         break;
       case NIGHT:
-        // dispose NPCs
+        // Despawn NPCs
         for (int i = 0; i < NPCNum; i++) {
-          Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
+          Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
+
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
@@ -639,12 +653,15 @@ public class ForestGameArea extends GameArea {
 
   private void spawnNPCharacter() {
     Entity NPC = NPCFactory.createBaseNPC();
-    // Entity NPC = NPCFactory.createNPC(texture);
-    ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
+    //Entity NPC = NPCFactory.createNPC();
+
+    ServiceLocator.getEntityService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
-        .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
-    spawnEntityAt(NPC, randomPos, true, true);
+    // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
+    //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
+    // spawnEntityAt(NPC, randomPos, true, true);
+    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
     // NPC.setPosition(terrainFactory.getMapSize().x / 3,
