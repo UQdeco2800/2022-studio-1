@@ -117,12 +117,11 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
-
+    ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRangeService( new RangeService());
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerStructureService(new StructureService());
-    ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerGameService(new GameService());
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);

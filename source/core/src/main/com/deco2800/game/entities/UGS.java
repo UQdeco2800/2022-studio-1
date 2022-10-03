@@ -2,6 +2,10 @@ package com.deco2800.game.entities;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,8 +118,18 @@ public class UGS {
         return String.format("%d,%d", x, y);
     }
 
-    public void dispose(String tile) {
-        tiles.get(tile).setEntity(null);
+    /**
+     * This function is to be called anytime you
+     * @param tile the generated coordinate key that maps to the entity you want to remove
+     */
+    public void dispose(Entity toRemove) {
+        if (ServiceLocator.getRangeService().registeredInUGS().contains(toRemove)) {
+            Vector2 pos = toRemove.getPosition();
+            GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y);
+            String tileKey = generateCoordinate(gridPos.x, gridPos.y);
+            Tile tile = new Tile();
+            tiles.replace(tileKey, tile);
+        }
     }
   
     /**
