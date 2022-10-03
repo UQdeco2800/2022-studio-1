@@ -36,7 +36,7 @@ public class GuidebookDisplay extends UIComponent {
 
     private Table controls;
 
-    private static final Page[] pages = parseGuidebookContentJson();
+    private static final Page[] pages = parseGuidebookContentJson("configs/guidebookcontent.json");
     public static final int maxPages = pages.length;
 
     public static int currentPage = 0;
@@ -55,6 +55,9 @@ public class GuidebookDisplay extends UIComponent {
         return new Table[]{book, content, controls};
     }
 
+    /**
+     * Displays the guidebook according to the state defined in GuidebookDisplay.bookStatus
+     */
     public Table[] displayBook() {
         switch (bookStatus) {
             case CLOSED, OPENING, FLICK_NEXT, FLICK_PREVIOUS -> {
@@ -67,6 +70,9 @@ public class GuidebookDisplay extends UIComponent {
         return new Table[]{book, content, controls};
     }
 
+    /**
+     * Creates and return tables for a Guidebook for any given transitional state
+     */
     private Table[] displayBookTransition() {
         book = new Table();
         book.setFillParent(true);
@@ -111,6 +117,9 @@ public class GuidebookDisplay extends UIComponent {
         return new Table[]{book, content, controls};
     }
 
+    /**
+     * Creates and return tables for a Guidebook in its open position
+     */
     private Table[] displayOpenBook() {
         book = new Table();
         book.setFillParent(true);
@@ -252,6 +261,15 @@ public class GuidebookDisplay extends UIComponent {
         return new Table[]{book, content, controls};
     }
 
+    /**
+     * Formats a String based on the maximum number of character required per line and places a newline character
+     * (i.e., \n) in between line blocks of total character counter less than or equal to the provided number per line
+     *
+     * @param labelContent: the string to format
+     * @param numberPerLine: the maximum character count per line
+     *
+     * @return a formatted string as per the description above.
+     */
     public String format(String labelContent, int numberPerLine) {
         StringBuilder formattedString = new StringBuilder();
         int count = 0;
@@ -268,11 +286,18 @@ public class GuidebookDisplay extends UIComponent {
         return formattedString.toString();
     }
 
-    private static Page[] parseGuidebookContentJson() {
+    /**
+     * Parses the JSON file to produce an array of Pages which can be used to retrieve content from
+     *
+     * @param path: the filepath where the JSON file is located
+     *
+     * @return an raay of Pages with parsed information as per the Page class
+     */
+    private static Page[] parseGuidebookContentJson(String path) {
         Gson gson = new Gson();
         BufferedReader buffer;
         try {
-            buffer = Files.newBufferedReader(Paths.get("configs/guidebookcontent.json"));
+            buffer = Files.newBufferedReader(Paths.get(path));
         } catch (IOException e) {
             System.out.println("File not valid");
             return null;
