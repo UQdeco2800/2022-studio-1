@@ -95,7 +95,7 @@ project(":core") {
         api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
         api "net.dermetfan.libgdx-utils:libgdx-utils:$gdxUtilsVersion"
         api "net.dermetfan.libgdx-utils:libgdx-utils-box2d:$gdxUtilsVersion"
-
+        implementation 'com.google.code.gson:gson:2.9.0'
         // Logging
         api "org.slf4j:slf4j-api:$slf4jVersion"
         api "org.slf4j:slf4j-jdk14:$slf4jVersion"

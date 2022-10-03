@@ -8,10 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.RenderService;
@@ -30,8 +32,8 @@ import java.util.HashSet;
  * and when triggered should call methods within this class.
  */
 public class PlayerActions extends Component {
-  private Vector2 MAX_SPEED = new Vector2(3f, 3f); // Metres per second
-  private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(3f, 3f); // Metres per second
+  private Vector2 MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
+  private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
 
   private PhysicsComponent physicsComponent;
   private Vector2 walkDirection = Vector2.Zero.cpy();
@@ -91,7 +93,8 @@ public class PlayerActions extends Component {
     this.faceDirecetion = direction;
     moving = true;
     Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
-    walkSound.play();
+    // walkSound.play();
+    this.entity.getEvents().trigger("showPrompts");
   }
 
   /**
@@ -101,6 +104,7 @@ public class PlayerActions extends Component {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
+    this.entity.getEvents().trigger("showPrompts");
   }
 
   /**
@@ -108,38 +112,99 @@ public class PlayerActions extends Component {
    */
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
-    Entity closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
-        (int) current.getPosition().y);
-    Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,
-        (int) current.getPosition().y);
+    Entity closestEnemy = null;
+    Entity closestEntity = null;
 
-    if (null != closestEnemy) {
+    ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current);
+    String underMe = ServiceLocator.getRangeService().getPlayerTile();
+    for (Entity i : radius) {
+      if (i != null && i.getName().contains("Mr.")) {
+        closestEnemy = i;
+        break;
+      }
+    }
+    for (Entity i : radius) {
+      if (i != null && !i.getName().contains("Mr.")) {
+        closestEntity = i;
+        break;
+      }
+    }
+    if (ServiceLocator.getUGSService().getEntity(underMe) != null) {
+      if (ServiceLocator.getUGSService().getEntity(underMe).getName().contains("Mr.")) {
+        closestEnemy = ServiceLocator.getUGSService().getEntity(underMe);
+      } else if (!ServiceLocator.getUGSService().getEntity(underMe).getName().contains("Mr.")) {
+        closestEntity = ServiceLocator.getUGSService().getEntity(underMe);
+      }
+    }
+
+    if (closestEnemy != null) {
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
-      if (null != enemyTarget) {
+      if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
         CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
-            .getComponent(CombatStatsComponent.class);
-        System.out.println(enemyTarget.getHealth());
+                .getComponent(CombatStatsComponent.class);
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
+          GridPoint2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(closestEnemy.getPosition().x, closestEnemy.getPosition().y);
+          String location = UGS.generateCoordinate(pos.x, pos.y);
+          ServiceLocator.getUGSService().dispose(location);
           closestEnemy.dispose();
+          this.entity.getEvents().trigger("enemyKill");
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
         } else {
           enemyTarget.setHealth(enemyTarget.getHealth());
           System.out.println(enemyTarget.getHealth());
         }
       }
-    } else if (null != closestEntity) {
-      if (null == closestEntity.getName()) {
-        return;
-      }
+    } else if (closestEntity != null) {
       if (closestEntity.isCollectable()) {
         closestEntity.collectResources();
+        GridPoint2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(closestEntity.getPosition().x, closestEntity.getPosition().y);
+        String location = UGS.generateCoordinate(pos.x, pos.y);
+        ServiceLocator.getUGSService().dispose(location);
         closestEntity.dispose();
         PlayerStatsDisplay.updateItems();
       }
     }
+    this.entity.getEvents().trigger("showPrompts");
+
   }
+
+
 }
+// deprecated attack fucntion
+//    closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
+//        (int) current.getPosition().y);
+//    Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,
+//        (int) current.getPosition().y);
+//
+//    if (null != closestEnemy) {
+//      CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
+//      if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
+//        CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
+//            .getComponent(CombatStatsComponent.class);
+//        System.out.println(enemyTarget.getHealth());
+//        enemyTarget.hit(combatStats);
+//        if (enemyTarget.getHealth() < 1) {
+//          closestEnemy.dispose();
+//          this.entity.getEvents().trigger("enemyKill");
+//          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
+//        } else {
+//          enemyTarget.setHealth(enemyTarget.getHealth());
+//          System.out.println(enemyTarget.getHealth());
+//        }
+//      }
+//    } else if (null != closestEntity) {
+//      if (null == closestEntity.getName()) {
+//        return;
+//      }
+//      if (closestEntity.isCollectable() && ServiceLocator.getRangeService().playerInRangeOf(closestEntity)) {
+//        closestEntity.collectResources();
+//        closestEntity.dispose();
+//        PlayerStatsDisplay.updateItems();
+//      }
+//    }
+//    this.entity.getEvents().trigger("showPrompts");
+//  }
 
 // Sound attackSound =
 // ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3",

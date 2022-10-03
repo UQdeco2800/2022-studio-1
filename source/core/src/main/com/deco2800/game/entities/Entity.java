@@ -1,9 +1,11 @@
 package com.deco2800.game.entities;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.ComponentType;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -147,6 +149,14 @@ public class Entity {
     if (notify) {
       getEvents().trigger(EVT_NAME_POS, position);
     }
+  }
+
+  /**
+   * Set the entity's position at a specific tile position
+   *
+   */
+  public void setTileGridPosition(GridPoint2 tileCoord) {
+    this.position = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(tileCoord);
   }
 
   /**

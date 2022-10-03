@@ -150,6 +150,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     table.add(heartImage).pad(5);
     table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);
+    table.add(healthBarLabel);
     table.row();
     table.add(crystalImage);
     table.stack(progressBar,crystalBarImage).size(190f,30f).pad(5);
@@ -190,6 +191,9 @@ public class PlayerStatsDisplay extends UIComponent {
     coinLabel.setText(gold);
     CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
     woodLabel.setText(wood);
+
+    //updates the objective
+    ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
   }
 
   public void updateResourceAmount() {
