@@ -116,7 +116,7 @@ public class NPCFactory {
     pirateCrabEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new ContinuousAttackComponent())
+            .addComponent(new ContinuousAttackComponent(3000, 3000))
             .addComponent(textureRenderComponent)
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
@@ -170,6 +170,7 @@ public class NPCFactory {
     AnimationRenderComponent animator = new AnimationRenderComponent(
             ServiceLocator.getResourceService().getAsset("images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
     animator.addAnimation("boss_frame", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("boss_side2", 0.1f, Animation.PlayMode.LOOP);
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     boss
@@ -178,16 +179,16 @@ public class NPCFactory {
             .addComponent(animator)
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
             .addComponent(new EffectNearBy(true, true, true))
-            .addComponent(new ContinuousAttackComponent());
+            .addComponent(new ContinuousAttackComponent(3000, 3000))
+            .addComponent(new BossAnimationController());
 
-    boss.setScale(2, 2);
-    boss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    boss.setScale(19, 14);
+//    boss.getComponent(AnimationRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
     boss.getComponent(EffectNearBy.class).enableSpeed();
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
-    boss.getComponent(AnimationRenderComponent.class).startAnimation("boss_frame");
     return boss;
   }
 
@@ -271,15 +272,16 @@ public class NPCFactory {
 
   public static Entity createBaseNPC() {
 
-    String[] NPC_textures = { "images/shipWreckBack.png",
-            "images/landscape_objects/chalice.png",
-            "images/landscape_objects/pillar.png" };
+    String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
+            "images/npc1.png",
+            "images/npcs/NPC-V2.2.png" };
 
-    int index = (int) ((Math.random() * (NPC_textures.length)));
+     //int index = (int) ((Math.random() * (NPC_textures.length)));
+        int index = 1;
 
         AITaskComponent aiComponent =
             new AITaskComponent()
-                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
+                .addTask(new WanderTask(new Vector2(30f, 30f), 2f));
         Entity npc =
             new Entity()
                 .addComponent(new PhysicsComponent())
@@ -290,26 +292,36 @@ public class NPCFactory {
                 .addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
 
-        if (index == 0){
+        if (index == 1){
           npc.setName("SpecialNPC");
-        }else {
+        }
+        
+        else {
           npc.setName("NPC");
         }
+        
         npc.setCollectable(false);
-        npc.setScale(0.7f, 0.7f);
+        npc.setScale(5f, 5f);
 
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 
-      public static Entity createNPC(String texture) {
+      public static Entity createNPC() {
         Entity NPC = createBaseNPC();
-        //NPCConfig config = configs.ArmoryNPC;
+        // NPCConfig config = configs.NPC1;
         //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
-        NPC.setScale(0.8f, 0.8f);
-    
-        return NPC;
+        // if (NPC.getName()=="SpecialNPC"){
+        AnimationRenderComponent animator =
+                 new AnimationRenderComponent(
+                         ServiceLocator.getResourceService().getAsset("images/npc_animations/NPC1sprite.atlas", TextureAtlas.class));
+        animator.addAnimation("fn", 0.1f, Animation.PlayMode.LOOP);
+        NPC.addComponent(animator);
+        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
+        NPC.getComponent(AnimationRenderComponent.class).startAnimation("fn");
+                //  .addComponent(textureRenderComponent);
+        // }
+          return NPC;
       }
 
   private NPCFactory() {

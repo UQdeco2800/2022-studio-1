@@ -10,5 +10,5 @@ public class NPCConfigs {
   public MeleeBossConfig meleeBossEnemy = new MeleeBossConfig();
   public EnemyConfig ElectricEel = new EnemyConfig();
   public EnemyConfig ninjaStarfish = new EnemyConfig();
-  public NPCConfig ArmoryNPC = new NPCConfig();
+  public NPCConfig NPC1 = new NPCConfig();
 }

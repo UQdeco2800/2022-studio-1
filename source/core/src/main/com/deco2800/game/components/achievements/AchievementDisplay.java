@@ -6,14 +6,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Null;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.screens.AchievementScreen;
@@ -25,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
@@ -233,6 +235,124 @@ public class AchievementDisplay extends UIComponent {
         rootTable.clear();
     }
 
+    /**
+     *  Creates the milestone button actor.
+     *  listens on hover events to display milestone achievement
+     *  in description
+     *
+     * @param milestoneNumber milestoneNumber
+     * @param isComplete whether the milestone is complete
+     * @param achievement the achievement to create the image button for
+     * @param descriptionLabel the description label for the achievement
+     * @return an image or
+     */
+    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete, Achievement achievement,
+                                                        Label descriptionLabel) {
+        switch (milestoneNumber) {
+            case 1: {
+                return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 1);
+            }
+          case 2: {
+              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 2);
+          }
+          case 3: {
+              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 3);
+          }
+          case 4: {
+              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 4);
+          }
+          default:
+              return null;
+        }
+    }
+
+    /**
+     *
+     * Creates a milestone button for the achievement card with hover events on it
+     *
+     * @param isComplete whether the milestone is achieved
+     * @param descriptionLabel the UI label which will be dynamically changed on hover
+     * @param achievement the achievement to create the button for
+     * @param milestoneNumber the milestone number
+     * @return the image button
+     */
+    private static Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel, Achievement achievement, int milestoneNumber) {
+        AchievementHandler achievementService = ServiceLocator.getAchievementHandler();
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal(
+                isComplete ? "images/achievements/milestone_%d_completed.png".formatted(milestoneNumber) :
+                        "images/achievements/milestone_%d_incomplete.png".formatted(milestoneNumber) ));
+        var image = new Image(backgroundTexture);
+        if (isComplete) {
+            image.addListener(new ClickListener() {
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+                    descriptionLabel.setText(achievement.getDescription().formatted(achievementService.getMilestoneTotal(achievement, milestoneNumber)));
+                }
+
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+                    descriptionLabel.setText(achievement.getDescription().formatted(achievement.getTotalAchieved()));
+                }
+            });
+        }
+        return image;
+    }
+
+    /**
+     * Constructs the achievement milestone buttons for a given achievement
+     *
+     * @param achievement the achievement to create the buttons for
+     * @param descriptionLabel the label to be changed on hover
+     * @return a row of buttons table
+     */
+    public static Table buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
+        var achievementService = ServiceLocator.getAchievementHandler();
+        Table milestoneButtons = new Table();
+        milestoneButtons.add();
+        milestoneButtons.add(getMilestoneImageButtonByNumber(1,
+                achievementService.isMilestoneAchieved(achievement, 1), achievement, descriptionLabel));
+        milestoneButtons.add(getMilestoneImageButtonByNumber(2,
+                achievementService.isMilestoneAchieved(achievement, 2),achievement,descriptionLabel));
+        milestoneButtons.add(getMilestoneImageButtonByNumber(3,
+                achievementService.isMilestoneAchieved(achievement, 3),achievement,descriptionLabel));
+        milestoneButtons.add(getMilestoneImageButtonByNumber(4,
+                achievementService.isMilestoneAchieved(achievement, 4),achievement,descriptionLabel));
+       milestoneButtons.add();
+       return milestoneButtons;
+    }
+
+    /**
+     * Builds an achievement card actor read to be displayed
+     *
+     * @param achievement the achievement to create th card for
+     * @return the actor (Table)
+     */
+    public static Table buildAchievementCard(Achievement achievement) {
+        Table achievementCard = new Table();
+        achievementCard.pad(30);
+        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Image backgroundImg = new Image(backgroundTexture);
+        achievementCard.setBackground(backgroundImg.getDrawable());
+        Table achievementCardHeader = new Table();
+        Texture achievementTypeTexture = new Texture(Gdx.files.internal(achievement.getAchievementType().getPopupImage()));
+        Image achievementTypeImage = new Image(achievementTypeTexture);
+        achievementCardHeader.add(achievementTypeImage);
+        achievementCardHeader.add(new Label(achievement.getName(), skin, "small"));
+        achievementCard.add(achievementCardHeader).expand();
+        achievementCard.row();
+        var descriptionLabel = new Label(achievement.getDescription(), skin, "small");
+        achievementCard.add(descriptionLabel).colspan(3).expand();
+        if (achievement.isStat()) {
+            descriptionLabel.setText(achievement.getDescription().formatted(achievement.getTotalAchieved()));
+            achievementCard.row();
+            achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).padBottom(20);
+        }
+        achievementCard.pack();
+
+        return achievementCard;
+    }
+
     public static void changeDisplay(Table displayTable, AchievementType type) {
         displayTable.clear();
         displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expand();
@@ -259,7 +379,7 @@ public class AchievementDisplay extends UIComponent {
                     displayTable.row();
                 }
 
-                displayTable.add(new Label(achievement.getName(), skin)).colspan(3).expand();
+                displayTable.add(buildAchievementCard(achievement)).colspan(3).expand();
 
                 achievementsAdded++;
             }

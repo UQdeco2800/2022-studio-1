@@ -16,8 +16,10 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.PlayerFactory;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.RandomUtils;
@@ -81,7 +83,10 @@ public class AtlantisSinksGameArea extends GameArea {
             "images/Eel_Bright_NW.png",
             "images/Eel_Bright_SW.png",
             "images/shipRack.png",
-            "images/shipRackFront.png"
+            "images/shipRackFront.png",
+            "images/NpcPlaceholder.png",
+            "images/NPC convo.png",
+            "images/npc1.png"
     };
 
     private static final String[] gameSounds = { "sounds/sword_swing.mp3" };
@@ -89,6 +94,7 @@ public class AtlantisSinksGameArea extends GameArea {
     private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
     private static final String[] gameMusic = { backgroundMusic };
     private final TerrainFactory terrainFactory;
+
 
     public AtlantisSinksGameArea(TerrainFactory terrainFactory) {
         super();
@@ -195,6 +201,7 @@ public class AtlantisSinksGameArea extends GameArea {
         Entity wall = ObstacleFactory.createWall(1f, 0.5f);
         super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
     }
+
 
     private void loadAssets() {
         logger.debug("Loading assets");
