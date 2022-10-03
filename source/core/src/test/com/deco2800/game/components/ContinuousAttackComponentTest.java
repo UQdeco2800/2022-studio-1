@@ -38,7 +38,7 @@ public class ContinuousAttackComponentTest {
         Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
 
         enemy.getEvents().trigger("collisionStart", entityFixture, targetFixture);
-        wait(6000);
+        wait(10);
         assertTrue(target.getComponent(CombatStatsComponent.class).getHealth() < 100);
     }
 
@@ -50,7 +50,7 @@ public class ContinuousAttackComponentTest {
         Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
 
         enemy.getEvents().trigger("collisionStart", entityFixture, targetFixture);
-        wait(6000);
+        wait(10);
         assertEquals(100, target.getComponent(CombatStatsComponent.class).getHealth());
     }
 
@@ -62,17 +62,17 @@ public class ContinuousAttackComponentTest {
         Fixture targetFixture = target.getComponent(HitboxComponent.class).getFixture();
 
         enemy.getEvents().trigger("collisionStart", entityFixture, targetFixture);
-        wait(6000);
+        wait(10);
         enemy.getEvents().trigger("collisionEnd", entityFixture, targetFixture);
         int healthBefore  = target.getComponent(CombatStatsComponent.class).getHealth();
 
-        wait(6000);
+        wait(10);
         assertEquals(healthBefore, target.getComponent(CombatStatsComponent.class).getHealth());
     }
 
     private Entity createEnemy() {
         Entity enemy = new Entity().addComponent(new CombatStatsComponent(100, 1))
-                .addComponent(new ContinuousAttackComponent())
+                .addComponent(new ContinuousAttackComponent(1, 1))
                 .addComponent(new HitboxComponent())
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                 .addComponent(new PhysicsComponent());

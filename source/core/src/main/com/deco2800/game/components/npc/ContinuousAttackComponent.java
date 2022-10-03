@@ -19,6 +19,18 @@ public class ContinuousAttackComponent extends Component {
     private CombatStatsComponent combatStats;
     private HitboxComponent hitboxComponent;
     private Timer timer;
+    private long delay;
+    private long period;
+
+    /**
+     * continuousAttackComponent
+     * @param delay the delay before attacking starts
+     * @param period the period between consecutive attacks
+     */
+    public ContinuousAttackComponent(long delay, long period) {
+        this.delay = delay;
+        this.period = period;
+    }
 
     /**
      * creates the component, registering entity collision listeners
@@ -42,7 +54,7 @@ public class ContinuousAttackComponent extends Component {
                 }
             }
         };
-        timer.scheduleAtFixedRate(attackColliders, 3000, 3000);
+        timer.scheduleAtFixedRate(attackColliders, delay, period);
     }
 
     /**
