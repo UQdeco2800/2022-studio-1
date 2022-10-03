@@ -8,6 +8,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.npc.*;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.player.AnimationController;
 import com.deco2800.game.components.tasks.*;
 import com.deco2800.game.components.tasks.RangedMovementTask;
 import com.deco2800.game.components.tasks.WanderTask;
@@ -146,14 +147,14 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
             //.addComponent(textureRenderComponent);
-            .addComponent(new GhostAnimationController())
+            .addComponent(new AnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
-    //ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
     //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-    ElectricEelEnemy.setScale(1.2f, 1.2f);
+    ElectricEelEnemy.setScale(12f, 12f);
 
     return ElectricEelEnemy;
   }
