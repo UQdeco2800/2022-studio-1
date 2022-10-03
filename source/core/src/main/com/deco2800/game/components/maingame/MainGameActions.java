@@ -42,6 +42,8 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("save", this::onSave);
     entity.getEvents().addListener("load", this::onLoad);
+    
+    entity.getEvents().addListener("BossKill", this::onBossKilled);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
   }
@@ -143,4 +145,7 @@ public class MainGameActions extends Component {
     }
   }
 
+  private void onBossKilled() {
+    game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
+  }
 }
