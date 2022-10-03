@@ -192,11 +192,23 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Getter method for last time achievements were saved</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementTotalAchievedForStatAchievement(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">incrementTotalAchievedForStatAchievement</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
- int&nbsp;increase)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMilestoneTotal(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">getMilestoneTotal</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+ int&nbsp;milestoneNumber)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the total to achieve for a milestone</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementTotalAchievedForStatAchievement(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">incrementTotalAchievedForStatAchievement</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+ int&nbsp;increase)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Correct updates the total achieved for a stat achievement.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMilestoneAchieved(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">isMilestoneAchieved</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+ int&nbsp;milestoneNumber)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks whether a milestone has been achieved for an achievement given a milestone number (1, 2,3,4)</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadAchievements(com.badlogic.gdx.files.FileHandle)" class="member-name-link">loadAchievements</a><wbr>(com.badlogic.gdx.files.FileHandle&nbsp;fH)</code></div>
@@ -500,6 +512,36 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>achievement</code> - the stat achievement</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isMilestoneAchieved(com.deco2800.game.achievements.Achievement,int)">
+<h3>isMilestoneAchieved</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isMilestoneAchieved</span><wbr><span class="parameters">(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+ int&nbsp;milestoneNumber)</span></div>
+<div class="block">Checks whether a milestone has been achieved for an achievement given a milestone number (1, 2,3,4)</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>achievement</code> - the achievement to check</dd>
+<dd><code>milestoneNumber</code> - the milestone number to check</dd>
+<dt>Returns:</dt>
+<dd>true if milestone has been achieved false otherwise</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMilestoneTotal(com.deco2800.game.achievements.Achievement,int)">
+<h3>getMilestoneTotal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMilestoneTotal</span><wbr><span class="parameters">(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+ int&nbsp;milestoneNumber)</span></div>
+<div class="block">Gets the total to achieve for a milestone</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>achievement</code> - the achievement to get the total for the milestone for</dd>
+<dd><code>milestoneNumber</code> - the milestone number</dd>
+<dt>Returns:</dt>
+<dd>total for the milestone</dd>
 </dl>
 </section>
 </li>
