@@ -275,12 +275,12 @@ public class NPCFactory {
             "images/npc1.png",
             "images/npcs/NPC-V2.2.png" };
 
-//     int index = (int) ((Math.random() * (NPC_textures.length)));
+     //int index = (int) ((Math.random() * (NPC_textures.length)));
         int index = 1;
 
         AITaskComponent aiComponent =
             new AITaskComponent()
-                .addTask(new WanderTask(new Vector2(50f, 50f), 2f));
+                .addTask(new WanderTask(new Vector2(30f, 30f), 2f));
         Entity npc =
             new Entity()
                 .addComponent(new PhysicsComponent())

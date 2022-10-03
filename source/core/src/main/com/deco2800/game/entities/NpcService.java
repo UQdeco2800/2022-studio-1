@@ -156,7 +156,7 @@ public class NpcService extends EntityService {
         }
 
         for (int i = 0; i < ServiceLocator.getNpcService().getNpcNum(); i++) {
-            Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
+            Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
             float xPos = NPC.getPosition().x;
             float yPos = NPC.getPosition().y;
 

@@ -59,16 +59,22 @@ public class MainGameNpcInterface extends UIComponent{
             Drawable backgroundColour = new TextureRegionDrawable(colour);
 
             String[] NPC_dialogues = {
-                    "The fate of Atlantis, is in your hands",
+                    "The fate of Atlantis is in your hands",
                     "You are the chosen one....... Chiron" ,
-                    "A little offering for you, 100 gold"
+                    "The fate of Atlantis is in your hands",
+                    "You are the chosen one....... Chiron" ,
+                    "The fate of Atlantis is in your hands",
+                    "You are the chosen one....... Chiron" ,
+                    "The fate of Atlantis is in your hands",
+                    "You are the chosen one....... Chiron" ,
+                    "A little offering for you, 5 gold"
             };
 
             int index = (int) ((Math.random() * (NPC_dialogues.length)));
 
-            if(index == 2){
+            if(index == 8){
                 Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                player.getComponent(InventoryComponent.class).addGold(100);
+                player.getComponent(InventoryComponent.class).addGold(5);
                 PlayerStatsDisplay.updateItems();
             }
 
@@ -82,7 +88,7 @@ public class MainGameNpcInterface extends UIComponent{
 
             LeftTable.add(NpcImage).size(175f,200f).center();
             ConversationUI.add(LeftTable).size(225f, 300f);
-            ConversationUI.add(npcLabel);
+            ConversationUI.add(npcLabel).size(500f,200f).center().padRight(50f);
             ConversationUI.setBackground(backgroundColour);
             stage.addActor(ConversationUI);
             return ConversationUI;

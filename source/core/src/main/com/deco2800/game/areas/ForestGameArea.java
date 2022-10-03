@@ -126,12 +126,14 @@ public class ForestGameArea extends GameArea {
       "images/starfish.png",
       "images/NpcPlaceholder.png",
       "images/NPC convo.png",
-      "images/npc1.png"
+      "images/npc1.png",
+      "images/npcs/NPC-V2.2.png",
+      "images/npcs/NPC-V2.1.png"
   };
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas"
+      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas","images/npc_animations/NPC1sprite.atlas"
   };
 
   // Sound effect files
@@ -185,7 +187,9 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnMeleeBoss();
+    //spawnMeleeBoss();
+
+    //spawnNPCharacter();
 
     if (this.loadGame) {
       SaveGame.loadGameState();
@@ -435,6 +439,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
+    //System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
       case DAWN:
         spawnNPCharacter();
@@ -452,7 +457,7 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         // Despawn NPCs
         for (int i = 0; i < NPCNum; i++) {
-          Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
+          Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
 
@@ -576,8 +581,9 @@ public class ForestGameArea extends GameArea {
 
   private void spawnNPCharacter() {
     Entity NPC = NPCFactory.createBaseNPC();
-    // Entity NPC = NPCFactory.createNPC(texture);
-    ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
+    //Entity NPC = NPCFactory.createNPC();
+
+    ServiceLocator.getEntityService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
     // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
     //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
