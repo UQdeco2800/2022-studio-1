@@ -42,7 +42,7 @@ public class InventoryComponent extends Component {
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
     equipmentList.add(Equipments.AXE);
-    setArmor(Equipments.AXE);
+    setWeapon(Equipments.AXE);
 
     achievementHandler = ServiceLocator.getAchievementHandler();
   }
@@ -51,8 +51,8 @@ public class InventoryComponent extends Component {
     this.weapon = weapon;
   }
 
-  public void setArmor(Equipments helmet) {
-    this.armor = helmet;
+  public void setArmor(Equipments armor) {
+    this.armor = armor;
   }
 
   public Equipments getWeapon() {
