@@ -1077,7 +1077,7 @@ shi_w
   index: -1
 
 
-death_anim.png
+death.png
 size: 1788, 740
 format: RGBA8888
 filter: Linear, Linear
