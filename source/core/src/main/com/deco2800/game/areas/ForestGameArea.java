@@ -7,6 +7,7 @@ import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.components.npc.BossAnimationController;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -186,10 +187,6 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
-
-    //spawnMeleeBoss();
-
-    //spawnNPCharacter();
 
     if (this.loadGame) {
       SaveGame.loadGameState();
@@ -499,6 +496,7 @@ public class ForestGameArea extends GameArea {
     Entity boss = NPCFactory.createMeleeBoss(player);
     boss.setName("Mr. Zero");
     spawnEnemy(boss);
+    boss.getComponent(BossAnimationController.class).startAnimation(crystal);
   }
 
   public int count = 0;

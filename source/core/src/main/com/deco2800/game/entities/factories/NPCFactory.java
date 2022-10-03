@@ -116,7 +116,7 @@ public class NPCFactory {
     pirateCrabEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new ContinuousAttackComponent())
+            .addComponent(new ContinuousAttackComponent(3000, 3000))
             .addComponent(textureRenderComponent)
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
@@ -170,6 +170,7 @@ public class NPCFactory {
     AnimationRenderComponent animator = new AnimationRenderComponent(
             ServiceLocator.getResourceService().getAsset("images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
     animator.addAnimation("boss_frame", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("boss_side2", 0.1f, Animation.PlayMode.LOOP);
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     boss
@@ -178,16 +179,16 @@ public class NPCFactory {
             .addComponent(animator)
             .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 0f))
             .addComponent(new EffectNearBy(true, true, true))
-            .addComponent(new ContinuousAttackComponent());
+            .addComponent(new ContinuousAttackComponent(3000, 3000))
+            .addComponent(new BossAnimationController());
 
-    boss.setScale(2, 2);
-    boss.getComponent(AnimationRenderComponent.class).scaleEntity();
+    boss.setScale(19, 14);
+//    boss.getComponent(AnimationRenderComponent.class).scaleEntity();
     boss.getComponent(PhysicsMovementComponent.class).setOriginalSpeed(config.speed);
     boss.getComponent(EffectNearBy.class).enableSpeed();
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
-    boss.getComponent(AnimationRenderComponent.class).startAnimation("boss_frame");
     return boss;
   }
 
