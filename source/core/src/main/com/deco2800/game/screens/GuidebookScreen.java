@@ -69,7 +69,17 @@ public class GuidebookScreen extends ScreenAdapter {
             "images/uiElements/exports/guidebook-opening.png",
             "images/uiElements/exports/guidebook-next.png",
             "images/uiElements/exports/guidebook-previous.png",
-            "images/uiElements/exports/guidebook-heading-frame.png"
+            "images/uiElements/exports/guidebook-heading-frame.png",
+            "images/uiElements/exports/crystal.png",
+            "images/Centaur_Back_right.png",
+            "images/clock_sprites/clock_day1_1.png",
+            "images/uiElements/exports/allEnemies.png",
+            "images/uiElements/exports/allBuildings.png",
+            "images/shop-quarry.png",
+            "images/uiElements/exports/allCurrencies.png",
+            "images/Shop.png",
+            "images/inventory.png",
+            "images/Achievements.png"
     };
 
     public GuidebookScreen(AtlantisSinks game) {

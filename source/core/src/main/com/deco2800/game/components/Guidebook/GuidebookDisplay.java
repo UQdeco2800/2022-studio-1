@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Null;
 import com.deco2800.game.screens.GuidebookStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.Page;
@@ -122,6 +123,7 @@ public class GuidebookDisplay extends UIComponent {
         float bookWidth = bookHeight * 1.618f;
 
         float pageHeight = 0.8f * bookHeight;
+        float maxImageHeight = 0.3f * pageHeight;
 
         Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
         Image leftHeaderFrame = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
@@ -155,14 +157,30 @@ public class GuidebookDisplay extends UIComponent {
                     }
                 });
 
-        int pixelsPerCharacter = 11;
+        int pixelsPerCharacter = 10;
         int charactersPerLine = (int) (0.5 * 0.7 * bookWidth / pixelsPerCharacter);
+
+        Table leftPage = new Table();
+        Table rightPage = new Table();
 
         String leftPageHeader = pages[currentPage].header;
         String rightPageHeader = pages[currentPage + 1].header;
 
         String leftPageContent = pages[currentPage].content;
         String rightPageContent = pages[currentPage + 1].content;
+
+        String leftPageImagePath = pages[currentPage].image;
+        String rightPageImagePath = pages[currentPage + 1].image;
+
+        Image leftPageImage = null;
+        Image rightPageImage = null;
+
+        if (!leftPageImagePath.equals("")) {
+            leftPageImage = new Image(ServiceLocator.getResourceService().getAsset(leftPageImagePath, Texture.class));
+        }
+        if (!rightPageImagePath.equals("")) {
+            rightPageImage = new Image(ServiceLocator.getResourceService().getAsset(rightPageImagePath, Texture.class));
+        }
 
         leftPageContent = format(leftPageContent, charactersPerLine);
         rightPageContent = format(rightPageContent, charactersPerLine);
@@ -179,6 +197,37 @@ public class GuidebookDisplay extends UIComponent {
         leftContent.setAlignment(Align.topLeft);
         rightContent.setAlignment(Align.topLeft);
 
+        leftPage.setSize(0.5f * bookWidth, bookHeight);
+        if (!leftPageHeader.equals("")) {
+            leftPage.stack(leftHeaderFrame, leftHeader).expandX().fillX().padBottom(0.05f * bookHeight);
+            leftPage.row();
+        }
+        if (leftPageImage != null && pages[currentPage].imagePosition.equals("UP")) {
+            leftPage.add(leftPageImage).size(leftPageImage.getWidth() * maxImageHeight / leftPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+            leftPage.row();
+        }
+        leftPage.add(leftContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
+        if (leftPageImage != null && pages[currentPage].imagePosition.equals("DOWN")) {
+            leftPage.row();
+            leftPage.add(leftPageImage).size(leftPageImage.getWidth() * maxImageHeight / leftPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+        }
+
+
+        rightPage.setSize(0.5f * bookWidth, bookHeight);
+        if (!rightPageHeader.equals("")) {
+            rightPage.stack(rightHeaderFrame, rightHeader).expandX().fillX().padBottom(0.05f * bookHeight);
+            rightPage.row();
+        }
+        if (rightPageImage != null && pages[currentPage + 1].imagePosition.equals("UP")) {
+            rightPage.add(rightPageImage).size(rightPageImage.getWidth() * maxImageHeight / rightPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+            rightPage.row();
+        }
+        rightPage.add(rightContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
+        if (rightPageImage != null && pages[currentPage + 1].imagePosition.equals("DOWN")) {
+            rightPage.row();
+            rightPage.add(rightPageImage).size(rightPageImage.getWidth() * maxImageHeight / rightPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+        }
+
         content = new Table();
         //content.debug();
         content.setSize(bookWidth, pageHeight);
@@ -187,20 +236,6 @@ public class GuidebookDisplay extends UIComponent {
         controls = new Table();
         controls.setSize(bookWidth, pageHeight);
         controls.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
-
-        Table leftPage = new Table();
-        //leftPage.debug();
-        leftPage.setSize(0.5f * bookWidth, bookHeight);
-        leftPage.stack(leftHeaderFrame, leftHeader).expandX().fillX().padBottom(0.05f * bookHeight);
-        leftPage.row();
-        leftPage.add(leftContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
-
-        Table rightPage = new Table();
-        //rightPage.debug();
-        rightPage.setSize(0.5f * bookWidth, bookHeight);
-        rightPage.stack(rightHeaderFrame, rightHeader).expandX().fillX().padBottom(0.05f * bookHeight);
-        rightPage.row();
-        rightPage.add(rightContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
 
         content.row().fillX().expandX().fillY().expandY().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
         content.add(leftPage);
