@@ -595,10 +595,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html" class="type-name-link" title="class in com.deco2800.game.components.npc">ContinuousAttackComponent</a> - Class in <a href="com/deco2800/game/components/npc/package-summary.html">com.deco2800.game.components.npc</a></dt>
 <dd>
-<div class="block">Continuous attack component - melee enemies will attack non-enemy attackable objects periodically while colliding</div>
+<div class="block">Continuous attack component - melee enemies will attack non-enemy attackable objects periodically while colliding with them</div>
 </dd>
-<dt><a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html#%3Cinit%3E()" class="member-name-link">ContinuousAttackComponent()</a> - Constructor for class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html" title="class in com.deco2800.game.components.npc">ContinuousAttackComponent</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html#%3Cinit%3E(long,long)" class="member-name-link">ContinuousAttackComponent(long, long)</a> - Constructor for class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html" title="class in com.deco2800.game.components.npc">ContinuousAttackComponent</a></dt>
+<dd>
+<div class="block">continuousAttackComponent</div>
+</dd>
 <dt><a href="com/deco2800/game/areas/ForestGameArea.html#count" class="member-name-link">count</a> - Variable in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/ForestGameArea.html" title="class in com.deco2800.game.areas">ForestGameArea</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ai/tasks/AITaskComponent.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/AITaskComponent.html" title="class in com.deco2800.game.ai.tasks">AITaskComponent</a></dt>
@@ -691,7 +693,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/components/npc/BossAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/BossAnimationController.html" title="class in com.deco2800.game.components.npc">BossAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html" title="class in com.deco2800.game.components.npc">ContinuousAttackComponent</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">creates the component, registering entity collision listeners
+ starts looping through the list of colliders</div>
+</dd>
 <dt><a href="com/deco2800/game/components/npc/GhostAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/GhostAnimationController.html" title="class in com.deco2800.game.components.npc">GhostAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/npc/NPCAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/NPCAnimationController.html" title="class in com.deco2800.game.components.npc">NPCAnimationController</a></dt>
@@ -2294,6 +2299,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/services/DayNightCycleService.html#getTimePaused()" class="member-name-link">getTimePaused()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
 <dd>
 <div class="block">Returns the last time game time that the timer was paused.</div>
+</dd>
+<dt><a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html#getTimer()" class="member-name-link">getTimer()</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/ContinuousAttackComponent.html" title="class in com.deco2800.game.components.npc">ContinuousAttackComponent</a></dt>
+<dd>
+<div class="block">this is just for testing! Do not use!</div>
 </dd>
 <dt><a href="com/deco2800/game/services/DayNightCycleService.html#getTimer()" class="member-name-link">getTimer()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
 <dd>
@@ -4333,6 +4342,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/services/DayNightCycleService.html#start()" class="member-name-link">start()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
 <dd>
 <div class="block">Starts the day night cycle for the game.</div>
+</dd>
+<dt><a href="com/deco2800/game/components/npc/BossAnimationController.html#startAnimation(com.deco2800.game.entities.Entity)" class="member-name-link">startAnimation(Entity)</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/BossAnimationController.html" title="class in com.deco2800.game.components.npc">BossAnimationController</a></dt>
+<dd>
+<div class="block">starts animation, facing the boss in the direction of its target (usually crystal)</div>
 </dd>
 <dt><a href="com/deco2800/game/rendering/AnimationRenderComponent.html#startAnimation(java.lang.String)" class="member-name-link">startAnimation(String)</a> - Method in class com.deco2800.game.rendering.<a href="com/deco2800/game/rendering/AnimationRenderComponent.html" title="class in com.deco2800.game.rendering">AnimationRenderComponent</a></dt>
 <dd>
