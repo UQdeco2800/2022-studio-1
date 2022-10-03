@@ -131,6 +131,8 @@ public class GuidebookDisplay extends UIComponent {
         float pageHeight = 0.8f * bookHeight;
 
         Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
+        Image leftHeaderFrame = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
+        Image rightHeaderFrame = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
 
         Texture backPageTexture = new Texture(Gdx.files.internal("images/back_page.png"));
         TextureRegionDrawable upBack = new TextureRegionDrawable(backPageTexture);
@@ -141,9 +143,6 @@ public class GuidebookDisplay extends UIComponent {
         TextureRegionDrawable upNext = new TextureRegionDrawable(nextPageTexture);
         TextureRegionDrawable downNext = new TextureRegionDrawable(nextPageTexture);
         ImageButton nextPageButton = new ImageButton(upNext, downNext);
-
-        String leftPageContent = pages[currentPage].content;
-        String rightPageContent = pages[currentPage + 1].content;
 
         nextPageButton.addListener(
                 new ChangeListener() {
@@ -163,18 +162,32 @@ public class GuidebookDisplay extends UIComponent {
                     }
                 });
 
-        int pixelsPerCharacter = 10;
-        int charactersPerLine = (int) (0.7 * 0.5 * bookWidth / pixelsPerCharacter);
+        int pixelsPerCharacter = 11;
+        int charactersPerLine = (int) (0.5 * 0.7 * bookWidth / pixelsPerCharacter);
+
+        String leftPageHeader = pages[currentPage].header;
+        String rightPageHeader = pages[currentPage + 1].header;
+
+        String leftPageContent = pages[currentPage].content;
+        String rightPageContent = pages[currentPage + 1].content;
+
         leftPageContent = format(leftPageContent, charactersPerLine);
         rightPageContent = format(rightPageContent, charactersPerLine);
+
+        Label leftHeader = new Label(leftPageHeader, skin, "large");
+        Label rightHeader = new Label(rightPageHeader, skin, "large");
+
         Label leftContent = new Label(leftPageContent, skin, "small");
         Label rightContent = new Label(rightPageContent, skin, "small");
+
+        leftHeader.setAlignment(Align.center);
+        rightHeader.setAlignment(Align.center);
 
         leftContent.setAlignment(Align.topLeft);
         rightContent.setAlignment(Align.topLeft);
 
         content = new Table();
-        content.debug();
+        //content.debug();
         content.setSize(bookWidth, pageHeight);
         content.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
 
@@ -183,22 +196,26 @@ public class GuidebookDisplay extends UIComponent {
         controls.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
 
         Table leftPage = new Table();
-        leftPage.debug();
+        //leftPage.debug();
         leftPage.setSize(0.5f * bookWidth, bookHeight);
-        leftPage.add(leftContent).expandX().fillX().expandY().fillY();
+        leftPage.stack(leftHeaderFrame, leftHeader).expandX().fillX().padBottom(0.05f * bookHeight);
+        leftPage.row();
+        leftPage.add(leftContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
 
         Table rightPage = new Table();
-        rightPage.debug();
+        //rightPage.debug();
         rightPage.setSize(0.5f * bookWidth, bookHeight);
-        rightPage.add(rightContent).expandX().fillX().expandY().fillY();
+        rightPage.stack(rightHeaderFrame, rightHeader).expandX().fillX().padBottom(0.05f * bookHeight);
+        rightPage.row();
+        rightPage.add(rightContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
 
         content.row().fillX().expandX().fillY().expandY().pad(0.07f * bookWidth).padTop(0f).padBottom(0f);
-        content.add(leftPage).align(Align.left);
-        content.add(rightPage).align(Align.right);
+        content.add(leftPage);
+        content.add(rightPage);
 
         book.add(bookImage).expandX().expandY().center().size(bookWidth, bookHeight);
-        controls.add(backPageButton).expandX().expandY().bottom().left().size(0.05f * bookWidth).padLeft(0.07f * bookWidth);
-        controls.add(nextPageButton).expandX().expandY().bottom().right().size(0.05f * bookWidth).padRight(0.07f * bookWidth);
+        controls.add(backPageButton).expandX().expandY().bottom().left().size(0.04f * bookWidth).padLeft(0.07f * bookWidth);
+        controls.add(nextPageButton).expandX().expandY().bottom().right().size(0.04f * bookWidth).padRight(0.07f * bookWidth);
 
         stage.addActor(book);
         stage.addActor(content);
