@@ -237,6 +237,7 @@ public class Originator {
         weapon = memento.getWeapon();
         armor = memento.getArmor();
         equipmentsList = memento.getEquipmentsList();
+        buildings = memento.getBuildings();
     }
 
     @Override

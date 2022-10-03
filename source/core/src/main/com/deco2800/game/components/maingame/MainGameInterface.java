@@ -19,6 +19,7 @@ import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.EquipmentConfig;
+import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
@@ -26,6 +27,8 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 import static com.deco2800.game.entities.factories.PlayerFactory.createPlayer;
 
@@ -48,10 +51,25 @@ public class MainGameInterface extends UIComponent {
     private Texture prevTexture;
     private Texture nextTexture;
 
+    private int buildingPos = 0;
+    private Image currBuilding;
+    private Image nextBuilding;
+    private Image prevBuilding;
+    private Texture currBuildingTexture;
+    private Texture prevBuildingTexture;
+    private Texture nextBuildingTexture;
+
+    private Image attackItem;
+    private Image defenceItem;
+
+
     private EquipmentConfig equipmentStats;
+    private ShopBuildingConfig buildingStats;
 
     private int currEquipListSize = MainArea.getInstance().getGameArea().getPlayer()
             .getComponent(InventoryComponent.class).getEquipmentList().size();
+
+    private ArrayList<ShopBuilding> currBuildingList;
 
     @Override
     public void create() {
@@ -212,10 +230,15 @@ public class MainGameInterface extends UIComponent {
         selected.setSize(selected.getWidth() / 3, selected.getHeight() / 4);
         selected.setPosition(leftBox.getX() + 60f, leftBox.getY() + 160f);
 
-        Texture attackItemTexture = new Texture(Gdx.files.internal("images/shop-items-framed/sword-framed.png"));
-        TextureRegionDrawable attackItemDrawable = new TextureRegionDrawable(attackItemTexture);
-        ImageButton attackItem = new ImageButton(attackItemDrawable, attackItemDrawable);
-        attackItem.setSize(40f, 40f);
+        Texture attackItemTexture;
+        if (MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWeapon() == null) {
+            attackItemTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+        } else {
+            EquipmentConfig weapon = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWeapon()));
+            attackItemTexture = new Texture(Gdx.files.internal(weapon.itemBackgroundImagePath));
+        }
+        attackItem = new Image(attackItemTexture);
+        attackItem.setSize(40f,40f);
         attackItem.setPosition(leftBox.getX() + 115f, leftBox.getY() + 200f);
 
         Label attack = new Label("Attack", skin, "small");
@@ -223,10 +246,16 @@ public class MainGameInterface extends UIComponent {
         attack.setSize(0.3f, 0.3f);
         attack.setPosition(leftBox.getX() + 105f, leftBox.getY() + 190f);
 
-        Texture defenceItemTexture = new Texture(Gdx.files.internal("images/shop-items-framed/helmet-framed.png"));
-        TextureRegionDrawable defenceItemDrawable = new TextureRegionDrawable(defenceItemTexture);
-        ImageButton defenceItem = new ImageButton(defenceItemDrawable, defenceItemDrawable);
-        defenceItem.setSize(40f, 40f);
+        Texture defenceItemTexture;
+        if (MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getArmor() == null) {
+            defenceItemTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+        } else {
+            EquipmentConfig armor = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getArmor()));
+            defenceItemTexture = new Texture(Gdx.files.internal(armor.itemBackgroundImagePath));
+        }
+
+        defenceItem = new Image(defenceItemTexture);
+        defenceItem.setSize(40f,40f);
         defenceItem.setPosition(leftBox.getX() + 190f, leftBox.getY() + 200f);
 
         Label defence = new Label("Defence", skin, "small");
@@ -327,23 +356,49 @@ public class MainGameInterface extends UIComponent {
         buildingLeftArrow.setSize(40f, 40f);
         buildingLeftArrow.setPosition(rightBox.getX() + 60f, rightBox.getY() + 205f);
 
-        Texture prevBuildingTexture = new Texture(
-                Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
-        TextureRegionDrawable prevBuildingDrawable = new TextureRegionDrawable(prevBuildingTexture);
-        ImageButton prevBuilding = new ImageButton(prevBuildingDrawable, prevBuildingDrawable);
-        prevBuilding.setSize(40f, 40f);
+        currBuildingList = getBuildingList();
+
+        if (currBuildingList.size() == 0) {
+            prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+            currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+            nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+        } else if (currBuildingList.size() == 1) {
+            prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+
+            nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+
+            ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                    currBuildingList.get(0)));
+            currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+        } else if (currBuildingList.size() == 2) {
+            prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+            ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                    currBuildingList.get(0)));
+            currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+            data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                    currBuildingList.get(1)));
+            nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+        } else {
+            ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                    currBuildingList.get(0)));
+            currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+            data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                    currBuildingList.get(1)));
+            nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+            data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                    currBuildingList.get(currBuildingList.size() - 1)));
+            prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+        }
+        prevBuilding = new Image(prevBuildingTexture);
+        prevBuilding.setSize(40f,40f);
         prevBuilding.setPosition(rightBox.getX() + 105f, rightBox.getY() + 205f);
 
-        Texture currBuildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/quarry-framed.png"));
-        TextureRegionDrawable currBuildingDrawable = new TextureRegionDrawable(currBuildingTexture);
-        ImageButton currBuilding = new ImageButton(currBuildingDrawable, currBuildingDrawable);
-        currBuilding.setSize(50f, 50f);
+        currBuilding = new Image(currBuildingTexture);
+        currBuilding.setSize(50f,50f);
         currBuilding.setPosition(rightBox.getX() + 150f, rightBox.getY() + 205f);
 
-        Texture nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/wall-framed.png"));
-        TextureRegionDrawable nextBuildingDrawable = new TextureRegionDrawable(nextBuildingTexture);
-        ImageButton nextBuilding = new ImageButton(nextBuildingDrawable, nextBuildingDrawable);
-        nextBuilding.setSize(40f, 40f);
+        nextBuilding = new Image(nextBuildingTexture);
+        nextBuilding.setSize(40f,40f);
         nextBuilding.setPosition(rightBox.getX() + 205f, rightBox.getY() + 205f);
 
         Texture buildingRightArrowTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
@@ -438,7 +493,7 @@ public class MainGameInterface extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Left button clicked");
+                        logger.debug("Left equipment button clicked");
 
                         if (currEquipListSize >= 1) {
                             if (equipmentPos == 0) {
@@ -471,34 +526,27 @@ public class MainGameInterface extends UIComponent {
 
                                 if (equipmentPos + 1 > currEquipListSize - 1) {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList().get(0)));
-                                    nextEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(0)));
                                 } else {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList()
-                                                    .get(equipmentPos + 1)));
-                                    nextEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(equipmentPos + 1)));
                                 }
+                                nextEquipment.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
 
                                 if (equipmentPos - 1 < 0) {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList()
-                                                    .get(currEquipListSize - 1)));
-                                    prevEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(currEquipListSize - 1)));
                                 } else {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList()
-                                                    .get(equipmentPos - 1)));
-                                    prevEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(equipmentPos - 1)));
                                 }
+                                prevEquipment.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
                             }
                         }
                     }
@@ -508,7 +556,7 @@ public class MainGameInterface extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Right button clicked");
+                        logger.debug("Right equipment button clicked");
                         if (currEquipListSize >= 1) {
                             if (equipmentPos == currEquipListSize - 1) {
                                 equipmentPos = 0;
@@ -540,34 +588,29 @@ public class MainGameInterface extends UIComponent {
 
                                 if (equipmentPos + 1 > currEquipListSize - 1) {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList().get(0)));
-                                    nextEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(0)));
                                 } else {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList()
-                                                    .get(equipmentPos + 1)));
-                                    nextEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(equipmentPos + 1)));
                                 }
+
+                                nextEquipment.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
 
                                 if (equipmentPos - 1 < 0) {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList()
-                                                    .get(currEquipListSize - 1)));
-                                    prevEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(currEquipListSize - 1)));
                                 } else {
                                     equipmentStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(
-                                            MainArea.getInstance().getGameArea().getPlayer()
-                                                    .getComponent(InventoryComponent.class).getEquipmentList()
-                                                    .get(equipmentPos - 1)));
-                                    prevEquipment.setDrawable(new TextureRegionDrawable(
-                                            new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
+                                            MainArea.getInstance().getGameArea().getPlayer().getComponent
+                                                    (InventoryComponent.class).getEquipmentList().get(equipmentPos - 1)));
                                 }
+
+                                prevEquipment.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
                             }
                         }
                     }
@@ -604,8 +647,57 @@ public class MainGameInterface extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("bed use");
-                        // Add building left arrow function
+                        logger.debug("left building arrow use");
+                        if (currBuildingList.size() >= 1) {
+                            if (buildingPos == 0) {
+                                buildingPos = currBuildingList.size() - 1;
+                            } else {
+                                buildingPos -= 1;
+                            }
+                            if (currBuildingList.size() == 2 && buildingPos == 0) {
+                                buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                        currBuildingList.get(0)));
+                                currBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                        currBuildingList.get(1)));
+                                nextBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                prevBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal("images/shop-category-button.png"))
+                                ));
+                            }
+
+                            if (currBuildingList.size() >= 3) {
+                                buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                        currBuildingList.get(buildingPos)));
+                                currBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                if (buildingPos + 1 > currBuildingList.size() - 1) {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(0)));
+                                } else {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(buildingPos + 1)));
+                                }
+                                nextBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                if (buildingPos - 1 < 0) {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(currBuildingList.size() - 1)));
+                                } else {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(buildingPos - 1)));
+                                }
+                                prevBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                            }
+                        }
                     }
                 });
 
@@ -613,8 +705,57 @@ public class MainGameInterface extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("bed use");
-                        // Add building right arrow function
+                        logger.debug("right building arrow use");
+                        if (currBuildingList.size() >= 1) {
+                            if (buildingPos == currBuildingList.size() - 1) {
+                                buildingPos = 0;
+                            } else {
+                                buildingPos += 1;
+                            }
+                            if (currBuildingList.size() == 2 && buildingPos == 1) {
+                                buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                        currBuildingList.get(1)));
+                                currBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                        currBuildingList.get(0)));
+                                prevBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                nextBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal("images/shop-category-button.png"))
+                                ));
+                            }
+
+                            if (currBuildingList.size() >= 3) {
+                                buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                        currBuildingList.get(buildingPos)));
+
+                                currBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                if (buildingPos + 1 > currBuildingList.size() - 1) {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(0)));
+                                } else {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(buildingPos + 1)));
+                                }
+                                nextBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+
+                                if (buildingPos - 1 < 0) {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(currBuildingList.size() - 1)));
+                                } else {
+                                    buildingStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
+                                            currBuildingList.get(buildingPos - 1)));
+                                }
+                                prevBuilding.setDrawable(new TextureRegionDrawable(
+                                        new Texture(Gdx.files.internal(buildingStats.itemBackgroundImagePath))));
+                            }
+                        }
                     }
                 });
 
@@ -685,6 +826,15 @@ public class MainGameInterface extends UIComponent {
         stage.addActor(rightSideTable);
         stage.addActor(group);
     }
+
+    private ArrayList<ShopBuilding> getBuildingList() {
+        ArrayList<ShopBuilding> buildings = new ArrayList<>();
+        for (Map.Entry<ShopBuilding, Integer> building : MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getBuildings().entrySet()) {
+            buildings.add(building.getKey());
+        }
+        return buildings;
+    }
+
 
     @Override
     public void draw(SpriteBatch batch) {
