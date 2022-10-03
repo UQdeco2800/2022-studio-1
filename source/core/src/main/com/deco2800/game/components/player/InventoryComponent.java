@@ -219,6 +219,25 @@ public class InventoryComponent extends Component {
     }
   }
 
+  public Boolean useItem (Artefact item) {
+    if (items.getOrDefault(item, 0) >= 1) {
+      items.replace(item, items.get(item) - 1);
+      return true;
+    }
+    return false;
+  }
+
+  public Boolean placeBuilding(ShopBuilding building) {
+    if (buildings.getOrDefault(building, 0) >= 1) {
+      buildings.replace(building, buildings.get(building) - 1);
+      if (buildings.get(building) == 0) {
+        buildings.remove(building);
+      }
+      return true;
+    }
+    return false;
+  }
+
   public HashMap<Artefact, Integer> getItems() {
     return this.items;
   }

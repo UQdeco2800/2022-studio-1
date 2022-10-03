@@ -27,6 +27,7 @@ public class CombatStatsComponent extends Component {
   private int currentAttack;
   private int attackMultiplier;
   private int maxHealth = 10000;
+  public boolean invincible = false;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
@@ -197,10 +198,16 @@ public class CombatStatsComponent extends Component {
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
-    setHealth(newHealth);
-    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
-    hurtSound.play();
+    if (!invincible) {
+      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      setHealth(newHealth);
+      Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+      hurtSound.play();
+    }
+  }
+
+  public void setInvincibility (Boolean state) {
+    this.invincible = state;
   }
 
   public void setBaseDefense(int defense) {
