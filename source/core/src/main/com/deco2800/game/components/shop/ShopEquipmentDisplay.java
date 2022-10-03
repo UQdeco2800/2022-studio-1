@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.ui.UIComponent;
@@ -33,6 +34,7 @@ public class ShopEquipmentDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopEquipmentDisplay.class);
     private static final float Z_INDEX = 2f;
 
+    Table rootTable;
     Table table1;
     Table table2;
     Table table3;
@@ -74,10 +76,13 @@ public class ShopEquipmentDisplay extends UIComponent {
     private TextureRegionDrawable goldenDrawable;
     private Texture brownCategoryTexture;
     private TextureRegionDrawable brownDrawable;
+    private Texture redCategoryTexture;
+    private TextureRegionDrawable redDrawable;
 
     private TextButton descriptionDisplay;
     private TextButton buyButton;
     private TextButton priceDisplay;
+    boolean sufficientFunds;
 
     private Texture backTexture;
     private TextureRegionDrawable upBack;
@@ -90,7 +95,13 @@ public class ShopEquipmentDisplay extends UIComponent {
     }
 
     private void addActors() {
+        rootTable = new Table();
+        rootTable.setFillParent(true);
 
+        // Background Colour
+        Texture colour = new Texture(Gdx.files.internal("images/shop-background.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+        rootTable.setBackground(backgroundColour);
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().bottom();
@@ -109,11 +120,11 @@ public class ShopEquipmentDisplay extends UIComponent {
 
         table5 = new Table();
         table5.setFillParent(true);
-        table5.left().bottom().left();
+        table5.left().bottom().left().padBottom(25);
 
         table6 = new Table();
         table6.setFillParent(true);
-        table6.right().bottom().right();
+        table6.right().bottom().right().padBottom(25);
 
         table7 = new Table();
         table7.setFillParent(true);
@@ -156,8 +167,10 @@ public class ShopEquipmentDisplay extends UIComponent {
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
         goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
         goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
         brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+        redDrawable = new TextureRegionDrawable(redCategoryTexture);
         left = new TextureRegionDrawable(leftTexture);
         right = new TextureRegionDrawable(rightTexture);
 
@@ -183,15 +196,22 @@ public class ShopEquipmentDisplay extends UIComponent {
 
         // create description sticker
         descriptionDisplay = ShopUtils.createImageTextButton(
-                stats.name + "\n" + stats.description,
+                stats.name + "\n" + stats.description + "\n"
+                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
+                                .countInEquipmentList(current.t)
+                        + "/1",
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
                 true);
 
         // create buy button
+        sufficientFunds = (entity.getComponent(InventoryComponent.class)
+                .hasGold(stats.goldCost)
+                && entity.getComponent(InventoryComponent.class).countInEquipmentList(current.t) == 0);
         buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                brownDrawable, goldenDrawable,
+                sufficientFunds ? brownDrawable : redDrawable,
+                sufficientFunds ? goldenDrawable : redDrawable,
                 skin,
                 false);
 
@@ -217,11 +237,21 @@ public class ShopEquipmentDisplay extends UIComponent {
                         stats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.t));
                         nextStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.next.t));
 
-                        // priceDisplay.setText(Integer.toString(current.t.getPrice()));
                         priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
-
+                        sufficientFunds = (entity.getComponent(InventoryComponent.class)
+                                .hasGold(stats.goldCost)
+                                && entity.getComponent(InventoryComponent.class).countInEquipmentList(current.t) == 0);
+                        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                                : redDrawable;
+                        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                                : redDrawable;
                         descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description);
+                                .setText(stats.name + "\n" + stats.description + "\n"
+                                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
+                                                .countInEquipmentList(current.t)
+                                        + "/1");
                         i = i == equipmentOptions.size() ? 1 : i + 1;
                         itemNumber.setText("Item " + i + "/" + equipmentOptions.size());
                         currentItem.setDrawable(new TextureRegionDrawable(
@@ -249,10 +279,21 @@ public class ShopEquipmentDisplay extends UIComponent {
                         stats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.t));
                         nextStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.next.t));
 
-                        // priceDisplay.setText(Integer.toString(current.t.getPrice()));
                         priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
+                        sufficientFunds = (entity.getComponent(InventoryComponent.class)
+                                .hasGold(stats.goldCost)
+                                && entity.getComponent(InventoryComponent.class).countInEquipmentList(current.t) == 0);
+                        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                                : redDrawable;
+                        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                                : redDrawable;
                         descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description);
+                                .setText(stats.name + "\n" + stats.description + "\n"
+                                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
+                                                .countInEquipmentList(current.t)
+                                        + "/1");
                         i = i == 1 ? equipmentOptions.size() : i - 1;
                         itemNumber.setText("Item " + i + "/" + equipmentOptions.size());
                         currentItem.setDrawable(new TextureRegionDrawable(
@@ -281,16 +322,14 @@ public class ShopEquipmentDisplay extends UIComponent {
                                 // if the current weapon is the same as the weapon that the player is buying,
                                 // alert it as invalid purchase
                                 if (entity.getComponent(InventoryComponent.class).getWeapon() == current.t
-                                    || entity.getComponent(InventoryComponent.class)
-                                        .getEquipmentList().contains(current.t)) {
+                                        || entity.getComponent(InventoryComponent.class)
+                                                .getEquipmentList().contains(current.t)) {
                                     logger.info("Already has weapon, invalid purchase!");
                                     filesound.play();
-                                    buyButton.setColor(255, 0, 0, 1);
 
                                 } else {
                                     entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
                                     coinSound.play();
-                                    buyButton.setColor(121, 15, 85, 1);
 
                                     // sets player weapon to new weapon and change attack accordingly
                                     entity.getComponent(InventoryComponent.class).setWeapon(current.t);
@@ -304,7 +343,6 @@ public class ShopEquipmentDisplay extends UIComponent {
                                                 .getEquipmentList().contains(current.t)) {
                                     logger.info("Already has this armor, invalid purchase!");
                                     filesound.play();
-                                    buyButton.setColor(255, 0, 0, 1);
                                 } else {
                                     // adds new armor to player inventory and stat
                                     entity.getComponent(InventoryComponent.class).setArmor(current.t);
@@ -313,14 +351,25 @@ public class ShopEquipmentDisplay extends UIComponent {
                                     entity.getComponent(InventoryComponent.class).addEquipmentToList(current.t);
                                     entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
                                     coinSound.play();
-                                    buyButton.setColor(121, 15, 85, 1);
                                 }
                             }
                         } else {
                             logger.info("Insufficient gold!");
                             filesound.play();
-                            buyButton.setColor(255, 0, 0, 1);
                         }
+                        sufficientFunds = (entity.getComponent(InventoryComponent.class)
+                                .hasGold(stats.goldCost)
+                                && entity.getComponent(InventoryComponent.class).countInEquipmentList(current.t) == 0);
+                        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                                : redDrawable;
+                        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                        descriptionDisplay.setText(stats.name + "\n" + stats.description + "\n"
+                                + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
+                                        .countInEquipmentList(current.t)
+                                + "/1");
                         entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
                                 Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ");
                     }
@@ -348,10 +397,11 @@ public class ShopEquipmentDisplay extends UIComponent {
         table2.add(itemNumber).colspan(3).center();
         table4.add(rightButton).width(50f).height(50f);
         table5.add(priceDisplay).width(250f).height(150f);
-        table1.add(descriptionDisplay).width(400f).height(200f);
+        table1.add(descriptionDisplay).width(400f).height(300f);
         table6.add(buyButton).width(250f).height(150f);
         table7.add(backButton).width(50f).height(50f);
         table8.add(subtitle);
+        stage.addActor(rootTable);
         stage.addActor(table1);
         stage.addActor(table2);
         stage.addActor(table3);

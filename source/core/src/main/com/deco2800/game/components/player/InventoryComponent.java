@@ -5,6 +5,7 @@ import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.deco2800.game.components.infrastructure.ResourceType.*;
+
 /**
  * A component intended to be used by the player to track their inventory.
  *
@@ -28,7 +30,7 @@ public class InventoryComponent extends Component {
 
   private HashMap<ResourceType, Integer> inventory = new HashMap<>();
   private List<Equipments> equipmentList = new ArrayList<>();
-  
+
   private HashMap<Artefact, Integer> items = new HashMap<>();
   private HashMap<ShopBuilding, Integer> buildings = new HashMap<>();
 
@@ -38,6 +40,10 @@ public class InventoryComponent extends Component {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
+    /*
+     * equipmentList.add(Equipments.AXE);
+     * setArmor(Equipments.AXE);
+     */
     achievementHandler = ServiceLocator.getAchievementHandler();
   }
 
@@ -190,6 +196,14 @@ public class InventoryComponent extends Component {
     equipmentList.add(equipment);
   }
 
+  public int countInEquipmentList(Equipments equipment) {
+    if (equipmentList.contains(equipment)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
   }
@@ -199,10 +213,18 @@ public class InventoryComponent extends Component {
   }
 
   public void addBuilding(ShopBuilding building) {
-    if(buildings.get(building) == null) {
+    if (buildings.get(building) == null) {
       buildings.put(building, 1);
     } else {
       buildings.replace(building, buildings.get(building) + 1);
+    }
+  }
+
+  public int getBuildingCount(ShopBuilding building) {
+    if (buildings.get(building) == null) {
+      return 0;
+    } else {
+      return buildings.get(building);
     }
   }
 
@@ -211,7 +233,7 @@ public class InventoryComponent extends Component {
   }
 
   public void addItems(Artefact item) {
-    if(items.get(item) == null) {
+    if (items.get(item) == null) {
       items.put(item, 1);
     } else {
       items.replace(item, items.get(item) + 1);
@@ -222,10 +244,19 @@ public class InventoryComponent extends Component {
     return this.items;
   }
 
+  public int getItemCount(Artefact item) {
+    if (items.get(item) == null) {
+      return 0;
+    } else {
+      return items.get(item);
+    }
+  }
+
   /**
-   *  Triggers an event that a resource has been added for achievements handler
+   * Triggers an event that a resource has been added for achievements handler
+   * 
    * @param resourceType the type of resource (WOOD, STONE, GOLD)
-   * @param amount the amount of the resource added
+   * @param amount       the amount of the resource added
    */
   private void triggerResourceAddedEvent(ResourceType resourceType, int amount) {
     this.achievementHandler.getEvents().trigger(AchievementHandler.EVENT_RESOURCE_ADDED, resourceType, amount);
