@@ -33,7 +33,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
 
-    //entity.getEvents().addListener("playerDeath", this::die);
+    entity.getEvents().addListener("playerDeath", this::die);
   }
 
   @Override
@@ -154,13 +154,14 @@ public class PlayerActions extends Component {
   /**
    * Kill the entity
    */
-//  public void die() {
-//    //play animation
+  public void die() {
+    entity.getEvents().trigger("death_anim");
 //    entity.dispose();
-//  }
+
+  }
 
 }
-// deprecated attack fucntion
+// deprecated attack function
 //    closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
 //        (int) current.getPosition().y);
 //    Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,

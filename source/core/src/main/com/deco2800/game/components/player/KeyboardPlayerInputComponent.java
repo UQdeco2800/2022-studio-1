@@ -99,6 +99,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean keyUp(int keycode) {
     switch (keycode) {
+      case Keys.Q:
+        entity.getEvents().trigger("playerDeath");
+        return true;
       case Keys.W:
         walkDirection.sub(Vector2Utils.UP);
         triggerWalkEvent();
