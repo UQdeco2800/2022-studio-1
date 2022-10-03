@@ -63,17 +63,17 @@ public class AchievementHandler {
     /**
      * Default stat achievement second level
      */
-    public static final int STAT_ACHIEVEMENT_10_MILESTONE = 10;
+    public static final int STAT_ACHIEVEMENT_10_MILESTONE = 2;
 
     /**
      * Default stat achievement third level
      */
-    public static final int STAT_ACHIEVEMENT_25_MILESTONE = 25;
+    public static final int STAT_ACHIEVEMENT_25_MILESTONE = 3;
 
     /**
      * Default stat achievement forth level
      */
-    public static final int STAT_ACHIEVEMENT_50_MILESTONE = 50;
+    public static final int STAT_ACHIEVEMENT_50_MILESTONE = 5;
 
     /**
      * Achievement handler event handler
@@ -295,6 +295,63 @@ public class AchievementHandler {
             }
         }
     }
+
+    /**
+     * Checks whether a milestone has been achieved for an achievement given a milestone number (1, 2,3,4)
+     *
+     * @param achievement the achievement to check
+     * @param milestoneNumber the milestone number to check
+     * @return true if milestone has been achieved false otherwise
+     */
+    public boolean isMilestoneAchieved(Achievement achievement, int milestoneNumber) {
+        int totalAchieved = achievement.getTotalAchieved();
+
+        // use standard milestones
+        if (customStatMilestones.get(achievement.getId()) == null) {
+            return switch (milestoneNumber) {
+                case 1 -> totalAchieved >= STAT_ACHIEVEMENT_1_MILESTONE;
+                case 2 -> totalAchieved >= STAT_ACHIEVEMENT_10_MILESTONE;
+                case 3 -> totalAchieved >= STAT_ACHIEVEMENT_25_MILESTONE;
+                case 4 -> totalAchieved >= STAT_ACHIEVEMENT_50_MILESTONE;
+                default -> false;
+            };
+        } else { // use custom milestones
+           return achievement.getTotalAchieved() >= customStatMilestones.get(achievement.getId()).get(milestoneNumber - 1);
+        }
+    }
+
+    /**
+     * Gets the total to achieve for a milestone
+     *
+     * @param achievement the achievement to get the total for the milestone for
+     * @param milestoneNumber the milestone number
+     * @return total for the milestone
+     */
+    public int getMilestoneTotal(Achievement achievement, int milestoneNumber) {
+        int totalAchieved = achievement.getTotalAchieved();
+
+        // use standard milestones
+        if (customStatMilestones.get(achievement.getId()) == null) {
+            return switch (milestoneNumber) {
+                case 1 -> STAT_ACHIEVEMENT_1_MILESTONE;
+                case 2 -> STAT_ACHIEVEMENT_10_MILESTONE;
+                case 3 -> STAT_ACHIEVEMENT_25_MILESTONE;
+                case 4 -> STAT_ACHIEVEMENT_50_MILESTONE;
+                default -> 0;
+            };
+        } else { // use custom milestones
+            int i = 1;
+            for(Integer milestone : customStatMilestones.get(achievement.getId())) {
+                    if (i == milestoneNumber) {
+                        return milestone;
+                    }
+                i++;
+            }
+        }
+
+        return 0;
+    }
+
 
     /**
      * Broadcast the new achievement milestone reached to interested parties.
