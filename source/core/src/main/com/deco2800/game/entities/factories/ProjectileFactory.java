@@ -1,12 +1,10 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
-import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.*;
 import com.deco2800.game.rendering.TextureRenderComponent;
 
@@ -28,11 +26,14 @@ public class ProjectileFactory {
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
                 .addComponent(new CombatStatsComponent(1,20))
                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 0.2f));
 
         projectile.getComponent(PhysicsMovementComponent.class).setTarget(destination);
+
         projectile.getComponent(PhysicsMovementComponent.class).setMoving(true);
+
         projectile.getComponent(ColliderComponent.class).setSensor(true);
 
         projectile.setPosition(x1 - projectile.getScale().x / 2 + source.getScale().x / 2,y1  - projectile.getScale().y / 2  + source.getScale().y / 2);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.ProjectileFactory;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.raycast.RaycastHit;
@@ -48,6 +49,11 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public void update() {
+        if (GameTime.getTime() >= taskEnd && getActivePriority() != -1) {
+            Entity entity = this.owner.getEntity();
+            ProjectileFactory.createProjectile(entity, target);
+            taskEnd = GameTime.getTime() + (int)(time * SECOND);
+        }
     }
 
     @Override
@@ -63,7 +69,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         this.time = time;
     }
 
-    public float getFireDuration() {
+    public float getShootDuration() {
         return time;
     }
 
