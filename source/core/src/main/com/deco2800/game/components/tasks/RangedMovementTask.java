@@ -1,5 +1,7 @@
 package com.deco2800.game.components.tasks;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
@@ -7,6 +9,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.raycast.RaycastHit;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.DebugRenderer;
 import com.deco2800.game.services.ServiceLocator;
 
@@ -44,15 +47,15 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
         super.start();
         movementTask = new MovementTask(target.getPosition());
         movementTask.create(owner);
+        animationDirection((int)target.getPosition().x,(int)target.getPosition().y);
         movementTask.start();
-
-        this.owner.getEntity().getEvents().trigger("chaseStart");
     }
 
     @Override
     public void update() {
         movementTask.setTarget(target.getPosition());
         movementTask.update();
+
         if (movementTask.getStatus() != Status.ACTIVE) {
             movementTask.start();
         }
@@ -107,5 +110,49 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
         }
         debugRenderer.drawLine(from, to);
         return true;
+    }
+
+    //Class takes input of target values and compares current position
+    private void animationDirection(int xValue, int yValue ) {
+        //Eel current position
+        int eelCurrentPosX = (int)this.owner.getEntity().getPosition().x;
+        int eelCurrentPosY = (int)this.owner.getEntity().getPosition().y;
+
+        checkAnimations();
+        if (eelCurrentPosX < xValue && eelCurrentPosY > yValue) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).startAnimation("fr");
+        } else if (eelCurrentPosX < xValue && eelCurrentPosY < yValue) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).startAnimation("br");
+        } else if (eelCurrentPosX > xValue && eelCurrentPosY > yValue) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).startAnimation("fl");
+        } else if (eelCurrentPosX > xValue && eelCurrentPosY < yValue) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).startAnimation("bl");
+        }
+
+        this.owner.getEntity().getComponent(AnimationRenderComponent.class).scaleEntity();
+        this.owner.getEntity().setScale(1.2f, 1.2f);
+    }
+
+    //Checks all animation directions
+    private void checkAnimations() {
+        if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("fr"))) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
+        }
+
+        if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("br"))) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
+        }
+
+        if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("fl"))) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
+        }
+
+        if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("bl"))) {
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
+        }
     }
 }

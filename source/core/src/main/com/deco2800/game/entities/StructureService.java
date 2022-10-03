@@ -1,7 +1,10 @@
 package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -11,16 +14,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.entities.factories.ResourceBuildingFactory;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -34,7 +40,7 @@ import java.util.Objects;
  * Avoid adding additional state here! Global access is often the easy but incorrect answer to
  * sharing data.
  */
-public class StructureService extends EntityService{
+public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
@@ -51,6 +57,8 @@ public class StructureService extends EntityService{
   private static String structureName;
 
   private static String structureKey;
+  
+  private static HashMap<String, Tile> tiles = new HashMap<String, Tile>();
 
 
   /**
@@ -61,7 +69,7 @@ public class StructureService extends EntityService{
   public void register(Entity entity) {
     logger.debug("Registering {} in entity service", entity);
     structureEntities.add(entity);
-    entity.create();
+//    entity.create();
   }
 
   /**
@@ -142,38 +150,71 @@ public class StructureService extends EntityService{
 
   /** Builds a structure at mouse position
    * @param name name of the structure in game entity list
-   * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    */
-  public static void triggerBuildEvent(String name, SortedMap<String, Rectangle> structureRects) {
+  public static void triggerBuildEvent(String name) {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    mousePosV2.x -= 0.5;
-    mousePosV2.y -= 0.5;
-    String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
+    GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+    System.out.println(worldLoc);
+    String entityName = loc.toString();
     entityName = name + entityName;
+    String stringTileCoords = ServiceLocator.getUGSService().generateCoordinate(loc.x, loc.y);
 
     structureKey = name;
     if (!uiIsVisible) {
-//      System.out.println(ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y));
-      if (!ServiceLocator.getEntityService().wouldCollide(StructureFactory.createWall(), (int) mousePosV2.x, (int) mousePosV2.y)) {
-        if (Objects.equals(name, "wall")) {
-          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createWall());
-          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-          structureRects.put(entityName, rectangle);
-        } else if (Objects.equals(name, "tower1")) {
-          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTower1(1));
-          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-          structureRects.put(entityName, rectangle);
-        } else if (Objects.equals(name, "trap")) {
-          ServiceLocator.getStructureService().registerNamed(entityName, StructureFactory.createTrap());
-          ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-          Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-          structureRects.put(entityName, rectangle);
-        }
+      if (Objects.equals(name, "wall")) {
+        Entity wall = StructureFactory.createWall();
+        ServiceLocator.getEntityService().registerNamed(entityName, wall);
+        ServiceLocator.getStructureService().registerNamed(entityName, wall);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, wall);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        wall.setPosition(worldLoc);
+      } else if (Objects.equals(name, "tower1")) {
+        Entity tower1 = StructureFactory.createTower1(1);
+        ServiceLocator.getEntityService().registerNamed(entityName, tower1);
+        ServiceLocator.getStructureService().registerNamed(entityName, tower1);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, tower1);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        tower1.setPosition(worldLoc);
+      } else if (Objects.equals(name, "tower2")) {
+        Entity tower2 = StructureFactory.createTower2(1);
+        ServiceLocator.getEntityService().registerNamed(entityName, tower2);
+        ServiceLocator.getStructureService().registerNamed(entityName, tower2);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, tower2);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        tower2.setPosition(worldLoc);
+      } else if (Objects.equals(name, "woodCutter")) {
+        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
+        ServiceLocator.getEntityService().registerNamed(entityName, woodCutter);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, woodCutter);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        woodCutter.setPosition(worldLoc);
+      }else if (Objects.equals(name, "tower3")) {
+        Entity tower3 = StructureFactory.createTower3(1);
+        ServiceLocator.getEntityService().registerNamed(entityName, tower3);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, tower3);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        tower3.setPosition(worldLoc);
+      }else if (Objects.equals(name, "trap")) {
+        Entity trap = StructureFactory.createTrap();
+        ServiceLocator.getEntityService().registerNamed(entityName, trap);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, trap);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        trap.setPosition(worldLoc);
+      }else if (Objects.equals(name, "stonequarry")) {
+        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
+        ServiceLocator.getEntityService().registerNamed(entityName, stonequarry);
+        ServiceLocator.getUGSService().setEntity(stringTileCoords, stonequarry);
+        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+        stonequarry.setPosition(worldLoc);
+      }
+    } else {
+      if (uiIsVisible) {
+        table1.remove();
+        toggleUIisVisible();
       }
     }
   }
@@ -182,51 +223,53 @@ public class StructureService extends EntityService{
    * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
    * @param screenX The x coordinate, origin is in the upper left corner
    * @param screenY The y coordinate, origin is in the upper left corner
-   * @param structureRects map of all structure selection rectangles to the structure name in game entity list
    * @param resourceBuildState true if building resource building false otherwise
    * @param buildEvent true if currently in a build event false otherwise
    * @return list of booleans[]{true if the point (screenX, screenY) is clear of structures else return false,
    *                            resourceBuildState, buildEvent}
-   *
    */
-  public static boolean[] handleClickedStructures(int screenX, int screenY, SortedMap<String, Rectangle> structureRects, boolean resourceBuildState, boolean buildEvent) {
-    String clickedStructure = "";
-    boolean isClear;
-    boolean anyStructureHit = false;
+  public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent, boolean removeEvent, boolean upgradeEvent) {
+    SaveGame.saveGameState();
+    boolean isClear = false;
+    boolean structureHit = false;
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
-      if (es.getValue().contains(mousePosV2)) {
-        clickedStructure = es.getKey();
-        structureName = es.getKey();
-        //ServiceLocator.getStructureService().getNamedEntity(es.getKey()).dispose();
-        anyStructureHit = true;
-        //This block of code executes when the user clicks a structure
+    GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    if (ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name") != null) {
+      logger.info("mapPos ==> {}", mapPos);
+      String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
+      if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3")) {
+        structureHit = true;
+        structureName = name;
+        if (buildEvent) {
+          if (!uiIsVisible) {
+            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureName);
+            toggleUIisVisible();
+          }
+        } else if (removeEvent) {
+          StructureFactory.handleBuildingDestruction(name);
+          removeEvent = false;
+        } else if (upgradeEvent) {
+          logger.info("UPGRADE EVENT");
+          StructureFactory.upgradeStructure(name);
+          upgradeEvent = false;
+        }
       } else {
-        //This block of code executes when the user clicks, and it is not a structure
         if (uiIsVisible) {
           table1.remove();
           toggleUIisVisible();
         }
       }
     }
-    if (anyStructureHit) {
-      //Entity structure = ServiceLocator.getStructureService().getNamedEntity(clickedStructure);
-
-      //StructureFactory.handleBuildingDestruction(structure, structureRects);     
+    if (structureHit) {
       buildEvent = false;
       isClear = false;
-
-      table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureKey);
-
-      toggleUIisVisible();
-      //structureRects.remove(clickedStructure);
     } else {
       isClear = true;
     }
-    return new boolean[]{isClear, resourceBuildState, buildEvent};
+    return new boolean[]{isClear, resourceBuildState, buildEvent, removeEvent, upgradeEvent};
   }
 
   /**
@@ -255,13 +298,17 @@ public class StructureService extends EntityService{
     return "";
   }
 
-  /**
-   * Method stub for returning structureRects map
-   */
-  public SortedMap<String, Rectangle> getStructureRects() {
+  public static String getSimpleName() {return structureName;}
 
-    SortedMap<String, Rectangle> structureRects = new TreeMap<>();
-    return structureRects;
 
+  public boolean toggleRemoveState(boolean removeState) {
+    removeState = !removeState;
+    return  removeState;
   }
+
+    public boolean toggleUpgradeState(boolean upgradeState) {
+      upgradeState = !upgradeState;
+      return  upgradeState;
+    }
+    
 }

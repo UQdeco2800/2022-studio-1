@@ -3,9 +3,13 @@ package com.deco2800.game.components.player;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,57 +24,37 @@ import static com.deco2800.game.components.infrastructure.ResourceType.*;
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private Equipments weapon;
-  private Equipments helmet;
-  private Equipments chestplate;
+  private Equipments armor;
 
   private HashMap<ResourceType, Integer> inventory = new HashMap<>();
+  private List<Equipments> equipmentList = new ArrayList<>();
   
   private HashMap<Artefact, Integer> items = new HashMap<>();
+  private HashMap<ShopBuilding, Integer> buildings = new HashMap<>();
 
-  public InventoryComponent(int gold, int stone, int wood,
-      Equipments weapon, Equipments chestplate, Equipments helmet) {
-    inventory.put(GOLD, gold);
-    inventory.put(STONE, stone);
-    inventory.put(WOOD, wood);
-    setWeapon(weapon);
-    setHelmet(helmet);
-    setChestplate(chestplate);
-  }
+  private AchievementHandler achievementHandler;
 
-  public InventoryComponent(int gold, int stone, int wood, HashMap<Artefact, Integer> items) {
-    inventory.put(GOLD, gold);
-    inventory.put(STONE, stone);
-    inventory.put(WOOD, wood);
-    setItems(items);
-  }
   public InventoryComponent(int gold, int stone, int wood) {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
+    achievementHandler = ServiceLocator.getAchievementHandler();
   }
 
   public void setWeapon(Equipments weapon) {
     this.weapon = weapon;
   }
 
-  public void setHelmet(Equipments helmet) {
-    this.helmet = helmet;
-  }
-
-  public void setChestplate(Equipments chestplate) {
-    this.chestplate = chestplate;
+  public void setArmor(Equipments helmet) {
+    this.armor = helmet;
   }
 
   public Equipments getWeapon() {
     return this.weapon;
   }
 
-  public Equipments getHelmet() {
-    return this.helmet;
-  }
-
-  public Equipments getChestplate() {
-    return this.chestplate;
+  public Equipments getArmor() {
+    return this.armor;
   }
 
   /**
@@ -191,10 +175,39 @@ public class InventoryComponent extends Component {
 
   public void addResources(ResourceType resourceType, int amount) {
     inventory.replace(resourceType, inventory.get(resourceType) + amount);
+    this.triggerResourceAddedEvent(resourceType, amount);
+  }
+
+  public void setEquipmentList(List<Equipments> equipmentsList) {
+    this.equipmentList = equipmentsList;
+  }
+
+  public List<Equipments> getEquipmentList() {
+    return equipmentList;
+  }
+
+  public void addEquipmentToList(Equipments equipment) {
+    equipmentList.add(equipment);
   }
 
   public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
+  }
+
+  public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
+    this.buildings = buildings;
+  }
+
+  public void addBuilding(ShopBuilding building) {
+    if(buildings.get(building) == null) {
+      buildings.put(building, 1);
+    } else {
+      buildings.replace(building, buildings.get(building) + 1);
+    }
+  }
+
+  public HashMap<ShopBuilding, Integer> getBuildings() {
+    return this.buildings;
   }
 
   public void addItems(Artefact item) {
@@ -207,5 +220,14 @@ public class InventoryComponent extends Component {
 
   public HashMap<Artefact, Integer> getItems() {
     return this.items;
+  }
+
+  /**
+   *  Triggers an event that a resource has been added for achievements handler
+   * @param resourceType the type of resource (WOOD, STONE, GOLD)
+   * @param amount the amount of the resource added
+   */
+  private void triggerResourceAddedEvent(ResourceType resourceType, int amount) {
+    this.achievementHandler.getEvents().trigger(AchievementHandler.EVENT_RESOURCE_ADDED, resourceType, amount);
   }
 }

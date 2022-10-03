@@ -3,6 +3,8 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SerializationException;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
@@ -56,6 +58,11 @@ public abstract class GameArea implements Disposable {
     ServiceLocator.getEntityService().addEntity(entity);
   }
 
+  protected void removeEntity(Entity entity) {
+    areaEntities.remove(entity);
+    ServiceLocator.getEntityService().register(entity);
+  }
+
   /**
    * Spawn entity on a given tile. Requires the terrain to be set first.
    *
@@ -78,7 +85,14 @@ public abstract class GameArea implements Disposable {
       worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
     }
 
+    System.out.print("tile pos => ");
+    System.out.println(tilePos);
+    Vector2 convertedTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(tilePos);
+    System.out.print("convertedTilePos ==> ");
+    System.out.println(convertedTilePos);
+//    entity.setTileGridPosition(tilePos);
     entity.setPosition(worldPos);
+
     spawnEntity(entity);
   }
 

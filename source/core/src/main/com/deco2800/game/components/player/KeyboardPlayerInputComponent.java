@@ -4,20 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
-import net.dermetfan.gdx.physics.box2d.PositionController;
+
 
 import java.util.*;
 
@@ -29,11 +32,20 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
 
   private boolean buildState = false;
+  private boolean removeState = false;
+  private boolean upgradeState = false;
+
   private boolean resourceBuildState = false;
 
   private boolean buildEvent = false;
+  private boolean removeEvent = false;
 
-  private SortedMap<String, Rectangle> structureRects = new TreeMap<>();
+  private boolean upgradeEvent = false;
+
+  private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap", "stonequarry", "woodCutter"};
+
+  private int structureSelect = 0;
+
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -52,25 +64,30 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         walkDirection.add(Vector2Utils.UP);
         entity.getEvents().trigger("ch_dir_w");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "UP");
         return true;
       case Keys.A:
         walkDirection.add(Vector2Utils.LEFT);
         entity.getEvents().trigger("ch_dir_a");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "LEFT");
         return true;
       case Keys.S:
         walkDirection.add(Vector2Utils.DOWN);
         entity.getEvents().trigger("ch_dir_s");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "DOWN");
         return true;
       case Keys.D:
         walkDirection.add(Vector2Utils.RIGHT);
         entity.getEvents().trigger("ch_dir_d");
         triggerWalkEvent();
+        entity.getEvents().trigger("playerControlTut", "RIGHT");
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack");
         entity.getEvents().trigger("attack_anim");
+        entity.getEvents().trigger("playerControlTut", "SPACE");
         return true;
       default:
         return false;
@@ -112,7 +129,39 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         triggerCrystalRestoreHealth();
         return true;
       case Keys.N:
-        resourceBuildState = ServiceLocator.getStructureService().toggleResourceBuildState(resourceBuildState);
+        if (buildState) {
+          structureSelect += 1;
+        }
+        return true;
+      case Keys.H:
+        for(int i = 0; i <=10; i++) {
+//          for(int j = 0; j<=120; j++) {
+          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,0);
+          System.out.println(pos);
+        }
+        for(int i = 0; i <=10; i++) {
+//          for(int j = 0; j<=120; j++) {
+          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,1);
+          System.out.println(pos);
+        }
+//        }
+      case Keys.Y:
+        if (buildState) {
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+        }
+        if (upgradeState) {
+          upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
+        }
+        removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        return true;
+      case Keys.U:
+        if (buildState) {
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+        }
+        if (removeState) {
+          removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+        }
+        upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
         return true;
       case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
@@ -125,56 +174,55 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
     CrystalFactory.crystalClicked(screenX, screenY);
-    if (pointer == Input.Buttons.LEFT) {
-      if (buildState) {
-        buildEvent = true;
-        boolean isClear = false;
-        if (!structureRects.isEmpty()) {
-          boolean[] updatedValues = ServiceLocator.getStructureService().handleClickedStructures(screenX, screenY,
-              structureRects, resourceBuildState, buildEvent);
-          isClear = updatedValues[0];
-          resourceBuildState = updatedValues[1];
-          buildEvent = updatedValues[2];
-        } else {
-          isClear = true;
-        }
-        if (isClear) {
-          if (resourceBuildState) {
-            ServiceLocator.getStructureService().triggerBuildEvent("wall", structureRects);
-          } else {
-            ServiceLocator.getStructureService().triggerBuildEvent("tower1", structureRects);
-          }
-        }
-      }
-    }
+    NpcService.npcClicked(screenX,screenY);
     return true;
   }
 
-  /** @see InputProcessor#touchDragged(int, int, int) */
   @Override
-  public boolean touchDragged(int screenX, int screenY, int pointer) {
-    if (buildState) {
-      if (buildEvent) {
-        if (pointer == Input.Buttons.LEFT) {
-          Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-          CameraComponent camComp = camera.getComponent(CameraComponent.class);
-          Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-          Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-          mousePosV2.x -= 0.5;
-          mousePosV2.y -= 0.5;
-          ServiceLocator.getStructureService().getLastEntity().setPosition(mousePosV2);
-          structureRects.get(structureRects.lastKey()).setPosition(mousePosV2);
-        }
-      }
-    }
+  public boolean mouseMoved(int screenX, int screenY) {
+
+//    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+//    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+//    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+//    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+//    System.out.println(mousePosV2);
+//    GridPoint2 tilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+//    System.out.println(tilePos);
+
     return true;
   }
 
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    if (pointer == Input.Buttons.LEFT) {
+      if (buildState) {
+        buildEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        resourceBuildState = updatedValues[1];
+        buildEvent = updatedValues[2];
+        if (isClear) {
+          int i = structureSelect % (structureNames.length);
+          ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
+        }
+      } else if (removeState) {
+        removeEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        removeEvent = updatedValues[3];
+      } else if (upgradeState) {
+        upgradeEvent = true;
+        boolean isClear = false;
+        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
+        isClear = updatedValues[0];
+        upgradeEvent = updatedValues[4];
+      }
+    }
+
     if (buildState) {
       if (buildEvent) {
         if (pointer == Input.Buttons.LEFT) {
@@ -203,6 +251,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     combatStatsComponent.setHealth(health - 30);
     // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
+
+
+
 
   /**
    * Triggers crystal restore health to can be used in the shopping feature (for

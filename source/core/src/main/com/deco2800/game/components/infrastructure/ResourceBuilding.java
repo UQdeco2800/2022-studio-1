@@ -48,10 +48,4 @@ public class ResourceBuilding extends Component {
         return type;
     }
 
-    /**
-     * Retrieves the resources produced and adds them to the players inventory.
-     */
-    public void collectResources() {
-        entity.getComponent(InventoryComponent.class).addStone(productionRate);
-    }
 }

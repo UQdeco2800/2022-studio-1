@@ -3,6 +3,7 @@ package util;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
@@ -41,5 +42,14 @@ public class EntityUtil {
         return target;
     }
 
-
+    public static Entity createTrap(short targetLayer) {
+        Entity entity =
+                new Entity()
+                        .addComponent(new TrapComponent(targetLayer, 10f))
+                        .addComponent(new CombatStatsComponent(0, 10))
+                        .addComponent(new PhysicsComponent())
+                        .addComponent(new HitboxComponent());
+        entity.create();
+        return entity;
+    }
 }

@@ -60,7 +60,7 @@ public class TerrainFactory {
    */
   public TerrainFactory(CameraComponent cameraComponent, TerrainOrientation orientation) {
     this.camera = (OrthographicCamera) cameraComponent.getCamera();
-    this.camera.zoom += 0.2;
+    this.camera.zoom = 5f;
     this.orientation = orientation;
   }
 
@@ -114,7 +114,7 @@ public class TerrainFactory {
     switch (terrainType) {
       case FOREST_DEMO_ISO:
         TextureRegion isoWater = new TextureRegion(
-            resourceService.getAsset("images/65x33_tiles/65x33v1Water.png", Texture.class));
+            resourceService.getAsset("images/65x33_tiles/dayWaterTile.png", Texture.class));
         TextureRegion isoSand = new TextureRegion(
             resourceService.getAsset("images/65x33_tiles/beachV1.png", Texture.class));
         TextureRegion isoGround = new TextureRegion(
@@ -123,7 +123,7 @@ public class TerrainFactory {
             resourceService.getAsset("images/65x33_tiles/seaweedV4.png", Texture.class));
         TextureRegion isoSeaweed2 = new TextureRegion(
             resourceService.getAsset("images/65x33_tiles/seaweedV5.png", Texture.class));
-        return createForestDemoTerrain(1f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
+        return createForestDemoTerrain(16f, isoWater, isoSand, isoGround, isoSeaweed1, isoSeaweed2);
       default:
         return null;
     }
@@ -154,7 +154,7 @@ public class TerrainFactory {
       case ORTHOGONAL:
         return new OrthogonalTiledMapRenderer(tiledMap, tileScale);
       case ISOMETRIC:
-        return new IsometricTiledMapRenderer(tiledMap, tileScale);
+        return new IsoTileRenderer(tiledMap, tileScale);
       case HEXAGONAL:
         return new HexagonalTiledMapRenderer(tiledMap, tileScale);
       default:

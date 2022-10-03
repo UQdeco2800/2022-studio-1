@@ -1,14 +1,18 @@
 package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.infrastructure.ResourceBuilding;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
@@ -21,6 +25,7 @@ import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -62,31 +67,36 @@ public class ResourceBuildingFactory {
                 .addComponent(new HealthBarComponent(75, 10));
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
-        stoneQuarry.setScale(1.5f, 1.2f);
+        stoneQuarry.setScale(10f, 8.1f);
         return stoneQuarry;
     }
 
     /**
-     * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
-     * @param texture image representation for created structure
-     * @return structure entity
+     * Creates a Wood Quarry entity
+     *
+     * @return Wood quarry entity
      */
-    public static Entity createBaseStructure(String texture) {
-        Entity structure =
-                new Entity()
-                        .addComponent(new TextureRenderComponent(texture))
-                        .addComponent(new PhysicsComponent())
-                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                        .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
+    public static Entity createWoodCutter() {
 
-        structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-        structure.getComponent(TextureRenderComponent.class).scaleEntity();
-        PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
-        return structure;
+        AnimationRenderComponent res_bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/woodresource.atlas", TextureAtlas.class));
+        res_bul_animator.addAnimation("woqu", 0.5f, Animation.PlayMode.LOOP);
+
+        Entity woodQuarry = createBaseStructure_forAnim("images/anim_demo/woodresource.atlas");
+        BaseEntityConfig config = configs.woodCutter;
+
+        woodQuarry.addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+                .addComponent(res_bul_animator)
+                .addComponent(new HealthBarComponent(75, 10));
+        woodQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
+        res_bul_animator.startAnimation("woqu");
+        woodQuarry.setScale(13.5f, 11.5f);
+        return woodQuarry;
     }
 
     private static Entity createBaseStructure_forAnim(String texture) {
+        ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BUILDING_PLACED,
+                AchievementType.BUILDINGS, 1);
+
         Entity structure =
                 new Entity()
                         .addComponent(new PhysicsComponent())

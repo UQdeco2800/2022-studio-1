@@ -7,7 +7,9 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.PlayerConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
@@ -55,6 +57,7 @@ public class PlayerFactory {
     player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("d", 0.1f, Animation.PlayMode.LOOP);
     player_start.addAnimation("da", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("death_anim", 0.3f, Animation.PlayMode.NORMAL);
 
     Entity player =
         new Entity()
@@ -64,8 +67,7 @@ public class PlayerFactory {
             .addComponent(new AnimationController())
             .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
             .addComponent(new PlayerActions())
-            .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood
-                    , stats.weapon, stats.helmet, stats.chestplate))
+            .addComponent(new InventoryComponent(10000, stats.stone, stats.wood))
             .addComponent(inputComponent)            
             .addComponent(new PlayerStatsDisplay());
 
@@ -76,11 +78,13 @@ public class PlayerFactory {
     player.setCollectable(false);
 
     ServiceLocator.getEntityService().registerNamed("player", player);
-    PhysicsUtils.setScaledCollider(player, 0.6f, 0.3f);
+    PhysicsUtils.setScaledCollider(player, 15f, 15f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
-    player.setScale(2.5f, 2.5f);
+    player.setScale(15f, 15f);
+//    player.getComponent(TextureRenderComponent.class).scaleEntity();
+
     return player;
   }
 
@@ -91,16 +95,16 @@ public class PlayerFactory {
       Memento lastStatus = CareTaker.getInstance().getLast();
       Entity player = createPlayer();
       player.getComponent(CombatStatsComponent.class).setHealth(lastStatus.getCurrentHealth());
-      player.getComponent(CombatStatsComponent.class).setBaseAttack(lastStatus.getAttack());
+      player.getComponent(CombatStatsComponent.class).setAttackMultiplier(lastStatus.getAttack());
       player.getComponent(CombatStatsComponent.class).setBaseDefense(lastStatus.getDefense());
       player.getComponent(InventoryComponent.class).setGold(lastStatus.getGold());
       player.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
       player.getComponent(InventoryComponent.class).setStone(lastStatus.getStone());
       player.getComponent(InventoryComponent.class).setWood(lastStatus.getWood());
       player.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
-      player.getComponent(InventoryComponent.class).setChestplate(lastStatus.getChestplate());
-      player.getComponent(InventoryComponent.class).setHelmet(lastStatus.getHelmet());
-
+      player.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
+      player.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
+      player.getComponent(InventoryComponent.class).setBuildings(lastStatus.getBuildings());
       player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
       return player;
     }

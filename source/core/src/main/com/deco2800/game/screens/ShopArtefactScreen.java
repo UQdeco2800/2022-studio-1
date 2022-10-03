@@ -6,9 +6,10 @@ import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
@@ -34,7 +35,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
     private final AtlantisSinks game;
     private final Renderer renderer;
-    private final Music music;
 
     public ShopArtefactScreen(AtlantisSinks game) {
         this.game = game;
@@ -47,12 +47,11 @@ public class ShopArtefactScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
-
         renderer = RenderFactory.createRenderer();
 
         loadAssets();
         createUI();
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
 
@@ -83,7 +82,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing shop artefact game screen");
-        music.dispose();
         renderer.dispose();
         unloadAssets();
 
@@ -115,20 +113,19 @@ public class ShopArtefactScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
-        music.setLooping(true);
-        music.play();
 
         Entity uiBuilding = new Entity();
         uiBuilding.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood(), lastStatus.getItemList()))
+                        lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new CommonShopComponents())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
+        uiBuilding.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
         ServiceLocator.getEntityService().register(uiBuilding);
 
     }

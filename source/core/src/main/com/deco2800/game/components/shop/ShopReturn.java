@@ -1,7 +1,6 @@
 package com.deco2800.game.components.shop;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,8 +24,6 @@ public class ShopReturn extends UIComponent {
     Table table2;
     Table table3;
 
-    Music music;
-
     private TextButton buildingBtn;
     private TextureRegionDrawable buildingUp;
     private Texture buildingTexture;
@@ -49,25 +46,23 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/shopping_backgroundmusic.mp3"));
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
-
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().left();
-        table1.padLeft(300).padTop(100);
+        table1.setSize(100f,100f);
+        table1.padLeft(100f).padTop(100f);
 
         table2 = new Table();
         table2.setFillParent(true);
+        table2.setSize(100f,100f);
         table2.center().right();
-        table2.padRight(300).padTop(100);
+        table2.padRight(100f).padTop(100f);
 
         table3 = new Table();
         table3.setFillParent(true);
+        table3.setSize(100f,100f);
         table3.center();
-        table3.padTop(100);
+        table3.padTop(100f);
 
         buildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
         buildingUp = new TextureRegionDrawable(buildingTexture);
@@ -77,7 +72,6 @@ public class ShopReturn extends UIComponent {
         buildingBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                music.stop();
                 logger.debug("Building Shopping Time!");
                 entity.getEvents().trigger("buildShop");
             }
@@ -93,7 +87,6 @@ public class ShopReturn extends UIComponent {
         artefactBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                music.stop();
                 logger.debug("Artefact Shopping Time!");
                 entity.getEvents().trigger("artefactShop");
             }
@@ -111,7 +104,6 @@ public class ShopReturn extends UIComponent {
         equipmentBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                music.stop();
                 logger.debug("Equipment Shopping Time!");
                 entity.getEvents().trigger("equipmentShop");
             }
@@ -119,13 +111,13 @@ public class ShopReturn extends UIComponent {
         String equipmentText = "Equipment";
         equipmentTitle = new Label(equipmentText, skin, "large");
 
-        table1.add(buildingBtn).width(350).height(350);
+        table1.add(buildingBtn);
         table1.row();
         table1.add(buildingTitle);
-        table2.add(artefactBtn).width(350).height(350);
+        table2.add(artefactBtn);
         table2.row();
         table2.add(artefactTitle);
-        table3.add(equipmentBtn).width(350).height(350);
+        table3.add(equipmentBtn);
         table3.row();
         table3.add(equipmentTitle);
 
