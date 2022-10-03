@@ -5,32 +5,31 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.KeyboardPlayerInputComponent;
+import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.concurrency.JobSystem;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
-import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.memento.Memento;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Time;
 import java.util.*;
-
-import static com.deco2800.game.entities.factories.PlayerFactory.createPlayer;
 
 /**
  * Displays a button to exit the Main Game screen to the Main Menu screen.
@@ -61,6 +60,12 @@ public class MainGameInterface extends UIComponent {
 
         private Image attackItem;
         private Image defenceItem;
+
+        private Label potionQuantity;
+        private Label clockQuantity;
+        private Label bedQuantity;
+
+        private Time bedTimer;
 
         private EquipmentConfig equipmentStats;
         private ShopBuildingConfig buildingStats;
@@ -204,7 +209,7 @@ public class MainGameInterface extends UIComponent {
                 leftSmallTitle1.setSize(150f, 60f);
                 leftSmallTitle1.setPosition(leftBox.getX() + 20f, leftBox.getY() + 320f);
 
-                Label leftTitle1 = new Label("Disarm", skin, "small");
+                Label leftTitle1 = new Label("DISARM", skin, "small");
                 leftTitle1.setColor(skin.getColor("white"));
                 leftTitle1.setPosition(leftBox.getX() + 50f, leftBox.getY() + 340f);
 
@@ -234,13 +239,11 @@ public class MainGameInterface extends UIComponent {
                 if (MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class)
                                 .getWeapon() == null) {
                         attackItemTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                        System.out.println("No weapon!");
                 } else {
-                        EquipmentConfig weapon = FileLoader.readClass(EquipmentConfig.class,
-                                        Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                        EquipmentConfig weapon = FileLoader.readClass(EquipmentConfig.class, Equipments
+                                        .getFilepath(MainArea.getInstance().getGameArea().getPlayer()
                                                         .getComponent(InventoryComponent.class).getWeapon()));
                         attackItemTexture = new Texture(Gdx.files.internal(weapon.itemBackgroundImagePath));
-                        System.out.println("Weapon: " + weapon.name);
                 }
                 attackItem = new Image(attackItemTexture);
                 attackItem.setSize(40f, 40f);
@@ -255,13 +258,11 @@ public class MainGameInterface extends UIComponent {
                 if (MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class)
                                 .getArmor() == null) {
                         defenceItemTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                        System.out.println("No Armor!");
                 } else {
-                        EquipmentConfig armor = FileLoader.readClass(EquipmentConfig.class,
-                                        Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                        EquipmentConfig armor = FileLoader.readClass(EquipmentConfig.class, Equipments
+                                        .getFilepath(MainArea.getInstance().getGameArea().getPlayer()
                                                         .getComponent(InventoryComponent.class).getArmor()));
                         defenceItemTexture = new Texture(Gdx.files.internal(armor.itemBackgroundImagePath));
-                        System.out.println("Armor: " + armor.name);
                 }
 
                 defenceItem = new Image(defenceItemTexture);
@@ -295,7 +296,7 @@ public class MainGameInterface extends UIComponent {
                 potion.setSize(40f, 40f);
                 potion.setPosition(rightBox.getX() + 50f, rightBox.getY() + 405f);
 
-                Label potionQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
+                potionQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
                                 .getComponent(InventoryComponent.class).getItems()
                                 .getOrDefault(Artefact.HEALTH_POTION, 0), skin,
                                 "large");
@@ -304,12 +305,9 @@ public class MainGameInterface extends UIComponent {
 
                 Texture potionUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
                 TextureRegionDrawable potionUseDrawable = new TextureRegionDrawable(potionUseTexture);
-                ImageButton potionUseButton = new ImageButton(potionUseDrawable, potionUseDrawable);
+                TextButton potionUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button",
+                                1f, potionUseDrawable, potionUseDrawable, skin, false);
                 potionUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 365f);
-
-                Label potionUse = new Label("USE", skin, "small");
-                potionUse.setColor(skin.getColor("black"));
-                potionUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 410f);
 
                 Texture clockTexture = new Texture(Gdx.files.internal("images/shop-clock.png"));
                 TextureRegionDrawable clockDrawable = new TextureRegionDrawable(clockTexture);
@@ -317,7 +315,7 @@ public class MainGameInterface extends UIComponent {
                 clock.setSize(40f, 40f);
                 clock.setPosition(rightBox.getX() + 50f, rightBox.getY() + 355f);
 
-                Label clockQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
+                clockQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
                                 .getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.CLOCK, 0),
                                 skin, "large");
                 clockQuantity.setColor(skin.getColor("black"));
@@ -325,12 +323,9 @@ public class MainGameInterface extends UIComponent {
 
                 Texture clockUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
                 TextureRegionDrawable clockUseDrawable = new TextureRegionDrawable(clockUseTexture);
-                ImageButton clockUseButton = new ImageButton(clockUseDrawable, clockUseDrawable);
+                TextButton clockUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button", 1f,
+                                clockUseDrawable, clockUseDrawable, skin, false);
                 clockUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 315f);
-
-                Label clockUse = new Label("USE", skin, "small");
-                clockUse.setColor(skin.getColor("black"));
-                clockUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 360f);
 
                 Texture bedTexture = new Texture(Gdx.files.internal("images/shop-bed.png"));
                 TextureRegionDrawable bedDrawable = new TextureRegionDrawable(bedTexture);
@@ -338,7 +333,7 @@ public class MainGameInterface extends UIComponent {
                 bed.setSize(40f, 40f);
                 bed.setPosition(rightBox.getX() + 50f, rightBox.getY() + 305f);
 
-                Label bedQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
+                bedQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
                                 .getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.BED, 0), skin,
                                 "large");
                 bedQuantity.setColor(skin.getColor("black"));
@@ -346,12 +341,9 @@ public class MainGameInterface extends UIComponent {
 
                 Texture bedUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
                 TextureRegionDrawable bedUseDrawable = new TextureRegionDrawable(bedUseTexture);
-                ImageButton bedUseButton = new ImageButton(bedUseDrawable, bedUseDrawable);
+                TextButton bedUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button", 1f,
+                                bedUseDrawable, bedUseDrawable, skin, false);
                 bedUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 265f);
-
-                Label bedUse = new Label("USE", skin, "small");
-                bedUse.setColor(skin.getColor("black"));
-                bedUse.setPosition(rightBox.getX() + 260f, rightBox.getY() + 310f);
 
                 Texture rightBuildingTexture = new Texture(Gdx.files.internal("images/description-box.png"));
                 TextureRegionDrawable rightBuildingDrawable = new TextureRegionDrawable(rightBuildingTexture);
@@ -381,28 +373,29 @@ public class MainGameInterface extends UIComponent {
                         nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
 
                         ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                                        ShopBuilding.getFilepath(
-                                                        currBuildingList.get(0)));
+                                        ShopBuilding.getFilepath(currBuildingList.get(0)));
                         currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
                 } else if (currBuildingList.size() == 2) {
                         prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+
                         ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                                        ShopBuilding.getFilepath(
-                                                        currBuildingList.get(0)));
+                                        ShopBuilding.getFilepath(currBuildingList.get(0)));
                         currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-                        data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
-                                        currBuildingList.get(1)));
+
+                        data = FileLoader.readClass(ShopBuildingConfig.class,
+                                        ShopBuilding.getFilepath(currBuildingList.get(1)));
                         nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
                 } else {
                         ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                                        ShopBuilding.getFilepath(
-                                                        currBuildingList.get(0)));
+                                        ShopBuilding.getFilepath(currBuildingList.get(0)));
                         currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-                        data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
-                                        currBuildingList.get(1)));
+
+                        data = FileLoader.readClass(ShopBuildingConfig.class,
+                                        ShopBuilding.getFilepath(currBuildingList.get(1)));
                         nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-                        data = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(
-                                        currBuildingList.get(currBuildingList.size() - 1)));
+
+                        data = FileLoader.readClass(ShopBuildingConfig.class,
+                                        ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
                         prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
                 }
                 prevBuilding = new Image(prevBuildingTexture);
@@ -521,28 +514,32 @@ public class MainGameInterface extends UIComponent {
                                                         if (currEquipListSize == 2 && equipmentPos == 0) {
                                                                 equipmentStats = FileLoader.readClass(
                                                                                 EquipmentConfig.class,
-                                                                                Equipments.getFilepath(
-                                                                                                MainArea.getInstance()
-                                                                                                                .getGameArea()
-                                                                                                                .getPlayer()
-                                                                                                                .getComponent(InventoryComponent.class)
-                                                                                                                .getEquipmentList()
-                                                                                                                .get(0)));
+                                                                                Equipments.getFilepath(MainArea
+                                                                                                .getInstance()
+                                                                                                .getGameArea()
+                                                                                                .getPlayer()
+                                                                                                .getComponent(InventoryComponent.class)
+                                                                                                .getEquipmentList()
+                                                                                                .get(0)));
+
                                                                 currEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 equipmentStats.itemBackgroundImagePath))));
+
                                                                 equipmentStats = FileLoader.readClass(
                                                                                 EquipmentConfig.class,
-                                                                                Equipments.getFilepath(
-                                                                                                MainArea.getInstance()
-                                                                                                                .getGameArea()
-                                                                                                                .getPlayer()
-                                                                                                                .getComponent(InventoryComponent.class)
-                                                                                                                .getEquipmentList()
-                                                                                                                .get(1)));
+                                                                                Equipments.getFilepath(MainArea
+                                                                                                .getInstance()
+                                                                                                .getGameArea()
+                                                                                                .getPlayer()
+                                                                                                .getComponent(InventoryComponent.class)
+                                                                                                .getEquipmentList()
+                                                                                                .get(1)));
+
                                                                 nextEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 equipmentStats.itemBackgroundImagePath))));
+
                                                                 prevEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 "images/shop-category-button.png"))));
@@ -551,13 +548,13 @@ public class MainGameInterface extends UIComponent {
                                                         if (currEquipListSize >= 3) {
                                                                 equipmentStats = FileLoader.readClass(
                                                                                 EquipmentConfig.class,
-                                                                                Equipments.getFilepath(
-                                                                                                MainArea.getInstance()
-                                                                                                                .getGameArea()
-                                                                                                                .getPlayer()
-                                                                                                                .getComponent(InventoryComponent.class)
-                                                                                                                .getEquipmentList()
-                                                                                                                .get(equipmentPos)));
+                                                                                Equipments.getFilepath(MainArea
+                                                                                                .getInstance()
+                                                                                                .getGameArea()
+                                                                                                .getPlayer()
+                                                                                                .getComponent(InventoryComponent.class)
+                                                                                                .getEquipmentList()
+                                                                                                .get(equipmentPos)));
                                                                 currEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 equipmentStats.itemBackgroundImagePath))));
@@ -565,24 +562,24 @@ public class MainGameInterface extends UIComponent {
                                                                 if (equipmentPos + 1 > currEquipListSize - 1) {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(0)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(0)));
                                                                 } else {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(equipmentPos
-                                                                                                                                        + 1)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(equipmentPos
+                                                                                                                        + 1)));
                                                                 }
                                                                 nextEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
@@ -591,25 +588,25 @@ public class MainGameInterface extends UIComponent {
                                                                 if (equipmentPos - 1 < 0) {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(currEquipListSize
-                                                                                                                                        - 1)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(currEquipListSize
+                                                                                                                        - 1)));
                                                                 } else {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(equipmentPos
-                                                                                                                                        - 1)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(equipmentPos
+                                                                                                                        - 1)));
                                                                 }
                                                                 prevEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
@@ -633,28 +630,30 @@ public class MainGameInterface extends UIComponent {
                                                         if (currEquipListSize == 2 && equipmentPos == 1) {
                                                                 equipmentStats = FileLoader.readClass(
                                                                                 EquipmentConfig.class,
-                                                                                Equipments.getFilepath(
-                                                                                                MainArea.getInstance()
-                                                                                                                .getGameArea()
-                                                                                                                .getPlayer()
-                                                                                                                .getComponent(InventoryComponent.class)
-                                                                                                                .getEquipmentList()
-                                                                                                                .get(1)));
+                                                                                Equipments.getFilepath(MainArea
+                                                                                                .getInstance()
+                                                                                                .getGameArea()
+                                                                                                .getPlayer()
+                                                                                                .getComponent(InventoryComponent.class)
+                                                                                                .getEquipmentList()
+                                                                                                .get(1)));
                                                                 currEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 equipmentStats.itemBackgroundImagePath))));
+
                                                                 equipmentStats = FileLoader.readClass(
                                                                                 EquipmentConfig.class,
-                                                                                Equipments.getFilepath(
-                                                                                                MainArea.getInstance()
-                                                                                                                .getGameArea()
-                                                                                                                .getPlayer()
-                                                                                                                .getComponent(InventoryComponent.class)
-                                                                                                                .getEquipmentList()
-                                                                                                                .get(0)));
+                                                                                Equipments.getFilepath(MainArea
+                                                                                                .getInstance()
+                                                                                                .getGameArea()
+                                                                                                .getPlayer()
+                                                                                                .getComponent(InventoryComponent.class)
+                                                                                                .getEquipmentList()
+                                                                                                .get(0)));
                                                                 prevEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 equipmentStats.itemBackgroundImagePath))));
+
                                                                 nextEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 "images/shop-category-button.png"))));
@@ -663,13 +662,13 @@ public class MainGameInterface extends UIComponent {
                                                         if (currEquipListSize >= 3) {
                                                                 equipmentStats = FileLoader.readClass(
                                                                                 EquipmentConfig.class,
-                                                                                Equipments.getFilepath(
-                                                                                                MainArea.getInstance()
-                                                                                                                .getGameArea()
-                                                                                                                .getPlayer()
-                                                                                                                .getComponent(InventoryComponent.class)
-                                                                                                                .getEquipmentList()
-                                                                                                                .get(equipmentPos)));
+                                                                                Equipments.getFilepath(MainArea
+                                                                                                .getInstance()
+                                                                                                .getGameArea()
+                                                                                                .getPlayer()
+                                                                                                .getComponent(InventoryComponent.class)
+                                                                                                .getEquipmentList()
+                                                                                                .get(equipmentPos)));
                                                                 currEquipment.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 equipmentStats.itemBackgroundImagePath))));
@@ -677,24 +676,24 @@ public class MainGameInterface extends UIComponent {
                                                                 if (equipmentPos + 1 > currEquipListSize - 1) {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(0)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(0)));
                                                                 } else {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(equipmentPos
-                                                                                                                                        + 1)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(equipmentPos
+                                                                                                                        + 1)));
                                                                 }
 
                                                                 nextEquipment.setDrawable(new TextureRegionDrawable(
@@ -704,25 +703,25 @@ public class MainGameInterface extends UIComponent {
                                                                 if (equipmentPos - 1 < 0) {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(currEquipListSize
-                                                                                                                                        - 1)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(currEquipListSize
+                                                                                                                        - 1)));
                                                                 } else {
                                                                         equipmentStats = FileLoader.readClass(
                                                                                         EquipmentConfig.class,
-                                                                                        Equipments.getFilepath(
-                                                                                                        MainArea.getInstance()
-                                                                                                                        .getGameArea()
-                                                                                                                        .getPlayer()
-                                                                                                                        .getComponent(InventoryComponent.class)
-                                                                                                                        .getEquipmentList()
-                                                                                                                        .get(equipmentPos
-                                                                                                                                        - 1)));
+                                                                                        Equipments.getFilepath(MainArea
+                                                                                                        .getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(InventoryComponent.class)
+                                                                                                        .getEquipmentList()
+                                                                                                        .get(equipmentPos
+                                                                                                                        - 1)));
                                                                 }
 
                                                                 prevEquipment.setDrawable(new TextureRegionDrawable(
@@ -738,7 +737,21 @@ public class MainGameInterface extends UIComponent {
                                         @Override
                                         public void changed(ChangeEvent changeEvent, Actor actor) {
                                                 logger.debug("potion use");
-                                                // Add potion function
+                                                if (MainArea.getInstance().getGameArea().getPlayer()
+                                                                .getComponent(InventoryComponent.class)
+                                                                .useItem(Artefact.HEALTH_POTION)) {
+                                                        MainArea.getInstance().getGameArea().getPlayer()
+                                                                        .getComponent(CombatStatsComponent.class)
+                                                                        .setHealth(MainArea.getInstance().getGameArea()
+                                                                                        .getPlayer()
+                                                                                        .getComponent(CombatStatsComponent.class)
+                                                                                        .getMaxHealth());
+                                                        potionQuantity.setText("X" + MainArea.getInstance()
+                                                                        .getGameArea().getPlayer()
+                                                                        .getComponent(InventoryComponent.class)
+                                                                        .getItems()
+                                                                        .get(Artefact.HEALTH_POTION));
+                                                }
                                         }
                                 });
 
@@ -747,7 +760,25 @@ public class MainGameInterface extends UIComponent {
                                         @Override
                                         public void changed(ChangeEvent changeEvent, Actor actor) {
                                                 logger.debug("clock use");
-                                                // Add clock function
+                                                if (MainArea.getInstance().getGameArea().getPlayer()
+                                                                .getComponent(InventoryComponent.class)
+                                                                .useItem(Artefact.CLOCK)) {
+                                                        clockQuantity.setText("X" + MainArea.getInstance().getGameArea()
+                                                                        .getPlayer()
+                                                                        .getComponent(InventoryComponent.class)
+                                                                        .getItems()
+                                                                        .get(Artefact.CLOCK));
+
+                                                        JobSystem.launch(() -> {
+                                                                try {
+                                                                        clockAbility(ServiceLocator.getTimeSource()
+                                                                                        .getTime());
+                                                                } catch (InterruptedException e) {
+                                                                        logger.error(e.getMessage());
+                                                                }
+                                                                return null;
+                                                        });
+                                                }
                                         }
                                 });
 
@@ -756,7 +787,31 @@ public class MainGameInterface extends UIComponent {
                                         @Override
                                         public void changed(ChangeEvent changeEvent, Actor actor) {
                                                 logger.debug("bed use");
-                                                // Add bed function
+                                                if (MainArea.getInstance().getGameArea().getPlayer()
+                                                                .getComponent(InventoryComponent.class)
+                                                                .useItem(Artefact.BED)) {
+                                                        bedQuantity.setText("X" + MainArea.getInstance().getGameArea()
+                                                                        .getPlayer()
+                                                                        .getComponent(InventoryComponent.class)
+                                                                        .getItems()
+                                                                        .get(Artefact.BED));
+
+                                                        JobSystem.launch(() -> {
+                                                                try {
+                                                                        bedAbility(ServiceLocator.getTimeSource()
+                                                                                        .getTime(),
+                                                                                        MainArea.getInstance()
+                                                                                                        .getGameArea()
+                                                                                                        .getPlayer()
+                                                                                                        .getComponent(CombatStatsComponent.class)
+                                                                                                        .getHealth());
+                                                                } catch (InterruptedException e) {
+                                                                        logger.error(e.getMessage());
+                                                                }
+                                                                return null;
+                                                        });
+
+                                                }
                                         }
                                 });
 
@@ -775,8 +830,8 @@ public class MainGameInterface extends UIComponent {
                                                                 buildingStats = FileLoader.readClass(
                                                                                 ShopBuildingConfig.class,
                                                                                 ShopBuilding.getFilepath(
-                                                                                                currBuildingList.get(
-                                                                                                                0)));
+                                                                                                currBuildingList
+                                                                                                                .get(0)));
                                                                 currBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 buildingStats.itemBackgroundImagePath))));
@@ -784,8 +839,8 @@ public class MainGameInterface extends UIComponent {
                                                                 buildingStats = FileLoader.readClass(
                                                                                 ShopBuildingConfig.class,
                                                                                 ShopBuilding.getFilepath(
-                                                                                                currBuildingList.get(
-                                                                                                                1)));
+                                                                                                currBuildingList
+                                                                                                                .get(1)));
                                                                 nextBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 buildingStats.itemBackgroundImagePath))));
@@ -799,8 +854,8 @@ public class MainGameInterface extends UIComponent {
                                                                 buildingStats = FileLoader.readClass(
                                                                                 ShopBuildingConfig.class,
                                                                                 ShopBuilding.getFilepath(
-                                                                                                currBuildingList.get(
-                                                                                                                buildingPos)));
+                                                                                                currBuildingList
+                                                                                                                .get(buildingPos)));
                                                                 currBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 buildingStats.itemBackgroundImagePath))));
@@ -809,14 +864,14 @@ public class MainGameInterface extends UIComponent {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        0)));
+                                                                                                        currBuildingList
+                                                                                                                        .get(0)));
                                                                 } else {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        buildingPos + 1)));
+                                                                                                        currBuildingList
+                                                                                                                        .get(buildingPos + 1)));
                                                                 }
                                                                 nextBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
@@ -826,15 +881,16 @@ public class MainGameInterface extends UIComponent {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        currBuildingList.size()
+                                                                                                        currBuildingList
+                                                                                                                        .get(currBuildingList
+                                                                                                                                        .size()
                                                                                                                                         - 1)));
                                                                 } else {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        buildingPos - 1)));
+                                                                                                        currBuildingList
+                                                                                                                        .get(buildingPos - 1)));
                                                                 }
                                                                 prevBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
@@ -860,8 +916,8 @@ public class MainGameInterface extends UIComponent {
                                                                 buildingStats = FileLoader.readClass(
                                                                                 ShopBuildingConfig.class,
                                                                                 ShopBuilding.getFilepath(
-                                                                                                currBuildingList.get(
-                                                                                                                1)));
+                                                                                                currBuildingList
+                                                                                                                .get(1)));
                                                                 currBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 buildingStats.itemBackgroundImagePath))));
@@ -869,8 +925,8 @@ public class MainGameInterface extends UIComponent {
                                                                 buildingStats = FileLoader.readClass(
                                                                                 ShopBuildingConfig.class,
                                                                                 ShopBuilding.getFilepath(
-                                                                                                currBuildingList.get(
-                                                                                                                0)));
+                                                                                                currBuildingList
+                                                                                                                .get(0)));
                                                                 prevBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 buildingStats.itemBackgroundImagePath))));
@@ -884,9 +940,8 @@ public class MainGameInterface extends UIComponent {
                                                                 buildingStats = FileLoader.readClass(
                                                                                 ShopBuildingConfig.class,
                                                                                 ShopBuilding.getFilepath(
-                                                                                                currBuildingList.get(
-                                                                                                                buildingPos)));
-
+                                                                                                currBuildingList
+                                                                                                                .get(buildingPos)));
                                                                 currBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
                                                                                                 buildingStats.itemBackgroundImagePath))));
@@ -895,14 +950,14 @@ public class MainGameInterface extends UIComponent {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        0)));
+                                                                                                        currBuildingList
+                                                                                                                        .get(0)));
                                                                 } else {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        buildingPos + 1)));
+                                                                                                        currBuildingList
+                                                                                                                        .get(buildingPos + 1)));
                                                                 }
                                                                 nextBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
@@ -912,15 +967,16 @@ public class MainGameInterface extends UIComponent {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        currBuildingList.size()
+                                                                                                        currBuildingList
+                                                                                                                        .get(currBuildingList
+                                                                                                                                        .size()
                                                                                                                                         - 1)));
                                                                 } else {
                                                                         buildingStats = FileLoader.readClass(
                                                                                         ShopBuildingConfig.class,
                                                                                         ShopBuilding.getFilepath(
-                                                                                                        currBuildingList.get(
-                                                                                                                        buildingPos - 1)));
+                                                                                                        currBuildingList
+                                                                                                                        .get(buildingPos - 1)));
                                                                 }
                                                                 prevBuilding.setDrawable(new TextureRegionDrawable(
                                                                                 new Texture(Gdx.files.internal(
@@ -972,15 +1028,12 @@ public class MainGameInterface extends UIComponent {
                 group.addActor(potion);
                 group.addActor(potionQuantity);
                 group.addActor(potionUseButton);
-                group.addActor(potionUse);
                 group.addActor(clock);
                 group.addActor(clockQuantity);
                 group.addActor(clockUseButton);
-                group.addActor(clockUse);
                 group.addActor(bed);
                 group.addActor(bedQuantity);
                 group.addActor(bedUseButton);
-                group.addActor(bedUse);
                 group.addActor(rightBuildingFrame);
                 group.addActor(buildingTitle);
                 group.addActor(buildingLeftArrow);
@@ -1000,8 +1053,10 @@ public class MainGameInterface extends UIComponent {
 
         private ArrayList<ShopBuilding> getBuildingList() {
                 ArrayList<ShopBuilding> buildings = new ArrayList<>();
-                for (Map.Entry<ShopBuilding, Integer> building : MainArea.getInstance().getGameArea().getPlayer()
-                                .getComponent(InventoryComponent.class).getBuildings().entrySet()) {
+                for (Map.Entry<ShopBuilding, Integer> building : MainArea.getInstance()
+                                .getGameArea().getPlayer()
+                                .getComponent(InventoryComponent.class)
+                                .getBuildings().entrySet()) {
                         buildings.add(building.getKey());
                 }
                 return buildings;
@@ -1023,5 +1078,27 @@ public class MainGameInterface extends UIComponent {
                 rightSideTable.clear();
                 group.clear();
                 super.dispose();
+        }
+
+        public void bedAbility(float startingTime, int currentHealth) throws InterruptedException {
+
+                while (ServiceLocator.getTimeSource().getTimeSince((long) startingTime) != 15000) {
+                        MainArea.getInstance().getGameArea().getPlayer().getComponent(CombatStatsComponent.class)
+                                        .setHealth(currentHealth +
+                                                        Math.round(ServiceLocator.getTimeSource()
+                                                                        .getTimeSince((long) startingTime / 15000
+                                                                                        * 45)));
+                }
+        }
+
+        public void clockAbility(float startingTime) throws InterruptedException {
+                while (ServiceLocator.getTimeSource().getTimeSince((long) startingTime) != 5000) {
+                        MainArea.getInstance().getGameArea().getPlayer()
+                                        .getComponent(CombatStatsComponent.class)
+                                        .setInvincibility(true);
+                }
+                MainArea.getInstance().getGameArea().getPlayer()
+                                .getComponent(CombatStatsComponent.class)
+                                .setInvincibility(false);
         }
 }
