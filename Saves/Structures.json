@@ -3,18 +3,18 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 956
-		y: -2
+		x: 948
+		y: 2
 	}
-	name: "wall(60, 59)"
+	name: "wall(59, 59)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 948
-		y: 2
+		x: 940
+		y: 6
 	}
-	name: "wall(59, 59)"
+	name: "wall(58, 59)"
 }
 ]
