@@ -149,12 +149,28 @@ public class TerrainFactory {
     TerrainTile waterTile = loadTile("water", TileType.WATER, resourceService);
     TerrainTile sandTile = loadTile("sand", TileType.SAND, resourceService);
     TerrainTile seaweedTiles[] = new TerrainTile[3];
-    TerrainTile shorelineTile = loadTile("shoreline", TileType.SHORELINE, resourceService);
+    TerrainTile shorelineTiles[] = new TerrainTile[8];
+    shorelineTiles[0] = loadTile("shorelineBottom", TileType.SHORELINE, resourceService);
+    shorelineTiles[1] = loadTile("shorelineTop", TileType.SHORELINE, resourceService);
+    shorelineTiles[2] = loadTile("shorelineBottomRight", TileType.SHORELINE, resourceService);
+    shorelineTiles[3] = loadTile("shorelineBottomLeft", TileType.SHORELINE, resourceService);
+    shorelineTiles[4] = loadTile("shorelineTopRight", TileType.SHORELINE, resourceService);
+    shorelineTiles[5] = loadTile("shorelineTopLeft", TileType.SHORELINE, resourceService);
+    shorelineTiles[6] = loadTile("shorelineLeft", TileType.SHORELINE, resourceService);
+    shorelineTiles[7] = loadTile("shorelineRight", TileType.SHORELINE, resourceService);
 
     TerrainTile waterNightTile = loadTile("water_night", TileType.WATER, resourceService);
     TerrainTile sandNightTile = loadTile("sand_night", TileType.SAND, resourceService);
     TerrainTile seaweedNightTiles[] = new TerrainTile[3];
-    TerrainTile shorelineNightTile = loadTile("shoreline_night", TileType.SHORELINE, resourceService);
+    TerrainTile shorelineNightTiles[] = new TerrainTile[8];
+    shorelineNightTiles[0] = loadTile("shorelineBottom_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[1] = loadTile("shorelineTop_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[2] = loadTile("shorelineBottomRight_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[3] = loadTile("shorelineBottomLeft_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[4] = loadTile("shorelineTopRight_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[5] = loadTile("shorelineTopLeft_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[6] = loadTile("shorelineLeft_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[7] = loadTile("shorelineRight_night", TileType.SHORELINE, resourceService);
 
     for (int i = 1; i < 4; i++) {
       seaweedTiles[i - 1] = loadTile("seaweed_" + i, TileType.SAND, resourceService);
@@ -167,11 +183,11 @@ public class TerrainFactory {
     for (int i = 0; i < levels.size(); i++) {
 
       TiledMapTileLayer dayLayer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
-      createLevel(dayLayer, waterTile, sandTile, seaweedTiles, shorelineTile, i, MAP_SIZE);
+      createLevel(dayLayer, waterTile, sandTile, seaweedTiles, shorelineTiles, i, MAP_SIZE);
       fillWater(dayLayer, waterTile);
 
       TiledMapTileLayer nightLayer = new TiledMapTileLayer(MAP_SIZE.x, MAP_SIZE.y, tileSize.x, tileSize.y);
-      createLevel(nightLayer, waterNightTile, sandNightTile, seaweedNightTiles, shorelineNightTile, i, MAP_SIZE);
+      createLevel(nightLayer, waterNightTile, sandNightTile, seaweedNightTiles, shorelineNightTiles, i, MAP_SIZE);
       fillWater(nightLayer, waterNightTile);
 
       if (i != 0) {
@@ -199,7 +215,7 @@ public class TerrainFactory {
   }
 
   private static void createLevel(TiledMapTileLayer layer, TerrainTile waterTile,
-      TerrainTile sandTile, TerrainTile[] seaweedTiles, TerrainTile shorelineTile, int levelNum,
+      TerrainTile sandTile, TerrainTile[] seaweedTiles, TerrainTile shorelineTiles[], int levelNum,
       GridPoint2 map_size) {
 
     ArrayList<ArrayList<Integer>> level = levels.get(levelNum);
@@ -233,8 +249,15 @@ public class TerrainFactory {
               cell.setTile(sandTile);
             }
             break;
-          case 2: // shoreline
-            cell.setTile(shorelineTile);
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+          case 9:
+            cell.setTile(shorelineTiles[level.get(x).get(y) - 2]);
             break;
           default:
             cell.setTile(waterTile);
