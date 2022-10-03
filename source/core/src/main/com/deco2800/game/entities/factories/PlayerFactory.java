@@ -51,6 +51,10 @@ public class PlayerFactory {
     player_start.addAnimation("a", 0.15f, Animation.PlayMode.REVERSED);
     player_start.addAnimation("s", 0.15f, Animation.PlayMode.REVERSED);
     player_start.addAnimation("d", 0.15f, Animation.PlayMode.REVERSED);
+    
+    
+    player_start.addAnimation("death_anim", 0.15f, Animation.PlayMode.NORMAL);
+
     player_start.addAnimation("arm_w", 0.15f, Animation.PlayMode.REVERSED);
     player_start.addAnimation("arm_a", 0.15f, Animation.PlayMode.REVERSED);
     player_start.addAnimation("arm_s", 0.15f, Animation.PlayMode.REVERSED);
