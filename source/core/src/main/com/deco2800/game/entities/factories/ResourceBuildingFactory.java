@@ -1,11 +1,13 @@
 package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
