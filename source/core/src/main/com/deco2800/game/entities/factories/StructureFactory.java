@@ -63,6 +63,9 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
 
+    //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
+    wall.setName("wall");
+    wall.setCollectable(Boolean.FALSE);
 
     return wall;
   }
