@@ -1,198 +1,205 @@
-test.png
+starfish.png
 size: 1792, 64
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-mirror_pixil-frame-0
+default
   rotate: false
   xy: 0, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-1
+fr
+  rotate: false
+  xy: 0, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+fr
   rotate: false
   xy: 64, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-2
+fr
   rotate: false
   xy: 128, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-3
+fr
   rotate: false
   xy: 192, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-4
+fr
   rotate: false
   xy: 256, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-5
+fr
   rotate: false
   xy: 320, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-6
+fr
   rotate: false
   xy: 384, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-7
+br
   rotate: false
   xy: 448, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-8
+br
   rotate: false
   xy: 512, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-9
+br
   rotate: false
   xy: 576, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-10
+br
   rotate: false
   xy: 640, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-11
+br
   rotate: false
   xy: 704, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-12
+br
   rotate: false
   xy: 768, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-mirror_pixil-frame-13
+br
   rotate: false
   xy: 832, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-0
+fl
   rotate: false
   xy: 896, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-1
+fl
   rotate: false
   xy: 960, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-2
+fl
   rotate: false
   xy: 1024, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-3
+fl
   rotate: false
   xy: 1088, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-4
+fl
   rotate: false
   xy: 1152, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-5
+fl
   rotate: false
   xy: 1216, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-6
+fl
   rotate: false
   xy: 1280, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-7
+bl
   rotate: false
   xy: 1344, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-8
+bl
   rotate: false
   xy: 1408, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-9
+bl
   rotate: false
   xy: 1472, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-10
+bl
   rotate: false
   xy: 1536, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-11
+bl
   rotate: false
   xy: 1600, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-12
+bl
   rotate: false
   xy: 1664, 0
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-pixil-frame-13
+bl
   rotate: false
   xy: 1728, 0
   size: 64, 64
