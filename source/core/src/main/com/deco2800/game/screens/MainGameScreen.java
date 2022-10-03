@@ -210,9 +210,6 @@ public class MainGameScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-    //Testing purpose only
-    //ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
-
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
         .addComponent(new PerformanceDisplay())

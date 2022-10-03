@@ -27,7 +27,7 @@ public class FirstNightActions extends Component {
 
     @Override
     public void create() {
-        entity.getEvents().addListener("next", this::onSkip);
+        //entity.getEvents().addListener("next", this::onSkip);
     }
 
     /**
