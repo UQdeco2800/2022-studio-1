@@ -86,11 +86,11 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_7.png",
       "images/clock_sprites/clock_day4_8.png",
       "images/anim_demo/woodresourcebuilding.png",
-          "images/storyLine/skipButton.png",
-          "images/storyLine/textBox.png"
+      "images/storyLine/skipButton.png",
+      "images/storyLine/textBox.png"
   };
 
-  private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
 
   private static final String[] mainGameTextureAtlases = {
       "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/main.atlas"
@@ -102,14 +102,13 @@ public class MainGameScreen extends ScreenAdapter {
 
   public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
     this.game = game;
-  System.out.println(loadGame);
+    System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
     var dayNightCycleService = new DayNightCycleService(ServiceLocator.getTimeSource(),
-            FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
+        FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
     ServiceLocator.registerDayNightCycleService(dayNightCycleService);
-
 
     PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
@@ -119,7 +118,7 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRangeService( new RangeService());
+    ServiceLocator.registerRangeService(new RangeService());
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerStructureService(new StructureService());
     ServiceLocator.registerGameService(new GameService());
@@ -140,7 +139,8 @@ public class MainGameScreen extends ScreenAdapter {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
     // Singleton MainArea responsible for controlling current map and entities
-    //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
+    // MainArea.getInstance().setMainArea(new
+    // AtlantisSinksGameArea(terrainFactory));
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
     createUI();
@@ -201,7 +201,6 @@ public class MainGameScreen extends ScreenAdapter {
     resourceService.unloadAssets(mainGameTextureAtlases);
   }
 
-
   /**
    * Creates the main game's ui including components for rendering ui elements to
    * the screen and
@@ -212,8 +211,8 @@ public class MainGameScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-    //Testing purpose only
-    //ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
+    // Testing purpose only
+    // ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
@@ -224,10 +223,10 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
-            .addComponent(new DayNightClockComponent())
+        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
-            .addComponent(new MainGameTutorials())
-            .addComponent(new AchievementPopupComponent())
+        .addComponent(new MainGameTutorials())
+        .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
