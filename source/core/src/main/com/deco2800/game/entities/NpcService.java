@@ -147,19 +147,22 @@ public class NpcService extends EntityService {
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
-        //System.out.println(isVisible);
+//        System.out.println("mouse x:" +mousePosV2.x);
+//        System.out.println("mouse y:" +mousePosV2.y);
+
         if (isVisible) {
             Conversation.remove();
             isVisible = false;
         }
 
         for (int i = 0; i < ServiceLocator.getNpcService().getNpcNum(); i++) {
-            Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
+            Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
             float xPos = NPC.getPosition().x;
             float yPos = NPC.getPosition().y;
 
-            if (xPos-0.2 < mousePosV2.x && mousePosV2.x < xPos+0.2) {
-                if (yPos-0.2 < mousePosV2.y && mousePosV2.y < yPos+0.2) {
+
+            if (xPos+1 < mousePosV2.x && mousePosV2.x < xPos+3) {
+                if (yPos+0.5 < mousePosV2.y && mousePosV2.y < yPos+4) {
                     //System.out.println("npc clicked");
                     //initiate conversation
                     if(NPC.getName()=="SpecialNPC") {

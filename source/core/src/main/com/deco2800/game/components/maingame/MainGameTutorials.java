@@ -8,9 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
@@ -18,6 +17,8 @@ import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+
+import java.util.Objects;
 
 public class MainGameTutorials extends UIComponent {
     private Table prompts;
@@ -50,14 +51,18 @@ public class MainGameTutorials extends UIComponent {
     private static boolean right = false;
     private static boolean space = false;
 
+    /* Whether objectives is showing */
+    private boolean isObjectivesHidden;
+
 
     @Override
     public void create() {
         super.create();
+        this.isObjectivesHidden = false;
         player.getEvents().addListener("showPrompts", this::displayPrompts);
         player.getEvents().addListener("updateObjective", this::updateObjective);
         player.getEvents().addListener("enemyKill", this::onEnemyKill);
-        player.getEvents().addListener("playerControlCompTut", this::onPlayerControl);
+        player.getEvents().addListener("playerControlTut", this::onPlayerControl);
         ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                 this::onNight);
         addActors();
@@ -86,7 +91,7 @@ public class MainGameTutorials extends UIComponent {
 
         prompts = new Table();
         prompts.bottom();
-        prompts.padBottom(150);
+        prompts.padBottom(250);
         prompts.setFillParent(true);
 
         //arrowDirection background
@@ -101,9 +106,9 @@ public class MainGameTutorials extends UIComponent {
         //player control prompt:
         //only shows the first time game plays
         Texture playControl = new Texture(Gdx.files.internal("images/tutorials/playerControls.png"));
-        Image playerControlComps = new Image(playControl);
+        Image playerControl= new Image(playControl);
         if (playerControlComp) {
-            control.add(playerControlComps).width(461).height(187);
+            control.add(playerControl).width(461).height(187);
         }
 
         //objective chop tree
@@ -129,11 +134,11 @@ public class MainGameTutorials extends UIComponent {
         uncheckedEnemyTickBox = new Image(emptyTickBoxImage);
 
         //action button prompts
-        Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/treeDialogue.png"));
+        Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/woodDialogue_revised.png"));
         treeInteract = new Image(treeInteractImage);
-        Texture stoneInteractImage = new Texture(Gdx.files.internal("images/tutorials/stoneDialogue.png"));
+        Texture stoneInteractImage = new Texture(Gdx.files.internal("images/tutorials/stoneDialogue_revised.png"));
         stoneInteract = new Image(stoneInteractImage);
-        Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue.png"));
+        Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue_revised.png"));
         enemyInteract = new Image(enemyInteractImage);
 
         //show objective Header image only when objectives are active
@@ -168,13 +173,17 @@ public class MainGameTutorials extends UIComponent {
 
         prompts.clear();
         if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() != DayNightCycleStatus.NIGHT) {
-            if (closestEntity != null && closestEntity.isCollectable()) {
-                ResourceType getResource = closestEntity.getResourceType();
-                switch (getResource) {
-                    case WOOD -> prompts.add(treeInteract);
-                    case STONE -> prompts.add(stoneInteract);
-                    case GOLD -> { //TODO: add gold dialogue
+            if (closestEntity != null) {
+                if (closestEntity.isCollectable()){
+                    ResourceType getResource = closestEntity.getResourceType();
+                    switch (getResource) {
+                        case WOOD -> prompts.add(treeInteract);
+                        case STONE -> prompts.add(stoneInteract);
+                        case GOLD -> { //TODO: add gold dialogue
+                        }
                     }
+                } else if (Objects.equals(closestEntity.getName(), "SpecialNPC")) {
+                    prompts.add(enemyInteract); //TODO: replace with npc prompt
                 }
             }
         } else if (closestEnemy != null) {
@@ -256,7 +265,37 @@ public class MainGameTutorials extends UIComponent {
 
     @Override
     public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
+        var achievementPopupComponent = ServiceLocator.getEntityService()
+                .getNamedEntity("ui")
+                .getComponent(AchievementPopupComponent.class);
+
+        if (achievementPopupComponent.isPopupActive() && !isObjectivesHidden) {
+            hideObjectives();
+        }
+        if(!achievementPopupComponent.isPopupActive() && isObjectivesHidden) {
+            showObjectives();
+        }
+    }
+
+
+    /**
+     * Show the objectives ui
+     */
+    private void showObjectives() {
+        stage.addActor(objectiveHeader);
+        stage.addActor(objective);
+        stage.addActor(prompts);
+        this.isObjectivesHidden = false;
+    }
+
+    /**
+     *  Hides the objectives UI
+     */
+    private void hideObjectives() {
+        objectiveHeader.remove();
+        objective.remove();
+        prompts.remove();
+        this.isObjectivesHidden = true;
     }
 
     @Override

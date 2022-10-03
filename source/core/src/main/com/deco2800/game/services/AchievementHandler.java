@@ -165,6 +165,14 @@ public class AchievementHandler {
     }
 
     /**
+     * Getter method for last time achievements were saved
+     * @return long
+     */
+    public long getLastSaved() {
+        return this.lastSaved;
+    }
+
+    /**
      * Saves the current state of the achievement list with the current time
      */
     public void saveAchievements() {
@@ -220,16 +228,16 @@ public class AchievementHandler {
                 break;
             case BUILDINGS:
                 // update resources achievement progress
-                achievement = this.achievements.get(3);
+                achievement = this.getAchievementById(4);
                 break;
             case KILLS:
-                achievement = this.achievements.get(4);
+                achievement = this.getAchievementById(5);
                 break;
             case UPGRADES:
-                achievement = this.achievements.get(5);
+                achievement = this.getAchievementById(6);
                 break;
             case GAME:
-                achievement = this.achievements.get(7);
+                achievement = this.getAchievementById(7);
                 // update game stats achievement
         }
 
@@ -325,5 +333,15 @@ public class AchievementHandler {
                 broadcastAchievementMade(a);
             }
         });
+    }
+
+    public Achievement getAchievementById(int id) {
+        for (Achievement achievement : this.achievements) {
+            if (achievement.getId() == id) {
+                return achievement;
+            }
+        }
+
+        return null;
     }
 }
