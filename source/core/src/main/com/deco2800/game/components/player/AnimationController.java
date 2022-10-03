@@ -21,6 +21,7 @@ public class AnimationController extends Component {
 
     entity.getEvents().addListener("attack_anim", this::attack_anim);
     entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
+    entity.getEvents().addListener("death_anim", this::death_anim);
     
   }
 
@@ -54,5 +55,9 @@ public class AnimationController extends Component {
     String anim_to_start = animator.getCurrentAnimation();  
     animator.stopAnimation();
     animator.startAnimation(anim_to_start.substring(0, 1));
+  }
+
+  void death_anim(){    
+    animator.startAnimation("death_anim");
   }
 }

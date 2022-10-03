@@ -123,3 +123,45 @@ wa
   orig: 1500, 1500
   offset: 0, 0
   index: -1
+
+death.png
+size: 1788, 740
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+death_anim
+  rotate: false
+  xy: 2, 4
+  size: 295, 300
+  orig: 500, 500
+  offset: 59, 100
+  index: -1
+death_anim
+  rotate: false
+  xy: 448, 4
+  size: 295, 366
+  orig: 500, 500
+  offset: 59, 100
+  index: -1
+death_anim
+  rotate: false
+  xy: 894, 4
+  size: 334, 331
+  orig: 500, 500
+  offset: 22, 101
+  index: -1
+death_anim
+  rotate: false
+  xy: 1340, 4
+  size: 353, 330
+  orig: 500, 500
+  offset: 38, 97
+  index: -1
+death_anim
+  rotate: false
+  xy: 2, 372
+  size: 444, 213
+  orig: 500, 500
+  offset: 16, 93
+  index: -1
+

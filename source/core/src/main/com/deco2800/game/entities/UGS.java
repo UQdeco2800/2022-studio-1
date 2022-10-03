@@ -22,7 +22,7 @@ public class UGS {
 
     /**
      * Takes a String (concatenated x,y value) and returns the associated tile's type
-     * @param String "xy"
+     * @param coordinate
      * @return String 
      */
     public String getTileType(String coordinate) {
@@ -32,7 +32,7 @@ public class UGS {
     /**
      * Takes a String and returns the associated tile's entity 
      * or null if there is none
-     * @param String "xy"
+     * @param coordinate
      * @return Entity or NULL
      */
     public Entity getEntity(String coordinate) {
@@ -42,7 +42,7 @@ public class UGS {
     /**
      * Takes a String and Entity, and sets the corresponding tile's 
      * Entity parameter
-     * @param String "xy"
+     * @param coordinate
      * @param entity Entity
      */
     public void setEntity(String coordinate, Entity entity) {
@@ -52,7 +52,7 @@ public class UGS {
     /**
      * Takes a String and Entity, and sets the corresponding tile's 
      * tileType parameter
-     * @param String "xy"
+     * @param coordinate
      * @param tileType
      */
     public void setTileType(String coordinate, String tileType) {
@@ -61,8 +61,8 @@ public class UGS {
 
     /**
      * Adds a new entry to the UGS 
-     * @param String "xy"
-     * @param tile Tile
+     * @param coordinate
+     * @param tile
      */
     public void add(String coordinate, Tile tile) {
         tiles.put(coordinate, tile);
@@ -113,6 +113,10 @@ public class UGS {
     public static String generateCoordinate(int x, int y) {
         return String.format("%d,%d", x, y);
     }
+
+    public void dispose(String tile) {
+        tiles.get(tile).setEntity(null);
+    }
   
     /**
      * 
@@ -130,7 +134,7 @@ public class UGS {
      * xDirection: False
      * 
      * Moves from 3,3 -> "2,2"
-     *                   <x-1, y-1>
+     *                   {x-1, y-1}
      * @param currentPosition String
      * @param yDirection Boolean
      * @param xDirection Boolean
