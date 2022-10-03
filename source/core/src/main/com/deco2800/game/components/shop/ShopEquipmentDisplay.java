@@ -316,6 +316,7 @@ public class ShopEquipmentDisplay extends UIComponent {
                                     coinSound.play();
                                     buyButton.setColor(121, 15, 85, 1);
 
+                                    System.out.print(current.t);
                                     entity.getComponent(InventoryComponent.class).setWeapon(current.t);
                                     entity.getComponent(CombatStatsComponent.class).setBaseAttack(
                                             entity.getComponent(CombatStatsComponent.class).getBaseAttack()
