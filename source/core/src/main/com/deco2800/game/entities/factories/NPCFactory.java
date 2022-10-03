@@ -271,12 +271,12 @@ public class NPCFactory {
 
   public static Entity createBaseNPC() {
 
-    String[] NPC_textures = { "images/shipWreckBack.png",
+    String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
             "images/npc1.png",
-            "images/landscape_objects/pillar.png" };
+            "images/npcs/NPC-V2.2.png" };
 
-    //int index = (int) ((Math.random() * (NPC_textures.length)));
-    int index = 1;
+//     int index = (int) ((Math.random() * (NPC_textures.length)));
+        int index = 1;
 
         AITaskComponent aiComponent =
             new AITaskComponent()
@@ -293,14 +293,16 @@ public class NPCFactory {
 
         if (index == 1){
           npc.setName("SpecialNPC");
-        }else {
+        }
+        
+        else {
           npc.setName("NPC");
         }
+        
         npc.setCollectable(false);
         npc.setScale(5f, 5f);
 
-
-    PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
+        PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 
