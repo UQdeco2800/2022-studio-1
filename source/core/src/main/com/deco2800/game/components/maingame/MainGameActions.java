@@ -36,6 +36,7 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("shop", this::openShop);
     entity.getEvents().addListener("settings", this::onSettings);
+    entity.getEvents().addListener("guideBook", this::openGuidebook);
     entity.getEvents().addListener("achievement", this::onAchievements);
     entity.getEvents().addListener("save", this::onSave);
     entity.getEvents().addListener("load", this::onLoad);
@@ -60,6 +61,26 @@ public class MainGameActions extends Component {
     logger.info("Exiting main game screen");
     CareTaker.deleteAll();
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+  }
+
+  private void openGuidebook() {
+    CareTaker playerStatus = CareTaker.getInstance();
+    Memento currentStatus = new Memento(playerStatus.size(),
+            player.getComponent(InventoryComponent.class).getGold(),
+            player.getComponent(InventoryComponent.class).getStone(),
+            player.getComponent(InventoryComponent.class).getWood(),
+            player.getComponent(CombatStatsComponent.class).getHealth(),
+            player.getComponent(InventoryComponent.class).getItems(),
+            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+            player.getComponent(InventoryComponent.class).getWeapon(),
+            player.getComponent(InventoryComponent.class).getChestplate(),
+            player.getComponent(InventoryComponent.class).getHelmet());
+    playerStatus.add(currentStatus);
+    ServiceLocator.getDayNightCycleService().pause();
+
+    logger.info("Exiting main game screen");
+    game.setScreen(AtlantisSinks.ScreenType.GUIDEBOOK);
   }
 
   /**
