@@ -63,17 +63,17 @@ public class AchievementHandler {
     /**
      * Default stat achievement second level
      */
-    public static final int STAT_ACHIEVEMENT_10_MILESTONE = 10;
+    public static final int STAT_ACHIEVEMENT_10_MILESTONE = 2;
 
     /**
      * Default stat achievement third level
      */
-    public static final int STAT_ACHIEVEMENT_25_MILESTONE = 25;
+    public static final int STAT_ACHIEVEMENT_25_MILESTONE = 3;
 
     /**
      * Default stat achievement forth level
      */
-    public static final int STAT_ACHIEVEMENT_50_MILESTONE = 50;
+    public static final int STAT_ACHIEVEMENT_50_MILESTONE = 5;
 
     /**
      * Achievement handler event handler
