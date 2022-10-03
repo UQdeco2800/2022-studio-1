@@ -46,6 +46,8 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
+
+    //entity.getEvents().addListener("playerDeath", this::die);
   }
 
   @Override
@@ -169,6 +171,12 @@ public class PlayerActions extends Component {
 
   }
 
+  /**
+   * Kill the entity
+   */
+//  public void die() {
+//    entity.dispose();
+//  }
 
 }
 // deprecated attack fucntion
