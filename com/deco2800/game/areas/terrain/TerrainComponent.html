@@ -124,13 +124,12 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.badlogic.gdx.math.GridPoint2,java.util.ArrayList,java.util.ArrayList)" class="member-name-link">TerrainComponent</a><wbr>(com.badlogic.gdx.graphics.OrthographicCamera&nbsp;camera,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.badlogic.gdx.math.GridPoint2,java.util.ArrayList)" class="member-name-link">TerrainComponent</a><wbr>(com.badlogic.gdx.graphics.OrthographicCamera&nbsp;camera,
  com.badlogic.gdx.maps.tiled.TiledMap&nbsp;map,
  com.badlogic.gdx.maps.tiled.TiledMapRenderer&nbsp;renderer,
  <a href="TerrainComponent.TerrainOrientation.html" title="enum class in com.deco2800.game.areas.terrain">TerrainComponent.TerrainOrientation</a>&nbsp;orientation,
  float&nbsp;tileSize,
  com.badlogic.gdx.math.GridPoint2&nbsp;island_size,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;&gt;&nbsp;bordersPositionList,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;&gt;&nbsp;landTilesList)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -204,11 +203,11 @@ loadScripts(document, 'script');</script>
  visible</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIslandSize(int,int)" class="member-name-link">setIslandSize</a><wbr>(int&nbsp;x,
- int&nbsp;y)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#partOfDayPassed(com.deco2800.game.services.DayNightCycleStatus)" class="member-name-link">partOfDayPassed</a><wbr>(<a href="../../services/DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;partOfDay)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#spawnIslandBorders(int)" class="member-name-link">spawnIslandBorders</a><wbr>(int&nbsp;levelNum)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIslandSize(int,int)" class="member-name-link">setIslandSize</a><wbr>(int&nbsp;x,
+ int&nbsp;y)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.math.Vector2</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tileToWorldPosition(int,int)" class="member-name-link">tileToWorldPosition</a><wbr>(int&nbsp;x,
@@ -248,7 +247,7 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.badlogic.gdx.math.GridPoint2,java.util.ArrayList,java.util.ArrayList)">
+<section class="detail" id="&lt;init&gt;(com.badlogic.gdx.graphics.OrthographicCamera,com.badlogic.gdx.maps.tiled.TiledMap,com.badlogic.gdx.maps.tiled.TiledMapRenderer,com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation,float,com.badlogic.gdx.math.GridPoint2,java.util.ArrayList)">
 <h3>TerrainComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">TerrainComponent</span><wbr><span class="parameters">(com.badlogic.gdx.graphics.OrthographicCamera&nbsp;camera,
  com.badlogic.gdx.maps.tiled.TiledMap&nbsp;map,
@@ -256,7 +255,6 @@ loadScripts(document, 'script');</script>
  <a href="TerrainComponent.TerrainOrientation.html" title="enum class in com.deco2800.game.areas.terrain">TerrainComponent.TerrainOrientation</a>&nbsp;orientation,
  float&nbsp;tileSize,
  com.badlogic.gdx.math.GridPoint2&nbsp;island_size,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;&gt;&nbsp;bordersPositionList,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;com.badlogic.gdx.math.GridPoint2&gt;&gt;&nbsp;landTilesList)</span></div>
 </section>
 </li>
@@ -268,12 +266,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="spawnIslandBorders(int)">
-<h3>spawnIslandBorders</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">spawnIslandBorders</span><wbr><span class="parameters">(int&nbsp;levelNum)</span></div>
-</section>
-</li>
 <li>
 <section class="detail" id="tileToWorldPosition(com.badlogic.gdx.math.GridPoint2)">
 <h3>tileToWorldPosition</h3>
@@ -322,6 +314,12 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">decrementMapLvl</span>()</div>
 <div class="block">Shrinks the map by hiding the current layer, and making the previous level
  visible.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="partOfDayPassed(com.deco2800.game.services.DayNightCycleStatus)">
+<h3>partOfDayPassed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">partOfDayPassed</span><wbr><span class="parameters">(<a href="../../services/DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;partOfDay)</span></div>
 </section>
 </li>
 <li>
