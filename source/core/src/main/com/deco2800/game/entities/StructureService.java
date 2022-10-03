@@ -298,6 +298,9 @@ public class StructureService extends EntityService {
     return "";
   }
 
+  public static String getSimpleName() {return structureName;}
+
+
   public boolean toggleRemoveState(boolean removeState) {
     removeState = !removeState;
     return  removeState;

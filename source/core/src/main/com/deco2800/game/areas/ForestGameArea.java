@@ -7,6 +7,7 @@ import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameActions;
+import com.deco2800.game.components.npc.BossAnimationController;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -126,12 +127,14 @@ public class ForestGameArea extends GameArea {
       "images/starfish.png",
       "images/NpcPlaceholder.png",
       "images/NPC convo.png",
-      "images/npc1.png"
+      "images/npc1.png",
+      "images/npcs/NPC-V2.2.png",
+      "images/npcs/NPC-V2.1.png"
   };
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas"
+      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas","images/npc_animations/NPC1sprite.atlas"
   };
 
   // Sound effect files
@@ -185,8 +188,6 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnMeleeBoss();
-
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -204,8 +205,8 @@ public class ForestGameArea extends GameArea {
 
   private void displayUI() {
     Entity ui = new Entity();
-    ui.addComponent(new GameAreaDisplay("Atlantis"));
-    spawnEntity(ui);
+
+    ui.addComponent(new GameAreaDisplay("Atlantis Sinks"));
   }
 
   @Override
@@ -306,6 +307,8 @@ public class ForestGameArea extends GameArea {
       this.entityMapping.addEntity(envObj);
 
       spawnEntityAt(envObj, randomPos, true, true);
+      String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
+      ServiceLocator.getUGSService().setEntity(tileCoords, envObj);
     }
   }
 
@@ -433,8 +436,10 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
+    //System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
       case DAWN:
+        spawnNPCharacter();
       case DAY:
       case DUSK:
 
@@ -447,11 +452,12 @@ public class ForestGameArea extends GameArea {
         }
         break;
       case NIGHT:
-        // dispose NPCs
+        // Despawn NPCs
         for (int i = 0; i < NPCNum; i++) {
-          Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
+          Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
+
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
@@ -490,6 +496,7 @@ public class ForestGameArea extends GameArea {
     Entity boss = NPCFactory.createMeleeBoss(player);
     boss.setName("Mr. Zero");
     spawnEnemy(boss);
+    boss.getComponent(BossAnimationController.class).startAnimation(crystal);
   }
 
   public int count = 0;
@@ -515,6 +522,8 @@ public class ForestGameArea extends GameArea {
         .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
+    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
+    ServiceLocator.getUGSService().setEntity(tileCoords, entity);
   }
 
   private void spawnElectricEelEnemy() {
@@ -570,8 +579,9 @@ public class ForestGameArea extends GameArea {
 
   private void spawnNPCharacter() {
     Entity NPC = NPCFactory.createBaseNPC();
-    // Entity NPC = NPCFactory.createNPC(texture);
-    ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
+    //Entity NPC = NPCFactory.createNPC();
+
+    ServiceLocator.getEntityService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
     // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
     //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
