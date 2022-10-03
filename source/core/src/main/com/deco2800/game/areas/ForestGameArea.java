@@ -457,7 +457,7 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         // Despawn NPCs
         for (int i = 0; i < NPCNum; i++) {
-          Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
+          Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
 
@@ -583,7 +583,7 @@ public class ForestGameArea extends GameArea {
     Entity NPC = NPCFactory.createBaseNPC();
     //Entity NPC = NPCFactory.createNPC();
 
-    ServiceLocator.getEntityService().registerNamed(String.valueOf(NPCNum), NPC);
+    ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
     // GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
     //     .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));

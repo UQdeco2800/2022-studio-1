@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Provides a global access point for NPC entities to register themselves. This allows for iterating
@@ -156,7 +157,7 @@ public class NpcService extends EntityService {
         }
 
         for (int i = 0; i < ServiceLocator.getNpcService().getNpcNum(); i++) {
-            Entity NPC = ServiceLocator.getEntityService().getNamedEntity(String.valueOf(i));
+            Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
             float xPos = NPC.getPosition().x;
             float yPos = NPC.getPosition().y;
 
@@ -165,7 +166,7 @@ public class NpcService extends EntityService {
                 if (yPos+0.5 < mousePosV2.y && mousePosV2.y < yPos+4) {
                     //System.out.println("npc clicked");
                     //initiate conversation
-                    if(NPC.getName()=="SpecialNPC") {
+                    if(Objects.equals(NPC.getName(), "SpecialNPC")) {
                         Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true);
                         isVisible = true;
                     }
