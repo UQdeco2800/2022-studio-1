@@ -12,7 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Continuous attack component - melee enemies will attack non-enemy attackable objects periodically while colliding
+ * Continuous attack component - melee enemies will attack non-enemy attackable objects periodically while colliding with them
  */
 public class ContinuousAttackComponent extends Component {
     private ArrayList<Entity> colliders;
@@ -20,6 +20,10 @@ public class ContinuousAttackComponent extends Component {
     private HitboxComponent hitboxComponent;
     private Timer timer;
 
+    /**
+     * creates the component, registering entity collision listeners
+     * starts looping through the list of colliders
+     */
     @Override
     public void create() {
         colliders = new ArrayList<>();
@@ -38,9 +42,14 @@ public class ContinuousAttackComponent extends Component {
                 }
             }
         };
-        timer.scheduleAtFixedRate(attackColliders, 20000, 3000);
+        timer.scheduleAtFixedRate(attackColliders, 3000, 3000);
     }
 
+    /**
+     * adds relevant  entities to collision list, to be iterated through and attacked later
+     * @param me
+     * @param other
+     */
     private void onCollisionStart(Fixture me, Fixture other) {
         if (hitboxComponent.getFixture() != me) {
             // Not triggered by hitbox, ignore
@@ -65,6 +74,11 @@ public class ContinuousAttackComponent extends Component {
         }
     }
 
+    /**
+     * removes Entity from collision list, if it is in there
+     * @param me
+     * @param other
+     */
     private void onCollisionEnd(Fixture me, Fixture other) {
         if (hitboxComponent.getFixture() != me) {
             // Not triggered by hitbox, ignore
@@ -74,5 +88,13 @@ public class ContinuousAttackComponent extends Component {
         if (colliders.contains(target)) {
             colliders.remove(target);
         }
+    }
+
+    /**
+     * this is just for testing! Do not use!
+     * @return timer for this task
+     */
+    public Timer getTimer() {
+        return timer;
     }
 }

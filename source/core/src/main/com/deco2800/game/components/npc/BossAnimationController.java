@@ -1,7 +1,6 @@
 package com.deco2800.game.components.npc;
 
 import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.rendering.AnimationRenderComponent;
@@ -14,6 +13,10 @@ public class BossAnimationController extends Component {
         animator = entity.getComponent(AnimationRenderComponent.class);
     }
 
+    /**
+     * starts animation, facing the boss in the direction of its target (usually crystal)
+     * @param target the target to face
+     */
     public void startAnimation(Entity target) {
         Vector2 tarPos = target.getCenterPosition();
         Vector2 ePos = entity.getCenterPosition();
