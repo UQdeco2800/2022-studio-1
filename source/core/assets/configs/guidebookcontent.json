@@ -42,21 +42,21 @@
   {
     "pageNumber": 8,
     "header": "Currency",
-    "content": "There are 3 types of currency: coins, wood, and stones. \nThe coins are used in the shop, wood and stones are used for buying buildings."
+    "content": "There are 3 types of currency: coins, wood, and stones. The coins are used in the shop, wood and stones are used for buying buildings."
   },
   {
     "pageNumber": 9,
     "header": "Shop",
-    "content": "The shop is where you can buy items that help better your chances against the enemies. Use coins to buy goods. \nItems and buildings can be bought from the shop, once bought, it will be added into the player’s inventory. \nGo back to the game screen and open the inventory to access the items that the player just bought. \nThere are three types of shop available, Building, Equipment and Artefact. Buildings can be bought to help defend and attack the enemy. \nEquipment can be bought to enhance the player’s attack and defence ability, when new equipment is bought, it will be equipped automatically, to disarm/change the equipment, go to the inventory page to access the other equipment. \nArtefacts are miscellaneous items that can aid the player in terms of boosting their stat."
+    "content": "The shop is where you can buy items that help better your chances against the enemies. Use coins to buy goods. Items and buildings can be bought from the shop, once bought, it will be added into the player's inventory. Go back to the game screen and open the inventory to access the items that the player just bought. \n\nThere are three types of shop available, Building, Equipment and Artefact. Buildings can be bought to help defend and attack the enemy. \nEquipment can be bought to enhance the player's attack and defence ability, when new equipment is bought, it will be equipped automatically, to disarm/change the equipment, go to the inventory page to access the other equipment. \nArtefacts are miscellaneous items that can aid the player in terms of boosting their stat."
   },
   {
     "pageNumber": 10,
     "header": "Inventory",
-    "content": "The inventory stores items bought in the shop. \nYou can click on items to apply them into the game."
+    "content": "The inventory stores items bought in the shop. You can click on items to apply them into the game."
   },
   {
     "pageNumber": 11,
     "header": "Achievements",
-    "content": "You can go to achievements from the achievement \nicon in the bottom left corner of the screen to see which achievements you’ve achieved and then browse around to see the others you could achieve in the future. \nAchievements can be completed across multiple games and give you goals to work towards and inspire you to try different things."
+    "content": "You can go to achievements from the achievement icon in the bottom left corner of the screen to see which achievements you've achieved and then browse around to see the others you could achieve in the future. Achievements can be completed across multiple games and give you goals to work towards and inspire you to try different things."
   }
 ]

@@ -66,7 +66,8 @@ public class GuidebookScreen extends ScreenAdapter {
 
     private static final String[] mainGameTextures = {
             "images/guidebook-open.png",
-            "images/uiElements/exports/guidebook-cover.png"
+            "images/uiElements/exports/guidebook-cover.png",
+            "images/uiElements/exports/guidebook-heading-frame.png"
     };
 
     public GuidebookScreen(AtlantisSinks game) {
