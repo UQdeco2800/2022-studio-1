@@ -27,7 +27,7 @@ public class CombatStatsComponent extends Component {
   private int currentAttack;
   private int attackMultiplier;
   private int maxHealth = 10000;
-  public boolean invincible = false;
+  private boolean invincible = false;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);

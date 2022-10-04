@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CareTakerTest {
     @Test
     void addMementoToRecord() {
-        Memento dummy = new Memento(1, 2, 3, 4,5, new HashMap(), 5, 6
-                ,null, null, null);
+        Memento dummy = new Memento(1, 2, 3, 4,5, null, null, 5,
+                6,null, null, null);
         CareTaker test = CareTaker.getInstance();
         test.add(dummy);
         assertEquals(dummy, test.getLast());
@@ -19,9 +19,9 @@ class CareTakerTest {
 
     @Test
     void getMementoFromRecord() {
-        Memento dummy1 = new Memento(1, 2, 3, 4,5, new HashMap(), 5,
+        Memento dummy1 = new Memento(1, 2, 3, 4,5, null, null,5,
                 6,null, null, null);
-        Memento dummy2 = new Memento(2, 3, 4, 5,6, new HashMap(), 7,
+        Memento dummy2 = new Memento(2, 3, 4, 5,6, null, null, 7,
                 8,null, null, null);
         CareTaker test = CareTaker.getInstance();
         test.add(dummy1);

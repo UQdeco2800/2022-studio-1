@@ -1,6 +1,7 @@
 package com.deco2800.game.memento;
 
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.junit.jupiter.api.Test;
 
@@ -81,6 +82,15 @@ class OriginatorTest {
         equipmentsList.add(Equipments.CHESTPLATE);
         test.setEquipmentsList(equipmentsList);
         assertEquals(Equipments.CHESTPLATE, test.getEquipmentsList().get(0));
+    }
+
+    @Test
+    void shouldSaveBuildings() {
+        Originator test = new Originator(1);
+        HashMap<ShopBuilding, Integer> buildings = new HashMap<>();
+        buildings.put(ShopBuilding.TOWER1, 2);
+        test.setBuildings(buildings);
+        assertEquals(2, test.getBuildings().get(ShopBuilding.TOWER1));
     }
 
     @Test
