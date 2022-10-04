@@ -51,11 +51,11 @@ public class EpilogueLayover extends UIComponent {
         epilogueWin.setFillParent(true);
 
         // load and set Background
-        Texture storylineLoseGradient = new Texture(Gdx.files.internal("images/StoryLine/VictoryScreen.png"));
+        Texture storylineLoseGradient = new Texture(Gdx.files.internal("images/StoryLine/DefeatScreenFinal.png"));
         TextureRegionDrawable storyBackgroundLoseTexture = new TextureRegionDrawable(storylineLoseGradient);
         epilogueLose.setBackground(storyBackgroundLoseTexture);
 
-        Texture storylineWinGradient = new Texture(Gdx.files.internal("images/StoryLine/VictoryScreen.png"));
+        Texture storylineWinGradient = new Texture(Gdx.files.internal("images/StoryLine/WinScreenFinal.png"));
         TextureRegionDrawable storyBackgroundWinTexture = new TextureRegionDrawable(storylineWinGradient);
         epilogueWin.setBackground(storyBackgroundWinTexture);
 
