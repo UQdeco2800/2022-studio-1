@@ -54,6 +54,10 @@ public class MainGameTutorials extends UIComponent {
     /* Whether objectives is showing */
     private boolean isObjectivesHidden;
 
+    public MainGameTutorials() {
+
+    }
+
 
     @Override
     public void create() {
@@ -296,6 +300,14 @@ public class MainGameTutorials extends UIComponent {
         objective.remove();
         prompts.remove();
         this.isObjectivesHidden = true;
+    }
+
+    public Table getPromptsTable() {
+        return prompts;
+    }
+
+    public Table getControlTable() {
+        return control;
     }
 
     @Override

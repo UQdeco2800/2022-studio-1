@@ -50,14 +50,24 @@ public class MainGameTutorialTest {
 
     @Test
     void movementPromptTest() {
+        MainGameTutorials actions = new MainGameTutorials();
 
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+        player.getEvents().trigger("playerControlTut", "UP");
+        player.getEvents().trigger("playerControlTut", "DOWN");
+        player.getEvents().trigger("playerControlTut", "LEFT");
+        player.getEvents().trigger("playerControlTut", "RIGHT");
+        player.getEvents().trigger("playerControlTut", "SPACE");
+
+        Table control = actions.getControlTable();
+
+        verify(control).clear();
     }
 
     @Test 
     void woodPromptTest() {
 
         MainGameTutorials actions = new MainGameTutorials();
-
 
         Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
         Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) currentPlayer.getPosition().x,
@@ -66,7 +76,6 @@ public class MainGameTutorialTest {
         closestEntity.setResourceType(ResourceType.WOOD);
         closestEntity.setCollectable(true);
 
-        //detect wood prompt
         Table promptTable = actions.getPromptsTable();
         Texture stoneInteractImage = new Texture(Gdx.files.internal("images/tutorials/stoneDialogue_revised.png"));
         Image stoneInteract = new Image(stoneInteractImage);
@@ -79,7 +88,6 @@ public class MainGameTutorialTest {
 
         MainGameTutorials actions = new MainGameTutorials();
 
-
         Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
         Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
@@ -87,9 +95,7 @@ public class MainGameTutorialTest {
         closestEntity.setResourceType(ResourceType.STONE);
         closestEntity.setCollectable(true);
 
-        //detect stone prompt
         Table promptTable = actions.getPromptsTable();
-
 
         Texture treeInteractImage = new Texture(Gdx.files.internal("images/tutorials/woodDialogue_revised.png"));
         Image treeInteract = new Image(treeInteractImage);
@@ -111,6 +117,11 @@ public class MainGameTutorialTest {
 
     @Test
     void objectiveTicks() {
-        
+        MainGameTutorials actions = new MainGameTutorials();
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+
+        player.getEvents().trigger("updateObjective");
+
+        assertTrue(null);
     }
 }
