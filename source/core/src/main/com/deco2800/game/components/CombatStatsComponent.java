@@ -9,6 +9,8 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
  * Component used to store information related to combat such as health, attack,
  * etc. Any entities
@@ -119,7 +121,9 @@ public class CombatStatsComponent extends Component {
           }
         }
 
-        killEntity(entity.getName());
+        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
+          killEntity("crystal");
+        }
       }
     }
 
@@ -134,13 +138,13 @@ public class CombatStatsComponent extends Component {
    * @param entityName the name of the entity to kill
    */
   public void killEntity(String entityName) {
-    //String entityName = entity.getName();
+    //String entityName = entity.getName()t
     switch (entityName) {
       case "player":
         entity.getEvents().trigger("playerDeath");
         break;
       case "crystal":
-        entity.getEvents().trigger("crystalDeath");
+        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
         break;
       default:
         //do nothing
