@@ -302,6 +302,10 @@ public class NPCFactory {
         return npc;
       }
 
+      /**
+       * Creates a new special NPC.
+       * @return special NPC.
+       */
       public static Entity createSpecialNPC() {
         Entity NPC = createBaseNPC();
         NPC.setName("SpecialNPC");
@@ -318,6 +322,10 @@ public class NPCFactory {
           return NPC;
       }
 
+      /**
+       * Creates a new normal NPC.
+       * @return normal NPC
+       */
     public static Entity createNormalNPC() {
           String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
               "images/npcs/NPC-V2.2.png" };
