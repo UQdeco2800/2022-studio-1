@@ -9,9 +9,9 @@ config: {
 	duskLength: 15000
 	nightLength: 30000
 	maxDays: 4
-}
+	}
 timer: {
 	startTime: 1664796459958
-}
+	}
 timeSinceLastPartOfDay: 173
 }

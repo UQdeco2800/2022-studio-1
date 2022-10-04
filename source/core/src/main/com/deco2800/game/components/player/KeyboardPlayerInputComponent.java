@@ -55,41 +55,45 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyDown(int keycode) {
-    switch (keycode) {
-      case Keys.W:
-        walkDirection.add(Vector2Utils.UP);
-        entity.getEvents().trigger("ch_dir_w");
-        triggerWalkEvent();
-        entity.getEvents().trigger("playerControlTut", "UP");
-        return true;
-      case Keys.A:
-        walkDirection.add(Vector2Utils.LEFT);
-        entity.getEvents().trigger("ch_dir_a");
-        triggerWalkEvent();
-        entity.getEvents().trigger("playerControlTut", "LEFT");
-        return true;
-      case Keys.S:
-        walkDirection.add(Vector2Utils.DOWN);
-        entity.getEvents().trigger("ch_dir_s");
-        triggerWalkEvent();
-        entity.getEvents().trigger("playerControlTut", "DOWN");
-        return true;
-      case Keys.D:
-        walkDirection.add(Vector2Utils.RIGHT);
-        entity.getEvents().trigger("ch_dir_d");
-        triggerWalkEvent();
-        entity.getEvents().trigger("playerControlTut", "RIGHT");
-        return true;
-      case Keys.E:
-        entity.getEvents().trigger("weapons");
-        return true;
-      /*case Keys.SPACE:
-        entity.getEvents().trigger("attack");
-        entity.getEvents().trigger("attack_anim");
-        entity.getEvents().trigger("playerControlTut", "SPACE");
-        return true;*/
-      default:
-        return false;
+    if (PlayerActions.playerAlive) {
+      switch (keycode) {
+        case Keys.W:
+          walkDirection.add(Vector2Utils.UP);
+          entity.getEvents().trigger("ch_dir_w");
+          triggerWalkEvent();
+          entity.getEvents().trigger("playerControlTut", "UP");
+          return true;
+        case Keys.A:
+          walkDirection.add(Vector2Utils.LEFT);
+          entity.getEvents().trigger("ch_dir_a");
+          triggerWalkEvent();
+          entity.getEvents().trigger("playerControlTut", "LEFT");
+          return true;
+        case Keys.S:
+          walkDirection.add(Vector2Utils.DOWN);
+          entity.getEvents().trigger("ch_dir_s");
+          triggerWalkEvent();
+          entity.getEvents().trigger("playerControlTut", "DOWN");
+          return true;
+        case Keys.D:
+          walkDirection.add(Vector2Utils.RIGHT);
+          entity.getEvents().trigger("ch_dir_d");
+          triggerWalkEvent();
+          entity.getEvents().trigger("playerControlTut", "RIGHT");
+          return true;
+        case Keys.E:
+          entity.getEvents().trigger("weapons");
+          return true;
+        case Keys.SPACE:
+          entity.getEvents().trigger("attack");
+          entity.getEvents().trigger("attack_anim");
+          entity.getEvents().trigger("playerControlTut", "SPACE");
+          return true;
+        default:
+          return false;
+      }
+    } else {
+      return false;
     }
   }
 
@@ -101,76 +105,80 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
-    switch (keycode) {
-      case Keys.Q:
-        entity.getEvents().trigger("playerDeath");
-        entity.setScale(11f, 10.5f);
-        return true;
-      case Keys.W:
-        walkDirection.sub(Vector2Utils.UP);
-        triggerWalkEvent();
-        return true;
-      case Keys.A:
-        walkDirection.sub(Vector2Utils.LEFT);
-        triggerWalkEvent();
-        return true;
-      case Keys.S:
-        walkDirection.sub(Vector2Utils.DOWN);
-        triggerWalkEvent();
-        return true;
-      case Keys.D:
-        walkDirection.sub(Vector2Utils.RIGHT);
-        triggerWalkEvent();
-        return true;
-      case Keys.B:
-        buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-        return true;
-      case Keys.O:
-        triggerCrystalAttacked();
-        return true;
-      case Keys.R:
-        triggerCrystalRestoreHealth();
-        return true;
-      case Keys.N:
-        if (buildState) {
-          structureSelect += 1;
-        }
-        return true;
-      case Keys.H:
-        for(int i = 0; i <=10; i++) {
+    if (PlayerActions.playerAlive) {
+      switch (keycode) {
+        case Keys.Q:
+          entity.setScale(11f, 10.5f);
+          entity.getEvents().trigger("playerDeath");
+          return true;
+        case Keys.W:
+          walkDirection.sub(Vector2Utils.UP);
+          triggerWalkEvent();
+          return true;
+        case Keys.A:
+          walkDirection.sub(Vector2Utils.LEFT);
+          triggerWalkEvent();
+          return true;
+        case Keys.S:
+          walkDirection.sub(Vector2Utils.DOWN);
+          triggerWalkEvent();
+          return true;
+        case Keys.D:
+          walkDirection.sub(Vector2Utils.RIGHT);
+          triggerWalkEvent();
+          return true;
+        case Keys.B:
+          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+          return true;
+        case Keys.O:
+          triggerCrystalAttacked();
+          return true;
+        case Keys.R:
+          triggerCrystalRestoreHealth();
+          return true;
+        case Keys.N:
+          if (buildState) {
+            structureSelect += 1;
+          }
+          return true;
+        case Keys.H:
+          for(int i = 0; i <=10; i++) {
 //          for(int j = 0; j<=120; j++) {
-          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,0);
-          System.out.println(pos);
-        }
-        for(int i = 0; i <=10; i++) {
+            Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,0);
+            System.out.println(pos);
+          }
+          for(int i = 0; i <=10; i++) {
 //          for(int j = 0; j<=120; j++) {
-          Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,1);
-          System.out.println(pos);
-        }
+            Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,1);
+            System.out.println(pos);
+          }
 //        }
-      case Keys.Y:
-        if (buildState) {
-          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-        }
-        if (upgradeState) {
-          upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
-        }
-        removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
-        return true;
-      case Keys.U:
-        if (buildState) {
-          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-        }
-        if (removeState) {
+        case Keys.Y:
+          if (buildState) {
+            buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+          }
+          if (upgradeState) {
+            upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
+          }
           removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
-        }
-        upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
-        return true;
-      /*case Keys.SPACE:
-        entity.getEvents().trigger("attack_anim_rev");
-        return true;*/
-      default:
-        return false;
+          return true;
+        case Keys.U:
+          if (buildState) {
+            buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
+          }
+          if (removeState) {
+            removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
+          }
+          upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
+          return true;
+        case Keys.SPACE:
+          entity.getEvents().trigger("attack_anim_rev");
+          return true;
+        default:
+          return false;
+      }
+    } else {
+      return false;
     }
   }
 

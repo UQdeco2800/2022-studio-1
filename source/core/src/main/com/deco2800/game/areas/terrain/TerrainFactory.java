@@ -233,10 +233,10 @@ public class TerrainFactory {
         switch (level.get(x).get(y)) {
           case 0: // water
             cell.setTile(waterTile);
-            spawnableTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+            spawnableTiles.add(new GridPoint2(x + xoff, y + yoff));
             break;
           case 1: // sand
-            landTiles.add(new GridPoint2(x + xoff + 1, y + yoff + 1));
+            landTiles.add(new GridPoint2(x + xoff, y + yoff));
 
             // Randomly choose a land tile to use
             // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
