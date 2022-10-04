@@ -10,8 +10,6 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.player.AnimationController;
 import com.deco2800.game.components.tasks.*;
-import com.deco2800.game.components.tasks.RangedMovementTask;
-import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.entities.Enemy;
@@ -140,7 +138,7 @@ public class NPCFactory {
     animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
 
     ElectricEelEnemy
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new CombatStatsComponent(config.health, 0))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
             //.addComponent(textureRenderComponent);
@@ -261,8 +259,11 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                    .addTask(new RangedMovementTask(crystal, 10, 2f, 20f, 30f))
-                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 5f));
+                    .addTask(new RangedMovementTask(crystal, 10, 2f, 50f, 60f))
+                    .addTask(new RangedMovementTask(target, 20, 2f, 50f, 60f))
+                    .addTask(new MeleeAvoidObstacleTask(target))
+                    .addTask(new ShootTask(target, 30, 50f, 60f))
+                    .addTask(new ShootTask(crystal, 30, 50f, 60f));
     Enemy enemy =
             (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())
