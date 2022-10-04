@@ -143,7 +143,7 @@ public class HealthBarComponent extends RenderComponent {
     protected void draw(SpriteBatch batch) {
         var entityCurrentPosition = this.getEntity().getPosition();
         /* Update progress bar*/
-        this.progressBar.setValue( (float) this.combatStatsComponent.getHealth()/this.fullHealth);
+        this.progressBar.setValue( (float) this.combatStatsComponent.getHealth()/this.combatStatsComponent.getMaxHealth());
         this.progressBar.updateVisualValue();
 
         /* We need these calculations to correctly position the health bar at the top of entity */
