@@ -1,65 +1,47 @@
 [
-{
+	{
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 59.1375
-		y: -0.5375001
-	}
+		x: 956
+		y: -2
+		}
 	name: "wall(60, 59)"
-}
+	}
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 59.1
-		y: 0.6375003
+		x: 948
+		y: 2
+		}
+	name: "wall(59, 59)"
 	}
-	name: "wall(57, 59)"
-}
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 57.9
-		y: 0.6249999
+		x: 940
+		y: 6
+		}
+	name: "wall(58, 59)"
 	}
-	name: "wall(56, 57)"
-}
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 62.35
-		y: -0.6625
+		x: 932
+		y: 2
+		}
+	name: "wall(58, 58)"
 	}
-	name: "wall(63, 62)"
-}
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 61.3125
-		y: 0.92499995
+		x: 940
+		y: -2
+		}
+	name: "wall(59, 58)"
 	}
-	name: "wall(59, 61)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 58.2875
-		y: 0.20000035
-	}
-	name: "wall(57, 58)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 62.075
-		y: 0.07499999
-	}
-	name: "wall(61, 62)"
-}
 ]

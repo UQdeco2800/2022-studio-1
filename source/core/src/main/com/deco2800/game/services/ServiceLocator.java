@@ -23,6 +23,7 @@ public class ServiceLocator {
   private static final Logger logger = LoggerFactory.getLogger(ServiceLocator.class);
   private static EntityService entityService;
   private static RenderService renderService;
+  private static RangeService rangeService;
   private static PhysicsService physicsService;
   private static GameTime timeSource;
   private static InputService inputService;
@@ -35,12 +36,18 @@ public class ServiceLocator {
   private static AchievementHandler achievementHandler;
   private static NpcService NpcService;
 
+  public static UGS getUGSService() {return ugsService;}
+
   public static EntityService getEntityService() {
     return entityService;
   }
 
   public static GameService getGameService() {
     return gameService;
+  }
+
+  public static RangeService getRangeService() {
+    return rangeService;
   }
 
   public static RenderService getRenderService() {
@@ -69,7 +76,6 @@ public class ServiceLocator {
 
   public static StructureService getStructureService() { return structureService; }
 
-  public static UGS getUGSService() {return ugsService;}
 
   public static DayNightCycleService getDayNightCycleService () {
 
@@ -86,6 +92,11 @@ public class ServiceLocator {
   public static void registerEntityService(EntityService service) {
     logger.debug("Registering entity service {}", service);
     entityService = service;
+  }
+
+  public static void registerRangeService(RangeService service) {
+    logger.debug("Registering entity service {}", service);
+    rangeService = service;
   }
 
   public static void registerGameService(GameService service) {

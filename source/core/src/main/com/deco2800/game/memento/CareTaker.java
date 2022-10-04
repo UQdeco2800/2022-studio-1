@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class CareTaker {
     private static CareTaker playerStatus = null;
-    private List<Memento> mementoList = new ArrayList<Memento>();
+    private List<Memento> mementoList = new ArrayList<>();
 
     public static CareTaker getInstance() {
         if (playerStatus == null) {
@@ -39,9 +39,9 @@ public class CareTaker {
     public Memento getLast(){
         if (mementoList.size() == 0) {
             return null;
+        } else {
+            return mementoList.get(mementoList.size() - 1);
         }
-
-        return mementoList.get(mementoList.size() - 1);
     }
 
     /**

@@ -13,7 +13,7 @@ public class AchievementFactory {
      * @return map of stat milestones
      */
     public static Map<Integer, List<Integer>> createCustomStatAchievementMileStones() {
-        return Map.of(1, List.of(50, 100, 150, 200),
+        return Map.of(1, List.of(50, 60, 100, 150),
                       2, List.of(10, 20, 50, 100));
     }
     /**
@@ -42,10 +42,11 @@ public class AchievementFactory {
 
                 new Achievement(10, AchievementType.KILLS, false, "Saviour", "Defeat the boss"),
 
-                new Achievement(11, AchievementType.GAME, false, "Untouchable!", "Complete the game without your crystal being damaged"),
+                new Achievement(11, AchievementType.GAME, false, "Untouchable!", "Complete the game without crystal damage"),
                 new Achievement(12, AchievementType.GAME, false, "Atlan", "Complete all achievements"),
                 new Achievement(13, AchievementType.GAME, false, "buy all", "Buy every item from the shop in a single game"),
-                new Achievement(14, AchievementType.GAME, false, "Cheapskate", "Complete the game without buying any items (other than buildings) from the shop"),
+                //Complete the game without buying any items (other than buildings) from the shop - too long truncated
+                new Achievement(14, AchievementType.GAME, false, "Cheapskate", "Complete the game without buying any items"),
 
                 new Achievement(15, AchievementType.MISC, false, "Pacifist", "Only defeat enemies using towers"),
                 new Achievement(16, AchievementType.MISC, false, "Defender", "Survived a night without losing a building"),

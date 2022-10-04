@@ -1,0 +1,152 @@
+final_boss.png
+size: 1900, 1120
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 1
+boss_frame
+  rotate: false
+  xy: 0, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 1
+boss_frame
+  rotate: false
+  xy: 380, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 2
+boss_frame
+  rotate: false
+  xy: 760, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 3
+boss_frame
+  rotate: false
+  xy: 1140, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 4
+boss_frame
+  rotate: false
+  xy: 1520, 0
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 5
+boss_frame
+  rotate: false
+  xy: 0, 280
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 6
+boss_frame
+  rotate: false
+  xy: 380, 280
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 7
+boss_frame
+  rotate: false
+  xy: 760, 280
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 8
+boss_frame
+  rotate: false
+  xy: 1140, 280
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 9
+boss_frame
+  rotate: false
+  xy: 1520, 280
+  size: 380, 280
+  orig: 380, 280
+  offset: 0, 0
+  index: 10
+boss_side2
+  rotate: false
+  xy: 0, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 379, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 758, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1137, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1516, 560
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 0, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 379, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 758, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1137, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1
+boss_side2
+  rotate: false
+  xy: 1516, 840
+  size: 379, 280
+  orig: 379, 280
+  offset: 0, 0
+  index: -1

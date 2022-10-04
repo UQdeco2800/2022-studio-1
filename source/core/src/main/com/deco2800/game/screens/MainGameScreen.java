@@ -4,14 +4,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.areas.AtlantisSinksGameArea;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.GameService;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
+import com.deco2800.game.components.DayNightClockComponent;
+import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
-import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.NpcService;
@@ -19,10 +19,10 @@ import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
-import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -87,29 +87,30 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_7.png",
       "images/clock_sprites/clock_day4_8.png",
       "images/anim_demo/woodresourcebuilding.png",
-          "images/storyLine/skipButton.png",
-          "images/storyLine/textBox.png"
+      "images/storyLine/skipButton.png",
+      "images/storyLine/textBox.png"
   };
 
-  private static final Vector2 CAMERA_POSITION = new Vector2(60f, 0f);
+  private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
 
   private static final String[] mainGameTextureAtlases = {
-      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/mainchar_anim_final.atlas" };
+      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/main.atlas"
+  };
 
   private final AtlantisSinks game;
   private final Renderer renderer;
   private final PhysicsEngine physicsEngine;
 
   public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
+
     this.game = game;
-  System.out.println(loadGame);
+    System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
     var dayNightCycleService = new DayNightCycleService(ServiceLocator.getTimeSource(),
-            FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
+        FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
     ServiceLocator.registerDayNightCycleService(dayNightCycleService);
-
 
     PhysicsService physicsService = new PhysicsService();
     ServiceLocator.registerPhysicsService(physicsService);
@@ -117,11 +118,11 @@ public class MainGameScreen extends ScreenAdapter {
 
     ServiceLocator.registerInputService(new InputService());
     ServiceLocator.registerResourceService(new ResourceService());
-
+    ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerEntityService(new EntityService());
+    ServiceLocator.registerRangeService(new RangeService());
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerStructureService(new StructureService());
-    ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerGameService(new GameService());
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
@@ -140,7 +141,8 @@ public class MainGameScreen extends ScreenAdapter {
     TerrainFactory terrainFactory = new TerrainFactory(renderer.getCamera());
 
     // Singleton MainArea responsible for controlling current map and entities
-    //MainArea.getInstance().setMainArea(new AtlantisSinksGameArea(terrainFactory));
+    // MainArea.getInstance().setMainArea(new
+    // AtlantisSinksGameArea(terrainFactory));
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
     createUI();
@@ -201,7 +203,6 @@ public class MainGameScreen extends ScreenAdapter {
     resourceService.unloadAssets(mainGameTextureAtlases);
   }
 
-
   /**
    * Creates the main game's ui including components for rendering ui elements to
    * the screen and
@@ -212,8 +213,8 @@ public class MainGameScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
 
-    //Testing purpose only
-    //ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
+    // Testing purpose only
+    // ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
@@ -224,9 +225,10 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
-            .addComponent(new DayNightClockComponent())
+        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
-            .addComponent(new MainGameTutorials())
+        .addComponent(new MainGameTutorials())
+        .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);

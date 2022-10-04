@@ -122,12 +122,12 @@ class CombatStatsComponentTest {
     CombatStatsComponent stats = new CombatStatsComponent(100, 0, 0,1,500);
     assertEquals(100, stats.getHealth());
 
-    //health remains the same as a health value that exceeds max health is invalid
+    //health is capped at the max health value
     stats.setHealth(5000);
-    assertEquals(100, stats.getHealth());
+    assertEquals(500, stats.getHealth());
 
     stats.addHealth(600);
-    assertEquals(100, stats.getHealth());
+    assertEquals(500, stats.getHealth());
 
     stats.setHealth(400);
     assertEquals(400, stats.getHealth());
@@ -145,5 +145,18 @@ class CombatStatsComponentTest {
     Crystal.hit(attacker);
     Crystal.hit(attacker);
     assertEquals(850, Crystal.getHealth());
+  }
+
+  @Test
+  void shouldBeInvincible() {
+    CombatStatsComponent attack  = new CombatStatsComponent(100, 50);
+    CombatStatsComponent target = new CombatStatsComponent(100, 0,0,1, 100);
+    target.setInvincibility(true);
+    target.hit(attack);
+
+    assertEquals(100, target.getHealth());
+    target.setInvincibility(false);
+    target.hit(attack);
+    assertEquals(50, target.getHealth());
   }
 }

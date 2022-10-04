@@ -165,6 +165,14 @@ public class AchievementHandler {
     }
 
     /**
+     * Getter method for last time achievements were saved
+     * @return long
+     */
+    public long getLastSaved() {
+        return this.lastSaved;
+    }
+
+    /**
      * Saves the current state of the achievement list with the current time
      */
     public void saveAchievements() {
@@ -220,16 +228,16 @@ public class AchievementHandler {
                 break;
             case BUILDINGS:
                 // update resources achievement progress
-                achievement = this.achievements.get(3);
+                achievement = this.getAchievementById(4);
                 break;
             case KILLS:
-                achievement = this.achievements.get(4);
+                achievement = this.getAchievementById(5);
                 break;
             case UPGRADES:
-                achievement = this.achievements.get(5);
+                achievement = this.getAchievementById(6);
                 break;
             case GAME:
-                achievement = this.achievements.get(7);
+                achievement = this.getAchievementById(7);
                 // update game stats achievement
         }
 
@@ -289,6 +297,63 @@ public class AchievementHandler {
     }
 
     /**
+     * Checks whether a milestone has been achieved for an achievement given a milestone number (1, 2,3,4)
+     *
+     * @param achievement the achievement to check
+     * @param milestoneNumber the milestone number to check
+     * @return true if milestone has been achieved false otherwise
+     */
+    public boolean isMilestoneAchieved(Achievement achievement, int milestoneNumber) {
+        int totalAchieved = achievement.getTotalAchieved();
+
+        // use standard milestones
+        if (customStatMilestones.get(achievement.getId()) == null) {
+            return switch (milestoneNumber) {
+                case 1 -> totalAchieved >= STAT_ACHIEVEMENT_1_MILESTONE;
+                case 2 -> totalAchieved >= STAT_ACHIEVEMENT_10_MILESTONE;
+                case 3 -> totalAchieved >= STAT_ACHIEVEMENT_25_MILESTONE;
+                case 4 -> totalAchieved >= STAT_ACHIEVEMENT_50_MILESTONE;
+                default -> false;
+            };
+        } else { // use custom milestones
+           return achievement.getTotalAchieved() >= customStatMilestones.get(achievement.getId()).get(milestoneNumber - 1);
+        }
+    }
+
+    /**
+     * Gets the total to achieve for a milestone
+     *
+     * @param achievement the achievement to get the total for the milestone for
+     * @param milestoneNumber the milestone number
+     * @return total for the milestone
+     */
+    public int getMilestoneTotal(Achievement achievement, int milestoneNumber) {
+        int totalAchieved = achievement.getTotalAchieved();
+
+        // use standard milestones
+        if (customStatMilestones.get(achievement.getId()) == null) {
+            return switch (milestoneNumber) {
+                case 1 -> STAT_ACHIEVEMENT_1_MILESTONE;
+                case 2 -> STAT_ACHIEVEMENT_10_MILESTONE;
+                case 3 -> STAT_ACHIEVEMENT_25_MILESTONE;
+                case 4 -> STAT_ACHIEVEMENT_50_MILESTONE;
+                default -> 0;
+            };
+        } else { // use custom milestones
+            int i = 1;
+            for(Integer milestone : customStatMilestones.get(achievement.getId())) {
+                    if (i == milestoneNumber) {
+                        return milestone;
+                    }
+                i++;
+            }
+        }
+
+        return 0;
+    }
+
+
+    /**
      * Broadcast the new achievement milestone reached to interested parties.
      * This is useful for any UI elements that need to display a popup more specific
      * to stat events.
@@ -325,5 +390,25 @@ public class AchievementHandler {
                 broadcastAchievementMade(a);
             }
         });
+    }
+
+    public Achievement getAchievementById(int id) {
+        for (Achievement achievement : this.achievements) {
+            if (achievement.getId() == id) {
+                return achievement;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean allCompleted(AchievementType type) {
+        for (Achievement achievement : this.achievements) {
+            if (achievement.getAchievementType() == type && !achievement.isCompleted()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
