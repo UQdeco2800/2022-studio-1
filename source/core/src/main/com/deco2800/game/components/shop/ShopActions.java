@@ -42,10 +42,10 @@ public class ShopActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting shop screen");
-        saveStatus();
-        CareTaker.deleteAll();
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
-        SaveGame.loadGameState();
+        if (game.getScreenType() != AtlantisSinks.ScreenType.SHOP) {
+            saveStatus();
+        }
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
     /**
@@ -63,18 +63,20 @@ public class ShopActions extends Component {
     private void saveStatus() {
         Originator currentStatus = new Originator(playerStatus.size());
         currentStatus.getStateFromMemento(playerStatus.getLast());
-        currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
-        currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
-        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
-        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getWood());
         if (game.getScreenType() == AtlantisSinks.ScreenType.EQUIPMENT_SHOP) {
             currentStatus.setDefense(entity.getComponent(CombatStatsComponent.class).getBaseDefense());
-            currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getBaseAttack());
+            currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getAttackMultiplier());
             currentStatus.setWeapon(entity.getComponent(InventoryComponent.class).getWeapon());
-            currentStatus.setChestplate(entity.getComponent(InventoryComponent.class).getChestplate());
-            currentStatus.setHelmet(entity.getComponent(InventoryComponent.class).getHelmet());
+            currentStatus.setArmor(entity.getComponent(InventoryComponent.class).getArmor());
+            currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
+            currentStatus.setEquipmentsList(entity.getComponent(InventoryComponent.class).getEquipmentList());
         } else if (game.getScreenType() == AtlantisSinks.ScreenType.ARTEFACT_SHOP) {
             currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
+            currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
+        } else if (game.getScreenType() == AtlantisSinks.ScreenType.BUILD_SHOP) {
+            currentStatus.setBuildings(entity.getComponent(InventoryComponent.class).getBuildings());
+            currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
+            currentStatus.setWood(entity.getComponent(InventoryComponent.class).getWood());
         }
         playerStatus.add(currentStatus.saveStateToMemento());
     }

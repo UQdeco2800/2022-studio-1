@@ -17,6 +17,11 @@
     "health": 30,
     "baseAttack": 20,
     "gold": 20
+  },
+  "ninjaStarfish": {
+    "health": 30,
+    "baseAttack": 20,
+    "gold": 20
   }
 }
 

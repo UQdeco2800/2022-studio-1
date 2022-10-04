@@ -27,11 +27,14 @@ public class CombatStatsComponent extends Component {
   private int level;
   private int defense;
   private int currentAttack;
+  private int attackMultiplier;
   private int maxHealth = 10000;
+  private boolean invincible = false;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    setAttackMultiplier(1);
     this.baseHealth = health;
     this.currentAttack = baseAttack;
   }
@@ -40,6 +43,7 @@ public class CombatStatsComponent extends Component {
     setHealth(health);
     setBaseAttack(baseAttack);
     setBaseDefense(defense);
+    setAttackMultiplier(1);
   }
 
   /**
@@ -51,6 +55,7 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
+    setBaseDefense(defense);
     this.currentAttack = baseAttack;
   }
 
@@ -90,13 +95,14 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Sets the entity's health. Health has a minimum bound of 0.
+   * Sets the entity's health. Health must be greater than 0.
    * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
+   * If the health value is 0 or less, the entity is killed.
    *
    * @param health health
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
@@ -104,13 +110,25 @@ public class CombatStatsComponent extends Component {
       }
     } else {
       this.health = 0;
+      if (entity != null && entity.getName() != null) {
+
+        // create an enemy list to contain all enemies
+        String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
+        // remove enemies if health point is 0
+        for (String enemy : enemies) {
+          if (entity != null && entity.getName().contains(enemy) && isDead()) {
+            entity.dispose();
+          }
+        }
+
+        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
+          killEntity("crystal");
+        }
+      }
     }
 
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
-      if (health <= 0 && Objects.equals(entity.getName(), "crystal")) {
-        killEntity("crystal");
-      }
     }
   }
 
@@ -171,15 +189,27 @@ public class CombatStatsComponent extends Component {
     }
   }
 
+  public void setAttackMultiplier(int multiplier) {
+    this.attackMultiplier = multiplier;
+    revertAttack();
+    addAttack(baseAttack * (multiplier - 1));
+  }
+
+  public int getAttackMultiplier() {
+    return attackMultiplier;
+  }
   /**
    * Returns the entity's base attack damage.
    *
    * @return base attack damage
    */
   public int getBaseAttack() {
-    return currentAttack;
+    return baseAttack;
   }
 
+  public int getCurrentAttack() {
+    return currentAttack;
+  }
   public void addAttack(int attackPower) {
     currentAttack += attackPower;
   }
@@ -195,17 +225,23 @@ public class CombatStatsComponent extends Component {
    */
   public void setBaseAttack(int attack) {
     if (attack >= 0) {
-      this.currentAttack = attack;
+      this.baseAttack = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
-    setHealth(newHealth);
-    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
-    hurtSound.play();
+    if (!invincible) {
+      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      setHealth(newHealth);
+      Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+      hurtSound.play();
+    }
+  }
+
+  public void setInvincibility (Boolean state) {
+    this.invincible = state;
   }
 
   public void setBaseDefense(int defense) {
