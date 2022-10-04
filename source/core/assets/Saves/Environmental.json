@@ -1,9 +1,9 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
+	texture: images/seastack1.png
 	position: {
-		x: 956
+		x: 476
 		y: -66
 	}
 	name: Rock
@@ -12,8 +12,8 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 724
-		y: 106
+		x: 1548
+		y: 30
 	}
 	name: ShipwreckBack
 }
@@ -21,8 +21,8 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 996
-		y: -190
+		x: 516
+		y: -38
 	}
 	name: ShipwreckFront
 }
@@ -30,71 +30,44 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 1388
-		y: -34
+		x: 972
+		y: 182
 	}
 	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1324
+		y: 62
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 476
+		y: 62
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1212
+		y: -26
+	}
+	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1084
-		y: -170
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 956
-		y: 198
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/chalice.png
-	position: {
-		x: 972
-		y: -2
-	}
-	name: Chalice
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 732
-		y: 206
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1460
-		y: -22
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 996
-		y: -118
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1028
-		y: 202
+		x: 836
+		y: -166
 	}
 	name: Rock
 }
@@ -102,170 +75,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1108
+		x: 1012
 		y: 170
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 604
-		y: -122
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 924
-		y: -298
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1372
-		y: 110
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1028
-		y: 58
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 780
-		y: -202
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 996
-		y: -126
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 652
-		y: -122
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 996
-		y: 130
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1108
+		x: 868
 		y: -110
 	}
 	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 980
-		y: -14
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1092
-		y: -14
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/pillar.png
-	position: {
-		x: 980
-		y: -6
-	}
-	name: Pillar
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1036
-		y: 174
+		x: 1268
+		y: -30
 	}
 	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 572
-		y: -66
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1436
-		y: -10
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 884
-		y: -78
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 788
-		y: -190
-	}
-	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 972
-		y: -10
+		x: 948
+		y: 18
 	}
 	name: Shell
 }
@@ -273,7 +111,151 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1052
+		x: 948
+		y: 234
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1068
+		y: -154
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 796
+		y: 38
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 932
+		y: 10
+	}
+	name: Shell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 956
+		y: 62
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 956
+		y: 14
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 924
+		y: -258
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/rightPalmTree.png
+	position: {
+		x: 988
+		y: 22
+	}
+	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1140
+		y: 170
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1140
+		y: -190
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1180
+		y: -74
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/chalice.png
+	position: {
+		x: 940
+		y: 14
+	}
+	name: Chalice
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1244
+		y: -138
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1196
+		y: 206
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1068
+		y: 86
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1324
+		y: -2
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 684
 		y: 94
 	}
 	name: ShipwreckBack
@@ -282,44 +264,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 724
-		y: 74
+		x: 900
+		y: -142
 	}
 	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
+	texture: images/seastack1.png
 	position: {
-		x: 876
-		y: 126
+		x: 940
+		y: -90
 	}
-	name: ShipwreckFront
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1148
+		y: -82
+	}
+	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 892
-		y: -50
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1236
-		y: 18
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 596
-		y: -110
+		x: 908
+		y: -122
 	}
 	name: ShipwreckBack
 }
@@ -327,26 +300,80 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1452
-		y: -74
+		x: 1324
+		y: -98
 	}
 	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/seastack1.png
 	position: {
-		x: 804
-		y: 202
+		x: 500
+		y: -70
 	}
-	name: ShipwreckBack
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 988
+		y: -258
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 724
+		y: 42
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 700
+		y: -114
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1260
+		y: 134
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 684
+		y: -34
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 524
+		y: -10
+	}
+	name: ShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1380
-		y: -46
+		x: 556
+		y: -74
 	}
 	name: ShipwreckBack
 }
@@ -354,8 +381,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 844
-		y: -186
+		x: 860
+		y: -58
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 500
+		y: 18
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 876
+		y: 62
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 780
+		y: -82
 	}
 	name: ShipwreckFront
 }
@@ -372,79 +426,25 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1028
-		y: -174
+		x: 732
+		y: -106
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
+	texture: images/seastack2.png
 	position: {
-		x: 852
-		y: 90
+		x: 892
+		y: -74
 	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1196
-		y: 142
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1388
-		y: 86
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 940
-		y: 14
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1420
-		y: -18
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1036
-		y: -242
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1268
-		y: -110
-	}
-	name: ShipwreckFront
+	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 988
+		x: 732
 		y: -90
 	}
 	name: Rock
@@ -453,53 +453,17 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 884
-		y: 82
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
 		x: 860
-		y: 182
+		y: 158
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 700
-		y: 30
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 964
-		y: -110
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 668
-		y: 70
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 876
-		y: -194
+		x: 1276
+		y: 54
 	}
 	name: ShipwreckFront
 }
@@ -507,116 +471,44 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1052
-		y: 126
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/rightPalmTree.png
-	position: {
-		x: 948
-		y: -14
-	}
-	name: Tree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1180
-		y: -106
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 892
-		y: -186
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/groupPalmTrees.png
-	position: {
-		x: 996
-		y: 18
-	}
-	name: Tree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1412
-		y: 34
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1044
-		y: 186
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 924
-		y: -274
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 940
-		y: -146
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 444
-		y: -10
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 932
-		y: 266
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1060
+		x: 1204
 		y: 98
 	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 580
+		y: 106
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 836
+		y: 186
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1012
+		y: 226
+	}
 	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 596
-		y: -54
+		x: 1236
+		y: 178
 	}
 	name: ShipwreckBack
 }
@@ -624,8 +516,8 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 1140
-		y: -166
+		x: 1316
+		y: 138
 	}
 	name: Rock
 }
@@ -633,80 +525,62 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 860
-		y: 214
+		x: 868
+		y: 162
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/shipWreckFront.png
 	position: {
-		x: 1164
-		y: 206
+		x: 1244
+		y: -34
 	}
-	name: ShipwreckBack
+	name: ShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
+	texture: images/shipWreckFront.png
 	position: {
-		x: 916
-		y: -214
+		x: 332
+		y: 6
 	}
-	name: Rock
+	name: ShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/landscape_objects/leftPalmTree.png
 	position: {
-		x: 724
-		y: 66
+		x: 988
+		y: -18
 	}
-	name: ShipwreckBack
+	name: Tree
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
+	texture: images/shipWreckFront.png
 	position: {
-		x: 860
-		y: -210
+		x: 1452
+		y: -18
 	}
-	name: Rock
+	name: ShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
 		x: 1228
-		y: 182
+		y: -170
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 876
-		y: 190
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/rightPalmTree.png
-	position: {
-		x: 940
-		y: 14
-	}
-	name: Tree
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1148
-		y: -50
+		x: 1020
+		y: -162
 	}
 	name: ShipwreckBack
 }
@@ -714,8 +588,8 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 892
-		y: 94
+		x: 1060
+		y: 226
 	}
 	name: Rock
 }
@@ -723,161 +597,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1308
-		y: -2
+		x: 980
+		y: -270
 	}
 	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1220
-		y: 74
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 772
-		y: 10
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 764
-		y: -154
-	}
-	name: Rock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1012
-		y: -30
+		x: 852
+		y: 210
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 812
-		y: 206
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1068
-		y: -226
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1012
-		y: 10
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1196
-		y: -122
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1188
+		x: 660
 		y: 170
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1044
-		y: 130
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1292
-		y: -34
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1012
-		y: 58
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 876
-		y: -258
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1116
-		y: 86
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 836
-		y: 82
-	}
-	name: Rock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1468
-		y: 62
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 820
-		y: 50
+		x: 924
+		y: -58
 	}
 	name: ShipwreckBack
 }
@@ -886,34 +634,88 @@
 	texture: images/shipWreckBack.png
 	position: {
 		x: 1092
-		y: 34
+		y: 178
 	}
 	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
+	texture: images/landscape_objects/pillar.png
 	position: {
-		x: 932
-		y: -198
+		x: 988
+		y: -10
 	}
-	name: Rock
+	name: Pillar
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
+	texture: images/landscape_objects/rightPalmTree.png
 	position: {
-		x: 764
-		y: -138
+		x: 940
+		y: -2
 	}
-	name: Rock
+	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 700
+		y: -162
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1148
+		y: -130
+	}
+	name: ShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1156
-		y: 218
+		x: 1116
+		y: -138
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 932
+		y: 146
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 948
+		y: 66
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1124
+		y: 170
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 812
+		y: -2
 	}
 	name: ShipwreckFront
 }
@@ -921,8 +723,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1164
+		x: 1460
+		y: 34
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 588
 		y: -98
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1148
+		y: 166
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 516
+		y: 98
 	}
 	name: Rock
 }
@@ -930,8 +759,8 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1060
-		y: 42
+		x: 724
+		y: -166
 	}
 	name: ShipwreckFront
 }
@@ -939,8 +768,17 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1516
-		y: 30
+		x: 1164
+		y: -34
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 596
+		y: -62
 	}
 	name: ShipwreckFront
 }
@@ -948,8 +786,188 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 828
+		x: 948
+		y: 146
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1060
+		y: -182
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 972
+		y: -2
+	}
+	name: Shell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 740
+		y: 138
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 636
+		y: 14
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 876
+		y: -226
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1220
+		y: 162
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1020
+		y: 206
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1516
+		y: 14
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 748
+		y: -58
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 788
+		y: -78
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 644
+		y: -6
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1012
+		y: -174
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1276
+		y: 142
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 932
+		y: 186
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1188
+		y: -126
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 948
+		y: 98
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1100
 		y: -114
+	}
+	name: Rock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1348
+		y: 74
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1500
+		y: -34
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1348
+		y: 42
 	}
 	name: Rock
 }
