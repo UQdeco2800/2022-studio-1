@@ -6,14 +6,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Null;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.screens.AchievementScreen;
@@ -25,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
@@ -138,13 +140,13 @@ public class AchievementDisplay extends UIComponent {
         title.setAlignment(Align.center);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("images/achievements/Badge_Background_2540x1033_Box.png"));
+        Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/Background_1664x824_Box.png")); // _1348x888
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png")); // _1348x888
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
-        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_428x824_Box.png")); //
+        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
 
         Texture badgeDescription = new Texture(Gdx.files.internal("images/achievements/Badge_Description_1580x126_Box.png"));
@@ -158,7 +160,7 @@ public class AchievementDisplay extends UIComponent {
         changeDisplay(this.displayTable, AchievementType.SUMMARY);
 
         // Home Button
-        ImageButton summaryButton = createButton("images/achievements/summaryIcon.png");
+        ImageButton summaryButton = createButton("images/achievements/Summary_Button.png");
         this.addButtonEvent(summaryButton, "Summary");
         navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
@@ -177,13 +179,13 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
+        ImageButton killButton = createButton("images/achievements/Kills_Icon.png");
         this.addButtonEvent(killButton, "Kill");
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
+        ImageButton resourceButton = createButton("images/achievements/Resourse_Icon.png");
         this.addButtonEvent(resourceButton, "Resource");
 
         navigationTable.add(resourceButton).expand();
@@ -208,6 +210,8 @@ public class AchievementDisplay extends UIComponent {
         exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
         
         // Display main content
+        displayTable.align(Align.top);
+        displayTable.pad(50f);
 
         contentTable.add(navigationTable).colspan(2).expand();
         contentTable.add(displayTable).colspan(6).expand();
@@ -233,23 +237,217 @@ public class AchievementDisplay extends UIComponent {
         rootTable.clear();
     }
 
+    /**
+     *  Creates the milestone button actor.
+     *  listens on hover events to display milestone achievement
+     *  in description
+     *
+     * @param milestoneNumber milestoneNumber
+     * @param isComplete whether the milestone is complete
+     * @param achievement the achievement to create the image button for
+     * @param descriptionLabel the description label for the achievement
+     * @return an image or
+     */
+    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete, Achievement achievement,
+                                                        Label descriptionLabel) {
+        switch (milestoneNumber) {
+            case 1: {
+                return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 1);
+            }
+          case 2: {
+              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 2);
+          }
+          case 3: {
+              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 3);
+          }
+          case 4: {
+              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 4);
+          }
+          default:
+              return null;
+        }
+    }
+
+    /**
+     *
+     * Creates a milestone button for the achievement card with hover events on it
+     *
+     * @param isComplete whether the milestone is achieved
+     * @param descriptionLabel the UI label which will be dynamically changed on hover
+     * @param achievement the achievement to create the button for
+     * @param milestoneNumber the milestone number
+     * @return the image button
+     */
+    private static Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel, Achievement achievement, int milestoneNumber) {
+        AchievementHandler achievementService = ServiceLocator.getAchievementHandler();
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal(
+                isComplete ? "images/achievements/milestone_%d_completed.png".formatted(milestoneNumber) :
+                        "images/achievements/milestone_%d_incomplete.png".formatted(milestoneNumber) ));
+        var image = new Image(backgroundTexture);
+        if (isComplete) {
+            image.addListener(new ClickListener() {
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
+                    descriptionLabel.setText(achievement.getDescription().formatted(achievementService.getMilestoneTotal(achievement, milestoneNumber)));
+                }
+
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, @Null Actor toActor) {
+                    descriptionLabel.setText(achievement.getDescription().formatted(achievement.getTotalAchieved()));
+                }
+            });
+        }
+        return image;
+    }
+
+    /**
+     * Constructs the achievement milestone buttons for a given achievement
+     *
+     * @param achievement the achievement to create the buttons for
+     * @param descriptionLabel the label to be changed on hover
+     * @return a row of buttons table
+     */
+    public static Table buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
+        var achievementService = ServiceLocator.getAchievementHandler();
+        Table milestoneButtons = new Table();
+        milestoneButtons.add();
+        milestoneButtons.add(getMilestoneImageButtonByNumber(1,
+                achievementService.isMilestoneAchieved(achievement, 1), achievement, descriptionLabel));
+        milestoneButtons.add(getMilestoneImageButtonByNumber(2,
+                achievementService.isMilestoneAchieved(achievement, 2),achievement,descriptionLabel));
+        milestoneButtons.add(getMilestoneImageButtonByNumber(3,
+                achievementService.isMilestoneAchieved(achievement, 3),achievement,descriptionLabel));
+        milestoneButtons.add(getMilestoneImageButtonByNumber(4,
+                achievementService.isMilestoneAchieved(achievement, 4),achievement,descriptionLabel));
+       milestoneButtons.add();
+       return milestoneButtons;
+    }
+
+    /**
+     * Builds an achievement card actor read to be displayed
+     *
+     * @param achievement the achievement to create the card for
+     * @return the actor (Table)
+     */
+    public static Table buildAchievementCard(Achievement achievement) {
+        Table achievementCard = new Table();
+        achievementCard.pad(30);
+        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Image backgroundImg = new Image(backgroundTexture);
+        achievementCard.setBackground(backgroundImg.getDrawable());
+
+        Table achievementCardHeader = new Table();
+        Texture achievementTypeTexture = new Texture(Gdx.files.internal(achievement.getAchievementType().getPopupImage()));
+        Image achievementTypeImage = new Image(achievementTypeTexture);
+        achievementTypeImage.setAlign(Align.left);
+        achievementCardHeader.add(achievementTypeImage);
+        achievementCardHeader.add(new Label(achievement.getName(), skin, "small"));
+        achievementCard.add(achievementCardHeader).expand();
+        achievementCard.row();
+
+        ArrayList<String> achievementDescription = splitDescription(achievement.getDescription());
+
+        var descriptionLabel = new Label(achievementDescription.get(0), skin, "small");
+        achievementCard.add(descriptionLabel).colspan(3).expand();
+        achievementCard.row();
+        if (achievement.isStat()) {
+            descriptionLabel.setText(achievement.getDescription().formatted(achievement.getTotalAchieved()));
+            achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).padBottom(20);
+        } else {
+            for (String s : achievementDescription) {
+                if (achievementDescription.indexOf(s) == 0) {
+                    continue;
+                }
+
+                achievementCard.add(new Label(s, skin, "small")).colspan(3).expand();
+                achievementCard.row();
+            }
+
+            if (achievementDescription.size() == 1) {
+                achievementCard.add(new Label("", skin, "small"));
+            }
+        }
+        achievementCard.pack();
+
+        return achievementCard;
+    }
+
+    /**
+     * Split a description string into multiple lines
+     * @param description String
+     * @return ArrayList
+     */
+    public static ArrayList<String> splitDescription(String description) {
+        ArrayList<String> splitDescription = new ArrayList<>();
+        String[] temp = description.split(" ");
+        int rowLength = 0;
+        int maxRowLength = 5;
+
+        StringBuilder row = new StringBuilder();
+
+        for (String s : temp) {
+            if (rowLength >= maxRowLength) {
+                if (row.isEmpty()) {
+                    return splitDescription;
+                }
+
+                splitDescription.add(row.toString());
+                rowLength = 0;
+                row = new StringBuilder();
+            }
+
+            row.append(s);
+            row.append(" ");
+            rowLength++;
+        }
+
+        splitDescription.add(row.toString());
+
+        return splitDescription;
+    }
+
+    public static Table buildAchievementSummaryCard(AchievementType type) {
+        Table summaryCard = new Table();
+        summaryCard.pad(30f);
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompleted(type) ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Image backgroundImg = new Image(backgroundTexture);
+        summaryCard.setBackground(backgroundImg.getDrawable());
+
+        Table summaryCardHeader = new Table();
+        Texture summaryTypeTexture = new Texture(Gdx.files.internal(type.getPopupImage()));
+        Image summaryTypeImage = new Image(summaryTypeTexture);
+        summaryTypeImage.setAlign(Align.left);
+        summaryCardHeader.add(summaryTypeImage);
+        summaryCardHeader.add(new Label(type.getTitle(), skin, "small"));
+        summaryCard.add(summaryCardHeader).expand();
+        summaryCard.row();
+
+        return summaryCard;
+    }
+
     public static void changeDisplay(Table displayTable, AchievementType type) {
         displayTable.clear();
-        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expand();
+        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expandX();
         displayTable.row();
 
         int achievementsAdded = 0;
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
 
         if (type == AchievementType.SUMMARY) {
-            displayTable.add(new Label("Building Achievements", skin)).colspan(3).expand();
-            displayTable.add(new Label("Game Achievements", skin)).colspan(3).expand();
-            displayTable.row();
-            displayTable.add(new Label("Kill Achievements", skin)).colspan(3).expand();
-            displayTable.add(new Label("Resource Achievements", skin)).colspan(3).expand();
-            displayTable.row();
-            displayTable.add(new Label("Upgrade Achievements", skin)).colspan(3).expand();
-            displayTable.add(new Label("Misc Achievements", skin)).colspan(3).expand();
+            for (AchievementType achievementType : AchievementType.values()) {
+                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
+                    displayTable.row();
+                } else if (achievementType == AchievementType.SUMMARY) {
+                    continue;
+                }
+
+                displayTable.add(buildAchievementSummaryCard(achievementType)).colspan(3).fillX();
+
+                achievementsAdded++;
+            }
+
             return;
         }
 
@@ -259,7 +457,7 @@ public class AchievementDisplay extends UIComponent {
                     displayTable.row();
                 }
 
-                displayTable.add(new Label(achievement.getName(), skin)).colspan(3).expand();
+                displayTable.add(buildAchievementCard(achievement)).colspan(3).fillX();
 
                 achievementsAdded++;
             }

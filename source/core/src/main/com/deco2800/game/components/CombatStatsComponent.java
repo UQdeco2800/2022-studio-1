@@ -89,17 +89,17 @@ public class CombatStatsComponent extends Component {
 
   /**
    * Sets the entity's health. Health has a minimum bound of 0.
+   * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
    *
    * @param health health
    */
   public void setHealth(int health) {
     if (health >= 0) {
-      if (health <= maxHealth) {
+      if (health > maxHealth) {
+        this.health = maxHealth;
+      } else {
         this.health = health;
       }
-      // }else {
-      // logger.info("max health is reached");
-      // }
     } else {
       // create an enemy list to contain all enemies
       String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
@@ -114,9 +114,25 @@ public class CombatStatsComponent extends Component {
 
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
-      if (health == 0) {
+    }
+  }
+
+  /**
+   * Triggers listener events when certain entities should be killed. Each entity can be handled separately.
+   *
+   * @param entityName the name of the entity to kill
+   */
+  public void killEntity(String entityName) {
+    //String entityName = entity.getName();
+    switch (entityName) {
+      case "player":
+        entity.getEvents().trigger("playerDeath");
+        break;
+      case "crystal":
         entity.getEvents().trigger("crystalDeath");
-      }
+        break;
+      default:
+        //do nothing
     }
   }
 

@@ -24,8 +24,6 @@ public class MainGameActions extends Component {
   private AtlantisSinks game;
   private Entity player;
 
-  private final Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-
   public MainGameActions(AtlantisSinks game, Entity player) {
     this.player = player;
     this.game = game;
@@ -42,7 +40,7 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("load", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
-    //crystal.getEvents().addListener("crystalDeath", this::onDeath);
+    entity.getEvents().addListener("crystalDeath", this::onDeath);
   }
 
   private void onDeath() {

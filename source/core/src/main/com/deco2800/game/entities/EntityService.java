@@ -88,6 +88,9 @@ public class EntityService {
    */
   public void unregister(Entity entity) {
     logger.debug("Unregistering {} in entity service", entity);
+    if (ServiceLocator.getUGSService() != null) {
+      ServiceLocator.getUGSService().dispose(entity);
+    }
     entities.removeValue(entity, true);
     Vector2 toRemove = null;
     for (Map.Entry<Vector2, Entity> e : entityMap.entrySet()) {

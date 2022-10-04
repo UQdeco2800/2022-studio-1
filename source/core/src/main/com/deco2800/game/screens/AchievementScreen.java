@@ -40,7 +40,7 @@ public class AchievementScreen extends ScreenAdapter {
             "images/achievements/Resource_Icon.png",
             "images/achievements/Upgrade_Icon.png",
             "images/uiElements/exports/exit_button.png",
-            "images/achievements/summaryButton.png"
+            "images/achievements/summaryIcon.png"
     };
 
     /**
