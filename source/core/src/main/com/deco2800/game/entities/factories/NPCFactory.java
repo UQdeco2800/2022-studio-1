@@ -147,11 +147,11 @@ public class NPCFactory {
             .addComponent(new GhostAnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
-    //ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
     //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-    ElectricEelEnemy.setScale(1.2f, 1.2f);
+    ElectricEelEnemy.setScale(12f, 12f);
 
     return ElectricEelEnemy;
   }
@@ -191,10 +191,10 @@ public class NPCFactory {
   }
 
 // Create starfish as a new entity
-  public static Entity createStarFish(Entity target, Entity crystal) {
+  public static Entity createStarFishEnemy(Entity target, Entity crystal) {
     Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
+    //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
     /** AnimationRenderComponent animator =
      new AnimationRenderComponent(
      ServiceLocator.getResourceService()
@@ -214,7 +214,6 @@ public class NPCFactory {
     ninjaStarfish
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent)
             .addComponent(new DayNightCycleComponent())
             //.addComponent(textureRenderComponent);
             .addComponent(new GhostAnimationController())
@@ -222,7 +221,7 @@ public class NPCFactory {
 
     ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("ninjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
-    ninjaStarfish.setScale(1.2f, 1.2f);
+    ninjaStarfish.setScale(12f, 12f);
 
     return ninjaStarfish;
   }

@@ -473,68 +473,13 @@ public class ForestGameArea extends GameArea {
       case DUSK:
         break;
       case NIGHT:
-        switch (dayNum) {
-          case 1:
-            for (int i = 0; i < 1; i++) {
-              spawnPirateCrabEnemy();
-            }
-            break;
-          case 2:
-            for (int i = 0; i < 2; i++) {
-              spawnPirateCrabEnemy();
-            }
-            break;
-          case 3:
-            for (int i = 0; i < 3; i++) {
-              spawnPirateCrabEnemy();
-            }
-            break;
-          default:
-            System.out.println("There is not any pirate crab spawned!");;
-        }
-
-        switch (dayNum) {
-          case 1:
-            for (int i = 0; i < 1; i++) {
-              spawnElectricEelEnemy();
-            }
-            break;
-          case 2:
-            for (int i = 0; i < 2; i++) {
-              spawnElectricEelEnemy();
-            }
-            break;
-          case 3:
-            for (int i = 0; i < 3; i++) {
-              spawnElectricEelEnemy();
-            }
-            break;
-          default:
-            System.out.println("There is not any electric Eel spawned!");
-        }
-
-        switch (dayNum) {
-          case 1:
-            for (int i = 0; i < 1; i++) {
-              spawnNinjaStarfishEnemy();
-            }
-            break;
-          case 2:
-            for (int i = 0; i < 2; i++) {
-              spawnNinjaStarfishEnemy();
-            }
-            break;
-          case 3:
-            for (int i = 0; i < 3; i++) {
-              spawnNinjaStarfishEnemy();
-            }
-            break;
-          default:
-            System.out.println("There is not any ninja starfish spawned!");
-        }
-
-        if (dayNum == BOSS_DAY) {
-          spawnMeleeBoss();
+        for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
+          spawnPirateCrabEnemy();
+          spawnElectricEelEnemy();
+          //spawnNinjaStarfishEnemy();
+          if (dayNum == BOSS_DAY) {
+            spawnMeleeBoss();
+          }
         }
         break;
     }
