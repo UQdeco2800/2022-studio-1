@@ -46,25 +46,16 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-        System.out.println("start shooting");
         taskEnd = GameTime.getTime() + (int)(1 * SECOND);
-        System.out.println(taskEnd);
     }
 
     @Override
     public void update() {
         Entity entity = this.owner.getEntity();
-        System.out.println(taskEnd);
-        System.out.println(GameTime.getTime());
         if (GameTime.getTime() >= taskEnd) {
-            System.out.println("shoots");
             ProjectileFactory.createProjectile(entity, target);
             taskEnd = GameTime.getTime() + (int)(SECOND);
         }
-        System.out.println(entity.getPosition());
-        System.out.println("1");
-        System.out.println(target.getPosition());
-        System.out.println("2");
     }
 
     @Override
