@@ -166,12 +166,13 @@ public class ForestGameArea extends GameArea {
 
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
-    ServiceLocator.getUGSService().generateUGS();
+
 
 
     displayUI();
 
     spawnTerrain();
+    ServiceLocator.getUGSService().generateUGS();
 
     entityMapping = new EnvironmentalCollision(terrain);
 

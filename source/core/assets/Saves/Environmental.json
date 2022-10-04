@@ -1,37 +1,73 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 956
-		y: 22
+		x: 932
+		y: 10
 	}
-	name: ShipwreckBack
+	name: Shell
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 940
-		y: -18
+		x: 1012
+		y: -6
 	}
 	name: ShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 908
+		y: 14
+	}
+	name: Shell
+}
+{
+	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/groupPalmTrees.png
 	position: {
-		x: 1012
-		y: 10
+		x: 948
+		y: 18
 	}
 	name: Tree
 }
 {
 	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/leftPalmTree.png
+	position: {
+		x: 988
+		y: -18
+	}
+	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 948
+		y: -22
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/chalice.png
+	position: {
+		x: 1076
+		y: 26
+	}
+	name: Chalice
+}
+{
+	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/rightPalmTree.png
 	position: {
-		x: 1004
-		y: 22
+		x: 964
+		y: -14
 	}
 	name: Tree
 }
@@ -39,7 +75,7 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 988
+		x: 940
 		y: -2
 	}
 	name: Shell
@@ -48,45 +84,9 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/pillar.png
 	position: {
-		x: 1020
-		y: -2
+		x: 964
+		y: 18
 	}
 	name: Pillar
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/groupPalmTrees.png
-	position: {
-		x: 956
-		y: 22
-	}
-	name: Tree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 916
-		y: 10
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 948
-		y: -22
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/chalice.png
-	position: {
-		x: 1004
-		y: -10
-	}
-	name: Chalice
 }
 ]

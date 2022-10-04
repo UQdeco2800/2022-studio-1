@@ -3,27 +3,252 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 684
+		x: 868
+		y: -6
+	}
+	name: "wall(55, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 908
+		y: -26
+	}
+	name: "wall(60, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 884
+		y: -6
+	}
+	name: "wall(56, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 924
 		y: -2
 	}
-	name: "wall(43, 42)"
+	name: "wall(58, 57)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 692
-		y: 2
+		x: 868
+		y: -14
 	}
-	name: "wall(43, 43)"
+	name: "wall(56, 52)"
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/Wall-right.png
 	position: {
-		x: 708
+		x: 892
+		y: -18
+	}
+	name: "wall(58, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 884
 		y: 2
 	}
-	name: "wall(44, 44)"
+	name: "wall(55, 55)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 900
+		y: 10
+	}
+	name: "wall(55, 57)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 908
+		y: -34
+	}
+	name: "wall(61, 52)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 884
+		y: -14
+	}
+	name: "wall(57, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 68
+		y: -6
+	}
+	name: "wall(5, 3)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 964
+		y: 2
+	}
+	name: "wall(60, 60)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 908
+		y: -18
+	}
+	name: "wall(59, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 860
+		y: -2
+	}
+	name: "wall(54, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 948
+		y: 2
+	}
+	name: "wall(59, 59)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 860
+		y: -10
+	}
+	name: "wall(55, 52)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 964
+		y: 18
+	}
+	name: "wall(58, 62)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 876
+		y: -2
+	}
+	name: "wall(55, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 916
+		y: -22
+	}
+	name: "wall(60, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 876
+		y: -10
+	}
+	name: "wall(56, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 916
+		y: -6
+	}
+	name: "wall(58, 56)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 836
+		y: -6
+	}
+	name: "wall(53, 51)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 892
+		y: 6
+	}
+	name: "wall(55, 56)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 900
+		y: -14
+	}
+	name: "wall(58, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 892
+		y: -10
+	}
+	name: "wall(57, 54)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 900
+		y: -22
+	}
+	name: "wall(59, 53)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 852
+		y: -6
+	}
+	name: "wall(54, 52)"
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/Wall-right.png
+	position: {
+		x: 876
+		y: -18
+	}
+	name: "wall(57, 52)"
 }
 ]

@@ -2,6 +2,11 @@ package com.deco2800.game.entities;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainTile;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +22,7 @@ public class UGS {
 
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
-        generateUGS();
+//        generateUGS();
     }   
 
     /**
@@ -211,6 +216,9 @@ public class UGS {
                 Tile tile = new Tile();
                 String coordinate = generateCoordinate(x, y);
                 this.add(coordinate,tile);
+                TiledMap tiledMap = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getMap();
+                String t = ((TerrainTile) ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(x,y).getTile()).getName();
+                this.setTileType(coordinate, t);
             }
         }
     }
