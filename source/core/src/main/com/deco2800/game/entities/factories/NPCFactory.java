@@ -192,18 +192,18 @@ public class NPCFactory {
     return boss;
   }
 
-  // Create starfish as a new entity
+// Create starfish as a new entity
   public static Entity createStarFish(Entity target, Entity crystal) {
     Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
     /** AnimationRenderComponent animator =
-            new AnimationRenderComponent(
-                    ServiceLocator.getResourceService()
-                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    */
+     new AnimationRenderComponent(
+     ServiceLocator.getResourceService()
+     .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+     */
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/starfish_animation/starfish.atlas", TextureAtlas.class));
