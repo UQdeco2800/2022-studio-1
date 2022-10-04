@@ -25,16 +25,17 @@ class GameAreaTest {
   void shouldSpawnEntities() {
     TerrainFactory factory = mock(TerrainFactory.class);
 
-    GameArea gameArea =
-        new GameArea() {
-          @Override
-          public void create() {}
-        };
+    GameArea gameArea = new GameArea() {
+      @Override
+      public void create() {
+      }
+    };
 
     ServiceLocator.registerEntityService(new EntityService());
     Entity entity = mock(Entity.class);
 
     gameArea.spawnEntity(entity);
+    ServiceLocator.getEntityService().register(entity);
     verify(entity).create();
 
     gameArea.dispose();
@@ -43,45 +44,46 @@ class GameAreaTest {
 
   /**
    * Checks whether entities can be spawned at a certain part of day
-   * There were many errors regarding creating entities using methods called by DayNightCycleService's listener
+   * There were many errors regarding creating entities using methods called by
+   * DayNightCycleService's listener
    */
   @Test
-    void shouldSpawnEntitiesAtNight() {
-      DayNightCycleConfig config = new DayNightCycleConfig();
-      config.dawnLength = 100;
-      config.dayLength = 400;
-      config.duskLength = 100;
-      config.nightLength = 500;
-      config.maxDays = 1;
-      ServiceLocator.registerTimeSource(new GameTime());
-      var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
-      DayNightCycleService dayNightCycleService = Mockito.spy(new DayNightCycleService(gameTime, config));
+  void shouldSpawnEntitiesAtNight() {
+    DayNightCycleConfig config = new DayNightCycleConfig();
+    config.dawnLength = 100;
+    config.dayLength = 400;
+    config.duskLength = 100;
+    config.nightLength = 500;
+    config.maxDays = 1;
+    ServiceLocator.registerTimeSource(new GameTime());
+    var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
+    DayNightCycleService dayNightCycleService = Mockito.spy(new DayNightCycleService(gameTime, config));
 
-      GameArea gameArea =
-              new GameArea() {
-                  @Override
-                  public void create() {}
-              };
+    GameArea gameArea = new GameArea() {
+      @Override
+      public void create() {
+      }
+    };
 
-      ServiceLocator.registerEntityService(new EntityService());
-      Entity entity = mock(Entity.class);
+    ServiceLocator.registerEntityService(new EntityService());
+    Entity entity = mock(Entity.class);
 
     dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
-            (DayNightCycleStatus day) -> {
-              switch (day) {
-                case DAWN:
-                  break;
-                case DAY:
-                  break;
-                case DUSK:
-                  break;
-                case NIGHT:
-                  gameArea.spawnEntity(entity);
-                  assertEquals(DayNightCycleStatus.NIGHT, dayNightCycleService.getCurrentCycleStatus());
-                  verify(entity).create();
-                  break;
-              }
-            });
+        (DayNightCycleStatus day) -> {
+          switch (day) {
+            case DAWN:
+              break;
+            case DAY:
+              break;
+            case DUSK:
+              break;
+            case NIGHT:
+              gameArea.spawnEntity(entity);
+              assertEquals(DayNightCycleStatus.NIGHT, dayNightCycleService.getCurrentCycleStatus());
+              verify(entity).create();
+              break;
+          }
+        });
     dayNightCycleService.start().join();
     gameArea.dispose();
     verify(entity).dispose();

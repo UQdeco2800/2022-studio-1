@@ -14,7 +14,7 @@ public enum AchievementType {
             "images/achievements/Kill_64x64_Icon.png"),
     UPGRADES("Upgrades","images/achievements/Upgrade_Icon.png",
             "images/achievements/Upgrade_64x64_Icon.png"),
-    GAME ("Game Achievement","images/achievements/Game_Icon.png",
+    GAME ("Game","images/achievements/Game_Icon.png",
             "images/achievements/Game_64x64_Icon.png"),
     MISC ("Misc", "images/achievements/Misc_Icon.png",
             "images/achievements/Misc_64x64_Icon.png");

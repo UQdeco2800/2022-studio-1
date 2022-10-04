@@ -30,9 +30,6 @@ import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
  *
@@ -286,14 +283,6 @@ public class NPCFactory {
    */
 
   public static Entity createBaseNPC() {
-
-    String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
-            "images/npc1.png",
-            "images/npcs/NPC-V2.2.png" };
-
-     //int index = (int) ((Math.random() * (NPC_textures.length)));
-        int index = 1;
-
         AITaskComponent aiComponent =
             new AITaskComponent()
                 .addTask(new WanderTask(new Vector2(30f, 30f), 2f));
@@ -304,40 +293,43 @@ public class NPCFactory {
                 .addComponent(new ColliderComponent())
                 //.addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
-                .addComponent(new TextureRenderComponent(NPC_textures[index]))
+                //.addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
-
-        if (index == 1){
-          npc.setName("SpecialNPC");
-        }
-        
-        else {
-          npc.setName("NPC");
-        }
         
         npc.setCollectable(false);
-        npc.setScale(5f, 5f);
 
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);
         return npc;
       }
 
-      public static Entity createNPC() {
+      public static Entity createSpecialNPC() {
         Entity NPC = createBaseNPC();
-        // NPCConfig config = configs.NPC1;
-        //ServiceLocator.getEntityService().registerNamed("ArmoryNPC" + ArmoryNPC.getId(), ArmoryNPC);
-        // if (NPC.getName()=="SpecialNPC"){
-        AnimationRenderComponent animator =
-                 new AnimationRenderComponent(
-                         ServiceLocator.getResourceService().getAsset("images/npc_animations/NPC1sprite.atlas", TextureAtlas.class));
-        animator.addAnimation("fn", 0.1f, Animation.PlayMode.LOOP);
-        NPC.addComponent(animator);
-        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
-        NPC.getComponent(AnimationRenderComponent.class).startAnimation("fn");
-                //  .addComponent(textureRenderComponent);
-        // }
+        NPC.setName("SpecialNPC");
+//        AnimationRenderComponent animator =
+//                 new AnimationRenderComponent(
+//                         ServiceLocator.getResourceService().getAsset("images/npc_animations/npc.atlas", TextureAtlas.class));
+//        animator.addAnimation("NPC", 0.1f, Animation.PlayMode.LOOP);
+//        NPC.addComponent(animator);
+//        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
+//        NPC.getComponent(AnimationRenderComponent.class).startAnimation("NPC");
+        NPC.addComponent(new TextureRenderComponent("images/npc1.png"));
+        NPC.setScale(5f,5f);
+
           return NPC;
       }
+
+    public static Entity createNormalNPC() {
+          String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
+              "images/npcs/NPC-V2.2.png" };
+
+      int index = (int) ((Math.random() * (NPC_textures.length)));
+      Entity NPC = createBaseNPC();
+      NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
+      NPC.setName("NormalNPC");
+      NPC.getComponent(TextureRenderComponent.class).scaleEntity();
+
+      return NPC;
+    }
 
   private NPCFactory() {
     throw new IllegalStateException("Instantiating static util class");

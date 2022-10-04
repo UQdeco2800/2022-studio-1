@@ -121,7 +121,7 @@ public class CameraActions extends Component {
 
                 if (zoomOut) {
                         float newZoomValue = camera.zoom + 0.02f;
-                        if (newZoomValue <= 2) {
+                        if (newZoomValue <= 6) {
                                 camera.zoom = newZoomValue;
                                 camera.update();
                         }

@@ -1,7 +1,7 @@
 {
 position: {
-	x: 961.28906
-	y: 22.004368
+	x: 980.0458
+	y: 2.943852
 }
 name: player
 playerState: {
@@ -22,7 +22,7 @@ playerState: {
 	helmet: null
 	health: {
 		class: java.lang.Integer
-		value: 98
+		value: 100
 	}
 	wood: {
 		class: java.lang.Integer
