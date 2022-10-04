@@ -108,18 +108,6 @@ loadScripts(document, 'script');</script>
  int&nbsp;stone,
  int&nbsp;wood)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int,int,com.deco2800.game.components.shop.equipments.Equipments,com.deco2800.game.components.shop.equipments.Equipments,com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">InventoryComponent</a><wbr>(int&nbsp;gold,
- int&nbsp;stone,
- int&nbsp;wood,
- <a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;weapon,
- <a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;chestplate,
- <a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;helmet)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,java.util.HashMap)" class="member-name-link">InventoryComponent</a><wbr>(int&nbsp;gold,
- int&nbsp;stone,
- int&nbsp;wood,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;items)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -134,6 +122,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)" class="member-name-link">addBuilding</a><wbr>(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addEquipmentToList(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">addEquipmentToList</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;equipment)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addGold(int)" class="member-name-link">addGold</a><wbr>(int&nbsp;gold)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -156,16 +150,28 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds to the player's wood.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChestplate()" class="member-name-link">getChestplate</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#countInEquipmentList(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">countInEquipmentList</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;equipment)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getArmor()" class="member-name-link">getArmor</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBuildingCount(com.deco2800.game.components.shop.artefacts.ShopBuilding)" class="member-name-link">getBuildingCount</a><wbr>(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBuildings()" class="member-name-link">getBuildings</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEquipmentList()" class="member-name-link">getEquipmentList</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGold()" class="member-name-link">getGold</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the player's gold.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHelmet()" class="member-name-link">getHelmet</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getItemCount(com.deco2800.game.components.shop.artefacts.Artefact)" class="member-name-link">getItemCount</a><wbr>(<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>&nbsp;item)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getItems()" class="member-name-link">getItems</a>()</code></div>
@@ -198,8 +204,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns if the player has a certain amount of wood.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)" class="member-name-link">placeBuilding</a><wbr>(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)" class="member-name-link">removeBuilding</a><wbr>(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setChestplate(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setChestplate</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;chestplate)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setArmor(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setArmor</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;armor)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBuildings(java.util.HashMap)" class="member-name-link">setBuildings</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;buildings)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEquipmentList(java.util.List)" class="member-name-link">setEquipmentList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&gt;&nbsp;equipmentsList)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGold(int)" class="member-name-link">setGold</a><wbr>(int&nbsp;gold)</code></div>
@@ -207,24 +225,24 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the player's gold.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHelmet(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setHelmet</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;helmet)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setItems(java.util.HashMap)" class="member-name-link">setItems</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;items)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setItems(java.util.HashMap)" class="member-name-link">setItems</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;items)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStone(int)" class="member-name-link">setStone</a><wbr>(int&nbsp;stone)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStone(int)" class="member-name-link">setStone</a><wbr>(int&nbsp;stone)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the player's stone.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWeapon(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setWeapon</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;weapon)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWood(int)" class="member-name-link">setWood</a><wbr>(int&nbsp;wood)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWeapon(com.deco2800.game.components.shop.equipments.Equipments)" class="member-name-link">setWeapon</a><wbr>(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;weapon)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWood(int)" class="member-name-link">setWood</a><wbr>(int&nbsp;wood)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the player's wood.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#useItem(com.deco2800.game.components.shop.artefacts.Artefact)" class="member-name-link">useItem</a><wbr>(<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>&nbsp;item)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -245,26 +263,6 @@ loadScripts(document, 'script');</script>
 <section class="constructor-details" id="constructor-detail">
 <h2>Constructor Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="&lt;init&gt;(int,int,int,com.deco2800.game.components.shop.equipments.Equipments,com.deco2800.game.components.shop.equipments.Equipments,com.deco2800.game.components.shop.equipments.Equipments)">
-<h3>InventoryComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InventoryComponent</span><wbr><span class="parameters">(int&nbsp;gold,
- int&nbsp;stone,
- int&nbsp;wood,
- <a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;weapon,
- <a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;chestplate,
- <a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;helmet)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(int,int,int,java.util.HashMap)">
-<h3>InventoryComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InventoryComponent</span><wbr><span class="parameters">(int&nbsp;gold,
- int&nbsp;stone,
- int&nbsp;wood,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;items)</span></div>
-</section>
-</li>
 <li>
 <section class="detail" id="&lt;init&gt;(int,int,int)">
 <h3>InventoryComponent</h3>
@@ -288,15 +286,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setHelmet(com.deco2800.game.components.shop.equipments.Equipments)">
-<h3>setHelmet</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHelmet</span><wbr><span class="parameters">(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;helmet)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setChestplate(com.deco2800.game.components.shop.equipments.Equipments)">
-<h3>setChestplate</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setChestplate</span><wbr><span class="parameters">(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;chestplate)</span></div>
+<section class="detail" id="setArmor(com.deco2800.game.components.shop.equipments.Equipments)">
+<h3>setArmor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setArmor</span><wbr><span class="parameters">(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;armor)</span></div>
 </section>
 </li>
 <li>
@@ -306,15 +298,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getHelmet()">
-<h3>getHelmet</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a></span>&nbsp;<span class="element-name">getHelmet</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getChestplate()">
-<h3>getChestplate</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a></span>&nbsp;<span class="element-name">getChestplate</span>()</div>
+<section class="detail" id="getArmor()">
+<h3>getArmor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a></span>&nbsp;<span class="element-name">getArmor</span>()</div>
 </section>
 </li>
 <li>
@@ -463,9 +449,63 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="setEquipmentList(java.util.List)">
+<h3>setEquipmentList</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEquipmentList</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&gt;&nbsp;equipmentsList)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getEquipmentList()">
+<h3>getEquipmentList</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&gt;</span>&nbsp;<span class="element-name">getEquipmentList</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="addEquipmentToList(com.deco2800.game.components.shop.equipments.Equipments)">
+<h3>addEquipmentToList</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addEquipmentToList</span><wbr><span class="parameters">(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;equipment)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="countInEquipmentList(com.deco2800.game.components.shop.equipments.Equipments)">
+<h3>countInEquipmentList</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">countInEquipmentList</span><wbr><span class="parameters">(<a href="../shop/equipments/Equipments.html" title="enum class in com.deco2800.game.components.shop.equipments">Equipments</a>&nbsp;equipment)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="setItems(java.util.HashMap)">
 <h3>setItems</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setItems</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;items)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setBuildings(java.util.HashMap)">
+<h3>setBuildings</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBuildings</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;buildings)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="addBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)">
+<h3>addBuilding</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addBuilding</span><wbr><span class="parameters">(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="removeBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)">
+<h3>removeBuilding</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeBuilding</span><wbr><span class="parameters">(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getBuildingCount(com.deco2800.game.components.shop.artefacts.ShopBuilding)">
+<h3>getBuildingCount</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getBuildingCount</span><wbr><span class="parameters">(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getBuildings()">
+<h3>getBuildings</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">getBuildings</span>()</div>
 </section>
 </li>
 <li>
@@ -475,9 +515,27 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="useItem(com.deco2800.game.components.shop.artefacts.Artefact)">
+<h3>useItem</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">useItem</span><wbr><span class="parameters">(<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>&nbsp;item)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="placeBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)">
+<h3>placeBuilding</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">placeBuilding</span><wbr><span class="parameters">(<a href="../shop/artefacts/ShopBuilding.html" title="enum class in com.deco2800.game.components.shop.artefacts">ShopBuilding</a>&nbsp;building)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="getItems()">
 <h3>getItems</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">getItems</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getItemCount(com.deco2800.game.components.shop.artefacts.Artefact)">
+<h3>getItemCount</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getItemCount</span><wbr><span class="parameters">(<a href="../shop/artefacts/Artefact.html" title="enum class in com.deco2800.game.components.shop.artefacts">Artefact</a>&nbsp;item)</span></div>
 </section>
 </li>
 </ul>
