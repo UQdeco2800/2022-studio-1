@@ -239,7 +239,7 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        Entity test = StructureFactory.createTower1(1);
+        Entity test = StructureFactory.createTower1(1,"test");
 
         ServiceLocator.getStructureService().registerNamed(test.getName(), test);
 
@@ -257,13 +257,13 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        Entity test = StructureFactory.createTower1(1);
+        Entity test = StructureFactory.createTower1(1,"a");
         test.setName("a");
 //        Entity test2 = StructureFactory.createTower2(1);
 //        test2.setName("b");
-        Entity test3 = StructureFactory.createTower3(2);
+        Entity test3 = StructureFactory.createTower3(2,"c");
         test3.setName("c");
-        Entity test4 = StructureFactory.createWall();
+        Entity test4 = StructureFactory.createWall("d");
         test4.setName("d");
 
         ServiceLocator.getStructureService().registerNamed(test.getName(), test);
@@ -343,7 +343,7 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        Entity test = StructureFactory.createTower1(1);
+        Entity test = StructureFactory.createTower1(1, "test");
         test.setPosition(new Vector2(5,5));
 
         ServiceLocator.getStructureService().addEntity(test);
@@ -366,16 +366,16 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        Entity test = StructureFactory.createTower1(1);
+        Entity test = StructureFactory.createTower1(1,"a");
         test.setPosition(new Vector2(5,5));
         test.setName("a");
 //        Entity test2 = StructureFactory.createTower2(1);
 //        test2.setPosition(new Vector2(6,6));
 //        test2.setName("b");
-        Entity test3 = StructureFactory.createTower3(1);
+        Entity test3 = StructureFactory.createTower3(1,"c");
         test3.setPosition(new Vector2(7,7));
         test3.setName("c");
-        Entity test4 = StructureFactory.createWall();
+        Entity test4 = StructureFactory.createWall("d");
         test4.setPosition(new Vector2(8,8));
         test4.setName("d");
 
@@ -406,15 +406,15 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        Entity test = StructureFactory.createTower1(1);
+        Entity test = StructureFactory.createTower1(1,"a");
         test.setPosition(new Vector2(5,5));
         test.setName("a");
 
-        Entity test1a = StructureFactory.createTower1(2);
+        Entity test1a = StructureFactory.createTower1(2,"aa");
         test1a.setPosition(new Vector2(5,5));
         test1a.setName("aa");
 
-        Entity test1b = StructureFactory.createTower1(3);
+        Entity test1b = StructureFactory.createTower1(3,"aaa");
         test1b.setPosition(new Vector2(5,5));
         test1b.setName("aaa");
 
@@ -431,26 +431,26 @@ public class SaveGameTest {
 //        test2b.setName("bbb");
 
 
-        Entity test3 = StructureFactory.createTower3(1);
+        Entity test3 = StructureFactory.createTower3(1,"c");
         test3.setPosition(new Vector2(7,7));
         test3.setName("c");
 
-        Entity test3a = StructureFactory.createTower3(2);
+        Entity test3a = StructureFactory.createTower3(2,"cc");
         test3a.setPosition(new Vector2(7,7));
         test3a.setName("cc");
 
-        Entity test3b = StructureFactory.createTower3(3);
+        Entity test3b = StructureFactory.createTower3(3,"ccc");
         test3b.setPosition(new Vector2(7,7));
         test3b.setName("cc");
 
 
-        Entity test4 = StructureFactory.createWall();
+        Entity test4 = StructureFactory.createWall("d");
         test4.setPosition(new Vector2(8,8));
         test4.setName("d");
 
-        Entity test5 = StructureFactory.createTrap();
+        Entity test5 = StructureFactory.createTrap("e");
         test5.setPosition(new Vector2(8,8));
-        test5.setName("d");
+        test5.setName("e");
 
         ServiceLocator.getStructureService().addEntity(test);
         ServiceLocator.getStructureService().addEntity(test1a);
