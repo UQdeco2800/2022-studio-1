@@ -138,8 +138,9 @@ public class ForestGameArea extends GameArea {
 
   private static final String[] forestTextureAtlases = {
       "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas", "images/final_boss_animations/final_boss.atlas",
-      "images/npc_animations/NPC1sprite.atlas", "images/npc_animations/npc.atlas"
+      "images/eel_animations/eel.atlas", "images/eel_animations/eel.atlas", "images/starfish_animation/starfish.atlas",
+      "images/final_boss_animations/final_boss.atlas", "images/npc_animations/NPC1sprite.atlas",
+      "images/npc_animations/npc.atlas"
   };
 
   // Sound effect files
@@ -476,7 +477,7 @@ public class ForestGameArea extends GameArea {
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
           spawnElectricEelEnemy();
-          //spawnNinjaStarfishEnemy();
+          spawnNinjaStarfishEnemy();
           if (dayNum == BOSS_DAY) {
             spawnMeleeBoss();
           }

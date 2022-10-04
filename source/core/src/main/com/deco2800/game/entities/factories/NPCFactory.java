@@ -144,13 +144,17 @@ public class NPCFactory {
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
             //.addComponent(textureRenderComponent);
-            .addComponent(new GhostAnimationController())
+            .addComponent(new AnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
+    ElectricEelEnemy.setName("ElectricEel");
+    ElectricEelEnemy.setCollectable(false);
+
+    ServiceLocator.getEntityService().registerNamed("ElectricEel",  ElectricEelEnemy);
+    PhysicsUtils.setScaledCollider(ElectricEelEnemy, 12f, 12f);
+    ElectricEelEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
-    //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
-    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
     ElectricEelEnemy.setScale(12f, 12f);
 
     return ElectricEelEnemy;
@@ -195,13 +199,7 @@ public class NPCFactory {
     Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
     //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
-    /** AnimationRenderComponent animator =
-     new AnimationRenderComponent(
-     ServiceLocator.getResourceService()
-     .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-     */
+
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/starfish_animation/starfish.atlas", TextureAtlas.class));
@@ -214,13 +212,16 @@ public class NPCFactory {
     ninjaStarfish
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new DayNightCycleComponent())
+            .addComponent(animator)
             //.addComponent(textureRenderComponent);
-            .addComponent(new GhostAnimationController())
+            .addComponent(new AnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
+    ServiceLocator.getEntityService().registerNamed("NinjaStarfish",  ninjaStarfish);
+    PhysicsUtils.setScaledCollider(ninjaStarfish, 12f, 12f);
+    ninjaStarfish.getComponent(ColliderComponent.class).setDensity(1.5f);
+    ninjaStarfish.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
-    ServiceLocator.getEntityService().registerNamed("ninjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
     ninjaStarfish.setScale(12f, 12f);
 
     return ninjaStarfish;
