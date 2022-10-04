@@ -19,6 +19,7 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
+import com.deco2800.game.components.shop.ShopBackground;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -134,7 +135,9 @@ public class ShopEquipmentScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
-
+        Entity uiCommon = new Entity();
+        uiCommon.addComponent(new ShopBackground());
+        ServiceLocator.getEntityService().register(uiCommon);
         Entity uiEquipment = new Entity();
         uiEquipment.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
@@ -142,6 +145,7 @@ public class ShopEquipmentScreen extends ScreenAdapter {
                 .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new CombatStatsComponent(lastStatus.getCurrentHealth(), lastStatus.getAttack(),
                         lastStatus.getDefense()))
+                .addComponent(new CommonShopComponents())
                 .addComponent(new ShopEquipmentDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
@@ -149,7 +153,6 @@ public class ShopEquipmentScreen extends ScreenAdapter {
         uiEquipment.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
         uiEquipment.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
         uiEquipment.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
-        uiEquipment.addComponent(new CommonShopComponents());
         ServiceLocator.getEntityService().register(uiEquipment);
 
     }

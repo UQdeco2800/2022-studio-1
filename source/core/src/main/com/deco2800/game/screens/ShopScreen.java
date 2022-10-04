@@ -13,6 +13,7 @@ import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
+import com.deco2800.game.components.shop.ShopBackground;
 import com.deco2800.game.components.shop.ShopReturn;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
@@ -110,18 +111,19 @@ public class ShopScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
-
+        Entity uiCommon = new Entity();
+        uiCommon.addComponent(new ShopBackground());
+        ServiceLocator.getEntityService().register(uiCommon);
         Entity uiExit = new Entity();
         uiExit.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new CommonShopComponents())
-                .addComponent(new ShopReturn())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
+                .addComponent(new TerminalDisplay())
+                .addComponent(new ShopReturn());
         ServiceLocator.getEntityService().register(uiExit);
-
     }
 }

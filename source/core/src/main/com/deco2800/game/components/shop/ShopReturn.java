@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 public class ShopReturn extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopReturn.class);
     private static final float Z_INDEX = 2f;
-    Table rootTable;
     Table table1;
     Table table2;
     Table table3;
@@ -47,13 +46,6 @@ public class ShopReturn extends UIComponent {
     }
 
     private void addActors() {
-        rootTable = new Table();
-        rootTable.setFillParent(true);
-
-        // Background Colour
-        Texture colour = new Texture(Gdx.files.internal("images/shop-background.png"));
-        Drawable backgroundColour = new TextureRegionDrawable(colour);
-        rootTable.setBackground(backgroundColour);
         table1 = new Table();
         table1.setFillParent(true);
         table1.center().left();
@@ -128,7 +120,6 @@ public class ShopReturn extends UIComponent {
         table3.add(equipmentBtn);
         table3.row();
         table3.add(equipmentTitle);
-        stage.addActor(rootTable);
         stage.addActor(table1);
         stage.addActor(table2);
         stage.addActor(table3);

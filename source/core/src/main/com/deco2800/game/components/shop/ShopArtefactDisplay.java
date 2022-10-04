@@ -31,353 +31,369 @@ import com.deco2800.game.ui.UIComponent;
  * Displays UI specific to the ShopArtefactScreen
  */
 public class ShopArtefactDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(ShopArtefactDisplay.class);
-    private static final float Z_INDEX = 2f;
+  private static final Logger logger = LoggerFactory.getLogger(ShopArtefactDisplay.class);
+  private static final float Z_INDEX = 2f;
 
-    Table rootTable;
-    Table table1;
-    Table table2;
-    Table table3;
-    Table table4;
-    Table table5;
-    Table table6;
-    Table table7;
-    Table table8;
+  Table table1;
+  Table table2;
+  Table table3;
+  Table table4;
+  Table table5;
+  Table table6;
+  Table table7;
+  Table table8;
 
-    private CircularLinkedList<Artefact> stock;
-    private Node<Artefact> current;
-    private ArtefactConfig stats;
-    private ArtefactConfig prevStats;
-    private ArtefactConfig nextStats;
+  private CircularLinkedList<Artefact> stock;
+  private Node<Artefact> current;
+  private ArtefactConfig stats;
+  private ArtefactConfig prevStats;
+  private ArtefactConfig nextStats;
 
-    Label subtitle;
-    Label itemNumber;
-    int i;
+  Label subtitle;
+  Label itemNumber;
+  int i;
 
-    private Texture leftTexture;
-    private TextureRegionDrawable left;
-    private Button leftButton;
+  private Texture leftTexture;
+  private TextureRegionDrawable left;
+  private Button leftButton;
 
-    private Texture rightTexture;
-    private TextureRegionDrawable right;
-    private Button rightButton;
+  private Texture rightTexture;
+  private TextureRegionDrawable right;
+  private Button rightButton;
 
-    private Image currentItem;
-    private Texture currentTexture;
-    private Image prevItem;
-    private Texture prevTexture;
-    private Image nextItem;
-    private Texture nextTexture;
+  private Image currentItem;
+  private Texture currentTexture;
+  private Image prevItem;
+  private Texture prevTexture;
+  private Image nextItem;
+  private Texture nextTexture;
 
-    private Texture goldenCategoryTexture;
-    private TextureRegionDrawable goldenDrawable;
-    private Texture brownCategoryTexture;
-    private TextureRegionDrawable brownDrawable;
-    private Texture redCategoryTexture;
-    private TextureRegionDrawable redDrawable;
+  private Texture goldenCategoryTexture;
+  private TextureRegionDrawable goldenDrawable;
+  private Texture brownCategoryTexture;
+  private TextureRegionDrawable brownDrawable;
+  private Texture redCategoryTexture;
+  private TextureRegionDrawable redDrawable;
 
-    private TextButton descriptionDisplay;
-    private TextButton buyButton;
-    private TextButton priceDisplay;
-    boolean sufficientFunds;
+  private TextButton descriptionDisplay;
+  private TextButton buyButton;
+  private TextButton priceDisplay;
+  boolean sufficientFunds;
 
-    private Texture backTexture;
-    private TextureRegionDrawable upBack;
-    private ImageButton backButton;
+  private Texture backTexture;
+  private TextureRegionDrawable upBack;
+  private ImageButton backButton;
 
-    @Override
-    public void create() {
-        super.create();
-        addActors();
+  @Override
+  public void create() {
+    super.create();
+    addActors();
+  }
+
+  private void addActors() {
+
+    table1 = new Table();
+    table1.setFillParent(true);
+    table1.center().bottom();
+
+    table2 = new Table();
+    table2.setFillParent(true);
+    table2.center().padTop(100);
+
+    table3 = new Table();
+    table3.setFillParent(true);
+    table3.center().left().padLeft(150).padTop(100);
+
+    table4 = new Table();
+    table4.setFillParent(true);
+    table4.center().right().padRight(150).padTop(100);
+
+    table5 = new Table();
+    table5.setFillParent(true);
+    table5.left().bottom().left().padBottom(25);
+
+    table6 = new Table();
+    table6.setFillParent(true);
+    table6.right().bottom().right().padBottom(25);
+
+    table7 = new Table();
+    table7.setFillParent(true);
+    table7.top().left().padLeft(10).padTop(40);
+
+    table8 = new Table();
+    table8.setFillParent(true);
+    table8.top().left().padLeft(75).padTop(115);
+
+    // Create linked list of the available shop stock
+    stock = new CircularLinkedList<Artefact>();
+    List<Artefact> artefactOptions = Artefact.getAllartefactTypes();
+    for (Artefact e : artefactOptions) {
+      stock.add(e);
     }
+    current = stock.head;
+    i = 1;
+    itemNumber = new Label("Item " + i + "/" + artefactOptions.size(), skin, "button");
+    itemNumber.setFontScale(1f);
+    itemNumber.setColor(skin.getColor("black"));
 
-    private void addActors() {
-        rootTable = new Table();
-        rootTable.setFillParent(true);
+    prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
+    stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
+    nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
+    // Create the current artefact to display
+    currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
+    currentItem = new Image(currentTexture);
 
-        // Background Colour
-        Texture colour = new Texture(Gdx.files.internal("images/shop-background.png"));
-        Drawable backgroundColour = new TextureRegionDrawable(colour);
-        rootTable.setBackground(backgroundColour);
+    prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+    prevItem = new Image(prevTexture);
 
-        table1 = new Table();
-        table1.setFillParent(true);
-        table1.center().bottom();
+    nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+    nextItem = new Image(nextTexture);
 
-        table2 = new Table();
-        table2.setFillParent(true);
-        table2.center().padTop(100);
+    // Create textures for arrows, price, descrition and buy button
+    brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
+    leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
+    rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
+    goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+    redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
+    goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
+    brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+    redDrawable = new TextureRegionDrawable(redCategoryTexture);
+    left = new TextureRegionDrawable(leftTexture);
+    right = new TextureRegionDrawable(rightTexture);
 
-        table3 = new Table();
-        table3.setFillParent(true);
-        table3.center().left().padLeft(150).padTop(100);
+    // create left button
+    leftButton = new Button(left);
+    leftButton.setTransform(true);
 
-        table4 = new Table();
-        table4.setFillParent(true);
-        table4.center().right().padRight(150).padTop(100);
+    // create right button
+    rightButton = new Button(right);
+    rightButton.setTransform(true);
 
-        table5 = new Table();
-        table5.setFillParent(true);
-        table5.left().bottom().left().padBottom(25);
+    // create price sticker
+    priceDisplay = ShopUtils.createImageTextButton(
+        Integer.toString(stats.goldCost), skin.getColor("black"),
+        "button", 1f,
+        goldenDrawable, goldenDrawable,
+        skin,
+        true);
 
-        table6 = new Table();
-        table6.setFillParent(true);
-        table6.right().bottom().right().padBottom(25);
+    // create description sticker
+    descriptionDisplay = ShopUtils.createImageTextButton(
+        stats.name + "\n" + stats.description + "\n"
+            + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
+                .getItemCount(current.t),
+        skin.getColor("black"),
+        "button", 1f,
+        brownDrawable, brownDrawable, skin,
+        true);
 
-        table7 = new Table();
-        table7.setFillParent(true);
-        table7.top().left().padLeft(10).padTop(40);
+    // create buy button
+    sufficientFunds = entity.getComponent(InventoryComponent.class)
+        .hasGold(stats.goldCost);
+    buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
+        sufficientFunds ? brownDrawable : redDrawable,
+        sufficientFunds ? goldenDrawable : redDrawable,
+        skin,
+        false);
 
-        table8 = new Table();
-        table8.setFillParent(true);
-        table8.top().left().padLeft(75).padTop(115);
+    // create the back button
+    backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+    upBack = new TextureRegionDrawable(backTexture);
+    backButton = new ImageButton(upBack, upBack);
 
-        // Create linked list of the available shop stock
-        stock = new CircularLinkedList<Artefact>();
-        List<Artefact> artefactOptions = Artefact.getAllartefactTypes();
-        for (Artefact e : artefactOptions) {
-            stock.add(e);
-        }
-        current = stock.head;
-        i = 1;
-        itemNumber = new Label("Item " + i + "/" + artefactOptions.size(), skin, "button");
-        itemNumber.setFontScale(1f);
-        itemNumber.setColor(skin.getColor("black"));
+    // Add listeners to relevant buttons
+    rightButton.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent changeEvent, Actor actor) {
+            logger.info("Right button clicked");
+            Node<Artefact> temp = current;
+            current = stock.head.next;
+            stock.head = stock.head.next;
+            stock.tail = temp;
+            prevStats = FileLoader.readClass(ArtefactConfig.class,
+                Artefact.getFilepath(current.prev.t));
+            stats = FileLoader.readClass(ArtefactConfig.class,
+                Artefact.getFilepath(current.t));
+            nextStats = FileLoader.readClass(ArtefactConfig.class,
+                Artefact.getFilepath(current.next.t));
 
-        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
-        // Create the current artefact to display
-        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
-        currentItem = new Image(currentTexture);
-
-        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
-        prevItem = new Image(prevTexture);
-
-        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
-        nextItem = new Image(nextTexture);
-
-        // Create textures for arrows, price, descrition and buy button
-        brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
-        rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
-        goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
-        goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
-        brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
-        redDrawable = new TextureRegionDrawable(redCategoryTexture);
-        left = new TextureRegionDrawable(leftTexture);
-        right = new TextureRegionDrawable(rightTexture);
-
-        // create left button
-        leftButton = new Button(left);
-        leftButton.setTransform(true);
-
-        // create right button
-        rightButton = new Button(right);
-        rightButton.setTransform(true);
-
-        // create price sticker
-        priceDisplay = ShopUtils.createImageTextButton(
-                Integer.toString(stats.goldCost), skin.getColor("black"),
-                "button", 1f,
-                goldenDrawable, goldenDrawable,
-                skin,
-                true);
-
-        // create description sticker
-        descriptionDisplay = ShopUtils.createImageTextButton(
-                stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
-                                .getItemCount(current.t),
-                skin.getColor("black"),
-                "button", 1f,
-                brownDrawable, brownDrawable, skin,
-                true);
-
-        // create buy button
-        sufficientFunds = entity.getComponent(InventoryComponent.class)
+            priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
+            sufficientFunds = entity.getComponent(InventoryComponent.class)
                 .hasGold(stats.goldCost);
-        buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                sufficientFunds ? brownDrawable : redDrawable,
-                sufficientFunds ? goldenDrawable : redDrawable,
-                skin,
-                false);
+            buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                : redDrawable;
+            buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                : redDrawable;
+            buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                : redDrawable;
+            descriptionDisplay
+                .setText(stats.name + "\n" + stats.description + "\n"
+                    + "Inventory Count: "
+                    + entity.getComponent(
+                        InventoryComponent.class)
+                        .getItemCount(current.t));
+            i = i == artefactOptions.size() ? 1 : i + 1;
+            itemNumber.setText("Item " + i + "/" + artefactOptions.size());
+            currentItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                    stats.itemBackgroundImagePath))));
+            prevItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                    prevStats.itemBackgroundImagePath))));
+            nextItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                    nextStats.itemBackgroundImagePath))));
+          }
+        });
 
-        // create the back button
-        backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
-        upBack = new TextureRegionDrawable(backTexture);
-        backButton = new ImageButton(upBack, upBack);
+    leftButton.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent changeEvent, Actor actor) {
+            logger.info("Left button clicked");
+            Node<Artefact> temp = current;
+            current = stock.head.prev;
+            stock.head = stock.head.prev;
+            stock.tail = temp.prev;
+            prevStats = FileLoader.readClass(ArtefactConfig.class,
+                Artefact.getFilepath(current.prev.t));
+            stats = FileLoader.readClass(ArtefactConfig.class,
+                Artefact.getFilepath(current.t));
+            nextStats = FileLoader.readClass(ArtefactConfig.class,
+                Artefact.getFilepath(current.next.t));
+            priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
+            sufficientFunds = entity.getComponent(InventoryComponent.class)
+                .hasGold(stats.goldCost);
+            buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                : redDrawable;
+            buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                : redDrawable;
+            buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                : redDrawable;
+            descriptionDisplay
+                .setText(stats.name + "\n" + stats.description + "\n"
+                    + "Inventory Count: "
+                    + entity.getComponent(
+                        InventoryComponent.class)
+                        .getItemCount(current.t));
+            i = i == 1 ? artefactOptions.size() : i - 1;
+            itemNumber.setText("Item " + i + "/" + artefactOptions.size());
+            currentItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                    stats.itemBackgroundImagePath))));
+            prevItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                    prevStats.itemBackgroundImagePath))));
+            nextItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                    nextStats.itemBackgroundImagePath))));
+          }
+        });
 
-        // Add listeners to relevant buttons
-        rightButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Right button clicked");
-                        Node<Artefact> temp = current;
-                        current = stock.head.next;
-                        stock.head = stock.head.next;
-                        stock.tail = temp;
-                        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
-                        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
-                        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
+    buyButton.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent changeEvent, Actor actor) {
+            logger.info("Buy button clicked");
 
-                        priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
-                        sufficientFunds = entity.getComponent(InventoryComponent.class)
-                                .hasGold(stats.goldCost);
-                        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                                : redDrawable;
-                        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                                : redDrawable;
-                        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                                : redDrawable;
-                        descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description + "\n"
-                                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
-                                                .getItemCount(current.t));
-                        i = i == artefactOptions.size() ? 1 : i + 1;
-                        itemNumber.setText("Item " + i + "/" + artefactOptions.size());
-                        currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(stats.itemBackgroundImagePath))));
-                        prevItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
-                        nextItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
-                    }
-                });
+            if (entity.getComponent(InventoryComponent.class)
+                .hasGold(stats.goldCost)) {
+              logger.info("Sufficient Gold");
+              entity.getComponent(InventoryComponent.class)
+                  .addGold(-1 * stats.goldCost);
+              Sound coinSound = Gdx.audio.newSound(
+                  Gdx.files.internal("sounds/coin.mp3"));
+              coinSound.play();
+              entity.getComponent(InventoryComponent.class)
+                  .addItems(current.t);
 
-        leftButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Left button clicked");
-                        Node<Artefact> temp = current;
-                        current = stock.head.prev;
-                        stock.head = stock.head.prev;
-                        stock.tail = temp.prev;
-                        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
-                        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
-                        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
-                        priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
-                        sufficientFunds = entity.getComponent(InventoryComponent.class)
-                                .hasGold(stats.goldCost);
-                        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                                : redDrawable;
-                        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                                : redDrawable;
-                        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                                : redDrawable;
-                        descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description + "\n"
-                                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
-                                                .getItemCount(current.t));
-                        i = i == 1 ? artefactOptions.size() : i - 1;
-                        itemNumber.setText("Item " + i + "/" + artefactOptions.size());
-                        currentItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(stats.itemBackgroundImagePath))));
-                        prevItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath))));
-                        nextItem.setDrawable(new TextureRegionDrawable(
-                                new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath))));
-                    }
-                });
+            } else {
+              logger.info("Insufficient gold!");
+              Sound filesound = Gdx.audio.newSound(
+                  Gdx.files.internal("sounds/purchase_fail.mp3"));
+              filesound.play();
+            }
+            sufficientFunds = entity.getComponent(InventoryComponent.class)
+                .hasGold(stats.goldCost);
+            buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                : redDrawable;
+            buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                : redDrawable;
+            buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                : redDrawable;
+            descriptionDisplay
+                .setText(stats.name + "\n" + stats.description + "\n"
+                    + "Inventory Count: "
+                    + entity.getComponent(
+                        InventoryComponent.class)
+                        .getItemCount(current.t));
+            entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
+                Integer.toString(entity
+                    .getComponent(InventoryComponent.class)
+                    .getGold()) + "    ");
+          }
+        });
 
-        buyButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Buy button clicked");
+    backButton.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent changeEvent, Actor actor) {
+            logger.debug("Back button clicked");
+            entity.getEvents().trigger("mainShop");
+          }
+        });
 
-                        if (entity.getComponent(InventoryComponent.class).hasGold(stats.goldCost)) {
-                            logger.info("Sufficient Gold");
-                            entity.getComponent(InventoryComponent.class).addGold(-1 * stats.goldCost);
-                            Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.mp3"));
-                            coinSound.play();
-                            entity.getComponent(InventoryComponent.class).addItems(current.t);
+    subtitle = new Label("ARTEFACTS", skin, "title");
+    subtitle.setFontScale(1f);
+    subtitle.setColor(skin.getColor("black"));
 
-                        } else {
-                            logger.info("Insufficient gold!");
-                            Sound filesound = Gdx.audio.newSound(Gdx.files.internal("sounds/purchase_fail.mp3"));
-                            filesound.play();
-                        }
-                        sufficientFunds = entity.getComponent(InventoryComponent.class)
-                                .hasGold(stats.goldCost);
-                        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                                : redDrawable;
-                        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                                : redDrawable;
-                        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                                : redDrawable;
-                        descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description + "\n"
-                                        + "Inventory Count: " + entity.getComponent(InventoryComponent.class)
-                                                .getItemCount(current.t));
-                        entity.getComponent(CommonShopComponents.class).getGoldButton().setText(
-                                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ");
-                    }
-                });
+    // Add items to the stage
+    table3.add(leftButton).width(50f).height(50f);
+    table2.add(prevItem).width(100f).height(100f);
+    table2.add(currentItem).width(150f).height(150f);
+    table2.add(nextItem).width(100f).height(100f);
+    table2.row();
+    table2.add(itemNumber).colspan(3).center();
+    table4.add(rightButton).width(50f).height(50f);
+    table5.add(priceDisplay).width(250f).height(150f);
+    table1.add(descriptionDisplay).width(400f).height(300f);
+    table6.add(buyButton).width(250f).height(150f);
+    table7.add(backButton).width(50f).height(50f);
+    table8.add(subtitle);
+    stage.addActor(table1);
+    stage.addActor(table2);
+    stage.addActor(table3);
+    stage.addActor(table4);
+    stage.addActor(table5);
+    stage.addActor(table6);
+    stage.addActor(table7);
+    stage.addActor(table8);
 
-        backButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Back button clicked");
-                        entity.getEvents().trigger("mainShop");
-                    }
-                });
+  }
 
-        subtitle = new Label("ARTEFACTS", skin, "title");
-        subtitle.setFontScale(1f);
-        subtitle.setColor(skin.getColor("black"));
+  @Override
+  public void draw(SpriteBatch batch) {
+    // draw is handled by the stage
 
-        // Add items to the stage
-        table3.add(leftButton).width(50f).height(50f);
-        table2.add(prevItem).width(100f).height(100f);
-        table2.add(currentItem).width(150f).height(150f);
-        table2.add(nextItem).width(100f).height(100f);
-        table2.row();
-        table2.add(itemNumber).colspan(3).center();
-        table4.add(rightButton).width(50f).height(50f);
-        table5.add(priceDisplay).width(250f).height(150f);
-        table1.add(descriptionDisplay).width(400f).height(300f);
-        table6.add(buyButton).width(250f).height(150f);
-        table7.add(backButton).width(50f).height(50f);
-        table8.add(subtitle);
-        stage.addActor(rootTable);
-        stage.addActor(table1);
-        stage.addActor(table2);
-        stage.addActor(table3);
-        stage.addActor(table4);
-        stage.addActor(table5);
-        stage.addActor(table6);
-        stage.addActor(table7);
-        stage.addActor(table8);
+  }
 
-    }
+  @Override
+  public float getZIndex() {
+    return Z_INDEX;
+  }
 
-    @Override
-    public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
-
-    }
-
-    @Override
-    public float getZIndex() {
-        return Z_INDEX;
-    }
-
-    @Override
-    public void dispose() {
-        table1.clear();
-        table2.clear();
-        table3.clear();
-        table4.clear();
-        table5.clear();
-        table6.clear();
-        table7.clear();
-        table8.clear();
-        stage.clear();
-        super.dispose();
-    }
+  @Override
+  public void dispose() {
+    table1.clear();
+    table2.clear();
+    table3.clear();
+    table4.clear();
+    table5.clear();
+    table6.clear();
+    table7.clear();
+    table8.clear();
+    stage.clear();
+    super.dispose();
+  }
 }

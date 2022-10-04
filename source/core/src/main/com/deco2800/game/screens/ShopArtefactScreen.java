@@ -15,6 +15,7 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopArtefactDisplay;
+import com.deco2800.game.components.shop.ShopBackground;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -113,20 +114,22 @@ public class ShopArtefactScreen extends ScreenAdapter {
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
         Memento lastStatus = CareTaker.getInstance().getLast();
-
-        Entity uiBuilding = new Entity();
-        uiBuilding.addComponent(new InputDecorator(stage, 10))
+        Entity uiCommon = new Entity();
+        uiCommon.addComponent(new ShopBackground());
+        ServiceLocator.getEntityService().register(uiCommon);
+        Entity uiArtefact = new Entity();
+        uiArtefact.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(lastStatus.getGold(),
                         lastStatus.getStone(), lastStatus.getWood()))
+                .addComponent(new CommonShopComponents())
                 .addComponent(new ShopArtefactDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
-        uiBuilding.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
-        uiBuilding.addComponent(new CommonShopComponents());
-        ServiceLocator.getEntityService().register(uiBuilding);
+        uiArtefact.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
+        ServiceLocator.getEntityService().register(uiArtefact);
 
     }
 }
