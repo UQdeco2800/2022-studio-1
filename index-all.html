@@ -410,6 +410,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/components/tasks/ChaseTask.html#%3Cinit%3E(com.deco2800.game.entities.Entity,int,float,float)" class="member-name-link">ChaseTask(Entity, int, float, float)</a> - Constructor for class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/ChaseTask.html" title="class in com.deco2800.game.components.tasks">ChaseTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/UGS.html#checkEntityPlacement(java.lang.String,java.lang.String)" class="member-name-link">checkEntityPlacement(String, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dd>
+<div class="block">Takes a String entityType and String coordinate and decides if that type of enity can spawn
+ at that coordinate.</div>
+</dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#checkStatAchievementMilestones(com.deco2800.game.achievements.Achievement)" class="member-name-link">checkStatAchievementMilestones(Achievement)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
 <div class="block">Specific to Stat achievements.</div>
@@ -799,7 +804,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a generic NPC to be used as a base entity by more specific NPC creation methods.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createBaseStructure(java.lang.String)" class="member-name-link">createBaseStructure(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createBaseStructure(java.lang.String,java.lang.String)" class="member-name-link">createBaseStructure(String, String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a generic Structure to be used as a base entity by more specific Structure creation methods.</div>
 </dd>
@@ -948,19 +953,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Create a terrain of the given type, using the orientation of the factory.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower1(int)" class="member-name-link">createTower1(int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower1(int,java.lang.String)" class="member-name-link">createTower1(int, String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a tower1 entity.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower2(int)" class="member-name-link">createTower2(int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower2(int,java.lang.String)" class="member-name-link">createTower2(int, String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a tower2 entity, adding various components to create a defensive tower</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower3(int)" class="member-name-link">createTower3(int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower3(int,java.lang.String)" class="member-name-link">createTower3(int, String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a tower3 entity, and adds various components to create a defensive tower.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTrap()" class="member-name-link">createTrap()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTrap(java.lang.String)" class="member-name-link">createTrap(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a trap entity</div>
 </dd>
@@ -976,13 +981,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a vine entity, which slows players down</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createWall()" class="member-name-link">createWall()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
-<dd>
-<div class="block">Creates a wall entity.</div>
-</dd>
 <dt><a href="com/deco2800/game/entities/factories/ObstacleFactory.html#createWall(float,float)" class="member-name-link">createWall(float, float)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/ObstacleFactory.html" title="class in com.deco2800.game.entities.factories">ObstacleFactory</a></dt>
 <dd>
 <div class="block">Creates an invisible physics wall.</div>
+</dd>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createWall(java.lang.String)" class="member-name-link">createWall(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dd>
+<div class="block">Creates a wall entity.</div>
 </dd>
 <dt><a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html#createWoodCutter()" class="member-name-link">createWoodCutter()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/ResourceBuildingFactory.html" title="class in com.deco2800.game.entities.factories">ResourceBuildingFactory</a></dt>
 <dd>
@@ -3648,6 +3653,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/components/player/InventoryComponent.html#removeBuilding(com.deco2800.game.components.shop.artefacts.ShopBuilding)" class="member-name-link">removeBuilding(ShopBuilding)</a> - Method in class com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/InventoryComponent.html" title="class in com.deco2800.game.components.player">InventoryComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/GameArea.html#removeEntity(com.deco2800.game.entities.Entity)" class="member-name-link">removeEntity(Entity)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/UGS.html#removeEntity(java.lang.String)" class="member-name-link">removeEntity(String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/ForestGameArea.html#removeEnvironmentalObject(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">removeEnvironmentalObject(GridPoint2)</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/ForestGameArea.html" title="class in com.deco2800.game.areas">ForestGameArea</a></dt>
 <dd>
