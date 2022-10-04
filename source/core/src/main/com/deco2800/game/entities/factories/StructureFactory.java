@@ -294,8 +294,8 @@ public static Entity createTrap(String name) {
     switch(buildingHealth) {
       case 0: //Building destroyed
         ServiceLocator.getStructureService().unregisterNamed(name);
-        ServiceLocator.getEntityService().getNamedEntity(name).dispose();
         ServiceLocator.getUGSService().removeEntity(name);
+        structure.dispose();
         break;
 
       default:
@@ -304,8 +304,8 @@ public static Entity createTrap(String name) {
         Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
         handleRefund(structure, refundMultiplier);
         ServiceLocator.getStructureService().unregisterNamed(name);
-        ServiceLocator.getEntityService().getNamedEntity(name).dispose();
         ServiceLocator.getUGSService().removeEntity(name);
+        structure.dispose();
         break;
     }
   }
