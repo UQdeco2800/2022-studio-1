@@ -37,6 +37,7 @@ public class AnimationController extends Component {
     entity.getEvents().addListener("attack_anim", this::attack_anim);
     entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
     entity.getEvents().addListener("death_anim", this::death_anim);
+    entity.getEvents().addListener("after_death", this::after_death);
     entity.getEvents().addListener("weapons", this::weapons);
     
   }
@@ -95,6 +96,10 @@ public class AnimationController extends Component {
 
   void death_anim(){    
     animator.startAnimation("death_anim");
+  }
+
+  void after_death() {
+    animator.startAnimation("axe_w");
   }
 
   void weapons(){
