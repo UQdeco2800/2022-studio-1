@@ -1,0 +1,12 @@
+{
+    "type": "building",
+    "name": "Stone Quarry",
+    "goldCost": 0,
+    "stoneCost": 200,
+    "woodCost": 100,
+    "attack": 0,
+    "defense": 0,
+    "description": "Mines for stone",
+    "itemImagePath": "images/shop-quarry.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png"
+}

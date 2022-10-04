@@ -1,11 +1,14 @@
 package com.deco2800.game.components.shop;
 
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +20,12 @@ import org.slf4j.LoggerFactory;
 public class ShopActions extends Component {
     private static final Logger logger = LoggerFactory.getLogger(ShopActions.class);
     private AtlantisSinks game;
-    private CareTaker playerStatus;
     private Renderer renderer;
+    private CareTaker playerStatus;
 
-    public ShopActions(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopActions(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
+        this.playerStatus = CareTaker.getInstance();
     }
 
     @Override
@@ -31,6 +34,7 @@ public class ShopActions extends Component {
         entity.getEvents().addListener("mainShop", this::onMainShop);
         entity.getEvents().addListener("buildShop", this::onBuildShop);
         entity.getEvents().addListener("artefactShop", this::onArtefactShop);
+        entity.getEvents().addListener("equipmentShop", this::onEquipmentShop);
     }
 
     /**
@@ -38,13 +42,10 @@ public class ShopActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting shop screen");
-        Originator currentStatus = new Originator(playerStatus.getAll().size());
-        currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
-        currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
-        currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
-        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
-        playerStatus.add(currentStatus.saveStateToMemento());
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, playerStatus);
+        if (game.getScreenType() != AtlantisSinks.ScreenType.SHOP) {
+            saveStatus();
+        }
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
     /**
@@ -52,21 +53,39 @@ public class ShopActions extends Component {
      */
     private void onMainShop() {
         logger.info("Entering main shop screen");
-        Originator currentStatus = new Originator(playerStatus.getAll().size());
-        currentStatus.getStateFromMemento(playerStatus.get(playerStatus.getAll().size() - 1));
-        currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
-        currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
-        currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
-        playerStatus.add(currentStatus.saveStateToMemento());
-        game.setScreen(AtlantisSinks.ScreenType.SHOP, playerStatus);
+        saveStatus();
+        game.setScreen(AtlantisSinks.ScreenType.SHOP);
     }
 
+    /**
+     * Saves the currently relevant status of the player based on the type of shop screen they are in
+     */
+    private void saveStatus() {
+        Originator currentStatus = new Originator(playerStatus.size());
+        currentStatus.getStateFromMemento(playerStatus.getLast());
+        if (game.getScreenType() == AtlantisSinks.ScreenType.EQUIPMENT_SHOP) {
+            currentStatus.setDefense(entity.getComponent(CombatStatsComponent.class).getBaseDefense());
+            currentStatus.setAttack(entity.getComponent(CombatStatsComponent.class).getAttackMultiplier());
+            currentStatus.setWeapon(entity.getComponent(InventoryComponent.class).getWeapon());
+            currentStatus.setArmor(entity.getComponent(InventoryComponent.class).getArmor());
+            currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
+            currentStatus.setEquipmentsList(entity.getComponent(InventoryComponent.class).getEquipmentList());
+        } else if (game.getScreenType() == AtlantisSinks.ScreenType.ARTEFACT_SHOP) {
+            currentStatus.setItems(entity.getComponent(InventoryComponent.class).getItems());
+            currentStatus.setGold(entity.getComponent(InventoryComponent.class).getGold());
+        } else if (game.getScreenType() == AtlantisSinks.ScreenType.BUILD_SHOP) {
+            currentStatus.setBuildings(entity.getComponent(InventoryComponent.class).getBuildings());
+            currentStatus.setStone(entity.getComponent(InventoryComponent.class).getStone());
+            currentStatus.setWood(entity.getComponent(InventoryComponent.class).getWood());
+        }
+        playerStatus.add(currentStatus.saveStateToMemento());
+    }
     /**
      * Swaps to the Building Shop screen.
      */
     private void onBuildShop() {
         logger.info("Entering Build shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP);
     }
 
     /**
@@ -74,6 +93,14 @@ public class ShopActions extends Component {
      */
     private void onArtefactShop() {
         logger.info("Entering Artefact shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP, playerStatus);
+        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP);
+    }
+
+    /**
+     * Swaps to the Equipment Shop screen.
+     */
+    private void onEquipmentShop() {
+        logger.info("Entering Equipment shop screen");
+        game.setScreen(AtlantisSinks.ScreenType.EQUIPMENT_SHOP);
     }
 }

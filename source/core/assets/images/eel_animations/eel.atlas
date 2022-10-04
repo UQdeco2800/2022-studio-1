@@ -1,0 +1,180 @@
+eel.png
+size: 2048, 768
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bl
+  rotate: false
+  xy: 0, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bl
+  rotate: false
+  xy: 256, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bl
+  rotate: false
+  xy: 512, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bl
+  rotate: false
+  xy: 768, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bl
+  rotate: false
+  xy: 1024, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bl
+  rotate: false
+  xy: 1280, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 1536, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 1792, 0
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 0, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 256, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 512, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+br
+  rotate: false
+  xy: 768, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+default
+  rotate: false
+  xy: 1024, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 1024, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 1280, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 1536, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 1792, 256
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 0, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 256, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fr
+  rotate: false
+  xy: 512, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fr
+  rotate: false
+  xy: 768, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fr
+  rotate: false
+  xy: 1024, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fr
+  rotate: false
+  xy: 1280, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fr
+  rotate: false
+  xy: 1536, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+fr
+  rotate: false
+  xy: 1792, 512
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1

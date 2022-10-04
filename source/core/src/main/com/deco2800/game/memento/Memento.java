@@ -1,6 +1,10 @@
 package com.deco2800.game.memento;
 
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
+import com.deco2800.game.components.shop.equipments.Equipments;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,8 +15,12 @@ import java.util.List;
  * state should be saved into another memento
  */
 public class Memento {
-    private int state, gold, stone, wood, attack, currentHealth;
-    private List<Artefact> items;
+    private int state, gold, stone, wood, attack, currentHealth, defense;
+    private Equipments weapon;
+    private Equipments armor;
+    private HashMap<Artefact, Integer> items;
+    private HashMap<ShopBuilding, Integer> buildings;
+    private List<Equipments> equipmentsList;
 
     /**
      * constructor for a new memento
@@ -25,15 +33,26 @@ public class Memento {
      * @param items         - list of items the player have
      * @param attack        - base attack value of the player (including weapon
      *                      boost)
+     * @param defense       - defense multiplier from armor
+     * @param weapon        - current weapon
+     * @param armor         - current armor
+     *
      */
-    public Memento(int state, int gold, int stone, int wood, int currentHealth, List<Artefact> items, int attack) {
+    public Memento(int state, int gold, int stone, int wood, int currentHealth, HashMap<Artefact, Integer> items
+                    , HashMap<ShopBuilding, Integer> buildings, int attack, int defense, Equipments weapon
+                    , Equipments armor, List<Equipments> equipmentsList) {
         this.state = state;
         this.gold = gold;
         this.stone = stone;
         this.wood = wood;
         this.currentHealth = currentHealth;
         this.items = items;
+        this.buildings = buildings;
         this.attack = attack;
+        this.defense = defense;
+        this.weapon = weapon;
+        this.armor = armor;
+        this.equipmentsList = equipmentsList;
     }
 
     /**
@@ -91,11 +110,40 @@ public class Memento {
     }
 
     /**
+     * retrieve the defense multiplier in the memento
+     * @return - defense multiplier
+     */
+    public int getDefense() {
+        return defense;
+    }
+
+    /**
+     * retrieve the weapon that the player currently has
+     * @return - currently held weapon
+     */
+    public Equipments getWeapon() {
+        return weapon;
+    }
+
+    /**
+     * retrieve the armor that the player currently has
+     * @return - current armor
+     */
+    public Equipments getArmor() {return armor;}
+    /**
      * retrieve the list of artefact items saved in the memento
      * 
      * @return - list of artefact items
      */
-    public List<Artefact> getItemList() {
+    public HashMap<Artefact, Integer> getItemList() {
         return items;
+    }
+
+    public List<Equipments> getEquipmentsList() {
+        return equipmentsList;
+    }
+
+    public HashMap<ShopBuilding, Integer> getBuildings() {
+        return buildings;
     }
 }

@@ -1,0 +1,167 @@
+
+mainchar_anim_final.png
+size: 7514, 4510
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+default
+  rotate: false
+  xy: 1504, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+a
+  rotate: false
+  xy: 1504, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+aa
+  rotate: false
+  xy: 2, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+aa
+  rotate: false
+  xy: 1504, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+aa
+  rotate: false
+  xy: 3006, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+d
+  rotate: false
+  xy: 6010, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+da
+  rotate: false
+  xy: 4508, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+da
+  rotate: false
+  xy: 6010, 4
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+da
+  rotate: false
+  xy: 2, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+s
+  rotate: false
+  xy: 3006, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+sa
+  rotate: false
+  xy: 1504, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+sa
+  rotate: false
+  xy: 3006, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+sa
+  rotate: false
+  xy: 4508, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+w
+  rotate: false
+  xy: 2, 3008
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+wa
+  rotate: false
+  xy: 6010, 1506
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+wa
+  rotate: false
+  xy: 2, 3008
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+wa
+  rotate: false
+  xy: 1504, 3008
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+
+death.png
+size: 1788, 740
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+death_anim
+  rotate: false
+  xy: 2, 4
+  size: 295, 300
+  orig: 500, 500
+  offset: 59, 100
+  index: -1
+death_anim
+  rotate: false
+  xy: 448, 4
+  size: 295, 366
+  orig: 500, 500
+  offset: 59, 100
+  index: -1
+death_anim
+  rotate: false
+  xy: 894, 4
+  size: 334, 331
+  orig: 500, 500
+  offset: 22, 101
+  index: -1
+death_anim
+  rotate: false
+  xy: 1340, 4
+  size: 353, 330
+  orig: 500, 500
+  offset: 38, 97
+  index: -1
+death_anim
+  rotate: false
+  xy: 2, 372
+  size: 444, 213
+  orig: 500, 500
+  offset: 16, 93
+  index: -1
+

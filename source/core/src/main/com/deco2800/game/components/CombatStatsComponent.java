@@ -1,32 +1,75 @@
 package com.deco2800.game.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
- * Component used to store information related to combat such as health, attack, etc. Any entities
- * which engage it combat should have an instance of this class registered. This class can be
+ * Component used to store information related to combat such as health, attack,
+ * etc. Any entities
+ * which engage it combat should have an instance of this class registered. This
+ * class can be
  * extended for more specific combat needs.
  */
 public class CombatStatsComponent extends Component {
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
+  private int baseHealth;
   private int baseAttack;
   private int level;
+  private int defense;
+  private int currentAttack;
+  private int attackMultiplier;
+  private int maxHealth = 10000;
+  private boolean invincible = false;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    setAttackMultiplier(1);
+    this.baseHealth = health;
+    this.currentAttack = baseAttack;
+  }
+
+  public CombatStatsComponent(int health, int baseAttack, int defense) {
+    setHealth(health);
+    setBaseAttack(baseAttack);
+    setBaseDefense(defense);
+    setAttackMultiplier(1);
   }
 
   /**
-   * Combat Stats Component with extra parameter level to enable levelling up of entities (mainly Crystal)
+   * Combat Stats Component with extra parameter level to enable levelling up of
+   * entities
    */
-  public CombatStatsComponent(int health, int baseAttack, int level) {
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level) {
+    setHealth(health);
+    this.baseHealth = health;
+    setBaseAttack(baseAttack);
+    setLevel(level);
+    setBaseDefense(defense);
+    this.currentAttack = baseAttack;
+  }
+
+  /**
+   * Combat Stats Component with maxHealth parameter to enable increase of
+   * maxHealth with each level upgrade independent
+   * to current health
+   */
+  public CombatStatsComponent(int health, int baseAttack, int defense, int level, int maxHealth) {
     setHealth(health);
     setBaseAttack(baseAttack);
     setLevel(level);
+    setBaseDefense(defense);
+    setMaxHealth(maxHealth);
   }
 
   /**
@@ -47,29 +90,91 @@ public class CombatStatsComponent extends Component {
     return health;
   }
 
-  public int getLevel(){ return level; }
+  public int getLevel() {
+    return level;
+  }
 
   /**
-   * Sets the entity's health. Health has a minimum bound of 0.
+   * Sets the entity's health. Health must be greater than 0.
+   * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
+   * If the health value is 0 or less, the entity is killed.
    *
    * @param health health
    */
   public void setHealth(int health) {
-    if (health >= 0) {
-      this.health = health;
+    if (health > 0) {
+      if (health > maxHealth) {
+        this.health = maxHealth;
+      } else {
+        this.health = health;
+      }
     } else {
       this.health = 0;
+      if (entity != null && entity.getName() != null) {
+
+        // create an enemy list to contain all enemies
+        String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
+        // remove enemies if health point is 0
+        for (String enemy : enemies) {
+          if (entity != null && entity.getName().contains(enemy) && isDead()) {
+            entity.dispose();
+          }
+        }
+
+        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
+          killEntity("crystal");
+        }
+      }
     }
+
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
     }
   }
 
+  /**
+   * Triggers listener events when certain entities should be killed. Each entity can be handled separately.
+   *
+   * @param entityName the name of the entity to kill
+   */
+  public void killEntity(String entityName) {
+    //String entityName = entity.getName()t
+    switch (entityName) {
+      case "player":
+        entity.getEvents().trigger("playerDeath");
+        break;
+      case "crystal":
+        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
+        break;
+      default:
+        //do nothing
+    }
+  }
+
   public void setLevel(int level) {
+    if (level >= 1) {
       this.level = level;
+    }
 
     if (entity != null) {
       entity.getEvents().trigger("updateLevel", this.level);
+    } else if (level < 1) {
+      logger.error("level cannot be 0 or minus");
+    }
+  }
+
+  /**
+   * Sets the entity's maximum health. Maximum health has a minimum bound of 0.
+   *
+   * @param maxHealth maxHealth
+   */
+  public void setMaxHealth(int maxHealth) {
+    if (maxHealth > 0) {
+      this.maxHealth = maxHealth;
+    }
+
+    if (entity != null) {
+      entity.getEvents().trigger("updateMaxHealth", this.maxHealth);
     }
   }
 
@@ -79,9 +184,20 @@ public class CombatStatsComponent extends Component {
    * @param health health to add
    */
   public void addHealth(int health) {
-    setHealth(this.health + health);
+    if (this.health + health <= maxHealth) {
+      setHealth(this.health + health);
+    }
   }
 
+  public void setAttackMultiplier(int multiplier) {
+    this.attackMultiplier = multiplier;
+    revertAttack();
+    addAttack(baseAttack * (multiplier - 1));
+  }
+
+  public int getAttackMultiplier() {
+    return attackMultiplier;
+  }
   /**
    * Returns the entity's base attack damage.
    *
@@ -89,6 +205,17 @@ public class CombatStatsComponent extends Component {
    */
   public int getBaseAttack() {
     return baseAttack;
+  }
+
+  public int getCurrentAttack() {
+    return currentAttack;
+  }
+  public void addAttack(int attackPower) {
+    currentAttack += attackPower;
+  }
+
+  public void revertAttack() {
+    currentAttack = baseAttack;
   }
 
   /**
@@ -105,16 +232,36 @@ public class CombatStatsComponent extends Component {
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack();
-    setHealth(newHealth);
+    if (!invincible) {
+      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      setHealth(newHealth);
+      Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+      hurtSound.play();
+    }
+  }
+
+  public void setInvincibility (Boolean state) {
+    this.invincible = state;
+  }
+
+  public void setBaseDefense(int defense) {
+    this.defense = defense;
+  }
+
+  public int getBaseDefense() {
+    return defense;
   }
 
   /**
-   * Upgrades the level of the entity (mainly Crystal) and increases its health
+   * Returns the base health of the entity
+   * 
+   * @return int
    */
-  public void upgrade(){
-    setLevel(this.level+1);
-    addHealth(100);
+  public int getBaseHealth() {
+    return this.baseHealth;
   }
 
+  public int getMaxHealth() {
+    return this.maxHealth;
+  }
 }

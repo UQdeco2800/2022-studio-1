@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.screens.*;
+import com.deco2800.game.screens.AchievementScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +20,10 @@ import static com.badlogic.gdx.Gdx.app;
  */
 public class AtlantisSinks extends Game {
   private static final Logger logger = LoggerFactory.getLogger(AtlantisSinks.class);
+  private ScreenType screenType;
 
   public static boolean gameRunning = false;
+  public static boolean playPrologue = true;
 
   @Override
   public void create() {
@@ -33,7 +35,7 @@ public class AtlantisSinks extends Game {
 
     // start of the game, sets playerStatus to null to create a new caretaker object
     // in the first mainGameScreen
-    setScreen(ScreenType.MAIN_MENU, null);
+    setScreen(ScreenType.MAIN_MENU);
   }
 
   /**
@@ -50,7 +52,7 @@ public class AtlantisSinks extends Game {
    * 
    * @param screenType screen type
    */
-  public void setScreen(ScreenType screenType, CareTaker playerStatus) {
+  public void setScreen(ScreenType screenType) {
     logger.info("Setting game screen to {}", screenType);
     Screen currentScreen = getScreen();
     if (currentScreen != null) {
@@ -60,12 +62,27 @@ public class AtlantisSinks extends Game {
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
     } else if (screenType == ScreenType.SHOP | screenType == ScreenType.BUILD_SHOP
-        | screenType == ScreenType.ARTEFACT_SHOP) {
+        | screenType == ScreenType.ARTEFACT_SHOP | screenType == ScreenType.EQUIPMENT_SHOP) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
-    } else {
+    } else if (screenType ==screenType.GUIDEBOOK) {
+      Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
+    }
+    else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType, playerStatus));
+    setScreen(newScreen(screenType, null));
+  }
+
+  public void setSettingsScreen(ScreenType prevScreen) {
+    logger.info("Setting game screen to {}", ScreenType.SETTINGS);
+    Screen currentScreen = getScreen();
+    if (currentScreen != null) {
+      currentScreen.dispose();
+    }
+
+    Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
+
+    setScreen(newScreen(ScreenType.SETTINGS, prevScreen));
   }
 
   @Override
@@ -77,34 +94,47 @@ public class AtlantisSinks extends Game {
   /**
    * Create a new screen of the provided type.
    * 
-   * @param screenType   screen type
-   * @param playerStatus caretaker object for main_game screen and shop screen to
-   *                     maintain player states
+   * @param screenType screen type
    * @return new screen
    */
-  private Screen newScreen(ScreenType screenType, CareTaker playerStatus) {
+  private Screen newScreen(ScreenType screenType, ScreenType prevScreen) {
     gameRunning = screenType == ScreenType.MAIN_GAME;
-
+    this.screenType = screenType;
     switch (screenType) {
       case MAIN_MENU:
         return new MainMenuScreen(this);
+      case STORY_LINE_PROLOGUE:
+        return new PrologueScreen(this);
       case MAIN_GAME:
-        return new MainGameScreen(this, playerStatus);
+        return new MainGameScreen(this, false);
       case SETTINGS:
-        return new SettingsScreen(this);
+        return new SettingsScreen(this, prevScreen);
       case SHOP:
-        return new ShopScreen(this, playerStatus);
+        return new ShopScreen(this);
       case BUILD_SHOP:
-        return new ShopBuildScreen(this, playerStatus);
+        return new ShopBuildScreen(this);
       case ARTEFACT_SHOP:
-        return new ShopArtefactScreen(this, playerStatus);
+        return new ShopArtefactScreen(this);
+      case EQUIPMENT_SHOP:
+        return new ShopEquipmentScreen(this);
+      case FIRST_NIGHT:
+        return new FirstNightScreen(this);
+      case STORY_LINE_EPILOGUE:
+        return new EpilogueScreen(this);
+      case GUIDEBOOK:
+        return new GuidebookScreen(this);
+      case ACHIEVEMENT:
+        return new AchievementScreen(this);
+      case MAIN_GAME_LOAD:
+        return new MainGameScreen(this, true);
       default:
         return null;
     }
   }
 
   public enum ScreenType {
-    MAIN_MENU, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP
+    MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
+    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK, MAIN_GAME_LOAD, ACHIEVEMENT
   }
 
   /**
@@ -112,5 +142,9 @@ public class AtlantisSinks extends Game {
    */
   public void exit() {
     app.exit();
+  }
+
+  public ScreenType getScreenType() {
+    return screenType;
   }
 }

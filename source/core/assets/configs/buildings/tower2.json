@@ -1,0 +1,12 @@
+{
+    "type": "building",
+    "name": "Tower 2",
+    "goldCost": 0,
+    "stoneCost": 200,
+    "woodCost": 100,
+    "attack": 10,
+    "defense": 0,
+    "description": "Attacks nearby enemies",
+    "itemImagePath": "images/shop-attack-building.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png"
+}

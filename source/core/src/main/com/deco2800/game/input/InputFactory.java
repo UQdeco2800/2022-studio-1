@@ -54,6 +54,8 @@ public abstract class InputFactory {
 
   public abstract InputComponent createForCamera();
 
+  public abstract InputComponent createForStoryLine();
+
   /**
    * Creates an input handler for the terminal
    *

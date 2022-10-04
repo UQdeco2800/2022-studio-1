@@ -1,16 +1,21 @@
 package com.deco2800.game.screens;
 
+import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopArtefactDisplay;
+import com.deco2800.game.components.shop.ShopBackground;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -31,11 +36,9 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
     private final AtlantisSinks game;
     private final Renderer renderer;
-    private CareTaker playerStatus;
 
-    public ShopArtefactScreen(AtlantisSinks game, CareTaker playerStatus) {
+    public ShopArtefactScreen(AtlantisSinks game) {
         this.game = game;
-        this.playerStatus = playerStatus;
 
         logger.debug("Initialising artefact shop screen services");
         ServiceLocator.registerTimeSource(new GameTime());
@@ -49,6 +52,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
 
@@ -79,7 +83,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         logger.debug("Disposing shop artefact game screen");
-
         renderer.dispose();
         unloadAssets();
 
@@ -110,19 +113,23 @@ public class ShopArtefactScreen extends ScreenAdapter {
         logger.debug("Creating ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
         InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
-
-        Entity uiBuilding = new Entity();
-        uiBuilding.addComponent(new InputDecorator(stage, 10))
+        Memento lastStatus = CareTaker.getInstance().getLast();
+        Entity uiCommon = new Entity();
+        uiCommon.addComponent(new ShopBackground());
+        ServiceLocator.getEntityService().register(uiCommon);
+        Entity uiArtefact = new Entity();
+        uiArtefact.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
-                .addComponent(new ShopActions(this.game, playerStatus))
-                .addComponent(new InventoryComponent(playerStatus.get(playerStatus.getAll().size() - 1).getGold(),
-                        playerStatus.get(playerStatus.getAll().size() - 1).getStone(), playerStatus.get(playerStatus.getAll().size() - 1).getWood()))
-                .addComponent(new ShopArtefactDisplay())
+                .addComponent(new ShopActions(this.game))
+                .addComponent(new InventoryComponent(lastStatus.getGold(),
+                        lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new CommonShopComponents())
+                .addComponent(new ShopArtefactDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
-        ServiceLocator.getEntityService().register(uiBuilding);
+        uiArtefact.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
+        ServiceLocator.getEntityService().register(uiArtefact);
 
     }
 }

@@ -1,12 +1,21 @@
 package com.deco2800.game.components.player;
 
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
+import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.entities.configs.EquipmentConfig;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static com.deco2800.game.components.infrastructure.ResourceType.*;
 
 /**
  * A component intended to be used by the player to track their inventory.
@@ -17,15 +26,41 @@ import java.util.List;
  */
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
-  private int gold;
-  private int stone;
-  private int wood;
-  private List<Artefact> items = new ArrayList<>();
+  private Equipments weapon;
+  private Equipments armor;
+
+  private HashMap<ResourceType, Integer> inventory = new HashMap<>();
+  private List<Equipments> equipmentList = new ArrayList<>();
+
+  private HashMap<Artefact, Integer> items = new HashMap<>();
+  private HashMap<ShopBuilding, Integer> buildings = new HashMap<>();
+
+  private AchievementHandler achievementHandler;
 
   public InventoryComponent(int gold, int stone, int wood) {
-    setGold(gold);
-    setStone(stone);
-    setWood(wood);
+    inventory.put(GOLD, gold);
+    inventory.put(STONE, stone);
+    inventory.put(WOOD, wood);
+    equipmentList.add(Equipments.AXE);
+    setWeapon(Equipments.AXE);
+
+    achievementHandler = ServiceLocator.getAchievementHandler();
+  }
+
+  public void setWeapon(Equipments weapon) {
+    this.weapon = weapon;
+  }
+
+  public void setArmor(Equipments armor) {
+    this.armor = armor;
+  }
+
+  public Equipments getWeapon() {
+    return this.weapon;
+  }
+
+  public Equipments getArmor() {
+    return this.armor;
   }
 
   /**
@@ -34,7 +69,7 @@ public class InventoryComponent extends Component {
    * @return entity's gold
    */
   public int getGold() {
-    return this.gold;
+    return inventory.get(GOLD);
   }
 
   /**
@@ -44,7 +79,7 @@ public class InventoryComponent extends Component {
    */
 
   public int getStone() {
-    return this.stone;
+    return inventory.get(STONE);
   }
 
   /**
@@ -54,7 +89,7 @@ public class InventoryComponent extends Component {
    */
 
   public int getWood() {
-    return this.wood;
+    return inventory.get(WOOD);
   }
 
   /**
@@ -64,7 +99,7 @@ public class InventoryComponent extends Component {
    * @return player has greater than or equal to the required amount of gold
    */
   public Boolean hasGold(int gold) {
-    return this.gold >= gold;
+    return inventory.get(GOLD) >= gold;
   }
 
   /**
@@ -74,7 +109,7 @@ public class InventoryComponent extends Component {
    * @return player has greater than or equal to the required amount of stone
    */
   public Boolean hasStone(int stone) {
-    return this.stone >= stone;
+    return inventory.get(STONE) >= stone;
   }
 
   /**
@@ -84,7 +119,7 @@ public class InventoryComponent extends Component {
    * @return player has greater than or equal to the required amount of wood
    */
   public Boolean hasWood(int wood) {
-    return this.wood >= wood;
+    return inventory.get(WOOD) >= wood;
   }
 
   /**
@@ -93,12 +128,8 @@ public class InventoryComponent extends Component {
    * @param gold gold
    */
   public void setGold(int gold) {
-    if (gold >= 0) {
-      this.gold = gold;
-    } else {
-      this.gold = 0;
-    }
-    logger.debug("Setting gold to {}", this.gold);
+    inventory.replace(GOLD, Math.max(gold, 0));
+    logger.debug("Setting gold to {}", inventory.get(GOLD));
   }
 
   /**
@@ -107,12 +138,8 @@ public class InventoryComponent extends Component {
    * @param stone currency stone
    */
   public void setStone(int stone) {
-    if (stone >= 0) {
-      this.stone = stone;
-    } else {
-      this.stone = 0;
-    }
-    logger.debug("Setting stone to {}", this.stone);
+    inventory.replace(STONE, Math.max(stone, 0));
+    logger.debug("Setting stone to {}", inventory.get(STONE));
   }
 
   /**
@@ -121,12 +148,8 @@ public class InventoryComponent extends Component {
    * @param wood currency wood
    */
   public void setWood(int wood) {
-    if (wood >= 0) {
-      this.wood = wood;
-    } else {
-      this.wood = 0;
-    }
-    logger.debug("Setting wood to {}", this.wood);
+    inventory.replace(WOOD, Math.max(wood, 0));
+    logger.debug("Setting wood to {}", inventory.get(WOOD));
   }
 
   /**
@@ -135,7 +158,7 @@ public class InventoryComponent extends Component {
    * @param gold gold to add
    */
   public void addGold(int gold) {
-    setGold(this.gold + gold);
+    setGold(inventory.get(GOLD) + gold);
   }
 
   /**
@@ -144,7 +167,7 @@ public class InventoryComponent extends Component {
    * @param stone stone to add
    */
   public void addStone(int stone) {
-    setStone(this.stone + stone);
+    setStone(inventory.get(STONE) + stone);
   }
 
   /**
@@ -153,18 +176,114 @@ public class InventoryComponent extends Component {
    * @param wood stone to add
    */
   public void addWood(int wood) {
-    setWood(this.wood + wood);
+    setWood(inventory.get(WOOD) + wood);
   }
 
-  public void setItems(List<Artefact> items) {
+  public void addResources(ResourceType resourceType, int amount) {
+    inventory.replace(resourceType, inventory.get(resourceType) + amount);
+    this.triggerResourceAddedEvent(resourceType, amount);
+  }
+
+  public void setEquipmentList(List<Equipments> equipmentsList) {
+    this.equipmentList = equipmentsList;
+  }
+
+  public List<Equipments> getEquipmentList() {
+    return equipmentList;
+  }
+
+  public void addEquipmentToList(Equipments equipment) {
+    equipmentList.add(equipment);
+  }
+
+  public int countInEquipmentList(Equipments equipment) {
+    if (equipmentList.contains(equipment)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
   }
 
-  public void addItems(Artefact item) {
-    this.items.add(item);
+  public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
+    this.buildings = buildings;
   }
 
-  public List<Artefact> getItems() {
+  public void addBuilding(ShopBuilding building) {
+    if (buildings.get(building) == null) {
+      buildings.put(building, 1);
+    } else {
+      buildings.replace(building, buildings.get(building) + 1);
+    }
+  }
+
+  public void removeBuilding(ShopBuilding building) {
+    if (buildings.get(building) != null) {
+      buildings.replace(building, buildings.get(building) - 1);
+    }
+  }
+
+  public int getBuildingCount(ShopBuilding building) {
+    if (buildings.get(building) == null) {
+      return 0;
+    } else {
+      return buildings.get(building);
+    }
+  }
+
+  public HashMap<ShopBuilding, Integer> getBuildings() {
+    return buildings;
+  }
+
+  public void addItems(Artefact item) {
+    if (items.get(item) == null) {
+      items.put(item, 1);
+    } else {
+      items.replace(item, items.get(item) + 1);
+    }
+  }
+
+  public Boolean useItem(Artefact item) {
+    if (items.getOrDefault(item, 0) >= 1) {
+      items.replace(item, items.get(item) - 1);
+      return true;
+    }
+    return false;
+  }
+
+  public Boolean placeBuilding(ShopBuilding building) {
+    if (buildings.getOrDefault(building, 0) >= 1) {
+      buildings.replace(building, buildings.get(building) - 1);
+      if (buildings.get(building) == 0) {
+        buildings.remove(building);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public HashMap<Artefact, Integer> getItems() {
     return this.items;
+  }
+
+  public int getItemCount(Artefact item) {
+    if (items.get(item) == null) {
+      return 0;
+    } else {
+      return items.get(item);
+    }
+  }
+
+  /**
+   * Triggers an event that a resource has been added for achievements handler
+   * 
+   * @param resourceType the type of resource (WOOD, STONE, GOLD)
+   * @param amount       the amount of the resource added
+   */
+  private void triggerResourceAddedEvent(ResourceType resourceType, int amount) {
+    this.achievementHandler.getEvents().trigger(AchievementHandler.EVENT_RESOURCE_ADDED, resourceType, amount);
   }
 }

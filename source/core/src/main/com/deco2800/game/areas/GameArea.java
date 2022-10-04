@@ -3,11 +3,17 @@ package com.deco2800.game.areas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SerializationException;
+import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,6 +28,10 @@ import java.util.List;
 public abstract class GameArea implements Disposable {
   protected TerrainComponent terrain;
   protected List<Entity> areaEntities;
+
+  protected Entity player;
+  protected Entity crystal;
+  protected EnvironmentalCollision entityMapping;
 
   protected GameArea() {
     areaEntities = new ArrayList<>();
@@ -44,7 +54,12 @@ public abstract class GameArea implements Disposable {
    */
   protected void spawnEntity(Entity entity) {
     areaEntities.add(entity);
-    ServiceLocator.getEntityService().register(entity);
+    ServiceLocator.getEntityService().addEntity(entity);
+  }
+
+  protected void removeEntity(Entity entity) {
+    areaEntities.remove(entity);
+    ServiceLocator.getEntityService().unregister(entity);
   }
 
   /**
@@ -58,18 +73,36 @@ public abstract class GameArea implements Disposable {
    *                left corner
    */
   protected void spawnEntityAt(
-          Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
+      Entity entity, GridPoint2 tilePos, boolean centerX, boolean centerY) {
     Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
-    float tileSize = terrain.getTileSize();
-
-    if (centerX) {
-      worldPos.x += (tileSize / 2) - entity.getCenterPosition().x;
-    }
-    if (centerY) {
-      worldPos.y += (tileSize / 2) - entity.getCenterPosition().y;
-    }
-
+    entity.setTileGridPosition(tilePos);
     entity.setPosition(worldPos);
     spawnEntity(entity);
   }
+
+  protected boolean isWallHere(GridPoint2 tilePos) {
+    Vector2 worldPos = terrain.tileToWorldPosition(tilePos);
+
+    Iterator<Entity> itr = areaEntities.listIterator();
+    while (itr.hasNext()) {
+      Entity entity = itr.next();
+      Vector2 entityPos = entity.getPosition();
+      if (entity.getName() == null || entity.getName().equals("wall")) {
+        continue;
+      }
+      if (worldPos.x == entityPos.x && worldPos.y == entityPos.y) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public Entity getPlayer() {
+    return player;
+  }
+
+  public EnvironmentalCollision getEntityMapping() {
+    return entityMapping;
+  }
+
 }

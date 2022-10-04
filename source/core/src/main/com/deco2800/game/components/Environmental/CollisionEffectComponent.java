@@ -43,11 +43,11 @@ public class CollisionEffectComponent extends Component {
     }
 
     private CollisionEffect collisionEffect;
-    private ColliderComponent colliderComponent;
-    private PhysicsComponent physicsComponent;
-    private EnvironmentalComponent environmentalComponent;
+    private transient ColliderComponent colliderComponent;
+    private transient PhysicsComponent physicsComponent;
+    private  EnvironmentalComponent environmentalComponent;
     private float speedModifier; //note it might be worth restructuring to have this be standalone rather than relying on environmentalcomponent
-    private HitboxComponent hitboxComponent;
+    private transient HitboxComponent hitboxComponent;
     private boolean AoE;
     private float knockbackForce = 1f;
     private int damage = 1;
@@ -185,14 +185,14 @@ public class CollisionEffectComponent extends Component {
                 } else {
                     break;
                 }
-            case DAMAGE:
-                CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
-                if (targetStats != null) {
-                    CombatStatsComponent combatStats = new CombatStatsComponent(1, damage);
-                    targetStats.hit(combatStats);
-                    combatStats.dispose();
-                    //falls through to knockback
-                }
+//            case DAMAGE:
+//                CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
+//                if (targetStats != null) {
+//                    CombatStatsComponent combatStats = new CombatStatsComponent(1, damage);
+//                    targetStats.hit(combatStats);
+//                    combatStats.dispose();
+//                    //falls through to knockback
+//                }
             case KNOCKBACK:
                 PhysicsComponent targetPhysicsComponent = target.getComponent(PhysicsComponent.class);
                 if (targetPhysicsComponent != null && knockbackForce > 0f) {
