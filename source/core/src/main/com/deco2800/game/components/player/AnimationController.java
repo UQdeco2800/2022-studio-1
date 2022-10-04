@@ -21,6 +21,10 @@ class Node<T> {
 
 public class AnimationController extends Component {
   AnimationRenderComponent animator;
+  int weapon = 0;
+  String[] wea_lst = {"arm_","bna_","hel_", "shi_", "swo_", "tri_", ""};//, "axe", ""};
+
+
 
   @Override
   public void create() {
@@ -34,27 +38,35 @@ public class AnimationController extends Component {
     entity.getEvents().addListener("attack_anim", this::attack_anim);
     entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
     entity.getEvents().addListener("death_anim", this::death_anim);
+    entity.getEvents().addListener("weapons", this::weapons);
     
   }
 
-  void ch_dir_w() {
+  void wrapper(String dir){
+    String anim = animator.getCurrentAnimation();
     animator.stopAnimation();
-    animator.startAnimation("w");
+    if (anim.length() > 2) {
+      anim = anim.substring(0, 4).concat(dir);
+      animator.startAnimation(anim);
+    }else{
+      animator.startAnimation(dir);
+    } 
+  }
+
+  void ch_dir_w() {
+    wrapper("w");    
   }
 
   void ch_dir_a() {
-    animator.stopAnimation();
-    animator.startAnimation("a");
+    wrapper("a");
   }
 
   void ch_dir_s() {
-    animator.stopAnimation();
-    animator.startAnimation("s");
+    wrapper("s");
   }
 
   void ch_dir_d() {
-    animator.stopAnimation();
-    animator.startAnimation("d");
+    wrapper("d");
   }
 
   void attack_anim(){    
@@ -71,5 +83,14 @@ public class AnimationController extends Component {
 
   void death_anim(){    
     animator.startAnimation("death_anim");
+  }
+
+  void weapons(){
+    
+    int counter = weapon % wea_lst.length;
+    String anim_to_play = wea_lst[counter].concat("w");
+    animator.stopAnimation();
+    animator.startAnimation(anim_to_play);
+    weapon += 1;
   }
 }

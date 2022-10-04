@@ -11,6 +11,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.Tile;
 import com.deco2800.game.entities.UGS;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class RangeService {
@@ -69,7 +70,7 @@ public class RangeService {
      * @return the string generated key that is stored in the hashmap of where the player is standing
      */
     public String getPlayerTile() {
-        Entity player = MainArea.getInstance().getGameArea().getPlayer();
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         Vector2 playerPos = player.getPosition();
         GridPoint2 gPlayerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(playerPos.x, playerPos.y);
         String key = UGS.generateCoordinate(gPlayerPos.x, gPlayerPos.y);
@@ -82,7 +83,8 @@ public class RangeService {
      */
     public ArrayList<Entity> registeredInUGS() {
         ArrayList<Entity> inUGS = new ArrayList<>();
-        for (Tile i : ServiceLocator.getUGSService().printUGS().values()) {
+        Collection<Tile> values = ServiceLocator.getUGSService().printUGS().values();
+        for (Tile i : values) {
             if (i.getEntity() != null) {
                 inUGS.add(i.getEntity());
             }
@@ -97,7 +99,7 @@ public class RangeService {
      * @return true if its within the players perimeter and false if its not
      */
     public Boolean playerInRangeOf (Entity toCompare) {
-        Entity player = MainArea.getInstance().getGameArea().getPlayer();
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         ArrayList<Entity> ugs = registeredInUGS();
         boolean inRange = false;
         if (ugs.contains(toCompare)) {
