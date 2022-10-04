@@ -1058,74 +1058,78 @@ public class MainGameInterface extends UIComponent {
         new ChangeListener() {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
-            logger.debug("Placing Building");
-            // Add place building function
-            buildingStats = FileLoader.readClass(
-                ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(currentBuilding));
-            String[] names = buildingStats.name.split("[\\W_]+");
-            String buildingCamelName = "";
-            for (int i = 0; i < names.length; i++) {
-              String name = names[i];
-              if (i == 0) {
-                name = name.isEmpty() ? name : name.toLowerCase();
-              } else {
-                name = name.isEmpty() ? name : Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase();
+            if (currentBuilding != null) {
+              logger.debug("Placing Building");
+              buildingStats = FileLoader.readClass(
+                  ShopBuildingConfig.class,
+                  ShopBuilding.getFilepath(currentBuilding));
+              String[] names = buildingStats.name.split("[\\W_]+");
+              String buildingCamelName = "";
+              for (int i = 0; i < names.length; i++) {
+                String name = names[i];
+                if (i == 0) {
+                  name = name.isEmpty() ? name : name.toLowerCase();
+                } else {
+                  name = name.isEmpty() ? name
+                      : Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase();
+                }
+                buildingCamelName += name;
               }
-              buildingCamelName += name;
-            }
-            logger.debug(buildingCamelName);
-            MainArea.getInstance()
-                .getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .removeBuilding(currentBuilding);
+              logger.debug(buildingCamelName);
+              MainArea.getInstance()
+                  .getGameArea().getPlayer()
+                  .getComponent(InventoryComponent.class)
+                  .removeBuilding(currentBuilding);
 
-            group.setVisible(false);
-            ServiceLocator.getStructureService().triggerBuildEvent(buildingCamelName);
-            currBuildingList = getBuildingList();
+              group.setVisible(false);
+              ServiceLocator.getStructureService().triggerBuildEvent(buildingCamelName);
+              currBuildingList = getBuildingList();
 
-            if (currBuildingList.size() == 0) {
-              prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-              currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-              nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-            } else if (currBuildingList.size() == 1) {
-              prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+              if (currBuildingList.size() == 0) {
+                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                currentBuilding = null;
+              } else if (currBuildingList.size() == 1) {
+                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
 
-              nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-              currentBuilding = currBuildingList.get(0);
-              ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                  ShopBuilding.getFilepath(currentBuilding));
-              currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-            } else if (currBuildingList.size() == 2) {
-              prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-              currentBuilding = currBuildingList.get(0);
-              ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                  ShopBuilding.getFilepath(currentBuilding));
-              currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                currentBuilding = currBuildingList.get(0);
+                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                    ShopBuilding.getFilepath(currentBuilding));
+                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+              } else if (currBuildingList.size() == 2) {
+                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                currentBuilding = currBuildingList.get(0);
+                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                    ShopBuilding.getFilepath(currentBuilding));
+                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-              data = FileLoader.readClass(ShopBuildingConfig.class,
-                  ShopBuilding.getFilepath(currBuildingList.get(1)));
-              nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                data = FileLoader.readClass(ShopBuildingConfig.class,
+                    ShopBuilding.getFilepath(currBuildingList.get(1)));
+                nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+              } else {
+                currentBuilding = currBuildingList.get(0);
+                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                    ShopBuilding.getFilepath(currentBuilding));
+                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+
+                data = FileLoader.readClass(ShopBuildingConfig.class,
+                    ShopBuilding.getFilepath(currBuildingList.get(1)));
+                nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+
+                data = FileLoader.readClass(ShopBuildingConfig.class,
+                    ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
+                prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+              }
+              prevBuilding.setDrawable(new TextureRegionDrawable(prevBuildingTexture));
+
+              currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
+
+              nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
             } else {
-              currentBuilding = currBuildingList.get(0);
-              ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                  ShopBuilding.getFilepath(currentBuilding));
-              currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-
-              data = FileLoader.readClass(ShopBuildingConfig.class,
-                  ShopBuilding.getFilepath(currBuildingList.get(1)));
-              nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-
-              data = FileLoader.readClass(ShopBuildingConfig.class,
-                  ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
-              prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+              logger.debug("No building to place!");
             }
-            prevBuilding.setDrawable(new TextureRegionDrawable(prevBuildingTexture));
-
-            currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
-
-            nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
-
           }
         });
 
@@ -1148,8 +1152,6 @@ public class MainGameInterface extends UIComponent {
     group.addActor(rightArrow);
     group.addActor(leftSmallTitle1);
     group.addActor(leftSmallTitle2);
-    // group.addActor(leftTitle1);
-    // group.addActor(leftTitle2);
     group.addActor(description);
     group.addActor(selected);
     group.addActor(attackItem);
@@ -1176,7 +1178,6 @@ public class MainGameInterface extends UIComponent {
     group.addActor(nextBuilding);
     group.addActor(buildingRightArrow);
     group.addActor(placeButton);
-    // group.addActor(place);
     group.addActor(crossFrame);
     group.setVisible(false);
 
