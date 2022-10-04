@@ -1,0 +1,40 @@
+waterAnimation.png
+size: 260, 33
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 65, 33
+  orig: 65, 33
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 0, 0
+  size: 65, 33
+  orig: 65, 33
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 65, 0
+  size: 65, 33
+  orig: 65, 33
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 130, 0
+  size: 65, 33
+  orig: 65, 33
+  offset: 0, 0
+  index: -1
+fl
+  rotate: false
+  xy: 195, 0
+  size: 65, 33
+  orig: 65, 33
+  offset: 0, 0
+  index: -1
