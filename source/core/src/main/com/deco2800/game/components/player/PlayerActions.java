@@ -12,6 +12,8 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Action component for interacting with the player. Player events should be
@@ -26,14 +28,24 @@ public class PlayerActions extends Component {
   private Vector2 faceDirecetion = Vector2.X.cpy();
   private boolean moving = false;
 
+  private boolean dead = false;
+  private Timer timer;
+  TimerTask dieTask = new TimerTask() {
+    @Override
+    public void run() {
+      //hide the character sprite
+      entity.setScale(0.0F, 0.0F);
+    }
+  };
+
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
-
     entity.getEvents().addListener("playerDeath", this::die);
+    timer = new Timer();
   }
 
   @Override
@@ -156,8 +168,9 @@ public class PlayerActions extends Component {
    */
   public void die() {
     entity.getEvents().trigger("death_anim");
-//    entity.dispose();
-
+    //entity.dispose();
+    dead = true;
+    timer.schedule(dieTask, 1000);
   }
 
 }
