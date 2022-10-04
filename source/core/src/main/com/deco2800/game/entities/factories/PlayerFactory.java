@@ -70,10 +70,21 @@ public class PlayerFactory {
     player_start.addAnimation("swo_att_wd", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("tri_att_as", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("tri_att_wd", 0.1f, Animation.PlayMode.NORMAL);
-    //player_start.addAnimation("wa", 0.1f, Animation.PlayMode.NORMAL);
-    //player_start.addAnimation("aa", 0.1f, Animation.PlayMode.NORMAL);
-    //player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
-    //player_start.addAnimation("da", 0.1f, Animation.PlayMode.NORMAL);
+    
+    player_start.addAnimation("axe_get", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("bna_get_as", 0.2f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("bna_get_wd", 0.2f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("shi_get_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("shi_get_wd", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("swo_get_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("swo_get_wd", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("tri_get_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("tri_get_wd", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("arm_get_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("arm_get_wd", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("hel_get_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("hel_get_wd", 0.1f, Animation.PlayMode.NORMAL);
+
 
     Entity player =
         new Entity()
