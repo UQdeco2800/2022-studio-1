@@ -1,4 +1,4 @@
-package com.deco2800.game.entities;
+package com.deco2800.game.components.storyline;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -21,12 +21,6 @@ import com.deco2800.game.services.ServiceLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import com.deco2800.game.entities.Entity;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
-
 
 
 @ExtendWith(GameExtension.class)
