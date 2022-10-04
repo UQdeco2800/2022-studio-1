@@ -83,11 +83,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       case Keys.E:
         entity.getEvents().trigger("weapons");
         return true;
-      /*case Keys.SPACE:
+      case Keys.SPACE:
         entity.getEvents().trigger("attack");
         entity.getEvents().trigger("attack_anim");
         entity.getEvents().trigger("playerControlTut", "SPACE");
-        return true;*/
+        return true;
       default:
         return false;
     }
@@ -103,8 +103,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public boolean keyUp(int keycode) {
     switch (keycode) {
       case Keys.Q:
-        entity.getEvents().trigger("playerDeath");
         entity.setScale(11f, 10.5f);
+        entity.getEvents().trigger("playerDeath");
         return true;
       case Keys.W:
         walkDirection.sub(Vector2Utils.UP);
@@ -166,9 +166,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
         upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
         return true;
-      /*case Keys.SPACE:
+      case Keys.SPACE:
         entity.getEvents().trigger("attack_anim_rev");
-        return true;*/
+        return true;
       default:
         return false;
     }

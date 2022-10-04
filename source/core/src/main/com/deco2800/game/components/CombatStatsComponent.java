@@ -106,6 +106,14 @@ public class CombatStatsComponent extends Component {
         this.health = health;
       }
     } else {
+      // create an enemy list to contain all enemies
+      String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
+      // remove enemies if health point is 0
+      for (String enemy : enemies) {
+        if (entity != null && entity.getName().contains(enemy) && isDead()) {
+          entity.dispose();
+        }
+      }
       this.health = 0;
     }
 
