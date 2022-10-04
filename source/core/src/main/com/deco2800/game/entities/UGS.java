@@ -51,13 +51,29 @@ public class UGS {
      * @param entity Entity
      */
     public void setEntity(String coordinate, Entity entity) {
-        checkEntityPlacement(coordinate);
         tiles.get(coordinate).setEntity(entity);
+        System.out.print("tile entity ==> ");
+        System.out.println(tiles.get(coordinate).getEntity());
     }
 
-    public void checkEntityPlacement(String coordinate) {
-        System.out.print("tiletype ");
-        System.out.println(tiles.get(coordinate).getTileType());
+    /**
+     * Takes a String entityType and String coordinate and decides if that type of enity can spawn
+     * at that coordinate.
+     * @param coordinate x, y of the gridpoint in string form
+     * @param entityType type of entity in string form
+     * @return true if the entity can spawn in a gridpoint else returns false
+     */
+
+    public Boolean checkEntityPlacement(String coordinate, String entityType) {
+        if (entityType.equals("structure")) {
+            if (tiles.get(coordinate).getTileType().equals("sand")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
