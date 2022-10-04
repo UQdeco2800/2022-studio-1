@@ -66,7 +66,7 @@ public class MainGameTutorialTest {
     void stonePromptTest() {
 
         Entity player = service.getNamedEntity("player");
-        Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) player.getPosition().x,
+        Entity closestEntity = service.findClosetEntity((int) player.getPosition().x,
                 (int) player.getPosition().y);
 
         closestEntity.setResourceType(ResourceType.STONE);
@@ -85,12 +85,12 @@ public class MainGameTutorialTest {
     @Test
     void enemiePromtTest() {
 
-        ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
+        cycleService.setPartOfDayTo(DayNightCycleStatus.NIGHT);
         Table prompts = actions.getPromptsTable();
 
-        Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
+        Entity player = service.getNamedEntity("player");
         Entity closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) currentPlayer.getPosition().x,
-                (int) currentPlayer.getPosition().y);
+                (int) player.getPosition().y);
 
         Texture enemyInteractImage = new Texture(Gdx.files.internal("images/tutorials/enemyDialogue_revised.png"));
         Image enemyInteract = new Image(enemyInteractImage);
