@@ -189,25 +189,40 @@ public class NPCFactory {
     return boss;
   }
 
-  // Create starfish as a new entity
+// Create starfish as a new entity
   public static Entity createStarFish(Entity target, Entity crystal) {
     Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
     /** AnimationRenderComponent animator =
+     new AnimationRenderComponent(
+     ServiceLocator.getResourceService()
+     .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+     */
+    AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService()
-                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    */
+                    ServiceLocator.getResourceService().getAsset("images/starfish_animation/starfish.atlas", TextureAtlas.class));
+    animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
+
+
     ninjaStarfish
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent)
-            .addComponent(new DayNightCycleComponent());
+            .addComponent(new DayNightCycleComponent())
+            //.addComponent(textureRenderComponent);
+            .addComponent(new GhostAnimationController())
+            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
-    ninjaStarfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("ninjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
+    ninjaStarfish.setScale(1.2f, 1.2f);
+
     return ninjaStarfish;
   }
 
