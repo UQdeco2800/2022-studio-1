@@ -1,6 +1,6 @@
 {
     "type": "building",
-    "name": "Attack Building",
+    "name": "Tower 1",
     "goldCost": 0,
     "stoneCost": 200,
     "woodCost": 100,

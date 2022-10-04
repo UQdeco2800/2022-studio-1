@@ -47,6 +47,7 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
   private static final int BOSS_DAY = 2;
+  private static final int MIN_NUM_STARFISH = 1;
   private static final int MAX_NUM_STARFISH = 3;
 
   private static final String[] forestTextures = {
@@ -160,6 +161,7 @@ public class ForestGameArea extends GameArea {
   private Boolean loadGame;
 
   private int NPCNum = ServiceLocator.getNpcService().getNpcNum();
+  private List<Entity> activeNPCs = new ArrayList<Entity>();
 
   public ForestGameArea(TerrainFactory terrainFactory, Boolean loadGame) {
     super();
@@ -428,17 +430,27 @@ public class ForestGameArea extends GameArea {
 
   /**
    * Spawns NPCs during the day and removes them at night.
-   * 
+   *
    * @param partOfDay the current part of the day.
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
     // System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
-      case DAWN:
-      case DAY:
-      case DUSK:
 
+      case DAWN:
+        // Spawns NPCs that already existed
+        if (activeNPCs.size() > 0) {
+          for (Entity npc : activeNPCs) {
+            spawnNPCharacter();
+          }
+        }
+        break;
+
+      case DAY:
+        break;
+
+      case DUSK:
         if (NPCNum != StructuresNum) {
           // System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
@@ -447,13 +459,13 @@ public class ForestGameArea extends GameArea {
           }
         }
         break;
+
       case NIGHT:
         // Dispose NPCs
         for (int i = 0; i < NPCNum; i++) {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
-
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
@@ -474,12 +486,11 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
-        }
-        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
           spawnElectricEelEnemy();
-        }
-        if (dayNum == BOSS_DAY) {
-          spawnMeleeBoss();
+          //spawnNinjaStarfishEnemy();
+          if (dayNum == BOSS_DAY) {
+            spawnMeleeBoss();
+          }
         }
         break;
     }
@@ -503,6 +514,7 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
     pirateCrabEnemy.setName("Mr. Crabs");
+    levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
   }
@@ -522,9 +534,37 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getUGSService().setEntity(tileCoords, entity);
   }
 
+  private void levelUp(Entity entity) {
+    switch (dayNum) {
+      case 1:
+        entity.getComponent(CombatStatsComponent.class).setLevel(1);
+        entity.getComponent(CombatStatsComponent.class).setMaxHealth(10);
+        entity.getComponent(CombatStatsComponent.class).setHealth(10);
+        entity.getComponent(CombatStatsComponent.class).setBaseAttack(10);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(1);
+        break;
+      case 2:
+        entity.getComponent(CombatStatsComponent.class).setLevel(2);
+        entity.getComponent(CombatStatsComponent.class).setMaxHealth(20);
+        entity.getComponent(CombatStatsComponent.class).setHealth(20);
+        entity.getComponent(CombatStatsComponent.class).setBaseAttack(20);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(2);
+        break;
+      case 3:
+        entity.getComponent(CombatStatsComponent.class).setLevel(3);
+        entity.getComponent(CombatStatsComponent.class).setMaxHealth(30);
+        entity.getComponent(CombatStatsComponent.class).setHealth(30);
+        entity.getComponent(CombatStatsComponent.class).setBaseAttack(30);
+        entity.getComponent(CombatStatsComponent.class).setBaseDefense(3);
+      default:
+        System.out.println("Level is invalided");
+    }
+  }
+
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
+    levelUp(ElectricEelEnemy);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -544,34 +584,12 @@ public class ForestGameArea extends GameArea {
   }
 
   // Spawn the starfish as ranged enemy
-  private void spawnNinjaStarfish() {
-    Entity ninjaStarfish = NPCFactory.createStarFish(player, crystal);
-    int waterWidth = (terrain.getMapBounds(0).x - terrainFactory.getIslandSize().x) / 2;
-
-    // Get the position from 2D coordinates
-    GridPoint2 minPos = new GridPoint2(waterWidth + 2, waterWidth + 2);
-    GridPoint2 maxPos = new GridPoint2(terrainFactory.getIslandSize().x + waterWidth - 4,
-        terrainFactory.getIslandSize().x + waterWidth - 4);
-    GridPoint2 randomPos = RandomUtils.random(minPos, maxPos);
-
-    // Create the starfish entity
-    // Check if the day night cycle has started
-    while (!ServiceLocator.getDayNightCycleService().hasStarted()) {
-      // Check the current status is night
-      if (!ServiceLocator.getDayNightCycleService().getCurrentCycleStatus().equals(DayNightCycleStatus.NIGHT)) {
-        ServiceLocator.getEntityService().registerNamed("NinjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
-        spawnEntityAt(ninjaStarfish, randomPos, true, true);
-        break;
-      } else {
-        // Remove ninja starfish in other situations
-        removeEntity(ninjaStarfish);
-        // Restart the while loop again
-        spawnNinjaStarfish();
-      }
-    }
-    // Register ninja starfish in the world
-    ServiceLocator.getEntityService().addEntity(ninjaStarfish);
-    ServiceLocator.getEntityService().register(ninjaStarfish);
+  private void spawnNinjaStarfishEnemy() {
+    Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
+    ninjaStarfishEnemy.setName("Mr. Starfish");
+    levelUp(ninjaStarfishEnemy);
+    this.entityMapping.addEntity(ninjaStarfishEnemy);
+    spawnEnemy(ninjaStarfishEnemy);
   }
 
   private void spawnNPCharacter() {
@@ -588,6 +606,7 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
+    activeNPCs.add(NPC);
     // NPC.setPosition(terrainFactory.getMapSize().x / 3,
     // terrainFactory.getMapSize().y / 3);
     // ServiceLocator.getEntityService().addEntity(NPC);

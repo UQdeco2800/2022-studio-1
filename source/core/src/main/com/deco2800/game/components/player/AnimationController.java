@@ -22,10 +22,9 @@ class Node<T> {
 public class AnimationController extends Component {
   AnimationRenderComponent animator;
   int weapon = 0;
-  String[] wea_lst = {"arm_","bna_","hel_", "shi_", "swo_", "tri_", ""};//, "axe", ""};
-
-
-
+  String[] wea_lst = {"bna_", "swo_", "tri_", "axe_","arm_", "shi_", "hel_",""};
+  String temp_anim = "";
+  
   @Override
   public void create() {
     super.create();
@@ -38,6 +37,7 @@ public class AnimationController extends Component {
     entity.getEvents().addListener("attack_anim", this::attack_anim);
     entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
     entity.getEvents().addListener("death_anim", this::death_anim);
+    entity.getEvents().addListener("after_death", this::after_death);
     entity.getEvents().addListener("weapons", this::weapons);
     
   }
@@ -70,19 +70,36 @@ public class AnimationController extends Component {
   }
 
   void attack_anim(){    
-    String anim_to_start = animator.getCurrentAnimation();  
-    animator.stopAnimation();
-    animator.startAnimation(anim_to_start.concat("a"));
+    String anim_to_start = animator.getCurrentAnimation(); 
+    temp_anim = anim_to_start; 
+        
+    if (anim_to_start.startsWith("axe")) {
+      animator.stopAnimation();
+      animator.startAnimation("axe_att");
+    } else if (anim_to_start.startsWith("arm") || anim_to_start.startsWith("hel")){;}
+     else {
+      animator.stopAnimation();
+      if (anim_to_start.endsWith("a") || anim_to_start.endsWith("s")) {
+        animator.startAnimation(anim_to_start.substring(0, 4).concat("att_as"));
+      } else {
+        animator.startAnimation(anim_to_start.substring(0, 4).concat("att_wd"));
+      }
+    }
   }
 
-  void attack_anim_rev(){    
-    String anim_to_start = animator.getCurrentAnimation();  
-    animator.stopAnimation();
-    animator.startAnimation(anim_to_start.substring(0, 1));
+  void attack_anim_rev(){
+    while (animator.isFinished()) {
+      animator.stopAnimation();
+      animator.startAnimation(temp_anim);
+    }     
   }
 
   void death_anim(){    
     animator.startAnimation("death_anim");
+  }
+
+  void after_death() {
+    animator.startAnimation("axe_w");
   }
 
   void weapons(){
