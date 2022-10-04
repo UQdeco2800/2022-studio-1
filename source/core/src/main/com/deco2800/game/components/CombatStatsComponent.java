@@ -93,13 +93,14 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Sets the entity's health. Health has a minimum bound of 0.
+   * Sets the entity's health. Health must be greater than 0.
    * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
+   * If the health value is 0 or less, the entity is killed.
    *
    * @param health health
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
@@ -115,6 +116,9 @@ public class CombatStatsComponent extends Component {
         }
       }
       this.health = 0;
+      if (entity != null) {
+        killEntity(entity.getName());
+      }
     }
 
     if (entity != null) {

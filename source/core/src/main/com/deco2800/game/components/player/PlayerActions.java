@@ -10,7 +10,11 @@ import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.utils.math.Vector2Utils;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,13 +32,14 @@ public class PlayerActions extends Component {
   private Vector2 faceDirecetion = Vector2.X.cpy();
   private boolean moving = false;
 
-  private boolean dead = false;
+  public static boolean playerAlive = true;
+
   private Timer timer;
   TimerTask dieTask = new TimerTask() {
     @Override
     public void run() {
       //hide the character sprite
-      entity.setScale(0.0F, 0.0F);
+     entity.setScale(0.1F, 0.1F);
     }
   };
 
@@ -45,7 +50,10 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("playerDeath", this::die);
+    entity.getEvents().addListener("playerRespawn", this::respawn);
+
     timer = new Timer();
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::respawn);
   }
 
   @Override
@@ -164,13 +172,28 @@ public class PlayerActions extends Component {
   }
 
   /**
-   * Kill the entity
+   * Kills the player
    */
   public void die() {
     entity.getEvents().trigger("death_anim");
-    //entity.dispose();
-    dead = true;
+    entity.setScale(11f, 10.5f);
+    playerAlive = false;
     timer.schedule(dieTask, 1000);
+  }
+
+  /**
+   * Respawns the player
+   */
+  public void respawn(DayNightCycleStatus partOfDay) {
+    System.out.println("Player respawned");
+    if (partOfDay == DayNightCycleStatus.DAY) {
+      if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
+        //respawn
+        entity.setScale(10.5f, 9.5f);
+        entity.getEvents().trigger("ch_dir_w");
+        entity.getEvents().trigger("playerControlTut", "UP");
+      }
+    }
   }
 
 }
