@@ -1,37 +1,51 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.GameArea;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
+import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.*;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.ServiceLocator;
+
+import static java.sql.DriverManager.println;
 
 public class ProjectileFactory {
-    public static void createProjectile(Entity shooter, Entity target) {
+    public static Entity createProjectile(Entity shooter, Entity target) {
         float x1 = shooter.getPosition().x;
         float y1 = shooter.getPosition().y;
         float x2 = target.getPosition().x;
         float y2 = target.getPosition().y;
+        System.out.println("cat");
+        Vector2 targetNew = target.getPosition();
 
-        Vector2 Target = new Vector2(x2 - x1, y2 - y1);
-
-        //Entity Projectile = makeProjectile();
-
-
+        return makeProjectile(targetNew, target, shooter, x1, y1);
     }
 
-    private static Entity makeProjectile() {
+    private static Entity makeProjectile(Vector2 destination, Entity target, Entity source, float x1, float y1) {
         Entity projectile = new Entity()
-                .addComponent(new TextureRenderComponent("images/eel_projectile.png"))
+                .addComponent(new TextureRenderComponent("images/Eel_Bright_SW.png"))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
-                .addComponent(new CombatStatsComponent(1,20))
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new CombatStatsComponent(1,5))
+                .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 0.2f));
 
+        projectile.setPosition(source.getPosition());
+        PhysicsUtils.setScaledCollider(projectile, 2f, 2f);
+
+        projectile.getComponent(PhysicsMovementComponent.class).setTarget(destination);
+        projectile.getComponent(PhysicsMovementComponent.class).setMoving(true);
+        projectile.getComponent(ColliderComponent.class).setSensor(true);
+
+        ServiceLocator.getEntityService().registerNamed("Enemy@" + projectile.getId(), projectile);
         return projectile;
     }
 
