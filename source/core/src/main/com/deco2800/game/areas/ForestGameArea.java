@@ -161,6 +161,7 @@ public class ForestGameArea extends GameArea {
   private Boolean loadGame;
 
   private int NPCNum = ServiceLocator.getNpcService().getNpcNum();
+  private List<Entity> activeNPCs = new ArrayList<Entity>();
 
   public ForestGameArea(TerrainFactory terrainFactory, Boolean loadGame) {
     super();
@@ -436,10 +437,20 @@ public class ForestGameArea extends GameArea {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
     // System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
-      case DAWN:
-      case DAY:
-      case DUSK:
 
+      case DAWN:
+        // Spawns NPCs that already existed
+        if (activeNPCs.size() > 0) {
+          for (Entity npc : activeNPCs) {
+            spawnNPCharacter();
+          }
+        }
+        break;
+
+      case DAY:
+        break;
+
+      case DUSK:
         if (NPCNum != StructuresNum) {
           // System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
@@ -448,13 +459,13 @@ public class ForestGameArea extends GameArea {
           }
         }
         break;
+
       case NIGHT:
         // Dispose NPCs
         for (int i = 0; i < NPCNum; i++) {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
-
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
@@ -595,6 +606,7 @@ public class ForestGameArea extends GameArea {
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
+    activeNPCs.add(NPC);
     // NPC.setPosition(terrainFactory.getMapSize().x / 3,
     // terrainFactory.getMapSize().y / 3);
     // ServiceLocator.getEntityService().addEntity(NPC);

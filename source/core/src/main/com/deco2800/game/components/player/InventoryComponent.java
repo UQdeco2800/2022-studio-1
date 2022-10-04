@@ -3,15 +3,20 @@ package com.deco2800.game.components.player;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.entities.configs.EquipmentConfig;
+import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.deco2800.game.components.infrastructure.ResourceType.*;
+
 /**
  * A component intended to be used by the player to track their inventory.
  *
@@ -22,37 +27,23 @@ import static com.deco2800.game.components.infrastructure.ResourceType.*;
 public class InventoryComponent extends Component {
   private static final Logger logger = LoggerFactory.getLogger(InventoryComponent.class);
   private Equipments weapon;
-  private Equipments helmet;
-  private Equipments chestplate;
+  private Equipments armor;
 
   private HashMap<ResourceType, Integer> inventory = new HashMap<>();
-  
+  private List<Equipments> equipmentList = new ArrayList<>();
+
   private HashMap<Artefact, Integer> items = new HashMap<>();
+  private HashMap<ShopBuilding, Integer> buildings = new HashMap<>();
 
   private AchievementHandler achievementHandler;
 
-  public InventoryComponent(int gold, int stone, int wood,
-      Equipments weapon, Equipments chestplate, Equipments helmet) {
-    inventory.put(GOLD, gold);
-    inventory.put(STONE, stone);
-    inventory.put(WOOD, wood);
-    setWeapon(weapon);
-    setHelmet(helmet);
-    setChestplate(chestplate);
-    achievementHandler = ServiceLocator.getAchievementHandler();
-  }
-
-  public InventoryComponent(int gold, int stone, int wood, HashMap<Artefact, Integer> items) {
-    inventory.put(GOLD, gold);
-    inventory.put(STONE, stone);
-    inventory.put(WOOD, wood);
-    setItems(items);
-    achievementHandler = ServiceLocator.getAchievementHandler();
-  }
   public InventoryComponent(int gold, int stone, int wood) {
     inventory.put(GOLD, gold);
     inventory.put(STONE, stone);
     inventory.put(WOOD, wood);
+    equipmentList.add(Equipments.AXE);
+    setWeapon(Equipments.AXE);
+
     achievementHandler = ServiceLocator.getAchievementHandler();
   }
 
@@ -60,24 +51,16 @@ public class InventoryComponent extends Component {
     this.weapon = weapon;
   }
 
-  public void setHelmet(Equipments helmet) {
-    this.helmet = helmet;
-  }
-
-  public void setChestplate(Equipments chestplate) {
-    this.chestplate = chestplate;
+  public void setArmor(Equipments armor) {
+    this.armor = armor;
   }
 
   public Equipments getWeapon() {
     return this.weapon;
   }
 
-  public Equipments getHelmet() {
-    return this.helmet;
-  }
-
-  public Equipments getChestplate() {
-    return this.chestplate;
+  public Equipments getArmor() {
+    return this.armor;
   }
 
   /**
@@ -201,26 +184,104 @@ public class InventoryComponent extends Component {
     this.triggerResourceAddedEvent(resourceType, amount);
   }
 
+  public void setEquipmentList(List<Equipments> equipmentsList) {
+    this.equipmentList = equipmentsList;
+  }
+
+  public List<Equipments> getEquipmentList() {
+    return equipmentList;
+  }
+
+  public void addEquipmentToList(Equipments equipment) {
+    equipmentList.add(equipment);
+  }
+
+  public int countInEquipmentList(Equipments equipment) {
+    if (equipmentList.contains(equipment)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   public void setItems(HashMap<Artefact, Integer> items) {
     this.items = items;
   }
 
+  public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
+    this.buildings = buildings;
+  }
+
+  public void addBuilding(ShopBuilding building) {
+    if (buildings.get(building) == null) {
+      buildings.put(building, 1);
+    } else {
+      buildings.replace(building, buildings.get(building) + 1);
+    }
+  }
+
+  public void removeBuilding(ShopBuilding building) {
+    if (buildings.get(building) != null) {
+      buildings.replace(building, buildings.get(building) - 1);
+    }
+  }
+
+  public int getBuildingCount(ShopBuilding building) {
+    if (buildings.get(building) == null) {
+      return 0;
+    } else {
+      return buildings.get(building);
+    }
+  }
+
+  public HashMap<ShopBuilding, Integer> getBuildings() {
+    return buildings;
+  }
+
   public void addItems(Artefact item) {
-    if(items.get(item) == null) {
+    if (items.get(item) == null) {
       items.put(item, 1);
     } else {
       items.replace(item, items.get(item) + 1);
     }
   }
 
+  public Boolean useItem(Artefact item) {
+    if (items.getOrDefault(item, 0) >= 1) {
+      items.replace(item, items.get(item) - 1);
+      return true;
+    }
+    return false;
+  }
+
+  public Boolean placeBuilding(ShopBuilding building) {
+    if (buildings.getOrDefault(building, 0) >= 1) {
+      buildings.replace(building, buildings.get(building) - 1);
+      if (buildings.get(building) == 0) {
+        buildings.remove(building);
+      }
+      return true;
+    }
+    return false;
+  }
+
   public HashMap<Artefact, Integer> getItems() {
     return this.items;
   }
 
+  public int getItemCount(Artefact item) {
+    if (items.get(item) == null) {
+      return 0;
+    } else {
+      return items.get(item);
+    }
+  }
+
   /**
-   *  Triggers an event that a resource has been added for achievements handler
+   * Triggers an event that a resource has been added for achievements handler
+   * 
    * @param resourceType the type of resource (WOOD, STONE, GOLD)
-   * @param amount the amount of the resource added
+   * @param amount       the amount of the resource added
    */
   private void triggerResourceAddedEvent(ResourceType resourceType, int amount) {
     this.achievementHandler.getEvents().trigger(AchievementHandler.EVENT_RESOURCE_ADDED, resourceType, amount);

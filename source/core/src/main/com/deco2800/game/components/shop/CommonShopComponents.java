@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.memento.CareTaker;
+import com.deco2800.game.memento.Originator;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -70,7 +72,7 @@ public class CommonShopComponents extends UIComponent {
         stoneUp = new TextureRegionDrawable(stoneTexture);
         // TODO change gold coins to stone count in inventory when available
         stoneFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getStone()) + "    ",
+                Integer.toString(CareTaker.getInstance().getLast().getStone()) + "    ",
                 skin.getColor("black"),
                 "button", 1f, stoneUp, stoneUp, skin, true);
 
@@ -79,14 +81,14 @@ public class CommonShopComponents extends UIComponent {
         goldTexture = new Texture(Gdx.files.internal("images/border_coin.png"));
         goldUp = new TextureRegionDrawable(goldTexture);
         goldFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getGold()) + "    ",
+                Integer.toString(CareTaker.getInstance().getLast().getGold()) + "    ",
                 skin.getColor("black"),
                 "button", 1f, goldUp, goldUp, skin, true);
 
         woodTexture = new Texture(Gdx.files.internal("images/border_wood.png"));
         woodUp = new TextureRegionDrawable(woodTexture);
         woodFrame = ShopUtils.createImageTextButton(
-                Integer.toString(entity.getComponent(InventoryComponent.class).getWood()) + "    ",
+                Integer.toString(CareTaker.getInstance().getLast().getWood()) + "    ",
                 skin.getColor("black"),
                 "button", 1f, woodUp, woodUp, skin, true);
 

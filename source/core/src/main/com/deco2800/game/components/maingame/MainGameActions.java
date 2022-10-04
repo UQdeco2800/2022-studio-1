@@ -45,11 +45,12 @@ public class MainGameActions extends Component {
 
   private void onDeath() {
     logger.info("Testing epilogue screen");
-    //int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
-    //if (crystalHealth == 0) {
-      CareTaker.deleteAll();
-      game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
-    //}
+    // int crystalHealth =
+    // crystal.getComponent(CombatStatsComponent.class).getHealth();
+    // if (crystalHealth == 0) {
+    CareTaker.deleteAll();
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+    // }
   }
 
   /**
@@ -64,16 +65,17 @@ public class MainGameActions extends Component {
   private void openGuidebook() {
     CareTaker playerStatus = CareTaker.getInstance();
     Memento currentStatus = new Memento(playerStatus.size(),
-            player.getComponent(InventoryComponent.class).getGold(),
-            player.getComponent(InventoryComponent.class).getStone(),
-            player.getComponent(InventoryComponent.class).getWood(),
-            player.getComponent(CombatStatsComponent.class).getHealth(),
-            player.getComponent(InventoryComponent.class).getItems(),
-            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
-            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
-            player.getComponent(InventoryComponent.class).getWeapon(),
-            player.getComponent(InventoryComponent.class).getChestplate(),
-            player.getComponent(InventoryComponent.class).getHelmet());
+        player.getComponent(InventoryComponent.class).getGold(),
+        player.getComponent(InventoryComponent.class).getStone(),
+        player.getComponent(InventoryComponent.class).getWood(),
+        player.getComponent(CombatStatsComponent.class).getHealth(),
+        player.getComponent(InventoryComponent.class).getItems(),
+        player.getComponent(InventoryComponent.class).getBuildings(),
+        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+        player.getComponent(InventoryComponent.class).getWeapon(),
+        player.getComponent(InventoryComponent.class).getArmor(),
+        player.getComponent(InventoryComponent.class).getEquipmentList());
     playerStatus.add(currentStatus);
     ServiceLocator.getDayNightCycleService().pause();
 
@@ -110,16 +112,17 @@ public class MainGameActions extends Component {
     logger.info("Launching settings screen");
 
     Memento currentStatus = new Memento(CareTaker.getInstance().size(),
-            player.getComponent(InventoryComponent.class).getGold(),
-            player.getComponent(InventoryComponent.class).getStone(),
-            player.getComponent(InventoryComponent.class).getWood(),
-            player.getComponent(CombatStatsComponent.class).getHealth(),
-            player.getComponent(InventoryComponent.class).getItems(),
-            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
-            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
-            player.getComponent(InventoryComponent.class).getWeapon(),
-            player.getComponent(InventoryComponent.class).getChestplate(),
-            player.getComponent(InventoryComponent.class).getHelmet());
+        player.getComponent(InventoryComponent.class).getGold(),
+        player.getComponent(InventoryComponent.class).getStone(),
+        player.getComponent(InventoryComponent.class).getWood(),
+        player.getComponent(CombatStatsComponent.class).getHealth(),
+        player.getComponent(InventoryComponent.class).getItems(),
+        player.getComponent(InventoryComponent.class).getBuildings(),
+        player.getComponent(CombatStatsComponent.class).getAttackMultiplier(),
+        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+        player.getComponent(InventoryComponent.class).getWeapon(),
+        player.getComponent(InventoryComponent.class).getArmor(),
+        player.getComponent(InventoryComponent.class).getEquipmentList());
     CareTaker.getInstance().add(currentStatus);
     game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME);
   }
@@ -140,11 +143,12 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getWood(),
         player.getComponent(CombatStatsComponent.class).getHealth(),
         player.getComponent(InventoryComponent.class).getItems(),
-        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        player.getComponent(InventoryComponent.class).getBuildings(),
+        player.getComponent(CombatStatsComponent.class).getAttackMultiplier(),
         player.getComponent(CombatStatsComponent.class).getBaseDefense(),
         player.getComponent(InventoryComponent.class).getWeapon(),
-        player.getComponent(InventoryComponent.class).getChestplate(),
-        player.getComponent(InventoryComponent.class).getHelmet());
+        player.getComponent(InventoryComponent.class).getArmor(),
+        player.getComponent(InventoryComponent.class).getEquipmentList());
     playerStatus.add(currentStatus);
     ServiceLocator.getDayNightCycleService().pause();
     game.setScreen(AtlantisSinks.ScreenType.SHOP);
@@ -155,16 +159,16 @@ public class MainGameActions extends Component {
       case DAWN:
         break;
       case DAY:
-        //testing purpose only
-        //game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
+        // testing purpose only
+        // game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
         break;
       case DUSK:
         break;
       case NIGHT:
-        //logger.info("Playing first night scene");
-        //implement game data save functionality
-        //ServiceLocator.getDayNightCycleService().pause();
-        //game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
+        // logger.info("Playing first night scene");
+        // implement game data save functionality
+        // ServiceLocator.getDayNightCycleService().pause();
+        // game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
         break;
     }
   }
@@ -174,16 +178,17 @@ public class MainGameActions extends Component {
 
     CareTaker playerStatus = CareTaker.getInstance();
     Memento currentStatus = new Memento(playerStatus.size(),
-            player.getComponent(InventoryComponent.class).getGold(),
-            player.getComponent(InventoryComponent.class).getStone(),
-            player.getComponent(InventoryComponent.class).getWood(),
-            player.getComponent(CombatStatsComponent.class).getHealth(),
-            player.getComponent(InventoryComponent.class).getItems(),
-            player.getComponent(CombatStatsComponent.class).getBaseAttack(),
-            player.getComponent(CombatStatsComponent.class).getBaseDefense(),
-            player.getComponent(InventoryComponent.class).getWeapon(),
-            player.getComponent(InventoryComponent.class).getChestplate(),
-            player.getComponent(InventoryComponent.class).getHelmet());
+        player.getComponent(InventoryComponent.class).getGold(),
+        player.getComponent(InventoryComponent.class).getStone(),
+        player.getComponent(InventoryComponent.class).getWood(),
+        player.getComponent(CombatStatsComponent.class).getHealth(),
+        player.getComponent(InventoryComponent.class).getItems(),
+        player.getComponent(InventoryComponent.class).getBuildings(),
+        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
+        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
+        player.getComponent(InventoryComponent.class).getWeapon(),
+        player.getComponent(InventoryComponent.class).getArmor(),
+        player.getComponent(InventoryComponent.class).getEquipmentList());
     playerStatus.add(currentStatus);
 
     ServiceLocator.getDayNightCycleService().pause();
