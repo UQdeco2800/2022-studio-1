@@ -216,7 +216,7 @@ public class StructureService extends EntityService {
       }
     } else {
       if (uiIsVisible) {
-        table1.remove();
+//        table1.remove();
         toggleUIisVisible();
       }
     }
@@ -248,7 +248,7 @@ public class StructureService extends EntityService {
         structureName = name;
         if (buildEvent) {
           if (!uiIsVisible) {
-            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureName);
+//            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureName);
             toggleUIisVisible();
           }
         } else if (removeEvent) {
@@ -261,7 +261,7 @@ public class StructureService extends EntityService {
         }
       } else {
         if (uiIsVisible) {
-          table1.remove();
+//          table1.remove();
           toggleUIisVisible();
         }
       }
