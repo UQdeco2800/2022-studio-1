@@ -160,7 +160,10 @@ public class ForestGameArea extends GameArea {
   private int dayNum = 1;
   private Boolean loadGame;
 
+  // Number of NPCs currently on the map.
   private int NPCNum = ServiceLocator.getNpcService().getNpcNum();
+
+  // List of NPCs that have spawned.
   private List<Entity> activeNPCs = new ArrayList<Entity>();
 
   public ForestGameArea(TerrainFactory terrainFactory, Boolean loadGame) {
@@ -430,6 +433,8 @@ public class ForestGameArea extends GameArea {
 
   /**
    * Spawns NPCs during the day and removes them at night.
+   * NPCs spawn based on the number of buildings you have.
+   * If NPCs exist from the previous day, spawn them again at dawn.
    *
    * @param partOfDay the current part of the day.
    */
@@ -441,6 +446,7 @@ public class ForestGameArea extends GameArea {
       case DAWN:
         // Spawns NPCs that already existed
         if (activeNPCs.size() > 0) {
+          // For each exisiting NPC, spawn them again
           for (Entity npc : activeNPCs) {
             spawnNPCharacter();
           }
@@ -461,11 +467,12 @@ public class ForestGameArea extends GameArea {
         break;
 
       case NIGHT:
-        // Dispose NPCs
+        // Dispose of NPCs
         for (int i = 0; i < NPCNum; i++) {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
+        // Set NPC number to 0 and updaste this in NPCService
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
