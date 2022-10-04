@@ -146,4 +146,17 @@ class CombatStatsComponentTest {
     Crystal.hit(attacker);
     assertEquals(850, Crystal.getHealth());
   }
+
+  @Test
+  void shouldBeInvincible() {
+    CombatStatsComponent attack  = new CombatStatsComponent(100, 50);
+    CombatStatsComponent target = new CombatStatsComponent(100, 0,0,1, 100);
+    target.setInvincibility(true);
+    target.hit(attack);
+
+    assertEquals(100, target.getHealth());
+    target.setInvincibility(false);
+    target.hit(attack);
+    assertEquals(50, target.getHealth());
+  }
 }

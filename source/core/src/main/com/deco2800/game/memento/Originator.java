@@ -196,18 +196,35 @@ public class Originator {
         this.items = items;
     }
 
+    /**
+     * retrieves all the previously bought equipment
+     * @return list of equipments
+     */
     public List<Equipments> getEquipmentsList() {
         return equipmentsList;
     }
 
+    /**
+     * record the list of equipment in the inventory
+     * @param equipmentsList
+     */
     public void setEquipmentsList(List<Equipments> equipmentsList) {
         this.equipmentsList = equipmentsList;
     }
 
+    /**
+     * record the list of buildings in the inventory
+     * @param buildings
+     */
     public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
         this.buildings = buildings;
     }
 
+
+    /**
+     * retrieve the list of previously bought buildings
+     * @return hashmap of buildings
+     */
     public HashMap<ShopBuilding, Integer> getBuildings() {
         return buildings;
     }

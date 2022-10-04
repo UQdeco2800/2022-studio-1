@@ -202,25 +202,19 @@ public class MainGameInterface extends UIComponent {
         rightArrow.setSize(50f, 50f);
         rightArrow.setPosition(leftBox.getX() + 275f, leftBox.getY() + 380f);
 
-        Texture leftSmallTitle1Texture = new Texture(Gdx.files.internal("images/description-box.png"));
+        Texture leftSmallTitle1Texture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
         TextureRegionDrawable leftSmallTitle1Drawable = new TextureRegionDrawable(leftSmallTitle1Texture);
-        ImageButton leftSmallTitle1 = new ImageButton(leftSmallTitle1Drawable, leftSmallTitle1Drawable);
-        leftSmallTitle1.setSize(150f, 60f);
-        leftSmallTitle1.setPosition(leftBox.getX() + 20f, leftBox.getY() + 320f);
+        TextButton leftSmallTitle1 = ShopUtils.createInventoryButton("DISARM", skin.getColor("black"),
+                "button", 1f, leftSmallTitle1Drawable, leftSmallTitle1Drawable, skin, false);
+        leftSmallTitle1.setPosition(leftBox.getX() + 33f, leftBox.getY() + 295f);
+        leftSmallTitle1.setSize(130f, 100f);
 
-        Label leftTitle1 = new Label("DISARM", skin, "small");
-        leftTitle1.setColor(skin.getColor("white"));
-        leftTitle1.setPosition(leftBox.getX() + 50f, leftBox.getY() + 340f);
-
-        Texture leftSmallTitle2Texture = new Texture(Gdx.files.internal("images/description-box.png"));
+        Texture leftSmallTitle2Texture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
         TextureRegionDrawable leftSmallTitle2Drawable = new TextureRegionDrawable(leftSmallTitle2Texture);
-        ImageButton leftSmallTitle2 = new ImageButton(leftSmallTitle2Drawable, leftSmallTitle2Drawable);
-        leftSmallTitle2.setSize(150f, 60f);
-        leftSmallTitle2.setPosition(leftBox.getX() + 170f, leftBox.getY() + 320f);
-
-        Label leftTitle2 = new Label("Equip", skin, "small");
-        leftTitle2.setColor(skin.getColor("white"));
-        leftTitle2.setPosition(leftBox.getX() + 210f, leftBox.getY() + 340f);
+        TextButton leftSmallTitle2 = ShopUtils.createInventoryButton("EQUIP", skin.getColor("black"),
+                "button", 1f, leftSmallTitle1Drawable, leftSmallTitle1Drawable, skin, false);
+        leftSmallTitle2.setPosition(leftBox.getX() + 190f, leftBox.getY() + 295f);
+        leftSmallTitle1.setSize(130f, 100f);
 
         Texture descriptionTexture = new Texture(Gdx.files.internal("images/description-box.png"));
         TextureRegionDrawable descriptionDrawable = new TextureRegionDrawable(descriptionTexture);
@@ -415,12 +409,10 @@ public class MainGameInterface extends UIComponent {
 
         Texture placeButtonTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
         TextureRegionDrawable placeButtonDrawable = new TextureRegionDrawable(placeButtonTexture);
-        ImageButton placeButton = new ImageButton(placeButtonDrawable, placeButtonDrawable);
+        TextButton placeButton = ShopUtils.createInventoryButton("PLACE", skin.getColor("black"),
+                "button", 1f, placeButtonDrawable, placeButtonDrawable, skin, false);
         placeButton.setPosition(rightBox.getX() + 120f, rightBox.getY() + 135f);
 
-        Label place = new Label("Place", skin, "small");
-        place.setColor(skin.getColor("black"));
-        place.setPosition(rightBox.getX() + 150f, rightBox.getY() + 180f);
 
         // Entering the Shop Button
         Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
@@ -899,8 +891,6 @@ public class MainGameInterface extends UIComponent {
         group.addActor(rightArrow);
         group.addActor(leftSmallTitle1);
         group.addActor(leftSmallTitle2);
-        group.addActor(leftTitle1);
-        group.addActor(leftTitle2);
         group.addActor(description);
         group.addActor(selected);
         group.addActor(attackItem);
@@ -927,7 +917,6 @@ public class MainGameInterface extends UIComponent {
         group.addActor(nextBuilding);
         group.addActor(buildingRightArrow);
         group.addActor(placeButton);
-        group.addActor(place);
         group.addActor(crossFrame);
         group.setVisible(false);
 
