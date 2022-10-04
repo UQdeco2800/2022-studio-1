@@ -46,7 +46,13 @@ public class UGS {
      * @param entity Entity
      */
     public void setEntity(String coordinate, Entity entity) {
+        checkEntityPlacement(coordinate);
         tiles.get(coordinate).setEntity(entity);
+    }
+
+    public void checkEntityPlacement(String coordinate) {
+        System.out.print("tiletype ");
+        System.out.println(tiles.get(coordinate).getTileType());
     }
 
     /**

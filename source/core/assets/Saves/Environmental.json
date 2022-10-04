@@ -1,6 +1,33 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 956
+		y: 22
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 940
+		y: -18
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/groupPalmTrees.png
+	position: {
+		x: 1012
+		y: 10
+	}
+	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/rightPalmTree.png
 	position: {
 		x: 1004
@@ -10,28 +37,10 @@
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 948
-		y: 18
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/65x33_tiles/shell.png
 	position: {
 		x: 988
-		y: 70
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 1004
-		y: -10
+		y: -2
 	}
 	name: Shell
 }
@@ -39,53 +48,44 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/pillar.png
 	position: {
-		x: 956
-		y: -18
+		x: 1020
+		y: -2
 	}
 	name: Pillar
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 1108
-		y: 10
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/groupPalmTrees.png
 	position: {
-		x: 972
+		x: 956
 		y: 22
 	}
 	name: Tree
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/65x33_tiles/shell.png
 	position: {
 		x: 916
-		y: 18
+		y: 10
 	}
-	name: ShipwreckBack
+	name: Shell
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
+	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 980
-		y: 2
+		x: 948
+		y: -22
 	}
-	name: Tree
+	name: Shell
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/chalice.png
 	position: {
-		x: 924
-		y: -18
+		x: 1004
+		y: -10
 	}
 	name: Chalice
 }

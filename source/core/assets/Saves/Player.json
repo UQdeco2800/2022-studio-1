@@ -1,13 +1,13 @@
 {
 position: {
-	x: 968.84875
-	y: 3.2790682
+	x: 964.4153
+	y: -0.24781886
 }
 name: player
 playerState: {
 	gold: {
 		class: java.lang.Integer
-		value: 66
+		value: 50
 	}
 	weapon: null
 	chestplate: null
