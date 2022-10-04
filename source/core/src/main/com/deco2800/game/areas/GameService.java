@@ -59,9 +59,9 @@ public class GameService {
     public void registerEntity(GridPoint2 location, String name, Entity entity) {
         logger.debug("Registering {} @ {} in ui service", name, location);
         entityMap.get(location).replace("name", null, name);
-        ServiceLocator.getEntityService().registerNamed(name, entity);
-        Vector2 worldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(location);
-        ServiceLocator.getEntityService().getNamedEntity(name).setPosition(worldPos);
+//        ServiceLocator.getEntityService().registerNamed(name, entity);
+//        Vector2 worldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(location);
+//        ServiceLocator.getEntityService().getNamedEntity(name).setPosition(worldPos);
         logger.info("entityMap.location = {}", entityMap.get(location));
     }
 

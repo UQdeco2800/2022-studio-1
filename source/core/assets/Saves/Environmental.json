@@ -1,10 +1,46 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 932
+		y: -22
+	}
+	name: ShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 940
+		y: -18
+	}
+	name: ShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 1012
+		y: 2
+	}
+	name: Shell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/groupPalmTrees.png
+	position: {
+		x: 932
+		y: 18
+	}
+	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/chalice.png
 	position: {
-		x: 1020
-		y: -10
+		x: 1004
+		y: -18
 	}
 	name: Chalice
 }
@@ -12,17 +48,35 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 1012
-		y: 10
+		x: 980
+		y: 74
 	}
 	name: Shell
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
+	texture: images/65x33_tiles/shell.png
 	position: {
-		x: 964
-		y: 26
+		x: 972
+		y: 78
+	}
+	name: Shell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/groupPalmTrees.png
+	position: {
+		x: 940
+		y: 14
+	}
+	name: Tree
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/rightPalmTree.png
+	position: {
+		x: 972
+		y: -10
 	}
 	name: Tree
 }
@@ -30,63 +84,9 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/pillar.png
 	position: {
-		x: 932
-		y: 26
-	}
-	name: Pillar
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1020
-		y: 6
-	}
-	name: ShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 924
-		y: 22
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 1116
-		y: 6
-	}
-	name: Shell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
-	position: {
-		x: 932
-		y: 10
-	}
-	name: Tree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 940
-		y: 6
-	}
-	name: ShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
-	position: {
 		x: 940
 		y: -2
 	}
-	name: Tree
+	name: Pillar
 }
 ]

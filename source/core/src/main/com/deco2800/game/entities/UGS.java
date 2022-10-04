@@ -44,6 +44,19 @@ public class UGS {
         return tiles.get(coordinate).getEntity();
     }
 
+    public void removeEntity(String name) {
+        for (int x = 0; x < MAPSIZE; x++) {
+            for (int y = 0; y < MAPSIZE; y++) {
+                String strCoord = generateCoordinate(x, y);
+                if (tiles.get(strCoord).getEntity() != null) {
+                    if (tiles.get(strCoord).getEntity().getName().equals(name)) {
+                        tiles.get(strCoord).setEntity(null);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Takes a String and Entity, and sets the corresponding tile's 
      * Entity parameter
