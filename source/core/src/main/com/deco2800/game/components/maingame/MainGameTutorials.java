@@ -310,6 +310,10 @@ public class MainGameTutorials extends UIComponent {
         return control;
     }
 
+    public Table getObjectiveTable() {
+        return objective;
+    }
+
     @Override
     public void dispose() {
         prompts.clear();

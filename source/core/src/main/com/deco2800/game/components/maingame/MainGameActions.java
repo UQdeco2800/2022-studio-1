@@ -41,7 +41,6 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("save", this::onSave);
     entity.getEvents().addListener("load", this::onLoad);
     
-    entity.getEvents().addListener("BossKill", this::onBossKilled);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::onFirstNight);
     //crystal.getEvents().addListener("crystalDeath", this::onDeath);
