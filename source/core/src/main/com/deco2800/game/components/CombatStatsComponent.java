@@ -93,28 +93,34 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Sets the entity's health. Health has a minimum bound of 0.
+   * Sets the entity's health. Health must be greater than 0.
    * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
+   * If the health value is 0 or less, the entity is killed.
    *
    * @param health health
    */
   public void setHealth(int health) {
-    if (health >= 0) {
+    if (health > 0) {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
         this.health = health;
       }
     } else {
-      // create an enemy list to contain all enemies
-      String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
-      // remove enemies if health point is 0
-      for (String enemy : enemies) {
-        if (entity != null && entity.getName().contains(enemy) && isDead()) {
-          entity.dispose();
-        }
-      }
       this.health = 0;
+      if (entity != null && entity.getName() != null) {
+
+        // create an enemy list to contain all enemies
+        String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
+        // remove enemies if health point is 0
+        for (String enemy : enemies) {
+          if (entity != null && entity.getName().contains(enemy) && isDead()) {
+            entity.dispose();
+          }
+        }
+
+        killEntity(entity.getName());
+      }
     }
 
     if (entity != null) {

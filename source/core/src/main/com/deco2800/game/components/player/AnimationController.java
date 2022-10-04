@@ -22,8 +22,9 @@ class Node<T> {
 public class AnimationController extends Component {
   AnimationRenderComponent animator;
   int weapon = 0;
-  String[] wea_lst = {"bna_", "swo_", "tri_", "axe_","arm_", "shi_", "hel_",""};
-  String temp_anim = "";
+  String[] wea_lst = {"bna_get_", "swo_get_", "tri_get_", "axe_get","arm_get_", "shi_get_", "hel_get_"};
+  String temp_anim = "axe_w";
+  String temp_dir = "w";
   
   @Override
   public void create() {
@@ -37,6 +38,7 @@ public class AnimationController extends Component {
     entity.getEvents().addListener("attack_anim", this::attack_anim);
     entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
     entity.getEvents().addListener("death_anim", this::death_anim);
+    entity.getEvents().addListener("after_death", this::after_death);
     entity.getEvents().addListener("weapons", this::weapons);
     
   }
@@ -49,7 +51,8 @@ public class AnimationController extends Component {
       animator.startAnimation(anim);
     }else{
       animator.startAnimation(dir);
-    } 
+    }
+    temp_dir = dir; 
   }
 
   void ch_dir_w() {
@@ -97,10 +100,24 @@ public class AnimationController extends Component {
     animator.startAnimation("death_anim");
   }
 
+  void after_death() {
+    animator.startAnimation("axe_w");
+  }
+
   void weapons(){
     
     int counter = weapon % wea_lst.length;
-    String anim_to_play = wea_lst[counter].concat("w");
+    String anim_to_play = "";
+    
+    if (wea_lst[counter].equals("axe_get")) {
+      anim_to_play = wea_lst[counter];
+    }
+    else if (temp_dir.equals("w") || temp_dir.equals("d")) {
+      anim_to_play = wea_lst[counter].concat("wd");
+    } else {
+      anim_to_play = wea_lst[counter].concat("as");
+    }
+    System.out.println(anim_to_play);
     animator.stopAnimation();
     animator.startAnimation(anim_to_play);
     weapon += 1;
