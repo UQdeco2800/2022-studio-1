@@ -13,6 +13,10 @@ public class storyLineAction extends Component {
         this.game = game;
     }
 
+    public AtlantisSinks getGame() {
+        return this.game;
+    }
+
     @Override
     public void create() {
         entity.getEvents().addListener("skip", this::onSkip);
