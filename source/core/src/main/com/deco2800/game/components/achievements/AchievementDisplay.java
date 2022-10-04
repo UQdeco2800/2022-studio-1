@@ -179,13 +179,13 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kills_Icon.png");
+        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
         this.addButtonEvent(killButton, "Kill");
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resourse_Icon.png");
+        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
         this.addButtonEvent(resourceButton, "Resource");
 
         navigationTable.add(resourceButton).expand();
