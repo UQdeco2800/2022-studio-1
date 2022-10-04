@@ -1,5 +1,6 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
@@ -55,7 +56,7 @@ public class ObstacleFactory {
   public static Entity createTree(String image) {
 
     Entity tree = createEnvironmentalObject(image, EnvironmentalComponent.EnvironmentalObstacle.TREE,
-            2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
     tree.setName("Tree");
     tree.setResourceType(ResourceType.WOOD);
     tree.setCollectable(true);
@@ -64,15 +65,13 @@ public class ObstacleFactory {
     return tree;
   }
 
-
   /**
    * Creates a rock entity.
    * 
    * @return entity
    */
   public static Entity createRock() {
-    String[] sprites = { "images/landscape_objects/limestone-boulder-60x60.png",
-        "images/landscape_objects/marble-stone-60x40.png" };
+    String[] sprites = { "images/seastack1.png", "images/seastack2.png" };
     int index = (int) ((Math.random() * (sprites.length)));
     Entity rock = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
         0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
@@ -82,12 +81,11 @@ public class ObstacleFactory {
     rock.setCollectable(true);
     rock.setResourceAmount(10);
 
-    ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
+    ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId() + MathUtils.random(0, 200), rock);
     rock.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return rock;
   }
-
 
   /**
    * Creates a rock entity. Overloading used for the purpose of save/load game
@@ -96,14 +94,12 @@ public class ObstacleFactory {
    */
   public static Entity createRock(String image) {
     Entity rock = createEnvironmentalObject(image, EnvironmentalComponent.EnvironmentalObstacle.ROCK,
-            0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     rock.setName("Rock");
     rock.setResourceType(ResourceType.STONE);
     rock.setCollectable(true);
     rock.setResourceAmount(10);
-
-    ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId(), rock);
     return rock;
   }
 
@@ -181,7 +177,6 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER,
         3f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.KNOCKBACK, 1f);
     ServiceLocator.getEntityService().registerNamed("Billboard@" + billboard.getId(), billboard);
-
 
     billboard.setName("Billboard");
     billboard.setCollectable(false);
@@ -263,7 +258,7 @@ public class ObstacleFactory {
   public static Entity createShipwreckFront() {
     Entity shipwreck = createEnvironmentalObject("images/shipWreckFront.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
-        2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        20f, 1f, 1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     shipwreck.setName("ShipwreckFront");
     shipwreck.setCollectable(true);
@@ -271,7 +266,6 @@ public class ObstacleFactory {
     shipwreck.setResourceAmount(50);
 
     ServiceLocator.getEntityService().registerNamed("shipWreckFront@" + shipwreck.getId(), shipwreck);
-    shipwreck.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shipwreck;
   }
@@ -284,7 +278,7 @@ public class ObstacleFactory {
   public static Entity createShipwreckBack() {
     Entity shipwreck = createEnvironmentalObject("images/shipWreckBack.png",
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
-        2f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
+        20f, 1f, 1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
     shipwreck.setName("ShipwreckBack");
     shipwreck.setCollectable(true);
@@ -292,7 +286,6 @@ public class ObstacleFactory {
     shipwreck.setResourceAmount(50);
 
     ServiceLocator.getEntityService().registerNamed("shipWreckBack@" + shipwreck.getId(), shipwreck);
-    shipwreck.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shipwreck;
   }
@@ -332,9 +325,7 @@ public class ObstacleFactory {
     environmentalObject.setName("EnvironmentalObject");
     environmentalObject.setCollectable(false);
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
-    environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
     environmentalObject.scaleHeight(heightScale);
-    environmentalObject.getComponent(TextureRenderComponent.class).scaleEntity();
 
     PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
     return environmentalObject;

@@ -8,6 +8,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.npc.*;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.player.AnimationController;
 import com.deco2800.game.components.tasks.*;
 import com.deco2800.game.components.tasks.RangedMovementTask;
 import com.deco2800.game.components.tasks.WanderTask;
@@ -146,11 +147,11 @@ public class NPCFactory {
             .addComponent(new GhostAnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
-    //ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
+    ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
     //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
     ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
-    ElectricEelEnemy.setScale(1.2f, 1.2f);
+    ElectricEelEnemy.setScale(12f, 12f);
 
     return ElectricEelEnemy;
   }
@@ -189,25 +190,39 @@ public class NPCFactory {
     return boss;
   }
 
-  // Create starfish as a new entity
-  public static Entity createStarFish(Entity target, Entity crystal) {
+// Create starfish as a new entity
+  public static Entity createStarFishEnemy(Entity target, Entity crystal) {
     Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
+    //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
     /** AnimationRenderComponent animator =
+     new AnimationRenderComponent(
+     ServiceLocator.getResourceService()
+     .getAsset("images/ghostKing.atlas", TextureAtlas.class));
+     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
+     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
+     */
+    AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService()
-                            .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-    animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-    animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-    */
+                    ServiceLocator.getResourceService().getAsset("images/starfish_animation/starfish.atlas", TextureAtlas.class));
+    animator.addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
+
+
     ninjaStarfish
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(textureRenderComponent)
-            .addComponent(new DayNightCycleComponent());
+            .addComponent(new DayNightCycleComponent())
+            //.addComponent(textureRenderComponent);
+            .addComponent(new GhostAnimationController())
+            .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
-    ninjaStarfish.getComponent(TextureRenderComponent.class).scaleEntity();
+    ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
+    ServiceLocator.getEntityService().registerNamed("ninjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
+    ninjaStarfish.setScale(12f, 12f);
+
     return ninjaStarfish;
   }
 
@@ -280,7 +295,7 @@ public class NPCFactory {
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
                 //.addComponent(new TextureRenderComponent(NPC_textures[index]))
                 .addComponent(aiComponent);
-        
+
         npc.setCollectable(false);
 
         PhysicsUtils.setScaledCollider(npc, 0.9f, 0.4f);

@@ -31,4 +31,19 @@ public class ShopUtils {
         button.padBottom(20);
         return button;
     }
+
+    public static TextButton createInventoryButton(String text, Color color, String textString, float scale,
+                                                   TextureRegionDrawable down,
+                                                   TextureRegionDrawable up,
+                                                   Skin skin, Boolean isDisabled) {
+        TextButtonStyle style = new TextButtonStyle(up, down, up, skin.getFont(textString));
+        TextButton button = new TextButton(text, style);
+        button.getLabel().setColor(color);
+        button.setTransform(true);
+        button.setOrigin(0, 0);
+        button.setScale(scale);
+        button.setDisabled(isDisabled);
+        button.padBottom(10);
+        return button;
+    }
 }

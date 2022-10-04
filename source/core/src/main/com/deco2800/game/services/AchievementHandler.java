@@ -401,4 +401,14 @@ public class AchievementHandler {
 
         return null;
     }
+
+    public boolean allCompleted(AchievementType type) {
+        for (Achievement achievement : this.achievements) {
+            if (achievement.getAchievementType() == type && !achievement.isCompleted()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

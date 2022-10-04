@@ -8,7 +8,7 @@
     "defense": 0,
     "health": 0,
     "time": 15,
-    "description": "Pause time for 15s",
+    "description": "Invincibility for 5s",
     "itemImagePath": "images/shop-clock.png",
     "itemBackgroundImagePath": "images/shop-items-framed/clock-framed.png"
 }
