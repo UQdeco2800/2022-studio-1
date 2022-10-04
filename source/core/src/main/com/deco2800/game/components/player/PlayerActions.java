@@ -35,13 +35,7 @@ public class PlayerActions extends Component {
   public static boolean playerAlive = true;
 
   private Timer timer;
-  TimerTask dieTask = new TimerTask() {
-    @Override
-    public void run() {
-      //hide the character sprite
-     entity.setScale(0.1F, 0.1F);
-    }
-  };
+  TimerTask dieTask;
 
   @Override
   public void create() {
@@ -50,8 +44,6 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("playerDeath", this::die);
-    entity.getEvents().addListener("playerRespawn", this::respawn);
-
     timer = new Timer();
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::respawn);
   }
@@ -178,6 +170,13 @@ public class PlayerActions extends Component {
     entity.getEvents().trigger("death_anim");
     entity.setScale(11f, 10.5f);
     playerAlive = false;
+    dieTask = new TimerTask() {
+      @Override
+      public void run() {
+        //hide the character sprite
+        entity.setScale(0.1F, 0.1F);
+      }
+    };
     timer.schedule(dieTask, 1000);
   }
 
@@ -185,54 +184,14 @@ public class PlayerActions extends Component {
    * Respawns the player
    */
   public void respawn(DayNightCycleStatus partOfDay) {
-    System.out.println("Player respawned");
     if (partOfDay == DayNightCycleStatus.DAY) {
       if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
         //respawn
+        entity.getEvents().trigger("after_death");
         entity.setScale(10.5f, 9.5f);
-        entity.getEvents().trigger("ch_dir_w");
-        entity.getEvents().trigger("playerControlTut", "UP");
+        playerAlive = true;
+        entity.getComponent(CombatStatsComponent.class).setHealth(100);
       }
     }
   }
-
 }
-// deprecated attack function
-//    closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
-//        (int) current.getPosition().y);
-//    Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,
-//        (int) current.getPosition().y);
-//
-//    if (null != closestEnemy) {
-//      CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
-//      if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
-//        CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
-//            .getComponent(CombatStatsComponent.class);
-//        System.out.println(enemyTarget.getHealth());
-//        enemyTarget.hit(combatStats);
-//        if (enemyTarget.getHealth() < 1) {
-//          closestEnemy.dispose();
-//          this.entity.getEvents().trigger("enemyKill");
-//          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
-//        } else {
-//          enemyTarget.setHealth(enemyTarget.getHealth());
-//          System.out.println(enemyTarget.getHealth());
-//        }
-//      }
-//    } else if (null != closestEntity) {
-//      if (null == closestEntity.getName()) {
-//        return;
-//      }
-//      if (closestEntity.isCollectable() && ServiceLocator.getRangeService().playerInRangeOf(closestEntity)) {
-//        closestEntity.collectResources();
-//        closestEntity.dispose();
-//        PlayerStatsDisplay.updateItems();
-//      }
-//    }
-//    this.entity.getEvents().trigger("showPrompts");
-//  }
-
-// Sound attackSound =
-// ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3",
-// Sound.class);
-// attackSound.play();

@@ -2,9 +2,12 @@ package com.deco2800.game.entities;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainTile;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,7 @@ public class UGS {
 
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
-        generateUGS();
+//        generateUGS();
     }   
 
     /**
@@ -43,6 +46,19 @@ public class UGS {
         return tiles.get(coordinate).getEntity();
     }
 
+    public void removeEntity(String name) {
+        for (int x = 0; x < MAPSIZE; x++) {
+            for (int y = 0; y < MAPSIZE; y++) {
+                String strCoord = generateCoordinate(x, y);
+                if (tiles.get(strCoord).getEntity() != null) {
+                    if (tiles.get(strCoord).getEntity().getName().equals(name)) {
+                        tiles.get(strCoord).setEntity(null);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Takes a String and Entity, and sets the corresponding tile's 
      * Entity parameter
@@ -51,6 +67,28 @@ public class UGS {
      */
     public void setEntity(String coordinate, Entity entity) {
         tiles.get(coordinate).setEntity(entity);
+        System.out.print("tile entity ==> ");
+        System.out.println(tiles.get(coordinate).getEntity());
+    }
+
+    /**
+     * Takes a String entityType and String coordinate and decides if that type of enity can spawn
+     * at that coordinate.
+     * @param coordinate x, y of the gridpoint in string form
+     * @param entityType type of entity in string form
+     * @return true if the entity can spawn in a gridpoint else returns false
+     */
+
+    public Boolean checkEntityPlacement(String coordinate, String entityType) {
+        if (entityType.equals("structure")) {
+            if (tiles.get(coordinate).getTileType().equals("sand")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -223,6 +261,9 @@ public class UGS {
                 Tile tile = new Tile();
                 String coordinate = generateCoordinate(x, y);
                 this.add(coordinate,tile);
+                TiledMap tiledMap = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getMap();
+                String t = ((TerrainTile) ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(x,y).getTile()).getName();
+                this.setTileType(coordinate, t);
             }
         }
     }
