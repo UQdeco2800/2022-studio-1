@@ -26,6 +26,7 @@ import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -521,6 +522,8 @@ public class MainGameInterface extends UIComponent {
                 MainArea.getInstance().getGameArea().getPlayer().getComponent(CombatStatsComponent.class)
                     .setAttackMultiplier(equipmentStats.attack);
                 System.out.println("WEAPON equipped");
+                MainArea.getInstance().getGameArea().getPlayer().getComponent(AnimationRenderComponent.class)
+                    .startAnimation(Equipments.getAnimationName(currentEquipment));
                 attackItem.setDrawable(
                     new TextureRegionDrawable(new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
               } else {
@@ -553,6 +556,8 @@ public class MainGameInterface extends UIComponent {
               MainArea.getInstance().getGameArea().getPlayer().getComponent(CombatStatsComponent.class)
                   .setAttackMultiplier(equipmentStats.attack);
               System.out.println("WEAPON disarmed");
+              MainArea.getInstance().getGameArea().getPlayer().getComponent(AnimationRenderComponent.class)
+                  .startAnimation(Equipments.getAnimationName(Equipments.AXE));
               attackItem.setDrawable(
                   new TextureRegionDrawable(new Texture(Gdx.files.internal(equipmentStats.itemBackgroundImagePath))));
             } else {
