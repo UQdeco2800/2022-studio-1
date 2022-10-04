@@ -28,6 +28,8 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.DriverManager.println;
+
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
@@ -164,6 +166,9 @@ public class ForestGameArea extends GameArea {
 
 
     this.player = spawnPlayer();
+
+    spawnElectricEelEnemy();
+    System.out.println("cass");
 
     // spawnEnvironmentalObjects();
     playMusic();

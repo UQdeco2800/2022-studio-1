@@ -11,8 +11,6 @@ import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.npc.GhostAnimationController;
 import com.deco2800.game.components.tasks.*;
-import com.deco2800.game.components.tasks.RangedMovementTask;
-import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.entities.Enemy;
@@ -129,7 +127,7 @@ public class NPCFactory {
     TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
 
     ElectricEelEnemy
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new CombatStatsComponent(config.health, 0))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(textureRenderComponent);
 
@@ -234,7 +232,10 @@ public class NPCFactory {
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
                     .addTask(new RangedMovementTask(crystal, 10, 2f, 20f, 30f))
-                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 5f));
+                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 8f))
+                    .addTask(new MeleeAvoidObstacleTask(target))
+                    .addTask(new ShootTask(target, 30, 3f, 8f))
+                    .addTask(new ShootTask(crystal, 30, 5f, 10f));
     Enemy enemy =
             (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())

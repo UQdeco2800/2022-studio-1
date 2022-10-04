@@ -10,7 +10,9 @@ import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.raycast.RaycastHit;
 import com.deco2800.game.rendering.DebugRenderer;
 import com.deco2800.game.services.GameTime;
+import com.deco2800.game.areas.GameArea;
 import com.deco2800.game.services.ServiceLocator;
+
 
 /** Chases a target entity until they get too far away or line of sight is lost */
 public class ShootTask extends DefaultTask implements PriorityTask {
@@ -49,11 +51,15 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public void update() {
-        if (GameTime.getTime() >= taskEnd && getActivePriority() != -1) {
-            Entity entity = this.owner.getEntity();
+        Entity entity = this.owner.getEntity();
+        if (GameTime.getTime() >= taskEnd + (2 * SECOND)) {
             ProjectileFactory.createProjectile(entity, target);
-            taskEnd = GameTime.getTime() + (int)(time * SECOND);
+            taskEnd = GameTime.getTime() + (int) (time * SECOND);
         }
+        System.out.println(entity.getPosition());
+        System.out.println("1");
+        System.out.println(target.getPosition());
+        System.out.println("2");
     }
 
     @Override
