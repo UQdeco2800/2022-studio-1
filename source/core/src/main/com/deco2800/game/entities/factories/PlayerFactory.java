@@ -47,38 +47,27 @@ public class PlayerFactory {
     //e.g. "w" - when w is pressed, "wa" - during attack, when w is pressed before
     AnimationRenderComponent player_start = new AnimationRenderComponent(ServiceLocator.getResourceService()
     .getAsset("images/anim_demo/main.atlas", TextureAtlas.class));
-    player_start.addAnimation("w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("d", 0.15f, Animation.PlayMode.REVERSED);
-    
-    
+        
     player_start.addAnimation("death_anim", 0.15f, Animation.PlayMode.NORMAL);
 
-    player_start.addAnimation("arm_w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("arm_a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("arm_s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("arm_d", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("bna_w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("bna_a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("bna_s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("bna_d", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("hel_w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("hel_a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("hel_s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("hel_d", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("shi_w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("shi_a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("shi_s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("shi_d", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("swo_w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("swo_a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("swo_s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("swo_d", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("tri_w", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("tri_a", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("tri_s", 0.15f, Animation.PlayMode.REVERSED);
-    player_start.addAnimation("tri_d", 0.15f, Animation.PlayMode.REVERSED);
+    String[] wea_lst = {"arm_","bna_","hel_", "shi_", "swo_", "tri_", "axe_", ""};
+
+    for (String weapoString : wea_lst) {
+      player_start.addAnimation(weapoString.concat("w"), 0.15f, Animation.PlayMode.REVERSED);
+      player_start.addAnimation(weapoString.concat("a"), 0.15f, Animation.PlayMode.REVERSED);
+      player_start.addAnimation(weapoString.concat("s"), 0.15f, Animation.PlayMode.REVERSED);
+      player_start.addAnimation(weapoString.concat("d"), 0.15f, Animation.PlayMode.REVERSED);
+    }
+
+    player_start.addAnimation("axe_att", 0.1f, Animation.PlayMode.REVERSED);
+    player_start.addAnimation("bna_att_as", 0.2f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("bna_att_wd", 0.2f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("shi_att_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("shi_att_wd", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("swo_att_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("swo_att_wd", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("tri_att_as", 0.1f, Animation.PlayMode.NORMAL);
+    player_start.addAnimation("tri_att_wd", 0.1f, Animation.PlayMode.NORMAL);
     //player_start.addAnimation("wa", 0.1f, Animation.PlayMode.NORMAL);
     //player_start.addAnimation("aa", 0.1f, Animation.PlayMode.NORMAL);
     //player_start.addAnimation("sa", 0.1f, Animation.PlayMode.NORMAL);
@@ -106,7 +95,7 @@ public class PlayerFactory {
     ServiceLocator.getEntityService().registerNamed("player", player);
     PhysicsUtils.setScaledCollider(player, 15f, 15f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
-    player.getComponent(AnimationRenderComponent.class).startAnimation("w");
+    player.getComponent(AnimationRenderComponent.class).startAnimation("axe_w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
     player.setScale(10.5f, 9.5f);
 //    player.getComponent(TextureRenderComponent.class).scaleEntity();
