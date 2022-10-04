@@ -10,6 +10,7 @@ import com.deco2800.game.services.ServiceLocator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.areas.MainArea;
 
 import com.badlogic.gdx.Gdx;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 
 
@@ -24,11 +26,14 @@ import com.deco2800.game.services.DayNightCycleStatus;
 @ExtendWith(MockitoExtension.class)
 public class MainGameTutorialTest {
     @Mock MainGameTutorials actions;
+    @Mock EntityService service;
+    @Mock DayNightCycleService cycleService;
+    @Mock Entity entity; 
 
     @Test
     void movementPromptTest() {
 
-        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+        Entity player = service.getNamedEntity("player");
         player.getEvents().trigger("playerControlTut", "UP");
         player.getEvents().trigger("playerControlTut", "DOWN");
         player.getEvents().trigger("playerControlTut", "LEFT");
@@ -60,9 +65,9 @@ public class MainGameTutorialTest {
     @Test
     void stonePromptTest() {
 
-        Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
-        Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) currentPlayer.getPosition().x,
-                (int) currentPlayer.getPosition().y);
+        Entity player = service.getNamedEntity("player");
+        Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) player.getPosition().x,
+                (int) player.getPosition().y);
 
         closestEntity.setResourceType(ResourceType.STONE);
         closestEntity.setCollectable(true);
