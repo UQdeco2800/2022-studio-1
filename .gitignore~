@@ -1,5 +1,5 @@
 .idea/
 
-.Saves/
+.core/assets/Saves/Environmental.json
 ### Gradle ###
 .gradle/
