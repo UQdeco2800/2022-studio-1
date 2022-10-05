@@ -851,6 +851,7 @@ public class MainGameInterface extends UIComponent {
                       .getTime());
                 } catch (InterruptedException e) {
                   logger.error(e.getMessage());
+                  Thread.currentThread().interrupt();
                 }
                 return null;
               });
@@ -883,6 +884,7 @@ public class MainGameInterface extends UIComponent {
                           .getHealth());
                 } catch (InterruptedException e) {
                   logger.error(e.getMessage());
+                  Thread.currentThread().interrupt();
                 }
                 return null;
               });
