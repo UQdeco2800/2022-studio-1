@@ -46,6 +46,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("playerDeath", this::die);
     timer = new Timer();
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::respawn);
+    playerAlive = true;
   }
 
   @Override
