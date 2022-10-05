@@ -26,11 +26,10 @@ public class PrologueScreen extends ScreenAdapter{
 
     //load all the texture images
     private static final String[] storylineTextures = {
-            "images/StoryLine/prologue1.png",
-            "images/StoryLine/prologue2.png",
-            "images/StoryLine/prologue3.png",
-            "images/StoryLine/prologue4.png",
-            "test/files/clearBackground.png",
+            "images/StoryLine/prologue1_revised.png",
+            "images/StoryLine/prologue2_revised.png",
+            "images/StoryLine/prologue3_revised.png",
+            "images/StoryLine/prologue4_revised.png",
     };
 
     public PrologueScreen(AtlantisSinks game) {

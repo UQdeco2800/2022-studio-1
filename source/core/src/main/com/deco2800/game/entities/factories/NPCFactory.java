@@ -10,8 +10,6 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.player.AnimationController;
 import com.deco2800.game.components.tasks.*;
-import com.deco2800.game.components.tasks.RangedMovementTask;
-import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.entities.Enemy;
@@ -140,17 +138,21 @@ public class NPCFactory {
     animator.addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
 
     ElectricEelEnemy
-            .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
+            .addComponent(new CombatStatsComponent(config.health, 0))
             .addComponent(new HealthBarComponent(100, 10))
             .addComponent(animator)
             //.addComponent(textureRenderComponent);
-            .addComponent(new GhostAnimationController())
+            .addComponent(new AnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
+    ElectricEelEnemy.setName("ElectricEel");
+    ElectricEelEnemy.setCollectable(false);
+
+    ServiceLocator.getEntityService().registerNamed("ElectricEel",  ElectricEelEnemy);
+    PhysicsUtils.setScaledCollider(ElectricEelEnemy, 12f, 12f);
+    ElectricEelEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
-    //ElectricEelEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
-    ServiceLocator.getEntityService().registerNamed("electricEelEnemy@" + ElectricEelEnemy.getId(), ElectricEelEnemy);
     ElectricEelEnemy.setScale(12f, 12f);
 
     return ElectricEelEnemy;
@@ -195,13 +197,7 @@ public class NPCFactory {
     Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ninjaStarfish;
     //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/starfish.png");
-    /** AnimationRenderComponent animator =
-     new AnimationRenderComponent(
-     ServiceLocator.getResourceService()
-     .getAsset("images/ghostKing.atlas", TextureAtlas.class));
-     animator.addAnimation("float", 0.1f, Animation.PlayMode.LOOP);
-     animator.addAnimation("angry_float", 0.1f, Animation.PlayMode.LOOP);
-     */
+
     AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/starfish_animation/starfish.atlas", TextureAtlas.class));
@@ -214,13 +210,16 @@ public class NPCFactory {
     ninjaStarfish
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
-            .addComponent(new DayNightCycleComponent())
+            .addComponent(animator)
             //.addComponent(textureRenderComponent);
-            .addComponent(new GhostAnimationController())
+            .addComponent(new AnimationController())
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
+    ServiceLocator.getEntityService().registerNamed("NinjaStarfish",  ninjaStarfish);
+    PhysicsUtils.setScaledCollider(ninjaStarfish, 12f, 12f);
+    ninjaStarfish.getComponent(ColliderComponent.class).setDensity(1.5f);
+    ninjaStarfish.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
-    ServiceLocator.getEntityService().registerNamed("ninjaStarfish@" + ninjaStarfish.getId(), ninjaStarfish);
     ninjaStarfish.setScale(12f, 12f);
 
     return ninjaStarfish;
@@ -261,8 +260,11 @@ public class NPCFactory {
     AITaskComponent aiComponent =
             new AITaskComponent()
                     .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                    .addTask(new RangedMovementTask(crystal, 10, 2f, 20f, 30f))
-                    .addTask(new RangedMovementTask(target, 20, 2f, 3f, 5f));
+                    .addTask(new RangedMovementTask(crystal, 10, 2f, 50f, 60f))
+                    .addTask(new RangedMovementTask(target, 20, 2f, 50f, 60f))
+                    .addTask(new MeleeAvoidObstacleTask(target))
+                    .addTask(new ShootTask(target, 30, 50f, 60f))
+                    .addTask(new ShootTask(crystal, 30, 50f, 60f));
     Enemy enemy =
             (Enemy) new Enemy()
                     .addComponent(new PhysicsComponent())
@@ -302,6 +304,10 @@ public class NPCFactory {
         return npc;
       }
 
+      /**
+       * Creates a new special NPC.
+       * @return special NPC.
+       */
       public static Entity createSpecialNPC() {
         Entity NPC = createBaseNPC();
         NPC.setName("SpecialNPC");
@@ -318,6 +324,10 @@ public class NPCFactory {
           return NPC;
       }
 
+      /**
+       * Creates a new normal NPC.
+       * @return normal NPC
+       */
     public static Entity createNormalNPC() {
           String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
               "images/npcs/NPC-V2.2.png" };

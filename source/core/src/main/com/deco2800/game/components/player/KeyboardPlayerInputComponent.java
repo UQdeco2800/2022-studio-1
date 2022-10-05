@@ -88,6 +88,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("attack");
           entity.getEvents().trigger("attack_anim");
           entity.getEvents().trigger("playerControlTut", "SPACE");
+          entity.getEvents().trigger("skipEpilogue");
           return true;
         default:
           return false;
