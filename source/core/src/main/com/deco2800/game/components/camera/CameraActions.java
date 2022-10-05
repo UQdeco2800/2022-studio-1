@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
 
-import java.util.logging.Logger;
 
 public class CameraActions extends Component {
         private boolean panning = false;
@@ -73,7 +72,7 @@ public class CameraActions extends Component {
          * players movement.
          * Re-attaches camera to player, and disables manual panning
          * 
-         * @param position
+         * @param position location of camera
          */
         void playerMovementPan(Vector2 position) {
                 this.playerMoving = true;
