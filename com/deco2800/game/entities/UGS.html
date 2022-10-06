@@ -107,13 +107,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(java.lang.String,com.deco2800.game.entities.Tile)" class="member-name-link">add</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Tile)" class="member-name-link">add</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
  <a href="Tile.html" title="class in com.deco2800.game.entities">Tile</a>&nbsp;tile)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a new entry to the UGS</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkEntityPlacement(java.lang.String,java.lang.String)" class="member-name-link">checkEntityPlacement</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkEntityPlacement(com.badlogic.gdx.math.GridPoint2,java.lang.String)" class="member-name-link">checkEntityPlacement</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityType)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Takes a String entityType and String coordinate and decides if that type of enity can spawn
@@ -137,24 +137,27 @@ loadScripts(document, 'script');</script>
  in each coordinate.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntity(java.lang.String)" class="member-name-link">getEntity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntity(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getEntity</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Takes a String and returns the associated tile's entity 
  or null if there is none</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntityByName(java.lang.String)" class="member-name-link">getEntityByName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns an entity or null found in the ugs by name of that entity</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTileType(java.lang.String)" class="member-name-link">getTileType</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTileType(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getTileType</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Takes a String (concatenated x,y value) and returns the associated tile's type</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#moveEntity(com.deco2800.game.entities.Entity,java.lang.String,boolean,boolean)" class="member-name-link">moveEntity</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;currentPosition,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#moveEntity(com.deco2800.game.entities.Entity,com.badlogic.gdx.math.GridPoint2,boolean,boolean,java.lang.String)" class="member-name-link">moveEntity</a><wbr>(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
+ com.badlogic.gdx.math.GridPoint2&nbsp;currentPosition,
  boolean&nbsp;xDirection,
- boolean&nbsp;yDirection)</code></div>
+ boolean&nbsp;yDirection,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityName)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">--------------------Does not account for tile type--------------------
  Checks whether an entity can move in the given direction, and returns True if the move was carried 
@@ -170,23 +173,25 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Removes an entity from the hashmap by name</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEntity(java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">setEntity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
- <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEntity(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Entity,java.lang.String)" class="member-name-link">setEntity</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
+ <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityName)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Takes a String and Entity, and sets the corresponding tile's 
  Entity parameter</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLargeEntity(java.lang.String,com.deco2800.game.entities.Entity,int,int)" class="member-name-link">setLargeEntity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;origin,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLargeEntity(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Entity,int,int,java.lang.String)" class="member-name-link">setLargeEntity</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;origin,
  <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
  int&nbsp;dimensionX,
- int&nbsp;dimensionY)</code></div>
+ int&nbsp;dimensionY,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityName)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Function for setting / updating tiles for an entity whose size is greater than 1x1.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTileType(java.lang.String,java.lang.String)" class="member-name-link">setTileType</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTileType(com.badlogic.gdx.math.GridPoint2,java.lang.String)" class="member-name-link">setTileType</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tileType)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Takes a String and Entity, and sets the corresponding tile's 
@@ -224,9 +229,9 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getTileType(java.lang.String)">
+<section class="detail" id="getTileType(com.badlogic.gdx.math.GridPoint2)">
 <h3>getTileType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getTileType</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getTileType</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate)</span></div>
 <div class="block">Takes a String (concatenated x,y value) and returns the associated tile's type</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -237,9 +242,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getEntity(java.lang.String)">
+<section class="detail" id="getEntity(com.badlogic.gdx.math.GridPoint2)">
 <h3>getEntity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">getEntity</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">getEntity</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate)</span></div>
 <div class="block">Takes a String and returns the associated tile's entity 
  or null if there is none</div>
 <dl class="notes">
@@ -265,13 +270,21 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEntityByName(java.lang.String)">
 <h3>getEntityByName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a></span>&nbsp;<span class="element-name">getEntityByName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Returns an entity or null found in the ugs by name of that entity</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - of the entity to find</dd>
+<dt>Returns:</dt>
+<dd>the entity found or null</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setEntity(java.lang.String,com.deco2800.game.entities.Entity)">
+<section class="detail" id="setEntity(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Entity,java.lang.String)">
 <h3>setEntity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEntity</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
- <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">setEntity</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
+ <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityName)</span></div>
 <div class="block">Takes a String and Entity, and sets the corresponding tile's 
  Entity parameter</div>
 <dl class="notes">
@@ -282,9 +295,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="checkEntityPlacement(java.lang.String,java.lang.String)">
+<section class="detail" id="checkEntityPlacement(com.badlogic.gdx.math.GridPoint2,java.lang.String)">
 <h3>checkEntityPlacement</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">checkEntityPlacement</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">checkEntityPlacement</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityType)</span></div>
 <div class="block">Takes a String entityType and String coordinate and decides if that type of enity can spawn
  at that coordinate.</div>
@@ -298,9 +311,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setTileType(java.lang.String,java.lang.String)">
+<section class="detail" id="setTileType(com.badlogic.gdx.math.GridPoint2,java.lang.String)">
 <h3>setTileType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTileType</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTileType</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tileType)</span></div>
 <div class="block">Takes a String and Entity, and sets the corresponding tile's 
  tileType parameter</div>
@@ -312,9 +325,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="add(java.lang.String,com.deco2800.game.entities.Tile)">
+<section class="detail" id="add(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Tile)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;coordinate,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;coordinate,
  <a href="Tile.html" title="class in com.deco2800.game.entities">Tile</a>&nbsp;tile)</span></div>
 <div class="block">Adds a new entry to the UGS</div>
 <dl class="notes">
@@ -325,12 +338,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setLargeEntity(java.lang.String,com.deco2800.game.entities.Entity,int,int)">
+<section class="detail" id="setLargeEntity(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Entity,int,int,java.lang.String)">
 <h3>setLargeEntity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLargeEntity</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;origin,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLargeEntity</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;origin,
  <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
  int&nbsp;dimensionX,
- int&nbsp;dimensionY)</span></div>
+ int&nbsp;dimensionY,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityName)</span></div>
 <div class="block">Function for setting / updating tiles for an entity whose size is greater than 1x1.
  
  Function takes an x,y dimension and will set/update the coordinates within those dimensions from the x,y
@@ -381,12 +395,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="moveEntity(com.deco2800.game.entities.Entity,java.lang.String,boolean,boolean)">
+<section class="detail" id="moveEntity(com.deco2800.game.entities.Entity,com.badlogic.gdx.math.GridPoint2,boolean,boolean,java.lang.String)">
 <h3>moveEntity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">moveEntity</span><wbr><span class="parameters">(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;currentPosition,
+ com.badlogic.gdx.math.GridPoint2&nbsp;currentPosition,
  boolean&nbsp;xDirection,
- boolean&nbsp;yDirection)</span></div>
+ boolean&nbsp;yDirection,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityName)</span></div>
 <div class="block">--------------------Does not account for tile type--------------------
  Checks whether an entity can move in the given direction, and returns True if the move was carried 
  out correctly. If the move can be carried out, removes the entity from the current tile and adds it

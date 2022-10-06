@@ -126,13 +126,13 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/ai/tasks/Task.Status.html#ACTIVE" class="member-name-link">ACTIVE</a> - Enum constant in enum class com.deco2800.game.ai.tasks.<a href="com/deco2800/game/ai/tasks/Task.Status.html" title="enum class in com.deco2800.game.ai.tasks">Task.Status</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/UGS.html#add(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Tile)" class="member-name-link">add(GridPoint2, Tile)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dd>
+<div class="block">Adds a new entry to the UGS</div>
+</dd>
 <dt><a href="com/deco2800/game/memento/CareTaker.html#add(com.deco2800.game.memento.Memento)" class="member-name-link">add(Memento)</a> - Method in class com.deco2800.game.memento.<a href="com/deco2800/game/memento/CareTaker.html" title="class in com.deco2800.game.memento">CareTaker</a></dt>
 <dd>
 <div class="block">adds the selected memento into the caretaker</div>
-</dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#add(java.lang.String,com.deco2800.game.entities.Tile)" class="member-name-link">add(String, Tile)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
-<dd>
-<div class="block">Adds a new entry to the UGS</div>
 </dd>
 <dt><a href="com/deco2800/game/components/maingame/MainGameBuildingInterface.html#addActors()" class="member-name-link">addActors()</a> - Method in class com.deco2800.game.components.maingame.<a href="com/deco2800/game/components/maingame/MainGameBuildingInterface.html" title="class in com.deco2800.game.components.maingame">MainGameBuildingInterface</a></dt>
 <dd>&nbsp;</dd>
@@ -414,7 +414,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/components/tasks/ChaseTask.html#%3Cinit%3E(com.deco2800.game.entities.Entity,int,float,float)" class="member-name-link">ChaseTask(Entity, int, float, float)</a> - Constructor for class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/ChaseTask.html" title="class in com.deco2800.game.components.tasks">ChaseTask</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#checkEntityPlacement(java.lang.String,java.lang.String)" class="member-name-link">checkEntityPlacement(String, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dt><a href="com/deco2800/game/entities/UGS.html#checkEntityPlacement(com.badlogic.gdx.math.GridPoint2,java.lang.String)" class="member-name-link">checkEntityPlacement(GridPoint2, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">Takes a String entityType and String coordinate and decides if that type of enity can spawn
  at that coordinate.</div>
@@ -2002,13 +2002,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the entity contained by the tile or null if none present</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#getEntity(java.lang.String)" class="member-name-link">getEntity(String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dt><a href="com/deco2800/game/entities/UGS.html#getEntity(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getEntity(GridPoint2)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">Takes a String and returns the associated tile's entity 
  or null if there is none</div>
 </dd>
 <dt><a href="com/deco2800/game/entities/UGS.html#getEntityByName(java.lang.String)" class="member-name-link">getEntityByName(String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns an entity or null found in the ugs by name of that entity</div>
+</dd>
 <dt><a href="com/deco2800/game/areas/GameService.html#getEntityMap()" class="member-name-link">getEntityMap()</a> - Method in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameService.html" title="class in com.deco2800.game.areas">GameService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/EntityService.html#getEntityMap()" class="member-name-link">getEntityMap()</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></dt>
@@ -2399,7 +2401,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the tile's type</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#getTileType(java.lang.String)" class="member-name-link">getTileType(String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dt><a href="com/deco2800/game/entities/UGS.html#getTileType(com.badlogic.gdx.math.GridPoint2)" class="member-name-link">getTileType(GridPoint2)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">Takes a String (concatenated x,y value) and returns the associated tile's type</div>
 </dd>
@@ -3153,7 +3155,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Iterates over registered input handlers in descending priority and stops as soon as the input is
  processed</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#moveEntity(com.deco2800.game.entities.Entity,java.lang.String,boolean,boolean)" class="member-name-link">moveEntity(Entity, String, boolean, boolean)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dt><a href="com/deco2800/game/entities/UGS.html#moveEntity(com.deco2800.game.entities.Entity,com.badlogic.gdx.math.GridPoint2,boolean,boolean,java.lang.String)" class="member-name-link">moveEntity(Entity, GridPoint2, boolean, boolean, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">--------------------Does not account for tile type--------------------
  Checks whether an entity can move in the given direction, and returns True if the move was carried 
@@ -4086,6 +4088,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the text shown on the terminal</div>
 </dd>
+<dt><a href="com/deco2800/game/entities/UGS.html#setEntity(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Entity,java.lang.String)" class="member-name-link">setEntity(GridPoint2, Entity, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dd>
+<div class="block">Takes a String and Entity, and sets the corresponding tile's 
+ Entity parameter</div>
+</dd>
 <dt><a href="com/deco2800/game/components/Component.html#setEntity(com.deco2800.game.entities.Entity)" class="member-name-link">setEntity(Entity)</a> - Method in class com.deco2800.game.components.<a href="com/deco2800/game/components/Component.html" title="class in com.deco2800.game.components">Component</a></dt>
 <dd>
 <div class="block">Set the entity to which this component belongs.</div>
@@ -4093,11 +4100,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/entities/Tile.html#setEntity(com.deco2800.game.entities.Entity)" class="member-name-link">setEntity(Entity)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/Tile.html" title="class in com.deco2800.game.entities">Tile</a></dt>
 <dd>
 <div class="block">Sets the entity parameter of the tile</div>
-</dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#setEntity(java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">setEntity(String, Entity)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
-<dd>
-<div class="block">Takes a String and Entity, and sets the corresponding tile's 
- Entity parameter</div>
 </dd>
 <dt><a href="com/deco2800/game/components/npc/EntityClassification.html#setEntityType(com.deco2800.game.components.npc.EntityClassification.NPCClassification)" class="member-name-link">setEntityType(EntityClassification.NPCClassification)</a> - Method in class com.deco2800.game.components.npc.<a href="com/deco2800/game/components/npc/EntityClassification.html" title="class in com.deco2800.game.components.npc">EntityClassification</a></dt>
 <dd>
@@ -4143,7 +4145,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.html#setKnockbackForce(float)" class="member-name-link">setKnockbackForce(float)</a> - Method in class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/CollisionEffectComponent.html" title="class in com.deco2800.game.components.Environmental">CollisionEffectComponent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#setLargeEntity(java.lang.String,com.deco2800.game.entities.Entity,int,int)" class="member-name-link">setLargeEntity(String, Entity, int, int)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dt><a href="com/deco2800/game/entities/UGS.html#setLargeEntity(com.badlogic.gdx.math.GridPoint2,com.deco2800.game.entities.Entity,int,int,java.lang.String)" class="member-name-link">setLargeEntity(GridPoint2, Entity, int, int, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">Function for setting / updating tiles for an entity whose size is greater than 1x1.</div>
 </dd>
@@ -4291,14 +4293,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the entity's position at a specific tile position</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/Tile.html#setTileType(java.lang.String)" class="member-name-link">setTileType(String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/Tile.html" title="class in com.deco2800.game.entities">Tile</a></dt>
-<dd>
-<div class="block">Sets the tileType parameter of the tile</div>
-</dd>
-<dt><a href="com/deco2800/game/entities/UGS.html#setTileType(java.lang.String,java.lang.String)" class="member-name-link">setTileType(String, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
+<dt><a href="com/deco2800/game/entities/UGS.html#setTileType(com.badlogic.gdx.math.GridPoint2,java.lang.String)" class="member-name-link">setTileType(GridPoint2, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">Takes a String and Entity, and sets the corresponding tile's 
  tileType parameter</div>
+</dd>
+<dt><a href="com/deco2800/game/entities/Tile.html#setTileType(java.lang.String)" class="member-name-link">setTileType(String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/Tile.html" title="class in com.deco2800.game.entities">Tile</a></dt>
+<dd>
+<div class="block">Sets the tileType parameter of the tile</div>
 </dd>
 <dt><a href="com/deco2800/game/services/GameTime.html#setTimeScale(float)" class="member-name-link">setTimeScale(float)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/GameTime.html" title="class in com.deco2800.game.services">GameTime</a></dt>
 <dd>
