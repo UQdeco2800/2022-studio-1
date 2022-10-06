@@ -148,6 +148,49 @@ public class StructureService extends EntityService {
     uiIsVisible = !uiIsVisible;
   }
 
+
+  /**
+   * Builds a structure at specific location, gridPos. the type of structure built is
+   * determined by the specific structure name, structureName.
+   * @param structureName name of the structure to build (also type of structure)
+   * @param gridPos location of where the structure is to be built
+   */
+  public static void buildStructure(String structureName, GridPoint2 gridPos) {
+    String entityName = gridPos.toString();
+    entityName = structureName + entityName;
+    Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
+    String ugsPosKey = ServiceLocator.getUGSService().generateCoordinate(gridPos.x, gridPos.y);
+
+    if (ServiceLocator.getUGSService().checkEntityPlacement(ugsPosKey, "structure")) {
+      if (Objects.equals(structureName, "wall")) {
+        Entity wall = StructureFactory.createWall(entityName);
+        ServiceLocator.getEntityService().registerNamed(entityName, wall);
+        ServiceLocator.getUGSService().setEntity(ugsPosKey, wall);
+        wall.setPosition(worldLoc);
+      } else if (Objects.equals(structureName, "tower1")) {
+        Entity tower1 = StructureFactory.createTower1(1, entityName);
+        ServiceLocator.getEntityService().registerNamed(entityName, tower1);
+        ServiceLocator.getUGSService().setEntity(ugsPosKey, tower1);
+        tower1.setPosition(worldLoc);
+      } else if (Objects.equals(structureName, "tower2")) {
+        Entity tower2 = StructureFactory.createTower2(1, entityName);
+        ServiceLocator.getEntityService().registerNamed(entityName, tower2);
+        ServiceLocator.getUGSService().setEntity(ugsPosKey, tower2);
+        tower2.setPosition(worldLoc);
+      } else if (Objects.equals(structureName, "tower3")) {
+        Entity tower3 = StructureFactory.createTower3(1, entityName);
+        ServiceLocator.getEntityService().registerNamed(entityName, tower3);
+        ServiceLocator.getUGSService().setEntity(ugsPosKey, tower3);
+        tower3.setPosition(worldLoc);
+      } else if (Objects.equals(structureName, "trap")) {
+        Entity trap = StructureFactory.createTrap(entityName);
+        ServiceLocator.getEntityService().registerNamed(entityName, trap);
+        ServiceLocator.getUGSService().setEntity(ugsPosKey, trap);
+        trap.setPosition(worldLoc);
+      }
+    }
+  }
+
   /** Builds a structure at mouse position
    * @param name name of the structure in game entity list
    */
