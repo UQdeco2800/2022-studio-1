@@ -58,6 +58,7 @@ public class UGS {
                 String strCoord = generateCoordinate(x, y);
                 if (tiles.get(strCoord).getEntity() != null) {
                     if (tiles.get(strCoord).getEntity().getName().equals(name)) {
+                        ServiceLocator.getEntityService().getNamedEntity(name).dispose();
                         tiles.get(strCoord).setEntity(null);
                     }
                 }

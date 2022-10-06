@@ -1,11 +1,10 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Interpolation.SwingOut;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
-import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.RangeAttackComponent;
@@ -13,9 +12,6 @@ import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
-import com.deco2800.game.entities.StructureService;
-import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
@@ -27,13 +23,6 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
-
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.sound.sampled.SourceDataLine;
-
 
 /**
  * Factory to create structure entities with predefined components.
@@ -293,9 +282,7 @@ public static Entity createTrap(String name) {
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
     switch(buildingHealth) {
       case 0: //Building destroyed
-        ServiceLocator.getStructureService().unregisterNamed(name);
         ServiceLocator.getUGSService().removeEntity(name);
-        structure.dispose();
         break;
 
       default:
@@ -303,9 +290,7 @@ public static Entity createTrap(String name) {
         int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
         Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
         handleRefund(structure, refundMultiplier);
-        ServiceLocator.getStructureService().unregisterNamed(name);
         ServiceLocator.getUGSService().removeEntity(name);
-        structure.dispose();
         break;
     }
   }
@@ -317,68 +302,58 @@ public static Entity createTrap(String name) {
    * @param structName: Name of the structure to be upgraded
    *
    */
-  public static void upgradeStructure(String structName) {
+  public static void upgradeStructure(GridPoint2 gridPos, String structName) {
     //Store rectangle location, name, level
-    Vector2 location = ServiceLocator.getEntityService().getNamedEntity(structName).getPosition();
-    int level = ServiceLocator.getStructureService().getNamedEntity(structName)
+    int level = ServiceLocator.getUGSService().getEntityByName(structName)
         .getComponent(CombatStatsComponent.class).getLevel();
-
-    //Remove building entity
     if (level > 2) {
       return;
     }
-    ServiceLocator.getStructureService().unregisterNamed(structName);
-    ServiceLocator.getEntityService().getNamedEntity(structName).dispose();
+    //Remove building entity
+    ServiceLocator.getUGSService().removeEntity(structName);
 
     //Upgrade depending on building
     if (structName.contains("wall")) {
       //Might not be worth implementing depending on how enemy team implements enemy AI
-
     } else if (structName.contains("tower1")) {
       Entity tower1;
         switch(level) {
           //Only two possible upgrades 1->2 and 2->3
           case 1:
-//            System.out.println("Tower upgraded1");
             tower1 = StructureFactory.createTower1(2, structName);
-            ServiceLocator.getEntityService().registerNamed(structName, tower1);
-            ServiceLocator.getStructureService().registerNamed(structName, tower1);
-            ServiceLocator.getStructureService().getNamedEntity(structName).setPosition(location);
+            ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
             break;
           case 2:
-//            System.out.println("Tower upgraded2");
             tower1 = StructureFactory.createTower1(3, structName);
-            ServiceLocator.getEntityService().registerNamed(structName, tower1);
-            ServiceLocator.getStructureService().registerNamed(structName, tower1);
-            ServiceLocator.getStructureService().getNamedEntity(structName).setPosition(location);
+            ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
             break;
         }
     } else if (structName.contains("tower2")) {
+      Entity tower2;
       switch(level) {
         //Only two possible upgrades 1->2 and 2->3
         case 1:
-          ServiceLocator.getEntityService().registerNamed(structName, createTower2(2, structName));
-          ServiceLocator.getEntityService().getNamedEntity(structName).setPosition(location);
+          tower2 = StructureFactory.createTower2(2, structName);
+          ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
         case 2:
-          ServiceLocator.getEntityService().registerNamed(structName, createTower2(3, structName));
-          ServiceLocator.getEntityService().getNamedEntity(structName).setPosition(location);
+          tower2 = StructureFactory.createTower2(3, structName);
+          ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
         }
     } else if (structName.contains("tower3")) {
+      Entity tower3;
       switch(level) {
         //Only two possible upgrades 1->2 and 2->3
         case 1:
-          ServiceLocator.getEntityService().registerNamed(structName, createTower3(2, structName));
-          ServiceLocator.getEntityService().getNamedEntity(structName).setPosition(location);
+          tower3 = StructureFactory.createTower3(2, structName);
+          ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           break;
         case 2:
-          ServiceLocator.getEntityService().registerNamed(structName, createTower3(3, structName));
-          ServiceLocator.getEntityService().getNamedEntity(structName).setPosition(location);
+          tower3 = StructureFactory.createTower3(3, structName);
+          ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           break;
       }
     }
-
   }
-
 }
