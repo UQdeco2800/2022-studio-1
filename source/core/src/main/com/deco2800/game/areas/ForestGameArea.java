@@ -312,8 +312,7 @@ public class ForestGameArea extends GameArea {
       this.entityMapping.addEntity(envObj);
 
       spawnEntityAt(envObj, randomPos, true, true);
-      String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
-      ServiceLocator.getUGSService().setEntity(tileCoords, envObj);
+      ServiceLocator.getUGSService().setEntity(randomPos, envObj);
     }
   }
 
@@ -400,8 +399,7 @@ public class ForestGameArea extends GameArea {
     Entity newPlayer = PlayerFactory.loadPlayer();
     ServiceLocator.getEntityService().registerNamed("player", newPlayer);
     spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(PLAYER_SPAWN.x, PLAYER_SPAWN.y);
-    ServiceLocator.getUGSService().setEntity(tileCoords, newPlayer);
+    ServiceLocator.getUGSService().setEntity(PLAYER_SPAWN, newPlayer);
     return newPlayer;
   }
 
@@ -414,7 +412,7 @@ public class ForestGameArea extends GameArea {
     crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
-    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(x_pos, y_pos);
+    GridPoint2 tileCoords = new GridPoint2(x_pos, y_pos);
     ServiceLocator.getUGSService().setEntity(tileCoords, crystal);
     return crystal;
   }
@@ -541,8 +539,7 @@ public class ForestGameArea extends GameArea {
         .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
-    String tileCoords = ServiceLocator.getUGSService().generateCoordinate(randomPos.x, randomPos.y);
-    ServiceLocator.getUGSService().setEntity(tileCoords, entity);
+    ServiceLocator.getUGSService().setEntity(randomPos, entity);
   }
 
   private void levelUp(Entity entity) {

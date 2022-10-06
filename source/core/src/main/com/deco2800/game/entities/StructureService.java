@@ -159,33 +159,32 @@ public class StructureService extends EntityService {
     String entityName = gridPos.toString();
     entityName = structureName + entityName;
     Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
-    String ugsPosKey = ServiceLocator.getUGSService().generateCoordinate(gridPos.x, gridPos.y);
 
-    if (ServiceLocator.getUGSService().checkEntityPlacement(ugsPosKey, "structure")) {
+    if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
       if (Objects.equals(structureName, "wall")) {
         Entity wall = StructureFactory.createWall(entityName);
         ServiceLocator.getEntityService().registerNamed(entityName, wall);
-        ServiceLocator.getUGSService().setEntity(ugsPosKey, wall);
+        ServiceLocator.getUGSService().setEntity(gridPos, wall);
         wall.setPosition(worldLoc);
       } else if (Objects.equals(structureName, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1, entityName);
         ServiceLocator.getEntityService().registerNamed(entityName, tower1);
-        ServiceLocator.getUGSService().setEntity(ugsPosKey, tower1);
+        ServiceLocator.getUGSService().setEntity(gridPos, tower1);
         tower1.setPosition(worldLoc);
       } else if (Objects.equals(structureName, "tower2")) {
         Entity tower2 = StructureFactory.createTower2(1, entityName);
         ServiceLocator.getEntityService().registerNamed(entityName, tower2);
-        ServiceLocator.getUGSService().setEntity(ugsPosKey, tower2);
+        ServiceLocator.getUGSService().setEntity(gridPos, tower2);
         tower2.setPosition(worldLoc);
       } else if (Objects.equals(structureName, "tower3")) {
         Entity tower3 = StructureFactory.createTower3(1, entityName);
         ServiceLocator.getEntityService().registerNamed(entityName, tower3);
-        ServiceLocator.getUGSService().setEntity(ugsPosKey, tower3);
+        ServiceLocator.getUGSService().setEntity(gridPos, tower3);
         tower3.setPosition(worldLoc);
       } else if (Objects.equals(structureName, "trap")) {
         Entity trap = StructureFactory.createTrap(entityName);
         ServiceLocator.getEntityService().registerNamed(entityName, trap);
-        ServiceLocator.getUGSService().setEntity(ugsPosKey, trap);
+        ServiceLocator.getUGSService().setEntity(gridPos, trap);
         trap.setPosition(worldLoc);
       }
     }
@@ -203,57 +202,56 @@ public class StructureService extends EntityService {
     Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
     String entityName = loc.toString();
     entityName = name + entityName;
-    String stringTileCoords = ServiceLocator.getUGSService().generateCoordinate(loc.x, loc.y);
 
     structureKey = name;
     if (!uiIsVisible) {
-      if (ServiceLocator.getUGSService().checkEntityPlacement(stringTileCoords, "structure")) {
+      if (ServiceLocator.getUGSService().checkEntityPlacement(loc, "structure")) {
         if (Objects.equals(name, "wall")) {
           Entity wall = StructureFactory.createWall(entityName);
           ServiceLocator.getEntityService().registerNamed(entityName, wall);
           ServiceLocator.getStructureService().registerNamed(entityName, wall);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, wall);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+          ServiceLocator.getUGSService().setEntity(loc, wall);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc).getName());
           wall.setPosition(worldLoc);
         } else if (Objects.equals(name, "tower1")) {
           Entity tower1 = StructureFactory.createTower1(1, entityName);
           ServiceLocator.getEntityService().registerNamed(entityName, tower1);
           ServiceLocator.getStructureService().registerNamed(entityName, tower1);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, tower1);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+          ServiceLocator.getUGSService().setEntity(loc, tower1);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc).getName());
           tower1.setPosition(worldLoc);
         } else if (Objects.equals(name, "tower2")) {
           Entity tower2 = StructureFactory.createTower2(1, entityName);
           ServiceLocator.getEntityService().registerNamed(entityName, tower2);
           ServiceLocator.getStructureService().registerNamed(entityName, tower2);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, tower2);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords));
+          ServiceLocator.getUGSService().setEntity(loc, tower2);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc));
           tower2.setPosition(worldLoc);
         } else if (Objects.equals(name, "woodCutter")) {
           Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
           ServiceLocator.getEntityService().registerNamed(entityName, woodCutter);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, woodCutter);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+          ServiceLocator.getUGSService().setEntity(loc, woodCutter);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc).getName());
           woodCutter.setPosition(worldLoc);
         } else if (Objects.equals(name, "tower3")) {
           Entity tower3 = StructureFactory.createTower3(1, entityName);
           ServiceLocator.getEntityService().registerNamed(entityName, tower3);
           ServiceLocator.getStructureService().registerNamed(entityName, tower3);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, tower3);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+          ServiceLocator.getUGSService().setEntity(loc, tower3);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc).getName());
           tower3.setPosition(worldLoc);
         } else if (Objects.equals(name, "trap")) {
           Entity trap = StructureFactory.createTrap(entityName);
           ServiceLocator.getEntityService().registerNamed(entityName, trap);
           ServiceLocator.getStructureService().registerNamed(entityName, trap);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, trap);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+          ServiceLocator.getUGSService().setEntity(loc, trap);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc).getName());
           trap.setPosition(worldLoc);
         } else if (Objects.equals(name, "stonequarry")) {
           Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
           ServiceLocator.getEntityService().registerNamed(entityName, stonequarry);
-          ServiceLocator.getUGSService().setEntity(stringTileCoords, stonequarry);
-          logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
+          ServiceLocator.getUGSService().setEntity(loc, stonequarry);
+          logger.info("ugs@{} ==> {}", loc, ServiceLocator.getUGSService().getEntity(loc).getName());
           stonequarry.setPosition(worldLoc);
         }
       }
@@ -283,9 +281,8 @@ public class StructureService extends EntityService {
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    String strCoord = ServiceLocator.getUGSService().generateCoordinate(mapPos.x, mapPos.y);
-    if (ServiceLocator.getUGSService().getEntity(strCoord) != null) {
-      String name = ServiceLocator.getUGSService().getEntity(strCoord).getName();
+    if (ServiceLocator.getUGSService().getEntity(mapPos) != null) {
+      String name = ServiceLocator.getUGSService().getEntity(mapPos).getName();
       if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3")) {
         structureHit = true;
         structureName = name;

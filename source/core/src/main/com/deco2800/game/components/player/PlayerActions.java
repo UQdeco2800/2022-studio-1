@@ -1,6 +1,7 @@
 package com.deco2800.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.achievements.AchievementType;
@@ -117,7 +118,7 @@ public class PlayerActions extends Component {
     Entity closestEntity = null;
 
     ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current);
-    String underMe = ServiceLocator.getRangeService().getPlayerTile();
+    GridPoint2 underMe = ServiceLocator.getRangeService().getPlayerTile();
     for (Entity i : radius) {
       if (i != null && i.getName().contains("Mr.")) {
         closestEnemy = i;

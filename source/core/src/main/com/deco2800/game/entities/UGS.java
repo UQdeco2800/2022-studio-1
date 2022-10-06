@@ -32,8 +32,9 @@ public class UGS {
      * @param coordinate
      * @return String 
      */
-    public String getTileType(String coordinate) {
-        return tiles.get(coordinate).getTileType();
+    public String getTileType(GridPoint2 coordinate) {
+        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        return tiles.get(stringCoord).getTileType();
     }
 
     /**
@@ -42,8 +43,9 @@ public class UGS {
      * @param coordinate
      * @return Entity or NULL
      */
-    public Entity getEntity(String coordinate) {
-        return tiles.get(coordinate).getEntity();
+    public Entity getEntity(GridPoint2 coordinate) {
+        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        return tiles.get(stringCoord).getEntity();
     }
 
     /**
@@ -63,6 +65,11 @@ public class UGS {
         }
     }
 
+    /**
+     * Returns an entity or null found in the ugs by name of that entity
+     * @param name of the entity to find
+     * @return the entity found or null
+     */
     public Entity getEntityByName(String name) {
         for (int x = 0; x < MAPSIZE; x++) {
             for (int y = 0; y < MAPSIZE; y++) {
@@ -83,10 +90,9 @@ public class UGS {
      * @param coordinate
      * @param entity Entity
      */
-    public void setEntity(String coordinate, Entity entity) {
-        tiles.get(coordinate).setEntity(entity);
-        System.out.print("tile entity ==> ");
-        System.out.println(tiles.get(coordinate).getEntity());
+    public void setEntity(GridPoint2 coordinate, Entity entity) {
+        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        tiles.get(stringCoord).setEntity(entity);
     }
 
     /**
@@ -97,9 +103,10 @@ public class UGS {
      * @return true if the entity can spawn in a gridpoint else returns false
      */
 
-    public Boolean checkEntityPlacement(String coordinate, String entityType) {
+    public Boolean checkEntityPlacement(GridPoint2 coordinate, String entityType) {
+        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
         if (entityType.equals("structure")) {
-            if (tiles.get(coordinate).getTileType().equals("sand")) {
+            if (tiles.get(stringCoord).getTileType().equals("sand")) {
                 return true;
             } else {
                 return false;
@@ -115,8 +122,9 @@ public class UGS {
      * @param coordinate
      * @param tileType
      */
-    public void setTileType(String coordinate, String tileType) {
-        tiles.get(coordinate).setTileType(tileType);
+    public void setTileType(GridPoint2 coordinate, String tileType) {
+        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        tiles.get(stringCoord).setTileType(tileType);
     }
 
     /**
@@ -124,8 +132,9 @@ public class UGS {
      * @param coordinate
      * @param tile
      */
-    public void add(String coordinate, Tile tile) {
-        tiles.put(coordinate, tile);
+    public void add(GridPoint2 coordinate, Tile tile) {
+        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        tiles.put(stringCoord, tile);
     }
 
     /**
@@ -149,16 +158,12 @@ public class UGS {
      * @param dimensionX Int
      * @param dimensionY Int
      */
-    public void setLargeEntity(String origin, Entity entity, int dimensionX, int dimensionY) {
-        String[] originCoords = origin.split(",");
-        int originX = Integer.parseInt(originCoords[0]);
-        int originY = Integer.parseInt(originCoords[1]);
-
-        for (int x = 0; x < dimensionX; x++) {
+    public void setLargeEntity(GridPoint2 origin, Entity entity, int dimensionX, int dimensionY) {
+       for (int x = 0; x < dimensionX; x++) {
             for (int y = 0; y < dimensionY; y++) {
-                int coordX = originX + x;
-                int coordY = originY + y;
-                String coordinate = generateCoordinate(coordX, coordY);
+                int coordX = origin.x + x;
+                int coordY = origin.y + y;
+                GridPoint2 coordinate = new GridPoint2(coordX, coordY);
                 this.setEntity(coordinate, entity);
             }
         }
@@ -209,16 +214,13 @@ public class UGS {
      * @param yDirection Boolean
      * @param xDirection Boolean
      */
-    public boolean moveEntity(Entity entity, String currentPosition, boolean xDirection, boolean yDirection) {
-        String[] currentCoords = currentPosition.split(",");
-        int currentX = Integer.parseInt(currentCoords[0]);
-        int currentY = Integer.parseInt(currentCoords[1]);
+    public boolean moveEntity(Entity entity, GridPoint2 currentPosition, boolean xDirection, boolean yDirection) {
 
         if (xDirection) { //If xDirection is true then x coordinate increases [+1]
             if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
-                int newX = currentX + 1;
-                int newY = currentY - 1;
-                String coordinate = generateCoordinate(newX, newY);
+                int newX = currentPosition.x + 1;
+                int newY = currentPosition.y - 1;
+                GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
                     setEntity(currentPosition, null); //Clear entity from currentPosition
@@ -228,9 +230,9 @@ public class UGS {
                 }
             } else {
                 //xDirection true [+1], yDirection false [+1]
-                int newX = currentX + 1;
-                int newY = currentY + 1;
-                String coordinate = generateCoordinate(newX, newY);
+                int newX = currentPosition.x + 1;
+                int newY = currentPosition.y + 1;
+                GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
                     setEntity(currentPosition, null); //Clear entity from currentPosition
@@ -241,9 +243,9 @@ public class UGS {
             } 
         } else { //If xDirection is false then x coordinate decreases [-1]
             if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
-                int newX = currentX - 1;
-                int newY = currentY - 1;
-                String coordinate = generateCoordinate(newX, newY);
+                int newX = currentPosition.x - 1;
+                int newY = currentPosition.y - 1;
+                GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
                     setEntity(currentPosition, null); //Clear entity from currentPosition
@@ -253,9 +255,9 @@ public class UGS {
                 }
             } else {
                 //xDirection false [-1], yDirection false [+1]
-                int newX = currentX - 1;
-                int newY = currentY + 1;
-                String coordinate = generateCoordinate(newX, newY);
+                int newX = currentPosition.x - 1;
+                int newY = currentPosition.y + 1;
+                GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
                     setEntity(currentPosition, null); //Clear entity from currentPosition
@@ -277,7 +279,7 @@ public class UGS {
         for (int x = 0; x < MAPSIZE; x++) {
             for (int y = 0; y < MAPSIZE; y++) {
                 Tile tile = new Tile();
-                String coordinate = generateCoordinate(x, y);
+                GridPoint2 coordinate = new GridPoint2(x, y);
                 this.add(coordinate,tile);
                 TiledMap tiledMap = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getMap();
                 String t = ((TerrainTile) ((TiledMapTileLayer) tiledMap.getLayers().get(1)).getCell(x,y).getTile()).getName();
