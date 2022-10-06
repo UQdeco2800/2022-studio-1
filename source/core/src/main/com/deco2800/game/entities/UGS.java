@@ -90,9 +90,19 @@ public class UGS {
      * @param coordinate
      * @param entity Entity
      */
-    public void setEntity(GridPoint2 coordinate, Entity entity) {
-        String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
-        tiles.get(stringCoord).setEntity(entity);
+    public Boolean setEntity(GridPoint2 coordinate, Entity entity, String entityName) {
+        if (checkEntityPlacement(coordinate, entityName)) {
+            if (entity != null) {
+                //Add entity to the entity list through the entity service
+                ServiceLocator.getEntityService().registerNamed(entityName, entity);
+                Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+                entity.setPosition(entityWorldPos);
+            }
+            String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+            tiles.get(stringCoord).setEntity(entity);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -105,15 +115,18 @@ public class UGS {
 
     public Boolean checkEntityPlacement(GridPoint2 coordinate, String entityType) {
         String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
-        if (entityType.equals("structure")) {
-            if (tiles.get(stringCoord).getTileType().equals("sand")) {
-                return true;
+        if (getEntity(coordinate) == null) {
+            if (entityType.contains("structure")) {
+                if (tiles.get(stringCoord).getTileType().equals("sand")) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return true;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -158,13 +171,13 @@ public class UGS {
      * @param dimensionX Int
      * @param dimensionY Int
      */
-    public void setLargeEntity(GridPoint2 origin, Entity entity, int dimensionX, int dimensionY) {
+    public void setLargeEntity(GridPoint2 origin, Entity entity, int dimensionX, int dimensionY, String entityName) {
        for (int x = 0; x < dimensionX; x++) {
             for (int y = 0; y < dimensionY; y++) {
                 int coordX = origin.x + x;
                 int coordY = origin.y + y;
                 GridPoint2 coordinate = new GridPoint2(coordX, coordY);
-                this.setEntity(coordinate, entity);
+                this.setEntity(coordinate, entity, entityName);
             }
         }
     }
@@ -214,7 +227,7 @@ public class UGS {
      * @param yDirection Boolean
      * @param xDirection Boolean
      */
-    public boolean moveEntity(Entity entity, GridPoint2 currentPosition, boolean xDirection, boolean yDirection) {
+    public boolean moveEntity(Entity entity, GridPoint2 currentPosition, boolean xDirection, boolean yDirection, String entityName) {
 
         if (xDirection) { //If xDirection is true then x coordinate increases [+1]
             if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
@@ -223,8 +236,8 @@ public class UGS {
                 GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
-                    setEntity(currentPosition, null); //Clear entity from currentPosition
-                    setEntity(coordinate, entity); //Update entity to new position
+                    setEntity(currentPosition, null, ""); //Clear entity from currentPosition
+                    setEntity(coordinate, entity, entityName); //Update entity to new position
                 } else {
                     return false; 
                 }
@@ -235,8 +248,8 @@ public class UGS {
                 GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
-                    setEntity(currentPosition, null); //Clear entity from currentPosition
-                    setEntity(coordinate, entity); //Update entity to new position
+                    setEntity(currentPosition, null, ""); //Clear entity from currentPosition
+                    setEntity(coordinate, entity, entityName); //Update entity to new position
                 } else {
                     return false; 
                 }
@@ -248,8 +261,8 @@ public class UGS {
                 GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
-                    setEntity(currentPosition, null); //Clear entity from currentPosition
-                    setEntity(coordinate, entity); //Update entity to new position
+                    setEntity(currentPosition, null, ""); //Clear entity from currentPosition
+                    setEntity(coordinate, entity, entityName); //Update entity to new position
                 } else {
                     return false; 
                 }
@@ -260,8 +273,8 @@ public class UGS {
                 GridPoint2 coordinate = new GridPoint2(newX, newY);
 
                 if (getEntity(coordinate) == null) { //Check no entity in new tile
-                    setEntity(currentPosition, null); //Clear entity from currentPosition
-                    setEntity(coordinate, entity); //Update entity to new position
+                    setEntity(currentPosition, null, ""); //Clear entity from currentPosition
+                    setEntity(coordinate, entity, entityName); //Update entity to new position
                 } else {
                     return false; 
                 }

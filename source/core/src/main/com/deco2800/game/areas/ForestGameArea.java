@@ -296,8 +296,9 @@ public class ForestGameArea extends GameArea {
       if (type == EnvironmentalObstacle.ROCK || type == EnvironmentalObstacle.SHIPWRECK_BACK
           || type == EnvironmentalObstacle.SHIPWRECK_FRONT) {
         randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
+        ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
       } else {
-        while (this.entityMapping.wouldCollide(envObj, randomPos.x, randomPos.y)
+        while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
             || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
           randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
 
@@ -309,10 +310,6 @@ public class ForestGameArea extends GameArea {
           counter++;
         }
       }
-      this.entityMapping.addEntity(envObj);
-
-      spawnEntityAt(envObj, randomPos, true, true);
-      ServiceLocator.getUGSService().setEntity(randomPos, envObj);
     }
   }
 
@@ -397,9 +394,7 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnPlayer() {
     Entity newPlayer = PlayerFactory.loadPlayer();
-    ServiceLocator.getEntityService().registerNamed("player", newPlayer);
-    spawnEntityAt(newPlayer, PLAYER_SPAWN, true, true);
-    ServiceLocator.getUGSService().setEntity(PLAYER_SPAWN, newPlayer);
+    ServiceLocator.getUGSService().setEntity(PLAYER_SPAWN, newPlayer, "player");
     return newPlayer;
   }
 
@@ -408,12 +403,11 @@ public class ForestGameArea extends GameArea {
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
-    // System.out.println("Crystal Position: " + x_pos + " " + y_pos);
     crystal.setPosition(terrain.tileToWorldPosition(x_pos, y_pos));
     ServiceLocator.getEntityService().addEntity(crystal);
     this.entityMapping.addEntity(crystal);
     GridPoint2 tileCoords = new GridPoint2(x_pos, y_pos);
-    ServiceLocator.getUGSService().setEntity(tileCoords, crystal);
+    ServiceLocator.getUGSService().setEntity(tileCoords, crystal, crystal.getName());
     return crystal;
   }
 
@@ -534,12 +528,11 @@ public class ForestGameArea extends GameArea {
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {
-    ServiceLocator.getEntityService().registerNamed("Enemy@" + entity.getId(), entity);
     GridPoint2 randomPos = terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl())
         .get(MathUtils.random(0, terrainFactory.getSpawnableTiles(terrain.getCurrentMapLvl()).size() - 1));
 
     spawnEntityAt(entity, randomPos, true, true);
-    ServiceLocator.getUGSService().setEntity(randomPos, entity);
+    ServiceLocator.getUGSService().setEntity(randomPos, entity, "Enemy@" + entity.getId());
   }
 
   private void levelUp(Entity entity) {
