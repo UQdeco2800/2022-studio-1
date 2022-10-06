@@ -41,7 +41,7 @@ public class Entity {
   private String name;
 
   private final int id;
-  private Boolean collectable;
+  private Boolean collectable = false;
   private ResourceType resourceType;
   private int resourceAmount;
   private final IntMap<Component> components;

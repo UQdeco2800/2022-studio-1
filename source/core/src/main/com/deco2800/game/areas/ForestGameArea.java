@@ -31,7 +31,7 @@ import static java.sql.DriverManager.println;
 public class ForestGameArea extends GameArea {
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final int NUM_GHOSTS = 2;
-  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(60, 60);
+  private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(59, 59);
   // private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);
   private static final GridPoint2[] NPC_SPAWNS = { new GridPoint2(61, 60),
       new GridPoint2(60, 61),
@@ -196,6 +196,7 @@ public class ForestGameArea extends GameArea {
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
 
+    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
