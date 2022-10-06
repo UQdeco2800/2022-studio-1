@@ -102,8 +102,8 @@ public class MainGameInterface extends UIComponent {
     TextureRegionDrawable inventory = new TextureRegionDrawable(inventoryInterfaceTexture);
     ImageButton inventoryFrame = new ImageButton(inventory, inventory);
     inventoryFrame.setSize(800f, 800f);
-    inventoryFrame.setPosition(Gdx.graphics.getWidth() / 2 - inventoryFrame.getWidth() / 2,
-        Gdx.graphics.getHeight() / 2 - inventoryFrame.getHeight() / 2);
+    inventoryFrame.setPosition(Gdx.graphics.getWidth()/2f - inventoryFrame.getWidth()/2f,
+        Gdx.graphics.getHeight() / 2f - inventoryFrame.getHeight() / 2f);
 
     Texture crossTexture = new Texture(Gdx.files.internal("images/cross.png"));
     TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
@@ -851,6 +851,7 @@ public class MainGameInterface extends UIComponent {
                       .getTime());
                 } catch (InterruptedException e) {
                   logger.error(e.getMessage());
+                  Thread.currentThread().interrupt();
                 }
                 return null;
               });
@@ -883,6 +884,7 @@ public class MainGameInterface extends UIComponent {
                           .getHealth());
                 } catch (InterruptedException e) {
                   logger.error(e.getMessage());
+                  Thread.currentThread().interrupt();
                 }
                 return null;
               });

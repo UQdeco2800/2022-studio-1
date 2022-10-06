@@ -104,7 +104,7 @@ public class AnimationRenderComponent extends RenderComponent {
   public void scaleEntity() {
     TextureRegion defaultTexture = this.atlas.findRegion("default");
     int tileSize = (int) ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
-    entity.setScale((tileSize/2), (tileSize/2)*(float) defaultTexture.getRegionHeight() / defaultTexture.getRegionWidth());
+    entity.setScale((tileSize/2f), (tileSize/2f)*(float) defaultTexture.getRegionHeight() / defaultTexture.getRegionWidth());
   }
 
   /**

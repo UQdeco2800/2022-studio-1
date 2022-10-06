@@ -61,8 +61,8 @@ public class AtlantisSinks extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
-    } else if (screenType == ScreenType.SHOP | screenType == ScreenType.BUILD_SHOP
-        | screenType == ScreenType.ARTEFACT_SHOP | screenType == ScreenType.EQUIPMENT_SHOP) {
+    } else if (screenType == ScreenType.SHOP || screenType == ScreenType.BUILD_SHOP
+        || screenType == ScreenType.ARTEFACT_SHOP || screenType == ScreenType.EQUIPMENT_SHOP) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else if (screenType ==screenType.GUIDEBOOK) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
