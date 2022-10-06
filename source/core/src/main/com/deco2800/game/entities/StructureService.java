@@ -174,6 +174,12 @@ public class StructureService extends EntityService {
       } else if (Objects.equals(structureName, "trap")) {
         Entity trap = StructureFactory.createTrap(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
+      } else if (Objects.equals(structureName, "stonequarry")) {
+        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
+        ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
+      } else if (Objects.equals(structureName, "woodCutter")) {
+        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
+        ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
       }
     }
   }
@@ -258,7 +264,7 @@ public class StructureService extends EntityService {
           removeEvent = false;
         } else if (upgradeEvent) {
           logger.info("UPGRADE EVENT");
-          StructureFactory.upgradeStructure(name);
+          StructureFactory.upgradeStructure(mapPos, name);
           upgradeEvent = false;
         }
       } else {

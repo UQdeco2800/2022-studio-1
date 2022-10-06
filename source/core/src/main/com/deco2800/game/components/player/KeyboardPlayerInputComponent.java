@@ -218,7 +218,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         buildEvent = updatedValues[2];
         if (isClear) {
           int i = structureSelect % (structureNames.length);
-          ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
+          Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+          CameraComponent camComp = camera.getComponent(CameraComponent.class);
+          Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+          Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+          GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+          ServiceLocator.getStructureService().buildStructure(structureNames[i], mapPos);
         }
       } else if (removeState) {
         removeEvent = true;
