@@ -1,1 +1,11 @@
-[]
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/TOWER1I.png
+	position: {
+		x: 932
+		y: 10
+	}
+	name: "tower1(57, 59)"
+}
+]

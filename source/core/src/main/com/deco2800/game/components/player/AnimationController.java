@@ -117,7 +117,6 @@ public class AnimationController extends Component {
     } else {
       anim_to_play = wea_lst[counter].concat("as");
     }
-    System.out.println(anim_to_play);
     animator.stopAnimation();
     animator.startAnimation(anim_to_play);
     weapon += 1;
