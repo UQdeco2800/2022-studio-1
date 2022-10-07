@@ -209,6 +209,14 @@ public class StructureService extends EntityService {
   }
 
   /**
+   * Set the building temp entity state
+   * @param state state to set the buildingTempEntity state to.
+   */
+  public void setTempBuildState(Boolean state) {
+    buildingTempEntity = state;
+  }
+
+  /**
    * Builds a structure and locks it to the mouse as the user decides where to build it
    * @param name of the tempStructureEntity
    */
@@ -379,5 +387,4 @@ public class StructureService extends EntityService {
       upgradeState = !upgradeState;
       return  upgradeState;
     }
-    
 }
