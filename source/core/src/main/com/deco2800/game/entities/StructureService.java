@@ -162,6 +162,7 @@ public class StructureService extends EntityService {
       if (Objects.equals(structureName, "wall")) {
         Entity wall = StructureFactory.createWall(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, wall, entityName);
+        logger.info("This is the wall that was just built {}", ServiceLocator.getUGSService().getEntityByName(entityName));
       } else if (Objects.equals(structureName, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower1, entityName);
