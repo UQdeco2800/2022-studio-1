@@ -218,9 +218,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
         entityName = entityName.replace("Temp", "");
         System.out.println("entityName: " + entityName);
-        ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).dispose();
-        ServiceLocator.getStructureService().setTempBuildState(false);
-        ServiceLocator.getStructureService().buildStructure(entityName, loc);
+        if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
+          ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).dispose();
+          ServiceLocator.getStructureService().setTempBuildState(false);
+        }
       }
     }
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.SerializationException;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
@@ -160,35 +161,43 @@ public class StructureService extends EntityService {
    * determined by the specific structure name, structureName.
    * @param structureName name of the structure to build (also type of structure)
    * @param gridPos location of where the structure is to be built
+   * @return true if building was build successfully, false otherwise
    */
-  public static void buildStructure(String structureName, GridPoint2 gridPos) {
+  public static Boolean buildStructure(String structureName, GridPoint2 gridPos) {
     String entityName = gridPos.toString();
     entityName = structureName + entityName;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
       if (Objects.equals(structureName, "wall")) {
         Entity wall = StructureFactory.createWall(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, wall, entityName);
-        logger.info("This is the wall that was just built {}", ServiceLocator.getUGSService().getEntityByName(entityName));
+        return true;
       } else if (Objects.equals(structureName, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower1, entityName);
+        return true;
       } else if (Objects.equals(structureName, "tower2")) {
         Entity tower2 = StructureFactory.createTower2(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower2, entityName);
+        return true;
       } else if (Objects.equals(structureName, "tower3")) {
         Entity tower3 = StructureFactory.createTower3(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower3, entityName);
+        return true;
       } else if (Objects.equals(structureName, "trap")) {
         Entity trap = StructureFactory.createTrap(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
+        return true;
       } else if (Objects.equals(structureName, "stonequarry")) {
         Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
         ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
+        return true;
       } else if (Objects.equals(structureName, "woodCutter")) {
         Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
         ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
+        return true;
       }
     }
+    return false;
   }
 
   /**
