@@ -57,6 +57,7 @@ public class epilogueDisplay extends UIComponent {
             rootTable.setBackground(nextFrame);
             currentFrame += 1;
         } else {
+            epilogueFrames.clear();
             entity.getEvents().trigger("skip");
         }
     }

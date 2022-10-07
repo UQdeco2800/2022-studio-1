@@ -1,7 +1,6 @@
 package com.deco2800.game.components.infrastructure;
 
 import com.deco2800.game.components.Component;
-import com.deco2800.game.components.player.InventoryComponent;
 
 /**
  * Resource building is a type of building used to generate resources for the player
@@ -16,7 +15,7 @@ public class ResourceBuilding extends Component {
      */
     private final ResourceType type;
 
-    public ResourceBuilding(int health, int productionRate, ResourceType type) {
+    public ResourceBuilding(int productionRate, ResourceType type) {
         this.productionRate = productionRate;
         this.type = type;
     }

@@ -60,6 +60,7 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
         return 2;
     }
 
+    @Override
     public void stop() {
         super.stop();
         movementTask.stop();

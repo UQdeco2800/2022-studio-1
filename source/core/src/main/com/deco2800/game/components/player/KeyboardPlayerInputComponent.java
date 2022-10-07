@@ -28,21 +28,6 @@ import java.util.*;
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
 
-  private boolean buildState = false;
-  private boolean removeState = false;
-  private boolean upgradeState = false;
-
-  private boolean resourceBuildState = false;
-
-  private boolean buildEvent = false;
-  private boolean removeEvent = false;
-
-  private boolean upgradeEvent = false;
-
-  private String[] structureNames = {"wall", "tower1", "tower2", "tower3", "trap", "stonequarry", "woodCutter"};
-
-  private int structureSelect = 0;
-
   public KeyboardPlayerInputComponent() {
     super(5);
   }
@@ -88,6 +73,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("attack");
           entity.getEvents().trigger("attack_anim");
           entity.getEvents().trigger("playerControlTut", "SPACE");
+          entity.getEvents().trigger("skipEpilogue");
           return true;
         default:
           return false;
@@ -127,49 +113,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           walkDirection.sub(Vector2Utils.RIGHT);
           triggerWalkEvent();
           return true;
-        case Keys.B:
-          buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-          return true;
         case Keys.O:
           triggerCrystalAttacked();
           return true;
         case Keys.R:
           triggerCrystalRestoreHealth();
-          return true;
-        case Keys.N:
-          if (buildState) {
-            structureSelect += 1;
-          }
-          return true;
-        case Keys.H:
-          for(int i = 0; i <=10; i++) {
-//          for(int j = 0; j<=120; j++) {
-            Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,0);
-            System.out.println(pos);
-          }
-          for(int i = 0; i <=10; i++) {
-//          for(int j = 0; j<=120; j++) {
-            Vector2 pos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(i,1);
-            System.out.println(pos);
-          }
-//        }
-        case Keys.Y:
-          if (buildState) {
-            buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-          }
-          if (upgradeState) {
-            upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
-          }
-          removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
-          return true;
-        case Keys.U:
-          if (buildState) {
-            buildState = ServiceLocator.getStructureService().toggleBuildState(buildState);
-          }
-          if (removeState) {
-            removeState = ServiceLocator.getStructureService().toggleRemoveState(removeState);
-          }
-          upgradeState = ServiceLocator.getStructureService().toggleUpgradeState(upgradeState);
           return true;
         case Keys.SPACE:
           entity.getEvents().trigger("attack_anim_rev");
@@ -192,15 +140,15 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   @Override
   public boolean mouseMoved(int screenX, int screenY) {
-
-//    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-//    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-//    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-//    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-//    System.out.println(mousePosV2);
-//    GridPoint2 tilePos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-//    System.out.println(tilePos);
-
+    if (ServiceLocator.getStructureService().getTempBuildState()) {
+      Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+      CameraComponent camComp = camera.getComponent(CameraComponent.class);
+      Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+      Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+      GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+      ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).setPosition(worldLoc);
+    }
     return true;
   }
 
@@ -208,36 +156,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     if (pointer == Input.Buttons.LEFT) {
-      if (buildState) {
-        buildEvent = true;
-        boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
-        isClear = updatedValues[0];
-        resourceBuildState = updatedValues[1];
-        buildEvent = updatedValues[2];
-        if (isClear) {
-          int i = structureSelect % (structureNames.length);
-          ServiceLocator.getStructureService().triggerBuildEvent(structureNames[i]);
-        }
-      } else if (removeState) {
-        removeEvent = true;
-        boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
-        isClear = updatedValues[0];
-        removeEvent = updatedValues[3];
-      } else if (upgradeState) {
-        upgradeEvent = true;
-        boolean isClear = false;
-        boolean[] updatedValues = ServiceLocator.getStructureService().handleClicks(screenX, screenY, resourceBuildState, buildEvent, removeEvent, upgradeEvent);
-        isClear = updatedValues[0];
-        upgradeEvent = updatedValues[4];
-      }
-    }
-
-    if (buildState) {
-      if (buildEvent) {
-        if (pointer == Input.Buttons.LEFT) {
-          buildEvent = false;
+      if (ServiceLocator.getStructureService().getTempBuildState()) {
+        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+        GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+        String entityName = ServiceLocator.getStructureService().getTempEntityName();
+        entityName = entityName.replace("Temp", "");
+        System.out.println("entityName: " + entityName);
+        if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
+          ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).dispose();
+          ServiceLocator.getStructureService().setTempBuildState(false);
         }
       }
     }

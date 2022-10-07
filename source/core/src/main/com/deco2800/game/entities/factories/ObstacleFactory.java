@@ -38,11 +38,10 @@ public class ObstacleFactory {
     int index = (int) ((Math.random() * (sprites.length)));
     Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
-    tree.setName("Tree");
     tree.setResourceType(ResourceType.WOOD);
     tree.setCollectable(true);
     tree.setResourceAmount(10);
-    ServiceLocator.getEntityService().registerNamed("Tree@" + tree.getId(), tree);
+    tree.setName("Tree@" + tree.getId());
     tree.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return tree;
@@ -57,11 +56,10 @@ public class ObstacleFactory {
 
     Entity tree = createEnvironmentalObject(image, EnvironmentalComponent.EnvironmentalObstacle.TREE,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
-    tree.setName("Tree");
     tree.setResourceType(ResourceType.WOOD);
     tree.setCollectable(true);
     tree.setResourceAmount(10);
-    ServiceLocator.getEntityService().registerNamed("Tree@" + tree.getId(), tree);
+    tree.setName("Tree@" + tree.getId());
     return tree;
   }
 
@@ -76,12 +74,10 @@ public class ObstacleFactory {
     Entity rock = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
         0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
-    rock.setName("Rock");
     rock.setResourceType(ResourceType.STONE);
     rock.setCollectable(true);
     rock.setResourceAmount(10);
-
-    ServiceLocator.getEntityService().registerNamed("Rock@" + rock.getId() + MathUtils.random(0, 200), rock);
+    rock.setName("Rock@" + rock.getId());
     rock.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return rock;
@@ -113,12 +109,10 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.VINE,
         2f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 0.5f);
 
-    vine.setName("Vine");
     vine.setResourceType(ResourceType.WOOD);
     vine.setCollectable(true);
     vine.setResourceAmount(5);
-
-    ServiceLocator.getEntityService().registerNamed("Vine@" + vine.getId(), vine);
+    vine.setName("Vine@" + vine.getId());
     vine.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return vine;
@@ -135,12 +129,10 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 1f);
 
-    spikyBush.setName("SpikeyTree");
     spikyBush.setResourceType(ResourceType.WOOD);
     spikyBush.setCollectable(true);
     spikyBush.setResourceAmount(20);
-
-    ServiceLocator.getEntityService().registerNamed("SpikeyBush@" + spikyBush.getId(), spikyBush);
+    spikyBush.setName("SpikeyBush@" + spikyBush.getId());
     spikyBush.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return spikyBush;
@@ -156,12 +148,10 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.GEYSER,
         1f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DAMAGE, 0.5f);
 
-    geyser.setName("Geyser");
     geyser.setResourceType(ResourceType.STONE);
     geyser.setCollectable(true);
     geyser.setResourceAmount(10);
-
-    ServiceLocator.getEntityService().registerNamed("Geyser@" + geyser.getId(), geyser);
+    geyser.setName("Geyser@" + geyser.getId());
     geyser.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return geyser;
@@ -220,12 +210,11 @@ public class ObstacleFactory {
 
     // TODO: Have an external file that keeps track of all object stats -- later
     // refactoring task
-    pillar.setName("Pillar");
+
     pillar.setResourceType(ResourceType.STONE);
     pillar.setCollectable(true);
     pillar.setResourceAmount(10);
-
-    ServiceLocator.getEntityService().registerNamed("Pillar@" + pillar.getId(), pillar);
+    pillar.setName("Pillar@" + pillar.getId());
     pillar.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return pillar;
@@ -241,12 +230,10 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.WOODEN_FENCE,
         0.8f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
-    fence.setName("Fence");
     fence.setCollectable(true);
     fence.setResourceType(ResourceType.WOOD);
     fence.setResourceAmount(50);
-
-    ServiceLocator.getEntityService().registerNamed("Fence@" + fence.getId(), fence);
+    fence.setName("Fence@" + fence.getId());
     return fence;
   }
 
@@ -260,12 +247,10 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
         20f, 1f, 1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
-    shipwreck.setName("ShipwreckFront");
     shipwreck.setCollectable(true);
     shipwreck.setResourceType(ResourceType.WOOD);
     shipwreck.setResourceAmount(50);
-
-    ServiceLocator.getEntityService().registerNamed("shipWreckFront@" + shipwreck.getId(), shipwreck);
+    shipwreck.setName("ShipwreckFront@" + shipwreck.getId());
 
     return shipwreck;
   }
@@ -280,12 +265,10 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.SHIPWRECK_BACK,
         20f, 1f, 1f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
-    shipwreck.setName("ShipwreckBack");
     shipwreck.setCollectable(true);
     shipwreck.setResourceType(ResourceType.WOOD);
     shipwreck.setResourceAmount(50);
-
-    ServiceLocator.getEntityService().registerNamed("shipWreckBack@" + shipwreck.getId(), shipwreck);
+    shipwreck.setName("ShipwreckBack@" + shipwreck.getId());
 
     return shipwreck;
   }
@@ -297,8 +280,6 @@ public class ObstacleFactory {
 
     shell.setName("Shell");
     shell.setCollectable(false);
-
-    ServiceLocator.getEntityService().register(shell);
     shell.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shell;

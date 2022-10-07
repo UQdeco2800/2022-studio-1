@@ -78,7 +78,7 @@ public class AchievementPopupComponent extends UIComponent {
     private void buildActors(String image, String title, String description) {
         root = new Table();
         root.setFillParent(true);
-        root.padBottom(Gdx.graphics.getHeight() - 120);
+        root.padBottom(Gdx.graphics.getHeight() - 120f);
 
         content = new Table();
         content.top();
