@@ -1089,7 +1089,7 @@ public class MainGameInterface extends UIComponent {
                   .removeBuilding(currentBuilding);
 
               group.setVisible(false);
-              ServiceLocator.getStructureService().triggerBuildEvent(buildingCamelName);
+              ServiceLocator.getStructureService().buildTempStructure(buildingCamelName);
               currBuildingList = getBuildingList();
 
               if (currBuildingList.size() == 0) {

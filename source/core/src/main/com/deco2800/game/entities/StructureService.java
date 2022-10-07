@@ -60,6 +60,12 @@ public class StructureService extends EntityService {
   
   private static HashMap<String, Tile> tiles = new HashMap<String, Tile>();
 
+  private static Entity tempEntity;
+
+  private static Boolean buildingTempEntity = false;
+
+  private static String tempEntityName;
+
 
   /**
    * Register a new entity with the entity service. The entity will be created and start updating.
@@ -183,6 +189,57 @@ public class StructureService extends EntityService {
         ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
       }
     }
+  }
+
+  /**
+   * gets the building temp entity state
+   * @return True if building a building from the inventory or False if not
+   * building a building from the inventory
+   */
+  public static Boolean getTempBuildState() {
+    return buildingTempEntity;
+  }
+
+  /**
+   * gets the temp building name
+   * @return name of the temp entity
+   */
+  public static String getTempEntityName() {
+    return tempEntityName;
+  }
+
+  /**
+   * Builds a structure and locks it to the mouse as the user decides where to build it
+   * @param name of the tempStructureEntity
+   */
+  public static void buildTempStructure(String name) {
+    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+    String entityName = "Temp";
+    entityName = name + entityName;
+    if (Objects.equals(name, "wall")) {
+      tempEntity = StructureFactory.createWall(entityName);
+    } else if (Objects.equals(name, "tower1")) {
+      tempEntity = StructureFactory.createTower1(1, entityName);
+    } else if (Objects.equals(name, "tower2")) {
+      tempEntity = StructureFactory.createTower2(1, entityName);
+    } else if (Objects.equals(name, "woodCutter")) {
+      tempEntity = ResourceBuildingFactory.createWoodCutter();
+    } else if (Objects.equals(name, "tower3")) {
+      tempEntity = StructureFactory.createTower3(1, entityName);
+    } else if (Objects.equals(name, "trap")) {
+      tempEntity = StructureFactory.createTrap(entityName);
+    } else if (Objects.equals(name, "stonequarry")) {
+      tempEntity = ResourceBuildingFactory.createStoneQuarry();
+    }
+    buildingTempEntity = true;
+    tempEntityName = entityName;
+    ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
+    tempEntity.setPosition(worldLoc);
   }
 
   /** Builds a structure at mouse position
