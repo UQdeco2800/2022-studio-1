@@ -200,7 +200,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
       GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
       Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
-      ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).setPosition(worldLoc);
+      if (ServiceLocator.getUGSService().checkEntityPlacement(loc, "structure")) {
+        ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).setPosition(worldLoc);
+      }
     }
     return true;
   }
