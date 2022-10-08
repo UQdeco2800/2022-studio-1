@@ -455,7 +455,8 @@ public class AchievementHandler {
      */
     public void resetOneRunAchievements(boolean won) {
         if (won) {
-            getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
+            getAchievementById(7).setTotalAchieved(getAchievementById(7).getTotalAchieved() + 1);
+            checkStatAchievementMilestones(getAchievementById(7));
         }
 
         for (Achievement toCheck : achievements) {
@@ -469,6 +470,7 @@ public class AchievementHandler {
         }
 
         logger.info("Reset one run achievements");
+        saveAchievements();
     }
 
     /**
@@ -478,9 +480,12 @@ public class AchievementHandler {
     public void incrementOneRunAchievement(int id) {
         if (id == 14) {
             getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
+            checkStatAchievementMilestones(getAchievementById(8));
         }
 
         Achievement achievement = getAchievementById(id);
         achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
+
+        saveAchievements();
     }
 }
