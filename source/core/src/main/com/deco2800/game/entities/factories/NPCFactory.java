@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.*;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
@@ -117,8 +118,9 @@ public class NPCFactory {
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
+    pirateCrabEnemy.setResourceType(ResourceType.GOLD);
+    pirateCrabEnemy.setResourceAmount(10);
     ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
-
 
     return pirateCrabEnemy;
   }
@@ -154,6 +156,8 @@ public class NPCFactory {
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
     ElectricEelEnemy.setScale(12f, 12f);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(20);
 
     return ElectricEelEnemy;
   }
@@ -221,6 +225,8 @@ public class NPCFactory {
     ninjaStarfish.getComponent(AnimationRenderComponent.class).startAnimation("fl");
     ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
     ninjaStarfish.setScale(12f, 12f);
+    ninjaStarfish.setResourceType(ResourceType.GOLD);
+    ninjaStarfish.setResourceAmount(20);
 
     return ninjaStarfish;
   }
