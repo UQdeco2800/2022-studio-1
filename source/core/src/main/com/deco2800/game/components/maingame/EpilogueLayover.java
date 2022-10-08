@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.storyline.epilogueDisplay;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -49,8 +50,10 @@ public class EpilogueLayover extends UIComponent {
             if (bossEnemy != null) {
                 boolean bossDead = bossEnemy.getComponent(CombatStatsComponent.class).isDead();
                 if (bossDead) {
+                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GAME_WON, true);
                     stage.addActor(epilogueWin);
                 } else {
+                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GAME_WON, false);
                     stage.addActor(epilogueLose);
                 }
             }
@@ -64,7 +67,8 @@ public class EpilogueLayover extends UIComponent {
 
         boolean won is a throwaway
      */
-    private void onDeath(boolean won) {
+    private void onDeath() {
+        ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GAME_WON, false);
         stage.addActor(epilogueLose);
         stage.addActor(backButton);
     }
