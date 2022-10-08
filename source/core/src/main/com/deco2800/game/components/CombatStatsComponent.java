@@ -149,7 +149,7 @@ public class CombatStatsComponent extends Component {
         entity.getEvents().trigger("playerDeath");
         break;
       case "crystal":
-        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath", false);
+        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
         break;
       default:
         //do nothing
