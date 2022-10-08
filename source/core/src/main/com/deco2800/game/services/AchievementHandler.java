@@ -24,6 +24,9 @@ import java.util.Optional;
  * Service for handling the loading, updating and saving of game achievements
  */
 public class AchievementHandler {
+    /**
+     * Event string for if the game was won
+     */
     public static final String EVENT_GAME_WON = "gameWon";
 
     /**
@@ -50,10 +53,7 @@ public class AchievementHandler {
      * Event string for enemies killed
      */
     public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
-    /**
-     * Event string for Game wins
-     */
-    public static final String EVENT_WIN_GAME = "Game Won";
+
     /**
      * Event string for resources being added
      */
@@ -158,7 +158,6 @@ public class AchievementHandler {
         this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievementByType);
         this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievementByType);
         this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievementByType);
-        this.events.addListener(EVENT_WIN_GAME, this::incrementOneRunAchievement);
 
         // resource stat listeners
         this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
@@ -258,8 +257,7 @@ public class AchievementHandler {
                 achievement = this.getAchievementById(6);
                 break;
             case GAME:
-                achievement = this.getAchievementById(7);
-                // update game stats achievement
+                // handled outside
         }
 
         incrementTotalAchievedForStatAchievement(achievement, increase);
@@ -456,6 +454,10 @@ public class AchievementHandler {
      * Resets progress of achievements that need to be completed in a single run of the game.
      */
     public void resetOneRunAchievements(boolean won) {
+        if (won) {
+            getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
+        }
+
         for (Achievement toCheck : achievements) {
             if (toCheck.isOneRun()) {
                 if (!toCheck.isCompleted() && won && toCheck.getTotalAchieved() == 0) {
@@ -474,9 +476,11 @@ public class AchievementHandler {
      * @param id int
      */
     public void incrementOneRunAchievement(int id) {
+        if (id == 14) {
+            getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
+        }
+
         Achievement achievement = getAchievementById(id);
         achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
-
-        logger.info("Incremented one run achievement: " + getAchievementById(id).getName());
     }
 }

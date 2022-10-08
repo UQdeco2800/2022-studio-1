@@ -345,13 +345,9 @@ public class ShopEquipmentDisplay extends UIComponent {
                         .contains(current.t)) {
                   logger.info("Already has weapon, invalid purchase!");
                   filesound.play();
-
                 } else {
                   entity.getComponent(InventoryComponent.class)
                       .addGold(-1 * stats.goldCost);
-                  coinSound.play();
-                  // Trigger event for item Bought
-                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 8);
                   // sets player weapon to new weapon and change
                   // attack accordingly
                   entity.getComponent(InventoryComponent.class)
@@ -361,10 +357,12 @@ public class ShopEquipmentDisplay extends UIComponent {
                   entity.getComponent(CombatStatsComponent.class)
                       .setAttackMultiplier(
                           stats.attack);
-                }
 
-                // Trigger events for achievements
-                ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
+                  coinSound.play();
+
+                  // Trigger events for achievements
+                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
+                }
               } else {
                 // invalid purchase if the armor is already in inventory
                 if (entity.getComponent(InventoryComponent.class)
@@ -387,8 +385,9 @@ public class ShopEquipmentDisplay extends UIComponent {
                   entity.getComponent(InventoryComponent.class)
                       .addGold(-1 * stats.goldCost);
                   coinSound.play();
+
                   // Trigger event for item Bought
-                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 8);
+                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
                 }
               }
             } else {
