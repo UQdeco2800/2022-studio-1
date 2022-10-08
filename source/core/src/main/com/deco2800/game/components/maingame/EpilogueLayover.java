@@ -9,9 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.storyline.epilogueDisplay;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -50,6 +52,7 @@ public class EpilogueLayover extends UIComponent {
                 boolean bossDead = bossEnemy.getComponent(CombatStatsComponent.class).isDead();
                 if (bossDead) {
                     stage.addActor(epilogueWin);
+                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_WIN_GAME, AchievementType.GAME, 1);
                 } else {
                     stage.addActor(epilogueLose);
                 }

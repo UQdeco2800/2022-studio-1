@@ -48,7 +48,10 @@ public class AchievementHandler {
      * Event string for enemies killed
      */
     public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
-
+    /**
+     * Event string for Game wins
+     */
+    public static final String EVENT_WIN_GAME = "Game Won";
     /**
      * Event string for resources being added
      */
@@ -153,6 +156,7 @@ public class AchievementHandler {
         this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievementByType);
         this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievementByType);
         this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievementByType);
+        this.events.addListener(EVENT_WIN_GAME, this::updateStatAchievementByType);
 
         // resource stat listeners
         this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
