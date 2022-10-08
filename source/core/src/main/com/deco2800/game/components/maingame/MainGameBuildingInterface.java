@@ -7,6 +7,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -17,6 +19,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
+import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -138,7 +141,16 @@ public class MainGameBuildingInterface extends UIComponent {
 
                     if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
                         logger.info("Sufficient resources");
+
+                        //Subtract currency from inventory
                         entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
+
+                        //Get building and convert it's position to gridPoint2
+                        Entity building = ServiceLocator.getStructureService().getNamedEntity(structureName);
+                        Vector2 position = building.getPosition();
+                        GridPoint2 gridPoint2 = new GridPoint2((int) position.x, (int) position.y);
+                        
+                        StructureFactory.upgradeStructure(gridPoint2, building.getName());
                     } else {
                         logger.info("Insufficient resource!");
                         Sound filesound = Gdx.audio.newSound(
