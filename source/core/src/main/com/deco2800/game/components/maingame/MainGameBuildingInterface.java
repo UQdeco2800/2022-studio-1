@@ -129,6 +129,19 @@ public class MainGameBuildingInterface extends UIComponent {
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, true);
 
+        upgradeButton.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent changeEvent, Actor actor) {
+                    logger.info("Upgrade Button clicked");
+
+                    if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
+                        logger.info("Sufficient resources");
+                        entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
+                    }
+                } 
+            }
+        );
 
         // sell button
         TextButton sellButton = ShopUtils.createImageTextButton(
