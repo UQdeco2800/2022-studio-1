@@ -60,7 +60,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/achievements/Achievement.html#%3Cinit%3E()" class="member-name-link">Achievement()</a> - Constructor for class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/achievements/Achievement.html#%3Cinit%3E(int,com.deco2800.game.achievements.AchievementType,boolean,java.lang.String,java.lang.String)" class="member-name-link">Achievement(int, AchievementType, boolean, String, String)</a> - Constructor for class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></dt>
+<dt><a href="com/deco2800/game/achievements/Achievement.html#%3Cinit%3E(int,com.deco2800.game.achievements.AchievementType,boolean,boolean,java.lang.String,java.lang.String)" class="member-name-link">Achievement(int, AchievementType, boolean, boolean, String, String)</a> - Constructor for class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/AtlantisSinks.ScreenType.html#ACHIEVEMENT" class="member-name-link">ACHIEVEMENT</a> - Enum constant in enum class com.deco2800.game.<a href="com/deco2800/game/AtlantisSinks.ScreenType.html" title="enum class in com.deco2800.game">AtlantisSinks.ScreenType</a></dt>
 <dd>&nbsp;</dd>
@@ -219,7 +219,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/physics/PhysicsLayer.html#ALL" class="member-name-link">ALL</a> - Static variable in class com.deco2800.game.physics.<a href="com/deco2800/game/physics/PhysicsLayer.html" title="class in com.deco2800.game.physics">PhysicsLayer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#allCompleted(com.deco2800.game.achievements.AchievementType)" class="member-name-link">allCompleted(AchievementType)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Checks if all achievements of a specific type are completed</div>
+</dd>
 <dt><a href="com/deco2800/game/physics/raycast/AllHitCallback.html" class="type-name-link" title="class in com.deco2800.game.physics.raycast">AllHitCallback</a> - Class in <a href="com/deco2800/game/physics/raycast/package-summary.html">com.deco2800.game.physics.raycast</a></dt>
 <dd>
 <div class="block">Cast a ray against all colliders that match the layer mask.</div>
@@ -418,6 +420,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/components/tasks/ChaseTask.html#%3Cinit%3E(com.deco2800.game.entities.Entity,int,float,float)" class="member-name-link">ChaseTask(Entity, int, float, float)</a> - Constructor for class com.deco2800.game.components.tasks.<a href="com/deco2800/game/components/tasks/ChaseTask.html" title="class in com.deco2800.game.components.tasks">ChaseTask</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/AchievementHandler.html#checkAchievementStatus(long)" class="member-name-link">checkAchievementStatus(long)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
+<dd>
+<div class="block">Checks if an achievement has previously been completed, completes it if not</div>
+</dd>
 <dt><a href="com/deco2800/game/entities/UGS.html#checkEntityPlacement(com.badlogic.gdx.math.GridPoint2,java.lang.String)" class="member-name-link">checkEntityPlacement(GridPoint2, String)</a> - Method in class com.deco2800.game.entities.<a href="com/deco2800/game/entities/UGS.html" title="class in com.deco2800.game.entities">UGS</a></dt>
 <dd>
 <div class="block">Takes a String entityType and String coordinate and decides if that type of enity can spawn
@@ -1580,6 +1586,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Event string for regular achievement completion</div>
 </dd>
+<dt><a href="com/deco2800/game/services/AchievementHandler.html#EVENT_BOSS_KILL" class="member-name-link">EVENT_BOSS_KILL</a> - Static variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
+<dd>
+<div class="block">Event string for boss kill</div>
+</dd>
 <dt><a href="com/deco2800/game/components/achievements/AchievementDisplay.html#EVENT_BUILDING_BUTTON_CLICKED" class="member-name-link">EVENT_BUILDING_BUTTON_CLICKED</a> - Static variable in class com.deco2800.game.components.achievements.<a href="com/deco2800/game/components/achievements/AchievementDisplay.html" title="class in com.deco2800.game.components.achievements">AchievementDisplay</a></dt>
 <dd>
 <div class="block">Event string for building achievement button press</div>
@@ -1625,6 +1635,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/components/achievements/AchievementDisplay.html#EVENT_RESOURCE_BUTTON_CLICKED" class="member-name-link">EVENT_RESOURCE_BUTTON_CLICKED</a> - Static variable in class com.deco2800.game.components.achievements.<a href="com/deco2800/game/components/achievements/AchievementDisplay.html" title="class in com.deco2800.game.components.achievements">AchievementDisplay</a></dt>
 <dd>
 <div class="block">Event string for resource achievement button press</div>
+</dd>
+<dt><a href="com/deco2800/game/services/AchievementHandler.html#EVENT_SHOP_ITEM_BOUGHT" class="member-name-link">EVENT_SHOP_ITEM_BOUGHT</a> - Static variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
+<dd>
+<div class="block">Event string for items bought in the shop</div>
 </dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#EVENT_STAT_ACHIEVEMENT_MADE" class="member-name-link">EVENT_STAT_ACHIEVEMENT_MADE</a> - Static variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
@@ -1810,7 +1824,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Get value from map</div>
 </dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#getAchievementById(int)" class="member-name-link">getAchievementById(int)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns an achievement based on its id</div>
+</dd>
 <dt><a href="com/deco2800/game/achievements/Achievement.html#getAchievementData()" class="member-name-link">getAchievementData()</a> - Method in class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#getAchievementHandler()" class="member-name-link">getAchievementHandler()</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
@@ -2699,6 +2715,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Expands the map by hiding the current layer, and making the next level
  visible</div>
 </dd>
+<dt><a href="com/deco2800/game/services/AchievementHandler.html#incrementOneRunAchievement(int)" class="member-name-link">incrementOneRunAchievement(int)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
+<dd>
+<div class="block">Increments the one run achievement total</div>
+</dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#incrementTotalAchievedForStatAchievement(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">incrementTotalAchievedForStatAchievement(Achievement, int)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
 <div class="block">Correct updates the total achieved for a stat achievement.</div>
@@ -2779,6 +2799,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Checks the current tile and all tiles around it for a water tile.</div>
 </dd>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.TerrainOrientation.html#ISOMETRIC" class="member-name-link">ISOMETRIC</a> - Enum constant in enum class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.TerrainOrientation.html" title="enum class in com.deco2800.game.areas.terrain">TerrainComponent.TerrainOrientation</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/achievements/Achievement.html#isOneRun()" class="member-name-link">isOneRun()</a> - Method in class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ui/terminal/Terminal.html#isOpen()" class="member-name-link">isOpen()</a> - Method in class com.deco2800.game.ui.terminal.<a href="com/deco2800/game/ui/terminal/Terminal.html" title="class in com.deco2800.game.ui.terminal">Terminal</a></dt>
 <dd>&nbsp;</dd>
@@ -3788,6 +3810,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/physics/raycast/SingleHitCallback.html#reportRayFixture(com.badlogic.gdx.physics.box2d.Fixture,com.badlogic.gdx.math.Vector2,com.badlogic.gdx.math.Vector2,float)" class="member-name-link">reportRayFixture(Fixture, Vector2, Vector2, float)</a> - Method in class com.deco2800.game.physics.raycast.<a href="com/deco2800/game/physics/raycast/SingleHitCallback.html" title="class in com.deco2800.game.physics.raycast">SingleHitCallback</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/services/AchievementHandler.html#resetOneRunAchievements(boolean)" class="member-name-link">resetOneRunAchievements(boolean)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
+<dd>
+<div class="block">Resets progress of achievements that need to be completed in a single run of the game.</div>
+</dd>
 <dt><a href="com/deco2800/game/components/player/PlayerActions.html#resetPlayerSpeed()" class="member-name-link">resetPlayerSpeed()</a> - Method in class com.deco2800.game.components.player.<a href="com/deco2800/game/components/player/PlayerActions.html" title="class in com.deco2800.game.components.player">PlayerActions</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/physics/components/PhysicsMovementComponent.html#resetSpeed()" class="member-name-link">resetSpeed()</a> - Method in class com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/PhysicsMovementComponent.html" title="class in com.deco2800.game.physics.components">PhysicsMovementComponent</a></dt>
@@ -4196,6 +4222,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainTile.html#setOffsetX(float)" class="member-name-link">setOffsetX(float)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainTile.html#setOffsetY(float)" class="member-name-link">setOffsetY(float)</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainTile.html" title="class in com.deco2800.game.areas.terrain">TerrainTile</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/achievements/Achievement.html#setOneRun(boolean)" class="member-name-link">setOneRun(boolean)</a> - Method in class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/ui/terminal/Terminal.html#setOpen()" class="member-name-link">setOpen()</a> - Method in class com.deco2800.game.ui.terminal.<a href="com/deco2800/game/ui/terminal/Terminal.html" title="class in com.deco2800.game.ui.terminal">Terminal</a></dt>
 <dd>
