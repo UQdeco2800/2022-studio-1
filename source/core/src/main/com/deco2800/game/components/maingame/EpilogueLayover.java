@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.storyline.epilogueDisplay;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -44,20 +45,26 @@ public class EpilogueLayover extends UIComponent {
         // NOTE: day num starts from 0.
         if (currDay >= 3) {
             stage.addActor(backButton);
-            boolean bossDead = ServiceLocator.getEntityService().getNamedEntity("bossEnemy").getComponent(CombatStatsComponent.class).isDead();
-            if (bossDead) {
-                stage.addActor(epilogueWin);
-            } else {
-                stage.addActor(epilogueLose);
+            Entity bossEnemy = ServiceLocator.getEntityService().getNamedEntity("bossEnemy");
+            if (bossEnemy != null) {
+                boolean bossDead = bossEnemy.getComponent(CombatStatsComponent.class).isDead();
+                if (bossDead) {
+                    stage.addActor(epilogueWin);
+                } else {
+                    stage.addActor(epilogueLose);
+                }
             }
+
         }
 
     }
 
     /*
         LOSE CONDITION: Crystal health is 0.
+
+        boolean won is a throwaway
      */
-    private void onDeath() {
+    private void onDeath(boolean won) {
         stage.addActor(epilogueLose);
         stage.addActor(backButton);
     }
