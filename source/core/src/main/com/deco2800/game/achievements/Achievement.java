@@ -32,6 +32,7 @@ public class Achievement {
         this.totalAchieved = 0;
         this.isCompleted = false;
         this.isStat = isStat;
+        this.isOneRun = isOneRun;
         this.achievementData = "";
     }
 

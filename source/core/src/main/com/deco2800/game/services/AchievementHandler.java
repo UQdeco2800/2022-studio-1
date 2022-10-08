@@ -455,12 +455,16 @@ public class AchievementHandler {
      */
     public void resetOneRunAchievements(boolean won) {
         for (Achievement toCheck : achievements) {
-            if (!toCheck.isCompleted() && won && toCheck.getTotalAchieved() == 0) {
-                markAchievementCompletedById(toCheck.getId(), true);
-            } else {
-                toCheck.setTotalAchieved(0);
+            if (toCheck.isOneRun()) {
+                if (!toCheck.isCompleted() && won && toCheck.getTotalAchieved() == 0) {
+                    markAchievementCompletedById(toCheck.getId(), true);
+                } else {
+                    toCheck.setTotalAchieved(0);
+                }
             }
         }
+
+        logger.info("Reset one run achievements");
     }
 
     /**
