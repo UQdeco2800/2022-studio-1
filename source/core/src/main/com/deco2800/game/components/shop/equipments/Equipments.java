@@ -24,6 +24,18 @@ public enum Equipments {
         };
     }
 
+    public static String getAnimationName(Equipments equipment) {
+        return switch (equipment) {
+            case AXE -> "axe_w";
+            case SWORD -> "swo_w";
+            case BOW_AND_ARROW -> "bna_w";
+            case TRIDENT -> "tri_w";
+            case SHIELD -> "shi_w";
+            case CHESTPLATE -> "arm_w";
+            case HELMET -> "hel_w";
+        };
+    }
+
     public static List<Equipments> getAllEquipmentTypes() {
         List<Equipments> all = Arrays.asList(Equipments.class.getEnumConstants());
         return all;

@@ -1,4 +1,5 @@
 .idea/
 
+.core/assets/Saves/
 ### Gradle ###
 .gradle/

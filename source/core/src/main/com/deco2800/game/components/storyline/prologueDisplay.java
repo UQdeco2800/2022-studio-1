@@ -59,6 +59,7 @@ public class prologueDisplay extends UIComponent {
             rootTable.setBackground(nextFrame);
             currentFrame += 1;
         } else {
+            prologueFrames.clear();
             entity.getEvents().trigger("skip");
         }
     }

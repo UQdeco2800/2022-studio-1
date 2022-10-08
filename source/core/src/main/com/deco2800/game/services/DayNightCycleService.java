@@ -192,6 +192,7 @@ public class DayNightCycleService {
                 this.run();
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
 
             return null;

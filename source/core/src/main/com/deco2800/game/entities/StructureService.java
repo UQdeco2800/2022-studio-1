@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.SerializationException;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
@@ -44,21 +45,19 @@ public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
-  private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY);
+  private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); //Deprecate
 
-  private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>();
-
-  public static HashMap<String, Table> tables = new HashMap<String, Table>();
+  private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>(); //Deprecate
 
   private static boolean uiIsVisible;
 
   private static Table table1;
 
-  private static String structureName;
+  private static Entity tempEntity;
 
-  private static String structureKey;
-  
-  private static HashMap<String, Tile> tiles = new HashMap<String, Tile>();
+  private static Boolean buildingTempEntity = false;
+
+  private static String tempEntityName;
 
 
   /**
@@ -144,170 +143,110 @@ public class StructureService extends EntityService {
     }
   }
 
-  public static void toggleUIisVisible() {
-    uiIsVisible = !uiIsVisible;
+  /**
+   * Builds a structure at specific location, gridPos. the type of structure built is
+   * determined by the specific structure name, structureName.
+   * @param structureName name of the structure to build (also type of structure)
+   * @param gridPos location of where the structure is to be built
+   * @return true if building was build successfully, false otherwise
+   */
+  public static Boolean buildStructure(String structureName, GridPoint2 gridPos) {
+    String entityName = gridPos.toString();
+    entityName = structureName + entityName;
+    if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
+      if (Objects.equals(structureName, "wall")) {
+        Entity wall = StructureFactory.createWall(entityName);
+        ServiceLocator.getUGSService().setEntity(gridPos, wall, entityName);
+        return true;
+      } else if (Objects.equals(structureName, "tower1")) {
+        Entity tower1 = StructureFactory.createTower1(1, entityName);
+        ServiceLocator.getUGSService().setEntity(gridPos, tower1, entityName);
+        return true;
+      } else if (Objects.equals(structureName, "tower2")) {
+        Entity tower2 = StructureFactory.createTower2(1, entityName);
+        ServiceLocator.getUGSService().setEntity(gridPos, tower2, entityName);
+        return true;
+      } else if (Objects.equals(structureName, "tower3")) {
+        Entity tower3 = StructureFactory.createTower3(1, entityName);
+        ServiceLocator.getUGSService().setEntity(gridPos, tower3, entityName);
+        return true;
+      } else if (Objects.equals(structureName, "trap")) {
+        Entity trap = StructureFactory.createTrap(entityName);
+        ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
+        return true;
+      } else if (Objects.equals(structureName, "stonequarry")) {
+        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
+        ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
+        return true;
+      } else if (Objects.equals(structureName, "woodCutter")) {
+        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
+        ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
+        return true;
+      }
+    }
+    return false;
   }
 
-  /** Builds a structure at mouse position
-   * @param name name of the structure in game entity list
+  /**
+   * gets the building temp entity state
+   * @return True if building a building from the inventory or False if not
+   * building a building from the inventory
    */
-  public static void triggerBuildEvent(String name) {
+  public static Boolean getTempBuildState() {
+    return buildingTempEntity;
+  }
+
+  /**
+   * gets the temp building name
+   * @return name of the temp entity
+   */
+  public static String getTempEntityName() {
+    return tempEntityName;
+  }
+
+  /**
+   * Set the building temp entity state
+   * @param state state to set the buildingTempEntity state to.
+   */
+  public void setTempBuildState(Boolean state) {
+    buildingTempEntity = state;
+  }
+
+  /**
+   * Builds a structure and locks it to the mouse as the user decides where to build it
+   * @param name of the tempStructureEntity
+   */
+  public static void buildTempStructure(String name) {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
     Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
-    System.out.println(worldLoc);
-    String entityName = loc.toString();
+    String entityName = "Temp";
     entityName = name + entityName;
-    String stringTileCoords = ServiceLocator.getUGSService().generateCoordinate(loc.x, loc.y);
 
-    structureKey = name;
-    if (!uiIsVisible) {
-      if (Objects.equals(name, "wall")) {
-        Entity wall = StructureFactory.createWall();
-        ServiceLocator.getEntityService().registerNamed(entityName, wall);
-        ServiceLocator.getStructureService().registerNamed(entityName, wall);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, wall);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        wall.setPosition(worldLoc);
-      } else if (Objects.equals(name, "tower1")) {
-        Entity tower1 = StructureFactory.createTower1(1);
-        ServiceLocator.getEntityService().registerNamed(entityName, tower1);
-        ServiceLocator.getStructureService().registerNamed(entityName, tower1);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, tower1);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        tower1.setPosition(worldLoc);
-      } else if (Objects.equals(name, "tower2")) {
-        Entity tower2 = StructureFactory.createTower2(1);
-        ServiceLocator.getEntityService().registerNamed(entityName, tower2);
-        ServiceLocator.getStructureService().registerNamed(entityName, tower2);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, tower2);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        tower2.setPosition(worldLoc);
-      } else if (Objects.equals(name, "woodCutter")) {
-        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
-        ServiceLocator.getEntityService().registerNamed(entityName, woodCutter);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, woodCutter);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        woodCutter.setPosition(worldLoc);
-      }else if (Objects.equals(name, "tower3")) {
-        Entity tower3 = StructureFactory.createTower3(1);
-        ServiceLocator.getEntityService().registerNamed(entityName, tower3);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, tower3);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        tower3.setPosition(worldLoc);
-      }else if (Objects.equals(name, "trap")) {
-        Entity trap = StructureFactory.createTrap();
-        ServiceLocator.getEntityService().registerNamed(entityName, trap);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, trap);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        trap.setPosition(worldLoc);
-      }else if (Objects.equals(name, "stonequarry")) {
-        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
-        ServiceLocator.getEntityService().registerNamed(entityName, stonequarry);
-        ServiceLocator.getUGSService().setEntity(stringTileCoords, stonequarry);
-        logger.info("ugs@{} ==> {}", stringTileCoords, ServiceLocator.getUGSService().getEntity(stringTileCoords).getName());
-        stonequarry.setPosition(worldLoc);
-      }
-    } else {
-      table1.remove();
-      toggleUIisVisible();
+    if (Objects.equals(name, "wall")) {
+      tempEntity = StructureFactory.createWall(entityName);
+    } else if (Objects.equals(name, "tower1")) {
+      tempEntity = StructureFactory.createTower1(1, entityName);
+    } else if (Objects.equals(name, "tower2")) {
+      tempEntity = StructureFactory.createTower2(1, entityName);
+    } else if (Objects.equals(name, "woodCutter")) {
+      tempEntity = ResourceBuildingFactory.createWoodCutter();
+    } else if (Objects.equals(name, "tower3")) {
+      tempEntity = StructureFactory.createTower3(1, entityName);
+    } else if (Objects.equals(name, "trap")) {
+      tempEntity = StructureFactory.createTrap(entityName);
+    } else if (Objects.equals(name, "stonequarry")) {
+      tempEntity = ResourceBuildingFactory.createStoneQuarry();
+
     }
+    buildingTempEntity = true;
+    tempEntityName = entityName;
+    ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
+    tempEntity.setPosition(worldLoc);
   }
 
-  /**
-   * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
-   * @param screenX The x coordinate, origin is in the upper left corner
-   * @param screenY The y coordinate, origin is in the upper left corner
-   * @param resourceBuildState true if building resource building false otherwise
-   * @param buildEvent true if currently in a build event false otherwise
-   * @return list of booleans[]{true if the point (screenX, screenY) is clear of structures else return false,
-   *                            resourceBuildState, buildEvent}
-   */
-  public static boolean[] handleClicks(int screenX, int screenY, boolean resourceBuildState, boolean buildEvent, boolean removeEvent, boolean upgradeEvent) {
-    SaveGame.saveGameState();
-    boolean isClear = false;
-    boolean structureHit = false;
-    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    CameraComponent camComp = camera.getComponent(CameraComponent.class);
-    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    if (ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name") != null) {
-      logger.info("mapPos ==> {}", mapPos);
-      String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
 
-      if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3")) {
-        structureHit = true;
-        structureName = name;
-        if (buildEvent) {
-          if (!uiIsVisible) {
-            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, String.valueOf(mapPos), structureName);
-            toggleUIisVisible();
-          }
-        } else if (removeEvent) {
-          StructureFactory.handleBuildingDestruction(name);
-          removeEvent = false;
-        } else if (upgradeEvent) {
-          logger.info("UPGRADE EVENT");
-          StructureFactory.upgradeStructure(name);
-          upgradeEvent = false;
-        }
-      } else {
-        if (uiIsVisible) {
-          table1.remove();
-          toggleUIisVisible();
-        }
-      }
-    }
-    if (structureHit) {
-      buildEvent = false;
-      isClear = false;
-    } else {
-      isClear = true;
-    }
-    return new boolean[]{isClear, resourceBuildState, buildEvent, removeEvent, upgradeEvent};
-  }
-
-  /**
-   * Toggles the build state of the player
-   * @param buildState true if currently in build state false otherwise
-   */
-  public static boolean toggleBuildState(boolean buildState) {
-    buildState = !buildState;
-    return  buildState;
-  }
-
-  /**
-   * Toggles resource building placement mode
-   * @param resourceBuildState true if building resource building false otherwise
-   */
-  public static boolean toggleResourceBuildState(boolean resourceBuildState) {
-    resourceBuildState = !resourceBuildState;
-    return resourceBuildState;
-  }
-
-  /**
-   * Method stub for returning a given entity's name
-   * @param entity
-   */
-  public String getName(Entity entity) {
-    return "";
-  }
-
-  public static String getSimpleName() {return structureName;}
-
-
-  public boolean toggleRemoveState(boolean removeState) {
-    removeState = !removeState;
-    return  removeState;
-  }
-
-    public boolean toggleUpgradeState(boolean upgradeState) {
-      upgradeState = !upgradeState;
-      return  upgradeState;
-    }
-    
 }

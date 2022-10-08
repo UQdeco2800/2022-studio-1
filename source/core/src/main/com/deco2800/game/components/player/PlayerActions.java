@@ -1,6 +1,7 @@
 package com.deco2800.game.components.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.achievements.AchievementType;
@@ -10,8 +11,14 @@ import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.utils.math.Vector2Utils;
+
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Action component for interacting with the player. Player events should be
@@ -26,14 +33,21 @@ public class PlayerActions extends Component {
   private Vector2 faceDirecetion = Vector2.X.cpy();
   private boolean moving = false;
 
+  public static boolean playerAlive = true;
+
+  private Timer timer;
+  TimerTask dieTask;
+
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
     entity.getEvents().addListener("walk", this::walk);
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
-
     entity.getEvents().addListener("playerDeath", this::die);
+    timer = new Timer();
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::respawn);
+    playerAlive = true;
   }
 
   @Override
@@ -104,7 +118,7 @@ public class PlayerActions extends Component {
     Entity closestEntity = null;
 
     ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current);
-    String underMe = ServiceLocator.getRangeService().getPlayerTile();
+    GridPoint2 underMe = ServiceLocator.getRangeService().getPlayerTile();
     for (Entity i : radius) {
       if (i != null && i.getName().contains("Mr.")) {
         closestEnemy = i;
@@ -152,51 +166,34 @@ public class PlayerActions extends Component {
   }
 
   /**
-   * Kill the entity
+   * Kills the player
    */
   public void die() {
     entity.getEvents().trigger("death_anim");
-//    entity.dispose();
-
+    entity.setScale(11f, 10.5f);
+    playerAlive = false;
+    dieTask = new TimerTask() {
+      @Override
+      public void run() {
+        //hide the character sprite
+        entity.setScale(0.1F, 0.1F);
+      }
+    };
+    timer.schedule(dieTask, 1000);
   }
 
+  /**
+   * Respawns the player
+   */
+  public void respawn(DayNightCycleStatus partOfDay) {
+    if (partOfDay == DayNightCycleStatus.DAY) {
+      if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
+        //respawn
+        entity.getEvents().trigger("after_death");
+        entity.setScale(10.5f, 9.5f);
+        playerAlive = true;
+        entity.getComponent(CombatStatsComponent.class).setHealth(100);
+      }
+    }
+  }
 }
-// deprecated attack function
-//    closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) current.getPosition().x,
-//        (int) current.getPosition().y);
-//    Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) current.getPosition().x,
-//        (int) current.getPosition().y);
-//
-//    if (null != closestEnemy) {
-//      CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
-//      if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
-//        CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
-//            .getComponent(CombatStatsComponent.class);
-//        System.out.println(enemyTarget.getHealth());
-//        enemyTarget.hit(combatStats);
-//        if (enemyTarget.getHealth() < 1) {
-//          closestEnemy.dispose();
-//          this.entity.getEvents().trigger("enemyKill");
-//          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
-//        } else {
-//          enemyTarget.setHealth(enemyTarget.getHealth());
-//          System.out.println(enemyTarget.getHealth());
-//        }
-//      }
-//    } else if (null != closestEntity) {
-//      if (null == closestEntity.getName()) {
-//        return;
-//      }
-//      if (closestEntity.isCollectable() && ServiceLocator.getRangeService().playerInRangeOf(closestEntity)) {
-//        closestEntity.collectResources();
-//        closestEntity.dispose();
-//        PlayerStatsDisplay.updateItems();
-//      }
-//    }
-//    this.entity.getEvents().trigger("showPrompts");
-//  }
-
-// Sound attackSound =
-// ServiceLocator.getResourceService().getAsset("sounds/sword_swing.mp3",
-// Sound.class);
-// attackSound.play();

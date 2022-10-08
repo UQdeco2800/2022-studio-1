@@ -55,8 +55,8 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
 
-    public Table makeUIPopUp(Boolean value, float x, float y, String entityCords, String structureName) {
-        System.out.println("hello world");
+    public Table makeUIPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
+
         //Building that was clicked
         Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
 

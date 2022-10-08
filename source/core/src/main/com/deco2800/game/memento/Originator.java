@@ -3,6 +3,7 @@ package com.deco2800.game.memento;
 import java.util.HashMap;
 import java.util.List;
 import com.deco2800.game.components.shop.artefacts.Artefact;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,10 @@ public class Originator {
     private static final Logger logger = LoggerFactory.getLogger(Originator.class);
     protected int state, gold, stone, wood, currentHealth, attack, defense;
     protected Equipments weapon;
-    protected Equipments chestplate;
-    protected Equipments helmet;
+    protected Equipments armor;
     protected HashMap<Artefact, Integer> items;
+    protected HashMap<ShopBuilding, Integer> buildings;
+    protected List<Equipments> equipmentsList;
 
     /**
      * Originator constructor which can create a new originator to store the current
@@ -48,20 +50,10 @@ public class Originator {
     }
 
     /**
-     * returns the chestplate enum of the previously saved record
-     * @return chestplate enum
+     * returns the armor enum of the previously saved record
+     * @return armor enum
      */
-    public Equipments getChestplate() {
-        return chestplate;
-    }
-
-    /**
-     * returns the helmet enum of the previously saved record
-     * @return helmet enum
-     */
-    public Equipments getHelmet() {
-        return helmet;
-    }
+    public Equipments getArmor() {return armor;}
 
     /**
      *  sets the weapon enum
@@ -72,19 +64,11 @@ public class Originator {
     }
 
     /**
-     *  sets the chestplate enum
-     * @param chestplate - chestplate to be stored
+     *  sets the armor enum
+     * @param armor - chestplate to be stored
      */
-    public void setChestplate(Equipments chestplate) {
-        this.chestplate = chestplate;
-    }
-
-    /**
-     *  sets the helmet enum
-     * @param helmet - helmet to be stored
-     */
-    public void setHelmet(Equipments helmet) {
-        this.helmet = helmet;
+    public void setArmor(Equipments armor) {
+        this.armor = armor;
     }
 
     /**
@@ -213,12 +197,46 @@ public class Originator {
     }
 
     /**
+     * retrieves all the previously bought equipment
+     * @return list of equipments
+     */
+    public List<Equipments> getEquipmentsList() {
+        return equipmentsList;
+    }
+
+    /**
+     * record the list of equipment in the inventory
+     * @param equipmentsList
+     */
+    public void setEquipmentsList(List<Equipments> equipmentsList) {
+        this.equipmentsList = equipmentsList;
+    }
+
+    /**
+     * record the list of buildings in the inventory
+     * @param buildings
+     */
+    public void setBuildings(HashMap<ShopBuilding, Integer> buildings) {
+        this.buildings = buildings;
+    }
+
+
+    /**
+     * retrieve the list of previously bought buildings
+     * @return hashmap of buildings
+     */
+    public HashMap<ShopBuilding, Integer> getBuildings() {
+        return buildings;
+    }
+
+    /**
      * converts the originator object to a memento to store in the caretaker
      * 
      * @return - the new memento generated from the current originator
      */
     public Memento saveStateToMemento() {
-        return new Memento(state, gold, stone, wood, currentHealth, items, attack, defense, weapon, chestplate, helmet);
+        return new Memento(state, gold, stone, wood, currentHealth, items, buildings,
+                attack, defense, weapon, armor, equipmentsList);
     }
 
     /**
@@ -233,17 +251,17 @@ public class Originator {
         currentHealth = memento.getCurrentHealth();
         items = memento.getItemList();
         attack = memento.getAttack();
-        defense = memento.getDefense();
         weapon = memento.getWeapon();
-        chestplate = memento.getChestplate();
-        helmet = memento.getHelmet();
+        armor = memento.getArmor();
+        equipmentsList = memento.getEquipmentsList();
+        buildings = memento.getBuildings();
     }
 
     @Override
     public String toString() {
         return "State " + state + " : Current Health = " + currentHealth + ", Attack Value: " + attack +
                 ", Defense Value: " + defense + ", gold: " + gold + " , stone: " + stone + "  , wood: " + wood +
-                " , items in inventory: " + items + ", weapon: " + weapon + ", chestplate: " + chestplate +
-                ", helmet: " + helmet;
+                " , items in inventory: " + items + ", weapon: " + weapon + ", armor: " + armor +
+                ", equipments list: " + equipmentsList;
     }
 }
