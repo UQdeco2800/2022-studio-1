@@ -103,7 +103,7 @@ public class AchievementHandler {
     /**
      * File handler for the player achievement file
      */
-    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
+    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievementsVersion2.json");
 
     /**
      * Used for reading and writing to the player achievement file
