@@ -51,10 +51,12 @@ public class EpilogueLayover extends UIComponent {
             if (bossEnemy != null) {
                 boolean bossDead = bossEnemy.getComponent(CombatStatsComponent.class).isDead();
                 if (bossDead) {
+                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GAME_WON, true);
                     stage.addActor(epilogueWin);
                     //Trigger event for WIN GAME COUNT
                     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_WIN_GAME, AchievementType.GAME, 7);
                 } else {
+                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GAME_WON, false);
                     stage.addActor(epilogueLose);
                 }
             }
@@ -68,7 +70,8 @@ public class EpilogueLayover extends UIComponent {
 
         boolean won is a throwaway
      */
-    private void onDeath(boolean won) {
+    private void onDeath() {
+        ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GAME_WON, false);
         stage.addActor(epilogueLose);
         stage.addActor(backButton);
     }
