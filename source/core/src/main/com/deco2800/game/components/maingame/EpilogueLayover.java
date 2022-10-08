@@ -32,7 +32,7 @@ public class EpilogueLayover extends UIComponent {
         ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("crystalDeath", this::onDeath);
     }
 
-    private void onDeath() {
+    private void onDeath(boolean won) {
         epilogueActive = true;
         stage.addActor(epilogueLose);
         stage.addActor(backButton);

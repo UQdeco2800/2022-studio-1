@@ -25,6 +25,16 @@ import java.util.Optional;
  */
 public class AchievementHandler {
     /**
+     * Event string for items bought in the shop
+     */
+    public static final String EVENT_SHOP_ITEM_BOUGHT = "itemBought";
+
+    /**
+     * Event string for boss kill
+     */
+    public static final String EVENT_BOSS_KILL = "bossKilled";
+
+    /**
      * Event string for crystal upgrade
      */
     public static final String EVENT_CRYSTAL_UPGRADED = "crystalUpgraded";
@@ -93,7 +103,7 @@ public class AchievementHandler {
     /**
      * File handler for the player achievement file
      */
-    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
+    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievementsVersion2.json");
 
     /**
      * Used for reading and writing to the player achievement file
@@ -146,6 +156,15 @@ public class AchievementHandler {
 
         // resource stat listeners
         this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
+
+        // Non-stat achievements
+        this.events.addListener(EVENT_BOSS_KILL, this::checkAchievementStatus);
+        this.events.addListener(EVENT_SHOP_ITEM_BOUGHT, this::incrementOneRunAchievement);
+
+        // External events
+        if (ServiceLocator.getEntityService() != null && ServiceLocator.getEntityService().getNamedEntity("crystal") != null) {
+            ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("crystalDeath", this::resetOneRunAchievements);
+        }
     }
 
     /**
@@ -352,7 +371,6 @@ public class AchievementHandler {
         return 0;
     }
 
-
     /**
      * Broadcast the new achievement milestone reached to interested parties.
      * This is useful for any UI elements that need to display a popup more specific
@@ -368,12 +386,22 @@ public class AchievementHandler {
     }
 
     /**
-     * Broadcast that a none stat achievement has been reached
+     * Broadcast that a non-stat achievement has been reached
      *
      * @param achievement the non-stat achievement
      */
     private void broadcastAchievementMade(Achievement achievement) {
         this.events.trigger(EVENT_ACHIEVEMENT_MADE, achievement);
+    }
+
+    /**
+     * Checks if an achievement has previously been completed, completes it if not
+     * @param id long
+     */
+    public void checkAchievementStatus(long id) {
+        if (!getAchievementById((int) id).isCompleted()) {
+            markAchievementCompletedById(id, true);
+        }
     }
 
     /**
@@ -392,6 +420,11 @@ public class AchievementHandler {
         });
     }
 
+    /**
+     * Returns an achievement based on its id
+     * @param id int
+     * @return Achievement if it exists, null otherwise
+     */
     public Achievement getAchievementById(int id) {
         for (Achievement achievement : this.achievements) {
             if (achievement.getId() == id) {
@@ -402,6 +435,11 @@ public class AchievementHandler {
         return null;
     }
 
+    /**
+     * Checks if all achievements of a specific type are completed
+     * @param type AchievementType
+     * @return boolean
+     */
     public boolean allCompleted(AchievementType type) {
         for (Achievement achievement : this.achievements) {
             if (achievement.getAchievementType() == type && !achievement.isCompleted()) {
@@ -410,5 +448,33 @@ public class AchievementHandler {
         }
 
         return true;
+    }
+
+    /**
+     * Resets progress of achievements that need to be completed in a single run of the game.
+     */
+    public void resetOneRunAchievements(boolean won) {
+        for (Achievement toCheck : achievements) {
+            if (toCheck.isOneRun()) {
+                if (!toCheck.isCompleted() && won && toCheck.getTotalAchieved() == 0) {
+                    markAchievementCompletedById(toCheck.getId(), true);
+                } else {
+                    toCheck.setTotalAchieved(0);
+                }
+            }
+        }
+
+        logger.info("Reset one run achievements");
+    }
+
+    /**
+     * Increments the one run achievement total
+     * @param id int
+     */
+    public void incrementOneRunAchievement(int id) {
+        Achievement achievement = getAchievementById(id);
+        achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
+
+        logger.info("Incremented one run achievement: " + getAchievementById(id).getName());
     }
 }

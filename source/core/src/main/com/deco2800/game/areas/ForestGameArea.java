@@ -213,7 +213,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnNPC);
 
-    // playMusic();
+    playMusic();
   }
 
   private void displayUI() {
