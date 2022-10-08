@@ -6,6 +6,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -54,12 +55,14 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
 
-    public Table makeUIPopUp(Boolean value, float x, float y, String structureName, String structureKey) {
+    public Table makeUIPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
+        //Building that was clicked
+        Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
 
         // code below will work later but crashed at the moment
         //int gold = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
-        int health = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(CombatStatsComponent.class).getHealth();
-        int baseAttack = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(CombatStatsComponent.class).getBaseAttack();
+        int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
+        int baseAttack = clickedStructure.getComponent(CombatStatsComponent.class).getBaseAttack();
         int sell = 0;
 
         float uiHeight = 200f;
@@ -92,13 +95,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
-        String buildingName = structureKey.replaceAll("[^A-Za-z]", "").toUpperCase();
-
-        //insert pop up label (with name of the building)
-//        String buildingType = (structureKey + "").replaceAll("[0-9]", "").toUpperCase();
-//        String buildingLevel = (structureKey + "").replaceAll("[A-Za-z]", "");
-//        String buildingName = buildingLevel.equals("") ?
-//                buildingType : String.format(buildingType + " (Level %s)", buildingLevel);
+        String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
         buildingTitle = new Label(buildingName, skin, "large");
 
         // Insert building health image and bar
@@ -109,8 +106,8 @@ public class MainGameBuildingInterface extends UIComponent {
         Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
         Label healthAmount = new Label(Integer.toString(health), skin, "large");
 
-        //Health Bar image
-        buildingHealth = ServiceLocator.getEntityService().getNamedEntity(structureKey);
+//        //Health Bar image
+        buildingHealth = clickedStructure;
         progressBar = buildingHealth.getComponent(HealthBarComponent.class).getProgressBar();
         progressBar.getStyle().background = DrawableUtil
                 .getRectangularColouredDrawable(50, 15,  Color.BROWN);
@@ -153,6 +150,7 @@ public class MainGameBuildingInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("upgrade building clicked");
 
+
                         if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
                             logger.info("Sufficient funds");
                             entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
@@ -169,7 +167,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         Table healthInfo = new Table();
         healthInfo.add(heartImage);
-        healthInfo.stack(progressBar,healthBarImage).size(200f,30f);
+        healthInfo.stack(progressBar, healthBarImage).size(200f,30f);
 
         healthInfo.add(healthAmount);
 
