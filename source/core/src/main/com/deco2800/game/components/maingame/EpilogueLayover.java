@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.storyline.epilogueDisplay;
+import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -18,7 +20,6 @@ import org.slf4j.LoggerFactory;
 public class EpilogueLayover extends UIComponent {
 
     private static final Logger logger = LoggerFactory.getLogger(epilogueDisplay.class);
-    private static boolean epilogueActive = false;
     private Table rootTable;
     private ImageButton backButton;
     private Table epilogueLose;
@@ -30,10 +31,33 @@ public class EpilogueLayover extends UIComponent {
         super.create();
         addActors();
         ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("crystalDeath", this::onDeath);
+        ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_DAY_PASSED,
+                this::checkWin);
     }
 
+    /*
+        WIN CONDITION: Survive all 3 nights and defeat the boss enemy.
+        LOSE CONDITION: Survive all 3 nights but boss enemy is still alive.
+     */
+    private void checkWin(int currDay) {
+        // since Boss is spawned on night of DAY3. Check if boss' still alive on DAY4+
+        // NOTE: day num starts from 0.
+        if (currDay >= 3) {
+            stage.addActor(backButton);
+            boolean bossDead = ServiceLocator.getEntityService().getNamedEntity("bossEnemy").getComponent(CombatStatsComponent.class).isDead();
+            if (bossDead) {
+                stage.addActor(epilogueWin);
+            } else {
+                stage.addActor(epilogueLose);
+            }
+        }
+
+    }
+
+    /*
+        LOSE CONDITION: Crystal health is 0.
+     */
     private void onDeath() {
-        epilogueActive = true;
         stage.addActor(epilogueLose);
         stage.addActor(backButton);
     }
