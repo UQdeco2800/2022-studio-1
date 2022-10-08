@@ -350,7 +350,8 @@ public class ShopEquipmentDisplay extends UIComponent {
                   entity.getComponent(InventoryComponent.class)
                       .addGold(-1 * stats.goldCost);
                   coinSound.play();
-
+                  // Trigger event for item Bought
+                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 8);
                   // sets player weapon to new weapon and change
                   // attack accordingly
                   entity.getComponent(InventoryComponent.class)
@@ -386,6 +387,8 @@ public class ShopEquipmentDisplay extends UIComponent {
                   entity.getComponent(InventoryComponent.class)
                       .addGold(-1 * stats.goldCost);
                   coinSound.play();
+                  // Trigger event for item Bought
+                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 8);
                 }
               }
             } else {

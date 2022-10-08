@@ -52,7 +52,8 @@ public class EpilogueLayover extends UIComponent {
                 boolean bossDead = bossEnemy.getComponent(CombatStatsComponent.class).isDead();
                 if (bossDead) {
                     stage.addActor(epilogueWin);
-                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_WIN_GAME, AchievementType.GAME, 1);
+                    //Trigger event for WIN GAME COUNT
+                    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_WIN_GAME, AchievementType.GAME, 7);
                 } else {
                     stage.addActor(epilogueLose);
                 }

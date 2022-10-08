@@ -156,7 +156,7 @@ public class AchievementHandler {
         this.events.addListener(EVENT_CRYSTAL_UPGRADED, this::updateStatAchievementByType);
         this.events.addListener(EVENT_BUILDING_PLACED, this::updateStatAchievementByType);
         this.events.addListener(EVENT_ENEMY_KILLED, this::updateStatAchievementByType);
-        this.events.addListener(EVENT_WIN_GAME, this::updateStatAchievementByType);
+        this.events.addListener(EVENT_WIN_GAME, this::incrementOneRunAchievement);
 
         // resource stat listeners
         this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
