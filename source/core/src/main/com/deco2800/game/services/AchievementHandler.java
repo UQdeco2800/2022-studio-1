@@ -162,7 +162,7 @@ public class AchievementHandler {
         this.events.addListener(EVENT_SHOP_ITEM_BOUGHT, this::incrementOneRunAchievement);
 
         // External events
-        if (ServiceLocator.getEntityService().getNamedEntity("crystal") != null) {
+        if (ServiceLocator.getEntityService() != null && ServiceLocator.getEntityService().getNamedEntity("crystal") != null) {
             ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("crystalDeath", this::resetOneRunAchievements);
         }
     }
