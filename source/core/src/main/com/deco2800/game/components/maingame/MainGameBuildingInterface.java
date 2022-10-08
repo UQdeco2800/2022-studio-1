@@ -174,23 +174,7 @@ public class MainGameBuildingInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell building clicked");
-                        entity.getComponent(InventoryComponent.class).addStone(sell);
-                    }
-                });
-
-        upgradeButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("upgrade building clicked");
-
-                        if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
-                            logger.info("Sufficient funds");
-                            entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
-
-                        } else {
-                            logger.info("Insufficient funds");
-                        }
+                        StructureFactory.handleBuildingDestruction(entity.getName());
                     }
                 });
 
