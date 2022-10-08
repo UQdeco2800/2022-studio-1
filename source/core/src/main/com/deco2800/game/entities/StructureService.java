@@ -212,10 +212,8 @@ public class StructureService extends EntityService {
         stonequarry.setPosition(worldLoc);
       }
     } else {
-      if (uiIsVisible) {
-        table1.remove();
-        toggleUIisVisible();
-      }
+      table1.remove();
+      toggleUIisVisible();
     }
   }
 
@@ -240,12 +238,13 @@ public class StructureService extends EntityService {
     if (ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name") != null) {
       logger.info("mapPos ==> {}", mapPos);
       String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
+
       if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3")) {
         structureHit = true;
         structureName = name;
         if (buildEvent) {
           if (!uiIsVisible) {
-            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, structureName, structureName);
+            table1 = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeUIPopUp(true, screenX, screenY, String.valueOf(mapPos), structureName);
             toggleUIisVisible();
           }
         } else if (removeEvent) {
