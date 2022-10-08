@@ -3,6 +3,7 @@ package com.deco2800.game.components.maingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -138,6 +139,11 @@ public class MainGameBuildingInterface extends UIComponent {
                     if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
                         logger.info("Sufficient resources");
                         entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
+                    } else {
+                        logger.info("Insufficient resource!");
+                        Sound filesound = Gdx.audio.newSound(
+                            Gdx.files.internal("sounds/purchase_fail.mp3"));
+                        filesound.play();
                     }
                 } 
             }
