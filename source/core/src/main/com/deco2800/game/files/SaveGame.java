@@ -1,5 +1,6 @@
 package com.deco2800.game.files;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -44,13 +45,13 @@ public class SaveGame {
 
         // loop through all entities and check they have an environmental component,
         // save texture and position
-        for (Entity ent : ServiceLocator.getEntityService().getEntityMap().values()) {
+        for (Entity ent : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
 
-            if (ent.getComponent(EnvironmentalComponent.class) != null
-                    && ent.getComponent(TextureRenderComponent.class) != null) {
+            if (ent.getComponent(EnvironmentalComponent.class) != null && ent.getComponent(TextureRenderComponent.class) != null) {
+                System.out.println(ent.getName());
                 environmentalObjects
                         .add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath())
-                                .setPosition(ent.getPosition()).setName(ent.getName()));
+                                .setPosition(ent.getPosition()).setName(ent.getName()).setTileString(ServiceLocator.getUGSService().getStringByEntity(ent)));
 
             }
         }
@@ -84,8 +85,9 @@ public class SaveGame {
             newEnvironmentalObject.setPosition(obstacle.position);
 
             newEnvironmentalObject.setName(obstacle.name);
-            ServiceLocator.getEntityService().register(newEnvironmentalObject);
-            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
+            //ServiceLocator.getUGSService().setEntity(, newEnvironmentalObject, newEnvironmentalObject.getName())
+//            ServiceLocator.getEntityService().register(newEnvironmentalObject);
+//            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
 
         }
         logger.debug("Finished Loading Environment");

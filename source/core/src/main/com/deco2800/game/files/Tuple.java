@@ -12,6 +12,7 @@ public class Tuple {
     public int level;
     public int health;
     public HashMap<String, Object> playerState;
+    public String tileString;
 
     public Tuple setTexture(String texture) {
         this.texture = texture;
@@ -43,4 +44,8 @@ public class Tuple {
         return this;
     }
 
+    public Tuple setTileString(String tileString) {
+        this.tileString = tileString;
+        return this;
+    }
 }

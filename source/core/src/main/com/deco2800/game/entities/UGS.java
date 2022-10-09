@@ -66,6 +66,15 @@ public class UGS {
         }
     }
 
+    public String getStringByEntity(Entity entity) {
+        for (String tilePos: tiles.keySet()) {
+            if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
+                return tilePos;
+            }
+        }
+        return null;
+    }
+
     /**
      * Returns an entity or null found in the ugs by name of that entity
      * @param name of the entity to find
