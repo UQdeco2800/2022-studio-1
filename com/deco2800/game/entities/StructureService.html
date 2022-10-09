@@ -79,10 +79,13 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">StructureService</span>
 <span class="extends-implements">extends <a href="EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></span></div>
-<div class="block">Provides a global access point for entities to register themselves. This allows for iterating
- over entities to perform updates each loop. All game entities should be registered here.
+<div class="block">Provides a global access point for entities to register themselves. This
+ allows for iterating
+ over entities to perform updates each loop. All game entities should be
+ registered here.
 
- Avoid adding additional state here! Global access is often the easy but incorrect answer to
+ Avoid adding additional state here! Global access is often the easy but
+ incorrect answer to
  sharing data.</div>
 </section>
 <section class="summary">
@@ -120,7 +123,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildTempStructure(java.lang.String)" class="member-name-link">buildTempStructure</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Builds a structure and locks it to the mouse as the user decides where to build it</div>
+<div class="block">Builds a structure and locks it to the mouse as the user decides where to
+ build it</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
@@ -220,7 +224,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="register(com.deco2800.game.entities.Entity)">
 <h3>register</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">register</span><wbr><span class="parameters">(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</span></div>
-<div class="block">Register a new entity with the entity service. The entity will be created and start updating.</div>
+<div class="block">Register a new entity with the entity service. The entity will be created and
+ start updating.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="EntityService.html#register(com.deco2800.game.entities.Entity)">register</a></code>&nbsp;in class&nbsp;<code><a href="EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></code></dd>
@@ -289,7 +294,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="unregister(com.deco2800.game.entities.Entity)">
 <h3>unregister</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unregister</span><wbr><span class="parameters">(<a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</span></div>
-<div class="block">Unregister an entity with the entity service. The entity will be removed and stop updating.</div>
+<div class="block">Unregister an entity with the entity service. The entity will be removed and
+ stop updating.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="EntityService.html#unregister(com.deco2800.game.entities.Entity)">unregister</a></code>&nbsp;in class&nbsp;<code><a href="EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></code></dd>
@@ -302,7 +308,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block">Update all registered entities. Should only be called from the main game loop.</div>
+<div class="block">Update all registered entities. Should only be called from the main game
+ loop.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="EntityService.html#update()">update</a></code>&nbsp;in class&nbsp;<code><a href="EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></code></dd>
@@ -325,7 +332,8 @@ loadScripts(document, 'script');</script>
 <h3>buildStructure</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">buildStructure</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;structureName,
  com.badlogic.gdx.math.GridPoint2&nbsp;gridPos)</span></div>
-<div class="block">Builds a structure at specific location, gridPos. the type of structure built is
+<div class="block">Builds a structure at specific location, gridPos. the type of structure built
+ is
  determined by the specific structure name, structureName.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -344,7 +352,7 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>True if building a building from the inventory or False if not
- building a building from the inventory</dd>
+         building a building from the inventory</dd>
 </dl>
 </section>
 </li>
@@ -374,7 +382,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="buildTempStructure(java.lang.String)">
 <h3>buildTempStructure</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">buildTempStructure</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Builds a structure and locks it to the mouse as the user decides where to build it</div>
+<div class="block">Builds a structure and locks it to the mouse as the user decides where to
+ build it</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - of the tempStructureEntity</dd>

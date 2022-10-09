@@ -79,11 +79,16 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Factory to create structure entities with predefined components.
 
- <p>Each structure entity type should have a creation method that returns a corresponding entity.
- Predefined entity properties can be loaded from configs stored as json files which are defined in
+ <p>
+ Each structure entity type should have a creation method that returns a
+ corresponding entity.
+ Predefined entity properties can be loaded from configs stored as json files
+ which are defined in
  "StructureConfigs".
 
- <p>If needed, this factory can be separated into more specific factories for entities with
+ <p>
+ If needed, this factory can be separated into more specific factories for
+ entities with
  similar characteristics.</div>
 </section>
 <section class="summary">
@@ -189,13 +194,15 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr>com.badlogic.gdx.math.Rectangle&gt;&nbsp;structureRects,
  boolean&nbsp;resourceBuildState,
  boolean&nbsp;buildEvent)</span></div>
-<div class="block">Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game</div>
+<div class="block">Checks if a structure on the map has been clicked. If it has been clicked
+ then that structure gets removed from the game</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>screenX</code> - The x coordinate, origin is in the upper left corner</dd>
 <dd><code>screenY</code> - The y coordinate, origin is in the upper left corner</dd>
 <dt>Returns:</dt>
-<dd>true if the point (screenX, screenY) is clear of structures else return false</dd>
+<dd>true if the point (screenX, screenY) is clear of structures else
+         return false</dd>
 </dl>
 </section>
 </li>
