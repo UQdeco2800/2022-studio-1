@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,7 +14,10 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
@@ -22,6 +26,7 @@ import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
+import com.deco2800.game.services.RangeService;
 import com.deco2800.game.services.ServiceLocator;
 
 import javax.management.ValueExp;
@@ -126,6 +131,37 @@ public class TerrainComponent extends RenderComponent {
     return walls;
   }
 
+  private void damageSunkenBuildings() {
+
+    UGS ugs = ServiceLocator.getUGSService();
+    ArrayList<Entity> entities = ServiceLocator.getRangeService().registeredInUGS();
+
+    Vector2 worldPos = entity.getPosition();
+    GridPoint2 tilePos = worldToTilePosition(worldPos.x, worldPos.y);
+
+    for (Entity entity : entities) {
+      if (entity.isCollectable() && ugs.getTileType(tilePos).equals("water")) {
+        ugs.removeEntity(entity.getName());
+      }
+    }
+
+  }
+
+  /**
+   * Updates the UGS in response to map state changing: updates each coordinate in
+   * the UGS to the new tile type.
+   */
+  private void updateUGS() {
+    TiledMapTileLayer currentLayer = getTileMapTileLayer(currentMapLvl * 2 + isNight);
+    UGS ugs = ServiceLocator.getUGSService();
+    for (int x = 0; x < currentLayer.getWidth(); x++) {
+      for (int y = 0; y < currentLayer.getHeight(); y++) {
+        String name = ((TerrainTile) currentLayer.getCell(x, y).getTile()).getName();
+        ugs.setTileType(new GridPoint2(x, y), name);
+      }
+    }
+  }
+
   /**
    * Expands the map by hiding the current layer, and making the next level
    * visible
@@ -134,6 +170,7 @@ public class TerrainComponent extends RenderComponent {
     getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl++;
     getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(true);
+    updateUGS();
   }
 
   /**
@@ -144,6 +181,13 @@ public class TerrainComponent extends RenderComponent {
     getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl--;
     getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(true);
+
+    // Update coordinate-tile type mapping in UGS
+    updateUGS();
+
+    // Damage any buildings over-taken by water
+    damageSunkenBuildings();
+
   }
 
   public void partOfDayPassed(DayNightCycleStatus partOfDay) {

@@ -53,7 +53,6 @@ public class StructureFactory {
             .addComponent((new HealthBarComponent(50, 10)));
 
     //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
-    wall.setName("wall");
     wall.setCollectable(Boolean.FALSE);
 
     return wall;
@@ -274,7 +273,7 @@ public static Entity createTrap(String name) {
    *
    */
   public static void handleBuildingDestruction(String name) {
-    Entity structure = ServiceLocator.getEntityService().getNamedEntity(name);
+    Entity structure = ServiceLocator.getUGSService().getEntityByName(name);
 
     if (structure == null) {
       return;

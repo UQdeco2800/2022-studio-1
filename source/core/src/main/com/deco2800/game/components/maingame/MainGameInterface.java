@@ -102,7 +102,7 @@ public class MainGameInterface extends UIComponent {
     TextureRegionDrawable inventory = new TextureRegionDrawable(inventoryInterfaceTexture);
     ImageButton inventoryFrame = new ImageButton(inventory, inventory);
     inventoryFrame.setSize(800f, 800f);
-    inventoryFrame.setPosition(Gdx.graphics.getWidth()/2f - inventoryFrame.getWidth()/2f,
+    inventoryFrame.setPosition(Gdx.graphics.getWidth() / 2f - inventoryFrame.getWidth() / 2f,
         Gdx.graphics.getHeight() / 2f - inventoryFrame.getHeight() / 2f);
 
     Texture crossTexture = new Texture(Gdx.files.internal("images/cross.png"));
@@ -1082,6 +1082,8 @@ public class MainGameInterface extends UIComponent {
                 }
                 buildingCamelName += name;
               }
+
+              System.out.println(buildingCamelName);
               logger.debug(buildingCamelName);
               MainArea.getInstance()
                   .getGameArea().getPlayer()
@@ -1089,7 +1091,7 @@ public class MainGameInterface extends UIComponent {
                   .removeBuilding(currentBuilding);
 
               group.setVisible(false);
-              ServiceLocator.getStructureService().triggerBuildEvent(buildingCamelName);
+              ServiceLocator.getStructureService().buildTempStructure(buildingCamelName);
               currBuildingList = getBuildingList();
 
               if (currBuildingList.size() == 0) {

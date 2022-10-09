@@ -119,14 +119,18 @@ public class UGS {
         if (getEntity(coordinate) == null) {
             if (entityType.contains("structure")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
+                    logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
+                    logger.info("Building cannot be built on water");
                     return false;
                 }
             } else {
+                logger.info("Tile {} is clear", coordinate);
                 return true;
             }
         }
+        logger.info("Tile {} is not clear", coordinate);
         return false;
     }
 

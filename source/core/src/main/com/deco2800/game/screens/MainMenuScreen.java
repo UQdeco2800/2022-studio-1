@@ -12,6 +12,7 @@ import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
@@ -38,6 +39,7 @@ public class MainMenuScreen extends ScreenAdapter {
     ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRenderService(new RenderService());
+    ServiceLocator.registerAchievementHandler(new AchievementHandler());
 
     renderer = RenderFactory.createRenderer();
 
