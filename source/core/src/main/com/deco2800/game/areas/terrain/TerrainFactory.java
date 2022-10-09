@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -121,7 +122,7 @@ public class TerrainFactory {
     float tileWorldSize = 16f;
     ResourceService resourceService = ServiceLocator.getResourceService();
 
-    TextureRegion water = new TextureRegion(resourceService.getAsset("images/65x33_tiles/water.png", Texture.class));
+    TextureRegion water = new TextureRegion(resourceService.getAsset("images/65x33_tiles/water0.png", Texture.class));
     GridPoint2 tilePixelSize = new GridPoint2(water.getRegionWidth(), water.getRegionHeight());
 
     TiledMap tiledMap = createMap(tilePixelSize);
@@ -148,35 +149,35 @@ public class TerrainFactory {
 
     ResourceService resourceService = ServiceLocator.getResourceService();
 
-    TerrainTile waterTile = loadTile("water", TileType.WATER, resourceService);
-    TerrainTile sandTile = loadTile("sand", TileType.SAND, resourceService);
+    TerrainTile waterTile = createTile("water", TileType.WATER, resourceService);
+    TerrainTile sandTile = createTile("sand", TileType.SAND, resourceService);
     TerrainTile seaweedTiles[] = new TerrainTile[3];
     TerrainTile shorelineTiles[] = new TerrainTile[8];
-    shorelineTiles[0] = loadTile("shorelineBottom", TileType.SHORELINE, resourceService);
-    shorelineTiles[1] = loadTile("shorelineTop", TileType.SHORELINE, resourceService);
-    shorelineTiles[2] = loadTile("shorelineBottomRight", TileType.SHORELINE, resourceService);
-    shorelineTiles[3] = loadTile("shorelineBottomLeft", TileType.SHORELINE, resourceService);
-    shorelineTiles[4] = loadTile("shorelineTopRight", TileType.SHORELINE, resourceService);
-    shorelineTiles[5] = loadTile("shorelineTopLeft", TileType.SHORELINE, resourceService);
-    shorelineTiles[6] = loadTile("shorelineLeft", TileType.SHORELINE, resourceService);
-    shorelineTiles[7] = loadTile("shorelineRight", TileType.SHORELINE, resourceService);
+    shorelineTiles[0] = createTile("shorelineBottom", TileType.SHORELINE, resourceService);
+    shorelineTiles[1] = createTile("shorelineTop", TileType.SHORELINE, resourceService);
+    shorelineTiles[2] = createTile("shorelineBottomRight", TileType.SHORELINE, resourceService);
+    shorelineTiles[3] = createTile("shorelineBottomLeft", TileType.SHORELINE, resourceService);
+    shorelineTiles[4] = createTile("shorelineTopRight", TileType.SHORELINE, resourceService);
+    shorelineTiles[5] = createTile("shorelineTopLeft", TileType.SHORELINE, resourceService);
+    shorelineTiles[6] = createTile("shorelineLeft", TileType.SHORELINE, resourceService);
+    shorelineTiles[7] = createTile("shorelineRight", TileType.SHORELINE, resourceService);
 
-    TerrainTile waterNightTile = loadTile("water_night", TileType.WATER, resourceService);
-    TerrainTile sandNightTile = loadTile("sand_night", TileType.SAND, resourceService);
+    TerrainTile waterNightTile = createTile("water_night", TileType.WATER, resourceService);
+    TerrainTile sandNightTile = createTile("sand_night", TileType.SAND, resourceService);
     TerrainTile seaweedNightTiles[] = new TerrainTile[3];
     TerrainTile shorelineNightTiles[] = new TerrainTile[8];
-    shorelineNightTiles[0] = loadTile("shorelineBottom_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[1] = loadTile("shorelineTop_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[2] = loadTile("shorelineBottomRight_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[3] = loadTile("shorelineBottomLeft_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[4] = loadTile("shorelineTopRight_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[5] = loadTile("shorelineTopLeft_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[6] = loadTile("shorelineLeft_night", TileType.SHORELINE, resourceService);
-    shorelineNightTiles[7] = loadTile("shorelineRight_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[0] = createTile("shorelineBottom_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[1] = createTile("shorelineTop_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[2] = createTile("shorelineBottomRight_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[3] = createTile("shorelineBottomLeft_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[4] = createTile("shorelineTopRight_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[5] = createTile("shorelineTopLeft_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[6] = createTile("shorelineLeft_night", TileType.SHORELINE, resourceService);
+    shorelineNightTiles[7] = createTile("shorelineRight_night", TileType.SHORELINE, resourceService);
 
     for (int i = 1; i < 4; i++) {
-      seaweedTiles[i - 1] = loadTile("seaweed_" + i, TileType.SAND, resourceService);
-      seaweedNightTiles[i - 1] = loadTile("seaweed_" + i + "_night", TileType.SAND, resourceService);
+      seaweedTiles[i - 1] = createTile("seaweed_" + i, TileType.SAND, resourceService);
+      seaweedNightTiles[i - 1] = createTile("seaweed_" + i + "_night", TileType.SAND, resourceService);
     }
 
     // Levels will be added to the array like so:
@@ -204,34 +205,36 @@ public class TerrainFactory {
     return tiledMap;
   }
 
-  private TerrainTile loadTile(String tileName, TileType tileType, ResourceService resourceService) {
+  private TerrainTile createTile(String tileName, TileType tileType, ResourceService resourceService) {
 
     Array<StaticTiledMapTile> tileFrames = new Array<>();
-    TextureRegion tex = new TextureRegion(
-        resourceService.getAsset("images/65x33_tiles/" + tileName + ".png", Texture.class));
 
     switch (tileType) {
       // Animated Water
       case WATER:
         for (int i = 0; i < 3; i++) {
-          TextureRegion frame = new TextureRegion(
-              resourceService.getAsset("images/65x33_tiles/" + tileName + Integer.toString(i) + ".png", Texture.class));
+          TextureRegion frame = createTileTexture(tileName + Integer.toString(i), resourceService);
           StaticTiledMapTile frameTile = new StaticTiledMapTile(frame);
           tileFrames.add(frameTile);
         }
 
-        return new TerrainTile(10, tileFrames, "water");
+        return new TerrainTile(1, tileFrames, "water");
 
       // Shoreline
       case SHORELINE:
-        tileFrames.add(new StaticTiledMapTile(tex));
+        tileFrames.add(new StaticTiledMapTile(createTileTexture(tileName, resourceService)));
         return new TerrainTile(1000, tileFrames, "shoreline");
 
       // Sand or Invalid Tile Type
       default:
-        tileFrames.add(new StaticTiledMapTile(tex));
+        tileFrames.add(new StaticTiledMapTile(createTileTexture(tileName, resourceService)));
         return new TerrainTile(1000, tileFrames, "sand");
     }
+  }
+
+  private TextureRegion createTileTexture(String tileName, ResourceService resourceService) {
+    return new TextureRegion(
+        resourceService.getAsset("images/65x33_tiles/" + tileName + ".png", Texture.class));
   }
 
   private static void createLevel(TiledMapTileLayer layer, TerrainTile waterTile,

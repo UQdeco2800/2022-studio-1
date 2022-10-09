@@ -1,6 +1,5 @@
 package com.deco2800.game.areas.terrain;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.utils.Array;
 public class TerrainTile extends AnimatedTiledMapTile {
   private int id;
   private BlendMode blendMode = BlendMode.ALPHA;
-  private TextureRegion textureRegion;
   private float offsetX;
   private float offsetY;
 
@@ -49,36 +47,6 @@ public class TerrainTile extends AnimatedTiledMapTile {
   @Override
   public void setBlendMode(BlendMode blendMode) {
     this.blendMode = blendMode;
-  }
-
-  @Override
-  public TextureRegion getTextureRegion() {
-    return textureRegion;
-  }
-
-  @Override
-  public void setTextureRegion(TextureRegion textureRegion) {
-    this.textureRegion = textureRegion;
-  }
-
-  @Override
-  public float getOffsetX() {
-    return offsetX;
-  }
-
-  @Override
-  public void setOffsetX(float offsetX) {
-    this.offsetX = offsetX;
-  }
-
-  @Override
-  public float getOffsetY() {
-    return offsetY;
-  }
-
-  @Override
-  public void setOffsetY(float offsetY) {
-    this.offsetY = offsetY;
   }
 
   /**
