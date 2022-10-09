@@ -31,6 +31,9 @@ import com.deco2800.game.services.ServiceLocator;
 
 import javax.management.ValueExp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
  * map of tiles that
@@ -38,7 +41,9 @@ import javax.management.ValueExp;
  * show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
-  private static final int TERRAIN_LAYER = 0;
+
+  private static final Logger logger = LoggerFactory.getLogger(TerrainComponent.class);
+
   private int currentMapLvl = 0;
   private int isNight = 0;
   private ArrayList<ArrayList<GridPoint2>> landTilesList;
@@ -133,15 +138,23 @@ public class TerrainComponent extends RenderComponent {
 
   private void damageSunkenBuildings() {
 
+    String[] buildingNames = { "wall", "tower", "trap", "stoneQuarry", "woodCutter" };
+
     UGS ugs = ServiceLocator.getUGSService();
-    ArrayList<Entity> entities = ServiceLocator.getRangeService().registeredInUGS();
+    GridPoint2 mapBounds = getMapBounds(currentMapLvl * 2 + isNight);
+    for (int x = 0; x < mapBounds.x; x++) {
+      for (int y = 0; y < mapBounds.y; y++) {
+        Entity entity = ugs.getEntity(new GridPoint2(x, y));
+        if (entity != null && ugs.getTileType(new GridPoint2(x, y)).equals("water")) {
+          String name = entity.getName();
 
-    Vector2 worldPos = entity.getPosition();
-    GridPoint2 tilePos = worldToTilePosition(worldPos.x, worldPos.y);
-
-    for (Entity entity : entities) {
-      if (entity.isCollectable() && ugs.getTileType(tilePos).equals("water")) {
-        ugs.removeEntity(entity.getName());
+          for (String s : buildingNames) {
+            if (name.contains(s)) {
+              System.out.println("{Entity Details} => [Name: " + name + "]" + " [ID: " + entity.getId() + "]");
+              ugs.removeEntity(name);
+            }
+          }
+        }
       }
     }
 
@@ -167,9 +180,16 @@ public class TerrainComponent extends RenderComponent {
    * visible
    */
   public void incrementMapLvl() {
+
+    int newLevelNum = (currentMapLvl + 1) * 2 + isNight;
+    if (newLevelNum > getMap().getLayers().size()) {
+      logger.error("TerrainComponent[incrementMapLvl] => incremented level number is outside the bounds of layers");
+      return;
+    }
+
     getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl++;
-    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(true);
+    getMap().getLayers().get(newLevelNum).setVisible(true);
     updateUGS();
   }
 
@@ -178,9 +198,14 @@ public class TerrainComponent extends RenderComponent {
    * visible.
    */
   public void decrementMapLvl() {
+    int newLevelNum = (currentMapLvl - 1) * 2 + isNight;
+    if (newLevelNum < 0) {
+      logger.error("TerrainComponent[decrementMapLvl] => incremented level number is outside the bounds of layers");
+      return;
+    }
     getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl--;
-    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(true);
+    getMap().getLayers().get(newLevelNum).setVisible(true);
 
     // Update coordinate-tile type mapping in UGS
     updateUGS();

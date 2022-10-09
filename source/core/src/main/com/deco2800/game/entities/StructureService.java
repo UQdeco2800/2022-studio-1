@@ -2,6 +2,7 @@ package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -150,36 +151,47 @@ public class StructureService extends EntityService {
   public static Boolean buildStructure(String structureName, GridPoint2 gridPos) {
     String entityName = gridPos.toString();
     entityName = structureName + entityName;
+    Vector2 worldPosition = ServiceLocator.getEntityService().getNamedEntity("terrain")
+        .getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
+
+    Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
-      if (Objects.equals(structureName, "wall")) {
-        Entity wall = StructureFactory.createWall(entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, wall, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "tower1")) {
-        Entity tower1 = StructureFactory.createTower1(1, entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, tower1, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "tower2")) {
-        Entity tower2 = StructureFactory.createTower2(1, entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, tower2, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "tower3")) {
-        Entity tower3 = StructureFactory.createTower3(1, entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, tower3, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "trap")) {
-        Entity trap = StructureFactory.createTrap(entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "stoneQuarry")) {
-        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
-        ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "woodCutter")) {
-        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
-        ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
-        return true;
+      switch (structureName) {
+        case "wall":
+          structure = StructureFactory.createWall(entityName);
+          break;
+
+        case "tower1":
+          structure = StructureFactory.createTower1(1, entityName);
+          break;
+
+        case "tower2":
+          structure = StructureFactory.createTower2(1, entityName);
+          break;
+
+        case "tower3":
+          structure = StructureFactory.createTower3(1, entityName);
+          break;
+
+        case "trap":
+          structure = StructureFactory.createTrap(entityName);
+          break;
+
+        case "stoneQuarry":
+          structure = ResourceBuildingFactory.createStoneQuarry(entityName);
+          break;
+
+        case "woodCutter":
+          structure = ResourceBuildingFactory.createWoodCutter(entityName);
+          break;
+
+        default:
+          return false;
       }
+
+      structure.setPosition(worldPosition);
+      ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
+      return true;
     }
     return false;
   }
@@ -237,13 +249,13 @@ public class StructureService extends EntityService {
     } else if (Objects.equals(name, "tower2")) {
       tempEntity = StructureFactory.createTower2(1, entityName);
     } else if (Objects.equals(name, "woodCutter")) {
-      tempEntity = ResourceBuildingFactory.createWoodCutter();
+      tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {
       tempEntity = StructureFactory.createTower3(1, entityName);
     } else if (Objects.equals(name, "trap")) {
       tempEntity = StructureFactory.createTrap(entityName);
     } else if (Objects.equals(name, "stoneQuarry")) {
-      tempEntity = ResourceBuildingFactory.createStoneQuarry();
+      tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
     }
     // Update achievements for structures/building
     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
