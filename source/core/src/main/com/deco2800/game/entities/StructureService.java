@@ -244,7 +244,6 @@ public class StructureService extends EntityService {
       tempEntity = StructureFactory.createTrap(entityName);
     } else if (Objects.equals(name, "stoneQuarry")) {
       tempEntity = ResourceBuildingFactory.createStoneQuarry();
-
     }
     // Update achievements for structures/building
     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
@@ -257,18 +256,19 @@ public class StructureService extends EntityService {
 
   public static void setUiPopUp(int screenX, int screenY) {
 
-    //getting the building location on the map
+    // getting the building location on the map
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+        .worldToTilePosition(mousePosV2.x, mousePosV2.y);
     // building name
     String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
-    //if UI is false on click then the pop-up should appear
+    // if UI is false on click then the pop-up should appear
     if (!uiIsVisible) {
       uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-              .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+          .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
       uiIsVisible = true;
       // else the pop-up will be removed
     } else {

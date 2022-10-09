@@ -74,6 +74,7 @@ public class ResourceBuildingFactory {
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
         stoneQuarry.setScale(10f, 8.1f);
+        stoneQuarry.setName("stoneQuarry" + stoneQuarry.getId());
         return stoneQuarry;
     }
 
@@ -97,6 +98,7 @@ public class ResourceBuildingFactory {
         woodQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         res_bul_animator.startAnimation("woqu");
         woodQuarry.setScale(13.5f, 11.5f);
+        woodQuarry.setName("woodQuarry" + woodQuarry.getId());
         return woodQuarry;
     }
 

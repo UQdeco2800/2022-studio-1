@@ -1,6 +1,6 @@
 {
     "type": "building",
-    "name": "StoneQuarry",
+    "name": "Stone Quarry",
     "goldCost": 0,
     "stoneCost": 200,
     "woodCost": 100,
