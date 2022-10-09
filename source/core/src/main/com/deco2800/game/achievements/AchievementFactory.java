@@ -50,7 +50,7 @@ public class AchievementFactory {
 
                 new Achievement(15, AchievementType.MISC, false, "Pacifist", "Only defeat enemies using towers"),
                 new Achievement(16, AchievementType.MISC, false, "Defender", "Survived a night without losing a building"),
-                new Achievement(17, AchievementType.MISC, false, "Protector", "Survived a night without taking crystal damage"),
+                new Achievement(17, AchievementType.MISC, false, "Protector", "Survived a night without taking crysal damage"),
                 new Achievement(18, AchievementType.MISC, false, "Knowledgeable", "Read the guidebook"),
                 new Achievement(19, AchievementType.MISC, false, "Runner", "Survived a night without killing any enemies"),
                 new Achievement(20, AchievementType.MISC, false, "No", "Lose on your first night"),
