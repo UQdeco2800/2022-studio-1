@@ -51,7 +51,8 @@ public class SaveGame {
                 System.out.println(ent.getName());
                 environmentalObjects
                         .add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath())
-                                .setPosition(ent.getPosition()).setName(ent.getName()).setTileString(ServiceLocator.getUGSService().getStringByEntity(ent)));
+                                .setPosition(ent.getPosition()).setName(ent.getName()).setTileString(ServiceLocator.getUGSService().getStringByEntity(ent))
+                        .setCreationMethod(ent.getCreationMethod()));
 
             }
         }
@@ -66,7 +67,7 @@ public class SaveGame {
      * @throws InvocationTargetException throw error when invoking methods fails
      * @throws IllegalAccessException    throw error when invoking method fails
      */
-    private static void loadEnvrionmentalObjects() throws InvocationTargetException, IllegalAccessException {
+    private static void loadEnvrionmentalObjects() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         logger.debug("Begin Loading Environment");
         ArrayList obstacles = FileLoader.readClass(ArrayList.class, savePathEnvironmental, FileLoader.Location.LOCAL);
 
@@ -76,16 +77,19 @@ public class SaveGame {
 
             if (obstacle.texture.contains("Tree") || obstacle.texture.contains("limestone-boulder")
                     || obstacle.texture.contains("marble-stone")) {
-                newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null,
+                newEnvironmentalObject = (Entity) ObstacleFactory.class.getMethod(obstacle.creationMethod, String.class).invoke(null,
                         obstacle.texture);
             } else {
-                newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null);
+                newEnvironmentalObject = (Entity) ObstacleFactory.class.getMethod(obstacle.creationMethod).invoke(null);
             }
 
             newEnvironmentalObject.setPosition(obstacle.position);
-
             newEnvironmentalObject.setName(obstacle.name);
-            //ServiceLocator.getUGSService().setEntity(, newEnvironmentalObject, newEnvironmentalObject.getName())
+
+            int x_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(0));
+            int y_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(1));
+
+            ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), newEnvironmentalObject, newEnvironmentalObject.getName());
 //            ServiceLocator.getEntityService().register(newEnvironmentalObject);
 //            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
 
@@ -291,6 +295,7 @@ public class SaveGame {
         // the more elegant way to do this
         // in sprint 4, but I don't want to mess with that code this sprint to avoid
         // conflicts
+        // lmao this wont work if you close the game at which point caretaker/memento would need to be seralized which is just a further extension of this and is more work
         HashMap<String, Object> status = new HashMap();
         status.put("gold", player.getComponent(InventoryComponent.class).getGold());
         status.put("stone", player.getComponent(InventoryComponent.class).getStone());
@@ -406,15 +411,15 @@ public class SaveGame {
         logger.debug("Begin Loading");
         try {
 
-            structureGenerationSetUp();
-            loadStructures();
+//            structureGenerationSetUp();
+//            loadStructures();
 
             environmentalGenerationSetUp();
             loadEnvrionmentalObjects();
-            loadCrystal();
-            loadPlayer();
-
-            loadGameData();
+//            loadCrystal();
+//            loadPlayer();
+//
+//            loadGameData();
 
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
             logger.error("ERROR OCCURED: " + ignored);
