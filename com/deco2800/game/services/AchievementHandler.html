@@ -119,6 +119,17 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color"><code><a href="#EVENT_GAME_WON" class="member-name-link">EVENT_GAME_WON</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#EVENT_GUIDEBOOK_CLOSED" class="member-name-link">EVENT_GUIDEBOOK_CLOSED</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Event string for when the guidebook is closed
+ emitted by GuidebookScreen</div>
+</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#EVENT_ON_TEMP_STRUCTURE_PLACED" class="member-name-link">EVENT_ON_TEMP_STRUCTURE_PLACED</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Event string for structure placement</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#EVENT_RESOURCE_ADDED" class="member-name-link">EVENT_RESOURCE_ADDED</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Event string for resources being added</div>
@@ -197,59 +208,69 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Specific to Stat achievements.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAchievementById(int)" class="member-name-link">getAchievementById</a><wbr>(int&nbsp;id)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#connectPopupListeners()" class="member-name-link">connectPopupListeners</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Connects listeners for popup notification widget</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAchievementById(int)" class="member-name-link">getAchievementById</a><wbr>(int&nbsp;id)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an achievement based on its id</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAchievements()" class="member-name-link">getAchievements</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAchievements()" class="member-name-link">getAchievements</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Getter method for the achievement list</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../events/EventHandler.html" title="class in com.deco2800.game.events">EventHandler</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEvents()" class="member-name-link">getEvents</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../events/EventHandler.html" title="class in com.deco2800.game.events">EventHandler</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEvents()" class="member-name-link">getEvents</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Getter method for returning the events from AchievementHandler</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastSaved()" class="member-name-link">getLastSaved</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastSaved()" class="member-name-link">getLastSaved</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Getter method for last time achievements were saved</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMilestoneTotal(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">getMilestoneTotal</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMilestoneTotal(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">getMilestoneTotal</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
  int&nbsp;milestoneNumber)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the total to achieve for a milestone</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementOneRunAchievement(int)" class="member-name-link">incrementOneRunAchievement</a><wbr>(int&nbsp;id)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementOneRunAchievement(int)" class="member-name-link">incrementOneRunAchievement</a><wbr>(int&nbsp;id)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Increments the one run achievement total</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementTotalAchievedForStatAchievement(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">incrementTotalAchievedForStatAchievement</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementTotalAchievedForStatAchievement(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">incrementTotalAchievedForStatAchievement</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
  int&nbsp;increase)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Correct updates the total achieved for a stat achievement.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMilestoneAchieved(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">isMilestoneAchieved</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMilestoneAchieved(com.deco2800.game.achievements.Achievement,int)" class="member-name-link">isMilestoneAchieved</a><wbr>(<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
  int&nbsp;milestoneNumber)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks whether a milestone has been achieved for an achievement given a milestone number (1, 2,3,4)</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadAchievements(com.badlogic.gdx.files.FileHandle)" class="member-name-link">loadAchievements</a><wbr>(com.badlogic.gdx.files.FileHandle&nbsp;fH)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadAchievements(com.badlogic.gdx.files.FileHandle)" class="member-name-link">loadAchievements</a><wbr>(com.badlogic.gdx.files.FileHandle&nbsp;fH)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Loads the achievement list from the achievement file</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#markAchievementCompletedById(long,boolean)" class="member-name-link">markAchievementCompletedById</a><wbr>(long&nbsp;id,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#markAchievementCompletedById(long,boolean)" class="member-name-link">markAchievementCompletedById</a><wbr>(long&nbsp;id,
  boolean&nbsp;broadcast)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Marks an achievement completed</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onTempStructurePlaced(java.lang.String)" class="member-name-link">onTempStructurePlaced</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Triggered when a structure is placed on the map.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetOneRunAchievements(boolean)" class="member-name-link">resetOneRunAchievements</a><wbr>(boolean&nbsp;won)</code></div>
@@ -262,9 +283,15 @@ loadScripts(document, 'script');</script>
 <div class="block">Saves the current state of the achievement list with the current time</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateStatAchievementByType(com.deco2800.game.achievements.AchievementType,int)" class="member-name-link">updateStatAchievementByType</a><wbr>(<a href="../achievements/AchievementType.html" title="enum class in com.deco2800.game.achievements">AchievementType</a>&nbsp;type,
- int&nbsp;increase)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#triggerOnLoadPopups()" class="member-name-link">triggerOnLoadPopups</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sends popups that couldn't be shown when game screen
+ was swapped.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateStatAchievementByType(com.deco2800.game.achievements.AchievementType,int)" class="member-name-link">updateStatAchievementByType</a><wbr>(<a href="../achievements/AchievementType.html" title="enum class in com.deco2800.game.achievements">AchievementType</a>&nbsp;type,
+ int&nbsp;increase)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Basic method to update the stat type achievements when changes are made to the game state.</div>
 </div>
 </div>
@@ -359,6 +386,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="EVENT_ON_TEMP_STRUCTURE_PLACED">
+<h3>EVENT_ON_TEMP_STRUCTURE_PLACED</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">EVENT_ON_TEMP_STRUCTURE_PLACED</span></div>
+<div class="block">Event string for structure placement</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.deco2800.game.services.AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="EVENT_ENEMY_KILLED">
 <h3>EVENT_ENEMY_KILLED</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">EVENT_ENEMY_KILLED</span></div>
@@ -368,6 +410,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../constant-values.html#com.deco2800.game.services.AchievementHandler.EVENT_ENEMY_KILLED">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="EVENT_GUIDEBOOK_CLOSED">
+<h3>EVENT_GUIDEBOOK_CLOSED</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">EVENT_GUIDEBOOK_CLOSED</span></div>
+<div class="block">Event string for when the guidebook is closed
+ emitted by GuidebookScreen</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#com.deco2800.game.services.AchievementHandler.EVENT_GUIDEBOOK_CLOSED">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -503,6 +561,21 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="connectPopupListeners()">
+<h3>connectPopupListeners</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">connectPopupListeners</span>()</div>
+<div class="block">Connects listeners for popup notification widget</div>
+</section>
+</li>
+<li>
+<section class="detail" id="triggerOnLoadPopups()">
+<h3>triggerOnLoadPopups</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerOnLoadPopups</span>()</div>
+<div class="block">Sends popups that couldn't be shown when game screen
+ was swapped.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="getAchievements()">
 <h3>getAchievements</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&gt;</span>&nbsp;<span class="element-name">getAchievements</span>()</div>
@@ -552,6 +625,19 @@ loadScripts(document, 'script');</script>
 <dd><code>fH</code> - FileHandle</dd>
 <dt>Returns:</dt>
 <dd>ArrayList</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="onTempStructurePlaced(java.lang.String)">
+<h3>onTempStructurePlaced</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onTempStructurePlaced</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Triggered when a structure is placed on the map.
+ When all structures that are available in the game
+ have been placed then the achievement is complete</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - name of structure placed.</dd>
 </dl>
 </section>
 </li>
