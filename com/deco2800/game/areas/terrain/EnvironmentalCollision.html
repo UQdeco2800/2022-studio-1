@@ -77,9 +77,12 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EnvironmentalCollision</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Helper Class that stores entities on the map and checks collisions when given a new entity
- Used for placing environmental objects such as trees, rocks and buildings plus additional
- utility like finding closet entity to a point or retrieving a list of all environmental entities</div>
+<div class="block">Helper Class that stores entities on the map and checks collisions when given
+ a new entity
+ Used for placing environmental objects such as trees, rocks and buildings
+ plus additional
+ utility like finding closet entity to a point or retrieving a list of all
+ environmental entities</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -227,10 +230,12 @@ loadScripts(document, 'script');</script>
  int&nbsp;xPotential,
  int&nbsp;yPotential)</span></div>
 <div class="block">Calculates if the given entity will collide with already existing entities
- Still in testing phase. Uses the scale x and scale y of the entity to determine collision/hitbox
+ Still in testing phase. Uses the scale x and scale y of the entity to
+ determine collision/hitbox
  size
 
- Due to isometric view world positions must be used thus the conversion from cell coordinates</div>
+ Due to isometric view world positions must be used thus the conversion from
+ cell coordinates</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>potentialEntity</code> - The new entity to be added to the map</dd>
@@ -246,9 +251,11 @@ loadScripts(document, 'script');</script>
 <h3>isNearWater</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isNearWater</span><wbr><span class="parameters">(int&nbsp;x,
  int&nbsp;y)</span></div>
-<div class="block">Checks the current tile and all tiles around it for a water tile. Returns true
-  if near water. This is necessary as world pos doesnt perfectly allign to cell positions
-  therefore a buffer must be introduced</div>
+<div class="block">Checks the current tile and all tiles around it for a water tile. Returns
+ true
+ if near water. This is necessary as world pos doesnt perfectly allign to cell
+ positions
+ therefore a buffer must be introduced</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>x</code> - the tile's x cord</dd>
