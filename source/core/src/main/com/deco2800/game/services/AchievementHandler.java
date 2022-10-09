@@ -8,6 +8,7 @@ import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.events.EventHandler;
 import org.slf4j.Logger;
@@ -15,10 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Service for handling the loading, updating and saving of game achievements
@@ -47,9 +45,20 @@ public class AchievementHandler {
     public static final String EVENT_BUILDING_PLACED = "buildingPlaced";
 
     /**
+     * Event string for structure placement
+     */
+    public static final String EVENT_ON_TEMP_STRUCTURE_PLACED = "structurePlaced";
+
+    /**
      * Event string for enemies killed
      */
     public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
+
+    /**
+     * Event string for when the guidebook is closed
+     * emitted by GuidebookScreen
+     */
+    public static final String EVENT_GUIDEBOOK_CLOSED = "guidebookClosed";
 
     /**
      * Event string for resources being added
@@ -105,7 +114,12 @@ public class AchievementHandler {
     /**
      * File handler for the player achievement file
      */
-    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievementsVersion2.json");
+
+
+    /**
+     * V3 - 09/10/2022 notifyOnLoad added
+     */
+    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievementsVersion3.json");
 
     /**
      * Used for reading and writing to the player achievement file
@@ -145,6 +159,44 @@ public class AchievementHandler {
         this.customStatMilestones = AchievementFactory.createCustomStatAchievementMileStones();
 
         listenOnEvents();
+
+    }
+
+
+    /**
+     * Connects listeners for popup notification widget
+     */
+    public void connectPopupListeners() {
+        // connect popup listeners
+        ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(AchievementPopupComponent.class)
+                .addListeners(this.events);
+    }
+
+    /**
+     * Sends popups that couldn't be shown when game screen
+     * was swapped.
+     *
+     */
+    public void triggerOnLoadPopups() {
+        /*
+         * This is done for achievements such as opening a guidebook
+         * which causes the game screen to be removed and user has no way
+         * of seeing the notification.
+         * Once the achievements are reloaded they can be displayed to the user
+         * one by one
+         */
+        this.achievements.forEach(a -> {
+            if (a.isStat() && a.getNotifyOnLoad()) {
+                this.broadcastStatAchievementMilestoneReached(a);
+                a.setNotifyOnLoad(false);
+            }
+            if (!a.isStat() && a.getNotifyOnLoad()) {
+                this.broadcastAchievementMade(a);
+                a.setNotifyOnLoad(false);
+            }
+        });
+        // turn off all onload notifications
+        saveAchievements();
     }
 
 
@@ -163,6 +215,15 @@ public class AchievementHandler {
         this.events.addListener(EVENT_BOSS_KILL, this::checkAchievementStatus);
         this.events.addListener(EVENT_SHOP_ITEM_BOUGHT, this::incrementOneRunAchievement);
         this.events.addListener(EVENT_GAME_WON, this::resetOneRunAchievements);
+        this.events.addListener(EVENT_GUIDEBOOK_CLOSED, () -> {
+            this.achievements.stream().filter(a -> a.getId() == 18).findFirst().ifPresent(found -> {
+                if (!found.isCompleted()) {
+                    found.setNotifyOnLoad(true);
+                    this.markAchievementCompletedById(found.getId(), false);
+                }
+            });
+        });
+        this.events.addListener(EVENT_ON_TEMP_STRUCTURE_PLACED, this::onTempStructurePlaced);
     }
 
     /**
@@ -210,6 +271,62 @@ public class AchievementHandler {
         this.lastSaved = data.getLastSaved();
 
         return data.getAchievements();
+    }
+
+    /**
+     * Triggered when a structure is placed on the map.
+     * When all structures that are available in the game
+     * have been placed then the achievement is complete
+     * @param name name of structure placed.
+     */
+    public void onTempStructurePlaced(String name) {
+        achievements.stream().filter(a -> a.getId() == 9).findFirst().ifPresent(ac -> {
+           if (!ac.isCompleted()) {
+               Set<String> structuresPlaced = new HashSet<>();
+
+               if (ac.getAchievementData().contains(",")) {
+                   structuresPlaced = new HashSet<>(Set.copyOf(Arrays
+                           .stream(ac.getAchievementData().split(",")).toList()));
+               } else {
+                   if (!ac.getAchievementData().isEmpty()) {
+                       structuresPlaced = new HashSet<>(Set.of(ac.getAchievementData()));
+                   }
+
+               }
+               structuresPlaced.add(name);
+               if (allTempStructuresPlaced(structuresPlaced)) {
+                   markAchievementCompletedById(ac.getId(), true);
+               }
+               if (structuresPlaced.size() > 1) {
+                   ac.setAchievementData(String.join(",", structuresPlaced));
+               } else {
+                   ac.setAchievementData(structuresPlaced.stream().toList().get(0));
+               }
+
+               saveAchievements(); // flush to disk
+           }
+        });
+    }
+
+    /**
+     * Checks whether all structures have been placed since
+     * the beginning of the game.
+     *
+     * @param allStructuresPlaced the currently placed structures
+     * @return true if all have been placed false otherwise.
+     */
+    private boolean allTempStructuresPlaced(Set<String> allStructuresPlaced) {
+        Set<String> allStructuresThatCanBePlaced = Set.of(
+                "wall",
+                "tower1",
+                /*"tower2",*/ // cannot be placed atm
+                "tower3",
+                "woodCutter",
+                /*"trap",*/ // cannot be placed atm crashes game
+                "stonequarry"
+        );
+
+       return allStructuresPlaced.containsAll(allStructuresThatCanBePlaced);
     }
 
     /**
@@ -412,10 +529,12 @@ public class AchievementHandler {
 
         achievements.stream().filter(a -> a.getId() == id).findFirst().ifPresent(a -> {
             a.setCompleted(true);
+            saveAchievements();
             if (broadcast) {
                 broadcastAchievementMade(a);
             }
         });
+
     }
 
     /**
