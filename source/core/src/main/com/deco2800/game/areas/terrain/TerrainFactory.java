@@ -16,7 +16,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent.TerrainOrientation;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.services.ResourceService;
@@ -203,14 +205,32 @@ public class TerrainFactory {
   }
 
   private TerrainTile loadTile(String tileName, TileType tileType, ResourceService resourceService) {
+
+    Array<StaticTiledMapTile> tileFrames = new Array<>();
     TextureRegion tex = new TextureRegion(
         resourceService.getAsset("images/65x33_tiles/" + tileName + ".png", Texture.class));
-    if (tileType == TileType.SAND) {
-      return new TerrainTile(tex, "sand");
-    } else if (tileType == TileType.WATER) {
-      return new TerrainTile(tex, "water");
-    } else {
-      return new TerrainTile(tex, "shoreline");
+
+    switch (tileType) {
+      // Animated Water
+      case WATER:
+        for (int i = 0; i < 3; i++) {
+          TextureRegion frame = new TextureRegion(
+              resourceService.getAsset("images/65x33_tiles/" + tileName + Integer.toString(i) + ".png", Texture.class));
+          StaticTiledMapTile frameTile = new StaticTiledMapTile(frame);
+          tileFrames.add(frameTile);
+        }
+
+        return new TerrainTile(10, tileFrames, "water");
+
+      // Shoreline
+      case SHORELINE:
+        tileFrames.add(new StaticTiledMapTile(tex));
+        return new TerrainTile(1000, tileFrames, "shoreline");
+
+      // Sand or Invalid Tile Type
+      default:
+        tileFrames.add(new StaticTiledMapTile(tex));
+        return new TerrainTile(1000, tileFrames, "sand");
     }
   }
 
