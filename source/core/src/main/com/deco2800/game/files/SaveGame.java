@@ -351,7 +351,6 @@ public class SaveGame {
         logger.debug("Begin Saving");
         try {
 
-            environmentalGenerationSetUp();
             saveEnvironmentalObjects();
 
             structureGenerationSetUp();
