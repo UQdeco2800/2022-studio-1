@@ -234,6 +234,7 @@ public class StructureService extends EntityService {
   }
 
   public static void setUiPopUp(int screenX, int screenY) {
+
     //getting the building location on the map
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
