@@ -27,7 +27,7 @@ import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import java.util.HashMap;
 
 
 public class MainGameBuildingInterface extends UIComponent {
@@ -56,6 +56,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
     public Table makeUIPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
+
         //Building that was clicked
         Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
 
@@ -88,7 +89,7 @@ public class MainGameBuildingInterface extends UIComponent {
         BuildingUI.setPosition(x, y);
 
 
-        BuildingUI.setVisible(visability);
+        BuildingUI.setVisible(true);
 
         // add popup
         //insert pop up texture
@@ -104,7 +105,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         //Health Bar Image
         Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
-        Label healthAmount = new Label(Integer.toString(health), skin, "large");
+        //Label healthAmount = new Label(Integer.toString(health), skin, "large");
 
 //        //Health Bar image
         buildingHealth = clickedStructure;
@@ -169,7 +170,7 @@ public class MainGameBuildingInterface extends UIComponent {
         healthInfo.add(heartImage);
         healthInfo.stack(progressBar, healthBarImage).size(200f,30f);
 
-        healthInfo.add(healthAmount);
+        //healthInfo.add(healthAmount);
 
         Table leftTable = new Table();
         leftTable.padBottom(30f);
@@ -194,6 +195,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         return BuildingUI;
     }
+
 
     public boolean isVisability() {
         return visability;
