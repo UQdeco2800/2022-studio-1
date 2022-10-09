@@ -12,17 +12,12 @@ import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
-import com.deco2800.game.entities.NpcService;
-import com.deco2800.game.entities.StructureService;
-import com.deco2800.game.entities.UGS;
+import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.physics.PhysicsEngine;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.DayNightCycleComponent;
@@ -147,6 +142,12 @@ public class MainGameScreen extends ScreenAdapter {
 
     createUI();
 
+    /*
+     * Achievements setup
+     * WARNING: must be done after UI is created
+     */
+    ServiceLocator.getAchievementHandler().connectPopupListeners();
+    ServiceLocator.getAchievementHandler().triggerOnLoadPopups();
   }
 
   @Override

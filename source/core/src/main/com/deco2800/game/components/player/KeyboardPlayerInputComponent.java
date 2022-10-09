@@ -12,6 +12,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.NpcService;
+import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
@@ -152,6 +153,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
+
+
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -168,6 +171,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
           ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).dispose();
           ServiceLocator.getStructureService().setTempBuildState(false);
+          triggerUIBuildingPopUp(screenX,screenY);
         }
       }
     }
@@ -192,9 +196,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     combatStatsComponent.setHealth(health - 30);
     // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
-
-
-
 
   /**
    * Triggers crystal restore health to can be used in the shopping feature (for
@@ -246,5 +247,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       System.out.println("Crystal has reached max health");
     }
     // System.out.println(inventoryComponent.getGold());
+  }
+
+  private void triggerUIBuildingPopUp(int screenX, int screenY) {
+    String name = ServiceLocator.getStructureService().getTempEntityName();
+    if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3"))
+      StructureService.setUiPopUp(screenX, screenY);
   }
 }

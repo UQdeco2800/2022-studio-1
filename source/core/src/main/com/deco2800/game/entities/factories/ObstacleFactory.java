@@ -278,7 +278,7 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.SHELL, 0.5f, 0.5f, 0.5f,
         CollisionEffectComponent.CollisionEffect.NONE, 1f);
 
-    shell.setName("Shell");
+    shell.setName("Shell@" + shell.getId());
     shell.setCollectable(false);
     shell.getComponent(TextureRenderComponent.class).scaleEntity();
 

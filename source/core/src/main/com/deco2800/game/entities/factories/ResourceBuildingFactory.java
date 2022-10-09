@@ -38,16 +38,21 @@ import java.util.SortedMap;
 /**
  * Factory to create structure entities with predefined components.
  *
- * <p>Each structure entity type should have a creation method that returns a corresponding entity.
- * Predefined entity properties can be loaded from configs stored as json files which are defined in
+ * <p>
+ * Each structure entity type should have a creation method that returns a
+ * corresponding entity.
+ * Predefined entity properties can be loaded from configs stored as json files
+ * which are defined in
  * "StructureConfigs".
  *
- * <p>If needed, this factory can be separated into more specific factories for entities with
+ * <p>
+ * If needed, this factory can be separated into more specific factories for
+ * entities with
  * similar characteristics.
  */
 public class ResourceBuildingFactory {
-    private static final ResourceBuildingConfig configs =
-            FileLoader.readClass(ResourceBuildingConfig.class, "configs/resourceBuilding.json");
+    private static final ResourceBuildingConfig configs = FileLoader.readClass(ResourceBuildingConfig.class,
+            "configs/resourceBuilding.json");
 
     /**
      * Creates a Stone Quarry entity
@@ -56,7 +61,8 @@ public class ResourceBuildingFactory {
      */
     public static Entity createStoneQuarry() {
 
-        AnimationRenderComponent bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/stonequarr.atlas", TextureAtlas.class));
+        AnimationRenderComponent bul_animator = new AnimationRenderComponent(
+                ServiceLocator.getResourceService().getAsset("images/anim_demo/stonequarr.atlas", TextureAtlas.class));
         bul_animator.addAnimation("stqu", 0.5f, Animation.PlayMode.LOOP);
 
         Entity stoneQuarry = createBaseStructure_forAnim("images/anim_demo/stonequarr.atlas");
@@ -78,7 +84,8 @@ public class ResourceBuildingFactory {
      */
     public static Entity createWoodCutter() {
 
-        AnimationRenderComponent res_bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService().getAsset("images/anim_demo/woodresource.atlas", TextureAtlas.class));
+        AnimationRenderComponent res_bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
+                .getAsset("images/anim_demo/woodresource.atlas", TextureAtlas.class));
         res_bul_animator.addAnimation("woqu", 0.5f, Animation.PlayMode.LOOP);
 
         Entity woodQuarry = createBaseStructure_forAnim("images/anim_demo/woodresource.atlas");
@@ -97,12 +104,11 @@ public class ResourceBuildingFactory {
         ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BUILDING_PLACED,
                 AchievementType.BUILDINGS, 1);
 
-        Entity structure =
-                new Entity()
-                        .addComponent(new PhysicsComponent())
-                        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-                        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                        .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
+        Entity structure = new Entity()
+                .addComponent(new PhysicsComponent())
+                .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new TouchAttackComponent(PhysicsLayer.NPC, 1.5f));
 
         structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
@@ -131,13 +137,17 @@ public class ResourceBuildingFactory {
     }
 
     /**
-     * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
+     * Checks if a structure on the map has been clicked. If it has been clicked
+     * then that structure gets removed from the game
+     * 
      * @param screenX The x coordinate, origin is in the upper left corner
      * @param screenY The y coordinate, origin is in the upper left corner
-     * @return true if the point (screenX, screenY) is clear of structures else return false
+     * @return true if the point (screenX, screenY) is clear of structures else
+     *         return false
      *
      */
-    public static boolean[] handleClickedStructures(int screenX, int screenY, SortedMap<String, Rectangle> structureRects, boolean resourceBuildState, boolean buildEvent) {
+    public static boolean[] handleClickedStructures(int screenX, int screenY,
+            SortedMap<String, Rectangle> structureRects, boolean resourceBuildState, boolean buildEvent) {
         String clickedStructure = "";
         boolean isClear;
         boolean anyStructureHit = false;
@@ -145,13 +155,13 @@ public class ResourceBuildingFactory {
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        for (Map.Entry<String, Rectangle> es : structureRects.entrySet()){
+        for (Map.Entry<String, Rectangle> es : structureRects.entrySet()) {
             if (es.getValue().contains(mousePosV2)) {
                 clickedStructure = es.getKey();
                 if (clickedStructure.contains("stoneQuarry")) {
                     PlayerStatsDisplay.updateStoneCountUI();
                     resourceBuildState = false;
-                    return new boolean[]{false, resourceBuildState, buildEvent};
+                    return new boolean[] { false, resourceBuildState, buildEvent };
                 } else {
                     ServiceLocator.getEntityService().getNamedEntity(es.getKey()).dispose();
                     anyStructureHit = true;
@@ -166,7 +176,7 @@ public class ResourceBuildingFactory {
         } else {
             isClear = true;
         }
-        return new boolean[]{isClear, resourceBuildState, buildEvent};
+        return new boolean[] { isClear, resourceBuildState, buildEvent };
     }
 
     /**
@@ -174,7 +184,7 @@ public class ResourceBuildingFactory {
      */
     public static boolean toggleBuildState(boolean buildState) {
         buildState = !buildState;
-        return  buildState;
+        return buildState;
     }
 
     /**
@@ -184,7 +194,6 @@ public class ResourceBuildingFactory {
         resourceBuildState = !resourceBuildState;
         return resourceBuildState;
     }
-
 
     private ResourceBuildingFactory() {
         throw new IllegalStateException("Instantiating static util class");
