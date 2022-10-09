@@ -24,6 +24,8 @@ import java.util.Optional;
  * Service for handling the loading, updating and saving of game achievements
  */
 public class AchievementHandler {
+    public static final String EVENT_GAME_WON = "gameWon";
+
     /**
      * Event string for items bought in the shop
      */
@@ -160,11 +162,7 @@ public class AchievementHandler {
         // Non-stat achievements
         this.events.addListener(EVENT_BOSS_KILL, this::checkAchievementStatus);
         this.events.addListener(EVENT_SHOP_ITEM_BOUGHT, this::incrementOneRunAchievement);
-
-        // External events
-        if (ServiceLocator.getEntityService() != null && ServiceLocator.getEntityService().getNamedEntity("crystal") != null) {
-            ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("crystalDeath", this::resetOneRunAchievements);
-        }
+        this.events.addListener(EVENT_GAME_WON, this::resetOneRunAchievements);
     }
 
     /**
