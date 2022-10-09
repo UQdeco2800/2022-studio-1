@@ -35,19 +35,22 @@ import java.util.TreeMap;
 import java.util.Objects;
 
 /**
- * Provides a global access point for entities to register themselves. This allows for iterating
- * over entities to perform updates each loop. All game entities should be registered here.
+ * Provides a global access point for entities to register themselves. This
+ * allows for iterating
+ * over entities to perform updates each loop. All game entities should be
+ * registered here.
  *
- * Avoid adding additional state here! Global access is often the easy but incorrect answer to
+ * Avoid adding additional state here! Global access is often the easy but
+ * incorrect answer to
  * sharing data.
  */
 public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
-  private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); //Deprecate
+  private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); // Deprecate
 
-  private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>(); //Deprecate
+  private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>(); // Deprecate
 
   private static boolean uiIsVisible;
 
@@ -59,22 +62,23 @@ public class StructureService extends EntityService {
 
   private static String tempEntityName;
 
-
   /**
-   * Register a new entity with the entity service. The entity will be created and start updating.
+   * Register a new entity with the entity service. The entity will be created and
+   * start updating.
+   * 
    * @param entity new entity.
    */
   @Override
   public void register(Entity entity) {
     logger.debug("Registering {} in entity service", entity);
     structureEntities.add(entity);
-//    entity.create();
+    // entity.create();
   }
 
   /**
    * Registers an entity with a name so it can be found later
    *
-   * @param name the name to register it as (must be unique or will overwrite)
+   * @param name   the name to register it as (must be unique or will overwrite)
    * @param entity the entity to register
    */
   @Override
@@ -85,6 +89,7 @@ public class StructureService extends EntityService {
 
   /**
    * Returns a registered named entity
+   * 
    * @param name the name the entity was registered as
    * @return the registered entity or null
    */
@@ -95,15 +100,17 @@ public class StructureService extends EntityService {
 
   /**
    * Returns the last registered entity
+   * 
    * @return the last registered entity or null
    */
   @Override
   public Entity getLastEntity() {
-    return this.structureEntities.get(this.structureEntities.size-1);
+    return this.structureEntities.get(this.structureEntities.size - 1);
   }
 
   /**
    * Returns all registered entities
+   * 
    * @return all registered entities or null
    */
   @Override
@@ -111,9 +118,10 @@ public class StructureService extends EntityService {
     return this.namedStructureEntities;
   }
 
-
   /**
-   * Unregister an entity with the entity service. The entity will be removed and stop updating.
+   * Unregister an entity with the entity service. The entity will be removed and
+   * stop updating.
+   * 
    * @param entity entity to be removed.
    */
   @Override
@@ -123,7 +131,8 @@ public class StructureService extends EntityService {
   }
 
   /**
-   * Update all registered entities. Should only be called from the main game loop.
+   * Update all registered entities. Should only be called from the main game
+   * loop.
    */
   @Override
   public void update() {
@@ -144,10 +153,12 @@ public class StructureService extends EntityService {
   }
 
   /**
-   * Builds a structure at specific location, gridPos. the type of structure built is
+   * Builds a structure at specific location, gridPos. the type of structure built
+   * is
    * determined by the specific structure name, structureName.
+   * 
    * @param structureName name of the structure to build (also type of structure)
-   * @param gridPos location of where the structure is to be built
+   * @param gridPos       location of where the structure is to be built
    * @return true if building was build successfully, false otherwise
    */
   public static Boolean buildStructure(String structureName, GridPoint2 gridPos) {
@@ -174,7 +185,7 @@ public class StructureService extends EntityService {
         Entity trap = StructureFactory.createTrap(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
         return true;
-      } else if (Objects.equals(structureName, "stonequarry")) {
+      } else if (Objects.equals(structureName, "stoneQuarry")) {
         Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
         ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
         return true;
@@ -189,8 +200,9 @@ public class StructureService extends EntityService {
 
   /**
    * gets the building temp entity state
+   * 
    * @return True if building a building from the inventory or False if not
-   * building a building from the inventory
+   *         building a building from the inventory
    */
   public static Boolean getTempBuildState() {
     return buildingTempEntity;
@@ -198,6 +210,7 @@ public class StructureService extends EntityService {
 
   /**
    * gets the temp building name
+   * 
    * @return name of the temp entity
    */
   public static String getTempEntityName() {
@@ -206,6 +219,7 @@ public class StructureService extends EntityService {
 
   /**
    * Set the building temp entity state
+   * 
    * @param state state to set the buildingTempEntity state to.
    */
   public void setTempBuildState(Boolean state) {
@@ -213,7 +227,9 @@ public class StructureService extends EntityService {
   }
 
   /**
-   * Builds a structure and locks it to the mouse as the user decides where to build it
+   * Builds a structure and locks it to the mouse as the user decides where to
+   * build it
+   * 
    * @param name of the tempStructureEntity
    */
   public static void buildTempStructure(String name) {
@@ -221,8 +237,10 @@ public class StructureService extends EntityService {
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-    GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+    GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+        .worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+        .tileToWorldPosition(loc);
     String entityName = "Temp";
     entityName = name + entityName;
     if (Objects.equals(name, "wall")) {
@@ -237,7 +255,7 @@ public class StructureService extends EntityService {
       tempEntity = StructureFactory.createTower3(1, entityName);
     } else if (Objects.equals(name, "trap")) {
       tempEntity = StructureFactory.createTrap(entityName);
-    } else if (Objects.equals(name, "stonequarry")) {
+    } else if (Objects.equals(name, "stoneQuarry")) {
       tempEntity = ResourceBuildingFactory.createStoneQuarry();
     }
     buildingTempEntity = true;
