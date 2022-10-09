@@ -9,8 +9,9 @@ import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
+import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,7 @@ public class StructureService extends EntityService {
   /**
    * Register a new entity with the entity service. The entity will be created and
    * start updating.
-   * 
+   *
    * @param entity new entity.
    */
   @Override
@@ -74,7 +75,7 @@ public class StructureService extends EntityService {
 
   /**
    * Returns a registered named entity
-   * 
+   *
    * @param name the name the entity was registered as
    * @return the registered entity or null
    */
@@ -85,7 +86,7 @@ public class StructureService extends EntityService {
 
   /**
    * Returns the last registered entity
-   * 
+   *
    * @return the last registered entity or null
    */
   @Override
@@ -95,7 +96,7 @@ public class StructureService extends EntityService {
 
   /**
    * Returns all registered entities
-   * 
+   *
    * @return all registered entities or null
    */
   @Override
@@ -106,7 +107,7 @@ public class StructureService extends EntityService {
   /**
    * Unregister an entity with the entity service. The entity will be removed and
    * stop updating.
-   * 
+   *
    * @param entity entity to be removed.
    */
   @Override
@@ -141,7 +142,7 @@ public class StructureService extends EntityService {
    * Builds a structure at specific location, gridPos. the type of structure built
    * is
    * determined by the specific structure name, structureName.
-   * 
+   *
    * @param structureName name of the structure to build (also type of structure)
    * @param gridPos       location of where the structure is to be built
    * @return true if building was build successfully, false otherwise
@@ -185,7 +186,7 @@ public class StructureService extends EntityService {
 
   /**
    * gets the building temp entity state
-   * 
+   *
    * @return True if building a building from the inventory or False if not
    *         building a building from the inventory
    */
@@ -195,7 +196,7 @@ public class StructureService extends EntityService {
 
   /**
    * gets the temp building name
-   * 
+   *
    * @return name of the temp entity
    */
   public static String getTempEntityName() {
@@ -204,7 +205,7 @@ public class StructureService extends EntityService {
 
   /**
    * Set the building temp entity state
-   * 
+   *
    * @param state state to set the buildingTempEntity state to.
    */
   public void setTempBuildState(Boolean state) {
@@ -214,7 +215,7 @@ public class StructureService extends EntityService {
   /**
    * Builds a structure and locks it to the mouse as the user decides where to
    * build it
-   * 
+   *
    * @param name of the tempStructureEntity
    */
   public static void buildTempStructure(String name) {
@@ -245,6 +246,9 @@ public class StructureService extends EntityService {
       tempEntity = ResourceBuildingFactory.createStoneQuarry();
 
     }
+    // Update achievements for structures/building
+    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
+
     buildingTempEntity = true;
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
