@@ -53,7 +53,6 @@ public class CrystalFactory {
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
         crystal.setCollectable(false);
-        ServiceLocator.getEntityService().registerNamed(name, crystal);
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         crystal.getComponent(TextureRenderComponent.class).scaleEntity();

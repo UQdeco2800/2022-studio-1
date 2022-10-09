@@ -27,37 +27,36 @@ public class RangeService {
         Vector2 entityPos = middle.getPosition();
         GridPoint2 gridPos =
                 ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x, entityPos.y);
-        String stringPos = UGS.generateCoordinate(gridPos.x, gridPos.y);
 
-        String stringPlayerAboveLeft = UGS.generateCoordinate(gridPos.x - 1, gridPos.y - 1);
+        GridPoint2 stringPlayerAboveLeft = new GridPoint2(gridPos.x - 1, gridPos.y - 1);
         Entity aboveLeft = ServiceLocator.getUGSService().getEntity(stringPlayerAboveLeft);
         radialPerimeter.add(aboveLeft);
 
-        String stringPlayerAbove = UGS.generateCoordinate(gridPos.x, gridPos.y - 1);
+        GridPoint2 stringPlayerAbove = new GridPoint2(gridPos.x, gridPos.y - 1);
         Entity above = ServiceLocator.getUGSService().getEntity(stringPlayerAbove);
         radialPerimeter.add(above);
 
-        String stringPlayerAboveRight = UGS.generateCoordinate(gridPos.x + 1, gridPos.y - 1);
+        GridPoint2 stringPlayerAboveRight = new GridPoint2(gridPos.x + 1, gridPos.y - 1);
         Entity aboveRight = ServiceLocator.getUGSService().getEntity(stringPlayerAboveRight);
         radialPerimeter.add(aboveRight);
 
-        String stringPlayerRight = UGS.generateCoordinate(gridPos.x + 1, gridPos.y);
+        GridPoint2 stringPlayerRight = new GridPoint2(gridPos.x + 1, gridPos.y);
         Entity right = ServiceLocator.getUGSService().getEntity(stringPlayerRight);
         radialPerimeter.add(right);
 
-        String stringPlayerBottomRight = UGS.generateCoordinate(gridPos.x + 1, gridPos.y + 1);
+        GridPoint2 stringPlayerBottomRight = new GridPoint2(gridPos.x + 1, gridPos.y + 1);
         Entity bottomRight = ServiceLocator.getUGSService().getEntity(stringPlayerBottomRight);
         radialPerimeter.add(bottomRight);
 
-        String stringPlayerBottom = UGS.generateCoordinate(gridPos.x, gridPos.y + 1);
+        GridPoint2 stringPlayerBottom = new GridPoint2(gridPos.x, gridPos.y + 1);
         Entity bottom = ServiceLocator.getUGSService().getEntity(stringPlayerBottom);
         radialPerimeter.add(bottom);
 
-        String stringPlayerBottomLeft = UGS.generateCoordinate(gridPos.x - 1, gridPos.y + 1);
+        GridPoint2 stringPlayerBottomLeft = new GridPoint2(gridPos.x - 1, gridPos.y + 1);
         Entity bottomLeft = ServiceLocator.getUGSService().getEntity(stringPlayerBottomLeft);
         radialPerimeter.add(bottomLeft);
 
-        String stringPlayerLeft = UGS.generateCoordinate(gridPos.x - 1, gridPos.y);
+        GridPoint2 stringPlayerLeft = new GridPoint2(gridPos.x - 1, gridPos.y);
         Entity left = ServiceLocator.getUGSService().getEntity(stringPlayerLeft);
         radialPerimeter.add(left);
 
@@ -69,12 +68,11 @@ public class RangeService {
      * to the enemies not yet moving in the UGS.
      * @return the string generated key that is stored in the hashmap of where the player is standing
      */
-    public String getPlayerTile() {
+    public GridPoint2 getPlayerTile() {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         Vector2 playerPos = player.getPosition();
         GridPoint2 gPlayerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(playerPos.x, playerPos.y);
-        String key = UGS.generateCoordinate(gPlayerPos.x, gPlayerPos.y);
-        return key;
+        return gPlayerPos;
     }
 
     /**

@@ -25,7 +25,7 @@ public class ResourceManagementService {
 
     public int getWoodBuildings() {
         int count = 0;
-        for (String i : ServiceLocator.getStructureService().getAllNamedEntities().keySet()) {
+        for (String i : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
             if (i.contains("woodCutter")) {
                 count += 1;
             }
@@ -35,7 +35,7 @@ public class ResourceManagementService {
 
     public int getStoneBuildings() {
         int count = 0;
-        for (String i : ServiceLocator.getStructureService().getAllNamedEntities().keySet()) {
+        for (String i : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
             if (i.contains("stonequarry")) {
                 count += 1;
             }
