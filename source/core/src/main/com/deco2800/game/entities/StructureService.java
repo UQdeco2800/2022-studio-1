@@ -1,37 +1,22 @@
 package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.SerializationException;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.components.player.PlayerStatsDisplay;
-import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
-import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.Objects;
 
 /**
@@ -51,7 +36,7 @@ public class StructureService extends EntityService {
 
   private static boolean uiIsVisible;
 
-  private static Table table1;
+  private static Table uiPopUp;
 
   private static Entity tempEntity;
 
@@ -248,5 +233,27 @@ public class StructureService extends EntityService {
     tempEntity.setPosition(worldLoc);
   }
 
+  public static void setUiPopUp(int screenX, int screenY) {
+    //getting the building location on the map
+    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
+    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    // building name
+    String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
+    //if UI is false on click then the pop-up should appear
+    if (!uiIsVisible) {
+      uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
+              .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+      uiIsVisible = true;
+      // else the pop-up will be removed
+    } else {
+      if (uiIsVisible) {
+        uiPopUp.remove();
+        uiIsVisible = false;
+      }
+    }
+  }
 
 }
