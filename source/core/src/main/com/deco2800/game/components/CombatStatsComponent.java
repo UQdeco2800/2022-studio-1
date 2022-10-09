@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,6 +118,10 @@ public class CombatStatsComponent extends Component {
         // remove enemies if health point is 0
         for (String enemy : enemies) {
           if (entity != null && entity.getName().contains(enemy) && isDead()) {
+            if (entity.getName().contains("Zero")) {
+              ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BOSS_KILL, 10L);
+            }
+
             entity.dispose();
           }
         }

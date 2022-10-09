@@ -2,6 +2,7 @@ package com.deco2800.game.components.mainmenu;
 
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,7 @@ public class MainMenuActions extends Component {
    */
   private void onStart() {
     logger.info("Start game");
+    ServiceLocator.getAchievementHandler().resetOneRunAchievements(false);
     if (AtlantisSinks.playPrologue) {
       game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_PROLOGUE);
     } else {
