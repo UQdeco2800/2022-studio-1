@@ -204,6 +204,7 @@ public class DayNightCycleService {
      */
     public void stop() {
         this.ended = true;
+        logger.info("Stopped day night cycle thread.");
     }
 
     public void resume() {
@@ -236,12 +237,12 @@ public class DayNightCycleService {
                 // Move clock for parts of day with more than one half
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
                         this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
-                    long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
+                    long elapsed = this.currentDayMillis - timeSinceLastPartOfDay;
+
                     if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration) &&
                             partOfDayHalveIteration != lastPartOfDayHalveIteration) {
-                        Gdx.app.postRunnable(() -> {
-                            events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
-                        });
+                        Gdx.app.postRunnable(() -> events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus));
+
                         partOfDayHalveIteration++;
                     }
                 }
