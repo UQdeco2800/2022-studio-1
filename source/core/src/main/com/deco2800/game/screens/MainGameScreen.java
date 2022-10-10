@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.ForestGameArea;
-import com.deco2800.game.areas.GameService;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.DayNightClockComponent;
@@ -118,7 +117,6 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.registerRangeService(new RangeService());
     ServiceLocator.registerRenderService(new RenderService());
     ServiceLocator.registerStructureService(new StructureService());
-    ServiceLocator.registerGameService(new GameService());
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
     ServiceLocator.getInputService().register(dayNightCycleComponent);
