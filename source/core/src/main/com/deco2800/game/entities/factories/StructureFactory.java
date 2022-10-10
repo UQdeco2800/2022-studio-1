@@ -1,5 +1,7 @@
 package com.deco2800.game.entities.factories;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,6 +14,7 @@ import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.tasks.ShootMultipleTask;
 import com.deco2800.game.components.tasks.ShootTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
@@ -87,7 +90,7 @@ public class StructureFactory {
     BaseStructureConfig config = configs.turret;
 
     AITaskComponent aiTaskComponent = new AITaskComponent()
-        .addTask(new ShootTask(null, 30, 50f, 0));
+        .addTask(new ShootMultipleTask(new ArrayList<>(), 500f));
 
     turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
         .addComponent(new ResourceCostComponent(config.gold))

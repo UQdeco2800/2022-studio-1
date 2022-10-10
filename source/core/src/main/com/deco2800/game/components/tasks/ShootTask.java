@@ -13,7 +13,7 @@ import com.deco2800.game.rendering.DebugRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public class ShootTask extends DefaultTask implements PriorityTask {
-    private final Entity target;
+    protected Entity target;
     private static final int SECOND = 500;
     private final GameTime TotalTime;
     private long taskEnd;
@@ -64,14 +64,15 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         return getInactivePriority();
     }
 
-    private float getDistanceToTarget() {
+    protected float getDistanceToTarget() {
         if (target == null)
-            return 0;
+            return -1f;
         return owner.getEntity().getPosition().dst(target.getPosition());
     }
 
     private int getActivePriority() {
         float dst = getDistanceToTarget();
+
         if (dst > maxChaseDistance || !isTargetVisible()) {
             return -1; // Too far, stop chasing
         }
