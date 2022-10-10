@@ -128,26 +128,28 @@ public class MainGameBuildingInterface extends UIComponent {
         TextButton upgradeButton = ShopUtils.createImageTextButton(
                 "Upgrade for:" + "\n" + "100",
                 skin.getColor("black"),
-                "button", 1f, homeDown, homeUp, skin, true);
+                "button", 1f, homeDown, homeUp, skin, false);
 
         upgradeButton.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
+                    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                    //Obtain reference to player, for some reason it was being accessed as 'entity'
+
                     logger.info("Upgrade Button clicked");
 
-                    if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
+                    if (player.getComponent(InventoryComponent.class).hasGold(100)) {
                         logger.info("Sufficient resources");
 
                         //Subtract currency from inventory
-                        entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
+                        player.getComponent(InventoryComponent.class).addGold(-1 * 100);
 
                         //Get building and convert it's position to gridPoint2
-                        Entity building = ServiceLocator.getStructureService().getNamedEntity(structureName);
-                        Vector2 position = building.getPosition();
+                        Vector2 position = clickedStructure.getPosition();
                         GridPoint2 gridPoint2 = new GridPoint2((int) position.x, (int) position.y);
                         
-                        StructureFactory.upgradeStructure(gridPoint2, building.getName());
+                        StructureFactory.upgradeStructure(gridPoint2, clickedStructure.getName());
                     } else {
                         logger.info("Insufficient resource!");
                         Sound filesound = Gdx.audio.newSound(
@@ -160,9 +162,9 @@ public class MainGameBuildingInterface extends UIComponent {
 
         // sell button
         TextButton sellButton = ShopUtils.createImageTextButton(
-                "Sell for:" + "\n" + sell,
+                "Sell" + "\n",
                 skin.getColor("black"),
-                "button", 1f, homeDown, homeUp, skin, true);
+                "button", 1f, homeDown, homeUp, skin, false);
 
 
         //event handlers for buttons -- sell and upgrade
@@ -170,27 +172,13 @@ public class MainGameBuildingInterface extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Sell building clicked");
-                        entity.getComponent(InventoryComponent.class).addStone(sell);
+                        logger.debug("Sell button clicked");
+                        StructureFactory.handleBuildingDestruction(entity.getName());
+                        //Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        //player.getComponent(InventoryComponent.class).addStone(sell);
                     }
                 });
 
-        upgradeButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("upgrade building clicked");
-
-
-                        if (entity.getComponent(InventoryComponent.class).hasGold(100)) {
-                            logger.info("Sufficient funds");
-                            entity.getComponent(InventoryComponent.class).addGold(-1 * 100);
-
-                        } else {
-                            logger.info("Insufficient funds");
-                        }
-                    }
-                });
 
         //table
         Table buildingInfo = new Table();

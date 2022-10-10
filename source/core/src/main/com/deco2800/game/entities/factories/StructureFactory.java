@@ -262,18 +262,13 @@ public static Entity createTrap(String name) {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-//      System.out.println("Checking for inventory component");
-//      System.out.println("Got inventory component");
       //Get the cost of the building
       int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
       int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
       int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-//      System.out.println("refund: " + refundMultiplier);
       //Add (<resource> * refundMultiplier) to PLAYER's inventory
-//      System.out.println("before: " + player.getComponent(InventoryComponent.class).getGold());
 
       player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
-//      System.out.println("After: " + player.getComponent(InventoryComponent.class).getGold());
       player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
       player.getComponent(InventoryComponent.class).addWood((int)(wood * refundMultiplier));
   }
