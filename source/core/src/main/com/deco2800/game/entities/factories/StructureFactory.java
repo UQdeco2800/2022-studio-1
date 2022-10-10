@@ -41,6 +41,12 @@ public class StructureFactory {
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
 
+  /**
+   * creates an entity of a coloured tile to show where a building can be placed
+   * @param name of the entity
+   * @param texture the entity uses
+   * @return a coloured tile entity
+   */
   public static Entity createVisualFeedbackTile(String name, String texture) {
     Entity structure = new Entity().addComponent(new TextureRenderComponent(texture));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();

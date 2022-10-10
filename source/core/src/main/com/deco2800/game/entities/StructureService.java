@@ -270,6 +270,11 @@ public class StructureService extends EntityService {
     tempEntity.setPosition(worldLoc);
   }
 
+  /**
+   * Draw the coloured tiles around a structure to show the player where they can build a structure
+   * @param centerCoord location of the structure in gridPoint2
+   * @param entityType type of entity being checked
+   */
   public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
     HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType);
     for (GridPoint2 mapPos: surroundingTiles.keySet()) {
@@ -289,6 +294,9 @@ public class StructureService extends EntityService {
     }
   }
 
+  /**
+   * Clear the coloured visual tiles by disposing of them
+   */
   public static void clearVisualTiles() {
     for (Entity e : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
       String entityName = e.getName();
