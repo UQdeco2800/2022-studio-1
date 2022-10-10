@@ -190,7 +190,6 @@ public class ForestGameArea extends GameArea {
   public void create() {
 
     loadAssets();
-    ServiceLocator.getGameService().setUpEntities(120);
 
     displayUI();
 
