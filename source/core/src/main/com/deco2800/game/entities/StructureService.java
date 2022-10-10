@@ -177,6 +177,10 @@ public class StructureService extends EntityService {
           structure = StructureFactory.createTrap(entityName);
           break;
 
+        case "turret":
+          structure = StructureFactory.createTurret(entityName);
+          break;
+
         case "stoneQuarry":
           structure = ResourceBuildingFactory.createStoneQuarry(entityName);
           break;
@@ -242,6 +246,7 @@ public class StructureService extends EntityService {
     String entityName = "Temp";
     entityName = name + entityName;
 
+    // @TODO change to switch statement for efficiency
     if (Objects.equals(name, "wall")) {
       tempEntity = StructureFactory.createWall(entityName);
     } else if (Objects.equals(name, "tower1")) {
@@ -256,6 +261,8 @@ public class StructureService extends EntityService {
       tempEntity = StructureFactory.createTrap(entityName);
     } else if (Objects.equals(name, "stoneQuarry")) {
       tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
+    } else if (Objects.equals(name, "turret")) {
+      tempEntity = StructureFactory.createTurret(entityName);
     }
     // Update achievements for structures/building
     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);

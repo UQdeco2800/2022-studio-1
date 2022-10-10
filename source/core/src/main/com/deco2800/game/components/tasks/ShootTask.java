@@ -25,9 +25,10 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     private final RaycastHit hit = new RaycastHit();
 
     /**
-     * @param target The entity to chase.
-     * @param priority Task priority when chasing (0 when not chasing).
-     * @param viewDistance Maximum distance from the entity at which chasing can start.
+     * @param target       The entity to chase.
+     * @param priority     Task priority when chasing (0 when not chasing).
+     * @param viewDistance Maximum distance from the entity at which chasing can
+     *                     start.
      */
     public ShootTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
         this.target = target;
@@ -64,6 +65,8 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     }
 
     private float getDistanceToTarget() {
+        if (target == null)
+            return 0;
         return owner.getEntity().getPosition().dst(target.getPosition());
     }
 
@@ -84,6 +87,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     }
 
     private boolean isTargetVisible() {
+        if (target == null)
+            return false;
+
         Vector2 from = owner.getEntity().getCenterPosition();
         Vector2 to = target.getCenterPosition();
         // If there is an obstacle in the path to the player, not visible.

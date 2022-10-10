@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
@@ -11,6 +12,7 @@ import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.tasks.ShootTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
@@ -27,17 +29,22 @@ import com.deco2800.game.services.ServiceLocator;
 /**
  * Factory to create structure entities with predefined components.
  *
- * <p>Each structure entity type should have a creation method that returns a corresponding entity.
- * Predefined entity properties can be loaded from configs stored as json files which are defined in
+ * <p>
+ * Each structure entity type should have a creation method that returns a
+ * corresponding entity.
+ * Predefined entity properties can be loaded from configs stored as json files
+ * which are defined in
  * "StructureConfigs".
  *
- * <p>If needed, this factory can be separated into more specific factories for entities with
+ * <p>
+ * If needed, this factory can be separated into more specific factories for
+ * entities with
  * similar characteristics.
  */
 public class StructureFactory {
-  private static final StructureConfig configs =
-      FileLoader.readClass(StructureConfig.class, "configs/structure.json");
+  private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+
   /**
    * Creates a wall entity.
    *
@@ -47,41 +54,57 @@ public class StructureFactory {
     Entity wall = createBaseStructure("images/Wall-right.png", name);
     BaseStructureConfig config = configs.wall;
 
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        .addComponent(new ResourceCostComponent(config.gold))
+        .addComponent((new HealthBarComponent(50, 10)));
 
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
-            .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
-
-    //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
+    // set name and collectable so game doesn't crash when main character attacks
+    // wall, feel free to remove
     wall.setCollectable(Boolean.FALSE);
 
     return wall;
   }
 
-/**
- * Creates a trap entity
- *
- * @return entity
- */
-public static Entity createTrap(String name) {
-  //TODO change trap texture
-  Entity trap = createBaseStructure("images/trap.png", name);
-  BaseStructureConfig config = configs.trap;
+  /**
+   * Creates a trap entity
+   *
+   * @return entity
+   */
+  public static Entity createTrap(String name) {
+    // TODO change trap texture
+    Entity trap = createBaseStructure("images/trap.png", name);
+    BaseStructureConfig config = configs.trap;
 
-  trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1, 100))
-          .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
-          .addComponent(new ResourceCostComponent(config.gold))
-          .addComponent((new HealthBarComponent(50, 10)));
-  return trap;
-}
+    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
+        .addComponent(new ResourceCostComponent(config.gold))
+        .addComponent((new HealthBarComponent(50, 10)));
+    return trap;
+  }
+
+  public static Entity createTurret(String name) {
+    Entity turret = createBaseStructure("images/turret.png", name);
+    BaseStructureConfig config = configs.turret;
+
+    AITaskComponent aiTaskComponent = new AITaskComponent()
+        .addTask(new ShootTask(null, 30, 50f, 0));
+
+    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        .addComponent(new ResourceCostComponent(config.gold))
+        .addComponent((new HealthBarComponent(50, 10)))
+        .addComponent(aiTaskComponent);
+
+    return turret;
+  }
 
   /**
    * Creates a tower1 entity.
+   * 
    * @param level of the tower to create
    * @return entity
    */
   public static Entity createTower1(int level, String name) {
-    //TODO Change string constant
+    // TODO Change string constant
     String TOWER1I = "images/TOWER1I.png";
     String TOWER1II = "images/TOWER1II.png";
     String TOWER1III = "images/TOWER1III.png";
@@ -89,85 +112,90 @@ public static Entity createTrap(String name) {
     Entity tower1;
     BaseStructureConfig config;
 
-    switch(level) {
-      case 2: //Represents the first upgraded version of the tower
+    switch (level) {
+      case 2: // Represents the first upgraded version of the tower
         tower1 = createBaseStructure(TOWER1II, name);
         config = configs.tower1I;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
-                .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
 
-        case 3: //Represents the second upgraded version of the tower
-          tower1 = createBaseStructure(TOWER1III, name);
-          config = configs.tower1II;
-          tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold, config.stone))
-                  .addComponent((new HealthBarComponent(50, 10)));
-          return tower1;
+      case 3: // Represents the second upgraded version of the tower
+        tower1 = createBaseStructure(TOWER1III, name);
+        config = configs.tower1II;
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold, config.stone))
+            .addComponent((new HealthBarComponent(50, 10)));
+        return tower1;
       default:
         tower1 = createBaseStructure(TOWER1I, name);
         config = configs.tower1;
 
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,100))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
-                .addComponent((new HealthBarComponent(50, 10)));
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
     }
   }
 
-/**
- * Creates a tower2 entity, adding various components to create a defensive tower
- * @param level of the tower
- * @return tower2 entity
- */
+  /**
+   * Creates a tower2 entity, adding various components to create a defensive
+   * tower
+   * 
+   * @param level of the tower
+   * @return tower2 entity
+   */
   public static Entity createTower2(int level, String name) {
-    //@TODO Change string constant
+    // @TODO Change string constant
     String TOWER2I = "images/TOWER2I.png";
     String TOWER2II = "images/TOWER2II.png";
     String TOWER2III = "images/TOWER2III.png";
     Entity tower2;
     BaseStructureConfig config;
 
-    switch(level) {
-      case 2: //Represents the first upgraded version of the tower
+    switch (level) {
+      case 2: // Represents the first upgraded version of the tower
         tower2 = createBaseStructure(TOWER2II, name);
         config = configs.tower2I;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2,100))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
-                .addComponent((new HealthBarComponent(50, 10)));
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
 
-        case 3: //Represents the second upgraded version of the tower
-          tower2 = createBaseStructure(TOWER2III, name);
-          config = configs.tower2II;
-          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3,100))
-                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold, config.stone))
-                  .addComponent((new HealthBarComponent(50, 10)));
-          return tower2;
-        default:
-          tower2 = createBaseStructure(TOWER2I, name);
-          config = configs.tower2;
+      case 3: // Represents the second upgraded version of the tower
+        tower2 = createBaseStructure(TOWER2III, name);
+        config = configs.tower2II;
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold, config.stone))
+            .addComponent((new HealthBarComponent(50, 10)));
+        return tower2;
+      default:
+        tower2 = createBaseStructure(TOWER2I, name);
+        config = configs.tower2;
 
-          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,100))
-                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold))
-                  .addComponent((new HealthBarComponent(50, 10)));
-          return tower2;
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent((new HealthBarComponent(50, 10)));
+        return tower2;
     }
   }
+
   /**
-   * Creates a tower3 entity, and adds various components to create a defensive tower.
+   * Creates a tower3 entity, and adds various components to create a defensive
+   * tower.
+   * 
    * @param level of the tower
    * @return tower3 entity
    */
   public static Entity createTower3(int level, String name) {
-    //@TODO Change string constant
+    // @TODO Change string constant
     String TOWER3I = "images/TOWER3I.png";
     String TOWER3II = "images/TOWER3II.png";
     String TOWER3III = "images/TOWER3III.png";
@@ -175,57 +203,60 @@ public static Entity createTrap(String name) {
     Entity tower3;
     BaseStructureConfig config;
 
-    switch(level) {
-       case 2: //Represents the first upgraded version of the tower
-      tower3 = createBaseStructure(TOWER3II, name);
+    switch (level) {
+      case 2: // Represents the first upgraded version of the tower
+        tower3 = createBaseStructure(TOWER3II, name);
         config = configs.tower3I;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2,2,100))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
-                .addComponent((new HealthBarComponent(50, 10)));
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
 
-        case 3: //Represents the second upgraded version of the tower
+      case 3: // Represents the second upgraded version of the tower
         tower3 = createBaseStructure(TOWER3III, name);
-          config = configs.tower3II;
-          tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3,3,100))
-                  .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold, config.stone))
-                  .addComponent((new HealthBarComponent(50, 10)));
-          return tower3;
+        config = configs.tower3II;
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold, config.stone))
+            .addComponent((new HealthBarComponent(50, 10)));
+        return tower3;
       default:
         tower3 = createBaseStructure(TOWER3I, name);
         config = configs.tower3;
 
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,100))
-                .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
-                .addComponent((new HealthBarComponent(50, 10)));
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
     }
   }
 
   /**
-   * Creates a generic Structure to be used as a base entity by more specific Structure creation methods.
+   * Creates a generic Structure to be used as a base entity by more specific
+   * Structure creation methods.
+   * 
    * @param texture image representation for created structure
    * @return structure entity
    */
   public static Entity createBaseStructure(String texture, String name) {
     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BUILDING_PLACED,
-            AchievementType.BUILDINGS, 1);
+        AchievementType.BUILDINGS, 1);
 
-    /* //This is where the defence (aiming and shooting) tasks will be added
-    AITaskComponent aiComponent =
-        new AITaskComponent()
-            .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
-            .addTask(new ChaseTask(target, 10, 3f, 4f));*/
-    Entity structure =
-        new Entity()
-                .addComponent(new TextureRenderComponent(texture))
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
-            //.addComponent(aiComponent);
+    /*
+     * //This is where the defence (aiming and shooting) tasks will be added
+     * AITaskComponent aiComponent =
+     * new AITaskComponent()
+     * .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
+     * .addTask(new ChaseTask(target, 10, 3f, 4f));
+     */
+    Entity structure = new Entity()
+        .addComponent(new TextureRenderComponent(texture))
+        .addComponent(new PhysicsComponent())
+        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
+        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
+    // .addComponent(aiComponent);
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
     structure.getComponent(TextureRenderComponent.class).scaleEntity();
@@ -235,13 +266,13 @@ public static Entity createTrap(String name) {
     return structure;
   }
 
-
   private StructureFactory() {
     throw new IllegalStateException("Instantiating static util class");
   }
 
   /**
-   * Function which handles the refund of player's resources should they sell a building.
+   * Function which handles the refund of player's resources should they sell a
+   * building.
    *
    * Refunds 80% of the buildings original cost
    *
@@ -249,27 +280,31 @@ public static Entity createTrap(String name) {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-//      System.out.println("Checking for inventory component");
-//      System.out.println("Got inventory component");
-      //Get the cost of the building
-      int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
-      int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
-      int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-//      System.out.println("refund: " + refundMultiplier);
-      //Add (<resource> * refundMultiplier) to PLAYER's inventory
-//      System.out.println("before: " + player.getComponent(InventoryComponent.class).getGold());
+    // System.out.println("Checking for inventory component");
+    // System.out.println("Got inventory component");
+    // Get the cost of the building
+    int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+    int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+    int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+    // System.out.println("refund: " + refundMultiplier);
+    // Add (<resource> * refundMultiplier) to PLAYER's inventory
+    // System.out.println("before: " +
+    // player.getComponent(InventoryComponent.class).getGold());
 
-      player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
-//      System.out.println("After: " + player.getComponent(InventoryComponent.class).getGold());
-      player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
-      player.getComponent(InventoryComponent.class).addWood((int)(wood * refundMultiplier));
+    player.getComponent(InventoryComponent.class).addGold((int) (gold * (refundMultiplier)));
+    // System.out.println("After: " +
+    // player.getComponent(InventoryComponent.class).getGold());
+    player.getComponent(InventoryComponent.class).addStone((int) (stone * refundMultiplier));
+    player.getComponent(InventoryComponent.class).addWood((int) (wood * refundMultiplier));
   }
 
   /**
    * Function which handles the destruction / sale of building.
-   * @param name : true if building has been sold, false if building has otherwise been destroyed
+   * 
+   * @param name : true if building has been sold, false if building has otherwise
+   *             been destroyed
    *
-   * In future could be expanded by using Enums vs boolean
+   *             In future could be expanded by using Enums vs boolean
    *
    */
   public static void handleBuildingDestruction(String name) {
@@ -279,8 +314,8 @@ public static Entity createTrap(String name) {
       return;
     }
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
-    switch(buildingHealth) {
-      case 0: //Building destroyed
+    switch (buildingHealth) {
+      case 0: // Building destroyed
         ServiceLocator.getUGSService().removeEntity(name);
         break;
 
@@ -295,42 +330,44 @@ public static Entity createTrap(String name) {
   }
 
   /**
-   * Function which handles upgrading buildings. Does so by first obtaining and storing building state,
+   * Function which handles upgrading buildings. Does so by first obtaining and
+   * storing building state,
    * removing building and replacing with upgraded version.
    *
    * @param structName: Name of the structure to be upgraded
    *
    */
   public static void upgradeStructure(GridPoint2 gridPos, String structName) {
-    //Store rectangle location, name, level
+    // Store rectangle location, name, level
     int level = ServiceLocator.getUGSService().getEntityByName(structName)
         .getComponent(CombatStatsComponent.class).getLevel();
     if (level > 2) {
       return;
     }
-    //Remove building entity
+    // Remove building entity
     ServiceLocator.getUGSService().removeEntity(structName);
 
-    //Upgrade depending on building
+    // Upgrade depending on building
     if (structName.contains("wall")) {
-      //Might not be worth implementing depending on how enemy team implements enemy AI
+      // Might not be worth implementing depending on how enemy team implements enemy
+      // AI
     } else if (structName.contains("tower1")) {
       Entity tower1;
-        switch(level) {
-          //Only two possible upgrades 1->2 and 2->3
-          case 1:
-            tower1 = StructureFactory.createTower1(2, structName);
-            ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
-            break;
-          case 2:
-            tower1 = StructureFactory.createTower1(3, structName);
-            ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
-            break;
-        }
+      switch (level) {
+        // Only two possible upgrades 1->2 and 2->3
+        case 1:
+          tower1 = StructureFactory.createTower1(2, structName);
+          ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
+          break;
+        case 2:
+          tower1 = StructureFactory.createTower1(3, structName);
+          ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
+          break;
+      }
     } else if (structName.contains("tower2")) {
       Entity tower2;
-      switch(level) {
-        //Only two possible upgrades 1->2 and 2->3
+      switch (level) {
+        // Only two possible upgrades 1->2 and 2->3
         case 1:
           tower2 = StructureFactory.createTower2(2, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
@@ -339,11 +376,11 @@ public static Entity createTrap(String name) {
           tower2 = StructureFactory.createTower2(3, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
-        }
+      }
     } else if (structName.contains("tower3")) {
       Entity tower3;
-      switch(level) {
-        //Only two possible upgrades 1->2 and 2->3
+      switch (level) {
+        // Only two possible upgrades 1->2 and 2->3
         case 1:
           tower3 = StructureFactory.createTower3(2, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
