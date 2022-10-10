@@ -1,10 +1,12 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.RangeAttackComponent;
@@ -38,6 +40,19 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+
+  public static Entity createVisualFeedbackTile(String name, String texture) {
+    Entity structure = new Entity().addComponent(new TextureRenderComponent(texture));
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    Texture t = structure.getComponent(TextureRenderComponent.class).getTexture();
+    structure.setScale((tileSize), (tileSize)*(float) t.getHeight() / t.getWidth());
+    structure.setName(name);
+    structure.setCollectable(false);
+    return structure;
+  }
+
+
+
   /**
    * Creates a wall entity.
    *
@@ -46,8 +61,6 @@ public class StructureFactory {
   public static Entity createWall(String name) {
     Entity wall = createBaseStructure("images/Wall-right.png", name);
     BaseStructureConfig config = configs.wall;
-
-
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));

@@ -1,6 +1,8 @@
 package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +14,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -258,12 +261,43 @@ public class StructureService extends EntityService {
       tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
     }
     // Update achievements for structures/building
-    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
+    //This is not a successfully built building, so I don't think it warrants an achievement
+    //ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
 
     buildingTempEntity = true;
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
     tempEntity.setPosition(worldLoc);
+  }
+
+  public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
+    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType);
+    for (GridPoint2 mapPos: surroundingTiles.keySet()) {
+      String entityName = "visual" + mapPos.toString();
+      Entity visualTile;
+      if (surroundingTiles.get(mapPos).equals("empty")) {
+        visualTile = StructureFactory.createVisualFeedbackTile(entityName, "images/65x33_tiles/validTile.png");
+      } else {
+        visualTile = StructureFactory.createVisualFeedbackTile(entityName, "images/65x33_tiles/invalidTile.png");
+      }
+      ServiceLocator.getEntityService().registerNamed(entityName, visualTile);
+      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldLoc.x -= tileSize/4;
+      worldLoc.y -= tileSize/8;
+      visualTile.setPosition(worldLoc);
+    }
+  }
+
+  public static void clearVisualTiles() {
+    for (Entity e : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+      String entityName = e.getName();
+      if (entityName != null) {
+        if (entityName.contains("visual")) {
+          e.dispose();
+        }
+      }
+    }
   }
 
   public static void setUiPopUp(int screenX, int screenY) {

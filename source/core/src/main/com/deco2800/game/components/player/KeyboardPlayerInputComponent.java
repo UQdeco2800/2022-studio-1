@@ -148,6 +148,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean mouseMoved(int screenX, int screenY) {
     if (ServiceLocator.getStructureService().getTempBuildState()) {
+      ServiceLocator.getStructureService().clearVisualTiles();
       Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
       CameraComponent camComp = camera.getComponent(CameraComponent.class);
       Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -156,8 +157,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           .worldToTilePosition(mousePosV2.x, mousePosV2.y);
       Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain")
           .getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+      ServiceLocator.getStructureService().drawVisualFeedback(loc, "structure");
       ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
           .setPosition(worldLoc);
+
     }
     return true;
   }
@@ -175,11 +178,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
             .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
         entityName = entityName.replace("Temp", "");
-        System.out.println("entityName: " + entityName);
         if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
           ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
               .dispose();
           ServiceLocator.getStructureService().setTempBuildState(false);
+          ServiceLocator.getStructureService().clearVisualTiles();
           triggerUIBuildingPopUp(screenX, screenY);
         }
       }
