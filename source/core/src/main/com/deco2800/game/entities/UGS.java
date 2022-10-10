@@ -106,6 +106,13 @@ public class UGS {
         return false;
     }
 
+    public HashMap<String, Tile> getSurroundingTiles(GridPoint2 centerCoord, String tileState, String entityType) {
+        HashMap<String, Tile> surroundingTiles = new HashMap<>();
+        return surroundingTiles;
+
+    }
+
+
     /**
      * Takes a String entityType and String coordinate and decides if that type of enity can spawn
      * at that coordinate.

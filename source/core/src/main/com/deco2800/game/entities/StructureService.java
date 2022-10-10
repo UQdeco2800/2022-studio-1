@@ -72,7 +72,7 @@ public class StructureService extends EntityService {
   }
 
   /**
-   * Registers an entity with a name so it can be found later
+   * Registers an entity with a name, so it can be found later
    *
    * @param name the name to register it as (must be unique or will overwrite)
    * @param entity the entity to register
