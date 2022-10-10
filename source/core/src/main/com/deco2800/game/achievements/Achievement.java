@@ -17,13 +17,16 @@ public class Achievement {
     private Integer totalAchieved;
     private Boolean isCompleted;
     private Boolean isStat;
+    private Boolean isOneRun;
+
+    private Boolean notifyOnLoad;
     private String achievementData; // CSV or JSON formatted data specific to this particular achievement
 
     public Achievement() {
 
     }
 
-    public Achievement(int id, AchievementType achievementType, boolean isStat, String name, String description) {
+    public Achievement(int id, AchievementType achievementType, boolean isStat, boolean isOneRun, String name, String description) {
         this.id = id;
         this.achievementType = achievementType;
         this.name = name;
@@ -31,7 +34,9 @@ public class Achievement {
         this.totalAchieved = 0;
         this.isCompleted = false;
         this.isStat = isStat;
+        this.isOneRun = isOneRun;
         this.achievementData = "";
+        this.notifyOnLoad = false;
     }
 
     public int getId() {
@@ -94,8 +99,24 @@ public class Achievement {
         return isStat;
     }
 
+    public boolean isOneRun() {
+        return isOneRun;
+    }
+
     public void setStat(boolean stat) {
         isStat = stat;
+    }
+
+    public void setOneRun(boolean oneRun) {
+        isOneRun = oneRun;
+    }
+
+    public void setNotifyOnLoad(Boolean notifyOnLoad) {
+        this.notifyOnLoad = notifyOnLoad;
+    }
+
+    public Boolean getNotifyOnLoad() {
+        return notifyOnLoad;
     }
 
     @Override

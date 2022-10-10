@@ -7,6 +7,8 @@ import com.deco2800.game.files.FileLoader;
 
 import java.util.List;
 
+import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -359,6 +361,9 @@ public class ShopEquipmentDisplay extends UIComponent {
                       .setAttackMultiplier(
                           stats.attack);
                 }
+
+                // Trigger events for achievements
+                ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
               } else {
                 // invalid purchase if the armor is already in inventory
                 if (entity.getComponent(InventoryComponent.class)

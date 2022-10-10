@@ -6,6 +6,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.util.List;
@@ -336,6 +337,9 @@ public class ShopBuildingDisplay extends UIComponent {
               Sound rockSound = Gdx.audio.newSound(
                   Gdx.files.internal("sounds/rock.mp3"));
               rockSound.play();
+
+              // Trigger events for achievements
+              ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
             } else {
               logger.info("Insufficient resource!");
               Sound filesound = Gdx.audio.newSound(

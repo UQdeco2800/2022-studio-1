@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.achievements.Achievement;
+import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.AchievementHandler;
-import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 
 import java.util.LinkedList;
@@ -34,7 +35,7 @@ public class AchievementPopupComponent extends UIComponent {
 
 
     /* A FIFO Queue for queuing achievements */
-    private Queue<Achievement> popupQueue;
+    private final Queue<Achievement> popupQueue;
 
     /* Records the last time a popup was displayed */
     private long lastPopupTime;
@@ -42,6 +43,32 @@ public class AchievementPopupComponent extends UIComponent {
     /* Whether a popup is currently showing */
     private boolean isPopupActive;
 
+    /**
+     * Milliseconds to wait before displaying popups
+     */
+    public static final long COOL_OFF = 5000;
+
+    /**
+     * Milliseconds when component was created
+     */
+    private final long startTime;
+
+
+    public AchievementPopupComponent() {
+        this.isPopupActive = false;
+        popupQueue = new LinkedList<>();
+        startTime = System.currentTimeMillis();
+    }
+
+    /**
+     * Connects the listeners when invoked
+     * from handler
+     * @param events AchievementHandler's service handler
+     */
+    public void addListeners(EventHandler events) {
+                events.addListener(AchievementHandler.EVENT_STAT_ACHIEVEMENT_MADE, this::onAchievementMade);
+                events.addListener(AchievementHandler.EVENT_ACHIEVEMENT_MADE, this::onAchievementMade);
+    }
 
     /**
      * Initialises component.
@@ -50,11 +77,6 @@ public class AchievementPopupComponent extends UIComponent {
     @Override
     public void create() {
         super.create();
-        this.isPopupActive = false;
-        popupQueue = new LinkedList<>();
-        ServiceLocator.getAchievementHandler().getEvents()
-                .addListener(AchievementHandler.EVENT_STAT_ACHIEVEMENT_MADE, this::onAchievementMade);
-        ServiceLocator.getAchievementHandler().getEvents().addListener(AchievementHandler.EVENT_ACHIEVEMENT_MADE, this::onAchievementMade);
     }
 
     /**
@@ -145,7 +167,7 @@ public class AchievementPopupComponent extends UIComponent {
      */
     @Override
     protected void draw(SpriteBatch batch) {
-        if (!popupQueue.isEmpty() && !isPopupActive) {
+        if (!popupQueue.isEmpty() && !isPopupActive && AtlantisSinks.gameRunning && isCoolOffComplete()) {
             var achievement = popupQueue.poll();
             clearActors();
             if (achievement.isStat()) {
@@ -166,6 +188,14 @@ public class AchievementPopupComponent extends UIComponent {
            clearActors();
            isPopupActive = false;
         }
+    }
+
+    /**
+     * Checks whether the cool off period is complete
+     * @return true if complete false otherwise
+     */
+    private boolean isCoolOffComplete() {
+       return  System.currentTimeMillis() - startTime >= COOL_OFF;
     }
 
     /**

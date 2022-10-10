@@ -108,8 +108,14 @@ public class ForestGameArea extends GameArea {
       "images/65x33_tiles/shorelineTopLeft_night.png",
       "images/65x33_tiles/shorelineLeft_night.png",
       "images/65x33_tiles/shorelineRight_night.png",
-      "images/65x33_tiles/water.png",
-      "images/65x33_tiles/water_night.png",
+      "images/65x33_tiles/water0.png",
+      "images/65x33_tiles/water1.png",
+      "images/65x33_tiles/water2.png",
+      "images/65x33_tiles/water3.png",
+      "images/65x33_tiles/water_night0.png",
+      "images/65x33_tiles/water_night1.png",
+      "images/65x33_tiles/water_night2.png",
+      "images/65x33_tiles/water_night3.png",
       "images/seastack1.png",
       "images/seastack2.png",
       "images/Eel_Bright_SW.png",
@@ -185,7 +191,6 @@ public class ForestGameArea extends GameArea {
     loadAssets();
     ServiceLocator.getGameService().setUpEntities(120);
 
-
     displayUI();
 
     spawnTerrain();
@@ -200,7 +205,7 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
-    
+
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -213,7 +218,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnNPC);
 
-    // playMusic();
+    playMusic();
   }
 
   private void displayUI() {

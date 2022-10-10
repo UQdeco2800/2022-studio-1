@@ -8,6 +8,7 @@ import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.events.EventHandler;
 import org.slf4j.Logger;
@@ -15,15 +16,24 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Service for handling the loading, updating and saving of game achievements
  */
 public class AchievementHandler {
+    public static final String EVENT_GAME_WON = "gameWon";
+
+    /**
+     * Event string for items bought in the shop
+     */
+    public static final String EVENT_SHOP_ITEM_BOUGHT = "itemBought";
+
+    /**
+     * Event string for boss kill
+     */
+    public static final String EVENT_BOSS_KILL = "bossKilled";
+
     /**
      * Event string for crystal upgrade
      */
@@ -35,9 +45,20 @@ public class AchievementHandler {
     public static final String EVENT_BUILDING_PLACED = "buildingPlaced";
 
     /**
+     * Event string for structure placement
+     */
+    public static final String EVENT_ON_TEMP_STRUCTURE_PLACED = "structurePlaced";
+
+    /**
      * Event string for enemies killed
      */
     public static final String EVENT_ENEMY_KILLED = "Enemy Killed";
+
+    /**
+     * Event string for when the guidebook is closed
+     * emitted by GuidebookScreen
+     */
+    public static final String EVENT_GUIDEBOOK_CLOSED = "guidebookClosed";
 
     /**
      * Event string for resources being added
@@ -93,7 +114,12 @@ public class AchievementHandler {
     /**
      * File handler for the player achievement file
      */
-    private final FileHandle achievementsFileHandle = Gdx.files.external("AtlantisSinks/playerAchievements.json");
+
+    /**
+     * V3 - 09/10/2022 notifyOnLoad added
+     */
+    private final FileHandle achievementsFileHandle = Gdx.files
+            .external("AtlantisSinks/playerAchievementsVersion3.json");
 
     /**
      * Used for reading and writing to the player achievement file
@@ -101,7 +127,8 @@ public class AchievementHandler {
     private final Json json;
 
     /**
-     * Stores the last time the status of the achievement handler was saved to the player achievement file
+     * Stores the last time the status of the achievement handler was saved to the
+     * player achievement file
      */
     private long lastSaved;
 
@@ -111,21 +138,21 @@ public class AchievementHandler {
     private final Logger logger = LoggerFactory.getLogger(AchievementHandler.class);
 
     /**
-     * Initialise the achievement handler. Uses default achievements if no achievement
+     * Initialise the achievement handler. Uses default achievements if no
+     * achievement
      * file already exists
      */
     public AchievementHandler() {
         this.events = new EventHandler();
 
         json = new Json();
-        json.setElementType(AchievementData.class,"achievements", Achievement.class);
+        json.setElementType(AchievementData.class, "achievements", Achievement.class);
         json.setOutputType(JsonWriter.OutputType.json);
 
-        if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))){
-            //Load from file
+        if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))) {
+            // Load from file
             this.achievements = this.loadAchievements(achievementsFileHandle);
-        }
-        else {
+        } else {
             this.achievements = AchievementFactory.createInitialAchievements();
             this.saveAchievements();
         }
@@ -133,8 +160,44 @@ public class AchievementHandler {
         this.customStatMilestones = AchievementFactory.createCustomStatAchievementMileStones();
 
         listenOnEvents();
+
     }
 
+    /**
+     * Connects listeners for popup notification widget
+     */
+    public void connectPopupListeners() {
+        // connect popup listeners
+        ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(AchievementPopupComponent.class)
+                .addListeners(this.events);
+    }
+
+    /**
+     * Sends popups that couldn't be shown when game screen
+     * was swapped.
+     *
+     */
+    public void triggerOnLoadPopups() {
+        /*
+         * This is done for achievements such as opening a guidebook
+         * which causes the game screen to be removed and user has no way
+         * of seeing the notification.
+         * Once the achievements are reloaded they can be displayed to the user
+         * one by one
+         */
+        this.achievements.forEach(a -> {
+            if (a.isStat() && a.getNotifyOnLoad()) {
+                this.broadcastStatAchievementMilestoneReached(a);
+                a.setNotifyOnLoad(false);
+            }
+            if (!a.isStat() && a.getNotifyOnLoad()) {
+                this.broadcastAchievementMade(a);
+                a.setNotifyOnLoad(false);
+            }
+        });
+        // turn off all onload notifications
+        saveAchievements();
+    }
 
     /**
      * Listens for events from outside
@@ -146,10 +209,25 @@ public class AchievementHandler {
 
         // resource stat listeners
         this.events.addListener(EVENT_RESOURCE_ADDED, this::updateResourceStatOnResourceAdded);
+
+        // Non-stat achievements
+        this.events.addListener(EVENT_BOSS_KILL, this::checkAchievementStatus);
+        this.events.addListener(EVENT_SHOP_ITEM_BOUGHT, this::incrementOneRunAchievement);
+        this.events.addListener(EVENT_GAME_WON, this::resetOneRunAchievements);
+        this.events.addListener(EVENT_GUIDEBOOK_CLOSED, () -> {
+            this.achievements.stream().filter(a -> a.getId() == 18).findFirst().ifPresent(found -> {
+                if (!found.isCompleted()) {
+                    found.setNotifyOnLoad(true);
+                    this.markAchievementCompletedById(found.getId(), false);
+                }
+            });
+        });
+        this.events.addListener(EVENT_ON_TEMP_STRUCTURE_PLACED, this::onTempStructurePlaced);
     }
 
     /**
      * Getter method for the achievement list
+     * 
      * @return List
      */
     public List<Achievement> getAchievements() {
@@ -158,6 +236,7 @@ public class AchievementHandler {
 
     /**
      * Getter method for returning the events from AchievementHandler
+     * 
      * @return EventHandler
      */
     public EventHandler getEvents() {
@@ -166,6 +245,7 @@ public class AchievementHandler {
 
     /**
      * Getter method for last time achievements were saved
+     * 
      * @return long
      */
     public long getLastSaved() {
@@ -180,11 +260,12 @@ public class AchievementHandler {
 
         AchievementData achievementData = new AchievementData(this.lastSaved, new ArrayList<>(this.achievements));
 
-        achievementsFileHandle.writeString(json.prettyPrint(achievementData),false);
+        achievementsFileHandle.writeString(json.prettyPrint(achievementData), false);
     }
 
     /**
      * Loads the achievement list from the achievement file
+     * 
      * @param fH FileHandle
      * @return ArrayList
      */
@@ -196,26 +277,84 @@ public class AchievementHandler {
     }
 
     /**
-     * Updates the stats of a resource stat achievement
-     *
-     * @param resourceType the resource type (WOOD, STONE, GOLD)
-     * @param amount the amount of resource being added
+     * Triggered when a structure is placed on the map.
+     * When all structures that are available in the game
+     * have been placed then the achievement is complete
+     * 
+     * @param name name of structure placed.
      */
-    private void updateResourceStatOnResourceAdded(ResourceType resourceType, int amount) {
+    public void onTempStructurePlaced(String name) {
+        achievements.stream().filter(a -> a.getId() == 9).findFirst().ifPresent(ac -> {
+            if (!ac.isCompleted()) {
+                Set<String> structuresPlaced = new HashSet<>();
 
-      Optional<Achievement> achievementOptional =  switch (resourceType) {
-            case WOOD -> achievements.stream().filter(a -> a.getId() == 1).findFirst();
-            case STONE -> achievements.stream().filter(a -> a.getId() ==2).findFirst();
-            case GOLD -> achievements.stream().filter(a -> a.getId() == 3).findFirst();
-          case ARTIFACT -> Optional.empty();
-        };
+                if (ac.getAchievementData().contains(",")) {
+                    structuresPlaced = new HashSet<>(Set.copyOf(Arrays
+                            .stream(ac.getAchievementData().split(",")).toList()));
+                } else {
+                    if (!ac.getAchievementData().isEmpty()) {
+                        structuresPlaced = new HashSet<>(Set.of(ac.getAchievementData()));
+                    }
 
-      achievementOptional.ifPresent(a -> incrementTotalAchievedForStatAchievement(a, amount));
-      saveAchievements();
+                }
+                structuresPlaced.add(name);
+                if (allTempStructuresPlaced(structuresPlaced)) {
+                    markAchievementCompletedById(ac.getId(), true);
+                }
+                if (structuresPlaced.size() > 1) {
+                    ac.setAchievementData(String.join(",", structuresPlaced));
+                } else {
+                    ac.setAchievementData(structuresPlaced.stream().toList().get(0));
+                }
+
+                saveAchievements(); // flush to disk
+            }
+        });
     }
 
     /**
-     * Basic method to update the stat type achievements when changes are made to the game state.
+     * Checks whether all structures have been placed since
+     * the beginning of the game.
+     *
+     * @param allStructuresPlaced the currently placed structures
+     * @return true if all have been placed false otherwise.
+     */
+    private boolean allTempStructuresPlaced(Set<String> allStructuresPlaced) {
+        Set<String> allStructuresThatCanBePlaced = Set.of(
+                "wall",
+                "tower1",
+                /* "tower2", */ // cannot be placed atm
+                "tower3",
+                "woodCutter",
+                /* "trap", */ // cannot be placed atm crashes game
+                "stoneQuarry");
+
+        return allStructuresPlaced.containsAll(allStructuresThatCanBePlaced);
+    }
+
+    /**
+     * Updates the stats of a resource stat achievement
+     *
+     * @param resourceType the resource type (WOOD, STONE, GOLD)
+     * @param amount       the amount of resource being added
+     */
+    private void updateResourceStatOnResourceAdded(ResourceType resourceType, int amount) {
+
+        Optional<Achievement> achievementOptional = switch (resourceType) {
+            case WOOD -> achievements.stream().filter(a -> a.getId() == 1).findFirst();
+            case STONE -> achievements.stream().filter(a -> a.getId() == 2).findFirst();
+            case GOLD -> achievements.stream().filter(a -> a.getId() == 3).findFirst();
+            case ARTIFACT -> Optional.empty();
+        };
+
+        achievementOptional.ifPresent(a -> incrementTotalAchievedForStatAchievement(a, amount));
+        saveAchievements();
+    }
+
+    /**
+     * Basic method to update the stat type achievements when changes are made to
+     * the game state.
+     * 
      * @param type AchievementType
      */
     public void updateStatAchievementByType(AchievementType type, int increase) {
@@ -250,7 +389,7 @@ public class AchievementHandler {
      * checks if a milestone is reached and broadcasts message
      *
      * @param achievement the stat achievement
-     * @param increase amount to increase by
+     * @param increase    amount to increase by
      */
     public void incrementTotalAchievedForStatAchievement(Achievement achievement, int increase) {
 
@@ -258,11 +397,11 @@ public class AchievementHandler {
         checkStatAchievementMilestones(achievement);
     }
 
-
     /**
      * Specific to Stat achievements.
      * Check whether a new achievement milestone is reached and broadcasts it.
-     * If the last milestone is reached all achievements for that stat have been achieved.
+     * If the last milestone is reached all achievements for that stat have been
+     * achieved.
      *
      * @param achievement the stat achievement
      */
@@ -283,23 +422,25 @@ public class AchievementHandler {
                 achievement.setCompleted(true);
             }
         } else { // use custom milestones
-            for(Integer milestone : customStatMilestones.get(achievement.getId())) {
+            for (Integer milestone : customStatMilestones.get(achievement.getId())) {
                 if (milestone == totalAchieved) {
                     broadcastStatAchievementMilestoneReached(achievement);
                 }
             }
 
             // Has last milestone been achieved
-            if (customStatMilestones.get(achievement.getId()).get(customStatMilestones.get(achievement.getId()).size() - 1) == totalAchieved) {
+            if (customStatMilestones.get(achievement.getId())
+                    .get(customStatMilestones.get(achievement.getId()).size() - 1) == totalAchieved) {
                 achievement.setCompleted(true);
             }
         }
     }
 
     /**
-     * Checks whether a milestone has been achieved for an achievement given a milestone number (1, 2,3,4)
+     * Checks whether a milestone has been achieved for an achievement given a
+     * milestone number (1, 2,3,4)
      *
-     * @param achievement the achievement to check
+     * @param achievement     the achievement to check
      * @param milestoneNumber the milestone number to check
      * @return true if milestone has been achieved false otherwise
      */
@@ -316,14 +457,15 @@ public class AchievementHandler {
                 default -> false;
             };
         } else { // use custom milestones
-           return achievement.getTotalAchieved() >= customStatMilestones.get(achievement.getId()).get(milestoneNumber - 1);
+            return achievement.getTotalAchieved() >= customStatMilestones.get(achievement.getId())
+                    .get(milestoneNumber - 1);
         }
     }
 
     /**
      * Gets the total to achieve for a milestone
      *
-     * @param achievement the achievement to get the total for the milestone for
+     * @param achievement     the achievement to get the total for the milestone for
      * @param milestoneNumber the milestone number
      * @return total for the milestone
      */
@@ -341,17 +483,16 @@ public class AchievementHandler {
             };
         } else { // use custom milestones
             int i = 1;
-            for(Integer milestone : customStatMilestones.get(achievement.getId())) {
-                    if (i == milestoneNumber) {
-                        return milestone;
-                    }
+            for (Integer milestone : customStatMilestones.get(achievement.getId())) {
+                if (i == milestoneNumber) {
+                    return milestone;
+                }
                 i++;
             }
         }
 
         return 0;
     }
-
 
     /**
      * Broadcast the new achievement milestone reached to interested parties.
@@ -368,7 +509,7 @@ public class AchievementHandler {
     }
 
     /**
-     * Broadcast that a none stat achievement has been reached
+     * Broadcast that a non-stat achievement has been reached
      *
      * @param achievement the non-stat achievement
      */
@@ -377,8 +518,20 @@ public class AchievementHandler {
     }
 
     /**
+     * Checks if an achievement has previously been completed, completes it if not
+     * 
+     * @param id long
+     */
+    public void checkAchievementStatus(long id) {
+        if (!getAchievementById((int) id).isCompleted()) {
+            markAchievementCompletedById(id, true);
+        }
+    }
+
+    /**
      * Marks an achievement completed
-     * @param id the id of the a
+     * 
+     * @param id        the id of the a
      * @param broadcast whether to broadcast a completion message
      *                  true if so false otherwise
      */
@@ -386,12 +539,20 @@ public class AchievementHandler {
 
         achievements.stream().filter(a -> a.getId() == id).findFirst().ifPresent(a -> {
             a.setCompleted(true);
+            saveAchievements();
             if (broadcast) {
                 broadcastAchievementMade(a);
             }
         });
+
     }
 
+    /**
+     * Returns an achievement based on its id
+     * 
+     * @param id int
+     * @return Achievement if it exists, null otherwise
+     */
     public Achievement getAchievementById(int id) {
         for (Achievement achievement : this.achievements) {
             if (achievement.getId() == id) {
@@ -402,6 +563,12 @@ public class AchievementHandler {
         return null;
     }
 
+    /**
+     * Checks if all achievements of a specific type are completed
+     * 
+     * @param type AchievementType
+     * @return boolean
+     */
     public boolean allCompleted(AchievementType type) {
         for (Achievement achievement : this.achievements) {
             if (achievement.getAchievementType() == type && !achievement.isCompleted()) {
@@ -410,5 +577,35 @@ public class AchievementHandler {
         }
 
         return true;
+    }
+
+    /**
+     * Resets progress of achievements that need to be completed in a single run of
+     * the game.
+     */
+    public void resetOneRunAchievements(boolean won) {
+        for (Achievement toCheck : achievements) {
+            if (toCheck.isOneRun()) {
+                if (!toCheck.isCompleted() && won && toCheck.getTotalAchieved() == 0) {
+                    markAchievementCompletedById(toCheck.getId(), true);
+                } else {
+                    toCheck.setTotalAchieved(0);
+                }
+            }
+        }
+
+        logger.info("Reset one run achievements");
+    }
+
+    /**
+     * Increments the one run achievement total
+     * 
+     * @param id int
+     */
+    public void incrementOneRunAchievement(int id) {
+        Achievement achievement = getAchievementById(id);
+        achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
+
+        logger.info("Incremented one run achievement: " + getAchievementById(id).getName());
     }
 }
