@@ -268,6 +268,7 @@ public class StructureService extends EntityService {
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
     tempEntity.setPosition(worldLoc);
+    drawVisualFeedback(loc, "structure");
   }
 
   /**

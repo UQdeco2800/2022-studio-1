@@ -128,18 +128,18 @@ public class UGS {
      */
     public HashMap<GridPoint2, String> getSurroundingTiles(GridPoint2 centerCoord, String entityType) {
         HashMap<GridPoint2, String> surroundingTiles = new HashMap<>();
-        int offset = 3;
+        int offset = 1;
         int starting_xPos = centerCoord.x - offset;
         int starting_yPos = centerCoord.y - offset;
         for (int x = starting_xPos; x < starting_xPos + (offset*2)+1; x++) {
             for (int y = starting_yPos; y < starting_yPos + (offset*2)+1; y++) {
-                if (!(x == centerCoord.x && y == centerCoord.y)) {
+//                if (!(x == centerCoord.x && y == centerCoord.y)) {
                     if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
                         surroundingTiles.put(new GridPoint2(x, y), "empty");
                     } else {
                         surroundingTiles.put(new GridPoint2(x, y), "full");
                     }
-                }
+//                }
             }
         }
         return surroundingTiles;
