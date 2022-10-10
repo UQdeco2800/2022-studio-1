@@ -1,6 +1,7 @@
 package com.deco2800.game.areas.terrain;
 
 import java.io.BufferedReader;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -105,7 +106,8 @@ public class TerrainFactory {
         in.close();
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      //e.printStackTrace();
+      logger.error("loadLevels exception", e);
     }
 
   }
@@ -264,7 +266,8 @@ public class TerrainFactory {
             // Randomly choose a land tile to use
             // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
             // - 5/8 chance for sand tile
-            int r = (int) (Math.random() * 7);
+            //int r = (int) (Math.random() * 7);
+            int r = (int) (new SecureRandom().nextInt(7));
 
             if (r < 3) {
               cell.setTile(seaweedTiles[r]);
