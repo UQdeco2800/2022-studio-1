@@ -189,6 +189,8 @@ public class NPCFactory {
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
+
+    ServiceLocator.getEntityService().registerNamed("bossEnemy", boss);
     return boss;
   }
 
