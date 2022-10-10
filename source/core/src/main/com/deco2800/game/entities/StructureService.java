@@ -161,23 +161,23 @@ public class StructureService extends EntityService {
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
       switch (structureName) {
         case "wall":
-          structure = StructureFactory.createWall(entityName);
+          structure = StructureFactory.createWall(entityName, false);
           break;
 
         case "tower1":
-          structure = StructureFactory.createTower1(1, entityName);
+          structure = StructureFactory.createTower1(1, entityName, false);
           break;
 
         case "tower2":
-          structure = StructureFactory.createTower2(1, entityName);
+          structure = StructureFactory.createTower2(1, entityName, false);
           break;
 
         case "tower3":
-          structure = StructureFactory.createTower3(1, entityName);
+          structure = StructureFactory.createTower3(1, entityName, false);
           break;
 
         case "trap":
-          structure = StructureFactory.createTrap(entityName);
+          structure = StructureFactory.createTrap(entityName, false);
           break;
 
         case "stoneQuarry":
@@ -234,6 +234,7 @@ public class StructureService extends EntityService {
    * @param name of the tempStructureEntity
    */
   public static void buildTempStructure(String name) {
+    //MAKE ALL TEMP STRUCTURES TRANSPARENT TO ADD TO THE GHOST STRUCTURE EFFECT
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -246,17 +247,17 @@ public class StructureService extends EntityService {
     entityName = name + entityName;
 
     if (Objects.equals(name, "wall")) {
-      tempEntity = StructureFactory.createWall(entityName);
+      tempEntity = StructureFactory.createWall(entityName, true);
     } else if (Objects.equals(name, "tower1")) {
-      tempEntity = StructureFactory.createTower1(1, entityName);
+      tempEntity = StructureFactory.createTower1(1, entityName, true);
     } else if (Objects.equals(name, "tower2")) {
-      tempEntity = StructureFactory.createTower2(1, entityName);
+      tempEntity = StructureFactory.createTower2(1, entityName, true);
     } else if (Objects.equals(name, "woodCutter")) {
       tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {
-      tempEntity = StructureFactory.createTower3(1, entityName);
+      tempEntity = StructureFactory.createTower3(1, entityName, true);
     } else if (Objects.equals(name, "trap")) {
-      tempEntity = StructureFactory.createTrap(entityName);
+      tempEntity = StructureFactory.createTrap(entityName, true);
     } else if (Objects.equals(name, "stoneQuarry")) {
       tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
     }
