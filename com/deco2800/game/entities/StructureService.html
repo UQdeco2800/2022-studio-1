@@ -126,10 +126,21 @@ loadScripts(document, 'script');</script>
 <div class="block">Builds a structure and locks it to the mouse as the user decides where to
  build it</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#clearVisualTiles()" class="member-name-link">clearVisualTiles</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Clear the coloured visual tiles by disposing of them</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#dispose()" class="member-name-link">dispose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Dispose all entities.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawVisualFeedback(com.badlogic.gdx.math.GridPoint2,java.lang.String)" class="member-name-link">drawVisualFeedback</a><wbr>(com.badlogic.gdx.math.GridPoint2&nbsp;centerCoord,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityType)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Draw the coloured tiles around a structure to show the player where they can build a structure</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllNamedEntities()" class="member-name-link">getAllNamedEntities</a>()</code></div>
@@ -165,7 +176,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerNamed(java.lang.String,com.deco2800.game.entities.Entity)" class="member-name-link">registerNamed</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Registers an entity with a name so it can be found later</div>
+<div class="block">Registers an entity with a name, so it can be found later</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTempBuildState(java.lang.Boolean)" class="member-name-link">setTempBuildState</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;state)</code></div>
@@ -239,7 +250,7 @@ loadScripts(document, 'script');</script>
 <h3>registerNamed</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerNamed</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</span></div>
-<div class="block">Registers an entity with a name so it can be found later</div>
+<div class="block">Registers an entity with a name, so it can be found later</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="EntityService.html#registerNamed(java.lang.String,com.deco2800.game.entities.Entity)">registerNamed</a></code>&nbsp;in class&nbsp;<code><a href="EntityService.html" title="class in com.deco2800.game.entities">EntityService</a></code></dd>
@@ -388,6 +399,26 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>name</code> - of the tempStructureEntity</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="drawVisualFeedback(com.badlogic.gdx.math.GridPoint2,java.lang.String)">
+<h3>drawVisualFeedback</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawVisualFeedback</span><wbr><span class="parameters">(com.badlogic.gdx.math.GridPoint2&nbsp;centerCoord,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;entityType)</span></div>
+<div class="block">Draw the coloured tiles around a structure to show the player where they can build a structure</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>centerCoord</code> - location of the structure in gridPoint2</dd>
+<dd><code>entityType</code> - type of entity being checked</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="clearVisualTiles()">
+<h3>clearVisualTiles</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clearVisualTiles</span>()</div>
+<div class="block">Clear the coloured visual tiles by disposing of them</div>
 </section>
 </li>
 <li>
