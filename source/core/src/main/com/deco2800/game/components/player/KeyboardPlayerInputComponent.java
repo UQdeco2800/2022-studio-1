@@ -265,22 +265,25 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
 
     // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
-    Tile oldPlayerTile;
-    for (Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
-      if (entry.getValue().getEntity() == player) {
-        String currentPos = entry.getKey();
-        if (!currentPos.equals(key)) {
-          oldPlayerTile = entry.getValue();
-          String oldTileType = entry.getValue().getTileType();
-          Tile replacement = new Tile();
-          replacement.setTileType(oldTileType);
-          ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+    if (ServiceLocator.getUGSService().printUGS().get(key).getEntity() != player) {
+
+      Tile oldPlayerTile;
+      for (Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+        if (entry.getValue().getEntity() == player) {
+          String currentPos = entry.getKey();
+          if (!currentPos.equals(key)) {
+            oldPlayerTile = entry.getValue();
+            String oldTileType = entry.getValue().getTileType();
+            Tile replacement = new Tile();
+            replacement.setTileType(oldTileType);
+            ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+          }
         }
       }
-    }
 
-    // RESET WHERE THE PLAYER IS
-    ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
+      // RESET WHERE THE PLAYER IS
+      ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
+    }
 
 
 

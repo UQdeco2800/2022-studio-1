@@ -9,7 +9,10 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.components.shop.artefacts.Equipment;
+import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.Tile;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.AchievementHandler;
@@ -19,6 +22,7 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -115,16 +119,14 @@ public class PlayerActions extends Component {
    */
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
-
-    Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
-    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y);
-    boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
+//    Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
+//    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y);
+//    boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
 
     Entity closestEnemy = null;
     Entity closestEntity = null;
 
     ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current);
-    GridPoint2 underMe = ServiceLocator.getRangeService().getPlayerTile();
     for (Entity i : radius) {
       if (i != null && i.getName().contains("Mr.")) {
         closestEnemy = i;
@@ -135,13 +137,6 @@ public class PlayerActions extends Component {
       if (i != null && !i.getName().contains("Mr.")) {
         closestEntity = i;
         break;
-      }
-    }
-    if (ServiceLocator.getUGSService().getEntity(underMe) != null) {
-      if (ServiceLocator.getUGSService().getEntity(underMe).getName().contains("Mr.")) {
-        closestEnemy = ServiceLocator.getUGSService().getEntity(underMe);
-      } else if (!ServiceLocator.getUGSService().getEntity(underMe).getName().contains("Mr.")) {
-        closestEntity = ServiceLocator.getUGSService().getEntity(underMe);
       }
     }
 
@@ -168,7 +163,6 @@ public class PlayerActions extends Component {
       }
     }
     this.entity.getEvents().trigger("showPrompts");
-
   }
 
   /**
