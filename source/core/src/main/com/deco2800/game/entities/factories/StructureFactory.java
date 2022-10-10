@@ -57,8 +57,6 @@ public class StructureFactory {
     return structure;
   }
 
-
-
   /**
    * Creates a wall entity.
    *

@@ -120,12 +120,19 @@ public class UGS {
         return false;
     }
 
+    /**
+     * Gets a map of all surrounding tiles and labels them as empty or full
+     * @param centerCoord position of the entity in GridPoint2
+     * @param entityType type of entity being checked
+     * @return map of all surrounding gridpoints and if they are full or empty
+     */
     public HashMap<GridPoint2, String> getSurroundingTiles(GridPoint2 centerCoord, String entityType) {
         HashMap<GridPoint2, String> surroundingTiles = new HashMap<>();
-        int starting_xPos = centerCoord.x - 1;
-        int starting_yPos = centerCoord.y - 1;
-        for (int x = starting_xPos; x < starting_xPos + 3; x++) {
-            for (int y = starting_yPos; y < starting_yPos + 3; y++) {
+        int offset = 3;
+        int starting_xPos = centerCoord.x - offset;
+        int starting_yPos = centerCoord.y - offset;
+        for (int x = starting_xPos; x < starting_xPos + (offset*2)+1; x++) {
+            for (int y = starting_yPos; y < starting_yPos + (offset*2)+1; y++) {
                 if (!(x == centerCoord.x && y == centerCoord.y)) {
                     if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
                         surroundingTiles.put(new GridPoint2(x, y), "empty");
