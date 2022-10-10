@@ -335,6 +335,7 @@ public class NPCFactory {
               "images/npcs/NPC-V2.2.png" };
 
       int index = (int) ((Math.random() * (NPC_textures.length)));
+      //int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
       Entity NPC = createBaseNPC();
       NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
       NPC.setName("NormalNPC");
