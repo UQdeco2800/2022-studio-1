@@ -10,14 +10,14 @@ import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.NpcService;
-import com.deco2800.game.entities.StructureService;
+import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import java.util.*;
 
@@ -100,10 +100,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
           triggerWalkEvent();
+          movePlayerInUgs();
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
           triggerWalkEvent();
+          movePlayerInUgs();
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
@@ -112,6 +114,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
           triggerWalkEvent();
+          movePlayerInUgs();
           return true;
         case Keys.O:
           triggerCrystalAttacked();
@@ -260,5 +263,53 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
         || name.contains("tower3"))
       StructureService.setUiPopUp(screenX, screenY);
+  }
+
+  private void movePlayerInUgs() {
+    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y);
+    String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
+
+    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
+    Tile oldPlayerTile;
+    for (Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+      if (entry.getValue().getEntity() == player) {
+        String currentPos = entry.getKey();
+        if (!currentPos.equals(key)) {
+          oldPlayerTile = entry.getValue();
+          String oldTileType = entry.getValue().getTileType();
+          Tile replacement = new Tile();
+          replacement.setTileType(oldTileType);
+          ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+        }
+      }
+    }
+
+    // RESET WHERE THE PLAYER IS
+    ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
+
+
+
+
+//
+//    switch (direction) {
+//      case "right":
+//        // move right 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0, "player");
+//        return;
+//      case "left":
+//        // move left 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0, "player");
+//        return;
+//      case "up":
+//        // move up 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1, "player");
+//        return ;
+//      case "down":
+//        // move down 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1, "player");
+//    }
+
   }
 }
