@@ -221,7 +221,6 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
-        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(new MainGameTutorials())
             .addComponent(new EpilogueLayover())
