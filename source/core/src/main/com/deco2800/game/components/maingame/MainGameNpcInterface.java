@@ -71,6 +71,7 @@ public class MainGameNpcInterface extends UIComponent{
             };
 
             int index = (int) ((Math.random() * (NPC_dialogues.length)));
+            //int index = (int) (new SecureRandom().nextInt(NPC_dialogues.length));
 
             if(index == 8){
                 Entity player = ServiceLocator.getEntityService().getNamedEntity("player");

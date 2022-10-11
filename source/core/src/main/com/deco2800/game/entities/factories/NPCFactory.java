@@ -189,6 +189,8 @@ public class NPCFactory {
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
+
+    ServiceLocator.getEntityService().registerNamed("bossEnemy", boss);
     return boss;
   }
 
@@ -333,6 +335,7 @@ public class NPCFactory {
               "images/npcs/NPC-V2.2.png" };
 
       int index = (int) ((Math.random() * (NPC_textures.length)));
+      //int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
       Entity NPC = createBaseNPC();
       NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
       NPC.setName("NormalNPC");
