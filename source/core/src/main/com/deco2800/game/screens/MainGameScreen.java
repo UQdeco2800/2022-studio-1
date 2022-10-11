@@ -152,6 +152,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void render(float delta) {
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
+    ServiceLocator.getStructureService().update();
     renderer.render();
   }
 
@@ -224,7 +225,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(new MainGameTutorials())
-            .addComponent(new EpilogueLayover())
+        .addComponent(new EpilogueLayover())
         .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());

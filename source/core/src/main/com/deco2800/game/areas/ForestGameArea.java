@@ -137,6 +137,7 @@ public class ForestGameArea extends GameArea {
       "images/shipWreckBack.png",
       "images/shipWreckFront.png",
       "images/ElectricEel.png",
+      "images/eel_projectile.png",
       "images/starfish.png",
       "images/NpcPlaceholder.png",
       "images/NPC convo.png",
@@ -610,7 +611,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
     int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
-    //int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
+    // int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);

@@ -13,7 +13,6 @@ import com.deco2800.game.physics.components.*;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
-
 public class ProjectileFactory {
     public static Entity createProjectile(Entity shooter, Entity target) {
         Vector2 targetNew = target.getPosition();
@@ -22,12 +21,12 @@ public class ProjectileFactory {
 
     private static Entity makeProjectile(Vector2 destination, Entity source) {
         Entity projectile = new Entity()
-                .addComponent(new TextureRenderComponent("images/Eel_Bright_SW.png"))
+                .addComponent(new TextureRenderComponent("images/eel_projectile.png"))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
-                .addComponent(new CombatStatsComponent(1,5))
+                .addComponent(new CombatStatsComponent(1, 5))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 0.2f));
 
@@ -38,6 +37,7 @@ public class ProjectileFactory {
         projectile.setPosition(source.getPosition());
         PhysicsUtils.setScaledCollider(projectile, 2f, 2f);
 
+        projectile.setName("eelProjectile@" + projectile.getId());
         ServiceLocator.getEntityService().registerNamed("Enemy@" + projectile.getId(), projectile);
         return projectile;
     }

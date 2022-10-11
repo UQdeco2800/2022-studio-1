@@ -7,9 +7,12 @@ import java.util.Map.Entry;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.UGS;
+import com.deco2800.game.entities.factories.ProjectileFactory;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
@@ -18,13 +21,21 @@ public class ShootMultipleTask extends ShootTask {
         Logger logger = LoggerFactory.getLogger(ShootMultipleTask.class);
 
         private ArrayList<Entity> targets;
+        private final int updateTimeDelta = 100;
+        private long taskEnd;
 
         public ShootMultipleTask(ArrayList<Entity> targets, float viewDistance) {
-                super(targets.size() > 0 ? targets.get(0) : null, 0, viewDistance, 0f);
+                super(targets.size() > 0 ? targets.get(0) : null, 1, viewDistance, 0f);
                 this.targets = targets;
                 ServiceLocator.getDayNightCycleService().getEvents().addListener(
                                 DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                                 this::updateTargets);
+        }
+
+        @Override
+        public void start() {
+                super.start();
+                taskEnd = TotalTime.getTime() + (updateTimeDelta);
         }
 
         /**
@@ -48,14 +59,16 @@ public class ShootMultipleTask extends ShootTask {
          * @param partOfDay day cycle status on function call
          */
         private void updateTargets(DayNightCycleStatus partOfDay) {
+                System.out.println("day night cycle change: " + partOfDay.name());
                 if (partOfDay == DayNightCycleStatus.NIGHT) {
 
                         targets.clear();
                         Map<String, Entity> namedEntities = ServiceLocator.getEntityService().getAllNamedEntities();
 
                         for (Entry<String, Entity> entry : namedEntities.entrySet()) {
-                                if (entry.getKey().contains("Enemy")) {
+                                if (entry.getKey().contains("Enemy") && !entry.getValue().getName().contains("eelP")) {
                                         targets.add(entry.getValue());
+                                        System.out.println("target added: " + entry.getValue().getName());
                                 }
                         }
 
@@ -65,17 +78,38 @@ public class ShootMultipleTask extends ShootTask {
 
         @Override
         public void update() {
-                EntityService entityService = ServiceLocator.getEntityService();
-                Vector2 ownerPosition = owner.getEntity().getPosition();
-                for (Entity entity : targets) {
+                Entity owner = this.owner.getEntity();
+                System.out.println("[ShootTask] {Owner: " + owner.getName() + "} {Time-taskEnd:" + TotalTime.getTime()
+                                + " - "
+                                + taskEnd + "}");
+                if (TotalTime.getTime() >= taskEnd) {
+
+                        if (this.target == null) {
+                                logger.error("Target is null");
+                                return;
+                        }
+                        Vector2 ownerPosition = owner.getPosition();
+                        UGS ugs = ServiceLocator.getUGSService();
                         float currentDistance = super.getDistanceToTarget();
-                        if (entityService.getNamedEntity(entity.getName()) != null) {
-                                if (ownerPosition.dst(entity.getPosition()) < currentDistance) {
-                                        this.target = entity;
+
+                        for (Entity target : targets) {
+                                if (currentDistance == -1f) {
+                                        this.target = target;
+                                        currentDistance = super.getDistanceToTarget();
+                                        continue;
+                                }
+
+                                if (ugs.getEntityByName(target.getName()) != null) {
+                                        if (ownerPosition.dst(target.getPosition()) < currentDistance) {
+                                                this.target = target;
+                                                currentDistance = super.getDistanceToTarget();
+                                        }
                                 }
                         }
+
+                        ProjectileFactory.createProjectile(owner, target);
+                        taskEnd = TotalTime.getTime() + (updateTimeDelta);
                 }
-                super.update();
         }
 
 }

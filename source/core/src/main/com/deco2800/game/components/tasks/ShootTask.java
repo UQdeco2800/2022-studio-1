@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 public class ShootTask extends DefaultTask implements PriorityTask {
     protected Entity target;
     private static final int SECOND = 500;
-    private final GameTime TotalTime;
+    protected final GameTime TotalTime;
     private long taskEnd;
     private final int priority;
     private final float viewDistance;
@@ -49,6 +49,8 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         Entity entity = this.owner.getEntity();
+        System.out.println("[ShootTask] {Owner: " + entity.getName() + "} {Time-taskEnd:" + TotalTime.getTime() + " - "
+                + taskEnd + "}");
         if (TotalTime.getTime() >= taskEnd) {
             ProjectileFactory.createProjectile(entity, target);
             taskEnd = TotalTime.getTime() + (SECOND);

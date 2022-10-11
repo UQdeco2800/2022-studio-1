@@ -185,10 +185,10 @@ public class UGS {
      * dimensionX = 2
      * dimensionY = 2
      * 
-     *  _ _ _        _ _ _
-     * |_|_|_|      |_|x|x|
-     * |_|_|_| ->   |_|x|x|
-     * |_|_|_|      |_|_|_|
+     * _ _ _ _ _ _
+     * |_|_|_| |_|x|x|
+     * |_|_|_| -> |_|x|x|
+     * |_|_|_| |_|_|_|
      * 
      * @param origin     String
      * @param entity     Entity

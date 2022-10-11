@@ -35,7 +35,7 @@ public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
-  private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); // Deprecate
+  private static Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); // Deprecate
 
   private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>(); // Deprecate
 
@@ -179,6 +179,7 @@ public class StructureService extends EntityService {
 
         case "turret":
           structure = StructureFactory.createTurret(entityName);
+          structureEntities.add(structure);
           break;
 
         case "stoneQuarry":
