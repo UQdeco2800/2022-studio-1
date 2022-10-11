@@ -98,7 +98,6 @@ public class AnimationController extends Component {
   void weapons(){
     
     String[] wea_lst = converter(entity.getComponent(InventoryComponent.class).getEquipmentList());
-    System.out.println(wea_lst);
     int counter = weapon % wea_lst.length;
     String anim_to_play = "";
     
