@@ -2,6 +2,7 @@ package com.deco2800.game.components.shop;
 
 import java.util.List;
 
+import com.deco2800.game.services.AchievementHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -308,6 +309,8 @@ public class ShopArtefactDisplay extends UIComponent {
               entity.getComponent(InventoryComponent.class)
                   .addItems(current.t);
 
+              // Trigger events for achievements
+              ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
             } else {
               logger.info("Insufficient gold!");
               Sound filesound = Gdx.audio.newSound(

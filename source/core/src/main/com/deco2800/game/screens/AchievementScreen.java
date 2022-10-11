@@ -33,6 +33,10 @@ public class AchievementScreen extends ScreenAdapter {
      * Array of achievement icon textures
      */
     private static final String[] achievementTextures = {
+            "images/achievements/achievement_card_completed.png",
+            "images/achievements/achievement_card_locked_n.png",
+            "images/achievements/Badge_Background_Box.png",
+            "images/achievements/BadgeContent_Box.png",
             "images/achievements/Building_Icon.png",
             "images/achievements/Game_Icon.png",
             "images/achievements/Kill_Icon.png",
@@ -40,7 +44,16 @@ public class AchievementScreen extends ScreenAdapter {
             "images/achievements/Resource_Icon.png",
             "images/achievements/Upgrade_Icon.png",
             "images/uiElements/exports/exit_button.png",
-            "images/achievements/summaryIcon.png"
+            "images/achievements/Summary_Button.png",
+            "images/achievements/Tab_Background_Box.png",
+            "images/achievements/milestone_1_completed.png",
+            "images/achievements/milestone_1_incomplete.png",
+            "images/achievements/milestone_2_completed.png",
+            "images/achievements/milestone_2_incomplete.png",
+            "images/achievements/milestone_3_completed.png",
+            "images/achievements/milestone_3_incomplete.png",
+            "images/achievements/milestone_4_completed.png",
+            "images/achievements/milestone_4_incomplete.png"
     };
 
     /**
