@@ -29,6 +29,8 @@ import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.SecureRandom;
+
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
  *
@@ -334,8 +336,8 @@ public class NPCFactory {
           String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
               "images/npcs/NPC-V2.2.png" };
 
-      int index = (int) ((Math.random() * (NPC_textures.length)));
-      //int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
+//      int index = (int) ((Math.random() * (NPC_textures.length)));
+      int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
       Entity NPC = createBaseNPC();
       NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
       NPC.setName("NormalNPC");

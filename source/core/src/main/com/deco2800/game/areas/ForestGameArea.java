@@ -611,8 +611,8 @@ public class ForestGameArea extends GameArea {
 
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
-    //int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
+//    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
