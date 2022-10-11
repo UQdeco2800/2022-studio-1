@@ -288,7 +288,7 @@ public class UGS {
      * @param yDirection      Boolean
      * @param xDirection      Boolean
      */
-    public GridPoint2 moveEntity(Entity entity, GridPoint2 currentPosition, int xDirection, int yDirection, String entityName) {
+    public void moveEntity(Entity entity, GridPoint2 currentPosition, int xDirection, int yDirection) {
 
         String oldPosKey = generateCoordinate(currentPosition.x, currentPosition.y);
         String oldType = ServiceLocator.getUGSService().getTileType(currentPosition);
@@ -303,11 +303,11 @@ public class UGS {
                 replacement.setTileType(oldType);
                 tiles.replace(oldPosKey, replacement);
                 tiles.get(newPosKey).setEntity(entity);
+                setEntity(coordinate, entity, "player");
+                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
-                return coordinate;
-            } else {
-                return null;
             }
         } else if (xDirection == -1) {
             int newX = currentPosition.x - 1;
@@ -320,11 +320,11 @@ public class UGS {
                 replacement.setTileType(oldType);
                 tiles.replace(oldPosKey, replacement);
                 tiles.get(newPosKey).setEntity(entity);
+                setEntity(coordinate, entity, "player");
+                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
-                return coordinate;
-            } else {
-                return null;
             }
         }
 
@@ -339,11 +339,10 @@ public class UGS {
                 replacement.setTileType(oldType);
                 tiles.replace(oldPosKey, replacement);
                 tiles.get(newPosKey).setEntity(entity);
+                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
-                return coordinate;
-            } else {
-                return null;
             }
         } else if (yDirection == -1) {
             int newX = currentPosition.x;
@@ -356,11 +355,11 @@ public class UGS {
                 replacement.setTileType(oldType);
                 tiles.replace(oldPosKey, replacement);
                 tiles.get(newPosKey).setEntity(entity);
+                setEntity(coordinate, entity, "player");
+                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
-                return coordinate;
-            } else {
-                return null;
             }
         }
 //
@@ -416,7 +415,6 @@ public class UGS {
 //            }
 //
 //        }
-        return null;
     }
 
     /**
