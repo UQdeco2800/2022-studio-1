@@ -315,15 +315,15 @@ public class NPCFactory {
       public static Entity createSpecialNPC() {
         Entity NPC = createBaseNPC();
         NPC.setName("SpecialNPC");
-//        AnimationRenderComponent animator =
-//                 new AnimationRenderComponent(
-//                         ServiceLocator.getResourceService().getAsset("images/npc_animations/npc.atlas", TextureAtlas.class));
-//        animator.addAnimation("NPC", 0.1f, Animation.PlayMode.LOOP);
-//        NPC.addComponent(animator);
-//        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
-//        NPC.getComponent(AnimationRenderComponent.class).startAnimation("NPC");
-        NPC.addComponent(new TextureRenderComponent("images/npc1.png"));
-        NPC.setScale(5f,5f);
+        AnimationRenderComponent animator =
+                 new AnimationRenderComponent(
+                         ServiceLocator.getResourceService().getAsset("images/npc_animations/npc.atlas", TextureAtlas.class));
+        animator.addAnimation("NPC", 0.1f, Animation.PlayMode.LOOP);
+        NPC.addComponent(animator);
+        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
+        NPC.getComponent(AnimationRenderComponent.class).startAnimation("NPC");
+       // NPC.addComponent(new TextureRenderComponent("images/npc1.png"));
+        NPC.setScale(7f,7f);
 
           return NPC;
       }
