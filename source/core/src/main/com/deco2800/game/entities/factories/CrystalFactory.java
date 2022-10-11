@@ -1,11 +1,15 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.*;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.MainGameNpcInterface;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
@@ -34,6 +38,10 @@ import java.util.TimerTask;
 
 public class CrystalFactory {
     private static final CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
+    private static Table PopUp;
+    private static boolean isVisible;
+
+
 
     /**
      * Creates a crystal entity.
@@ -120,10 +128,19 @@ public class CrystalFactory {
         // testing crystal upgrade on click
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
+
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
+
+        if (isVisible) {
+            PopUp.remove();
+            isVisible = false;
+        }
+
+        GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .worldToTilePosition(mousePosV2.x, mousePosV2.y);
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
         float xPos = crystal.getPosition().x;
         float yPos = crystal.getPosition().y;
@@ -133,7 +150,8 @@ public class CrystalFactory {
         if (xPos - 8 < mousePosV2.x && mousePosV2.x < xPos + 8) {
             if (yPos - 8 < mousePosV2.y && mousePosV2.y < yPos + 8) {
                 // crystal.getComponent(CombatStatsComponent.class).upgrade();
-                upgradeCrystal();
+                PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY, mapPos, "crystal");
+                isVisible = true;
                 return true;
             }
         }

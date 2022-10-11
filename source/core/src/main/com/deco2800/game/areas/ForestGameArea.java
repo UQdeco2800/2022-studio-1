@@ -208,6 +208,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
+
     spawnNPCharacter();
 
     if (this.loadGame) {
@@ -249,7 +250,7 @@ public class ForestGameArea extends GameArea {
 
   /**
    * spawns environmental objects based off semi-random bounds
-   * 
+   *
    * @param numObjects the number of objects to be spawned
    * @param type       the type of object, from
    *                   EnvironmentalComponent.EnvironmentalType enum
@@ -343,26 +344,26 @@ public class ForestGameArea extends GameArea {
      * spawnEnvironmentalObject(numTrees,
      * EnvironmentalComponent.EnvironmentalObstacle.TREE);
      * int objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numTrees;
-     * 
+     *
      * int numRocks = MIN_NUM_ROCKS + (int) (Math.random() * ((MAX_NUM_ROCKS -
      * MIN_NUM_ROCKS) + 1));
      * spawnEnvironmentalObject(numRocks,
      * EnvironmentalComponent.EnvironmentalObstacle.ROCK);
      * objectsRemaining = MAX_ENVIRONMENTAL_OBJECTS - numRocks;
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * // Remaining number of objects can be spawned off raw percentage?
      * // placeholder functions below:
      * int numVines = 4;
      * spawnEnvironmentalObject(numVines,
      * EnvironmentalComponent.EnvironmentalObstacle.VINE);
      * objectsRemaining = objectsRemaining - numVines;
-     * 
+     *
      * spawnEnvironmentalObject(1,
      * EnvironmentalComponent.EnvironmentalObstacle.KNOCKBACK_TOWER);
-     * 
-     * 
+     *
+     *
      * spawnEnvironmentalObject(2,
      * EnvironmentalComponent.EnvironmentalObstacle.SPIKY_BUSH);
      * spawnEnvironmentalObject(1,
@@ -377,7 +378,7 @@ public class ForestGameArea extends GameArea {
    * goes through areaEntities to find entity in that position
    * check if entity is an environment object
    * put inside separate list first to avoid ConcurrentModificationException
-   * 
+   *
    * @param removeTile The tile where environment entities is removed
    * @return a tuple containing resource type and its value
    */
@@ -534,7 +535,7 @@ public class ForestGameArea extends GameArea {
 
   /**
    * Spawns an enemy on the map at a random position surrounding the island
-   * 
+   *
    * @param entity the entity to spawn
    */
   private void spawnEnemy(Entity entity) {

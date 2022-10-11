@@ -19,6 +19,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
+import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
@@ -38,6 +39,8 @@ public class MainGameBuildingInterface extends UIComponent {
     private static final float Z_INDEX = 2f;
     private Table BuildingUI;
     private Label buildingTitle;
+    private Image crystalImage;
+
 
     private boolean visability;
 
@@ -214,6 +217,110 @@ public class MainGameBuildingInterface extends UIComponent {
         return BuildingUI;
     }
 
+    public Table makeCrystalPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
+
+        //Building that was clicked
+        Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
+        float uiHeight = 200f;
+        float screenHeight = Gdx.graphics.getHeight();
+
+
+        y = screenHeight - y + 100;
+        if (y + uiHeight > screenHeight) {
+            y -= uiHeight + 100;
+        }
+
+        float uiWidth = 650f;
+        float screenWidth = Gdx.graphics.getWidth();
+
+        x = (x - 0.5f * uiWidth);
+        x = Math.max(x, 0f);
+        x = Math.min(x, screenWidth - uiWidth);
+
+        visability = value;
+
+        BuildingUI = new Table();
+        BuildingUI.setSize(uiWidth, uiHeight);
+        BuildingUI.setPosition(x, y);
+
+
+        BuildingUI.setVisible(true);
+
+        // add popup
+        //insert pop up texture
+        Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+
+        String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
+        buildingTitle = new Label(buildingName, skin, "large");
+
+        //upgrade button
+        Texture homeButton1 = new Texture(Gdx.files.internal("images/Home_Button.png"));
+        TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
+        TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
+        TextButton upgradeButton = ShopUtils.createImageTextButton(
+                "Upgrade for:" + "\n" + "1000",
+                skin.getColor("black"),
+                "button", 1f, homeDown, homeUp, skin, false);
+
+        upgradeButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        //Obtain reference to player, for some reason it was being accessed as 'entity'
+
+                        logger.info("Upgrade Button clicked");
+
+                        if (player.getComponent(InventoryComponent.class).hasGold(100)) {
+                            logger.info("Sufficient resources");
+
+                            //Subtract currency from inventory
+                            player.getComponent(InventoryComponent.class).addGold(-1 * 100);
+                            CrystalFactory.upgradeCrystal();
+                        } else {
+                            logger.info("Insufficient resource!");
+                            Sound filesound = Gdx.audio.newSound(
+                            Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                        }
+                    }
+                }
+        );
+        crystalImage = new Image(ServiceLocator.getResourceService().getAsset("images/crystal_level2.png", Texture.class ));
+
+
+        //table
+        Table buildingInfo = new Table();
+        buildingInfo.add(buildingTitle).center();
+
+
+
+        //healthInfo.add(healthAmount);
+
+        Table leftTable = new Table();
+        leftTable.padBottom(30f);
+        leftTable.row();
+        leftTable.add(buildingInfo);
+        leftTable.add(crystalImage);
+        leftTable.row();
+
+
+        Table rightTable = new Table();
+        rightTable.padBottom(30f);
+        //rightTable.add(sellButton).size(250f, 80f).center().padBottom(10f).padRight(20f).padTop(23f);
+        rightTable.row();
+        rightTable.add(upgradeButton).size(250f, 80f).center();
+
+        BuildingUI.setBackground(backgroundColour);
+        BuildingUI.add(leftTable);
+        BuildingUI.add(rightTable);
+
+
+        stage.addActor(BuildingUI);
+
+        return BuildingUI;
+    }
 
     public boolean isVisability() {
         return visability;
