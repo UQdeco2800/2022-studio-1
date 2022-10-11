@@ -3,26 +3,17 @@ package com.deco2800.game.components.player;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import java.util.List;
 //import com.deco2800.game.components.shop;;
 /**
  * This class listens to events relevant to a main player entity's state and plays the animation when one
  * of the events is triggered.
  */
 
-class Node<T> {
-  T t;
-  public Node<T> next;
-  public Node<T> prev;
-
-  public Node(T t) {
-      this.t = t;
-  }
-}
-
 public class AnimationController extends Component {
   AnimationRenderComponent animator;
   int weapon = 0;
-  String[] wea_lst = {"bna_get_", "swo_get_", "tri_get_", "axe_get","arm_get_", "shi_get_", "hel_get_"};
+  //String[] wea_lst = {"bna_get_", "swo_get_", "tri_get_", "axe_get","arm_get_", "shi_get_", "hel_get_"};
   String temp_anim = "axe_w";
   String temp_dir = "w";
   
@@ -106,6 +97,8 @@ public class AnimationController extends Component {
 
   void weapons(){
     
+    String[] wea_lst = converter(entity.getComponent(InventoryComponent.class).getEquipmentList());
+    System.out.println(wea_lst);
     int counter = weapon % wea_lst.length;
     String anim_to_play = "";
     
@@ -116,10 +109,52 @@ public class AnimationController extends Component {
       anim_to_play = wea_lst[counter].concat("wd");
     } else {
       anim_to_play = wea_lst[counter].concat("as");
-    }
-    System.out.println(anim_to_play);
+    }    
+    
     animator.stopAnimation();
     animator.startAnimation(anim_to_play);
     weapon += 1;
+  }
+
+  String[] converter(List<Equipments> lst){
+    int size = lst.size();
+    int count = 0;
+    String[] res = new String[size];
+    for (Equipments equipments : lst) {
+      switch (equipments) {
+        case AXE:
+          res[count] = "axe_get";
+          break;
+
+        case SWORD:
+          res[count] = "swo_get_";
+          break;
+
+        case BOW_AND_ARROW:
+          res[count] = "bna_get_";
+          break;
+
+        case TRIDENT:
+          res[count] = "tri_get_";
+          break;
+        
+        case SHIELD:
+          res[count] = "shi_get_";
+          break;
+
+        case CHESTPLATE:
+          res[count] = "arm_get_";
+          break;
+
+        case HELMET:
+          res[count] = "hel_get_";
+          break;
+
+        default:
+          break;
+      }
+      count += 1;
+    }
+    return res;
   }
 }
