@@ -52,6 +52,8 @@ public class StructureService extends EntityService {
 
   private static String tempEntityName;
 
+  private static int orientation;
+
   /**
    * Register a new entity with the entity service. The entity will be created and
    * start updating.
@@ -161,7 +163,7 @@ public class StructureService extends EntityService {
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
       switch (structureName) {
         case "wall":
-          structure = StructureFactory.createWall(entityName, false);
+          structure = StructureFactory.createWall(entityName, false, orientation);
           break;
 
         case "tower1":
@@ -250,7 +252,7 @@ public class StructureService extends EntityService {
     entityName = name + entityName;
 
     if (Objects.equals(name, "wall")) {
-      tempEntity = StructureFactory.createWall(entityName, true);
+      tempEntity = StructureFactory.createWall(entityName, true, orientation);
     } else if (Objects.equals(name, "tower1")) {
       tempEntity = StructureFactory.createTower1(1, entityName, true);
     } else if (Objects.equals(name, "tower2")) {
@@ -313,6 +315,35 @@ public class StructureService extends EntityService {
           e.dispose();
         }
       }
+    }
+  }
+
+  /**
+   * Rotate the current temp structure
+   */
+  public static void rotateTempStructure() {
+    toggleStructureOrientation();
+    ServiceLocator.getEntityService().getNamedEntity(getTempEntityName()).dispose();
+    clearVisualTiles();
+    String entityName = getTempEntityName();
+    entityName = entityName.replace("Temp", "");
+    buildTempStructure(entityName);
+  }
+
+  /**
+   * get the orientation of the structure being built (facing forward or facing right)
+   * @return
+   */
+  public static int getStructureOrientation() {return orientation;}
+
+  /**
+   * toggle the structure orientation from 0 to 1 or from 1 to 0
+   */
+  public static void toggleStructureOrientation() {
+    if (orientation == 1) {
+      orientation = 0;
+    } else {
+      orientation = 1;
     }
   }
 

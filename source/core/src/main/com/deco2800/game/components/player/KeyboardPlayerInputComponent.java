@@ -14,6 +14,7 @@ import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
@@ -123,7 +124,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           triggerCrystalAttacked();
           return true;
         case Keys.R:
-          triggerCrystalRestoreHealth();
+          if (ServiceLocator.getStructureService().getTempBuildState()) {
+            ServiceLocator.getStructureService().rotateTempStructure();
+          } else {
+            triggerCrystalRestoreHealth();
+          }
+
           return true;
         case Keys.SPACE:
           entity.getEvents().trigger("attack_anim_rev");
@@ -189,7 +195,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
               .dispose();
           ServiceLocator.getStructureService().setTempBuildState(false);
           ServiceLocator.getStructureService().clearVisualTiles();
-          triggerUIBuildingPopUp(screenX, screenY);
+//          triggerUIBuildingPopUp(screenX, screenY); //Not Functional
+        }
+      } else {
+        Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
+        if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
+          System.out.println("You clicked the crystal");
         }
       }
     }

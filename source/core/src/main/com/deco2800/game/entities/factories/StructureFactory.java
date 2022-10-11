@@ -40,6 +40,7 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+  private static String[] wallSprites = {"images/guardianLegacy1left.png", "images/guardianLegacy1right.png"};
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -62,12 +63,12 @@ public class StructureFactory {
    *
    * @return specialised Wall entity
    */
-  public static Entity createWall(String name, Boolean isTemp) {
+  public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure("images/Wall-right.png", name); //change texture to be temp texture
+      wall = createBaseStructure(wallSprites[orientation], name); //change texture to be temp texture
     } else {
-      wall = createBaseStructure("images/Wall-right.png", name);
+      wall = createBaseStructure(wallSprites[orientation], name);
     }
     BaseStructureConfig config = configs.wall;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))

@@ -144,7 +144,9 @@ public class ForestGameArea extends GameArea {
       "images/NPC convo.png",
       "images/npc1.png",
       "images/npcs/NPC-V2.2.png",
-      "images/npcs/NPC-V2.1.png"
+      "images/npcs/NPC-V2.1.png",
+          "images/guardianLegacy1left.png",
+          "images/guardianLegacy1right.png"
   };
 
   private static final String[] forestTextureAtlases = {
