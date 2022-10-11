@@ -1,12 +1,14 @@
 package com.deco2800.game.components.camera;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.services.ServiceLocator;
 
-import java.util.logging.Logger;
 
 public class CameraActions extends Component {
         private boolean panning = false;
@@ -20,7 +22,7 @@ public class CameraActions extends Component {
         public void create() {
                 entity.getEvents().addListener("pan", this::pan);
                 entity.getEvents().addListener("stopPan", this::stopPan);
-                entity.getEvents().addListener("playerMovementPan", this::playerMovementPan);
+                entity.getEvents().addListener( "playerMovementPan", this::playerMovementPan);
                 entity.getEvents().addListener("stopPlayerMovementPan", this::stopPlayerMovementPan);
                 entity.getEvents().addListener("zoom", this::zoom);
                 entity.getEvents().addListener("zoomStop", this::stopZoom);
@@ -73,7 +75,7 @@ public class CameraActions extends Component {
          * players movement.
          * Re-attaches camera to player, and disables manual panning
          * 
-         * @param position
+         * @param position location of camera
          */
         void playerMovementPan(Vector2 position) {
                 this.playerMoving = true;
@@ -121,7 +123,7 @@ public class CameraActions extends Component {
 
                 if (zoomOut) {
                         float newZoomValue = camera.zoom + 0.02f;
-                        if (newZoomValue <= 2) {
+                        if (newZoomValue <= 6) {
                                 camera.zoom = newZoomValue;
                                 camera.update();
                         }

@@ -53,7 +53,6 @@ public class CrystalFactory {
                 .addComponent(new HealthBarComponent(50, 10));
         crystal.setName("crystal");
         crystal.setCollectable(false);
-        ServiceLocator.getEntityService().registerNamed(name, crystal);
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         crystal.getComponent(TextureRenderComponent.class).scaleEntity();
@@ -64,13 +63,15 @@ public class CrystalFactory {
 
     /**
      * Spawns Crystal outside of Game Area class
+     * 
      * @param texture path of texture for new Crystal Entity
      *
      */
     public static void triggerCrystal(String texture) {
         Entity crystal = createCrystal(texture, "crystal2");
         ServiceLocator.getEntityService().registerNamed("crystal2", crystal);
-        crystal.setPosition(new Vector2(ServiceLocator.getEntityService().getNamedEntity("crystal").getPosition().x, ServiceLocator.getEntityService().getNamedEntity("crystal").getPosition().y));
+        crystal.setPosition(new Vector2(ServiceLocator.getEntityService().getNamedEntity("crystal").getPosition().x,
+                ServiceLocator.getEntityService().getNamedEntity("crystal").getPosition().y));
     }
 
     /**
@@ -103,18 +104,20 @@ public class CrystalFactory {
             Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
             terrain.getComponent(TerrainComponent.class).incrementMapLvl();
 
-            ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_UPGRADED, AchievementType.UPGRADES, 1);
+            ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_UPGRADED,
+                    AchievementType.UPGRADES, 1);
         } else
             System.out.println("Crystal has reached max level");
     }
 
     /**
      * Determine if crystal is being clicked
+     * 
      * @param screenX x coordinate
      * @param screenY y coordinate
      */
     public static boolean crystalClicked(int screenX, int screenY) {
-        //testing crystal upgrade on click
+        // testing crystal upgrade on click
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
@@ -125,11 +128,11 @@ public class CrystalFactory {
         float xPos = crystal.getPosition().x;
         float yPos = crystal.getPosition().y;
 
-        //System.out.println(mousePosV2);
-        //crystal position x = 60.0, y = 0.0
-        if (xPos-0.2 < mousePosV2.x && mousePosV2.x < xPos+0.2) {
-            if (yPos-0.2 < mousePosV2.y && mousePosV2.y < yPos+0.2) {
-//                crystal.getComponent(CombatStatsComponent.class).upgrade();
+        // System.out.println(mousePosV2);
+        // crystal position x = 60.0, y = 0.0
+        if (xPos - 8 < mousePosV2.x && mousePosV2.x < xPos + 8) {
+            if (yPos - 8 < mousePosV2.y && mousePosV2.y < yPos + 8) {
+                // crystal.getComponent(CombatStatsComponent.class).upgrade();
                 upgradeCrystal();
                 return true;
             }
@@ -151,14 +154,14 @@ public class CrystalFactory {
                 } else {
                     return;
                 }
-                //System.out.println(status);
-                switch (status){
+                // System.out.println(status);
+                switch (status) {
                     case DAWN:
                     case DAY:
                     case DUSK:
-                CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-                int health = combatStatsComponent.getHealth();
-                combatStatsComponent.setHealth(health + 10);
+                        CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+                        int health = combatStatsComponent.getHealth();
+                        combatStatsComponent.setHealth(health + 10);
                         break;
                     case NIGHT:
                     case NONE:

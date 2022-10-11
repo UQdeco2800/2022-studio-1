@@ -1,0 +1,47 @@
+{
+position: {
+	x: 59.25
+	y: -0.75
+	}
+name: player
+playerState: {
+	gold: {
+		class: java.lang.Integer
+		value: 10000
+		}
+	weapon: null
+	armor: null
+	defence: {
+		class: java.lang.Integer
+		value: 1
+		}
+	attack: {
+		class: java.lang.Integer
+		value: 0
+		}
+	buildings: {
+		class: java.util.HashMap
+		}
+	health: {
+		class: java.lang.Integer
+		value: 100
+		}
+	wood: {
+		class: java.lang.Integer
+<<<<<<< HEAD:source/core/assets/Saves/Player.json
+		value: 50
+	}
+=======
+		value: 110
+		}
+>>>>>>> origin/main:Saves/Player.json
+	items: {
+		class: java.util.HashMap
+		}
+	equipmentList: []
+	stone: {
+		class: java.lang.Integer
+		value: 50
+		}
+	}
+}

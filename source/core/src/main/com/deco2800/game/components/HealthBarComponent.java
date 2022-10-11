@@ -2,15 +2,25 @@ package com.deco2800.game.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.StructureService;
+import com.deco2800.game.entities.configs.StructureConfig;
+import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.DrawableUtil;
 import com.deco2800.game.utils.RenderUtil;
 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -19,6 +29,7 @@ import java.util.Objects;
  */
 public class HealthBarComponent extends RenderComponent {
 
+    private static final float Z_INDEX = 2f;
     private final ProgressBar progressBar;
     private CombatStatsComponent combatStatsComponent;
 
@@ -80,6 +91,9 @@ public class HealthBarComponent extends RenderComponent {
         this.combatStatsComponent = combatStatsComponent;
     }
 
+
+
+
     /**
      * Returns the progress bar that represents the heath bar percentage to
      * being displayed
@@ -98,6 +112,9 @@ public class HealthBarComponent extends RenderComponent {
     public void setRenderUtil(RenderUtil renderUtil) {
         this.renderUtil = renderUtil;
     }
+
+
+
 
     /**
      * As soon as the entity is created we want to get its CombatStatsComponent.
@@ -126,32 +143,54 @@ public class HealthBarComponent extends RenderComponent {
     protected void draw(SpriteBatch batch) {
         var entityCurrentPosition = this.getEntity().getPosition();
         /* Update progress bar*/
-        this.progressBar.setValue( (float) this.combatStatsComponent.getHealth()/this.fullHealth);
+        this.progressBar.setValue( (float) this.combatStatsComponent.getHealth()/this.combatStatsComponent.getMaxHealth());
         this.progressBar.updateVisualValue();
 
         /* We need these calculations to correctly position the health bar at the top of entity */
 
-        // Added if statement to not display health bar on top of crystal
-        //System.out.println(this.entity.getPosition());
-        //Entity player = MainArea.getInstance().getGameArea().getPlayer();
+        //List structures = new ArrayList<String>(Arrays.asList("null", "wall", "tower1", "tower2","tower3", "woodCutter","trap", "stonequarry"));
 
-        if (this.entity!= null) {
-            if (!Objects.equals(this.entity.getName(),"player")&&!Objects.equals(this.entity.getName(),"crystal")) {
-
-                    float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
-                            - (this.healthBarWidth / 2f);
-                    float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
-                    this.progressBar.setPosition(healthBarXPos, healthBarYPos);
-            }
-
-        }
+        if (!Objects.isNull(this.entity)) {
+            if (!Objects.equals(this.entity.getPosition(), new Vector2(60, 0))) {
+                if(!Objects.equals(this.entity.getName(),"player")) {
+//                    for(Object buildingName : structures) {
+//                        System.out.println(entity.getName());
+//                        System.out.println(buildingName);
+//                        if (!(buildingName == this.entity.getName())) {
+//                            if (this.entity == null) {
+//                                float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
+//                                        - (this.healthBarWidth / 2f);
+//                                float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
+//                                this.progressBar.setPosition(healthBarXPos, healthBarYPos);
+//                            }
+                        }
+                    }}
+//            if (!Objects.equals(this.entity.getName(),"player")&&!Objects.equals(this.entity.getName(),"crystal")) {
+//
+//                    float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
+//                            - (this.healthBarWidth / 2f);
+//                    float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
+//                    this.progressBar.setPosition(healthBarXPos, healthBarYPos);
+//            }
+//        }
         /* We need to temporarily render in pixels */
         if (batch != null) {
             renderUtil.renderInPixels(batch, () -> {
                 this.progressBar.draw(batch, 1);
             });
         }
+
+
+
+    }
+
+    @Override
+    public float getZIndex() {
+        return Z_INDEX;
     }
 
 
+
+
 }
+

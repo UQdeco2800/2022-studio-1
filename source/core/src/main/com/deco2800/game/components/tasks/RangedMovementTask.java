@@ -1,7 +1,6 @@
 package com.deco2800.game.components.tasks;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
@@ -55,7 +54,6 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
     public void update() {
         movementTask.setTarget(target.getPosition());
         movementTask.update();
-        animationDirection((int)target.getPosition().x,(int)target.getPosition().y);
 
         if (movementTask.getStatus() != Status.ACTIVE) {
             movementTask.start();
@@ -66,7 +64,6 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
     public void stop() {
         super.stop();
         movementTask.stop();
-        animationDirection((int)target.getPosition().x,(int)target.getPosition().y);
     }
 
     @Override

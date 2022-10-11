@@ -2,13 +2,10 @@ package com.deco2800.game.services;
 
 import com.badlogic.gdx.Gdx;
 import com.deco2800.game.concurrency.JobSystem;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -195,6 +192,7 @@ public class DayNightCycleService {
                 this.run();
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
 
             return null;
@@ -238,12 +236,14 @@ public class DayNightCycleService {
                 // Move clock for parts of day with more than one half
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
                         this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
-                    long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
+                    long elapsed = this.currentDayMillis - timeSinceLastPartOfDay;
+                    
                     if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration) &&
                             partOfDayHalveIteration != lastPartOfDayHalveIteration) {
                         Gdx.app.postRunnable(() -> {
                             events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
                         });
+
                         partOfDayHalveIteration++;
                     }
                 }

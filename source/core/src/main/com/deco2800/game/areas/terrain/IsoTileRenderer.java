@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
@@ -40,33 +39,33 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
     private Vector2 topLeft = new Vector2();
     private Vector2 bottomRight = new Vector2();
 
-    public IsoTileRenderer (TiledMap map) {
+    public IsoTileRenderer(TiledMap map) {
         super(map);
         init();
     }
 
-    public IsoTileRenderer (TiledMap map, Batch batch) {
+    public IsoTileRenderer(TiledMap map, Batch batch) {
         super(map, batch);
         init();
     }
 
-    public IsoTileRenderer (TiledMap map, float unitScale) {
+    public IsoTileRenderer(TiledMap map, float unitScale) {
         super(map, unitScale);
         init();
     }
 
-    public IsoTileRenderer (TiledMap map, float unitScale, Batch batch) {
+    public IsoTileRenderer(TiledMap map, float unitScale, Batch batch) {
         super(map, unitScale, batch);
         init();
     }
 
-    private void init () {
+    private void init() {
         // create the isometric transform
         isoTransform = new Matrix4();
         isoTransform.idt();
 
         // isoTransform.translate(0, 32, 0);
-        isoTransform.scale((float)(Math.sqrt(2.0) / 2.0), (float)(Math.sqrt(2.0) / 4.0), 1.0f);
+        isoTransform.scale((float) (Math.sqrt(2.0) / 2.0), (float) (Math.sqrt(2.0) / 4.0), 1.0f);
         isoTransform.rotate(0.0f, 0.0f, 1.0f, -45);
 
         // ... and the inverse matrix
@@ -74,7 +73,7 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
         invIsotransform.inv();
     }
 
-    public static Vector3 translateScreenToIso (Vector2 vec) {
+    public Vector3 translateScreenToIso(Vector2 vec) {
         screenPos.set(vec.x, vec.y, 0);
         screenPos.mul(invIsotransform);
 
@@ -82,9 +81,10 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
     }
 
     @Override
-    public void renderTileLayer (TiledMapTileLayer layer) {
+    public void renderTileLayer(TiledMapTileLayer layer) {
         final Color batchColor = batch.getColor();
-        final float color = Color.toFloatBits(batchColor.r, batchColor.g, batchColor.b, batchColor.a * layer.getOpacity());
+        final float color = Color.toFloatBits(batchColor.r, batchColor.g, batchColor.b,
+                batchColor.a * layer.getOpacity());
 
         float tileWidth = layer.getTileWidth() * unitScale;
         float tileHeight = layer.getTileHeight() * unitScale;
@@ -104,14 +104,15 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
         // ROW1
         topLeft.set(viewBounds.x - layerOffsetX, viewBounds.y - layerOffsetY);
         // ROW2
-        bottomRight.set(viewBounds.x + viewBounds.width - layerOffsetX, viewBounds.y + viewBounds.height - layerOffsetY);
+        bottomRight.set(viewBounds.x + viewBounds.width - layerOffsetX,
+                viewBounds.y + viewBounds.height - layerOffsetY);
 
         // transforming screen coordinates to iso coordinates
-        int row1 = (int)(translateScreenToIso(topLeft).y / tileWidth) - 2;
-        int row2 = (int)(translateScreenToIso(bottomRight).y / tileWidth) + 2;
+        int row1 = (int) (translateScreenToIso(topLeft).y / tileWidth) - 2;
+        int row2 = (int) (translateScreenToIso(bottomRight).y / tileWidth) + 2;
 
-        int col1 = (int)(translateScreenToIso(bottomLeft).x / tileWidth) - 2;
-        int col2 = (int)(translateScreenToIso(topRight).x / tileWidth) + 2;
+        int col1 = (int) (translateScreenToIso(bottomLeft).x / tileWidth) - 2;
+        int col2 = (int) (translateScreenToIso(topRight).x / tileWidth) + 2;
 
         for (int row = row2; row >= row1; row--) {
             for (int col = col1; col <= col2; col++) {
@@ -119,8 +120,9 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
                 float y = (row * halfTileHeight) - (col * halfTileHeight);
 
                 final TiledMapTileLayer.Cell cell = layer.getCell(col, row);
-                if (cell == null) continue;
-                final TiledMapTile tile = cell.getTile();
+                if (cell == null)
+                    continue;
+                final TerrainTile tile = (TerrainTile) cell.getTile();
 
                 if (tile != null) {
                     final boolean flipX = cell.getFlipHorizontally();

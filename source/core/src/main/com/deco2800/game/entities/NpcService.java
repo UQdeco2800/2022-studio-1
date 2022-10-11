@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Provides a global access point for NPC entities to register themselves. This allows for iterating
@@ -37,7 +38,11 @@ public class NpcService extends EntityService {
     private int npcType;
 
     public void setNpcNum(int num) {
-        this.npcNum = num;
+        if (num < 0){
+            //logger.error("number of NPCs cannot be negative");
+        }else {
+            this.npcNum = num;
+        }
     }
 
     public int getNpcNum() {
@@ -147,7 +152,9 @@ public class NpcService extends EntityService {
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         mousePosV2.x -= 0.5;
         mousePosV2.y -= 0.5;
-        //System.out.println(isVisible);
+//        System.out.println("mouse x:" +mousePosV2.x);
+//        System.out.println("mouse y:" +mousePosV2.y);
+
         if (isVisible) {
             Conversation.remove();
             isVisible = false;
@@ -158,11 +165,16 @@ public class NpcService extends EntityService {
             float xPos = NPC.getPosition().x;
             float yPos = NPC.getPosition().y;
 
-            if (xPos-0.2 < mousePosV2.x && mousePosV2.x < xPos+0.2) {
-                if (yPos-0.2 < mousePosV2.y && mousePosV2.y < yPos+0.2) {
+//            System.out.println(xPos);
+//            System.out.println(yPos);
+            if (xPos+2.6 < mousePosV2.x && mousePosV2.x < xPos+4.6) {
+                if (yPos+1.3 < mousePosV2.y && mousePosV2.y < yPos+5.6) {
+//            if (xPos+1 < mousePosV2.x && mousePosV2.x < xPos+3) {
+//                if (yPos+0.5 < mousePosV2.y && mousePosV2.y < yPos+4) {
+
                     //System.out.println("npc clicked");
-                    //initiate conversation
-                    if(NPC.getName()=="SpecialNPC") {
+                    //initiate conversationS
+                    if(Objects.equals(NPC.getName(), "SpecialNPC")) {
                         Conversation = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameNpcInterface.class).makeUIPopUp(true);
                         isVisible = true;
                     }

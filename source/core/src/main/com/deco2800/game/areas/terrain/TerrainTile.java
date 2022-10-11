@@ -1,25 +1,27 @@
 package com.deco2800.game.areas.terrain;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.utils.Array;
 
 /**
- * Custom terrain tile implementation for tiled map terrain that stores additional properties we
- * may want to have in the game, such as audio, walking speed, traversability by AI, etc.
+ * Custom terrain tile implementation for tiled map terrain that stores
+ * additional properties we
+ * may want to have in the game, such as audio, walking speed, traversability by
+ * AI, etc.
  */
-public class TerrainTile implements TiledMapTile {
+public class TerrainTile extends AnimatedTiledMapTile {
   private int id;
   private BlendMode blendMode = BlendMode.ALPHA;
-  private TextureRegion textureRegion;
   private float offsetX;
   private float offsetY;
 
   private final String name;
 
-  public TerrainTile(TextureRegion textureRegion, String name) {
-    this.textureRegion = textureRegion;
+  public TerrainTile(float interval, Array<StaticTiledMapTile> frameTiles, String name) {
+    super(interval, frameTiles);
     this.name = name;
   }
 
@@ -47,38 +49,9 @@ public class TerrainTile implements TiledMapTile {
     this.blendMode = blendMode;
   }
 
-  @Override
-  public TextureRegion getTextureRegion() {
-    return textureRegion;
-  }
-
-  @Override
-  public void setTextureRegion(TextureRegion textureRegion) {
-    this.textureRegion = textureRegion;
-  }
-
-  @Override
-  public float getOffsetX() {
-    return offsetX;
-  }
-
-  @Override
-  public void setOffsetX(float offsetX) {
-    this.offsetX = offsetX;
-  }
-
-  @Override
-  public float getOffsetY() {
-    return offsetY;
-  }
-
-  @Override
-  public void setOffsetY(float offsetY) {
-    this.offsetY = offsetY;
-  }
-
   /**
    * Not required for game, unimplemented
+   * 
    * @return null
    */
   @Override
@@ -88,6 +61,7 @@ public class TerrainTile implements TiledMapTile {
 
   /**
    * Not required for game, unimplemented
+   * 
    * @return null
    */
   @Override

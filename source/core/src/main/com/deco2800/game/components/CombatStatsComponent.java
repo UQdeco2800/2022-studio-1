@@ -5,9 +5,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  * Component used to store information related to combat such as health, attack,
@@ -25,11 +28,14 @@ public class CombatStatsComponent extends Component {
   private int level;
   private int defense;
   private int currentAttack;
+  private int attackMultiplier;
   private int maxHealth = 10000;
+  private boolean invincible = false;
 
   public CombatStatsComponent(int health, int baseAttack) {
     setHealth(health);
     setBaseAttack(baseAttack);
+    setAttackMultiplier(1);
     this.baseHealth = health;
     this.currentAttack = baseAttack;
   }
@@ -38,6 +44,7 @@ public class CombatStatsComponent extends Component {
     setHealth(health);
     setBaseAttack(baseAttack);
     setBaseDefense(defense);
+    setAttackMultiplier(1);
   }
 
   /**
@@ -49,6 +56,7 @@ public class CombatStatsComponent extends Component {
     this.baseHealth = health;
     setBaseAttack(baseAttack);
     setLevel(level);
+    setBaseDefense(defense);
     this.currentAttack = baseAttack;
   }
 
@@ -88,27 +96,66 @@ public class CombatStatsComponent extends Component {
   }
 
   /**
-   * Sets the entity's health. Health has a minimum bound of 0.
+   * Sets the entity's health. Health must be greater than 0.
+   * If the health value to be set exceeds the entities maximum health, it is capped at the maxHealth value.
+   * If the health value is 0 or less, the entity is killed.
    *
    * @param health health
    */
   public void setHealth(int health) {
-    if (health >= 0) {
-      if (health <= maxHealth) {
+    if (health > 0) {
+      if (health > maxHealth) {
+        this.health = maxHealth;
+      } else {
         this.health = health;
       }
-      // }else {
-      // logger.info("max health is reached");
-      // }
     } else {
       this.health = 0;
+      if (entity != null && entity.getName() != null) {
+
+        // create an enemy list to contain all enemies
+        String[] enemies = {"Zero", "Crab", "Electricity", "Starfish"};
+        // remove enemies if health point is 0
+        for (String enemy : enemies) {
+          if (entity != null && entity.getName().contains(enemy) && isDead()) {
+            if (entity.getName().contains("Zero")) {
+              ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BOSS_KILL, 10L);
+            }
+
+            entity.dispose();
+          }
+        }
+
+        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
+          killEntity("crystal");
+        }
+        if (entity != null && Objects.equals(entity.getName(), "player")) {
+          killEntity("player");
+        }
+      }
     }
 
     if (entity != null) {
       entity.getEvents().trigger("updateHealth", this.health);
-      if (health == 0) {
-        entity.getEvents().trigger("crystalDeath");
-      }
+    }
+  }
+
+  /**
+   * Triggers listener events when certain entities should be killed. Each entity can be handled separately.
+   *
+   * @param entityName the name of the entity to kill
+   */
+  public void killEntity(String entityName) {
+    //String entityName = entity.getName()t
+    switch (entityName) {
+      case "player":
+        entity.getEvents().trigger("playerDeath");
+        break;
+      case "crystal":
+        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
+        break;
+      default:
+        //do nothing
     }
   }
 
@@ -150,15 +197,27 @@ public class CombatStatsComponent extends Component {
     }
   }
 
+  public void setAttackMultiplier(int multiplier) {
+    this.attackMultiplier = multiplier;
+    revertAttack();
+    addAttack(baseAttack * (multiplier - 1));
+  }
+
+  public int getAttackMultiplier() {
+    return attackMultiplier;
+  }
   /**
    * Returns the entity's base attack damage.
    *
    * @return base attack damage
    */
   public int getBaseAttack() {
-    return currentAttack;
+    return baseAttack;
   }
 
+  public int getCurrentAttack() {
+    return currentAttack;
+  }
   public void addAttack(int attackPower) {
     currentAttack += attackPower;
   }
@@ -174,17 +233,23 @@ public class CombatStatsComponent extends Component {
    */
   public void setBaseAttack(int attack) {
     if (attack >= 0) {
-      this.currentAttack = attack;
+      this.baseAttack = attack;
     } else {
       logger.error("Can not set base attack to a negative attack value");
     }
   }
 
   public void hit(CombatStatsComponent attacker) {
-    int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
-    setHealth(newHealth);
-    Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
-    hurtSound.play();
+    if (!invincible) {
+      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      setHealth(newHealth);
+      Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
+      hurtSound.play();
+    }
+  }
+
+  public void setInvincibility (Boolean state) {
+    this.invincible = state;
   }
 
   public void setBaseDefense(int defense) {

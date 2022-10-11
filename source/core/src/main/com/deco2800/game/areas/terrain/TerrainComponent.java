@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,16 +14,25 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.EntityService;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
+import com.deco2800.game.services.RangeService;
 import com.deco2800.game.services.ServiceLocator;
 
 import javax.management.ValueExp;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Render a tiled terrain for a given tiled map and orientation. A terrain is a
@@ -31,9 +41,11 @@ import javax.management.ValueExp;
  * show/hide the terrain.
  */
 public class TerrainComponent extends RenderComponent {
-  private static final int TERRAIN_LAYER = 0;
+
+  private static final Logger logger = LoggerFactory.getLogger(TerrainComponent.class);
+
   private int currentMapLvl = 0;
-  private ArrayList<ArrayList<GridPoint2>> bordersList;
+  private int isNight = 0;
   private ArrayList<ArrayList<GridPoint2>> landTilesList;
   private ArrayList<Entity> walls;
 
@@ -55,7 +67,6 @@ public class TerrainComponent extends RenderComponent {
       TerrainOrientation orientation,
       float tileSize,
       GridPoint2 island_size,
-      ArrayList<ArrayList<GridPoint2>> bordersPositionList,
       ArrayList<ArrayList<GridPoint2>> landTilesList) {
     this.camera = camera;
     this.tiledMap = map;
@@ -77,45 +88,12 @@ public class TerrainComponent extends RenderComponent {
       this.dayNightCycleComponent = ServiceLocator.getRenderService().getDayNightCycleComponent();
     }
 
-    this.bordersList = bordersPositionList;
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+        this::partOfDayPassed);
+
     this.landTilesList = landTilesList;
     this.walls = new ArrayList<>();
 
-  }
-
-  public void spawnIslandBorders(int levelNum) {
-    // Dispose of current old borders
-    for (int i = 0; i < walls.size(); i++) {
-      walls.get(i).dispose();
-      ServiceLocator.getEntityService().removeNamedEntity("wall" + walls.get(i).getId(), entity);
-      walls.remove(i);
-    }
-
-    // Create new borders [Note: Make sure walls are registered as a named entity so
-    // we can dispose of them above]
-    ArrayList<GridPoint2> borders = bordersList.get(levelNum); // list of tile positions for where the border should be
-                                                               // placed
-    for (int i = 0; i < borders.size(); i++) {
-      Entity wall = new Entity()
-          .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
-          .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
-      wall.setName("wall");
-      wall.setScale(1f, 0.5997f);
-
-      Vector2 worldPos = tileToWorldPosition(borders.get(i));
-      float tileSize = getTileSize();
-
-      worldPos.x += (tileSize / 2) - wall.getCenterPosition().x;
-
-      worldPos.y += (tileSize / 2) - wall.getCenterPosition().y;
-
-      wall.setPosition(worldPos);
-      wall.setCollectable(false);
-
-      walls.add(wall);
-      ServiceLocator.getEntityService().registerNamed("wall" + wall.getId(), wall);
-      ServiceLocator.getEntityService().addEntity(wall);
-    }
   }
 
   public Vector2 tileToWorldPosition(GridPoint2 tilePos) {
@@ -128,9 +106,10 @@ public class TerrainComponent extends RenderComponent {
    */
   public GridPoint2 worldToTilePosition(float x, float y) {
     Vector2 screenPosition = new Vector2(x, y);
-    Vector3 tilePosition = IsoTileRenderer.translateScreenToIso(screenPosition);
-    GridPoint2 tilePos = new GridPoint2((int) (tilePosition.x + (tileSize/2)), (int)(tilePosition.y - (tileSize/2)));
-    tilePos = new GridPoint2((int) (tilePos.x/tileSize), (int) (tilePos.y/tileSize));
+    Vector3 tilePosition = ((IsoTileRenderer) tiledMapRenderer).translateScreenToIso(screenPosition);
+    GridPoint2 tilePos = new GridPoint2((int) (tilePosition.x + (tileSize / 2)),
+        (int) (tilePosition.y - (tileSize / 2)));
+    tilePos = new GridPoint2((int) (tilePos.x / tileSize), (int) (tilePos.y / tileSize));
     return tilePos;
   }
 
@@ -141,7 +120,7 @@ public class TerrainComponent extends RenderComponent {
         float yOffset = (x % 2 == 0) ? 0.5f * tileSize : 0f;
         return new Vector2(x * (tileSize + hexLength) / 2, y + yOffset);
       case ISOMETRIC:
-        return new Vector2(((x + y) * tileSize / 2)+(tileSize/4), ((y - x) * tileSize / 4)+(tileSize/8));
+        return new Vector2(((x + y) * tileSize / 2) + (tileSize / 4), ((y - x) * tileSize / 4) + (tileSize / 8));
       case ORTHOGONAL:
         return new Vector2(x * tileSize, y * tileSize);
       default:
@@ -157,15 +136,61 @@ public class TerrainComponent extends RenderComponent {
     return walls;
   }
 
+  private void damageSunkenBuildings() {
+
+    String[] buildingNames = { "wall", "tower", "trap", "stoneQuarry", "woodCutter" };
+
+    UGS ugs = ServiceLocator.getUGSService();
+    GridPoint2 mapBounds = getMapBounds(currentMapLvl * 2 + isNight);
+    for (int x = 0; x < mapBounds.x; x++) {
+      for (int y = 0; y < mapBounds.y; y++) {
+        Entity entity = ugs.getEntity(new GridPoint2(x, y));
+        if (entity != null && ugs.getTileType(new GridPoint2(x, y)).equals("water")) {
+          String name = entity.getName();
+
+          for (String s : buildingNames) {
+            if (name.contains(s)) {
+              System.out.println("{Entity Details} => [Name: " + name + "]" + " [ID: " + entity.getId() + "]");
+              ugs.removeEntity(name);
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  /**
+   * Updates the UGS in response to map state changing: updates each coordinate in
+   * the UGS to the new tile type.
+   */
+  private void updateUGS() {
+    TiledMapTileLayer currentLayer = getTileMapTileLayer(currentMapLvl * 2 + isNight);
+    UGS ugs = ServiceLocator.getUGSService();
+    for (int x = 0; x < currentLayer.getWidth(); x++) {
+      for (int y = 0; y < currentLayer.getHeight(); y++) {
+        String name = ((TerrainTile) currentLayer.getCell(x, y).getTile()).getName();
+        ugs.setTileType(new GridPoint2(x, y), name);
+      }
+    }
+  }
+
   /**
    * Expands the map by hiding the current layer, and making the next level
    * visible
    */
   public void incrementMapLvl() {
-    getMap().getLayers().get(currentMapLvl).setVisible(false);
+
+    int newLevelNum = (currentMapLvl + 1) * 2 + isNight;
+    if (newLevelNum > getMap().getLayers().size()) {
+      logger.error("TerrainComponent[incrementMapLvl] => incremented level number is outside the bounds of layers");
+      return;
+    }
+
+    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl++;
-    getMap().getLayers().get(currentMapLvl).setVisible(true);
-    spawnIslandBorders(this.currentMapLvl);
+    getMap().getLayers().get(newLevelNum).setVisible(true);
+    updateUGS();
   }
 
   /**
@@ -173,10 +198,33 @@ public class TerrainComponent extends RenderComponent {
    * visible.
    */
   public void decrementMapLvl() {
-    getMap().getLayers().get(currentMapLvl).setVisible(false);
+    int newLevelNum = (currentMapLvl - 1) * 2 + isNight;
+    if (newLevelNum < 0) {
+      logger.error("TerrainComponent[decrementMapLvl] => incremented level number is outside the bounds of layers");
+      return;
+    }
+    getMap().getLayers().get(currentMapLvl * 2 + isNight).setVisible(false);
     this.currentMapLvl--;
-    getMap().getLayers().get(currentMapLvl).setVisible(true);
-    spawnIslandBorders(this.currentMapLvl);
+    getMap().getLayers().get(newLevelNum).setVisible(true);
+
+    // Update coordinate-tile type mapping in UGS
+    updateUGS();
+
+    // Damage any buildings over-taken by water
+    damageSunkenBuildings();
+
+  }
+
+  public void partOfDayPassed(DayNightCycleStatus partOfDay) {
+    if (partOfDay == DayNightCycleStatus.DAY) {
+      getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(false);
+      getMap().getLayers().get(currentMapLvl * 2).setVisible(true);
+      isNight = 0;
+    } else {
+      getMap().getLayers().get(currentMapLvl * 2).setVisible(false);
+      getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(true);
+      isNight = 1;
+    }
   }
 
   public float getTileSize() {
