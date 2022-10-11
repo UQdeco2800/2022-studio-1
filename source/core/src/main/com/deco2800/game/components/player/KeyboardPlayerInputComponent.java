@@ -19,6 +19,7 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
 //import java.io.Serial;     // this had an error not sure what the go is???
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -30,7 +31,6 @@ import java.util.*;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
-
   private Boolean keyState;
 
 
@@ -189,14 +189,15 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain")
                 .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
         entityName = entityName.replace("Temp", "");
         if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
           ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
                   .dispose();
+
           ServiceLocator.getStructureService().setTempBuildState(false);
           ServiceLocator.getStructureService().clearVisualTiles();
-//          triggerUIBuildingPopUp(screenX, screenY); //Not Functional
         }
       } else {
         // crystal has been clicked
@@ -209,6 +210,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           //if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
           //        || name.contains("tower3"))
           StructureService.setUiPopUp(screenX, screenY, true);
+
         }
       }
     }
@@ -286,12 +288,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     // System.out.println(inventoryComponent.getGold());
   }
 
-  private void triggerUIBuildingPopUp(int screenX, int screenY) {
-    String name = ServiceLocator.getStructureService().getTempEntityName();
-    if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
-        || name.contains("tower3"))
-      StructureService.setUiPopUp(screenX, screenY, true);
-  }
+//  private void triggerUIBuildingPopUp(int screenX, int screenY) {
+//    String name = ServiceLocator.getStructureService().getTempEntityName();
+//    if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
+//        || name.contains("tower3"))
+//      StructureService.setUiPopUp(screenX, screenY, true);
+//  }
 
   private void movePlayerInUgs() {
     // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
@@ -340,4 +342,5 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 //    }
 
   }
+
 }
