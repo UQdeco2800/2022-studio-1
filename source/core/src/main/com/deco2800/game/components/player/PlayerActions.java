@@ -119,9 +119,9 @@ public class PlayerActions extends Component {
    */
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
-//    Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
-//    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y);
-//    boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
+    Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
+    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y);
+    boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
 
     Entity closestEnemy = null;
     Entity closestEntity = null;
