@@ -119,46 +119,6 @@ public class CrystalFactory {
     }
 
     /**
-     * Determine if crystal is being clicked
-     * 
-     * @param screenX x coordinate
-     * @param screenY y coordinate
-     */
-    public static boolean crystalClicked(int screenX, int screenY) {
-        // testing crystal upgrade on click
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        mousePosV2.x -= 0.5;
-        mousePosV2.y -= 0.5;
-
-        if (isVisible) {
-            PopUp.remove();
-            isVisible = false;
-        }
-
-        GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .worldToTilePosition(mousePosV2.x, mousePosV2.y);
-        Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-        float xPos = crystal.getPosition().x;
-        float yPos = crystal.getPosition().y;
-
-        // System.out.println(mousePosV2);
-        // crystal position x = 60.0, y = 0.0
-        if (xPos - 8 < mousePosV2.x && mousePosV2.x < xPos + 8) {
-            if (yPos - 8 < mousePosV2.y && mousePosV2.y < yPos + 8) {
-                // crystal.getComponent(CombatStatsComponent.class).upgrade();
-                PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY, mapPos, "crystal");
-                isVisible = true;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Recover crystal health at dawn, day, and dusk
      */
     public static void recoverCrystalHealth(Entity crystal) {

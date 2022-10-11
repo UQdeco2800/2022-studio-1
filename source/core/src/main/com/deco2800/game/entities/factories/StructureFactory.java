@@ -40,6 +40,8 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+  private static String[] wallSprites = {"images/wallLeft.png", "images/wallRight.png"};
+  private static String[] tower1Sprites = {"images/guardianLegacy1left.png", "images/guardianLegacy1right.png"};
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -62,18 +64,20 @@ public class StructureFactory {
    *
    * @return specialised Wall entity
    */
-  public static Entity createWall(String name, Boolean isTemp) {
+  public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure("images/Wall-right.png", name); //change texture to be temp texture
+      wall = createBaseStructure(tower1Sprites[orientation], name); //change texture to be temp texture
     } else {
-      wall = createBaseStructure("images/Wall-right.png", name);
+      wall = createBaseStructure(tower1Sprites[orientation], name);
     }
     BaseStructureConfig config = configs.wall;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
-
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    Texture t = wall.getComponent(TextureRenderComponent.class).getTexture();
+    wall.setScale((tileSize), (tileSize)*(float) t.getHeight() / t.getWidth());
     //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
     wall.setCollectable(Boolean.FALSE);
 
@@ -111,12 +115,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
     //TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/TOWER1I.png"; //change texture to be temp texture
+      TOWER1I = "images/guardianLegacy1left.png"; //change texture to be temp texture
     } else {
-      TOWER1I = "images/TOWER1I.png";
+      TOWER1I = "images/guardianLegacy1right.png";
     }
-    String TOWER1II = "images/TOWER1II.png";
-    String TOWER1III = "images/TOWER1III.png";
+    String TOWER1II = "images/guardianLegacy1left.png";
+    String TOWER1III = "images/guardianLegacy1right.png";
 
     Entity tower1;
     BaseStructureConfig config;
