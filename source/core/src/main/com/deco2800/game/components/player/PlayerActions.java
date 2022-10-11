@@ -56,6 +56,8 @@ public class PlayerActions extends Component {
   @Override
   public void update() {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+
+
     if (moving) {
       updateSpeed();
 
