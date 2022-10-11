@@ -75,8 +75,9 @@ class TerrainComponentTest {
         .thenReturn(translate(new Vector2(1020f, -14.6f)));
     GridPoint2 islandSize = new GridPoint2(120, 120);
     ArrayList<ArrayList<GridPoint2>> landTilesList = new ArrayList<>();
+    ArrayList<ArrayList<GridPoint2>> walls = new ArrayList<>();
     return new TerrainComponent(camera, map, (TiledMapRenderer) mapRenderer, orientation, tileSize, islandSize,
-        landTilesList);
+        landTilesList, walls);
   }
 
   private static Vector3 translate(Vector2 pos) {

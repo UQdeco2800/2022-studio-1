@@ -143,64 +143,10 @@ public class AtlantisSinksGameArea extends GameArea {
         GridPoint2 tileBounds = terrain.getMapBounds(0);
         Vector2 worldBounds = new Vector2(tileBounds.x * tileSize, tileBounds.y * tileSize);
 
-//        spawnWorldBorders();
+        //spawnWorldBorders();
     }
 
-    private void spawnWorldBorders() {
-        GridPoint2 mapSize = terrainFactory.getMapSize();
 
-        TiledMapTileLayer tiledMapTileLayer = terrain.getTileMapTileLayer(0);
-
-        for (int x = 1; x < mapSize.x - 1; x++) {
-            for (int y = 1; y < mapSize.y - 1; y++) {
-                TerrainTile tile = (TerrainTile) tiledMapTileLayer.getCell(x, y).getTile();
-
-                TerrainTile above = (TerrainTile) tiledMapTileLayer.getCell(x, y + 1).getTile();
-                TerrainTile below = (TerrainTile) tiledMapTileLayer.getCell(x, y - 1).getTile();
-                TerrainTile left = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y).getTile();
-                TerrainTile right = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y).getTile();
-                TerrainTile rightAbove = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y + 1).getTile();
-                TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y - 1).getTile();
-                TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
-                TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();
-
-                if (tile.getName().equals("grass")) {
-                    if (above.getName().equals("water")) {
-                        createBorderWall(x, y + 1);
-                    }
-                    if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
-                        createBorderWall(x, y - 1);
-                    }
-                    if (left.getName().equals("water")) {
-                        createBorderWall(x - 1, y);
-                    }
-                    if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
-                        createBorderWall(x + 1, y);
-                    }
-                    if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
-                            || rightAbove.getName().equals("cliff")) {
-                        createBorderWall(x + 1, y + 1);
-                    }
-                    if (rightBelow.getName().equals("cliff")) {
-                        createBorderWall(x + 1, y - 1);
-                    }
-                    if (leftAbove.getName().equals("water")) {
-                        createBorderWall(x - 1, y + 1);
-                    }
-                    if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
-                            || leftBelow.getName().equals("cliffLeft")) {
-                        createBorderWall(x - 1, y + 1);
-                    }
-                }
-            }
-        }
-    }
-
-    private void createBorderWall(int x, int y) {
-        //Fix this to match Luke's stuff
-        Entity wall = ObstacleFactory.createWall(1f, 0.5f);
-        super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
-    }
 
 
     private void loadAssets() {
