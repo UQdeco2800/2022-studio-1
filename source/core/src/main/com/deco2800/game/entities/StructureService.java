@@ -233,8 +233,7 @@ public class StructureService extends EntityService {
     tempEntity.setPosition(worldLoc);
   }
 
-  public static void setUiPopUp(int screenX, int screenY) {
-
+  public static void setUiPopUp(int screenX, int screenY, boolean onClick) {
     //getting the building location on the map
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
@@ -244,17 +243,18 @@ public class StructureService extends EntityService {
     // building name
     String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
     //if UI is false on click then the pop-up should appear
-    if (!uiIsVisible) {
-      uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-              .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
-      uiIsVisible = true;
-      // else the pop-up will be removed
+    if (onClick) {
+      if (!uiIsVisible) {
+        uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
+                .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+        uiIsVisible = true;
+        // else the pop-up will be removed
+      }
     } else {
-      if (uiIsVisible) {
         uiPopUp.remove();
         uiIsVisible = false;
       }
     }
-  }
+
 
 }

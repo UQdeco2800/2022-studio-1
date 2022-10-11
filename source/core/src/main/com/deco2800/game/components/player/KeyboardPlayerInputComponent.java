@@ -28,6 +28,7 @@ import java.util.*;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
+  private boolean onClick = false;
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -158,20 +159,32 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    GridPoint2 strucureLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    if(Objects.equals(ServiceLocator.getUGSService().getEntity(strucureLoc), "structure")) {
+
+      System.out.println("onclick");
+      onClick = true;
+      StructureService.setUiPopUp(screenX, screenY, onClick);
+    } else {
+      onClick = false;
+    }
+
     if (pointer == Input.Buttons.LEFT) {
-      if (ServiceLocator.getStructureService().getTempBuildState()) {
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+      if (StructureService.getTempBuildState()) {
+
         GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
-        String entityName = ServiceLocator.getStructureService().getTempEntityName();
+        String entityName = StructureService.getTempEntityName();
         entityName = entityName.replace("Temp", "");
         System.out.println("entityName: " + entityName);
-        if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
-          ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName()).dispose();
+
+
+        if (StructureService.buildStructure(entityName, loc)) {
+          ServiceLocator.getEntityService().getNamedEntity(StructureService.getTempEntityName()).dispose();
           ServiceLocator.getStructureService().setTempBuildState(false);
-          triggerUIBuildingPopUp(screenX,screenY);
         }
       }
     }
@@ -249,9 +262,5 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     // System.out.println(inventoryComponent.getGold());
   }
 
-  private void triggerUIBuildingPopUp(int screenX, int screenY) {
-    String name = ServiceLocator.getStructureService().getTempEntityName();
-    if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2") || name.contains("tower3"))
-      StructureService.setUiPopUp(screenX, screenY);
-  }
+
 }
