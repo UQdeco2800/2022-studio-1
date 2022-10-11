@@ -192,8 +192,11 @@ public class StructureService extends EntityService {
           return false;
       }
 
-      structure.setPosition(worldPosition);
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldPosition.x -= tileSize/4;
+      worldPosition.y -= tileSize/8;
+      structure.setPosition(worldPosition);
       return true;
     }
     return false;
@@ -268,6 +271,9 @@ public class StructureService extends EntityService {
     buildingTempEntity = true;
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    worldLoc.x -= tileSize/4;
+    worldLoc.y -= tileSize/8;
     tempEntity.setPosition(worldLoc);
     drawVisualFeedback(loc, "structure");
   }

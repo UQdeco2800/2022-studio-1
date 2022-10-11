@@ -73,7 +73,9 @@ public class StructureFactory {
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
-
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    Texture t = wall.getComponent(TextureRenderComponent.class).getTexture();
+    wall.setScale((tileSize), (tileSize)*(float) t.getHeight() / t.getWidth());
     //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
     wall.setCollectable(Boolean.FALSE);
 

@@ -16,6 +16,8 @@ import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -27,6 +29,7 @@ import java.util.*;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
+  private Boolean keyState;
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -157,6 +160,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           .worldToTilePosition(mousePosV2.x, mousePosV2.y);
       Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain")
           .getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldLoc.x -= tileSize/4;
+      worldLoc.y -= tileSize/8;
       ServiceLocator.getStructureService().drawVisualFeedback(loc, "structure");
       ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
           .setPosition(worldLoc);
