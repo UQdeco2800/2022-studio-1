@@ -305,7 +305,7 @@ public class UGS {
                 tiles.get(newPosKey).setEntity(entity);
                 setEntity(coordinate, entity, "player");
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
+//                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
@@ -322,7 +322,7 @@ public class UGS {
                 tiles.get(newPosKey).setEntity(entity);
                 setEntity(coordinate, entity, "player");
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
+//                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
@@ -340,7 +340,7 @@ public class UGS {
                 tiles.replace(oldPosKey, replacement);
                 tiles.get(newPosKey).setEntity(entity);
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
+//                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
@@ -357,7 +357,7 @@ public class UGS {
                 tiles.get(newPosKey).setEntity(entity);
                 setEntity(coordinate, entity, "player");
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
+//                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
