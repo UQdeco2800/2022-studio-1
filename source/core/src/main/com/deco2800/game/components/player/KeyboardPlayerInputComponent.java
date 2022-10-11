@@ -181,6 +181,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    Boolean onClick = false;
+
     if (pointer == Input.Buttons.LEFT) {
       if (ServiceLocator.getStructureService().getTempBuildState()) {
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -205,13 +207,21 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
           CrystalFactory.upgradeCrystal();
         }
-        String name = StructureService.getTempEntityName();
-        if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity(name)) {
-          //if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
-          //        || name.contains("tower3"))
-          StructureService.setUiPopUp(screenX, screenY, true);
 
+
+        String entityName = ServiceLocator.getStructureService().getTempEntityName();
+      if (entityName != null) {
+        if (!onClick) {
+          if (entityName.contains("tower1") || entityName.contains("wall") ||
+                  entityName.contains("trap") || entityName.contains("tower2")
+                  || entityName.contains("tower3")) {
+            onClick = true;
+            StructureService.setUiPopUp(screenX, screenY, onClick);
+          }
+        } else {
+          onClick = false;
         }
+      }
       }
     }
     return true;
@@ -288,12 +298,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     // System.out.println(inventoryComponent.getGold());
   }
 
-//  private void triggerUIBuildingPopUp(int screenX, int screenY) {
-//    String name = ServiceLocator.getStructureService().getTempEntityName();
-//    if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
-//        || name.contains("tower3"))
-//      StructureService.setUiPopUp(screenX, screenY, true);
-//  }
 
   private void movePlayerInUgs() {
     // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION

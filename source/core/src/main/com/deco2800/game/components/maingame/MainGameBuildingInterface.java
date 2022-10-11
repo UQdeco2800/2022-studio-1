@@ -214,13 +214,6 @@ public class MainGameBuildingInterface extends UIComponent {
         return BuildingUI;
     }
 
-
-    public boolean isVisability() {
-        return visability;
-    }
-
-
-
     private Array<StringDecorator<Graphics.DisplayMode>> getDisplayModes(Graphics.Monitor monitor) {
         Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes(monitor);
         Array<StringDecorator<Graphics.DisplayMode>> arr = new Array<>();

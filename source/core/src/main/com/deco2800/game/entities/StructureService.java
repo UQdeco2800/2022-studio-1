@@ -362,16 +362,21 @@ public class StructureService extends EntityService {
     //if UI is false on click then the pop-up should appear
     if (onClick) {
       if (!uiIsVisible) {
-        String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
-        uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-                .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
-        uiIsVisible = true;
-        // else the pop-up will be removed
-      }
-    } else {
+        try {
+          String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
+
+          uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
+                  .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+          uiIsVisible = true;
+          // else the pop-up will be removed
+        } catch (NullPointerException e) {
+          logger.debug("Error with UGS having building null");
+        }
+      } else {
         uiPopUp.remove();
         uiIsVisible = false;
       }
+    }
     }
 
 
