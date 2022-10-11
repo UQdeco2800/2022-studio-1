@@ -157,12 +157,12 @@ public class HealthBarComponent extends RenderComponent {
 //                        System.out.println(entity.getName());
 //                        System.out.println(buildingName);
 //                        if (!(buildingName == this.entity.getName())) {
-                            if (this.entity == null) {
-                                float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
-                                        - (this.healthBarWidth / 2f);
-                                float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
-                                this.progressBar.setPosition(healthBarXPos, healthBarYPos);
-                            }
+//                            if (this.entity == null) {
+//                                float healthBarXPos = ((entityCurrentPosition.x * pixelsPerUnit) + (entityWidthScale / 2 * pixelsPerUnit))
+//                                        - (this.healthBarWidth / 2f);
+//                                float healthBarYPos = (entityCurrentPosition.y * pixelsPerUnit) + (entityHeightScale * pixelsPerUnit);
+//                                this.progressBar.setPosition(healthBarXPos, healthBarYPos);
+//                            }
                         }
                     }}
 //            if (!Objects.equals(this.entity.getName(),"player")&&!Objects.equals(this.entity.getName(),"crystal")) {

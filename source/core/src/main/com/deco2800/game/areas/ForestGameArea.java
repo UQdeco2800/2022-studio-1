@@ -22,6 +22,7 @@ import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,6 @@ public class ForestGameArea extends GameArea {
       "images/landscape_objects/leftPalmTree.png",
       "images/landscape_objects/rightPalmTree.png",
       "images/landscape_objects/groupPalmTrees.png",
-      "images/wallTransparent.png",
       "images/landscape_objects/almond-tree-60x62.png",
       "images/landscape_objects/fig-tree-60x62.png",
       "images/landscape_objects/vines.png",
@@ -79,11 +79,6 @@ public class ForestGameArea extends GameArea {
       "images/crystal.png",
       "images/crystal_level2.png",
       "images/crystal_level3.png",
-      "images/Wall-right.png",
-      "images/mini_tower.png",
-      "images/trap.png",
-      "images/turret.png",
-      "images/tower.png",
       "images/65x33_tiles/sand.png",
       "images/65x33_tiles/sand_night.png",
       "images/65x33_tiles/seaweed_1.png",
@@ -108,9 +103,17 @@ public class ForestGameArea extends GameArea {
       "images/65x33_tiles/shorelineTopLeft_night.png",
       "images/65x33_tiles/shorelineLeft_night.png",
       "images/65x33_tiles/shorelineRight_night.png",
-      "images/65x33_tiles/water.png",
-      "images/65x33_tiles/water_night.png",
-      "images/seastack1.png",
+      "images/65x33_tiles/water0.png",
+      "images/65x33_tiles/water1.png",
+      "images/65x33_tiles/water2.png",
+      "images/65x33_tiles/water3.png",
+      "images/65x33_tiles/water_night0.png",
+      "images/65x33_tiles/water_night1.png",
+      "images/65x33_tiles/water_night2.png",
+      "images/65x33_tiles/water_night3.png",
+          "images/65x33_tiles/invalidTile.png",
+          "images/65x33_tiles/validTile.png",
+          "images/seastack1.png",
       "images/seastack2.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
@@ -118,15 +121,6 @@ public class ForestGameArea extends GameArea {
       "images/Eel_Bright_SW.png",
       "images/shipRack.png",
       "images/shipRackFront.png",
-      "images/TOWER1I.png",
-      "images/TOWER1II.png",
-      "images/TOWER1III.png",
-      "images/TOWER2I.png",
-      "images/TOWER2II.png",
-      "images/TOWER2III.png",
-      "images/TOWER3I.png",
-      "images/TOWER3II.png",
-      "images/TOWER3III.png",
       "images/shipWreckBack.png",
       "images/shipWreckFront.png",
       "images/ElectricEel.png",
@@ -135,7 +129,15 @@ public class ForestGameArea extends GameArea {
       "images/NPC convo.png",
       "images/npc1.png",
       "images/npcs/NPC-V2.2.png",
-      "images/npcs/NPC-V2.1.png"
+      "images/npcs/NPC-V2.1.png",
+          "images/guardianLegacy1left.png",
+          "images/guardianLegacy1right.png",
+          "images/cornerWall1.png",
+          "images/cornerWall2.png",
+          "images/cornerWall3.png",
+          "images/cornerWall4.png",
+          "images/wallRight.png",
+          "images/wallLeft.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -183,8 +185,6 @@ public class ForestGameArea extends GameArea {
   public void create() {
 
     loadAssets();
-    ServiceLocator.getGameService().setUpEntities(120);
-
 
     displayUI();
 
@@ -200,7 +200,9 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
-    
+
+    spawnNPCharacter();
+
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -595,20 +597,16 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnNPCharacter() {
-    Entity NPC;
-    if (NPCNum % 3 == 0) {
-      NPC = NPCFactory.createNormalNPC();
-    } else {
-      NPC = NPCFactory.createSpecialNPC();
-    }
-
+    Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+//    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
+    ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());
+
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
-    activeNPCs.add(NPC);
     // NPC.setPosition(terrainFactory.getMapSize().x / 3,
     // terrainFactory.getMapSize().y / 3);
     // ServiceLocator.getEntityService().addEntity(NPC);

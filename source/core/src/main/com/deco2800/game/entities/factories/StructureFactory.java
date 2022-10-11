@@ -1,10 +1,12 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.RangeAttackComponent;
@@ -38,20 +40,44 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+  private static String[] wallSprites = {"images/wallLeft.png", "images/wallRight.png"};
+  private static String[] tower1Sprites = {"images/guardianLegacy1left.png", "images/guardianLegacy1right.png"};
+
+  /**
+   * creates an entity of a coloured tile to show where a building can be placed
+   * @param name of the entity
+   * @param texture the entity uses
+   * @return a coloured tile entity
+   */
+  public static Entity createVisualFeedbackTile(String name, String texture) {
+    Entity structure = new Entity().addComponent(new TextureRenderComponent(texture));
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    Texture t = structure.getComponent(TextureRenderComponent.class).getTexture();
+    structure.setScale((tileSize), (tileSize)*(float) t.getHeight() / t.getWidth());
+    structure.setName(name);
+    structure.setCollectable(false);
+    return structure;
+  }
+
   /**
    * Creates a wall entity.
    *
    * @return specialised Wall entity
    */
-  public static Entity createWall(String name) {
-    Entity wall = createBaseStructure("images/Wall-right.png", name);
+  public static Entity createWall(String name, Boolean isTemp, int orientation) {
+    Entity wall;
+    if (isTemp) {
+      wall = createBaseStructure(tower1Sprites[orientation], name); //change texture to be temp texture
+    } else {
+      wall = createBaseStructure(tower1Sprites[orientation], name);
+    }
     BaseStructureConfig config = configs.wall;
-
-
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
-
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    Texture t = wall.getComponent(TextureRenderComponent.class).getTexture();
+    wall.setScale((tileSize), (tileSize)*(float) t.getHeight() / t.getWidth());
     //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
     wall.setCollectable(Boolean.FALSE);
 
@@ -63,9 +89,14 @@ public class StructureFactory {
  *
  * @return entity
  */
-public static Entity createTrap(String name) {
+public static Entity createTrap(String name, Boolean isTemp) {
   //TODO change trap texture
-  Entity trap = createBaseStructure("images/trap.png", name);
+  Entity trap;
+  if (isTemp) {
+    trap = createBaseStructure("images/trap.png", name); //change texture to be temp texture
+  } else {
+    trap = createBaseStructure("images/trap.png", name);
+  }
   BaseStructureConfig config = configs.trap;
 
   trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1, 100))
@@ -80,9 +111,14 @@ public static Entity createTrap(String name) {
    * @param level of the tower to create
    * @return entity
    */
-  public static Entity createTower1(int level, String name) {
+  public static Entity createTower1(int level, String name, Boolean isTemp) {
     //TODO Change string constant
-    String TOWER1I = "images/TOWER1I.png";
+    String TOWER1I;
+    if (isTemp) {
+      TOWER1I = "images/TOWER1I.png"; //change texture to be temp texture
+    } else {
+      TOWER1I = "images/TOWER1I.png";
+    }
     String TOWER1II = "images/TOWER1II.png";
     String TOWER1III = "images/TOWER1III.png";
 
@@ -124,9 +160,14 @@ public static Entity createTrap(String name) {
  * @param level of the tower
  * @return tower2 entity
  */
-  public static Entity createTower2(int level, String name) {
+  public static Entity createTower2(int level, String name, Boolean isTemp) {
     //@TODO Change string constant
-    String TOWER2I = "images/TOWER2I.png";
+    String TOWER2I;
+    if (isTemp) {
+      TOWER2I = "images/TOWER2I.png"; //change texture to be temp texture
+    } else {
+      TOWER2I = "images/TOWER2I.png";
+    }
     String TOWER2II = "images/TOWER2II.png";
     String TOWER2III = "images/TOWER2III.png";
     Entity tower2;
@@ -166,9 +207,14 @@ public static Entity createTrap(String name) {
    * @param level of the tower
    * @return tower3 entity
    */
-  public static Entity createTower3(int level, String name) {
+  public static Entity createTower3(int level, String name, Boolean isTemp) {
     //@TODO Change string constant
-    String TOWER3I = "images/TOWER3I.png";
+    String TOWER3I;
+    if (isTemp) {
+      TOWER3I = "images/TOWER3I.png"; //change texture to be temp texture
+    } else {
+      TOWER3I = "images/TOWER3I.png";
+    }
     String TOWER3II = "images/TOWER3II.png";
     String TOWER3III = "images/TOWER3III.png";
 
@@ -249,18 +295,13 @@ public static Entity createTrap(String name) {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-//      System.out.println("Checking for inventory component");
-//      System.out.println("Got inventory component");
       //Get the cost of the building
       int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
       int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
       int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-//      System.out.println("refund: " + refundMultiplier);
       //Add (<resource> * refundMultiplier) to PLAYER's inventory
-//      System.out.println("before: " + player.getComponent(InventoryComponent.class).getGold());
 
       player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
-//      System.out.println("After: " + player.getComponent(InventoryComponent.class).getGold());
       player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
       player.getComponent(InventoryComponent.class).addWood((int)(wood * refundMultiplier));
   }
@@ -319,11 +360,11 @@ public static Entity createTrap(String name) {
         switch(level) {
           //Only two possible upgrades 1->2 and 2->3
           case 1:
-            tower1 = StructureFactory.createTower1(2, structName);
+            tower1 = StructureFactory.createTower1(2, structName, false);
             ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
             break;
           case 2:
-            tower1 = StructureFactory.createTower1(3, structName);
+            tower1 = StructureFactory.createTower1(3, structName, false);
             ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
             break;
         }
@@ -332,11 +373,11 @@ public static Entity createTrap(String name) {
       switch(level) {
         //Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower2 = StructureFactory.createTower2(2, structName);
+          tower2 = StructureFactory.createTower2(2, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
         case 2:
-          tower2 = StructureFactory.createTower2(3, structName);
+          tower2 = StructureFactory.createTower2(3, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
         }
@@ -345,11 +386,11 @@ public static Entity createTrap(String name) {
       switch(level) {
         //Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower3 = StructureFactory.createTower3(2, structName);
+          tower3 = StructureFactory.createTower3(2, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           break;
         case 2:
-          tower3 = StructureFactory.createTower3(3, structName);
+          tower3 = StructureFactory.createTower3(3, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           break;
       }

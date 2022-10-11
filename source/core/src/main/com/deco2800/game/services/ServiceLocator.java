@@ -1,7 +1,6 @@
 package com.deco2800.game.services;
 
 import com.deco2800.game.entities.EntityService;
-import com.deco2800.game.areas.GameService;
 import com.deco2800.game.entities.NpcService;
 import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.UGS;
@@ -30,7 +29,6 @@ public class ServiceLocator {
   private static ResourceService resourceService;
   private static StructureService structureService;
   private static DayNightCycleService dayNightCycleService;
-  private static GameService gameService;
   private static UGS ugsService;
   private static ResourceManagementService resourceManagementService;
   private static AchievementHandler achievementHandler;
@@ -40,10 +38,6 @@ public class ServiceLocator {
 
   public static EntityService getEntityService() {
     return entityService;
-  }
-
-  public static GameService getGameService() {
-    return gameService;
   }
 
   public static RangeService getRangeService() {
@@ -97,11 +91,6 @@ public class ServiceLocator {
   public static void registerRangeService(RangeService service) {
     logger.debug("Registering entity service {}", service);
     rangeService = service;
-  }
-
-  public static void registerGameService(GameService service) {
-    logger.debug("Registering game service {}", service);
-    gameService = service;
   }
 
   public static void registerRenderService(RenderService service) {
