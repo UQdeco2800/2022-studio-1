@@ -129,6 +129,9 @@ public class CombatStatsComponent extends Component {
         if (entity != null && Objects.equals(entity.getName(), "crystal")) {
           killEntity("crystal");
         }
+        if (entity != null && Objects.equals(entity.getName(), "player")) {
+          killEntity("player");
+        }
       }
     }
 

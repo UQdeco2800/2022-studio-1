@@ -19,7 +19,6 @@ import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.utils.math.Vector2Utils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,7 +27,8 @@ import java.util.TimerTask;
 
 /**
  * Action component for interacting with the player. Player events should be
- * initialised in create() and should call methods within this class when triggered
+ * initialised in create() and should call methods within this class when
+ * triggered
  */
 public class PlayerActions extends Component {
   private Vector2 MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
@@ -52,7 +52,8 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("playerDeath", this::die);
     timer = new Timer();
-    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED, this::respawn);
+    ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
+        this::respawn);
     playerAlive = true;
   }
 
@@ -144,12 +145,13 @@ public class PlayerActions extends Component {
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
       if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
         CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
-                .getComponent(CombatStatsComponent.class);
+            .getComponent(CombatStatsComponent.class);
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
           closestEnemy.dispose();
           this.entity.getEvents().trigger("enemyKill");
-          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED, AchievementType.KILLS, 1);
+          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED,
+              AchievementType.KILLS, 1);
         } else {
           enemyTarget.setHealth(enemyTarget.getHealth());
           System.out.println(enemyTarget.getHealth());
@@ -175,7 +177,7 @@ public class PlayerActions extends Component {
     dieTask = new TimerTask() {
       @Override
       public void run() {
-        //hide the character sprite
+        // hide the character sprite
         entity.setScale(0.1F, 0.1F);
       }
     };
@@ -188,7 +190,7 @@ public class PlayerActions extends Component {
   public void respawn(DayNightCycleStatus partOfDay) {
     if (partOfDay == DayNightCycleStatus.DAY) {
       if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
-        //respawn
+        // respawn
         entity.getEvents().trigger("after_death");
         entity.setScale(10.5f, 9.5f);
         playerAlive = true;

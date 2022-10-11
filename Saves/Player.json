@@ -1,14 +1,8 @@
 {
 position: {
-<<<<<<< HEAD:source/core/assets/Saves/Player.json
-	x: 968.931
-	y: 0.90444446
-}
-=======
 	x: 59.25
 	y: -0.75
 	}
->>>>>>> origin/main:Saves/Player.json
 name: player
 playerState: {
 	gold: {

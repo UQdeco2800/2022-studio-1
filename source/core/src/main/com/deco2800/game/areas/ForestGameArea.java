@@ -22,6 +22,7 @@ import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,9 +109,17 @@ public class ForestGameArea extends GameArea {
       "images/65x33_tiles/shorelineTopLeft_night.png",
       "images/65x33_tiles/shorelineLeft_night.png",
       "images/65x33_tiles/shorelineRight_night.png",
-      "images/65x33_tiles/water.png",
-      "images/65x33_tiles/water_night.png",
-      "images/seastack1.png",
+      "images/65x33_tiles/water0.png",
+      "images/65x33_tiles/water1.png",
+      "images/65x33_tiles/water2.png",
+      "images/65x33_tiles/water3.png",
+      "images/65x33_tiles/water_night0.png",
+      "images/65x33_tiles/water_night1.png",
+      "images/65x33_tiles/water_night2.png",
+      "images/65x33_tiles/water_night3.png",
+          "images/65x33_tiles/invalidTile.png",
+          "images/65x33_tiles/validTile.png",
+          "images/seastack1.png",
       "images/seastack2.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
@@ -183,8 +192,6 @@ public class ForestGameArea extends GameArea {
   public void create() {
 
     loadAssets();
-    ServiceLocator.getGameService().setUpEntities(120);
-
 
     displayUI();
 
@@ -200,7 +207,7 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
-    
+
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -605,6 +612,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
     int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    //int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);

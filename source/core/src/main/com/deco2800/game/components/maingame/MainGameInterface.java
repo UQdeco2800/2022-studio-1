@@ -1083,7 +1083,6 @@ public class MainGameInterface extends UIComponent {
                 buildingCamelName += name;
               }
 
-              System.out.println(buildingCamelName);
               logger.debug(buildingCamelName);
               MainArea.getInstance()
                   .getGameArea().getPlayer()
