@@ -28,7 +28,9 @@ public class MainMenuScreen extends ScreenAdapter {
   private final Renderer renderer;
 
   private static final String[] mainMenuTextures = {
-          "images/uiElements/exports/title.png"
+          "images/uiElements/exports/title.png",
+          "images/guardianLegacy1left.png",
+          "images/guardianLegacy1right.png"
   };
 
   public MainMenuScreen(AtlantisSinks game) {
