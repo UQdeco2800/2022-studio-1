@@ -210,6 +210,8 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
+    spawnNPCharacter();
+
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -604,21 +606,16 @@ public class ForestGameArea extends GameArea {
   }
 
   private void spawnNPCharacter() {
-    Entity NPC;
-    if (NPCNum % 3 == 0) {
-      NPC = NPCFactory.createNormalNPC();
-    } else {
-      NPC = NPCFactory.createSpecialNPC();
-    }
-
+    Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
-    //int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
+//    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
+    ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());
+
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
-    activeNPCs.add(NPC);
     // NPC.setPosition(terrainFactory.getMapSize().x / 3,
     // terrainFactory.getMapSize().y / 3);
     // ServiceLocator.getEntityService().addEntity(NPC);
