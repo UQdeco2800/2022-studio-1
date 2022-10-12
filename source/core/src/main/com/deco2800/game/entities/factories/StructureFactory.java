@@ -346,16 +346,14 @@ public static Entity createTrap(String name, Boolean isTemp) {
     //Store rectangle location, name, level
     int level = ServiceLocator.getUGSService().getEntityByName(structName)
         .getComponent(CombatStatsComponent.class).getLevel();
-    if (level > 2) {
+    if (level > 2 || structName.contains("wall")) {
       return;
     }
     //Remove building entity
     ServiceLocator.getUGSService().removeEntity(structName);
 
     //Upgrade depending on building
-    if (structName.contains("wall")) {
-      //Might not be worth implementing depending on how enemy team implements enemy AI
-    } else if (structName.contains("tower1")) {
+   if (structName.contains("tower1")) {
       Entity tower1;
         switch(level) {
           //Only two possible upgrades 1->2 and 2->3

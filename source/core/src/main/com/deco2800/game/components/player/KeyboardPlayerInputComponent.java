@@ -200,7 +200,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
           ServiceLocator.getStructureService().setTempBuildState(false);
           ServiceLocator.getStructureService().clearVisualTiles();
-          MainGameBuildingInterface.class.triggerUIBuildingPopUp(screenX, screenY); //Not Functional
         }
       } else {
         // crystal has been clicked
