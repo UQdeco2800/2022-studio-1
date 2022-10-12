@@ -125,9 +125,11 @@ public class AchievementHandler {
      * V3 - 09/10/2022 notifyOnLoad added
      * <p>
      * V4 - 12/10/2022 isOneNight boolean added
+     * <p>
+     * V5 - 12/10/2022 Removed some achievements from achievement list
      */
     private final FileHandle achievementsFileHandle = Gdx.files
-            .external("AtlantisSinks/playerAchievementsVersion4.json");
+            .external("AtlantisSinks/playerAchievementsVersion5.json");
 
     /**
      * Used for reading and writing to the player achievement file

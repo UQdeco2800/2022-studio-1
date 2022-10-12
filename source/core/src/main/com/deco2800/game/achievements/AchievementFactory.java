@@ -48,13 +48,13 @@ public class AchievementFactory {
                 //Complete the game without buying any items (other than buildings) from the shop - too long truncated
                 new Achievement(14, AchievementType.GAME, false, true, false, "Cheapskate", "Complete the game without buying any items"),
 
-                new Achievement(15, AchievementType.MISC, false, true, false, "Pacifist", "Only defeat enemies using towers"),
-                new Achievement(16, AchievementType.MISC, false, false, true, "Defender", "Survived a night without losing a building"),
+                //new Achievement(15, AchievementType.MISC, false, true, false, "Pacifist", "Only defeat enemies using towers"),
+                //new Achievement(16, AchievementType.MISC, false, false, true, "Defender", "Survived a night without losing a building"),
                 new Achievement(17, AchievementType.MISC, false, false, true, "Protector", "Survived a night without taking crystal damage"),
                 new Achievement(18, AchievementType.MISC, false, false, false, "Knowledgeable", "Read the guidebook"),
-                new Achievement(19, AchievementType.MISC, false, false, true, "Runner", "Survived a night without killing any enemies"),
-                new Achievement(20, AchievementType.MISC, false, false, true, "No", "Lose on your first night"),
-                new Achievement(21, AchievementType.MISC, false, false, false, "People Person", "Speak to every NPC")
+                //new Achievement(19, AchievementType.MISC, false, false, true, "Runner", "Survived a night without killing any enemies"),
+                new Achievement(20, AchievementType.MISC, false, false, true, "No", "Lose on your first night")
+                //new Achievement(21, AchievementType.MISC, false, false, false, "People Person", "Speak to every NPC")
         );
     }
 }
