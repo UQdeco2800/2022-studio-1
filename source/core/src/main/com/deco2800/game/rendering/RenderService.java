@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.SortedIntMap;
 
 /**
@@ -68,6 +70,13 @@ public class RenderService implements Disposable {
           }
         }
         renderable.render(batch);
+      }
+      if (ServiceLocator.getEntityService() != null) {
+        if (!ServiceLocator.getEntityService().getCurrentWorldStep()) {
+          for (Entity e : ServiceLocator.getEntityService().getToDestroyEntities()) {
+            e.dispose();
+          }
+        }
       }
     }
   }

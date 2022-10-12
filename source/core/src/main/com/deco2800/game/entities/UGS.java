@@ -109,7 +109,9 @@ public class UGS {
         if (checkEntityPlacement(coordinate, entityName)) {
             if (entity != null) {
                 // Add entity to the entity list through the entity service
-                ServiceLocator.getEntityService().registerNamed(entityName, entity);
+                if (!(entityName.equals("player")) || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
+                    ServiceLocator.getEntityService().registerNamed(entityName, entity);
+                }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
                 entity.setPosition(entityWorldPos);

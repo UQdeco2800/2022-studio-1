@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.services.ServiceLocator;
+import com.sun.source.tree.ReturnTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,8 @@ public class EntityService {
 
   private final Array<Entity> entities = new Array<>(false, INITIAL_CAPACITY);
   private final Map<String, Entity> namedEntities = new HashMap<>();
+  private boolean currentWorldStep;
+  private ArrayList<Entity> toDestroyEntities = new ArrayList<>();
 
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
@@ -39,6 +42,22 @@ public class EntityService {
     entities.add(entity);
     enemyMap.put(entity.getId(), entity);
     entity.create();
+  }
+
+  public void setCurrentWorldStep(Boolean step) {
+    this.currentWorldStep = step;
+  }
+
+  public boolean getCurrentWorldStep() {
+    return this.currentWorldStep;
+  }
+
+  public ArrayList<Entity> getToDestroyEntities() {
+    return this.toDestroyEntities;
+  }
+
+  public void addToDestroyEntities(Entity e) {
+    this.toDestroyEntities.add(e);
   }
 
   /**
