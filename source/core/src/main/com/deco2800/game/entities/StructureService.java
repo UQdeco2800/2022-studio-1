@@ -177,7 +177,7 @@ public class StructureService extends EntityService{
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower2);
         ServiceLocator.getStructureService().registerNamed(entityName, tower2);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
-<<<<<<< HEAD
+
         Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
       } else if (Objects.equals(name, "woodCutter")) {
         Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
@@ -185,7 +185,7 @@ public class StructureService extends EntityService{
         ServiceLocator.getStructureService().registerNamed(entityName, woodCutter);
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       }
-=======
+
       }else if (Objects.equals(name, "tower3")) {
         Entity tower3 = StructureFactory.createTower3(1);
         ServiceLocator.getGameService().registerEntity(loc, entityName, tower3);
@@ -198,14 +198,15 @@ public class StructureService extends EntityService{
         ServiceLocator.getStructureService().getNamedEntity(entityName).setPosition(mousePosV2);
       } 
 
->>>>>>> 283c8d41b491ef8f67a97be0fe2696352225fc37
-    } else {
+
+    }
+  {
       if (uiIsVisible) {
         table1.remove();
         toggleUIisVisible();
       }
     }
-  }
+
 
   /**
    * Checks if a structure on the map has been clicked. If it has been clicked then that structure gets removed from the game
