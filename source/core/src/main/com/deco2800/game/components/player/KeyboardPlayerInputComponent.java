@@ -10,14 +10,17 @@ import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.NpcService;
-import com.deco2800.game.entities.StructureService;
+import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+
+import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import java.util.*;
 
@@ -27,6 +30,7 @@ import java.util.*;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
+  private Boolean keyState;
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -94,16 +98,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (PlayerActions.playerAlive) {
       switch (keycode) {
         case Keys.Q:
-          entity.setScale(11f, 10.5f);
+          //entity.setScale(11f, 10.5f);
           entity.getEvents().trigger("playerDeath");
           return true;
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
           triggerWalkEvent();
+          movePlayerInUgs();
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
           triggerWalkEvent();
+          movePlayerInUgs();
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
@@ -112,12 +118,18 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
           triggerWalkEvent();
+          movePlayerInUgs();
           return true;
         case Keys.O:
           triggerCrystalAttacked();
           return true;
         case Keys.R:
-          triggerCrystalRestoreHealth();
+          if (ServiceLocator.getStructureService().getTempBuildState()) {
+            ServiceLocator.getStructureService().rotateTempStructure();
+          } else {
+            triggerCrystalRestoreHealth();
+          }
+
           return true;
         case Keys.SPACE:
           entity.getEvents().trigger("attack_anim_rev");
@@ -137,7 +149,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-    CrystalFactory.crystalClicked(screenX, screenY);
     NpcService.npcClicked(screenX, screenY);
     return true;
   }
@@ -145,6 +156,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean mouseMoved(int screenX, int screenY) {
     if (ServiceLocator.getStructureService().getTempBuildState()) {
+      ServiceLocator.getStructureService().clearVisualTiles();
       Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
       CameraComponent camComp = camera.getComponent(CameraComponent.class);
       Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -153,8 +165,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           .worldToTilePosition(mousePosV2.x, mousePosV2.y);
       Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain")
           .getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldLoc.x -= tileSize/4;
+      worldLoc.y -= tileSize/8;
+      ServiceLocator.getStructureService().drawVisualFeedback(loc, "structure");
       ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
           .setPosition(worldLoc);
+
     }
     return true;
   }
@@ -172,12 +189,17 @@ public class KeyboardPlayerInputComponent extends InputComponent {
             .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
         entityName = entityName.replace("Temp", "");
-        System.out.println("entityName: " + entityName);
         if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
           ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
               .dispose();
           ServiceLocator.getStructureService().setTempBuildState(false);
-          triggerUIBuildingPopUp(screenX, screenY);
+          ServiceLocator.getStructureService().clearVisualTiles();
+//          triggerUIBuildingPopUp(screenX, screenY); //Not Functional
+        }
+      } else {
+        Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
+        if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
+          CrystalFactory.upgradeCrystal();
         }
       }
     }
@@ -260,5 +282,53 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
         || name.contains("tower3"))
       StructureService.setUiPopUp(screenX, screenY);
+  }
+
+  private void movePlayerInUgs() {
+    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y);
+    String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
+
+    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
+    Tile oldPlayerTile;
+    for (Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+      if (entry.getValue().getEntity() == player) {
+        String currentPos = entry.getKey();
+        if (!currentPos.equals(key)) {
+          oldPlayerTile = entry.getValue();
+          String oldTileType = entry.getValue().getTileType();
+          Tile replacement = new Tile();
+          replacement.setTileType(oldTileType);
+          ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+        }
+      }
+    }
+
+    // RESET WHERE THE PLAYER IS
+    ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
+
+
+
+
+//
+//    switch (direction) {
+//      case "right":
+//        // move right 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0, "player");
+//        return;
+//      case "left":
+//        // move left 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0, "player");
+//        return;
+//      case "up":
+//        // move up 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1, "player");
+//        return ;
+//      case "down":
+//        // move down 1 square
+//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1, "player");
+//    }
+
   }
 }

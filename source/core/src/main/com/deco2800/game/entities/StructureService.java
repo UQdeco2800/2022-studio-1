@@ -1,7 +1,10 @@
 package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,6 +14,7 @@ import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -48,6 +52,8 @@ public class StructureService extends EntityService {
 
   private static String tempEntityName;
 
+  private static int orientation;
+
   /**
    * Register a new entity with the entity service. The entity will be created and
    * start updating.
@@ -62,7 +68,7 @@ public class StructureService extends EntityService {
   }
 
   /**
-   * Registers an entity with a name so it can be found later
+   * Registers an entity with a name, so it can be found later
    *
    * @param name   the name to register it as (must be unique or will overwrite)
    * @param entity the entity to register
@@ -150,36 +156,50 @@ public class StructureService extends EntityService {
   public static Boolean buildStructure(String structureName, GridPoint2 gridPos) {
     String entityName = gridPos.toString();
     entityName = structureName + entityName;
+    Vector2 worldPosition = ServiceLocator.getEntityService().getNamedEntity("terrain")
+        .getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
+
+    Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
-      if (Objects.equals(structureName, "wall")) {
-        Entity wall = StructureFactory.createWall(entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, wall, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "tower1")) {
-        Entity tower1 = StructureFactory.createTower1(1, entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, tower1, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "tower2")) {
-        Entity tower2 = StructureFactory.createTower2(1, entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, tower2, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "tower3")) {
-        Entity tower3 = StructureFactory.createTower3(1, entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, tower3, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "trap")) {
-        Entity trap = StructureFactory.createTrap(entityName);
-        ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "stoneQuarry")) {
-        Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
-        ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
-        return true;
-      } else if (Objects.equals(structureName, "woodCutter")) {
-        Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
-        ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
-        return true;
+      switch (structureName) {
+        case "wall":
+          structure = StructureFactory.createWall(entityName, false, orientation);
+          break;
+
+        case "tower1":
+          structure = StructureFactory.createTower1(1, entityName, false);
+          break;
+
+        case "tower2":
+          structure = StructureFactory.createTower2(1, entityName, false);
+          break;
+
+        case "tower3":
+          structure = StructureFactory.createTower3(1, entityName, false);
+          break;
+
+        case "trap":
+          structure = StructureFactory.createTrap(entityName, false);
+          break;
+
+        case "stoneQuarry":
+          structure = ResourceBuildingFactory.createStoneQuarry(entityName);
+          break;
+
+        case "woodCutter":
+          structure = ResourceBuildingFactory.createWoodCutter(entityName);
+          break;
+
+        default:
+          return false;
       }
+
+      ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldPosition.x -= tileSize/4;
+      worldPosition.y -= tileSize/8;
+      structure.setPosition(worldPosition);
+      return true;
     }
     return false;
   }
@@ -219,6 +239,7 @@ public class StructureService extends EntityService {
    * @param name of the tempStructureEntity
    */
   public static void buildTempStructure(String name) {
+    //MAKE ALL TEMP STRUCTURES TRANSPARENT TO ADD TO THE GHOST STRUCTURE EFFECT
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -231,27 +252,99 @@ public class StructureService extends EntityService {
     entityName = name + entityName;
 
     if (Objects.equals(name, "wall")) {
-      tempEntity = StructureFactory.createWall(entityName);
+      tempEntity = StructureFactory.createWall(entityName, true, orientation);
     } else if (Objects.equals(name, "tower1")) {
-      tempEntity = StructureFactory.createTower1(1, entityName);
+      tempEntity = StructureFactory.createTower1(1, entityName, true);
     } else if (Objects.equals(name, "tower2")) {
-      tempEntity = StructureFactory.createTower2(1, entityName);
+      tempEntity = StructureFactory.createTower2(1, entityName, true);
     } else if (Objects.equals(name, "woodCutter")) {
-      tempEntity = ResourceBuildingFactory.createWoodCutter();
+      tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {
-      tempEntity = StructureFactory.createTower3(1, entityName);
+      tempEntity = StructureFactory.createTower3(1, entityName, true);
     } else if (Objects.equals(name, "trap")) {
-      tempEntity = StructureFactory.createTrap(entityName);
+      tempEntity = StructureFactory.createTrap(entityName, true);
     } else if (Objects.equals(name, "stoneQuarry")) {
-      tempEntity = ResourceBuildingFactory.createStoneQuarry();
+      tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
     }
     // Update achievements for structures/building
-    ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
+    //This is not a successfully built building, so I don't think it warrants an achievement
+    //ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
 
     buildingTempEntity = true;
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    worldLoc.x -= tileSize/4;
+    worldLoc.y -= tileSize/8;
     tempEntity.setPosition(worldLoc);
+    drawVisualFeedback(loc, "structure");
+  }
+
+  /**
+   * Draw the coloured tiles around a structure to show the player where they can build a structure
+   * @param centerCoord location of the structure in gridPoint2
+   * @param entityType type of entity being checked
+   */
+  public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
+    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType);
+    for (GridPoint2 mapPos: surroundingTiles.keySet()) {
+      String entityName = "visual" + mapPos.toString();
+      Entity visualTile;
+      if (surroundingTiles.get(mapPos).equals("empty")) {
+        visualTile = StructureFactory.createVisualFeedbackTile(entityName, "images/65x33_tiles/validTile.png");
+      } else {
+        visualTile = StructureFactory.createVisualFeedbackTile(entityName, "images/65x33_tiles/invalidTile.png");
+      }
+      ServiceLocator.getEntityService().registerNamed(entityName, visualTile);
+      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldLoc.x -= tileSize/4;
+      worldLoc.y -= tileSize/8;
+      visualTile.setPosition(worldLoc);
+    }
+  }
+
+  /**
+   * Clear the coloured visual tiles by disposing of them
+   */
+  public static void clearVisualTiles() {
+    for (Entity e : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+      String entityName = e.getName();
+      if (entityName != null) {
+        if (entityName.contains("visual")) {
+          e.dispose();
+        }
+      }
+    }
+  }
+
+  /**
+   * Rotate the current temp structure
+   */
+  public static void rotateTempStructure() {
+    toggleStructureOrientation();
+    ServiceLocator.getEntityService().getNamedEntity(getTempEntityName()).dispose();
+    clearVisualTiles();
+    String entityName = getTempEntityName();
+    entityName = entityName.replace("Temp", "");
+    buildTempStructure(entityName);
+  }
+
+  /**
+   * get the orientation of the structure being built (facing forward or facing right)
+   * @return
+   */
+  public static int getStructureOrientation() {return orientation;}
+
+  /**
+   * toggle the structure orientation from 0 to 1 or from 1 to 0
+   */
+  public static void toggleStructureOrientation() {
+    if (orientation == 1) {
+      orientation = 0;
+    } else {
+      orientation = 1;
+    }
   }
 
   public static void setUiPopUp(int screenX, int screenY) {

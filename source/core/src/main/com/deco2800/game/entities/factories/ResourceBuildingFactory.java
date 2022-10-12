@@ -17,14 +17,12 @@ import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseEntityConfig;
 import com.deco2800.game.entities.configs.ResourceBuildingConfig;
-import com.deco2800.game.entities.configs.StructureConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
-import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.AnimationRenderComponent;
@@ -59,7 +57,7 @@ public class ResourceBuildingFactory {
      *
      * @return stone quarry entity
      */
-    public static Entity createStoneQuarry() {
+    public static Entity createStoneQuarry(String entityName) {
 
         AnimationRenderComponent bul_animator = new AnimationRenderComponent(
                 ServiceLocator.getResourceService().getAsset("images/anim_demo/stonequarr.atlas", TextureAtlas.class));
@@ -74,7 +72,7 @@ public class ResourceBuildingFactory {
         stoneQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         bul_animator.startAnimation("stqu");
         stoneQuarry.setScale(10f, 8.1f);
-        stoneQuarry.setName("stoneQuarry" + stoneQuarry.getId());
+        stoneQuarry.setName(entityName);
         return stoneQuarry;
     }
 
@@ -83,7 +81,7 @@ public class ResourceBuildingFactory {
      *
      * @return Wood quarry entity
      */
-    public static Entity createWoodCutter() {
+    public static Entity createWoodCutter(String entityName) {
 
         AnimationRenderComponent res_bul_animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
                 .getAsset("images/anim_demo/woodresource.atlas", TextureAtlas.class));
@@ -98,7 +96,7 @@ public class ResourceBuildingFactory {
         woodQuarry.getComponent(AnimationRenderComponent.class).scaleEntity();
         res_bul_animator.startAnimation("woqu");
         woodQuarry.setScale(13.5f, 11.5f);
-        woodQuarry.setName("woodQuarry" + woodQuarry.getId());
+        woodQuarry.setName(entityName);
         return woodQuarry;
     }
 
@@ -119,24 +117,28 @@ public class ResourceBuildingFactory {
 
     /**
      * Builds a structure at mouse position
+     * DEPRECATED @TODO: Remove if not needed
      */
-    public static void triggerBuildEvent(String name, SortedMap<String, Rectangle> structureRects) {
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        mousePosV2.x -= 0.5;
-        mousePosV2.y -= 0.5;
-        String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
-        entityName = name + entityName;
+    // public static void triggerBuildEvent(String name, SortedMap<String,
+    // Rectangle> structureRects) {
+    // Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    // CameraComponent camComp = camera.getComponent(CameraComponent.class);
+    // Vector3 mousePos = camComp.getCamera().unproject(new
+    // Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    // Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+    // mousePosV2.x -= 0.5;
+    // mousePosV2.y -= 0.5;
+    // String entityName = String.valueOf(ServiceLocator.getTimeSource().getTime());
+    // entityName = name + entityName;
 
-        if (Objects.equals(name, "stoneQuarry")) {
-            ServiceLocator.getEntityService().registerNamed(entityName, createStoneQuarry());
-            ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
-            Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
-            structureRects.put(entityName, rectangle);
-        }
-    }
+    // if (Objects.equals(name, "stoneQuarry")) {
+    // ServiceLocator.getEntityService().registerNamed(entityName,
+    // createStoneQuarry());
+    // ServiceLocator.getEntityService().getNamedEntity(entityName).setPosition(mousePosV2);
+    // Rectangle rectangle = new Rectangle(mousePosV2.x, mousePosV2.y, 1, 1);
+    // structureRects.put(entityName, rectangle);
+    // }
+    // }
 
     /**
      * Checks if a structure on the map has been clicked. If it has been clicked

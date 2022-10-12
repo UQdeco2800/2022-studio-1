@@ -14,6 +14,8 @@ import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.SecureRandom;
+
 /**
  * Factory to create obstacle entities.
  *
@@ -32,7 +34,8 @@ public class ObstacleFactory {
     String[] sprites = { "images/landscape_objects/leftPalmTree.png",
         "images/landscape_objects/rightPalmTree.png",
         "images/landscape_objects/groupPalmTrees.png" };
-    int index = (int) ((Math.random() * (sprites.length)));
+//    int index = (int) ((Math.random() * (sprites.length)));
+    int index = (int) (new SecureRandom().nextInt(sprites.length));
     Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
     tree.setResourceType(ResourceType.WOOD);
@@ -67,7 +70,8 @@ public class ObstacleFactory {
    */
   public static Entity createRock() {
     String[] sprites = { "images/seastack1.png", "images/seastack2.png" };
-    int index = (int) ((Math.random() * (sprites.length)));
+//    int index = (int) ((Math.random() * (sprites.length)));
+    int index = (int) (new SecureRandom().nextInt(sprites.length));
     Entity rock = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
         0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
