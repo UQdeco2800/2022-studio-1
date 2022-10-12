@@ -36,10 +36,6 @@ public class PrologueScreen extends ScreenAdapter{
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -74,10 +70,6 @@ public class PrologueScreen extends ScreenAdapter{
         logger.debug("Disposing storyline screen");
 
         renderer.dispose();
-        unloadAssets();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
     }
 
     private void loadAssets() {

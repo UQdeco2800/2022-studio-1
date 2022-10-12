@@ -35,7 +35,7 @@ public class AtlantisSinks extends Game {
 
     // start of the game, sets playerStatus to null to create a new caretaker object
     // in the first mainGameScreen
-    setScreen(ScreenType.MAIN_MENU);
+    setScreen(ScreenType.MAIN_MENU, null);
   }
 
   /**
@@ -52,12 +52,12 @@ public class AtlantisSinks extends Game {
    * 
    * @param screenType screen type
    */
-  public void setScreen(ScreenType screenType) {
+  public void setScreen(ScreenType screenType, ScreenType prevScreen) {
     logger.info("Setting game screen to {}", screenType);
     Screen currentScreen = getScreen();
-    if (currentScreen != null) {
-      currentScreen.dispose();
-    }
+//    if (currentScreen != null) {
+//      currentScreen.dispose();
+//    }
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
@@ -70,15 +70,15 @@ public class AtlantisSinks extends Game {
     else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
-    setScreen(newScreen(screenType, null));
+    setScreen(newScreen(screenType, prevScreen));
   }
 
   public void setSettingsScreen(ScreenType prevScreen) {
     logger.info("Setting game screen to {}", ScreenType.SETTINGS);
     Screen currentScreen = getScreen();
-    if (currentScreen != null) {
-      currentScreen.dispose();
-    }
+//    if (currentScreen != null) {
+//      currentScreen.dispose();
+//    }
 
     Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
 

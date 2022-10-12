@@ -41,12 +41,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising artefact shop screen services");
-        ServiceLocator.registerTimeSource(new GameTime());
-        ServiceLocator.registerInputService(new InputService());
-
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -84,13 +78,6 @@ public class ShopArtefactScreen extends ScreenAdapter {
     public void dispose() {
         logger.debug("Disposing shop artefact game screen");
         renderer.dispose();
-        unloadAssets();
-
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getResourceService().dispose();
-
-        ServiceLocator.clear();
     }
 
     private void loadAssets() {

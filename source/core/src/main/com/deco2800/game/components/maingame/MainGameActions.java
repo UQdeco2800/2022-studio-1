@@ -45,7 +45,7 @@ public class MainGameActions extends Component {
   private void onDeath() {
     logger.info("Testing epilogue screen");
     CareTaker.deleteAll();
-    game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
+    game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE, null);
   }
 
   /**
@@ -54,7 +54,7 @@ public class MainGameActions extends Component {
   private void onExit() {
     logger.info("Exiting main game screen");
     CareTaker.deleteAll();
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, AtlantisSinks.ScreenType.MAIN_GAME);
   }
 
   private void openGuidebook() {
@@ -75,7 +75,7 @@ public class MainGameActions extends Component {
     ServiceLocator.getDayNightCycleService().pause();
 
     logger.info("Exiting main game screen");
-    game.setScreen(AtlantisSinks.ScreenType.GUIDEBOOK);
+    game.setScreen(AtlantisSinks.ScreenType.GUIDEBOOK, AtlantisSinks.ScreenType.MAIN_GAME);
   }
 
   /**
@@ -95,7 +95,7 @@ public class MainGameActions extends Component {
   private void onLoad() {
     logger.info("Load game staring");
     CareTaker.deleteAll();
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD, AtlantisSinks.ScreenType.MAIN_MENU);
     SaveGame.loadGameState();
     logger.info("Load game finished");
   }
@@ -146,7 +146,7 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getEquipmentList());
     playerStatus.add(currentStatus);
     ServiceLocator.getDayNightCycleService().pause();
-    game.setScreen(AtlantisSinks.ScreenType.SHOP);
+    game.setScreen(AtlantisSinks.ScreenType.SHOP, AtlantisSinks.ScreenType.MAIN_GAME);
   }
 
   private void onFirstNight(DayNightCycleStatus partOfDay) {
@@ -187,6 +187,6 @@ public class MainGameActions extends Component {
     playerStatus.add(currentStatus);
 
     ServiceLocator.getDayNightCycleService().pause();
-    game.setScreen(AtlantisSinks.ScreenType.ACHIEVEMENT);
+    game.setScreen(AtlantisSinks.ScreenType.ACHIEVEMENT, AtlantisSinks.ScreenType.MAIN_GAME);
   }
 }

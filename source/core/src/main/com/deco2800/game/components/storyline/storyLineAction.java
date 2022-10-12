@@ -25,10 +25,10 @@ public class storyLineAction extends Component {
         if (game.getScreenType() == AtlantisSinks.ScreenType.STORY_LINE_PROLOGUE) {
             logger.info("Start game");
             AtlantisSinks.playPrologue = false;
-            game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+            game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, AtlantisSinks.ScreenType.STORY_LINE_PROLOGUE);
         } else if (game.getScreenType() == AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE) {
             logger.info("Game over - redirect to Main Menu");
-            game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
+            game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU, AtlantisSinks.ScreenType.STORY_LINE_EPILOGUE);
         }
     }
 

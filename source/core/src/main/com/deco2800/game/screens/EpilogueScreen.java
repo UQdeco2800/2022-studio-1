@@ -36,11 +36,11 @@ public class EpilogueScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
-
+//        ServiceLocator.registerInputService(new InputService());
+//        ServiceLocator.registerResourceService(new ResourceService());
+//        ServiceLocator.registerEntityService(new EntityService());
+//        ServiceLocator.registerRenderService(new RenderService());
+//
         renderer = RenderFactory.createRenderer();
 
         loadAssets();

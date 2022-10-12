@@ -45,7 +45,7 @@ public class ShopActions extends Component {
         if (game.getScreenType() != AtlantisSinks.ScreenType.SHOP) {
             saveStatus();
         }
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, AtlantisSinks.ScreenType.SHOP);
     }
 
     /**
@@ -54,7 +54,7 @@ public class ShopActions extends Component {
     private void onMainShop() {
         logger.info("Entering main shop screen");
         saveStatus();
-        game.setScreen(AtlantisSinks.ScreenType.SHOP);
+        game.setScreen(AtlantisSinks.ScreenType.SHOP, AtlantisSinks.ScreenType.MAIN_GAME);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ShopActions extends Component {
      */
     private void onBuildShop() {
         logger.info("Entering Build shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP);
+        game.setScreen(AtlantisSinks.ScreenType.BUILD_SHOP, AtlantisSinks.ScreenType.SHOP);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ShopActions extends Component {
      */
     private void onArtefactShop() {
         logger.info("Entering Artefact shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP);
+        game.setScreen(AtlantisSinks.ScreenType.ARTEFACT_SHOP, AtlantisSinks.ScreenType.SHOP);
     }
 
     /**
@@ -101,6 +101,6 @@ public class ShopActions extends Component {
      */
     private void onEquipmentShop() {
         logger.info("Entering Equipment shop screen");
-        game.setScreen(AtlantisSinks.ScreenType.EQUIPMENT_SHOP);
+        game.setScreen(AtlantisSinks.ScreenType.EQUIPMENT_SHOP, AtlantisSinks.ScreenType.SHOP);
     }
 }

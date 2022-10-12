@@ -39,12 +39,6 @@ public class ShopScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising shop screen services");
-        ServiceLocator.registerTimeSource(new GameTime());
-
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
         MainArea.getInstance().setMainArea(new ShopArea());
@@ -81,18 +75,10 @@ public class ShopScreen extends ScreenAdapter {
     public void dispose() {
         logger.debug("Disposing shop screen");
         renderer.dispose();
-        unloadAssets();
-
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getResourceService().dispose();
-
-        ServiceLocator.clear();
     }
 
     private void loadAssets() {
         logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
         ServiceLocator.getResourceService().loadAll();
     }
 

@@ -33,9 +33,9 @@ public class MainMenuActions extends Component {
     logger.info("Start game");
     ServiceLocator.getAchievementHandler().resetOneRunAchievements(false);
     if (AtlantisSinks.playPrologue) {
-      game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_PROLOGUE);
+      game.setScreen(AtlantisSinks.ScreenType.STORY_LINE_PROLOGUE, AtlantisSinks.ScreenType.MAIN_MENU);
     } else {
-      game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+      game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, AtlantisSinks.ScreenType.MAIN_MENU);
     }
   }
 
@@ -44,7 +44,7 @@ public class MainMenuActions extends Component {
    */
   private void onLoad() {
     logger.info("Load game");
-    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
+    game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME_LOAD, AtlantisSinks.ScreenType.MAIN_MENU);
   }
 
   /**

@@ -259,10 +259,10 @@ public class SettingsMenuDisplay extends UIComponent {
   private void exitMenu() {
     if (backScreen == ScreenType.MAIN_MENU) {
       CareTaker.deleteAll();
-      game.setScreen(ScreenType.MAIN_MENU);
+      game.setScreen(ScreenType.MAIN_MENU, ScreenType.SETTINGS);
       logger.getName();
     } else if (backScreen == ScreenType.MAIN_GAME) {
-      game.setScreen(ScreenType.MAIN_GAME);
+      game.setScreen(ScreenType.MAIN_GAME, ScreenType.SETTINGS);
       logger.getName();
     }
   }

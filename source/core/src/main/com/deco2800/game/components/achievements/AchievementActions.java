@@ -114,6 +114,6 @@ public class AchievementActions extends Component {
     private void onExit(Table displayTable) {
         logger.info("Exiting achievement screens");
         displayTable.clear();
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, AtlantisSinks.ScreenType.ACHIEVEMENT);
     }
 }
