@@ -417,7 +417,7 @@ public class AchievementHandler {
      * @param achievement the stat achievement
      */
     public void checkStatAchievementMilestones(Achievement achievement) {
-        long totalAchieved = achievement.getTotalAchieved();
+        float totalAchieved = achievement.getTotalAchieved();
 
         // use standard milestones
         if (customStatMilestones.get(achievement.getId()) == null) {
@@ -641,6 +641,8 @@ public class AchievementHandler {
         if (id == 14) {
             getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
             checkStatAchievementMilestones(getAchievementById(8));
+        } else if (id == 11) {
+            getAchievementById(17).setTotalAchieved(getAchievementById(17).getTotalAchieved() + 1);
         }
 
         Achievement achievement = getAchievementById(id);
@@ -655,7 +657,11 @@ public class AchievementHandler {
                 markAchievementCompletedById(achievement.getId(), true);
             } else if (achievement.getId() == 20 && dayNum == 1 && achievement.getTotalAchieved() == 1) {
                 markAchievementCompletedById(20, true);
+            } else {
+                achievement.setTotalAchieved(0);
             }
         }
+
+        saveAchievements();
     }
 }
