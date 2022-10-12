@@ -161,6 +161,7 @@ public class StructureService extends EntityService {
 
     Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
+
       switch (structureName) {
         case "wall":
           structure = StructureFactory.createWall(entityName, false, orientation);
@@ -192,9 +193,11 @@ public class StructureService extends EntityService {
 
         default:
           return false;
+
       }
 
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
+      ServiceLocator.getUGSService().addStructure(structure);
       float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
       worldPosition.x -= tileSize/4;
       worldPosition.y -= tileSize/8;
