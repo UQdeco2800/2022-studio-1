@@ -23,6 +23,11 @@ import java.util.*;
  */
 public class AchievementHandler {
     /**
+     * Event string for if crystal takes damage
+     */
+    public static final String EVENT_CRYSTAL_DAMAGED = "crystalDamaged";
+
+    /**
      * Event string for if the game was won
      */
     public static final String EVENT_GAME_WON = "gameWon";
@@ -226,6 +231,7 @@ public class AchievementHandler {
             });
         });
         this.events.addListener(EVENT_ON_TEMP_STRUCTURE_PLACED, this::onTempStructurePlaced);
+        this.events.addListener(EVENT_CRYSTAL_DAMAGED, this::incrementOneRunAchievement);
     }
 
     /**
@@ -547,6 +553,10 @@ public class AchievementHandler {
             }
         });
 
+        if (id != 12 && allCompleted()) {
+            markAchievementCompletedById(12, true);
+        }
+
     }
 
     /**
@@ -571,9 +581,23 @@ public class AchievementHandler {
      * @param type AchievementType
      * @return boolean
      */
-    public boolean allCompleted(AchievementType type) {
+    public boolean allCompletedOfType(AchievementType type) {
         for (Achievement achievement : this.achievements) {
             if (achievement.getAchievementType() == type && !achievement.isCompleted()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if all achievements have been completed
+     * @return boolean
+     */
+    public boolean allCompleted() {
+        for (AchievementType achievementType : AchievementType.values()) {
+            if (!allCompletedOfType(achievementType)) {
                 return false;
             }
         }
