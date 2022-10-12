@@ -39,7 +39,7 @@ public class Entity {
   private static final String EVT_NAME_POS = "setPosition";
 
   private String name;
-
+  private String creationMethod;
   private final int id;
   private Boolean collectable = false;
   private ResourceType resourceType;
@@ -68,6 +68,14 @@ public class Entity {
 
   public String getName() {
     return this.name;
+  }
+
+  public void setCreationMethod(String classMethod) {
+    this.creationMethod = classMethod;
+  }
+
+  public String getCreationMethod(){
+    return this.creationMethod;
   }
 
   /**

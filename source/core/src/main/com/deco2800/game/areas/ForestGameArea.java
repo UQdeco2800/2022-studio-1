@@ -143,7 +143,8 @@ public class ForestGameArea extends GameArea {
       "images/cornerWall4.png",
       "images/wallRight.png",
       "images/wallLeft.png",
-      "images/turret.png"
+      "images/turret.png",
+      "images/attack_towers/lv1GuardianLeft.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -207,7 +208,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnNPCharacter();
+    // spawnNPCharacter();
 
     if (this.loadGame) {
       SaveGame.loadGameState();
