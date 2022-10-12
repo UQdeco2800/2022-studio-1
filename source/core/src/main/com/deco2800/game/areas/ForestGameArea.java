@@ -523,7 +523,7 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
-    pirateCrabEnemy.setName("Mr. Crabs");
+    pirateCrabEnemy.setName("Mr. Crabs@" + pirateCrabEnemy.getId());
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);

@@ -20,6 +20,13 @@ public class ProjectileFactory {
     }
 
     private static Entity makeProjectile(Vector2 destination, Entity source) {
+
+        String texturePath = "images/eel_projectile.png";
+
+        if (source.getName().contains("turret")) {
+
+        }
+
         Entity projectile = new Entity()
                 .addComponent(new TextureRenderComponent("images/eel_projectile.png"))
                 .addComponent(new PhysicsComponent())

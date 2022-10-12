@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.entities.factories.ProjectileFactory;
 import com.deco2800.game.services.DayNightCycleService;
@@ -21,11 +19,11 @@ public class ShootMultipleTask extends ShootTask {
         Logger logger = LoggerFactory.getLogger(ShootMultipleTask.class);
 
         private ArrayList<Entity> targets;
-        private final int updateTimeDelta = 100;
+        private final int updateTimeDelta = 1000;
         private long taskEnd;
 
         public ShootMultipleTask(ArrayList<Entity> targets, float viewDistance) {
-                super(targets.size() > 0 ? targets.get(0) : null, 1, viewDistance, 0f);
+                super(targets.size() > 0 ? targets.get(0) : null, 1, viewDistance, 500f);
                 this.targets = targets;
                 ServiceLocator.getDayNightCycleService().getEvents().addListener(
                                 DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
@@ -79,7 +77,8 @@ public class ShootMultipleTask extends ShootTask {
         @Override
         public void update() {
                 Entity owner = this.owner.getEntity();
-                System.out.println("[ShootTask] {Owner: " + owner.getName() + "} {Time-taskEnd:" + TotalTime.getTime()
+                System.out.println("[ShootTask Update] {Owner: " + owner.getName() + "} {Time-taskEnd:"
+                                + TotalTime.getTime()
                                 + " - "
                                 + taskEnd + "}");
                 if (TotalTime.getTime() >= taskEnd) {

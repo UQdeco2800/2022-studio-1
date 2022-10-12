@@ -1,7 +1,6 @@
 package com.deco2800.game.ai.tasks;
 
 import com.deco2800.game.components.Component;
-import com.deco2800.game.components.ComponentType;
 import com.deco2800.game.components.tasks.MeleeAvoidObstacleTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +25,8 @@ public class AITaskComponent extends Component implements TaskRunner {
 
   private final List<PriorityTask> priorityTasks = new ArrayList<>(2);
   private PriorityTask currentTask;
+
+  private int updateCount = 0;
 
   /**
    * Add a priority task to the list of tasks. This task will be run only when it
@@ -62,8 +63,17 @@ public class AITaskComponent extends Component implements TaskRunner {
    */
   @Override
   public void earlyUpdate() {
+
+    updateCount++;
     PriorityTask desiredtask = getHighestPriorityTask();
+
+    if (this.getEntity().getName().contains("turret")) {
+      System.out.println("AITaskComponent[" + this.getEntity().getName() + ", " + desiredtask.getClass().getSimpleName()
+          + "]: Updated [" + updateCount + "]");
+    }
+
     if (desiredtask == null || desiredtask.getPriority() < 0) {
+      System.out.println("DesiredTask==null: " + (desiredtask == null) + " Priority: " + desiredtask.getPriority());
       return;
     }
 
