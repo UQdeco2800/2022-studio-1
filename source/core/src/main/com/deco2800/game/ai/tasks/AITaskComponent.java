@@ -67,13 +67,7 @@ public class AITaskComponent extends Component implements TaskRunner {
     updateCount++;
     PriorityTask desiredtask = getHighestPriorityTask();
 
-    if (this.getEntity().getName().contains("turret")) {
-      System.out.println("AITaskComponent[" + this.getEntity().getName() + ", " + desiredtask.getClass().getSimpleName()
-          + "]: Updated [" + updateCount + "]");
-    }
-
     if (desiredtask == null || desiredtask.getPriority() < 0) {
-      System.out.println("DesiredTask==null: " + (desiredtask == null) + " Priority: " + desiredtask.getPriority());
       return;
     }
 
