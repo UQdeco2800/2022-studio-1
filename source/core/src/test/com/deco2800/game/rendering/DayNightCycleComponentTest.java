@@ -70,9 +70,9 @@ class DayNightCycleComponentTest {
     }
 
     @Test
-    public void shouldShadeDuskWithDarkAmbientColour() {
+    public void shouldShadeDuskWithBrightAmbientColour() {
         dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DUSK);
-        assertEquals(DayNightCycleComponent.dark, dayNightCycleComponent.getAmbientColour());
+        assertEquals(DayNightCycleComponent.bright, dayNightCycleComponent.getAmbientColour());
     }
 
     @Test

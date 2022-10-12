@@ -297,9 +297,9 @@ public class NPCFactory {
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
-                //.addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
-                //.addComponent(new TextureRenderComponent(NPC_textures[index]))
+                .addComponent(new TextureRenderComponent("images/NPC-V2.1.png"))
                 .addComponent(aiComponent);
 
         npc.setCollectable(false);

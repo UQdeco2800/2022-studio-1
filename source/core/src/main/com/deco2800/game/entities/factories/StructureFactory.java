@@ -41,7 +41,7 @@ public class StructureFactory {
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = {"images/wallLeft.png", "images/wallRight.png"};
-  private static String[] tower1Sprites = {"images/guardianLegacy1left.png", "images/guardianLegacy1right.png"};
+  private static String[] tower1Sprites = {"images/attack_towers/lv1GuardianLeft.png", "images/attack_towers/lv1GuardianRight.png"};
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -115,12 +115,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
     //TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/guardianLegacy1left.png"; //change texture to be temp texture
+      TOWER1I = "images/attack_towers/lv1GuardianLeft.png"; //change texture to be temp texture
     } else {
-      TOWER1I = "images/guardianLegacy1right.png";
+      TOWER1I = "images/attack_towers/lv1GuardianLeft.png";
     }
-    String TOWER1II = "images/guardianLegacy1left.png";
-    String TOWER1III = "images/guardianLegacy1right.png";
+    String TOWER1II = "images/attack_towers/lv1GuardianLeft.png";
+    String TOWER1III = "images/attack_towers/lv1GuardianRight.png";
 
     Entity tower1;
     BaseStructureConfig config;
