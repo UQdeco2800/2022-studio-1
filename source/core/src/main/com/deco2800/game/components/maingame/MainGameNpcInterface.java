@@ -72,7 +72,6 @@ public class MainGameNpcInterface extends UIComponent{
                     "A little offering for you, 5 gold"
             };
 
-//            int index = (int) ((Math.random() * (NPC_dialogues.length)));
             int index = (int) (new SecureRandom().nextInt(NPC_dialogues.length));
 
             if(index == 8){

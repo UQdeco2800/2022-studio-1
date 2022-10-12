@@ -47,7 +47,7 @@ public class TerrainComponent extends RenderComponent {
   private int currentMapLvl = 0;
   private int isNight = 0;
   private ArrayList<ArrayList<GridPoint2>> landTilesList;
-  private ArrayList<Entity> walls;
+  private ArrayList<ArrayList<GridPoint2>> walls;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -67,7 +67,7 @@ public class TerrainComponent extends RenderComponent {
       TerrainOrientation orientation,
       float tileSize,
       GridPoint2 island_size,
-      ArrayList<ArrayList<GridPoint2>> landTilesList) {
+      ArrayList<ArrayList<GridPoint2>> landTilesList, ArrayList<ArrayList<GridPoint2>> walls) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
@@ -92,7 +92,7 @@ public class TerrainComponent extends RenderComponent {
         this::partOfDayPassed);
 
     this.landTilesList = landTilesList;
-    this.walls = new ArrayList<>();
+    this.walls = walls;
 
   }
 
@@ -132,7 +132,7 @@ public class TerrainComponent extends RenderComponent {
     return currentMapLvl;
   }
 
-  public ArrayList<Entity> getWalls() {
+  public ArrayList<ArrayList<GridPoint2>> getWalls() {
     return walls;
   }
 
