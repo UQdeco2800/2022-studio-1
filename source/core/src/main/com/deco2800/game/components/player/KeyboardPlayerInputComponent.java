@@ -194,7 +194,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
               .dispose();
           ServiceLocator.getStructureService().setTempBuildState(false);
           ServiceLocator.getStructureService().clearVisualTiles();
-//          triggerUIBuildingPopUp(screenX, screenY); //Not Functional
+          triggerUIBuildingPopUp(screenX, screenY); //Not Functional
         }
       } else {
         Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
