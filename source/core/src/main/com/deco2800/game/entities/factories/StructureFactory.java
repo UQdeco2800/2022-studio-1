@@ -115,12 +115,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
     //TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/TOWER1I.png"; //change texture to be temp texture
+      TOWER1I = "images/guardianLegacy1left.png"; //change texture to be temp texture
     } else {
-      TOWER1I = "images/TOWER1I.png";
+      TOWER1I = "images/guardianLegacy1right.png";
     }
-    String TOWER1II = "images/TOWER1II.png";
-    String TOWER1III = "images/TOWER1III.png";
+    String TOWER1II = "images/guardianLegacy1left.png";
+    String TOWER1III = "images/guardianLegacy1right.png";
 
     Entity tower1;
     BaseStructureConfig config;

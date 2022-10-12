@@ -64,7 +64,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
 
         // code below will work later but crashed at the moment
-        int gold = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
+        //int gold = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
         int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
         int baseAttack = clickedStructure.getComponent(CombatStatsComponent.class).getBaseAttack();
         int sell = 0;
@@ -174,8 +174,8 @@ public class MainGameBuildingInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell button clicked");
                         StructureFactory.handleBuildingDestruction(entity.getName());
-                        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                        player.getComponent(InventoryComponent.class).addStone(sell);
+                        //Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        //player.getComponent(InventoryComponent.class).addStone(sell);
                     }
                 });
 
@@ -213,13 +213,6 @@ public class MainGameBuildingInterface extends UIComponent {
 
         return BuildingUI;
     }
-
-
-    public boolean isVisability() {
-        return visability;
-    }
-
-
 
     private Array<StringDecorator<Graphics.DisplayMode>> getDisplayModes(Graphics.Monitor monitor) {
         Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes(monitor);
