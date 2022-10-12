@@ -46,29 +46,29 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           walkDirection.add(Vector2Utils.UP);
           entity.getEvents().trigger("ch_dir_w");
 //          movePlayerInUgs(walkDirection);
-          triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "UP");
+          movePlayerInUgs(walkDirection);
           return true;
         case Keys.A:
           walkDirection.add(Vector2Utils.LEFT);
           entity.getEvents().trigger("ch_dir_a");
-          triggerWalkEvent();
-//          movePlayerInUgs(walkDirection);
+//          triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "LEFT");
+          movePlayerInUgs(walkDirection);
           return true;
         case Keys.S:
           walkDirection.add(Vector2Utils.DOWN);
           entity.getEvents().trigger("ch_dir_s");
-          triggerWalkEvent();
-//          movePlayerInUgs(walkDirection);
+//          triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "DOWN");
+          movePlayerInUgs(walkDirection);
           return true;
         case Keys.D:
           walkDirection.add(Vector2Utils.RIGHT);
           entity.getEvents().trigger("ch_dir_d");
-          triggerWalkEvent();
-//          movePlayerInUgs(walkDirection);
+//          triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "RIGHT");
+          movePlayerInUgs(walkDirection);
           return true;
         case Keys.E:
           entity.getEvents().trigger("weapons");
@@ -103,21 +103,21 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           return true;
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
-          triggerWalkEvent();
+//          triggerWalkEvent();
           //movePlayerInUgs();
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
-          triggerWalkEvent();
+//          triggerWalkEvent();
           //movePlayerInUgs();
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
-          triggerWalkEvent();
+//          triggerWalkEvent();
           return true;
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
-          triggerWalkEvent();
+//          triggerWalkEvent();
           //movePlayerInUgs();
           return true;
         case Keys.O:
@@ -272,27 +272,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       StructureService.setUiPopUp(screenX, screenY);
   }
 
-//  private void movePlayerInUgs(Vector2 direction) {
-//    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-//    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
-//
-//    switch (direction.toString()) {
-//      case "(1.0,0.0)":
-//        // move right 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0);
-//        return;
-//      case "(-1.0,0.0)":
-//        // move left 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0);
-//        return;
-//      case "(0.0,1.0)":
-//        // move up 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1);
-//        return ;
-//      case "(0.0,-1.0)":
-//        // move down 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1);
-//    }
+  private void movePlayerInUgs(Vector2 direction) {
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
+
+    switch (direction.toString()) {
+      case "(1.0,0.0)":
+        // move right 1 square
+        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0);
+        return;
+      case "(-1.0,0.0)":
+        // move left 1 square
+        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0);
+        return;
+      case "(0.0,1.0)":
+        // move up 1 square
+        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1);
+        return ;
+      case "(0.0,-1.0)":
+        // move down 1 square
+        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1);
+    }
 
 //    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
 //    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
@@ -318,7 +318,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 //
 //      // RESET WHERE THE PLAYER IS
 //      ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
-//  }
+  }
 
 
 

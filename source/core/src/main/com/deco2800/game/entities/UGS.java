@@ -167,6 +167,14 @@ public class UGS {
                     logger.info("Building cannot be built on water");
                     return false;
                 }
+            } else if (entityType.contains("player")) {
+                if (tiles.get(stringCoord).getTileType().equals("sand")) {
+                    logger.info("Building has been built at {}", coordinate);
+                    return true;
+                } else {
+                    logger.info("Building cannot be built on water");
+                    return false;
+                }
             } else {
                 logger.info("Tile {} is clear", coordinate);
                 return true;
@@ -297,7 +305,7 @@ public class UGS {
             int newX = currentPosition.x + 1;
             int newY = currentPosition.y;
             GridPoint2 coordinate = new GridPoint2(newX, newY);
-            if (getEntity(coordinate) == null) { //Check no entity in new tile
+            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
                 String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
                 Tile replacement = new Tile();
                 replacement.setTileType(oldType);
@@ -305,7 +313,7 @@ public class UGS {
                 tiles.get(newPosKey).setEntity(entity);
                 setEntity(coordinate, entity, "player");
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-//                entity.setPosition(newPosVector);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
@@ -314,7 +322,7 @@ public class UGS {
             int newY = currentPosition.y;
             GridPoint2 coordinate = new GridPoint2(newX, newY);
 
-            if (getEntity(coordinate) == null) { //Check no entity in new tile
+            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
                 String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
                 Tile replacement = new Tile();
                 replacement.setTileType(oldType);
@@ -322,7 +330,7 @@ public class UGS {
                 tiles.get(newPosKey).setEntity(entity);
                 setEntity(coordinate, entity, "player");
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-//                entity.setPosition(newPosVector);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
@@ -333,14 +341,14 @@ public class UGS {
             int newY = currentPosition.y + 1;
             GridPoint2 coordinate = new GridPoint2(newX, newY);
 
-            if (getEntity(coordinate) == null) { //Check no entity in new tile
+            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
                 String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
                 Tile replacement = new Tile();
                 replacement.setTileType(oldType);
                 tiles.replace(oldPosKey, replacement);
                 tiles.get(newPosKey).setEntity(entity);
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-//                entity.setPosition(newPosVector);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
@@ -349,7 +357,7 @@ public class UGS {
             int newY = currentPosition.y - 1;
             GridPoint2 coordinate = new GridPoint2(newX, newY);
 
-            if (getEntity(coordinate) == null) { //Check no entity in new tile
+            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
                 String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
                 Tile replacement = new Tile();
                 replacement.setTileType(oldType);
@@ -357,7 +365,7 @@ public class UGS {
                 tiles.get(newPosKey).setEntity(entity);
                 setEntity(coordinate, entity, "player");
                 Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-//                entity.setPosition(newPosVector);
+                entity.setPosition(newPosVector);
 //                setEntity(currentPosition, null, ""); //Clear entity from currentPosition
 //                setEntity(coordinate, entity, entityName); //Update entity to new position
             }
