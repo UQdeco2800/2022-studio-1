@@ -190,6 +190,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       isVisible = false;
     }
     Boolean onClick = false;
+    Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
+
 
     if (pointer == Input.Buttons.LEFT) {
       if (ServiceLocator.getStructureService().getTempBuildState()) {
@@ -211,7 +213,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
       } else {
         // crystal has been clicked
-        Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
         if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
           PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
           isVisible = true;
@@ -219,7 +220,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
-      if (entityName != null) {
+      if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
         if (!onClick) {
           if (entityName.contains("tower1") || entityName.contains("wall") ||
                   entityName.contains("trap") || entityName.contains("tower2")
