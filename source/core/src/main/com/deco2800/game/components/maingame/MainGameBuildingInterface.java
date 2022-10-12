@@ -17,13 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.player.KeyboardPlayerInputComponent;
-import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.ShopUtils;
-import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
-import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.utils.StringDecorator;
@@ -33,15 +29,13 @@ import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-
 
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table BuildingUI;
     private Table CrystalUI;
-    private Label buildingTitle;
+    private Label CrystalLabel;
     private Image crystalImage;
 
 
@@ -106,7 +100,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
-        buildingTitle = new Label(buildingName, skin, "large");
+        CrystalLabel = new Label(buildingName, skin, "large");
 
         // Insert building health image and bar
         // Heart image
@@ -188,7 +182,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         //table
         Table buildingInfo = new Table();
-        buildingInfo.add(buildingTitle).center();
+        buildingInfo.add(CrystalLabel).center();
 
         Table healthInfo = new Table();
         healthInfo.add(heartImage);
@@ -220,7 +214,7 @@ public class MainGameBuildingInterface extends UIComponent {
         return BuildingUI;
     }
 
-    public Table makeCrystalPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
+    public Table makeCrystalPopUp(Boolean value, float x, float y) {
 
         float uiHeight = 200f;
         float screenHeight = Gdx.graphics.getHeight();
@@ -259,8 +253,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
-        String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
-        buildingTitle = new Label(buildingName, skin, "large");
+        CrystalLabel = new Label("CRYSTAL", skin, "large");
 
         //upgrade button
         Texture homeButton1 = new Texture(Gdx.files.internal("images/Home_Button.png"));
@@ -308,7 +301,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         //table
         Table buildingInfo = new Table();
-        buildingInfo.add(buildingTitle).center();
+        buildingInfo.add(CrystalLabel).center();
 
 
 
@@ -347,8 +340,6 @@ public class MainGameBuildingInterface extends UIComponent {
     public boolean isVisability() {
         return visability;
     }
-
-
 
     private Array<StringDecorator<Graphics.DisplayMode>> getDisplayModes(Graphics.Monitor monitor) {
         Graphics.DisplayMode[] displayModes = Gdx.graphics.getDisplayModes(monitor);

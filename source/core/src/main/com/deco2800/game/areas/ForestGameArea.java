@@ -1,7 +1,9 @@
 package com.deco2800.game.areas;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
+import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.npc.BossAnimationController;
 import com.deco2800.game.files.SaveGame;
@@ -24,6 +26,8 @@ import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import static java.sql.DriverManager.println;
@@ -412,6 +416,9 @@ public class ForestGameArea extends GameArea {
     this.entityMapping.addEntity(crystal);
     GridPoint2 tileCoords = new GridPoint2(x_pos, y_pos);
     ServiceLocator.getUGSService().setEntity(tileCoords, crystal, crystal.getName());
+
+    //spawnWorldBorders(-1, 0);
+
     return crystal;
   }
 
@@ -425,11 +432,104 @@ public class ForestGameArea extends GameArea {
       if (terrain.getCurrentMapLvl() == 0) {
         // GAME OVER
       } else {
+        //int oldLvl = terrain.getCurrentMapLvl();
         terrain.decrementMapLvl();
+        //int newLvl = terrain.getCurrentMapLvl();
+        //spawnWorldBorders(oldLvl, newLvl);
       }
     }
 
   }
+
+  private void destroyWorldBorders(int lvl) {
+    Collection<Entity> entities = this.entityMapping.getEntities();
+    Iterator itr = entities.iterator();
+
+    for (;itr.hasNext();) {
+      Entity entity = (Entity) itr.next();
+      if (entity.getName() == "wall") {
+        entity.dispose();
+      }
+    }
+  }
+
+  private void spawnWorldBorders(int oldLvl, int newLvl) {
+
+    if (oldLvl != -1) {
+      destroyWorldBorders(oldLvl);
+    }
+
+    ArrayList<ArrayList<GridPoint2>> max = terrainFactory.getBordersPositionList();
+
+    ArrayList<GridPoint2> borderLevel = max.get(newLvl);
+
+    Iterator itr = borderLevel.iterator();
+
+    for (Iterator it = itr; it.hasNext(); ) {
+      GridPoint2 pos = (GridPoint2) it.next();
+      Entity wall = ObstacleFactory.createWall(20f, 1f, 1f);
+      this.entityMapping.addEntity(wall);
+      spawnEntityAt(wall, pos, false, false);
+    }
+
+    /*for (int x = 1; x < mapSize.x - 1; x++) {
+      for (int y = 1; y < mapSize.y - 1; y++) {
+
+        TerrainTile tile = (TerrainTile) tiledMapTileLayer.getCell(x, y).getTile();
+
+        if (tile.getName() == "water") {
+          Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+
+          this.entityMapping.addEntity(wall);
+          super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+        }*/
+/*
+        TerrainTile above = (TerrainTile) tiledMapTileLayer.getCell(x, y + 1).getTile();
+        TerrainTile below = (TerrainTile) tiledMapTileLayer.getCell(x, y - 1).getTile();
+        TerrainTile left = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y).getTile();
+        TerrainTile right = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y).getTile();
+        TerrainTile rightAbove = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y + 1).getTile();
+        TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y - 1).getTile();
+        TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
+        TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();*/
+
+        /*if (tile.getName().equals("grass")) {
+          if (above.getName().equals("water")) {
+            createBorderWall(x, y + 1);
+          }
+          if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
+            createBorderWall(x, y - 1);
+          }
+          if (left.getName().equals("water")) {
+            createBorderWall(x - 1, y);
+          }
+          if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
+            createBorderWall(x + 1, y);
+          }
+          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
+                  || rightAbove.getName().equals("cliff")) {
+            createBorderWall(x + 1, y + 1);
+          }
+          if (rightBelow.getName().equals("cliff")) {
+            createBorderWall(x + 1, y - 1);
+          }
+          if (leftAbove.getName().equals("water")) {
+            createBorderWall(x - 1, y + 1);
+          }
+          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
+                  || leftBelow.getName().equals("cliffLeft")) {
+            createBorderWall(x - 1, y + 1);
+          }
+        }
+      }
+    }*/
+  }
+
+  /*private void createBorderWall(int x, int y) {
+    //Fix this to match Luke's stuff
+    Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+    super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+  }*/
 
   /**
    * Spawns NPCs during the day and removes them at night.
@@ -578,9 +678,9 @@ public class ForestGameArea extends GameArea {
   public boolean isWallHere(GridPoint2 pos) {
     boolean mapEntities = super.isWallHere(pos);
     Vector2 worldPos = terrain.tileToWorldPosition(pos);
-
-    for (Entity wall : terrain.getWalls()) {
-      if (wall.getPosition().x == worldPos.x && wall.getPosition().y == worldPos.y) {
+    int level = terrain.getLayer();
+    for (GridPoint2 wall : terrain.getWalls().get(level)) {
+      if (wall.x == worldPos.x && wall.y == worldPos.y) {
         return true;
       }
     }
