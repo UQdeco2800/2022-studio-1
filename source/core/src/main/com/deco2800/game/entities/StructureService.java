@@ -52,6 +52,8 @@ public class StructureService extends EntityService {
 
   private static String tempEntityName;
 
+  private static int orientation;
+
   /**
    * Register a new entity with the entity service. The entity will be created and
    * start updating.
@@ -161,7 +163,7 @@ public class StructureService extends EntityService {
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
       switch (structureName) {
         case "wall":
-          structure = StructureFactory.createWall(entityName, false);
+          structure = StructureFactory.createWall(entityName, false, orientation);
           break;
 
         case "tower1":
@@ -192,8 +194,11 @@ public class StructureService extends EntityService {
           return false;
       }
 
-      structure.setPosition(worldPosition);
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldPosition.x -= tileSize/4;
+      worldPosition.y -= tileSize/8;
+      structure.setPosition(worldPosition);
       return true;
     }
     return false;
@@ -247,7 +252,7 @@ public class StructureService extends EntityService {
     entityName = name + entityName;
 
     if (Objects.equals(name, "wall")) {
-      tempEntity = StructureFactory.createWall(entityName, true);
+      tempEntity = StructureFactory.createWall(entityName, true, orientation);
     } else if (Objects.equals(name, "tower1")) {
       tempEntity = StructureFactory.createTower1(1, entityName, true);
     } else if (Objects.equals(name, "tower2")) {
@@ -268,6 +273,9 @@ public class StructureService extends EntityService {
     buildingTempEntity = true;
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    worldLoc.x -= tileSize/4;
+    worldLoc.y -= tileSize/8;
     tempEntity.setPosition(worldLoc);
     drawVisualFeedback(loc, "structure");
   }
@@ -310,9 +318,39 @@ public class StructureService extends EntityService {
     }
   }
 
-  public static void setUiPopUp(int screenX, int screenY) {
+  /**
+   * Rotate the current temp structure
+   */
+  public static void rotateTempStructure() {
+    toggleStructureOrientation();
+    ServiceLocator.getEntityService().getNamedEntity(getTempEntityName()).dispose();
+    clearVisualTiles();
+    String entityName = getTempEntityName();
+    entityName = entityName.replace("Temp", "");
+    buildTempStructure(entityName);
+  }
 
-    // getting the building location on the map
+  /**
+   * get the orientation of the structure being built (facing forward or facing right)
+   * @return
+   */
+  public static int getStructureOrientation() {return orientation;}
+
+  /**
+   * toggle the structure orientation from 0 to 1 or from 1 to 0
+   */
+  public static void toggleStructureOrientation() {
+    if (orientation == 1) {
+      orientation = 0;
+    } else {
+      orientation = 1;
+    }
+  }
+
+
+  public static void setUiPopUp(int screenX, int screenY, boolean onClick) {
+    //getting the building location on the map
+
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
@@ -320,19 +358,26 @@ public class StructureService extends EntityService {
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
         .worldToTilePosition(mousePosV2.x, mousePosV2.y);
     // building name
-    String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
-    // if UI is false on click then the pop-up should appear
-    if (!uiIsVisible) {
-      uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-          .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
-      uiIsVisible = true;
-      // else the pop-up will be removed
-    } else {
-      if (uiIsVisible) {
+
+    //if UI is false on click then the pop-up should appear
+    if (onClick) {
+      if (!uiIsVisible) {
+        try {
+          String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
+
+          uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
+                  .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+          uiIsVisible = true;
+          // else the pop-up will be removed
+        } catch (NullPointerException e) {
+          logger.debug("Error with UGS having building null");
+        }
+      } else {
         uiPopUp.remove();
         uiIsVisible = false;
       }
     }
-  }
+    }
+
 
 }

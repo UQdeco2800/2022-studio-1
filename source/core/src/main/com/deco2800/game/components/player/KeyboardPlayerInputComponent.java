@@ -5,17 +5,23 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.MainGameNpcInterface;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
+
+//import java.io.Serial;     // this had an error not sure what the go is???
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -27,6 +33,10 @@ import java.util.*;
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
+  private Boolean keyState;
+  private static Table PopUp;
+  private static boolean isVisible;
+
 
   public KeyboardPlayerInputComponent() {
     super(5);
@@ -120,7 +130,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           triggerCrystalAttacked();
           return true;
         case Keys.R:
-          triggerCrystalRestoreHealth();
+          if (ServiceLocator.getStructureService().getTempBuildState()) {
+            ServiceLocator.getStructureService().rotateTempStructure();
+          } else {
+            triggerCrystalRestoreHealth();
+          }
+
           return true;
         case Keys.SPACE:
           entity.getEvents().trigger("attack_anim_rev");
@@ -140,7 +155,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchDown(int, int, int, int) */
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-    CrystalFactory.crystalClicked(screenX, screenY);
     NpcService.npcClicked(screenX, screenY);
     return true;
   }
@@ -157,6 +171,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           .worldToTilePosition(mousePosV2.x, mousePosV2.y);
       Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain")
           .getComponent(TerrainComponent.class).tileToWorldPosition(loc);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldLoc.x -= tileSize/4;
+      worldLoc.y -= tileSize/8;
       ServiceLocator.getStructureService().drawVisualFeedback(loc, "structure");
       ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
           .setPosition(worldLoc);
@@ -168,6 +185,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    if (isVisible) {
+      PopUp.remove();
+      isVisible = false;
+    }
+    Boolean onClick = false;
+    Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
+
+
     if (pointer == Input.Buttons.LEFT) {
       if (ServiceLocator.getStructureService().getTempBuildState()) {
         Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -175,16 +200,38 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
         GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain")
-            .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+                .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
         entityName = entityName.replace("Temp", "");
         if (ServiceLocator.getStructureService().buildStructure(entityName, loc)) {
           ServiceLocator.getEntityService().getNamedEntity(ServiceLocator.getStructureService().getTempEntityName())
-              .dispose();
+                  .dispose();
+
           ServiceLocator.getStructureService().setTempBuildState(false);
           ServiceLocator.getStructureService().clearVisualTiles();
-          triggerUIBuildingPopUp(screenX, screenY);
         }
+      } else {
+        // crystal has been clicked
+        if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
+          PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
+          isVisible = true;
+        }
+
+
+        String entityName = ServiceLocator.getStructureService().getTempEntityName();
+      if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
+        if (!onClick) {
+          if (entityName.contains("tower1") || entityName.contains("wall") ||
+                  entityName.contains("trap") || entityName.contains("tower2")
+                  || entityName.contains("tower3")) {
+            onClick = true;
+            StructureService.setUiPopUp(screenX, screenY, onClick);
+          }
+        } else {
+          onClick = false;
+        }
+      }
       }
     }
     return true;
@@ -261,12 +308,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     // System.out.println(inventoryComponent.getGold());
   }
 
-  private void triggerUIBuildingPopUp(int screenX, int screenY) {
-    String name = ServiceLocator.getStructureService().getTempEntityName();
-    if (name.contains("tower1") || name.contains("wall") || name.contains("trap") || name.contains("tower2")
-        || name.contains("tower3"))
-      StructureService.setUiPopUp(screenX, screenY);
-  }
 
   private void movePlayerInUgs() {
     // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
@@ -315,4 +356,5 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 //    }
 
   }
+
 }
