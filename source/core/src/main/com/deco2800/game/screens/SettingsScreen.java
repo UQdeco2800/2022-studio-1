@@ -31,6 +31,8 @@ public class SettingsScreen extends ScreenAdapter {
   public SettingsScreen(AtlantisSinks game, AtlantisSinks.ScreenType prevScreen) {
     this.game = game;
     backScreen = prevScreen;
+    System.out.print("This is the backscreen");
+    System.out.println(backScreen);
 
     logger.debug("Initialising settings screen services");
 

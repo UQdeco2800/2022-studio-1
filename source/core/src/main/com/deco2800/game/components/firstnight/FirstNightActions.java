@@ -36,6 +36,6 @@ public class FirstNightActions extends Component {
     private void onSkip() {
         logger.info("Resume game after first night");
         //implement function to retrieve the player status
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, AtlantisSinks.ScreenType.MAIN_MENU);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME, AtlantisSinks.ScreenType.MAIN_GAME_LOAD);
     }
 }
