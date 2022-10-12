@@ -142,7 +142,8 @@ public class ForestGameArea extends GameArea {
       "images/cornerWall3.png",
       "images/cornerWall4.png",
       "images/wallRight.png",
-      "images/wallLeft.png"
+      "images/wallLeft.png",
+      "images/turret.png"
   };
 
   private static final String[] forestTextureAtlases = {

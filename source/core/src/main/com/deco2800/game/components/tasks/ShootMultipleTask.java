@@ -19,7 +19,7 @@ public class ShootMultipleTask extends ShootTask {
         Logger logger = LoggerFactory.getLogger(ShootMultipleTask.class);
 
         private ArrayList<Entity> targets;
-        private final int updateTimeDelta = 1000;
+        private final int updateTimeDelta = 5000;
         private long taskEnd;
 
         public ShootMultipleTask(ArrayList<Entity> targets, float viewDistance) {
@@ -89,7 +89,7 @@ public class ShootMultipleTask extends ShootTask {
                         }
                         Vector2 ownerPosition = owner.getPosition();
                         UGS ugs = ServiceLocator.getUGSService();
-                        float currentDistance = super.getDistanceToTarget();
+                        float currentDistance = Math.abs(super.getDistanceToTarget());
 
                         for (Entity target : targets) {
                                 if (currentDistance == -1f) {

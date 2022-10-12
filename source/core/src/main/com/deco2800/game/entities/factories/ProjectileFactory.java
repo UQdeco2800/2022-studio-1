@@ -24,6 +24,7 @@ public class ProjectileFactory {
         String texturePath = "images/eel_projectile.png";
 
         if (source.getName().contains("turret")) {
+            // change to turret proj
 
         }
 
@@ -39,10 +40,12 @@ public class ProjectileFactory {
 
         projectile.getComponent(PhysicsMovementComponent.class).setTarget(destination);
         projectile.getComponent(PhysicsMovementComponent.class).setMoving(true);
+        projectile.getComponent(PhysicsMovementComponent.class).setNewSpeed(new Vector2(4, 4));
         projectile.getComponent(ColliderComponent.class).setSensor(true);
 
         projectile.setPosition(source.getPosition());
         PhysicsUtils.setScaledCollider(projectile, 2f, 2f);
+        projectile.scaleHeight(20f);
 
         projectile.setName("eelProjectile@" + projectile.getId());
         ServiceLocator.getEntityService().registerNamed("Enemy@" + projectile.getId(), projectile);

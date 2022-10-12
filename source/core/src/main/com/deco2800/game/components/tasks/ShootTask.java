@@ -59,6 +59,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public int getPriority() {
+        System.out.println(status.name());
         if (status == Status.ACTIVE) {
             return getActivePriority();
         }
@@ -73,7 +74,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     }
 
     private int getActivePriority() {
-        float dst = getDistanceToTarget();
+        float dst = Math.abs(getDistanceToTarget());
+        System.out.println("Visibility: " + isTargetVisible());
+
         System.out.println("Distance: " + dst + " Max Distance: " + maxChaseDistance);
 
         if (dst > maxChaseDistance || !isTargetVisible()) {
