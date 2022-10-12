@@ -2,7 +2,9 @@ package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -14,9 +16,11 @@ import com.deco2800.game.screens.GuidebookStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.Page;
 import com.deco2800.game.ui.UIComponent;
+import com.deco2800.game.utils.TextUtil;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -191,14 +195,14 @@ public class GuidebookDisplay extends UIComponent {
             rightPageImage = new Image(ServiceLocator.getResourceService().getAsset(rightPageImagePath, Texture.class));
         }
 
-        leftPageContent = format(leftPageContent, charactersPerLine);
-        rightPageContent = format(rightPageContent, charactersPerLine);
+        leftPageContent = TextUtil.lineFormat(leftPageContent, charactersPerLine);
+        rightPageContent = TextUtil.lineFormat(rightPageContent, charactersPerLine);
 
-        Label leftHeader = new Label(leftPageHeader, skin, "large");
-        Label rightHeader = new Label(rightPageHeader, skin, "large");
+        Label leftHeader = TextUtil.createTextLabel(leftPageHeader, 0xe6bd39ff, 32);
+        Label rightHeader = TextUtil.createTextLabel(rightPageHeader, 0xe6bd39ff, 32);
 
-        Label leftContent = new Label(leftPageContent, skin, "small");
-        Label rightContent = new Label(rightPageContent, skin, "small");
+        Label leftContent = TextUtil.createTextLabel(leftPageContent,0x000000ff,16);
+        Label rightContent = TextUtil.createTextLabel(rightPageContent,0x000000ff,16);
 
         leftHeader.setAlignment(Align.center);
         rightHeader.setAlignment(Align.center);
@@ -319,5 +323,18 @@ public class GuidebookDisplay extends UIComponent {
     public void dispose() {
         stage.clear();
         super.dispose();
+    }
+
+    public static Label textLabel(String text, int textColour, float fontSize) {
+        Color color = new Color(textColour);
+
+        Label.LabelStyle fontStyle = new Label.LabelStyle();
+        fontStyle.font = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
+        fontStyle.fontColor = color;
+
+        Label formattedText = new Label(text, fontStyle);
+        formattedText.setFontScale(fontSize / 32);
+
+        return formattedText;
     }
 }
