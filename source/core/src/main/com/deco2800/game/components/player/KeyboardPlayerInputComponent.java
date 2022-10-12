@@ -5,11 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.MainGameNpcInterface;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
@@ -32,6 +34,8 @@ import java.util.*;
 public class KeyboardPlayerInputComponent extends InputComponent {
   private final Vector2 walkDirection = Vector2.Zero.cpy();
   private Boolean keyState;
+  private static Table PopUp;
+  private static boolean isVisible;
 
 
   public KeyboardPlayerInputComponent() {
@@ -181,7 +185,13 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   /** @see InputProcessor#touchUp(int, int, int, int) */
   @Override
   public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    if (isVisible) {
+      PopUp.remove();
+      isVisible = false;
+    }
     Boolean onClick = false;
+    Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
+
 
     if (pointer == Input.Buttons.LEFT) {
       if (ServiceLocator.getStructureService().getTempBuildState()) {
@@ -203,14 +213,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
       } else {
         // crystal has been clicked
-        Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
         if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity("crystal")) {
-          CrystalFactory.upgradeCrystal();
+          PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
+          isVisible = true;
         }
 
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
-      if (entityName != null) {
+      if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
         if (!onClick) {
           if (entityName.contains("tower1") || entityName.contains("wall") ||
                   entityName.contains("trap") || entityName.contains("tower2")
