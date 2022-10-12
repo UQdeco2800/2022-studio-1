@@ -121,13 +121,13 @@ public class AchievementHandler {
 
     /**
      * File handler for the player achievement file
-     */
-
-    /**
+     * <p>
      * V3 - 09/10/2022 notifyOnLoad added
+     * <p>
+     * V4 - 12/10/2022 isOneNight boolean added
      */
     private final FileHandle achievementsFileHandle = Gdx.files
-            .external("AtlantisSinks/playerAchievementsVersion3.json");
+            .external("AtlantisSinks/playerAchievementsVersion4.json");
 
     /**
      * Used for reading and writing to the player achievement file
@@ -232,6 +232,9 @@ public class AchievementHandler {
         });
         this.events.addListener(EVENT_ON_TEMP_STRUCTURE_PLACED, this::onTempStructurePlaced);
         this.events.addListener(EVENT_CRYSTAL_DAMAGED, this::incrementOneRunAchievement);
+
+        // External
+        this.events.addListener(DayNightCycleService.EVENT_DAY_PASSED, this::checkOneNight);
     }
 
     /**
@@ -644,5 +647,15 @@ public class AchievementHandler {
         achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
 
         saveAchievements();
+    }
+
+    public void checkOneNight(int dayNum) {
+        for (Achievement achievement : this.achievements) {
+            if (achievement.isOneNight() && achievement.getTotalAchieved() == 0) {
+                markAchievementCompletedById(achievement.getId(), true);
+            } else if (achievement.getId() == 20 && dayNum == 1 && achievement.getTotalAchieved() == 1) {
+                markAchievementCompletedById(20, true);
+            }
+        }
     }
 }
