@@ -6,9 +6,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleService;
@@ -54,6 +56,8 @@ public class PlayerActions extends Component {
   @Override
   public void update() {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+
+
     if (moving) {
       updateSpeed();
 
@@ -62,7 +66,6 @@ public class PlayerActions extends Component {
 
       Vector2 playerCenterPos = entity.getPosition();
       playerCenterPos.add(0.7f, 1f);
-
       camera.getEvents().trigger("playerMovementPan", playerCenterPos);
     } else {
       camera.getEvents().trigger("stopPlayerMovementPan");
@@ -115,6 +118,11 @@ public class PlayerActions extends Component {
    */
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
+
+    Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
+    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y);
+    boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
+
     Entity closestEnemy = null;
     Entity closestEntity = null;
 
