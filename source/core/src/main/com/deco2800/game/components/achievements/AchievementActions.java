@@ -51,7 +51,7 @@ public class AchievementActions extends Component {
     private void onSummary(Table displayTable, Table navigationTable) {
         logger.info("Achievement Summary screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.SUMMARY);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.SUMMARY);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.SUMMARY);
     }
 
     /**
@@ -61,7 +61,7 @@ public class AchievementActions extends Component {
     private void onBuilding(Table displayTable, Table navigationTable) {
         logger.info("Building achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.BUILDINGS);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.BUILDINGS);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.BUILDINGS);
     }
 
     /**
@@ -71,7 +71,7 @@ public class AchievementActions extends Component {
     private void onGame(Table displayTable, Table navigationTable) {
         logger.info("Game achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.GAME);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.GAME);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.GAME);
     }
 
     /**
@@ -81,7 +81,7 @@ public class AchievementActions extends Component {
     private void onKill(Table displayTable, Table navigationTable) {
         logger.info("Kill achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.KILLS);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.KILLS);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.KILLS);
     }
 
     /**
@@ -91,7 +91,7 @@ public class AchievementActions extends Component {
     private void onResource(Table displayTable, Table navigationTable) {
         logger.info("Resource achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.RESOURCES);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.RESOURCES);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.RESOURCES);
     }
 
     /**
@@ -101,7 +101,7 @@ public class AchievementActions extends Component {
     private void onUpgrade(Table displayTable, Table navigationTable) {
         logger.info("Upgrade achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.UPGRADES);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.UPGRADES);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.UPGRADES);
     }
 
     /**
@@ -111,7 +111,7 @@ public class AchievementActions extends Component {
     private void onMisc(Table displayTable, Table navigationTable) {
         logger.info("Misc achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.MISC);
-        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.MISC);
+        //AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.MISC);
     }
 
     /**
