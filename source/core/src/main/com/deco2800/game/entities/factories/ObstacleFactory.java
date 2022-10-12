@@ -1,12 +1,9 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
-import com.deco2800.game.components.Environmental.CollisionEffectComponent.CollisionEffect;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -16,8 +13,9 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.services.ServiceLocator;
-
+import java.util.Arrays;
 import java.security.SecureRandom;
+
 
 /**
  * Factory to create obstacle entities.
@@ -312,23 +310,25 @@ public class ObstacleFactory {
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.scaleHeight(heightScale);
 
+    environmentalObject.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
+
     PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
     return environmentalObject;
   }
 
   /**
    * Creates an invisible physics wall.
-   * 
-   * @param width  Wall width in world units
+   *
    * @param height Wall height in world units
    * @return Wall entity of given width and height
    */
-  public static Entity createWall(float width, float height) {
+  public static Entity createWall(float height, float scalex, float scaley) {
     Entity wall = new Entity()
         .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
     wall.setName("wall");
-    wall.setScale(width, height);
+    wall.scaleHeight(height);
+    PhysicsUtils.setScaledCollider(wall, scalex, scaley);
     return wall;
   }
 

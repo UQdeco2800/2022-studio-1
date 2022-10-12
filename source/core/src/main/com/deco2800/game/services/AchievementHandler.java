@@ -22,6 +22,9 @@ import java.util.*;
  * Service for handling the loading, updating and saving of game achievements
  */
 public class AchievementHandler {
+    /**
+     * Event string for if the game was won
+     */
     public static final String EVENT_GAME_WON = "gameWon";
 
     /**
@@ -376,8 +379,7 @@ public class AchievementHandler {
                 achievement = this.getAchievementById(6);
                 break;
             case GAME:
-                achievement = this.getAchievementById(7);
-                // update game stats achievement
+                // handled outside
         }
 
         incrementTotalAchievedForStatAchievement(achievement, increase);
@@ -584,6 +586,11 @@ public class AchievementHandler {
      * the game.
      */
     public void resetOneRunAchievements(boolean won) {
+        if (won) {
+            getAchievementById(7).setTotalAchieved(getAchievementById(7).getTotalAchieved() + 1);
+            checkStatAchievementMilestones(getAchievementById(7));
+        }
+
         for (Achievement toCheck : achievements) {
             if (toCheck.isOneRun()) {
                 if (!toCheck.isCompleted() && won && toCheck.getTotalAchieved() == 0) {
@@ -595,6 +602,7 @@ public class AchievementHandler {
         }
 
         logger.info("Reset one run achievements");
+        saveAchievements();
     }
 
     /**
@@ -603,9 +611,14 @@ public class AchievementHandler {
      * @param id int
      */
     public void incrementOneRunAchievement(int id) {
+        if (id == 14) {
+            getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
+            checkStatAchievementMilestones(getAchievementById(8));
+        }
+
         Achievement achievement = getAchievementById(id);
         achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
 
-        logger.info("Incremented one run achievement: " + getAchievementById(id).getName());
+        saveAchievements();
     }
 }
