@@ -1,12 +1,22 @@
 package com.deco2800.game.physics.components;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.ai.movement.MovementController;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.Tile;
+import com.deco2800.game.entities.UGS;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 /** Movement controller for a physics-based entity. */
 public class PhysicsMovementComponent extends Component implements MovementController {
@@ -73,6 +83,9 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
     setToVelocity(body, desiredVelocity);
+    if (ServiceLocator.getTimeSource().getTime() % 1000 < 10) {
+      updateEnemyPosInUgs();
+    }
   }
 
   private void setToVelocity(Body body, Vector2 desiredVelocity) {
@@ -116,5 +129,44 @@ public class PhysicsMovementComponent extends Component implements MovementContr
    */
   public void resetSpeed() {
     this.maxSpeed = defaultMaxSpeed;
+  }
+
+  public void updateEnemyPosInUgs () {
+    // Initialise
+    ArrayList<Entity> enemyList = null;
+    if (ServiceLocator.getEntityService() != null && ServiceLocator.getEntityService().getEnemyEntities() != null) {
+      enemyList = new ArrayList<>(ServiceLocator.getEntityService().getEnemyEntities());
+    }
+
+    for (Entity enemy : enemyList) {
+      if (enemy.getName() != null && enemy.getName().contains("Mr.")) {
+        // Get old key (place in UGS)
+        String enemyOldKey = "";
+        String oldTileType = "";
+        String enemyName = null;
+        for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+          if (entry.getValue().getEntity() == enemy) {
+            enemyOldKey = entry.getKey();
+            oldTileType = entry.getValue().getTileType();
+            enemyName = entry.getValue().getEntity().getName();
+            break;
+          }
+        }
+//      int oldGridPos = Integer.parseInt(enemyOldKey.substring(1,5));
+
+        // Get new key (place in UGS)
+        Vector2 enemyPosVect = enemy.getPosition();
+        GridPoint2 enemyPosGrid = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(enemyPosVect.x, enemyPosVect.y + 1);
+        String enemyNewKey = UGS.generateCoordinate(enemyPosGrid.x, enemyPosGrid.y);
+        // Delete old tile and give new tile in UGS
+        if (!Objects.equals(enemyOldKey, enemyNewKey) && !enemyOldKey.equals("")) {
+          Tile replacement = new Tile();
+          replacement.setTileType(oldTileType);
+          ServiceLocator.getUGSService().change(enemyOldKey, replacement);
+          ServiceLocator.getUGSService().setEntity(enemyPosGrid, entity, enemyName);
+          entity.setPosition(enemyPosVect);
+        }
+      }
+    }
   }
 }

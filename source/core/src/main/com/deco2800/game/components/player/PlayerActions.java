@@ -20,10 +20,7 @@ import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Action component for interacting with the player. Player events should be
@@ -53,7 +50,6 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("playerDeath", this::die);
-    entity.getEvents().addListener("updateUgs", this::updatePosInUgs);
     timer = new Timer();
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::respawn);
@@ -136,13 +132,13 @@ public class PlayerActions extends Component {
 
     ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current, gridPos);
     for (Entity i : radius) {
-      if (i != null && i.getName().contains("Mr.")) {
+      if (i != null && i.getName() != null && i.getName().contains("Mr.")) {
         closestEnemy = i;
         break;
       }
     }
     for (Entity i : radius) {
-      if (i != null && !i.getName().contains("Mr.") && !i.getName().equals("player")) {
+      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player")) {
         closestEntity = i;
         break;
       }
@@ -207,40 +203,41 @@ public class PlayerActions extends Component {
     }
   }
 
-  public void updatePosInUgs (Entity entity, String entityName) {
-    boolean enemy = false;
-
-    if (entity.getName().contains("Mr.")) {
-      enemy = true;
-    }
-
-    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
-    Vector2 entityPosVector = entity.getPosition();
-    GridPoint2 entityPosGrid = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPosVector.x, entityPosVector.y);
-    String entityPosKey = UGS.generateCoordinate(entityPosGrid.x, entityPosGrid.y);
-
-    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
-    if (ServiceLocator.getUGSService().printUGS().get(entityPosKey).getEntity() != entity) {
-      for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
-        if (entry.getValue().getEntity() == entity) {
-          String currentPos = entry.getKey();
-          if (!currentPos.equals(entityPosKey)) {
-            String oldTileType = entry.getValue().getTileType();
-            Tile replacement = new Tile();
-            replacement.setTileType(oldTileType);
-            ServiceLocator.getUGSService().change(entry.getKey(), replacement);
-            break;
-          }
-        }
-      }
-
-      // RESET WHERE THE PLAYER IS
-      ServiceLocator.getUGSService().setEntity(entityPosGrid, entity, entityName);
-      entity.setPosition(entityPosVector);
-//      Vector2 newVectorPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(playerCurrentPos);
-//      player.setPosition(newVectorPos);
-
-    }
-  }
+//  public void updateEnemyPosInUgs () {
+//    // Initialise
+//    ArrayList<Entity> enemyList = null;
+//    if (ServiceLocator.getEntityService() != null && ServiceLocator.getEntityService().getEnemyEntities() != null) {
+//      enemyList = new ArrayList<>(ServiceLocator.getEntityService().getEnemyEntities());
+//    }
+//
+//    for (Entity enemy : enemyList) {
+//      // Get old key (place in UGS)
+//      String enemyOldKey = "";
+//      String oldTileType = "";
+//      String enemyName = null;
+//      for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+//        if (entry.getValue().getEntity() == enemy) {
+//          enemyOldKey = entry.getKey();
+//          oldTileType = entry.getValue().getTileType();
+//          enemyName = entry.getValue().getEntity().getName();
+//          break;
+//        }
+//      }
+//      int oldGridPos = Integer.parseInt(enemyOldKey.substring(1,5));
+//
+//      // Get new key (place in UGS)
+//      Vector2 enemyPosVect = enemy.getPosition();
+//      GridPoint2 enemyPosGrid = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(enemyPosVect.x, enemyPosVect.y);
+//      String enemyNewKey = UGS.generateCoordinate(enemyPosGrid.x, enemyPosGrid.y);
+//      // Delete old tile and give new tile in UGS
+//      if (!Objects.equals(enemyOldKey, enemyNewKey)) {
+//        Tile replacement = new Tile();
+//        replacement.setTileType(oldTileType);
+//        ServiceLocator.getUGSService().change(enemyOldKey, replacement);
+//        ServiceLocator.getUGSService().setEntity(enemyPosGrid, entity, enemyName);
+//        entity.setPosition(enemyPosVect);
+//      }
+//    }
+//  }
 
 }
