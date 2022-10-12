@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.screens.AchievementScreen;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
@@ -96,6 +98,11 @@ public class AchievementDisplay extends UIComponent {
     private Table displayTable;
 
     /**
+     * Table for containing achievement navigation buttons
+     */
+    private Table navigationTable;
+
+    /**
      * Create the achievement base display
      */
     public void create() {
@@ -115,7 +122,7 @@ public class AchievementDisplay extends UIComponent {
         rootTable.center();
 
         Table exitTable = new Table();
-        Table navigationTable = new Table();
+        this.navigationTable = new Table();
         navigationTable.defaults().pad(10f);
         this.displayTable = new Table();
         displayTable.defaults().pad(10f);
@@ -160,51 +167,57 @@ public class AchievementDisplay extends UIComponent {
         changeDisplay(this.displayTable, AchievementType.SUMMARY);
 
         // Home Button
-        ImageButton summaryButton = createButton("images/achievements/Summary_Button.png");
+        ImageButton summaryButton = createButton(AchievementType.SUMMARY);
         this.addButtonEvent(summaryButton, "Summary");
         navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
 
         // Building Button
-        ImageButton buildingButton = createButton("images/achievements/Building_Icon.png");
+        ImageButton buildingButton = createButton(AchievementType.BUILDINGS);
         this.addButtonEvent(buildingButton, "Building");
 
         navigationTable.add(buildingButton).expand();
 
         // Game Button
-        ImageButton gameButton = createButton("images/achievements/Game_Icon.png");
+        ImageButton gameButton = createButton(AchievementType.GAME);
         this.addButtonEvent(gameButton, "Game");
 
         navigationTable.add(gameButton).expand();
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
+        ImageButton killButton = createButton(AchievementType.KILLS);
         this.addButtonEvent(killButton, "Kill");
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
+        ImageButton resourceButton = createButton(AchievementType.RESOURCES);
         this.addButtonEvent(resourceButton, "Resource");
 
         navigationTable.add(resourceButton).expand();
         navigationTable.row();
 
         // Upgrade Button
-        ImageButton upgradeButton = createButton("images/achievements/Upgrade_Icon.png");
+        ImageButton upgradeButton = createButton(AchievementType.UPGRADES);
         this.addButtonEvent(upgradeButton, "Upgrade");
 
         navigationTable.add(upgradeButton).expand();
 
         // Misc Button
-        ImageButton miscButton = createButton("images/achievements/Misc_Icon.png");
+        ImageButton miscButton = createButton(AchievementType.MISC);
         this.addButtonEvent(miscButton, "Misc");
 
         navigationTable.add(miscButton).expand();
 
         // Back Button
-        ImageButton exitButton = createButton("images/uiElements/exports/back.png");
+
+        Texture buttonTexture = new Texture(Gdx.files.internal("images/uiElements/exports/back.png"));
+        TextureRegionDrawable exitUp = new TextureRegionDrawable(buttonTexture);
+        TextureRegionDrawable exitDown = new TextureRegionDrawable(buttonTexture);
+
+        ImageButton exitButton = new ImageButton(exitUp, exitDown);
+
         this.addButtonEvent(exitButton, "Exit");
 
         exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
@@ -427,6 +440,17 @@ public class AchievementDisplay extends UIComponent {
         return summaryCard;
     }
 
+    public static void changeSelectedIcon(Table navigationTable, AchievementType selected) {
+        SnapshotArray<Actor> navActors = navigationTable.getChildren();
+
+        for (int i = 0; i < navActors.size; i++) {
+            if (navActors.get(i) != null && navActors.get(i).getClass() == AchievementButton.class) {
+                AchievementButton button = (AchievementButton) navActors.get(i);
+                button.setChecked(!button.getType().equals(selected));
+            }
+        }
+    }
+
     public static void changeDisplay(Table displayTable, AchievementType type) {
         displayTable.clear();
         displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expandX();
@@ -466,15 +490,24 @@ public class AchievementDisplay extends UIComponent {
 
     /**
      * Creates an ImageButton from a provided image
-     * @param image String: File location
+     * @param type AchievementType
      * @return ImageButton
      */
-    private ImageButton createButton(String image) {
+    private static ImageButton createButton(AchievementType type) {
+        String image = "images/achievements/" + type.getTitle() + "_Icon.png";
+        String imageNotSelected = "images/achievements/" + type.getTitle() + "_NotCurrent.png";
+
         Texture buttonTexture = new Texture(Gdx.files.internal(image));
         TextureRegionDrawable up = new TextureRegionDrawable(buttonTexture);
         TextureRegionDrawable down = new TextureRegionDrawable(buttonTexture);
 
-        return new ImageButton(up, down);
+        Texture buttonNotSelected = new Texture(Gdx.files.internal(imageNotSelected));
+        TextureRegionDrawable isUnselected = new TextureRegionDrawable(buttonNotSelected);
+
+        AchievementButton button = new AchievementButton(up, down, isUnselected, type);
+        button.setChecked(!type.equals(AchievementType.SUMMARY));
+
+        return button;
     }
 
     /**
@@ -488,7 +521,7 @@ public class AchievementDisplay extends UIComponent {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         logger.debug("{} button clicked", name);
-                        entity.getEvents().trigger(events.get(name), displayTable);
+                        entity.getEvents().trigger(events.get(name), displayTable, navigationTable);
                     }
                 });
     }
@@ -497,13 +530,13 @@ public class AchievementDisplay extends UIComponent {
      * Maps button names to event strings
      */
     private void mapEvents() {
-        this.events.put("Summary", EVENT_SUMMARY_BUTTON_CLICKED);
-        this.events.put("Building", EVENT_BUILDING_BUTTON_CLICKED);
-        this.events.put("Game", EVENT_GAME_BUTTON_CLICKED);
-        this.events.put("Kill", EVENT_KILL_BUTTON_CLICKED);
-        this.events.put("Resource", EVENT_RESOURCE_BUTTON_CLICKED);
-        this.events.put("Upgrade", EVENT_UPGRADE_BUTTON_CLICKED);
-        this.events.put("Misc", EVENT_MISC_BUTTON_CLICKED);
+        this.events.put(AchievementType.SUMMARY.getTitle(), EVENT_SUMMARY_BUTTON_CLICKED);
+        this.events.put(AchievementType.BUILDINGS.getTitle(), EVENT_BUILDING_BUTTON_CLICKED);
+        this.events.put(AchievementType.GAME.getTitle(), EVENT_GAME_BUTTON_CLICKED);
+        this.events.put(AchievementType.KILLS.getTitle(), EVENT_KILL_BUTTON_CLICKED);
+        this.events.put(AchievementType.RESOURCES.getTitle(), EVENT_RESOURCE_BUTTON_CLICKED);
+        this.events.put(AchievementType.UPGRADES.getTitle(), EVENT_UPGRADE_BUTTON_CLICKED);
+        this.events.put(AchievementType.MISC.getTitle(), EVENT_MISC_BUTTON_CLICKED);
         this.events.put("Exit", EVENT_EXIT_BUTTON_CLICKED);
     }
 }

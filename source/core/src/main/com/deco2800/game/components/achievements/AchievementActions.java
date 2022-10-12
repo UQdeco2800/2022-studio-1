@@ -48,63 +48,70 @@ public class AchievementActions extends Component {
      * Populates the display table with the achievement summary
      * @param displayTable Table
      */
-    private void onSummary(Table displayTable) {
+    private void onSummary(Table displayTable, Table navigationTable) {
         logger.info("Achievement Summary screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.SUMMARY);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.SUMMARY);
     }
 
     /**
      * Populates display table with building achievements
      * @param displayTable Table
      */
-    private void onBuilding(Table displayTable) {
+    private void onBuilding(Table displayTable, Table navigationTable) {
         logger.info("Building achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.BUILDINGS);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.BUILDINGS);
     }
 
     /**
      * Populates the display table with game achievements
      * @param displayTable Table
      */
-    private void onGame(Table displayTable) {
+    private void onGame(Table displayTable, Table navigationTable) {
         logger.info("Game achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.GAME);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.GAME);
     }
 
     /**
      * Populates the display table with kill achievements
      * @param displayTable Table
      */
-    private void onKill(Table displayTable) {
+    private void onKill(Table displayTable, Table navigationTable) {
         logger.info("Kill achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.KILLS);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.KILLS);
     }
 
     /**
      * Populates the display table with resources achievements
      * @param displayTable Table
      */
-    private void onResource(Table displayTable) {
+    private void onResource(Table displayTable, Table navigationTable) {
         logger.info("Resource achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.RESOURCES);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.RESOURCES);
     }
 
     /**
      * Populates the display table with upgrade achievements
      * @param displayTable Table
      */
-    private void onUpgrade(Table displayTable) {
+    private void onUpgrade(Table displayTable, Table navigationTable) {
         logger.info("Upgrade achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.UPGRADES);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.UPGRADES);
     }
 
     /**
      * Populates the display table with misc achievements
      * @param displayTable Table
      */
-    private void onMisc(Table displayTable) {
+    private void onMisc(Table displayTable, Table navigationTable) {
         logger.info("Misc achievement screen");
         AchievementDisplay.changeDisplay(displayTable, AchievementType.MISC);
+        AchievementDisplay.changeSelectedIcon(navigationTable, AchievementType.MISC);
     }
 
     /**
