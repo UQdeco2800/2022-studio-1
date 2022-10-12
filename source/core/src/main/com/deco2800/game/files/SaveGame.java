@@ -148,7 +148,7 @@ public class SaveGame {
         structureGeneration.put("images/trap.png", StructureFactory.class.getMethod("createTrap"));
         structureGeneration.put("images/Wall-right.png", StructureFactory.class.getMethod("createWall"));
         structureGeneration.put("wood", ResourceBuildingFactory.class.getMethod("createWoodCutter"));
-        structureGeneration.put("stonequarry", ResourceBuildingFactory.class.getMethod("createStoneQuarry"));
+        structureGeneration.put("stoneQuarry", ResourceBuildingFactory.class.getMethod("createStoneQuarry"));
     }
 
     /**
@@ -169,9 +169,9 @@ public class SaveGame {
                 if (name.contains("wood")) {
                     structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
                             .setTexture("wood"));
-                } else if (name.contains("stonequarry")) {
+                } else if (name.contains("stoneQuarry")) {
                     structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                            .setTexture("stonequarry"));
+                            .setTexture("stoneQuarry"));
                 }
 
             }

@@ -3,14 +3,14 @@ package com.deco2800.game.components.Guidebook;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Originator;
+import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.screens.GuidebookScreen;
 import com.deco2800.game.screens.GuidebookStatus;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,6 +100,7 @@ public class GuidebookActions extends Component {
      */
     private void onExit() {
         logger.info("Exiting guidebook screen");
+        ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GUIDEBOOK_CLOSED);
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
         GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }

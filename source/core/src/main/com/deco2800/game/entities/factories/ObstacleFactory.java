@@ -1,12 +1,9 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.deco2800.game.components.Environmental.CollisionEffectComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
-import com.deco2800.game.components.Environmental.CollisionEffectComponent.CollisionEffect;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -16,6 +13,8 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.security.SecureRandom;
 
 /**
  * Factory to create obstacle entities.
@@ -35,7 +34,8 @@ public class ObstacleFactory {
     String[] sprites = { "images/landscape_objects/leftPalmTree.png",
         "images/landscape_objects/rightPalmTree.png",
         "images/landscape_objects/groupPalmTrees.png" };
-    int index = (int) ((Math.random() * (sprites.length)));
+//    int index = (int) ((Math.random() * (sprites.length)));
+    int index = (int) (new SecureRandom().nextInt(sprites.length));
     Entity tree = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.TREE,
         2.5f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
     tree.setResourceType(ResourceType.WOOD);
@@ -70,7 +70,8 @@ public class ObstacleFactory {
    */
   public static Entity createRock() {
     String[] sprites = { "images/seastack1.png", "images/seastack2.png" };
-    int index = (int) ((Math.random() * (sprites.length)));
+//    int index = (int) ((Math.random() * (sprites.length)));
+    int index = (int) (new SecureRandom().nextInt(sprites.length));
     Entity rock = createEnvironmentalObject(sprites[index], EnvironmentalComponent.EnvironmentalObstacle.ROCK,
         0.8f, 0.5f, 0.2f, CollisionEffectComponent.CollisionEffect.DIVERT, 1f);
 
@@ -278,7 +279,7 @@ public class ObstacleFactory {
         EnvironmentalComponent.EnvironmentalObstacle.SHELL, 0.5f, 0.5f, 0.5f,
         CollisionEffectComponent.CollisionEffect.NONE, 1f);
 
-    shell.setName("Shell");
+    shell.setName("Shell@" + shell.getId());
     shell.setCollectable(false);
     shell.getComponent(TextureRenderComponent.class).scaleEntity();
 
@@ -314,17 +315,17 @@ public class ObstacleFactory {
 
   /**
    * Creates an invisible physics wall.
-   * 
-   * @param width  Wall width in world units
+   *
    * @param height Wall height in world units
    * @return Wall entity of given width and height
    */
-  public static Entity createWall(float width, float height) {
+  public static Entity createWall(float height, float scalex, float scaley) {
     Entity wall = new Entity()
         .addComponent(new PhysicsComponent().setBodyType(BodyType.StaticBody))
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE).setTangible(PhysicsLayer.PLAYER));
     wall.setName("wall");
-    wall.setScale(width, height);
+    wall.scaleHeight(height);
+    PhysicsUtils.setScaledCollider(wall, scalex, scaley);
     return wall;
   }
 
