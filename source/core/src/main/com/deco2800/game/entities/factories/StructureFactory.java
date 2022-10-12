@@ -229,6 +229,7 @@ public static Entity createTrap(String name) {
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
     structure.getComponent(TextureRenderComponent.class).scaleEntity();
+    structure.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
     PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
     structure.setName(name);
     structure.setCollectable(false);
@@ -321,10 +322,12 @@ public static Entity createTrap(String name) {
           case 1:
             tower1 = StructureFactory.createTower1(2, structName);
             ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
+            ServiceLocator.getStructureService().registerNamed(structName, tower1);
             break;
           case 2:
             tower1 = StructureFactory.createTower1(3, structName);
             ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
+            ServiceLocator.getStructureService().registerNamed(structName, tower1);
             break;
         }
     } else if (structName.contains("tower2")) {
@@ -334,10 +337,12 @@ public static Entity createTrap(String name) {
         case 1:
           tower2 = StructureFactory.createTower2(2, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower2);
           break;
         case 2:
           tower2 = StructureFactory.createTower2(3, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower2);
           break;
         }
     } else if (structName.contains("tower3")) {
@@ -347,10 +352,12 @@ public static Entity createTrap(String name) {
         case 1:
           tower3 = StructureFactory.createTower3(2, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
         case 2:
           tower3 = StructureFactory.createTower3(3, structName);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
       }
     }

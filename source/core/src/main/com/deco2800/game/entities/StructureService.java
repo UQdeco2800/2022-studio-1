@@ -157,30 +157,37 @@ public class StructureService extends EntityService {
       if (Objects.equals(structureName, "wall")) {
         Entity wall = StructureFactory.createWall(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, wall, entityName);
+        ServiceLocator.getUGSService().addStructure(wall);
         return true;
       } else if (Objects.equals(structureName, "tower1")) {
         Entity tower1 = StructureFactory.createTower1(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower1, entityName);
+        ServiceLocator.getUGSService().addStructure(tower1);
         return true;
       } else if (Objects.equals(structureName, "tower2")) {
         Entity tower2 = StructureFactory.createTower2(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower2, entityName);
+        ServiceLocator.getUGSService().addStructure(tower2);
         return true;
       } else if (Objects.equals(structureName, "tower3")) {
         Entity tower3 = StructureFactory.createTower3(1, entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, tower3, entityName);
+        ServiceLocator.getUGSService().addStructure(tower3);
         return true;
       } else if (Objects.equals(structureName, "trap")) {
         Entity trap = StructureFactory.createTrap(entityName);
         ServiceLocator.getUGSService().setEntity(gridPos, trap, entityName);
+        ServiceLocator.getUGSService().addStructure(trap);
         return true;
       } else if (Objects.equals(structureName, "stonequarry")) {
         Entity stonequarry = ResourceBuildingFactory.createStoneQuarry();
         ServiceLocator.getUGSService().setEntity(gridPos, stonequarry, entityName);
+        ServiceLocator.getUGSService().addStructure(stonequarry);
         return true;
       } else if (Objects.equals(structureName, "woodCutter")) {
         Entity woodCutter = ResourceBuildingFactory.createWoodCutter();
         ServiceLocator.getUGSService().setEntity(gridPos, woodCutter, entityName);
+        ServiceLocator.getUGSService().addStructure(woodCutter);
         return true;
       }
     }

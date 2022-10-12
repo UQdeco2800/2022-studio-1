@@ -1,5 +1,6 @@
 package com.deco2800.game.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -20,12 +21,21 @@ import org.slf4j.LoggerFactory;
 public class UGS {
     private HashMap<String, Tile> tiles;
     private static final Logger logger = LoggerFactory.getLogger(UGS.class);
+    private ArrayList<Entity> structures = new ArrayList<>();
     static int MAPSIZE = 120; 
 
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
 //        generateUGS();
-    }   
+    }
+
+    public void addStructure(Entity e) {
+        structures.add(e);
+    }
+
+    public ArrayList<Entity> getStructures() {
+        return structures;
+    }
 
     /**
      * Takes a String (concatenated x,y value) and returns the associated tile's type

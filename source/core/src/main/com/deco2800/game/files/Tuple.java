@@ -14,6 +14,7 @@ public class Tuple {
     public HashMap<String, Object> playerState;
     public String tileString;
     public String creationMethod;
+    public int structureLevel;
 
     public Tuple setTexture(String texture) {
         this.texture = texture;
@@ -52,6 +53,11 @@ public class Tuple {
 
     public Tuple setCreationMethod(String className) {
         this.creationMethod = className;
+        return this;
+    }
+
+    public Tuple setStructureLevel(int level) {
+        this.structureLevel = level;
         return this;
     }
 }

@@ -47,13 +47,11 @@ public class SaveGame {
         // save texture and position
         for (Entity ent : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
 
-            if (ent.getComponent(EnvironmentalComponent.class) != null && ent.getComponent(TextureRenderComponent.class) != null) {
-                System.out.println(ent.getName());
+            if (ent.getComponent(EnvironmentalComponent.class) != null && (ent.getComponent(TextureRenderComponent.class) != null || ent.getComponent(AnimationRenderComponent.class) != null)) {
                 environmentalObjects
                         .add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath())
                                 .setPosition(ent.getPosition()).setName(ent.getName()).setTileString(ServiceLocator.getUGSService().getStringByEntity(ent))
                         .setCreationMethod(ent.getCreationMethod()));
-
             }
         }
 
@@ -90,35 +88,8 @@ public class SaveGame {
             int y_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(1));
 
             ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), newEnvironmentalObject, newEnvironmentalObject.getName());
-//            ServiceLocator.getEntityService().register(newEnvironmentalObject);
-//            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
-
         }
         logger.debug("Finished Loading Environment");
-    }
-
-
-    /**
-     * Helper method that generates a map for textures to corresponding creator
-     * method in obstacle factory
-     *
-     * @throws NoSuchMethodException if the method does not exist
-     */
-    private static void structureGenerationSetUp() throws NoSuchMethodException {
-        structureGeneration.put("images/TOWER1I.png", StructureFactory.class.getMethod("createTower1", int.class));
-        structureGeneration.put("images/TOWER1II.png", StructureFactory.class.getMethod("createTower1", int.class));
-        structureGeneration.put("images/TOWER1III.png", StructureFactory.class.getMethod("createTower1", int.class));
-        structureGeneration.put("images/TOWER2I.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWER2II.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWRER2III.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWER2III.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWER3I.png", StructureFactory.class.getMethod("createTower3", int.class));
-        structureGeneration.put("images/TOWER3II.png", StructureFactory.class.getMethod("createTower3", int.class));
-        structureGeneration.put("images/TOWER3III.png", StructureFactory.class.getMethod("createTower3", int.class));
-        structureGeneration.put("images/trap.png", StructureFactory.class.getMethod("createTrap"));
-        structureGeneration.put("images/Wall-right.png", StructureFactory.class.getMethod("createWall"));
-        structureGeneration.put("wood", ResourceBuildingFactory.class.getMethod("createWoodCutter"));
-        structureGeneration.put("stonequarry", ResourceBuildingFactory.class.getMethod("createStoneQuarry"));
     }
 
     /**
@@ -128,25 +99,16 @@ public class SaveGame {
         logger.debug("Begin Saving Structures");
         ArrayList<Tuple> structuresList = new ArrayList<>();
 
-        Map<String, Entity> structures = ServiceLocator.getStructureService().getAllNamedEntities();
-
         // loop through all entities saving texture, position and name of structure
-        for (String name : structures.keySet()) {
-            if (structures.get(name).getComponent(TextureRenderComponent.class) != null) {
-                structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                        .setTexture(structures.get(name).getComponent(TextureRenderComponent.class).getTexturePath()));
-            } else if (structures.get(name).getComponent(AnimationRenderComponent.class) != null) {
-                if (name.contains("wood")) {
-                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                            .setTexture("wood"));
-                } else if (name.contains("stonequarry")) {
-                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                            .setTexture("stonequarry"));
-                }
-
+        for (Entity entity: ServiceLocator.getUGSService().getStructures()) {
+            if (entity.getComponent(TextureRenderComponent.class) != null || entity.getComponent(AnimationRenderComponent.class) != null) {
+                Tuple storage = new Tuple();
+                structuresList.add(storage.setName(entity.getName())
+                        .setCreationMethod(entity.getCreationMethod())
+                        .setPosition(entity.getPosition())
+                        .setTileString(ServiceLocator.getUGSService().getStringByEntity(entity)));
             }
         }
-
         FileLoader.writeClass(structuresList, savePathStructures, FileLoader.Location.LOCAL);
         logger.debug("Finished Saving Structures");
     }
@@ -159,7 +121,7 @@ public class SaveGame {
      * @throws IllegalAccessException    when invoking method fails due to
      *                                   permisions
      */
-    private static void loadStructures() throws InvocationTargetException, IllegalAccessException {
+    private static void loadStructures() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         logger.debug("Begin Loading Structures");
         ArrayList structures = FileLoader.readClass(ArrayList.class, savePathStructures, FileLoader.Location.LOCAL);
 
@@ -168,28 +130,22 @@ public class SaveGame {
             Tuple structureRepresentation = (Tuple) st;
             Entity structure;
 
-            if (structureRepresentation.texture.contains("TOWER")) {
+            if (structureRepresentation.name.contains("tower")) {
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, int.class, String.class).invoke(null,1, structureRepresentation.name);
 
-                int count = 1;
-
-                // count level of tower
-                for (int i = 0; i < structureRepresentation.texture.length(); i++) {
-                    if (structureRepresentation.texture.indexOf(i) == 'I') {
-                        count++;
-                    }
-                }
-
-                structure = (Entity) structureGeneration.get(structureRepresentation.texture).invoke(null, count);
             } else {
-
-                structure = (Entity) structureGeneration.get(structureRepresentation.texture).invoke(null);
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class).invoke(null, structureRepresentation.name);
             }
 
-            structure.setPosition(structureRepresentation.position);
             structure.setName(structureRepresentation.name);
 
-            ServiceLocator.getStructureService().registerNamed(structure.getName(), structure);
-            ServiceLocator.getEntityService().registerNamed(structure.getName(), structure);
+            int x_tile = Integer.parseInt(Arrays.asList(structureRepresentation.tileString.split(",")).get(0));
+            int y_tile = Integer.parseInt(Arrays.asList(structureRepresentation.tileString.split(",")).get(1));
+
+            structure.getComponent(TextureRenderComponent.class).dispose();
+            structure.addComponent(new TextureRenderComponent("images/Wall-right.png"));
+            ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), structure, structure.getName());
+            ServiceLocator.getUGSService().addStructure(structure);
         }
         logger.debug("Finished Loading Structures");
     }
@@ -349,21 +305,17 @@ public class SaveGame {
      */
     public static void saveGameState() {
         logger.debug("Begin Saving");
-        try {
 
-            saveEnvironmentalObjects();
+        saveEnvironmentalObjects();
 
-            structureGenerationSetUp();
-            saveStructures();
+        //structureGenerationSetUp();
+        saveStructures();
 
-            saveCrystal();
-            savePlayer();
+        saveCrystal();
+        savePlayer();
 
-            saveGameData();
+        saveGameData();
 
-        } catch (NoSuchMethodException ignored) {
-
-        }
         logger.debug("Finished Saving");
     }
 
@@ -374,14 +326,12 @@ public class SaveGame {
         logger.debug("Begin Loading");
         try {
 
-//            structureGenerationSetUp();
-//            loadStructures();
-
+            loadStructures();
             loadEnvrionmentalObjects();
-//            loadCrystal();
-//            loadPlayer();
-//
-//            loadGameData();
+            loadCrystal();
+            loadPlayer();
+
+            //loadGameData();
 
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
             logger.error("ERROR OCCURED: " + ignored);
