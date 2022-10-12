@@ -45,9 +45,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.add(Vector2Utils.UP);
           entity.getEvents().trigger("ch_dir_w");
-//          movePlayerInUgs(walkDirection);
+//          triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "UP");
           movePlayerInUgs(walkDirection);
+//          ServiceLocator.getEntityService().getNamedEntity("player").getComponent(PlayerActions.class).update();
           return true;
         case Keys.A:
           walkDirection.add(Vector2Utils.LEFT);
@@ -274,7 +275,14 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
   private void movePlayerInUgs(Vector2 direction) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
+    String keyOfPlayer = "";
+    for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+      if (entry.getValue().getEntity() == player) {
+        keyOfPlayer = entry.getKey();
+      }
+    }
+    String keyCoorSplit[] = keyOfPlayer.split(",");
+    GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(keyCoorSplit[0]), Integer.parseInt(keyCoorSplit[1]));
 
     switch (direction.toString()) {
       case "(1.0,0.0)":

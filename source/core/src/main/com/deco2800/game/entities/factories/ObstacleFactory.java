@@ -283,7 +283,9 @@ public class ObstacleFactory {
         CollisionEffectComponent.CollisionEffect.NONE, 1f);
 
     shell.setName("Shell@" + shell.getId());
-    shell.setCollectable(false);
+    shell.setCollectable(true);
+    shell.setResourceType(ResourceType.GOLD);
+    shell.setResourceAmount(10);
     shell.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shell;

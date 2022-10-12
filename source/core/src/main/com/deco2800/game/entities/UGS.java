@@ -262,9 +262,11 @@ public class UGS {
         if (ServiceLocator.getRangeService().registeredInUGS().contains(toRemove)) {
             Vector2 pos = toRemove.getPosition();
             GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y);
+                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y + 1);
             String tileKey = generateCoordinate(gridPos.x, gridPos.y);
+            String type = ServiceLocator.getUGSService().tiles.get(tileKey).getTileType();
             Tile tile = new Tile();
+            tile.setTileType(type);
             tiles.replace(tileKey, tile);
         }
     }

@@ -22,11 +22,12 @@ public class RangeService {
      * @param middle the entity whose perimeter you want to find
      * @return an array list containing the perimeter in the form above
      */
-    public ArrayList<Entity> perimeter(Entity middle) {
+    public ArrayList<Entity> perimeter(Entity middle, GridPoint2 gridPos) {
+
         ArrayList<Entity> radialPerimeter = new ArrayList<>();
-        Vector2 entityPos = middle.getPosition();
-        GridPoint2 gridPos =
-                ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x, entityPos.y);
+//        Vector2 entityPos = middle.getPosition();
+//        GridPoint2 gridPos =
+//                ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x, entityPos.y);
         Equipments invent = MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWeapon();
 
         // Add whats under the player
@@ -163,10 +164,11 @@ public class RangeService {
      */
     public Boolean playerInRangeOf (Entity toCompare) {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+        GridPoint2 playerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
         ArrayList<Entity> ugs = registeredInUGS();
         boolean inRange = false;
         if (ugs.contains(toCompare)) {
-            ArrayList<Entity> aroundPlayer = perimeter(player);
+            ArrayList<Entity> aroundPlayer = perimeter(player, playerPos);
             if (aroundPlayer.contains(toCompare)) {
                 inRange = true;
             }

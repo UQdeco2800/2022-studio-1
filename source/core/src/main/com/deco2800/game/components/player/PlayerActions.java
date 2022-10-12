@@ -38,6 +38,7 @@ public class PlayerActions extends Component {
   private Vector2 walkDirection = Vector2.Zero.cpy();
   private Vector2 faceDirecetion = Vector2.X.cpy();
   private boolean moving = false;
+  private long elapsedTime = ServiceLocator.getTimeSource().getTime() / 1000;
 
   public static boolean playerAlive = true;
   int updateSpeedCount;
@@ -52,6 +53,7 @@ public class PlayerActions extends Component {
     entity.getEvents().addListener("walkStop", this::stopWalking);
     entity.getEvents().addListener("attack", this::attack);
     entity.getEvents().addListener("playerDeath", this::die);
+    entity.getEvents().addListener("updateUgs", this::updatePosInUgs);
     timer = new Timer();
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::respawn);
@@ -61,12 +63,16 @@ public class PlayerActions extends Component {
   @Override
   public void update() {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+    Vector2 playerCenterPos = ServiceLocator.getEntityService().getNamedEntity("player").getPosition();
+    camera.setPosition(playerCenterPos);
     if (moving) {
       updateSpeed();
 
+      // run my elapsed ttime shit
+
       // Player position is based on bottom left corner of the texture, so we add to
       // the position of the camera to account for this.
-      Vector2 playerCenterPos = entity.getPosition();
+//      Vector2 playerCenterPos = entity.getPosition();
       playerCenterPos.add(0.7f, 1f);
       camera.getEvents().trigger("playerMovementPan", playerCenterPos);
     } else {
@@ -90,9 +96,6 @@ public class PlayerActions extends Component {
     // impulse = (desiredVel - currentVel) * mass
     Vector2 impulse = desiredVelocity.sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
-//    if (updateSpeedCount % 50 == 0) {
-//      movePlayerInUgs(faceDirecetion);
-//    }
   }
 
   /**
@@ -125,13 +128,13 @@ public class PlayerActions extends Component {
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
     Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
-    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y);
+    GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y + 1);
     boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
 
     Entity closestEnemy = null;
     Entity closestEntity = null;
 
-    ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current);
+    ArrayList<Entity> radius = ServiceLocator.getRangeService().perimeter(current, gridPos);
     for (Entity i : radius) {
       if (i != null && i.getName().contains("Mr.")) {
         closestEnemy = i;
@@ -139,7 +142,7 @@ public class PlayerActions extends Component {
       }
     }
     for (Entity i : radius) {
-      if (i != null && !i.getName().contains("Mr.")) {
+      if (i != null && !i.getName().contains("Mr.") && !i.getName().equals("player")) {
         closestEntity = i;
         break;
       }
@@ -164,6 +167,7 @@ public class PlayerActions extends Component {
     } else if (closestEntity != null) {
       if (closestEntity.isCollectable()) {
         closestEntity.collectResources();
+        ServiceLocator.getUGSService().dispose(closestEntity);
         closestEntity.dispose();
         PlayerStatsDisplay.updateItems();
       }
@@ -203,61 +207,40 @@ public class PlayerActions extends Component {
     }
   }
 
-//  private void movePlayerInUgs(Vector2 direction) {
-//    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-//    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
-//    String cuurentPoskey = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
-//
-//    if (ServiceLocator.getUGSService().printUGS().get(cuurentPoskey).getEntity() != player) {
-//      switch (direction.toString()) {
-//        case "(1.0,0.0)":
-//          // move right 1 square
-//          ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0);
-//          return;
-//        case "(-1.0,0.0)":
-//          // move left 1 square
-//          ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0);
-//          return;
-//        case "(0.0,1.0)":
-//          // move up 1 square
-//          ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1);
-//          return;
-//        case "(0.0,-1.0)":
-//          // move down 1 square
-//          ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1);
-//      }
-//    }
-//  }
+  public void updatePosInUgs (Entity entity, String entityName) {
+    boolean enemy = false;
 
-//    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
-//    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-//    Vector2 playerPosVector = player.getPosition();
-//    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(playerPosVector.x, playerPosVector.y);
-//    String cuurentPoskey = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
-//
-//    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
-//    if (ServiceLocator.getUGSService().printUGS().get(cuurentPoskey).getEntity() != player) {
-//
-//      for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
-//        if (entry.getValue().getEntity() == player) {
-//          String currentPos = entry.getKey();
-//          if (!currentPos.equals(cuurentPoskey)) {
-//            String oldTileType = entry.getValue().getTileType();
-//            Tile replacement = new Tile();
-//            replacement.setTileType(oldTileType);
-//            ServiceLocator.getUGSService().change(entry.getKey(), replacement);
-//            break;
-//          }
-//        }
-//      }
-//
-//      // RESET WHERE THE PLAYER IS
-//      ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
-//      player.setPosition(playerPosVector);
-////      Vector2 newVectorPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(playerCurrentPos);
-////      player.setPosition(newVectorPos);
-//
-//    }
-//  }
+    if (entity.getName().contains("Mr.")) {
+      enemy = true;
+    }
+
+    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
+    Vector2 entityPosVector = entity.getPosition();
+    GridPoint2 entityPosGrid = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPosVector.x, entityPosVector.y);
+    String entityPosKey = UGS.generateCoordinate(entityPosGrid.x, entityPosGrid.y);
+
+    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
+    if (ServiceLocator.getUGSService().printUGS().get(entityPosKey).getEntity() != entity) {
+      for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
+        if (entry.getValue().getEntity() == entity) {
+          String currentPos = entry.getKey();
+          if (!currentPos.equals(entityPosKey)) {
+            String oldTileType = entry.getValue().getTileType();
+            Tile replacement = new Tile();
+            replacement.setTileType(oldTileType);
+            ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+            break;
+          }
+        }
+      }
+
+      // RESET WHERE THE PLAYER IS
+      ServiceLocator.getUGSService().setEntity(entityPosGrid, entity, entityName);
+      entity.setPosition(entityPosVector);
+//      Vector2 newVectorPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(playerCurrentPos);
+//      player.setPosition(newVectorPos);
+
+    }
+  }
 
 }

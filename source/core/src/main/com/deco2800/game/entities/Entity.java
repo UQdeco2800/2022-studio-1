@@ -148,6 +148,7 @@ public class Entity {
     this.position = position;
     if (notify) {
       getEvents().trigger(EVT_NAME_POS, position);
+      getEvents().trigger("updateUgs");
     }
   }
 
