@@ -93,6 +93,68 @@ public class SaveGame {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Helper method that generates a map mapping textures to each corresponding
+     * creator method in obstacle factory
+     *
+     * @throws NoSuchMethodException if the method doesnt exist or has been changed
+     */
+    private static void environmentalGenerationSetUp() throws NoSuchMethodException {
+        environmentalGeneration.put("images/shipWreckBack.png", ObstacleFactory.class.getMethod("createShipwreckBack"));
+        environmentalGeneration.put("images/shipWreckFront.png",
+                ObstacleFactory.class.getMethod("createShipwreckFront"));
+        environmentalGeneration.put("images/65x33_tiles/shell.png", ObstacleFactory.class.getMethod("createShell"));
+        environmentalGeneration.put("images/landscape_objects/wooden-fence-60x60.png",
+                ObstacleFactory.class.getMethod("createWoodenFence"));
+        environmentalGeneration.put("images/landscape_objects/pillar.png",
+                ObstacleFactory.class.getMethod("createPillar"));
+        environmentalGeneration.put("images/landscape_objects/chalice.png",
+                ObstacleFactory.class.getMethod("createAoeSpeedArtefact"));
+        environmentalGeneration.put("images/landscape_objects/billboard.png",
+                ObstacleFactory.class.getMethod("createBillboard"));
+        environmentalGeneration.put("images/landscape_objects/geyser.png",
+                ObstacleFactory.class.getMethod("createGeyser"));
+        environmentalGeneration.put("images/landscape_objects/cypress-tree-60x100.png",
+                ObstacleFactory.class.getMethod("createSpikyTree"));
+        environmentalGeneration.put("images/landscape_objects/vines.png",
+                ObstacleFactory.class.getMethod("createVine"));
+        environmentalGeneration.put("images/landscape_objects/limestone-boulder-60x60.png",
+                ObstacleFactory.class.getMethod("createRock", String.class));
+        environmentalGeneration.put("images/landscape_objects/marble-stone-60x40.png",
+                ObstacleFactory.class.getMethod("createRock", String.class));
+        environmentalGeneration.put("images/landscape_objects/leftPalmTree.png",
+                ObstacleFactory.class.getMethod("createTree", String.class));
+        environmentalGeneration.put("images/landscape_objects/rightPalmTree.png",
+                ObstacleFactory.class.getMethod("createTree", String.class));
+        environmentalGeneration.put("images/landscape_objects/groupPalmTrees.png",
+                ObstacleFactory.class.getMethod("createTree", String.class));
+    }
+
+    /**
+     * Helper method that generates a map for textures to corresponding creator
+     * method in obstacle factory
+     *
+     * @throws NoSuchMethodException if the method does not exist
+     */
+    private static void structureGenerationSetUp() throws NoSuchMethodException {
+        structureGeneration.put("images/TOWER1I.png", StructureFactory.class.getMethod("createTower1", int.class));
+        structureGeneration.put("images/TOWER1II.png", StructureFactory.class.getMethod("createTower1", int.class));
+        structureGeneration.put("images/TOWER1III.png", StructureFactory.class.getMethod("createTower1", int.class));
+        structureGeneration.put("images/TOWER2I.png", StructureFactory.class.getMethod("createTower2", int.class));
+        structureGeneration.put("images/TOWER2II.png", StructureFactory.class.getMethod("createTower2", int.class));
+        structureGeneration.put("images/TOWRER2III.png", StructureFactory.class.getMethod("createTower2", int.class));
+        structureGeneration.put("images/TOWER2III.png", StructureFactory.class.getMethod("createTower2", int.class));
+        structureGeneration.put("images/TOWER3I.png", StructureFactory.class.getMethod("createTower3", int.class));
+        structureGeneration.put("images/TOWER3II.png", StructureFactory.class.getMethod("createTower3", int.class));
+        structureGeneration.put("images/TOWER3III.png", StructureFactory.class.getMethod("createTower3", int.class));
+        structureGeneration.put("images/trap.png", StructureFactory.class.getMethod("createTrap"));
+        structureGeneration.put("images/Wall-right.png", StructureFactory.class.getMethod("createWall"));
+        structureGeneration.put("wood", ResourceBuildingFactory.class.getMethod("createWoodCutter"));
+        structureGeneration.put("stoneQuarry", ResourceBuildingFactory.class.getMethod("createStoneQuarry"));
+    }
+
+    /**
      * Save all structures
      */
     private static void saveStructures() {
@@ -100,6 +162,7 @@ public class SaveGame {
         ArrayList<Tuple> structuresList = new ArrayList<>();
 
         // loop through all entities saving texture, position and name of structure
+
         for (Entity entity: ServiceLocator.getUGSService().getStructures()) {
             if (entity.getComponent(TextureRenderComponent.class) != null || entity.getComponent(AnimationRenderComponent.class) != null) {
                 Tuple storage = new Tuple();
@@ -131,10 +194,11 @@ public class SaveGame {
             Entity structure;
 
             if (structureRepresentation.name.contains("tower")) {
-                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, int.class, String.class).invoke(null,1, structureRepresentation.name);
-
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, int.class, String.class, Boolean.class).invoke(null,1, structureRepresentation.name, false);
+            } else if (structureRepresentation.name.contains("wall")) {
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class, int.class).invoke(null, structureRepresentation.name, false, 0);
             } else {
-                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class).invoke(null, structureRepresentation.name);
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class).invoke(null, structureRepresentation.name, false);
             }
 
             structure.setName(structureRepresentation.name);
@@ -142,8 +206,6 @@ public class SaveGame {
             int x_tile = Integer.parseInt(Arrays.asList(structureRepresentation.tileString.split(",")).get(0));
             int y_tile = Integer.parseInt(Arrays.asList(structureRepresentation.tileString.split(",")).get(1));
 
-            structure.getComponent(TextureRenderComponent.class).dispose();
-            structure.addComponent(new TextureRenderComponent("images/Wall-right.png"));
             ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), structure, structure.getName());
             ServiceLocator.getUGSService().addStructure(structure);
         }
@@ -259,8 +321,8 @@ public class SaveGame {
             player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
             player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
             player.getComponent(InventoryComponent.class).setArmor((Equipments) d.get("armor"));
-            player.getComponent(InventoryComponent.class)
-                    .setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
+//            player.getComponent(InventoryComponent.class)
+//                    .setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
 
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
@@ -305,14 +367,11 @@ public class SaveGame {
      */
     public static void saveGameState() {
         logger.debug("Begin Saving");
-
-        saveEnvironmentalObjects();
-
-        //structureGenerationSetUp();
-        saveStructures();
-
         saveCrystal();
         savePlayer();
+        saveEnvironmentalObjects();
+        //structureGenerationSetUp();
+        saveStructures();
 
         saveGameData();
 

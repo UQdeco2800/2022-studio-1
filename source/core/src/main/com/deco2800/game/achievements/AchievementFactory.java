@@ -38,7 +38,7 @@ public class AchievementFactory {
                 new Achievement(8, AchievementType.GAME, true, false, "Buy items from the shop", "You've bought %d items from the shop"),
 
                 // Other achievements
-                new Achievement(9, AchievementType.BUILDINGS, false, false, "Master Builder", "Place one of each type of building"),
+                new Achievement(9, AchievementType.BUILDINGS, false, false, "Master Builder", "Place one of each type of structure"),
 
                 new Achievement(10, AchievementType.KILLS, false, false, "Saviour", "Defeat the boss"),
 
