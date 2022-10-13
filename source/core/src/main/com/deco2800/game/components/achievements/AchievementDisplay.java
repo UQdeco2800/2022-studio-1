@@ -34,56 +34,14 @@ import java.util.Objects;
  */
 public class AchievementDisplay extends UIComponent {
     /**
-     * Event string for achievement summary button press
-     */
-    public static final String EVENT_SUMMARY_BUTTON_CLICKED = "summaryButtonClicked";
-
-    /**
-     * Event string for building achievement button press
-     */
-    public static final String EVENT_BUILDING_BUTTON_CLICKED = "buildingButtonClicked";
-
-    /**
-     * Event string for game achievement button press
-     */
-    public static final String EVENT_GAME_BUTTON_CLICKED = "gameButtonClicked";
-
-    /**
-     * Event string for kill achievement button press
-     */
-    public static final String EVENT_KILL_BUTTON_CLICKED = "killButtonClicked";
-
-    /**
-     * Event string for resource achievement button press
-     */
-    public static final String EVENT_RESOURCE_BUTTON_CLICKED = "resourceButtonClicked";
-
-    /**
-     * Event string for resource achievement button press
-     */
-    public static final String EVENT_UPGRADE_BUTTON_CLICKED = "upgradeButtonClicked";
-
-    /**
-     * Event string for misc achievement button press
-     */
-    public static final String EVENT_MISC_BUTTON_CLICKED = "miscButtonClicked";
-
-    /**
      * Event string for exit button press
      */
     public static final String EVENT_EXIT_BUTTON_CLICKED = "exitButtonClicked";
 
     /**
-     * Hashmap of button types and their events
-     */
-    private final HashMap<String, String> events = new HashMap<>();
-
-    /**
      * Logger for the AchievementBaseDisplay class
      */
     private static final Logger logger = LoggerFactory.getLogger(AchievementScreen.class);
-
-    private static final float Z_INDEX = 2f;
 
     /**
      * Table for displaying all screen content
@@ -105,7 +63,6 @@ public class AchievementDisplay extends UIComponent {
      */
     public void create() {
         super.create();
-        mapEvents();
         addActors();
     }
 
@@ -509,7 +466,7 @@ public class AchievementDisplay extends UIComponent {
                         @Override
                         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                             logger.debug("Exit button clicked");
-                            entity.getEvents().trigger(events.get(name), displayTable, navigationTable);
+                            entity.getEvents().trigger(EVENT_EXIT_BUTTON_CLICKED, displayTable, navigationTable);
                             return true;
                         }
                     });
@@ -547,19 +504,5 @@ public class AchievementDisplay extends UIComponent {
         button.addListener(
                 new TextTooltip(name, skin)
         );
-    }
-
-    /**
-     * Maps button names to event strings
-     */
-    private void mapEvents() {
-        this.events.put(AchievementType.SUMMARY.getTitle(), EVENT_SUMMARY_BUTTON_CLICKED);
-        this.events.put(AchievementType.BUILDINGS.getTitle(), EVENT_BUILDING_BUTTON_CLICKED);
-        this.events.put(AchievementType.GAME.getTitle(), EVENT_GAME_BUTTON_CLICKED);
-        this.events.put(AchievementType.KILLS.getTitle(), EVENT_KILL_BUTTON_CLICKED);
-        this.events.put(AchievementType.RESOURCES.getTitle(), EVENT_RESOURCE_BUTTON_CLICKED);
-        this.events.put(AchievementType.UPGRADES.getTitle(), EVENT_UPGRADE_BUTTON_CLICKED);
-        this.events.put(AchievementType.MISC.getTitle(), EVENT_MISC_BUTTON_CLICKED);
-        this.events.put("Exit", EVENT_EXIT_BUTTON_CLICKED);
     }
 }
