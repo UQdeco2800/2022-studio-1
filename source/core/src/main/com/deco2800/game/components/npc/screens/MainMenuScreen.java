@@ -1,4 +1,4 @@
-package com.deco2800.game.screens;
+package com.deco2800.game.components.npc.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,7 +13,6 @@ import com.deco2800.game.input.InputService;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.AchievementHandler;
-import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;

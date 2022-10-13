@@ -3,7 +3,6 @@ package com.deco2800.game.components.settingsmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -25,8 +24,6 @@ import com.deco2800.game.utils.StringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 /**
  * Settings menu display and logic. If you bork the settings, they can be changed manually in
  * DECO2800Game/settings.json under your home directory (This is C:/users/[username] on Windows).
@@ -42,6 +39,8 @@ public class SettingsMenuDisplay extends UIComponent {
   private Slider uiScaleSlider;
   private SelectBox<StringDecorator<DisplayMode>> displayModeSelect;
   private ScreenType backScreen;
+  private Boolean musicStatus = true;
+  private Boolean soundEffectStatus = true;
 
 
   public SettingsMenuDisplay(AtlantisSinks game, ScreenType prevScreen) {
@@ -75,6 +74,8 @@ public class SettingsMenuDisplay extends UIComponent {
     rootTable.row();
     rootTable.add(menuBtns).fillX();
 
+
+
     // Background Colour
     Texture colour = new Texture(Gdx.files.internal("images/uiElements/startscreen/settingsbackgroundsprint2.png"));
     Drawable backgroundColour = new TextureRegionDrawable(colour);
@@ -84,6 +85,19 @@ public class SettingsMenuDisplay extends UIComponent {
   }
 
   private Table makeSettingsTable() {
+
+    //Music toggling and tables
+    Table musicOffTable = new Table();
+    Table musicOn = new Table();
+    musicOn.setVisible(musicStatus);
+    musicOffTable.setVisible(!musicStatus);
+
+    //sound effect toggling and tables
+    Table fxOff = new Table();
+    Table fxOn = new Table();
+    fxOn.setVisible(soundEffectStatus);
+    fxOff.setVisible(!soundEffectStatus);
+
     // Get current values
     UserSettings.Settings settings = UserSettings.get();
 
@@ -115,10 +129,64 @@ public class SettingsMenuDisplay extends UIComponent {
     TextureRegionDrawable music = new TextureRegionDrawable(musicTexture);
     ImageButton musicButton = new ImageButton(music,music);
 
+    Texture musicOffTexture = new Texture(Gdx.files.internal("images/uiElements/exports/music_off.png"));
+    TextureRegionDrawable musicOff = new TextureRegionDrawable(musicOffTexture);
+    ImageButton musicOffButton = new ImageButton(musicOff,musicOff);
+
+    //music event handler onclick for the music button
+   musicButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+              System.out.println("music button clicked");
+              logger.debug("turn music off");
+              musicStatus = false;
+              musicOffTable.setVisible(true);
+              musicOn.setVisible(false);
+              entity.getEvents().trigger("musicOff");
+            }});
+
+    musicOffButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("turn music off");
+                musicStatus = true;
+                musicOn.setVisible(true);
+                musicOffTable.setVisible(false);
+                entity.getEvents().trigger("musicOn");
+              }});
+
+
     //FX Button
     Texture fxTexture = new Texture(Gdx.files.internal("images/uiElements/exports/fx_on.png"));
     TextureRegionDrawable fx = new TextureRegionDrawable(fxTexture);
     ImageButton fxButton = new ImageButton(fx,fx);
+
+    Texture fxTextureOff = new Texture(Gdx.files.internal("images/uiElements/exports/fx_off.png"));
+    TextureRegionDrawable fxOffTexture = new TextureRegionDrawable(fxTextureOff);
+    ImageButton fxOffButton = new ImageButton(fxOffTexture,fxOffTexture);
+
+    //music event handler
+    fxButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+                logger.debug("turn off sound effects");
+                soundEffectStatus = false;
+                fxOff.setVisible(true);
+                fxOn.setVisible(false);
+              }});
+
+    fxOffButton.addListener(
+            new ChangeListener() {
+              @Override
+              public void changed(ChangeEvent changeEvent, Actor actor) {
+              logger.debug("turn on sound effects");
+              soundEffectStatus = true;
+              fxOff.setVisible(false);
+              fxOn.setVisible(true);
+            }});
 
     // Position Components on table
     Table table = new Table();
@@ -147,8 +215,24 @@ public class SettingsMenuDisplay extends UIComponent {
     table.add(displayModeSelect).left();
 
     table.row().padTop(15f);
-    table.add(fxButton).right().padRight(15f);
-    table.add(musicButton).left();
+
+    // music on table
+    musicOn.add(musicButton);
+
+    //music off table
+    musicOffTable.add(musicOffButton);
+
+    //fx on table
+    fxOff.add(fxOffButton);
+
+    // fx off table
+    fxOn.add(fxButton);
+
+    table.add(musicOn);
+    table.add(musicOffTable);
+    table.add(fxOn);
+    table.add(fxOff);
+
 
     // Events on inputs
     uiScaleSlider.addListener(
@@ -254,6 +338,10 @@ public class SettingsMenuDisplay extends UIComponent {
     settings.vsync = vsyncCheck.isChecked();
 
     UserSettings.set(settings, true);
+  }
+
+  public Boolean getMusicStatus() {
+    return musicStatus;
   }
 
   private void exitMenu() {

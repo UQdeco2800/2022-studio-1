@@ -1,11 +1,12 @@
-package com.deco2800.game.screens;
+package com.deco2800.game.components.npc.screens;
 
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.shop.ShopEquipmentDisplay;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +19,6 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
 import com.deco2800.game.components.shop.ShopBackground;
-import com.deco2800.game.components.shop.ShopBuildingDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -35,8 +35,8 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
-public class ShopBuildScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ShopScreen.class);
+public class ShopEquipmentScreen extends ScreenAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(ShopEquipmentScreen.class);
 
     private static final String[] mainGameTextures = { "images/heart.png" };
 
@@ -46,7 +46,7 @@ public class ShopBuildScreen extends ScreenAdapter {
     private final Renderer renderer;
     private final PhysicsEngine physicsEngine;
 
-    public ShopBuildScreen(AtlantisSinks game) {
+    public ShopEquipmentScreen(AtlantisSinks game) {
         this.game = game;
 
         logger.debug("Initialising main game screen services");
@@ -67,6 +67,7 @@ public class ShopBuildScreen extends ScreenAdapter {
 
         loadAssets();
         createUI();
+
         MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
@@ -136,18 +137,22 @@ public class ShopBuildScreen extends ScreenAdapter {
         Entity uiCommon = new Entity();
         uiCommon.addComponent(new ShopBackground());
         ServiceLocator.getEntityService().register(uiCommon);
-        Entity uiBuilding = new Entity();
-        uiBuilding.addComponent(new InputDecorator(stage, 10))
+        Entity uiEquipment = new Entity();
+        uiEquipment.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
                 .addComponent(new ShopActions(this.game))
                 .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood()))
-                .addComponent(new ShopBuildingDisplay())
+                .addComponent(new CombatStatsComponent(lastStatus.getCurrentHealth(), lastStatus.getAttack(),
+                        lastStatus.getDefense()))
                 .addComponent(new CommonShopComponents())
+                .addComponent(new ShopEquipmentDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
                 .addComponent(new TerminalDisplay());
-        uiBuilding.getComponent(InventoryComponent.class).setBuildings(lastStatus.getBuildings());
-        ServiceLocator.getEntityService().register(uiBuilding);
+        uiEquipment.getComponent(InventoryComponent.class).setWeapon(lastStatus.getWeapon());
+        uiEquipment.getComponent(InventoryComponent.class).setArmor(lastStatus.getArmor());
+        uiEquipment.getComponent(InventoryComponent.class).setEquipmentList(lastStatus.getEquipmentsList());
+        ServiceLocator.getEntityService().register(uiEquipment);
 
     }
 }

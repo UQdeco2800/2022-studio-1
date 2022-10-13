@@ -9,10 +9,12 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
@@ -32,6 +34,9 @@ public class ShopArea extends GameArea {
 
     private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
     private static final String[] gameMusic = { shopMusic };
+    private AtlantisSinks game;
+    private SettingsMenuDisplay settings;
+
 
     public ShopArea() {
         super();
@@ -46,7 +51,7 @@ public class ShopArea extends GameArea {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadMusic(gameMusic);
+        resourceService.loadMusic(gameMusic, true);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
@@ -55,10 +60,12 @@ public class ShopArea extends GameArea {
     }
 
     private void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
-        music.setLooping(true);
-        music.setVolume(0.3f);
-        music.play();
+        if (settings.getMusicStatus()) {
+            Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
+            music.setLooping(true);
+            music.setVolume(0.3f);
+            music.play();
+        }
     }
 
     private void unloadAssets() {

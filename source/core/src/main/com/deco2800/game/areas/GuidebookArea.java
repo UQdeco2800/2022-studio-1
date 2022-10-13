@@ -13,6 +13,7 @@ import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
@@ -46,7 +47,7 @@ public class GuidebookArea extends GameArea {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadMusic(gameMusic);
+        resourceService.loadMusic(gameMusic, true);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen

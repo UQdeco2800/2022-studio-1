@@ -1,4 +1,4 @@
-package com.deco2800.game.screens;
+package com.deco2800.game.components.npc.screens;
 
 public enum GuidebookStatus {
     CLOSED,

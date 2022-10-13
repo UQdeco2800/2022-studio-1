@@ -11,8 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Null;
-import com.deco2800.game.screens.GuidebookStatus;
+import com.deco2800.game.components.npc.screens.GuidebookStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.Page;
 import com.deco2800.game.ui.UIComponent;
@@ -20,7 +19,6 @@ import com.deco2800.game.utils.TextUtil;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
