@@ -32,7 +32,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
-    this.defaultMaxSpeed = new Vector2(1,1);
+    this.defaultMaxSpeed = new Vector2(1, 1);
   }
 
   @Override
@@ -44,7 +44,8 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   /**
-   * Enable/disable movement for the controller. Disabling will immediately set velocity to 0.
+   * Enable/disable movement for the controller. Disabling will immediately set
+   * velocity to 0.
    *
    * @param movementEnabled true to enable movement, false otherwise
    */
@@ -69,7 +70,8 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   /**
-   * Set a target to move towards. The entity will be steered towards it in a straight line, not
+   * Set a target to move towards. The entity will be steered towards it in a
+   * straight line, not
    * using pathfinding or avoiding other entities.
    *
    * @param target target position
@@ -82,10 +84,15 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
-    setToVelocity(body, desiredVelocity);
-    if (ServiceLocator.getTimeSource().getTime() % 500 < 2) {
-      updateEnemyPosInUgs();
+
+    if (getEntity().getName().contains("Mr")) {
+      if (ServiceLocator.getTimeSource().getTime() % 500 < 2) {
+        updateEnemyPosInUgs(body, desiredVelocity);
+      }
+    } else {
+      setToVelocity(body, desiredVelocity);
     }
+
   }
 
   private void setToVelocity(Body body, Vector2 desiredVelocity) {
@@ -109,6 +116,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   /**
    * Sets the fault speed of the entity
+   * 
    * @param speed vector of speed in x,y
    */
   public void setOriginalSpeed(Vector2 speed) {
@@ -118,6 +126,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   /**
    * set new speed which can differ to default speed
+   * 
    * @param speed vector of speed in x,y
    */
   public void setNewSpeed(Vector2 speed) {
@@ -131,42 +140,35 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     this.maxSpeed = defaultMaxSpeed;
   }
 
-  public void updateEnemyPosInUgs () {
+  public void updateEnemyPosInUgs(Body body, Vector2 desiredVelocity) {
     // Initialise
-    ArrayList<Entity> enemyList = null;
-    if (ServiceLocator.getEntityService() != null && ServiceLocator.getEntityService().getEnemyEntities() != null) {
-      enemyList = new ArrayList<>(ServiceLocator.getEntityService().getEnemyEntities());
-    }
 
-    for (Entity enemy : enemyList) {
-      if (enemy.getName() != null && enemy.getName().contains("Mr.")) {
-        // Get old key (place in UGS)
-        String enemyOldKey = "";
-        String oldTileType = "";
-        String enemyName = null;
-        for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
-          if (entry.getValue().getEntity() == enemy) {
-            enemyOldKey = entry.getKey();
-            oldTileType = entry.getValue().getTileType();
-            enemyName = entry.getValue().getEntity().getName();
-            break;
-          }
-        }
-//      int oldGridPos = Integer.parseInt(enemyOldKey.substring(1,5));
+    Entity owner = getEntity();
+    Vector2 currentPos = owner.getPosition();
+    UGS ugs = ServiceLocator.getUGSService();
 
-        // Get new key (place in UGS)
-        Vector2 enemyPosVect = enemy.getPosition();
-        GridPoint2 enemyPosGrid = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(enemyPosVect.x, enemyPosVect.y + 1);
-        String enemyNewKey = UGS.generateCoordinate(enemyPosGrid.x, enemyPosGrid.y);
-        // Delete old tile and give new tile in UGS
-        if (!Objects.equals(enemyOldKey, enemyNewKey) && !enemyOldKey.equals("")) {
-          Tile replacement = new Tile();
-          replacement.setTileType(oldTileType);
-          ServiceLocator.getUGSService().change(enemyOldKey, replacement);
-          ServiceLocator.getUGSService().setEntity(enemyPosGrid, entity, enemyName);
-          entity.setPosition(enemyPosVect);
+    setToVelocity(body, desiredVelocity);
+
+    if (!owner.getName().contains("Mr.")) {
+
+      String previousCoordString = ugs.getStringByEntity(owner);
+
+      GridPoint2 newTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
+          .getComponent(TerrainComponent.class)
+          .worldToTilePosition(owner.getPosition().x, owner.getPosition().y);
+
+      String newCoordString = ugs.generateCoordinate(newTilePos.x, newTilePos.y);
+
+      if (!previousCoordString.equals(newCoordString)) {
+
+        if (ugs.checkEntityPlacement(newTilePos, "enemy")) {
+          ugs.getTile(previousCoordString).clearTile();
+          ugs.getTile(newCoordString).setEntity(owner);
+        } else {
+          setToVelocity(body, new Vector2(0, 0));
         }
       }
+
     }
   }
 }

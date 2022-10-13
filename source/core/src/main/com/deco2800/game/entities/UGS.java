@@ -219,6 +219,10 @@ public class UGS {
         tiles.get(stringCoord).setTileType(tileType);
     }
 
+    public Tile getTile(String coordinate) {
+        return tiles.get(coordinate);
+    }
+
     /**
      * Adds a new entry to the UGS
      * 
