@@ -356,29 +356,4 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   // // RESET WHERE THE PLAYER IS
   // ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
 
-<<<<<<< HEAD
-=======
-
-//
-//    switch (direction) {
-//      case "right":
-//        // move right 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0, "player");
-//        return;
-//      case "left":
-//        // move left 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0, "player");
-//        return;
-//      case "up":
-//        // move up 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1, "player");
-//        return ;
-//      case "down":
-//        // move down 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1, "player");
-//    }
-
-  }
-
->>>>>>> main
 }
