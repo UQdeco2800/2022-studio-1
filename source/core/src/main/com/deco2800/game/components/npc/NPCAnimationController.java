@@ -10,6 +10,7 @@ public class NPCAnimationController extends Component {
         super.create();
         animator = this.entity.getComponent(AnimationRenderComponent.class);
         entity.getEvents().addListener("NPC", this::movingNPC);
+
     }
 
     private void movingNPC() {

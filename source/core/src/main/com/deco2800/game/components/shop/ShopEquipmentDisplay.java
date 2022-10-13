@@ -7,6 +7,8 @@ import com.deco2800.game.files.FileLoader;
 
 import java.util.List;
 
+import com.deco2800.game.services.AchievementHandler;
+import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -343,12 +345,9 @@ public class ShopEquipmentDisplay extends UIComponent {
                         .contains(current.t)) {
                   logger.info("Already has weapon, invalid purchase!");
                   filesound.play();
-
                 } else {
                   entity.getComponent(InventoryComponent.class)
                       .addGold(-1 * stats.goldCost);
-                  coinSound.play();
-
                   // sets player weapon to new weapon and change
                   // attack accordingly
                   entity.getComponent(InventoryComponent.class)
@@ -358,6 +357,11 @@ public class ShopEquipmentDisplay extends UIComponent {
                   entity.getComponent(CombatStatsComponent.class)
                       .setAttackMultiplier(
                           stats.attack);
+
+                  coinSound.play();
+
+                  // Trigger events for achievements
+                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
                 }
               } else {
                 // invalid purchase if the armor is already in inventory
@@ -381,6 +385,9 @@ public class ShopEquipmentDisplay extends UIComponent {
                   entity.getComponent(InventoryComponent.class)
                       .addGold(-1 * stats.goldCost);
                   coinSound.play();
+
+                  // Trigger event for item Bought
+                  ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
                 }
               }
             } else {

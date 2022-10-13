@@ -15,14 +15,14 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private Vector2 maxSpeed = Vector2Utils.ONE;
   private Vector2 defaultMaxSpeed = Vector2Utils.ONE;
 
-  private PhysicsComponent physicsComponent;
+  protected PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
 
   @Override
   public void create() {
     physicsComponent = entity.getComponent(PhysicsComponent.class);
-    this.defaultMaxSpeed = new Vector2(1,1);
+    this.defaultMaxSpeed = new Vector2(1, 1);
   }
 
   @Override
@@ -34,7 +34,8 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   /**
-   * Enable/disable movement for the controller. Disabling will immediately set velocity to 0.
+   * Enable/disable movement for the controller. Disabling will immediately set
+   * velocity to 0.
    *
    * @param movementEnabled true to enable movement, false otherwise
    */
@@ -59,7 +60,8 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   /**
-   * Set a target to move towards. The entity will be steered towards it in a straight line, not
+   * Set a target to move towards. The entity will be steered towards it in a
+   * straight line, not
    * using pathfinding or avoiding other entities.
    *
    * @param target target position
@@ -75,14 +77,15 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     setToVelocity(body, desiredVelocity);
   }
 
-  private void setToVelocity(Body body, Vector2 desiredVelocity) {
+  protected void setToVelocity(Body body, Vector2 desiredVelocity) {
     // impulse force = (desired velocity - current velocity) * mass
     Vector2 velocity = body.getLinearVelocity();
     Vector2 impulse = desiredVelocity.cpy().sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+    body.setBullet(enabled);
   }
 
-  private Vector2 getDirection() {
+  protected Vector2 getDirection() {
     // Move towards targetPosition based on our current position
     return targetPosition.cpy().sub(entity.getPosition()).nor();
   }
@@ -96,6 +99,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   /**
    * Sets the fault speed of the entity
+   * 
    * @param speed vector of speed in x,y
    */
   public void setOriginalSpeed(Vector2 speed) {
@@ -105,6 +109,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   /**
    * set new speed which can differ to default speed
+   * 
    * @param speed vector of speed in x,y
    */
   public void setNewSpeed(Vector2 speed) {

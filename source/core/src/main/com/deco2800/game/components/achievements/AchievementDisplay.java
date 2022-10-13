@@ -411,7 +411,7 @@ public class AchievementDisplay extends UIComponent {
         Table summaryCard = new Table();
         summaryCard.pad(30f);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompleted(type) ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Texture backgroundTexture = new Texture(Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type) ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
         Image backgroundImg = new Image(backgroundTexture);
         summaryCard.setBackground(backgroundImg.getDrawable());
 
