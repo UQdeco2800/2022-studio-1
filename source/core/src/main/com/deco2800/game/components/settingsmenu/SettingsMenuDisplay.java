@@ -199,18 +199,6 @@ public class SettingsMenuDisplay extends UIComponent {
     table.add(fullScreenCheck).left();
 
     table.row().padTop(10f);
-    table.add(vsyncLabel).right().padRight(15f);
-    table.add(vsyncCheck).left();
-
-    table.row().padTop(10f);
-    Table uiScaleTable = new Table();
-    uiScaleTable.add(uiScaleSlider).width(100).left();
-    uiScaleTable.add(uiScaleValue).left().padLeft(5f).expandX();
-
-    table.add(uiScaleLabel).right().padRight(15f);
-    table.add(uiScaleTable).left();
-
-    table.row().padTop(10f);
     table.add(displayModeLabel).right().padRight(15f);
     table.add(displayModeSelect).left();
 
@@ -218,20 +206,18 @@ public class SettingsMenuDisplay extends UIComponent {
 
     // music on table
     musicOn.add(musicButton);
-
     //music off table
     musicOffTable.add(musicOffButton);
-
     //fx on table
     fxOff.add(fxOffButton);
-
     // fx off table
     fxOn.add(fxButton);
 
-    table.add(musicOn);
-    table.add(musicOffTable);
-    table.add(fxOn);
-    table.add(fxOff);
+    table.add(musicOn).pad(0,0,0,0);
+    table.add(musicOffTable).pad(0,0,0,0);
+    table.row();
+    table.add(fxOn).pad(0,0,0,0);
+    table.add(fxOff).pad(0,0,0,0);
 
 
     // Events on inputs
