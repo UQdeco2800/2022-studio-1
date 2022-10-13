@@ -84,7 +84,7 @@ public class AchievementDisplay extends UIComponent {
         Label title = new Label("Achievements", skin, "title");
         title.setFontScale(2f);
         title.setAlignment(Align.center);
-        exitTable.add(title).colspan(8).expand();
+        exitTable.add(title).colspan(8).expand().pad(20f, 0f, 20f, 0f);
 
         // Background Colour
         Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
@@ -292,7 +292,11 @@ public class AchievementDisplay extends UIComponent {
         Image achievementTypeImage = new Image(achievementTypeTexture);
         achievementTypeImage.setAlign(Align.left);
         achievementCardHeader.add(achievementTypeImage);
-        achievementCardHeader.add(new Label(achievement.getName(), skin, "small"));
+
+        Label achievementTitle = new Label(achievement.getName(), skin, "title");
+        achievementTitle.setFontScale(0.6f);
+        achievementTitle.setAlignment(Align.center);
+        achievementCardHeader.add(achievementTitle).expandX();
         achievementCard.add(achievementCardHeader).expand();
         achievementCard.row();
 
