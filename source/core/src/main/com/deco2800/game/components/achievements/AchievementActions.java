@@ -118,7 +118,7 @@ public class AchievementActions extends Component {
      * Returns to the main game screen
      * @param displayTable Table
      */
-    private void onExit(Table displayTable) {
+    private void onExit(Table displayTable, Table navigationTable) {
         logger.info("Exiting achievement screens");
         displayTable.clear();
         game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);

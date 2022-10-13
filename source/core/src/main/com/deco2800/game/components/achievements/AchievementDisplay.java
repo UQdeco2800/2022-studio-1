@@ -7,10 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -138,13 +136,10 @@ public class AchievementDisplay extends UIComponent {
 
          */
 
-        Label.LabelStyle titleStyle = new Label.LabelStyle();
-        titleStyle.font = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
-        titleStyle.fontColor = Color.BLACK;
-
-        Label title = new Label("Achievements",titleStyle);
-        title.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() * 0.5f);
+        Label title = new Label("Achievements", skin, "title");
+        title.setFontScale(2f);
         title.setAlignment(Align.center);
+        exitTable.add(title).colspan(8).expand();
 
         // Background Colour
         Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
@@ -155,9 +150,6 @@ public class AchievementDisplay extends UIComponent {
 
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
-
-        Texture badgeDescription = new Texture(Gdx.files.internal("images/achievements/Badge_Description_1580x126_Box.png"));
-        Drawable badgeDescriptionBox = new TextureRegionDrawable(badgeDescription);
 
         contentTable.setBackground(backgroundBox);
         navigationTable.setBackground(tabBackgroundBox);
@@ -211,16 +203,16 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.add(miscButton).expand();
 
         // Back Button
+        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
+        TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+        TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+        TextureRegionDrawable checkedBack = new TextureRegionDrawable(backTextureHover);
+        ImageButton backButton = new ImageButton(upBack, downBack, checkedBack);
 
-        Texture buttonTexture = new Texture(Gdx.files.internal("images/uiElements/exports/back.png"));
-        TextureRegionDrawable exitUp = new TextureRegionDrawable(buttonTexture);
-        TextureRegionDrawable exitDown = new TextureRegionDrawable(buttonTexture);
+        this.addButtonEvent(backButton, "Exit");
 
-        ImageButton exitButton = new ImageButton(exitUp, exitDown);
-
-        this.addButtonEvent(exitButton, "Exit");
-
-        exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
+        exitTable.add(backButton).expand().right().top().size(50f).pad(5);
         
         // Display main content
         displayTable.align(Align.top);
@@ -231,12 +223,12 @@ public class AchievementDisplay extends UIComponent {
 
         rootTable.add(exitTable).colspan(8).fillX();
         rootTable.row();
-        rootTable.add(title).colspan(8).expand();
+        //rootTable.add(title).colspan(8).expand();
         rootTable.row();
         rootTable.add(contentTable).colspan(8).expand();
 
         stage.addActor(rootTable);
-        //stage.setDebugAll(true);
+        stage.setDebugAll(true);
     }
 
     @Override
@@ -453,7 +445,9 @@ public class AchievementDisplay extends UIComponent {
 
     public static void changeDisplay(Table displayTable, AchievementType type) {
         displayTable.clear();
-        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expandX();
+        Label title = new Label(type.getTitle(), skin, "title");
+        title.setFontScale(1f);
+        displayTable.add(title).colspan(6).expandX();
         displayTable.row();
 
         int achievementsAdded = 0;
@@ -516,6 +510,36 @@ public class AchievementDisplay extends UIComponent {
      * @param name String
      */
     private void addButtonEvent(ImageButton button, String name) {
+        if (Objects.equals(name, "Exit")) {
+            button.addListener(
+                    new ClickListener() {
+                        @Override
+                        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                            logger.debug("Exit button clicked");
+                            entity.getEvents().trigger(events.get(name), displayTable, navigationTable);
+                            return true;
+                        }
+                    });
+            //Adds hover state to button
+            button.addListener(
+                    new InputListener() {
+                        @Override
+                        public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                            button.setChecked(true);
+                        }
+
+                        @Override
+                        public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                            button.setChecked(false);
+                        }
+                    });
+            button.addListener(
+                    new TextTooltip("Return to game",skin)
+            );
+
+            return;
+        }
+
         button.addListener(
                 new ChangeListener() {
                     @Override
