@@ -1,7 +1,11 @@
 package com.deco2800.game.areas.terrain;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -9,6 +13,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -63,9 +68,45 @@ class TerrainComponentTest {
     assertEquals(new GridPoint2(66, 61), component.worldToTilePosition(1020f, -14.6f));
   }
 
+  @Test
+  void shouldIncrementLevel() {
+    TerrainComponent component = spy(makeComponent(TerrainOrientation.ISOMETRIC, 16f));
+    
+    TiledMapTileLayer layer1 = new TiledMapTileLayer(0, 0, 0, 0);
+    TiledMapTileLayer layer1Night = new TiledMapTileLayer(1, 1, 1, 1);
+    TiledMapTileLayer layer2 = new TiledMapTileLayer(0, 0, 0, 0);
+    TiledMapTileLayer layer2Night = new TiledMapTileLayer(1, 1, 1, 1);
+
+    layer1.setVisible(true);
+    layer1Night.setVisible(false);
+    layer2.setVisible(false);
+    layer2Night.setVisible(false);
+
+    component.getMap().getLayers().add(layer1);
+    component.getMap().getLayers().add(layer1Night);
+    component.getMap().getLayers().add(layer2);
+    component.getMap().getLayers().add(layer2Night);
+
+    doNothing().when(component).updateUGS();
+
+    component.incrementMapLvl();
+    assertEquals(component.getCurrentMapLvl(), 1);
+    assertFalse(layer1.isVisible());
+    assertFalse(layer1Night.isVisible());
+    assertTrue(layer2.isVisible());
+    assertFalse(layer2Night.isVisible());
+
+    component.incrementMapLvl();
+    assertEquals(component.getCurrentMapLvl(), 1);
+    assertFalse(layer1.isVisible());
+    assertFalse(layer1Night.isVisible());
+    assertTrue(layer2.isVisible());
+    assertFalse(layer2Night.isVisible());
+  }
+
   private static TerrainComponent makeComponent(TerrainOrientation orientation, float tileSize) {
     OrthographicCamera camera = mock(OrthographicCamera.class);
-    TiledMap map = mock(TiledMap.class);
+    TiledMap map = new TiledMap();
     IsoTileRenderer mapRenderer = mock(IsoTileRenderer.class);
     when(mapRenderer.translateScreenToIso(new Vector2(44.06f, -0.937f)))
         .thenReturn(translate(new Vector2(44.06f, -0.937f)));
@@ -99,4 +140,5 @@ class TerrainComponentTest {
 
     return screenPos;
   }
+
 }
