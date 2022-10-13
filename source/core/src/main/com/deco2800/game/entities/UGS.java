@@ -108,7 +108,7 @@ public class UGS {
         for (int x = 0; x < MAPSIZE; x++) {
             for (int y = 0; y < MAPSIZE; y++) {
                 String strCoord = generateCoordinate(x, y);
-                if (tiles.get(strCoord).getEntity() != null) {
+                if (tiles.get(strCoord).getEntity() != null && tiles.get(strCoord).getEntity().getName() != null) {
                     if (tiles.get(strCoord).getEntity().getName().equals(name)) {
                         return tiles.get(strCoord).getEntity();
                     }

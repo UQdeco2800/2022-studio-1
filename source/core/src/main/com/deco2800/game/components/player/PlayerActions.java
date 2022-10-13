@@ -182,7 +182,6 @@ public class PlayerActions extends Component {
     Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
     GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y + 1);
-    boolean didItWork = ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "player");
 
     Entity closestEnemy = null;
     Entity closestEntity = null;
@@ -196,8 +195,10 @@ public class PlayerActions extends Component {
     }
     for (Entity i : radius) {
       if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player") && i.isCollectable()) {
-        closestEntity = i;
-        break;
+        if (current.getComponent(InventoryComponent.class).getWeapon() == Equipments.AXE) {
+          closestEntity = i;
+          break;
+        }
       }
     }
 
@@ -208,6 +209,7 @@ public class PlayerActions extends Component {
             .getComponent(CombatStatsComponent.class);
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
+          closestEnemy.collectResources();
           closestEnemy.dispose();
           this.entity.getEvents().trigger("enemyKill");
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ENEMY_KILLED,
@@ -222,9 +224,9 @@ public class PlayerActions extends Component {
         closestEntity.collectResources();
         ServiceLocator.getUGSService().dispose(closestEntity);
         closestEntity.dispose();
-        PlayerStatsDisplay.updateItems();
       }
     }
+    PlayerStatsDisplay.updateItems();
     this.entity.getEvents().trigger("showPrompts");
   }
 
