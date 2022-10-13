@@ -41,6 +41,9 @@ public class RenderUtil {
      * @return the screen height in pixels
      */
     public  int getScreenHeight() {
+        if (ServiceLocator.getRenderService().getStage() == null) {
+            return 0;
+        }
        return ServiceLocator.getRenderService().getStage().getViewport().getScreenHeight();
     }
 
