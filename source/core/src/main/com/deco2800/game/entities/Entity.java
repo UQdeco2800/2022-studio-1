@@ -164,7 +164,8 @@ public class Entity {
    *
    */
   public void setTileGridPosition(GridPoint2 tileCoord) {
-    this.position = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(tileCoord);
+    this.position = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+        .tileToWorldPosition(tileCoord);
   }
 
   /**

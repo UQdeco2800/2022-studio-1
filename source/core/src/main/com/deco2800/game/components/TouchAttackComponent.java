@@ -1,5 +1,8 @@
 package com.deco2800.game.components;
 
+import java.security.Provider.Service;
+import java.util.ServiceLoader;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -8,13 +11,18 @@ import com.deco2800.game.physics.BodyUserData;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.services.ServiceLocator;
 
 /**
- * When this entity touches a valid enemy's hitbox, deal damage to them and apply a knockback.
+ * When this entity touches a valid enemy's hitbox, deal damage to them and
+ * apply a knockback.
  *
- * <p>Requires CombatStatsComponent, HitboxComponent on this entity.
+ * <p>
+ * Requires CombatStatsComponent, HitboxComponent on this entity.
  *
- * <p>Damage is only applied if target entity has a CombatStatsComponent. Knockback is only applied
+ * <p>
+ * Damage is only applied if target entity has a CombatStatsComponent. Knockback
+ * is only applied
  * if target entity has a PhysicsComponent.
  */
 public class TouchAttackComponent extends Component {
@@ -25,6 +33,7 @@ public class TouchAttackComponent extends Component {
 
   /**
    * Create a component which attacks entities on collision, without knockback.
+   * 
    * @param targetLayer The physics layer of the target's collider.
    */
   public TouchAttackComponent(short targetLayer) {
@@ -33,8 +42,9 @@ public class TouchAttackComponent extends Component {
 
   /**
    * Create a component which attacks entities on collision, with knockback.
+   * 
    * @param targetLayer The physics layer of the target's collider.
-   * @param knockback The magnitude of the knockback applied to the entity.
+   * @param knockback   The magnitude of the knockback applied to the entity.
    */
   public TouchAttackComponent(short targetLayer, float knockback) {
     this.targetLayer = targetLayer;
@@ -43,13 +53,13 @@ public class TouchAttackComponent extends Component {
 
   @Override
   public void create() {
-    entity.getEvents().addListener("collisionStart", this:: onCollisionStart);
+    entity.getEvents().addListener("collisionStart", this::onCollisionStart);
     combatStats = entity.getComponent(CombatStatsComponent.class);
     hitboxComponent = entity.getComponent(HitboxComponent.class);
   }
 
   private void onCollisionStart(Fixture me, Fixture other) {
-    if (hitboxComponent.getFixture() != me) {
+    if (!hitboxComponent.getFixture().equals(me)) {
       // Not triggered by hitbox, ignore
       return;
     }
@@ -73,6 +83,10 @@ public class TouchAttackComponent extends Component {
       Vector2 direction = target.getCenterPosition().sub(entity.getCenterPosition());
       Vector2 impulse = direction.setLength(knockbackForce);
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
+    }
+
+    if (this.getEntity().getName().contains("Projectile")) {
+      ServiceLocator.getEntityService().getEntities().remove(this.getEntity());
     }
   }
 }

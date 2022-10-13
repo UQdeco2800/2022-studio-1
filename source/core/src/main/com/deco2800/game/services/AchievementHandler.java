@@ -23,6 +23,11 @@ import java.util.*;
  */
 public class AchievementHandler {
     /**
+     * Event string for if crystal takes damage
+     */
+    public static final String EVENT_CRYSTAL_DAMAGED = "crystalDamaged";
+
+    /**
      * Event string for if the game was won
      */
     public static final String EVENT_GAME_WON = "gameWon";
@@ -116,13 +121,15 @@ public class AchievementHandler {
 
     /**
      * File handler for the player achievement file
-     */
-
-    /**
+     * <p>
      * V3 - 09/10/2022 notifyOnLoad added
+     * <p>
+     * V4 - 12/10/2022 isOneNight boolean added
+     * <p>
+     * V5 - 12/10/2022 Removed some achievements from achievement list
      */
     private final FileHandle achievementsFileHandle = Gdx.files
-            .external("AtlantisSinks/playerAchievementsVersion3.json");
+            .external("AtlantisSinks/playerAchievementsVersion5.json");
 
     /**
      * Used for reading and writing to the player achievement file
@@ -226,6 +233,10 @@ public class AchievementHandler {
             });
         });
         this.events.addListener(EVENT_ON_TEMP_STRUCTURE_PLACED, this::onTempStructurePlaced);
+        this.events.addListener(EVENT_CRYSTAL_DAMAGED, this::incrementOneRunAchievement);
+
+        // External
+        this.events.addListener(DayNightCycleService.EVENT_DAY_PASSED, this::checkOneNight);
     }
 
     /**
@@ -408,7 +419,7 @@ public class AchievementHandler {
      * @param achievement the stat achievement
      */
     public void checkStatAchievementMilestones(Achievement achievement) {
-        long totalAchieved = achievement.getTotalAchieved();
+        float totalAchieved = achievement.getTotalAchieved();
 
         // use standard milestones
         if (customStatMilestones.get(achievement.getId()) == null) {
@@ -547,6 +558,10 @@ public class AchievementHandler {
             }
         });
 
+        if (id != 12 && allCompleted()) {
+            markAchievementCompletedById(12, true);
+        }
+
     }
 
     /**
@@ -571,9 +586,23 @@ public class AchievementHandler {
      * @param type AchievementType
      * @return boolean
      */
-    public boolean allCompleted(AchievementType type) {
+    public boolean allCompletedOfType(AchievementType type) {
         for (Achievement achievement : this.achievements) {
             if (achievement.getAchievementType() == type && !achievement.isCompleted()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if all achievements have been completed
+     * @return boolean
+     */
+    public boolean allCompleted() {
+        for (AchievementType achievementType : AchievementType.values()) {
+            if (!allCompletedOfType(achievementType)) {
                 return false;
             }
         }
@@ -614,10 +643,26 @@ public class AchievementHandler {
         if (id == 14) {
             getAchievementById(8).setTotalAchieved(getAchievementById(8).getTotalAchieved() + 1);
             checkStatAchievementMilestones(getAchievementById(8));
+        } else if (id == 11) {
+            getAchievementById(17).setTotalAchieved(getAchievementById(17).getTotalAchieved() + 1);
         }
 
         Achievement achievement = getAchievementById(id);
         achievement.setTotalAchieved(achievement.getTotalAchieved() + 1);
+
+        saveAchievements();
+    }
+
+    public void checkOneNight(int dayNum) {
+        for (Achievement achievement : this.achievements) {
+            if (achievement.isOneNight() && achievement.getTotalAchieved() == 0) {
+                markAchievementCompletedById(achievement.getId(), true);
+            } else if (achievement.getId() == 20 && dayNum == 1 && achievement.getTotalAchieved() == 1) {
+                markAchievementCompletedById(20, true);
+            } else {
+                achievement.setTotalAchieved(0);
+            }
+        }
 
         saveAchievements();
     }
