@@ -78,8 +78,7 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_4.png",
       "images/clock_sprites/clock_day4_5.png",
       "images/clock_sprites/clock_day4_6.png",
-      "images/clock_sprites/clock_day4_7.png",
-      "images/clock_sprites/clock_day4_8.png",
+      "images/clock_sprites/clock_boss.png",
       "images/anim_demo/woodresourcebuilding.png",
       "images/storyLine/skipButton.png",
       "images/storyLine/textBox.png"
