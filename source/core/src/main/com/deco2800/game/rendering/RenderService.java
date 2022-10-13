@@ -71,13 +71,6 @@ public class RenderService implements Disposable {
         }
         renderable.render(batch);
       }
-      if (ServiceLocator.getEntityService() != null) {
-        if (!ServiceLocator.getEntityService().getCurrentWorldStep()) {
-          for (Entity e : ServiceLocator.getEntityService().getToDestroyEntities()) {
-            e.dispose();
-          }
-        }
-      }
     }
   }
 
