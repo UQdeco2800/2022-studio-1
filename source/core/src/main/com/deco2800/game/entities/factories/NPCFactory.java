@@ -29,6 +29,8 @@ import com.deco2800.game.rendering.DayNightCycleComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.SecureRandom;
+
 /**
  * Factory to create non-playable character (NPC) entities with predefined components.
  *
@@ -295,9 +297,9 @@ public class NPCFactory {
                 .addComponent(new PhysicsComponent())
                 .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
-                //.addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
-                //.addComponent(new TextureRenderComponent(NPC_textures[index]))
+                .addComponent(new TextureRenderComponent("images/npcs/NPC-V2.1.png"))
                 .addComponent(aiComponent);
 
         npc.setCollectable(false);
@@ -313,15 +315,15 @@ public class NPCFactory {
       public static Entity createSpecialNPC() {
         Entity NPC = createBaseNPC();
         NPC.setName("SpecialNPC");
-//        AnimationRenderComponent animator =
-//                 new AnimationRenderComponent(
-//                         ServiceLocator.getResourceService().getAsset("images/npc_animations/npc.atlas", TextureAtlas.class));
-//        animator.addAnimation("NPC", 0.1f, Animation.PlayMode.LOOP);
-//        NPC.addComponent(animator);
-//        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
-//        NPC.getComponent(AnimationRenderComponent.class).startAnimation("NPC");
-        NPC.addComponent(new TextureRenderComponent("images/npc1.png"));
-        NPC.setScale(5f,5f);
+        AnimationRenderComponent animator =
+                 new AnimationRenderComponent(
+                         ServiceLocator.getResourceService().getAsset("images/npc_animations/npc.atlas", TextureAtlas.class));
+        animator.addAnimation("NPC", 0.1f, Animation.PlayMode.LOOP);
+        NPC.addComponent(animator);
+        NPC.getComponent(AnimationRenderComponent.class).scaleEntity();
+        NPC.getComponent(AnimationRenderComponent.class).startAnimation("NPC");
+       // NPC.addComponent(new TextureRenderComponent("images/npc1.png"));
+        NPC.setScale(7f,7f);
 
           return NPC;
       }
@@ -334,8 +336,8 @@ public class NPCFactory {
           String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
               "images/npcs/NPC-V2.2.png" };
 
-      int index = (int) ((Math.random() * (NPC_textures.length)));
-      //int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
+//      int index = (int) ((Math.random() * (NPC_textures.length)));
+      int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
       Entity NPC = createBaseNPC();
       NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
       NPC.setName("NormalNPC");

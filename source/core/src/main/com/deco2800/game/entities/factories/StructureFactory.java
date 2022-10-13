@@ -40,6 +40,8 @@ public class StructureFactory {
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+  private static String[] wallSprites = {"images/wallLeft.png", "images/wallRight.png"};
+  private static String[] tower1Sprites = {"images/attack_towers/lv1GuardianLeft.png", "images/attack_towers/lv1GuardianRight.png"};
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -62,18 +64,20 @@ public class StructureFactory {
    *
    * @return specialised Wall entity
    */
-  public static Entity createWall(String name, Boolean isTemp) {
+  public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure("images/Wall-right.png", name); //change texture to be temp texture
+      wall = createBaseStructure(tower1Sprites[orientation], name); //change texture to be temp texture
     } else {
-      wall = createBaseStructure("images/Wall-right.png", name);
+      wall = createBaseStructure(tower1Sprites[orientation], name);
     }
     BaseStructureConfig config = configs.wall;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
-
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    Texture t = wall.getComponent(TextureRenderComponent.class).getTexture();
+    wall.setScale((tileSize), (tileSize)*(float) t.getHeight() / t.getWidth());
     //set name and collectable so game doesn't crash when main character attacks wall, feel free to remove
     wall.setCollectable(Boolean.FALSE);
 
@@ -111,12 +115,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
     //TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/TOWER1I.png"; //change texture to be temp texture
+      TOWER1I = "images/attack_towers/lv1GuardianLeft.png"; //change texture to be temp texture
     } else {
-      TOWER1I = "images/TOWER1I.png";
+      TOWER1I = "images/attack_towers/lv1GuardianLeft.png";
     }
-    String TOWER1II = "images/TOWER1II.png";
-    String TOWER1III = "images/TOWER1III.png";
+    String TOWER1II = "images/attack_towers/lv2GuardianLeft.png";
+    String TOWER1III = "images/attack_towers/lv3GuardianRight.png";
 
     Entity tower1;
     BaseStructureConfig config;
@@ -271,6 +275,7 @@ public static Entity createTrap(String name, Boolean isTemp) {
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
     structure.getComponent(TextureRenderComponent.class).scaleEntity();
+    structure.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
     PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
     structure.setName(name);
     structure.setCollectable(false);
@@ -358,10 +363,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
           case 1:
             tower1 = StructureFactory.createTower1(2, structName, false);
             ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
+            ServiceLocator.getStructureService().registerNamed(structName, tower1);
             break;
           case 2:
             tower1 = StructureFactory.createTower1(3, structName, false);
             ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
+            ServiceLocator.getStructureService().registerNamed(structName, tower1);
             break;
         }
     } else if (structName.contains("tower2")) {
@@ -371,10 +378,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
         case 1:
           tower2 = StructureFactory.createTower2(2, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower2);
           break;
         case 2:
           tower2 = StructureFactory.createTower2(3, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower2);
           break;
         }
     } else if (structName.contains("tower3")) {
@@ -384,10 +393,12 @@ public static Entity createTrap(String name, Boolean isTemp) {
         case 1:
           tower3 = StructureFactory.createTower3(2, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
         case 2:
           tower3 = StructureFactory.createTower3(3, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
+          ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
       }
     }

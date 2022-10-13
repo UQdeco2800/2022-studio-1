@@ -83,7 +83,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
     setToVelocity(body, desiredVelocity);
-    if (ServiceLocator.getTimeSource().getTime() % 1000 < 10) {
+    if (ServiceLocator.getTimeSource().getTime() % 500 < 2) {
       updateEnemyPosInUgs();
     }
   }
