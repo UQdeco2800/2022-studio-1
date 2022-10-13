@@ -28,11 +28,11 @@ public class UGS {
     private static final Logger logger = LoggerFactory.getLogger(UGS.class);
 
     private ArrayList<Entity> structures = new ArrayList<>();
-    static int MAPSIZE = 120; 
+    static int MAPSIZE = 120;
 
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
-//        generateUGS();
+        // generateUGS();
     }
 
     public void addStructure(Entity e) {
@@ -42,6 +42,7 @@ public class UGS {
     public ArrayList<Entity> getStructures() {
         return structures;
     }
+
     /**
      * Takes a String (concatenated x,y value) and returns the associated tile's
      * type
@@ -89,7 +90,7 @@ public class UGS {
     }
 
     public String getStringByEntity(Entity entity) {
-        for (String tilePos: tiles.keySet()) {
+        for (String tilePos : tiles.keySet()) {
             if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
                 return tilePos;
             }
@@ -144,8 +145,9 @@ public class UGS {
 
     /**
      * Gets a map of all surrounding tiles and labels them as empty or full
+     * 
      * @param centerCoord position of the entity in GridPoint2
-     * @param entityType type of entity being checked
+     * @param entityType  type of entity being checked
      * @return map of all surrounding gridpoints and if they are full or empty
      */
     public HashMap<GridPoint2, String> getSurroundingTiles(GridPoint2 centerCoord, String entityType) {
@@ -153,20 +155,19 @@ public class UGS {
         int offset = 1;
         int starting_xPos = centerCoord.x - offset;
         int starting_yPos = centerCoord.y - offset;
-        for (int x = starting_xPos; x < starting_xPos + (offset*2)+1; x++) {
-            for (int y = starting_yPos; y < starting_yPos + (offset*2)+1; y++) {
-//                if (!(x == centerCoord.x && y == centerCoord.y)) {
-                    if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
-                        surroundingTiles.put(new GridPoint2(x, y), "empty");
-                    } else {
-                        surroundingTiles.put(new GridPoint2(x, y), "full");
-                    }
-//                }
+        for (int x = starting_xPos; x < starting_xPos + (offset * 2) + 1; x++) {
+            for (int y = starting_yPos; y < starting_yPos + (offset * 2) + 1; y++) {
+                // if (!(x == centerCoord.x && y == centerCoord.y)) {
+                if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
+                    surroundingTiles.put(new GridPoint2(x, y), "empty");
+                } else {
+                    surroundingTiles.put(new GridPoint2(x, y), "full");
+                }
+                // }
             }
         }
         return surroundingTiles;
     }
-
 
     /**
      * Takes a String entityType and String coordinate and decides if that type of
@@ -242,10 +243,10 @@ public class UGS {
      * dimensionX = 2
      * dimensionY = 2
      * 
-     *  _ _ _        _ _ _
-     * |_|_|_|      |_|x|x|
-     * |_|_|_| ->   |_|x|x|
-     * |_|_|_|      |_|_|_|
+     * _ _ _ _ _ _
+     * |_|_|_| |_|x|x|
+     * |_|_|_| -> |_|x|x|
+     * |_|_|_| |_|_|_|
      * 
      * @param origin     String
      * @param entity     Entity
@@ -323,69 +324,25 @@ public class UGS {
     public void moveEntity(Entity entity, GridPoint2 currentPosition, int xDirection, int yDirection) {
 
         String oldPosKey = generateCoordinate(currentPosition.x, currentPosition.y);
-        String oldType = ServiceLocator.getUGSService().getTileType(currentPosition);
 
-        if (xDirection == 1) {
-            int newX = currentPosition.x + 1;
-            int newY = currentPosition.y;
-            GridPoint2 coordinate = new GridPoint2(newX, newY);
-            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
-                String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
-                Tile replacement = new Tile();
-                replacement.setTileType(oldType);
-                tiles.replace(oldPosKey, replacement);
-                tiles.get(newPosKey).setEntity(entity);
-                setEntity(coordinate, entity, "player");
-                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
-            }
-        } else if (xDirection == -1) {
-            int newX = currentPosition.x - 1;
-            int newY = currentPosition.y;
-            GridPoint2 coordinate = new GridPoint2(newX, newY);
+        Vector2 newPosition = new Vector2(currentPosition.x + xDirection, currentPosition.y + yDirection);
+        if (ServiceLocator.getUGSService().checkEntityPlacement(
+                new GridPoint2((int) newPosition.x, (int) newPosition.y),
+                "player")) { // Check no entity in new tile
 
-            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
-                String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
-                Tile replacement = new Tile();
-                replacement.setTileType(oldType);
-                tiles.replace(oldPosKey, replacement);
-                tiles.get(newPosKey).setEntity(entity);
-                setEntity(coordinate, entity, "player");
-                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
-            }
+            String newPosKey = generateCoordinate((int) newPosition.x, (int) newPosition.y);
+            tiles.get(oldPosKey).setEntity(null);
+            tiles.get(newPosKey).setEntity(entity);
+
+            Vector2 newWorldPos = ServiceLocator.getEntityService()
+                    .getNamedEntity("terrain")
+                    .getComponent(TerrainComponent.class)
+                    .tileToWorldPosition((int) newPosition.x, (int) newPosition.y);
+            entity.tweenPosition(newWorldPos);
+            System.out.println(newPosition.toString());
+
         }
 
-        if (yDirection == 1) {
-            int newX = currentPosition.x;
-            int newY = currentPosition.y + 1;
-            GridPoint2 coordinate = new GridPoint2(newX, newY);
-
-            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
-                String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
-                Tile replacement = new Tile();
-                replacement.setTileType(oldType);
-                tiles.replace(oldPosKey, replacement);
-                tiles.get(newPosKey).setEntity(entity);
-                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
-            }
-        } else if (yDirection == -1) {
-            int newX = currentPosition.x;
-            int newY = currentPosition.y - 1;
-            GridPoint2 coordinate = new GridPoint2(newX, newY);
-
-            if (ServiceLocator.getUGSService().checkEntityPlacement(coordinate, "player")) { //Check no entity in new tile
-                String newPosKey = generateCoordinate(coordinate.x, coordinate.y);
-                Tile replacement = new Tile();
-                replacement.setTileType(oldType);
-                tiles.replace(oldPosKey, replacement);
-                tiles.get(newPosKey).setEntity(entity);
-                setEntity(coordinate, entity, "player");
-                Vector2 newPosVector = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(newPosVector);
-            }
-        }
     }
 
     /**
@@ -421,7 +378,9 @@ public class UGS {
     }
 
     /**
-     * Looks up the entity in the UGS at the cursor position in grid coordinates as the key
+     * Looks up the entity in the UGS at the cursor position in grid coordinates as
+     * the key
+     * 
      * @return entity in the grid coordinate the cursor is in
      */
     public Entity getClickedEntity() {

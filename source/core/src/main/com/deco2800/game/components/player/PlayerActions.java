@@ -71,7 +71,6 @@ public class PlayerActions extends Component {
 
     for (int i = 0; i < 4; i++) {
       moving = moving || movementKeyPressed[i];
-      System.out.println(moving);
     }
 
     if (moving) {
@@ -98,12 +97,9 @@ public class PlayerActions extends Component {
 
   public void updatePlayerMovement(int key, boolean pressed) {
     movementKeyPressed[key] = pressed;
-    System.out.println("{" + movementKeyPressed[0] + ", " + movementKeyPressed[1] + ", " + movementKeyPressed[2] + ", "
-        + movementKeyPressed[3] + "}");
   }
 
   public void movePlayerInUgs(Vector2 direction) {
-    System.out.println(direction.toString());
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
     String keyOfPlayer = "";
     for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
