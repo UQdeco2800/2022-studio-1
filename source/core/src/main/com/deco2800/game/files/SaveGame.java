@@ -3,11 +3,13 @@ package com.deco2800.game.files;
 import com.badlogic.gdx.math.GridPoint2;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.entities.factories.*;
@@ -29,12 +31,15 @@ public class SaveGame {
     private static final Logger logger = LoggerFactory.getLogger(SaveGame.class);
     private static String savePathEnvironmental = "Saves/Environmental.json";
     private static String savePathStructures = "Saves/Structures.json";
+    private static String savePathEnemies = "Saves/Enemies.json";
     private static String savePathCrystal = "Saves/Crystal.json";
     private static String savePathPlayer = "Saves/Player.json";
     private static String saveGameData = "Saves/GameData.json";
 
     private final static HashMap<String, Method> environmentalGeneration = new HashMap<>();
     private final static HashMap<String, Method> structureGeneration = new HashMap<>();
+    private static Entity loadedPlayer;
+    private static Entity loadedCrystal;
 
     /**
      * Saves environmental objects to enviromental via the use of json
@@ -259,6 +264,7 @@ public class SaveGame {
                 CrystalFactory.upgradeCrystal();
             }
             crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
+            loadedCrystal=crystal;
         }
         logger.debug("End Loading Crystal");
     }
@@ -326,6 +332,7 @@ public class SaveGame {
 
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
+            loadedPlayer=player;
         }
         logger.debug("End Loading Player");
     }
@@ -363,6 +370,55 @@ public class SaveGame {
     }
 
     /**
+     * Saves all enemies
+     */
+    private static void saveEnemies() {
+        logger.debug("Begin Saving Enemies");
+        ArrayList<Tuple> enemiesList = new ArrayList<>();
+
+        // loop through all entities and check they are an enemy class,
+        // save position
+        for (Entity enemy : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+
+            if ((enemy.getClass() == Enemy.class) && (enemy.getComponent(TextureRenderComponent.class) != null || enemy.getComponent(AnimationRenderComponent.class) != null)) {
+                enemiesList
+                        .add(new Tuple()
+                                .setPosition(enemy.getPosition()).setName(enemy.getName()).setTileString(ServiceLocator.getUGSService().getStringByEntity(enemy))
+                                .setCreationMethod(enemy.getCreationMethod()));
+            }
+        }
+
+        FileLoader.writeClass(enemiesList, savePathEnemies, FileLoader.Location.LOCAL);
+        logger.debug("Finished Saving Enemies");
+    }
+
+    /**
+     * Loads all enemies from saves via the use of json
+     *
+     * @throws InvocationTargetException throw error when invoking methods fails
+     * @throws IllegalAccessException    throw error when invoking method fails
+     */
+    private static void loadEnemies() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        logger.debug("Begin Loading Enemies");
+        ArrayList enemies = FileLoader.readClass(ArrayList.class, savePathEnemies, FileLoader.Location.LOCAL);
+
+        for (Object en : enemies) {
+            Tuple enemy = (Tuple) en;
+            Entity newEnemy;
+
+            if (enemy.name.contains("Crabs")) {
+                newEnemy = (Entity) NPCFactory.class.getMethod(enemy.creationMethod, Entity.class).invoke(null, loadedPlayer);
+            } else {
+                newEnemy = (Entity) NPCFactory.class.getMethod(enemy.creationMethod, Entity.class, Entity.class).invoke(null, loadedPlayer, loadedCrystal);
+            }
+
+            newEnemy.setPosition(enemy.position);
+            newEnemy.setName(enemy.name);
+        }
+        logger.debug("Finished Loading Enemies");
+    }
+
+    /**
      * Save all game assets to the save game folder
      */
     public static void saveGameState() {
@@ -374,6 +430,8 @@ public class SaveGame {
         saveStructures();
 
         saveGameData();
+
+        saveEnemies();
 
         logger.debug("Finished Saving");
     }
@@ -389,6 +447,7 @@ public class SaveGame {
             loadEnvrionmentalObjects();
             loadCrystal();
             loadPlayer();
+            loadEnemies();
 
             //loadGameData();
 
