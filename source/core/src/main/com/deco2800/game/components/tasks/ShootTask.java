@@ -23,6 +23,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     private final PhysicsEngine physics;
     private final DebugRenderer debugRenderer;
     private final RaycastHit hit = new RaycastHit();
+    private int count = 0;
 
     /**
      * @param target The entity to chase.
@@ -47,8 +48,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public void update() {
+        count++;
         Entity entity = this.owner.getEntity();
-        if (TotalTime.getTime() >= taskEnd) {
+        if (TotalTime.getTime() >= taskEnd && this.count % 120 == 0) {
             ProjectileFactory.createProjectile(entity, target);
             taskEnd = TotalTime.getTime() + (SECOND);
         }
