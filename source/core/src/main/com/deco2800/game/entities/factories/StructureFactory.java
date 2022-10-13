@@ -1,5 +1,8 @@
 package com.deco2800.game.entities.factories;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
@@ -37,6 +40,8 @@ import com.deco2800.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class StructureFactory {
+  private static final Logger logger = LoggerFactory.getLogger(StructureFactory.class);
+
   private static final StructureConfig configs =
       FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
@@ -72,7 +77,8 @@ public class StructureFactory {
       wall = createBaseStructure(tower1Sprites[orientation], name);
     }
     BaseStructureConfig config = configs.wall;
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,100))
+    //Changed combatstatscomponent's maxHealth to take config.health instead of hard coding 100
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,config.health))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
@@ -295,11 +301,14 @@ public static Entity createTrap(String name, Boolean isTemp) {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    logger.info("Refund multiplier: " + refundMultiplier);
       //Get the cost of the building
       int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
       int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
       int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
       //Add (<resource> * refundMultiplier) to PLAYER's inventory
+    logger.info("stone refund: " + stone * refundMultiplier);
+    logger.info("wood refund: " + wood * refundMultiplier);
 
       player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
       player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
@@ -320,6 +329,7 @@ public static Entity createTrap(String name, Boolean isTemp) {
       return;
     }
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
+    logger.info("building health: " + buildingHealth);
     switch(buildingHealth) {
       case 0: //Building destroyed
         ServiceLocator.getUGSService().removeEntity(name);
@@ -327,7 +337,8 @@ public static Entity createTrap(String name, Boolean isTemp) {
 
       default:
         int health = structure.getComponent(CombatStatsComponent.class).getHealth();
-        int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
+        int maxHealth = structure.getComponent(CombatStatsComponent.class).getMaxHealth();
+        logger.info("max health: " + maxHealth);
         Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
         handleRefund(structure, refundMultiplier);
         ServiceLocator.getUGSService().removeEntity(name);

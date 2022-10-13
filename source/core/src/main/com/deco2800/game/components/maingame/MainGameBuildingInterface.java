@@ -150,7 +150,7 @@ public class MainGameBuildingInterface extends UIComponent {
                         StructureFactory.upgradeStructure(gridPoint2, clickedStructure.getName());
                          //Subtract currency from inventory
                          player.getComponent(InventoryComponent.class).addGold(-1 * 100);
-                         
+
                     } else {
                         logger.info("Insufficient resource!");
                         Sound filesound = Gdx.audio.newSound(
@@ -173,8 +173,8 @@ public class MainGameBuildingInterface extends UIComponent {
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Sell button clicked");
-                        StructureFactory.handleBuildingDestruction(entity.getName());
+                        logger.info("Sell button clicked");
+                        StructureFactory.handleBuildingDestruction(clickedStructure.getName());
                         //Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
                         //player.getComponent(InventoryComponent.class).addStone(sell);
                     }

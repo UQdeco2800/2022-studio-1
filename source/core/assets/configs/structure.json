@@ -2,16 +2,16 @@
   "wall": {
     "health": 40,
     "baseAttack": 0,
-    "gold": 20,
-    "wood" : 0,
-    "stone" : 0
+    "gold": 0,
+    "wood" : 50,
+    "stone" : 100
   },
   "tower1": {
     "health": 200,
     "baseAttack": 10,
     "gold": 30,
-    "wood" : 0,
-    "stone" : 0
+    "wood" : 100,
+    "stone" : 200
   },
   "tower1I": {
     "health" : 250,
@@ -31,9 +31,9 @@
   "tower2": {
     "health" : 150,
     "baseAttack" : 16,
-    "gold": 50,
-    "wood" : 0,
-    "stone" : 0
+    "gold": 0,
+    "wood" : 100,
+    "stone" : 200
   },
   "tower2I" : {
     "health" : 200,
@@ -53,9 +53,9 @@
   "tower3": {
     "health" : 250,
     "baseAttack" : 14,
-    "gold": 75,
-    "wood" : 0,
-    "stone" : 0
+    "gold": 0,
+    "wood" : 100,
+    "stone" : 200
   },
   "tower3I" : {
     "health" : 300,
@@ -75,9 +75,9 @@
   "trap": {
     "health" : 150,
     "baseAttack" : 100,
-    "gold" : 15,
-    "wood" : 0,
-    "stone" : 0
+    "gold" : 0,
+    "wood" : 25,
+    "stone" : 25
   }
 }
 
