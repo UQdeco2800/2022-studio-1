@@ -300,8 +300,6 @@
 //        shipEnd.setPosition(new Vector2(5,5));
 //        Entity pillar = ObstacleFactory.createPillar();
 //        pillar.setPosition(new Vector2(6,6));
-//        Entity chalace = ObstacleFactory.createAoeSpeedArtefact();
-//        chalace.setPosition(new Vector2(7,7));
 //        Entity vines = ObstacleFactory.createVine();
 //        vines.setPosition(new Vector2(8,8));
 //
@@ -311,7 +309,6 @@
 //        ServiceLocator.getEntityService().addEntity(shipFront);
 //        ServiceLocator.getEntityService().addEntity(shipEnd);
 //        ServiceLocator.getEntityService().addEntity(pillar);
-//        ServiceLocator.getEntityService().addEntity(chalace);
 //        ServiceLocator.getEntityService().addEntity(vines);
 //
 //        SaveGame.saveGameState();

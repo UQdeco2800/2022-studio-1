@@ -176,33 +176,5 @@ public class RangeService {
         return inRange;
     }
 
-    /**
-     * This function was semi created to come back to in Sprint 4 to try and aid buildings team. Alot of it depreicated
-     * with the new UGS
-     * @param toCompare an entity that you want to see if its around the player
-     */
-//    public Boolean withinTowerRange (Entity toCompare) {
-//        boolean inRange = false;
-//        ArrayList<Entity> withinRange = new ArrayList<>();
-//        for (String i : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
-//            if (i.contains("tower")) {
-//                for (String j : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
-//                    if (j.contains("nemy")) {
-//                        Vector2 towerPos = ServiceLocator.getEntityService().getAllNamedEntities().get(i).getPosition();
-//                        Vector2 enemyPos = ServiceLocator.getEntityService().getAllNamedEntities().get(j).getPosition();
-//                        if (Math.abs(towerPos.x - enemyPos.x) < 10 && Math.abs(towerPos.y - enemyPos.y) < 10) {
-//                            withinRange.add(ServiceLocator.getEntityService().getAllNamedEntities().get(j));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        // Then loop through all of the enemies within this "in tower range" list add "hit" them and deduct health
-//        // Just dont know how to be constantly checking for this
-//        // Could u add this as a listener event per clock tick?? idk?
-//        return inRange;
-//    }
-
-
 
 }

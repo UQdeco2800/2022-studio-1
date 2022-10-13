@@ -89,10 +89,6 @@ public class PlayerActions extends Component {
         lastMovementTime = gameTime + movementTimeDelta;
       }
 
-      // run my elapsed ttime shit
-      // Player position is based on bottom left corner of the texture, so we add to
-      // the position of the camera to account for this.
-      // Vector2 playerCenterPos = entity.getPosition();
       playerCenterPos.add(0.7f, 1f);
       camera.getEvents().trigger("playerMovementPan", playerCenterPos);
     } else {
@@ -267,47 +263,5 @@ public class PlayerActions extends Component {
       }
     }
   }
-
-  // public void updateEnemyPosInUgs () {
-  // // Initialise
-  // ArrayList<Entity> enemyList = null;
-  // if (ServiceLocator.getEntityService() != null &&
-  // ServiceLocator.getEntityService().getEnemyEntities() != null) {
-  // enemyList = new
-  // ArrayList<>(ServiceLocator.getEntityService().getEnemyEntities());
-  // }
-  //
-  // for (Entity enemy : enemyList) {
-  // // Get old key (place in UGS)
-  // String enemyOldKey = "";
-  // String oldTileType = "";
-  // String enemyName = null;
-  // for (Map.Entry<String, Tile> entry :
-  // ServiceLocator.getUGSService().printUGS().entrySet()) {
-  // if (entry.getValue().getEntity() == enemy) {
-  // enemyOldKey = entry.getKey();
-  // oldTileType = entry.getValue().getTileType();
-  // enemyName = entry.getValue().getEntity().getName();
-  // break;
-  // }
-  // }
-  // int oldGridPos = Integer.parseInt(enemyOldKey.substring(1,5));
-  //
-  // // Get new key (place in UGS)
-  // Vector2 enemyPosVect = enemy.getPosition();
-  // GridPoint2 enemyPosGrid =
-  // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(enemyPosVect.x,
-  // enemyPosVect.y);
-  // String enemyNewKey = UGS.generateCoordinate(enemyPosGrid.x, enemyPosGrid.y);
-  // // Delete old tile and give new tile in UGS
-  // if (!Objects.equals(enemyOldKey, enemyNewKey)) {
-  // Tile replacement = new Tile();
-  // replacement.setTileType(oldTileType);
-  // ServiceLocator.getUGSService().change(enemyOldKey, replacement);
-  // ServiceLocator.getUGSService().setEntity(enemyPosGrid, entity, enemyName);
-  // entity.setPosition(enemyPosVect);
-  // }
-  // }
-  // }
 
 }
