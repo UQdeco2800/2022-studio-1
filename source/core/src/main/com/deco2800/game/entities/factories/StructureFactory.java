@@ -79,7 +79,7 @@ public class StructureFactory {
     BaseStructureConfig config = configs.wall;
     //Changed combatstatscomponent's maxHealth to take config.health instead of hard coding 100
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1 ,config.health))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
     Texture t = wall.getComponent(TextureRenderComponent.class).getTexture();
@@ -105,9 +105,9 @@ public static Entity createTrap(String name, Boolean isTemp) {
   }
   BaseStructureConfig config = configs.trap;
 
-  trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1, 100))
+  trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1,1, config.health))
           .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
-          .addComponent(new ResourceCostComponent(config.gold))
+          .addComponent(new ResourceCostComponent(config.stone, config.wood))
           .addComponent((new HealthBarComponent(50, 10)));
   return trap;
 }
@@ -135,27 +135,27 @@ public static Entity createTrap(String name, Boolean isTemp) {
       case 2: //Represents the first upgraded version of the tower
         tower1 = createBaseStructure(TOWER1II, name);
         config = configs.tower1I;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
+                .addComponent(new ResourceCostComponent(config.stone, config.wood))
                 .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
 
         case 3: //Represents the second upgraded version of the tower
           tower1 = createBaseStructure(TOWER1III, name);
           config = configs.tower1II;
-          tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+          tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold, config.stone))
+                  .addComponent(new ResourceCostComponent(config.stone, config.wood))
                   .addComponent((new HealthBarComponent(50, 10)));
           return tower1;
       default:
         tower1 = createBaseStructure(TOWER1I, name);
         config = configs.tower1;
 
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,config.health))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
+                .addComponent(new ResourceCostComponent(config.stone, config.wood))
                 .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
     }
@@ -183,27 +183,27 @@ public static Entity createTrap(String name, Boolean isTemp) {
       case 2: //Represents the first upgraded version of the tower
         tower2 = createBaseStructure(TOWER2II, name);
         config = configs.tower2I;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2,100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2,config.health))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
+                .addComponent(new ResourceCostComponent(config.stone, config.wood))
                 .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
 
         case 3: //Represents the second upgraded version of the tower
           tower2 = createBaseStructure(TOWER2III, name);
           config = configs.tower2II;
-          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3,100))
+          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3,config.health))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold, config.stone))
+                  .addComponent(new ResourceCostComponent(config.stone, config.wood))
                   .addComponent((new HealthBarComponent(50, 10)));
           return tower2;
         default:
           tower2 = createBaseStructure(TOWER2I, name);
           config = configs.tower2;
 
-          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,100))
+          tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,config.health))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold))
+                  .addComponent(new ResourceCostComponent(config.stone, config.wood))
                   .addComponent((new HealthBarComponent(50, 10)));
           return tower2;
     }
@@ -231,27 +231,27 @@ public static Entity createTrap(String name, Boolean isTemp) {
        case 2: //Represents the first upgraded version of the tower
       tower3 = createBaseStructure(TOWER3II, name);
         config = configs.tower3I;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2,2,100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2,2,config.health))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
+                .addComponent(new ResourceCostComponent(config.stone, config.wood))
                 .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
 
         case 3: //Represents the second upgraded version of the tower
         tower3 = createBaseStructure(TOWER3III, name);
           config = configs.tower3II;
-          tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3,3,100))
+          tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3,3,config.health))
                   .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                  .addComponent(new ResourceCostComponent(config.gold, config.stone))
+                  .addComponent(new ResourceCostComponent(config.stone, config.wood))
                   .addComponent((new HealthBarComponent(50, 10)));
           return tower3;
       default:
         tower3 = createBaseStructure(TOWER3I, name);
         config = configs.tower3;
 
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1,config.health))
                 .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-                .addComponent(new ResourceCostComponent(config.gold))
+                .addComponent(new ResourceCostComponent(config.stone, config.wood))
                 .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
     }
@@ -309,6 +309,9 @@ public static Entity createTrap(String name, Boolean isTemp) {
       //Add (<resource> * refundMultiplier) to PLAYER's inventory
     logger.info("stone refund: " + stone * refundMultiplier);
     logger.info("wood refund: " + wood * refundMultiplier);
+    logger.info("wood cost: " + structure.getComponent(ResourceCostComponent.class).getWoodCost());
+    logger.info("stone cost: " + structure.getComponent(ResourceCostComponent.class).getStoneCost());
+
 
       player.getComponent(InventoryComponent.class).addGold((int)(gold * (refundMultiplier)));
       player.getComponent(InventoryComponent.class).addStone((int)(stone * refundMultiplier));
