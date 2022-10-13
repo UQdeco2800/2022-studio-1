@@ -1,5 +1,7 @@
 package com.deco2800.game.ai.tasks;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,7 +36,7 @@ class AITaskComponentTest {
     when(task.getPriority()).thenReturn(1);
 
     taskComponent.addTask(task);
-    taskComponent.update();
+    taskComponent.earlyUpdate();
     verify(task).start();
     verify(task).update();
   }
@@ -50,7 +52,7 @@ class AITaskComponentTest {
     PriorityTask highPriorityTask = mock(PriorityTask.class);
     when(highPriorityTask.getPriority()).thenReturn(2);
     taskComponent.addTask(highPriorityTask);
-    taskComponent.update();
+    taskComponent.earlyUpdate();
 
     verify(highPriorityTask).start();
     verify(highPriorityTask).update();
@@ -59,7 +61,7 @@ class AITaskComponentTest {
 
     // Swap priorities
     when(lowPriorityTask.getPriority()).thenReturn(3);
-    taskComponent.update();
+    taskComponent.earlyUpdate();
 
     verify(lowPriorityTask).start();
     verify(lowPriorityTask).update();
@@ -74,7 +76,7 @@ class AITaskComponentTest {
     when(task.getPriority()).thenReturn(1);
     taskComponent.addTask(task);
 
-    taskComponent.update();
+    taskComponent.earlyUpdate();
     taskComponent.dispose();
 
     verify(task).stop();
