@@ -303,7 +303,6 @@ public class UGS {
     public void moveEntity(Entity entity, GridPoint2 currentPosition, int xDirection, int yDirection) {
 
         String oldPosKey = generateCoordinate(currentPosition.x, currentPosition.y);
-        String oldType = ServiceLocator.getUGSService().getTileType(currentPosition);
 
         Vector2 newPosition = new Vector2(currentPosition.x + xDirection, currentPosition.y + yDirection);
         if (ServiceLocator.getUGSService().checkEntityPlacement(
@@ -323,59 +322,6 @@ public class UGS {
 
         }
 
-        //
-        // if (xDirection) { //If xDirection is true then x coordinate increases [+1]
-        // if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
-        // int newX = currentPosition.x + 1;
-        // int newY = currentPosition.y - 1;
-        // GridPoint2 coordinate = new GridPoint2(newX, newY);
-        //
-        // if (getEntity(coordinate) == null) { //Check no entity in new tile
-        // setEntity(currentPosition, null, ""); //Clear entity from currentPosition
-        // setEntity(coordinate, entity, entityName); //Update entity to new position
-        // } else {
-        // return false;
-        // }
-        // } else {
-        // //xDirection true [+1], yDirection false [+1]
-        // int newX = currentPosition.x + 1;
-        // int newY = currentPosition.y + 1;
-        // GridPoint2 coordinate = new GridPoint2(newX, newY);
-        //
-        // if (getEntity(coordinate) == null) { //Check no entity in new tile
-        // setEntity(currentPosition, null, ""); //Clear entity from currentPosition
-        // setEntity(coordinate, entity, entityName); //Update entity to new position
-        // } else {
-        // return false;
-        // }
-        // }
-        // } else { //If xDirection is false then x coordinate decreases [-1]
-        // if (yDirection) { //If yDirection is true then y coordinate decreases [-1]
-        // int newX = currentPosition.x - 1;
-        // int newY = currentPosition.y - 1;
-        // GridPoint2 coordinate = new GridPoint2(newX, newY);
-        //
-        // if (getEntity(coordinate) == null) { //Check no entity in new tile
-        // setEntity(currentPosition, null, ""); //Clear entity from currentPosition
-        // setEntity(coordinate, entity, entityName); //Update entity to new position
-        // } else {
-        // return false;
-        // }
-        // } else {
-        // //xDirection false [-1], yDirection false [+1]
-        // int newX = currentPosition.x - 1;
-        // int newY = currentPosition.y + 1;
-        // GridPoint2 coordinate = new GridPoint2(newX, newY);
-        //
-        // if (getEntity(coordinate) == null) { //Check no entity in new tile
-        // setEntity(currentPosition, null, ""); //Clear entity from currentPosition
-        // setEntity(coordinate, entity, entityName); //Update entity to new position
-        // } else {
-        // return false;
-        // }
-        // }
-        //
-        // }
     }
 
     /**
