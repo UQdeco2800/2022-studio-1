@@ -53,6 +53,7 @@ public class UGS {
      */
     public Entity getEntity(GridPoint2 coordinate) {
         String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        logger.info("coords are: " + stringCoord);
         return tiles.get(stringCoord).getEntity();
     }
 

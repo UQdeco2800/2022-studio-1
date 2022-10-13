@@ -142,12 +142,8 @@ public class MainGameBuildingInterface extends UIComponent {
                     if (player.getComponent(InventoryComponent.class).hasGold(100)) {
                         logger.info("Sufficient resources");
 
-                        //Get building and convert it's position to gridPoint2
-                        Vector2 position = clickedStructure.getPosition();
-                        GridPoint2 gridPoint2 = new GridPoint2((int) position.x, (int) position.y);
-                        
                         logger.info("Structure name: " + clickedStructure.getName());
-                        StructureFactory.upgradeStructure(gridPoint2, clickedStructure.getName());
+                        StructureFactory.upgradeStructure(entityCords, clickedStructure.getName());
                          //Subtract currency from inventory
                          player.getComponent(InventoryComponent.class).addGold(-1 * 100);
 

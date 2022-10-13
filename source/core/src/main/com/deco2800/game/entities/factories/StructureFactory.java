@@ -332,7 +332,6 @@ public static Entity createTrap(String name, Boolean isTemp) {
       return;
     }
     int buildingHealth = structure.getComponent(CombatStatsComponent.class).getHealth();
-    logger.info("building health: " + buildingHealth);
     switch(buildingHealth) {
       case 0: //Building destroyed
         ServiceLocator.getUGSService().removeEntity(name);
@@ -341,7 +340,6 @@ public static Entity createTrap(String name, Boolean isTemp) {
       default:
         int health = structure.getComponent(CombatStatsComponent.class).getHealth();
         int maxHealth = structure.getComponent(CombatStatsComponent.class).getMaxHealth();
-        logger.info("max health: " + maxHealth);
         Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
         handleRefund(structure, refundMultiplier);
         ServiceLocator.getUGSService().removeEntity(name);
@@ -365,7 +363,7 @@ public static Entity createTrap(String name, Boolean isTemp) {
     }
     //Remove building entity
     ServiceLocator.getUGSService().removeEntity(structName);
-
+    logger.info("Building upgraded at: " + gridPos);
     //Upgrade depending on building
    if (structName.contains("tower1")) {
       Entity tower1;
