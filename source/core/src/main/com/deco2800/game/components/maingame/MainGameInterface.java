@@ -1,8 +1,6 @@
 package com.deco2800.game.components.maingame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -10,22 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.player.KeyboardPlayerInputComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.concurrency.JobSystem;
-import com.deco2800.game.entities.Enemy;
-import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
-import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -43,7 +36,6 @@ public class MainGameInterface extends UIComponent {
   private static final float Z_INDEX = 2f;
   private Table leftSideTable;
   private Table rightSideTable;
-  private Table table1;
   private Group group;
 
   private int equipmentPos = 0;
@@ -70,8 +62,6 @@ public class MainGameInterface extends UIComponent {
   private Label potionQuantity;
   private Label clockQuantity;
   private Label bedQuantity;
-
-  private Time bedTimer;
 
   private EquipmentConfig equipmentStats;
   private ShopBuildingConfig buildingStats;

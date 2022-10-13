@@ -214,20 +214,21 @@ public class MainGameScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-        .addComponent(new PerformanceDisplay())
-        .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
-        .addComponent(new MainGameExitDisplay())
-        .addComponent(new MainGameInterface())
-        .addComponent(new MainGameBuildingInterface())
-        .addComponent(new MainGameNpcInterface())
-        .addComponent(new DayNightClockComponent())
-        .addComponent(new DayNightClockComponent())
-        .addComponent(new Terminal())
-        .addComponent(new MainGameTutorials())
+            .addComponent(new PerformanceDisplay())
+            .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
+            .addComponent(new MainGameExitDisplay())
+            .addComponent(new MainGameInterface())
+            .addComponent(new MainGameBuildingInterface())
+            .addComponent(new MainGameNpcInterface())
+            .addComponent(new DayNightClockComponent())
+            .addComponent(new DayNightClockComponent())
+            .addComponent(new Terminal())
+            .addComponent(new MainGameTutorials())
             .addComponent(new EpilogueLayover())
-        .addComponent(new AchievementPopupComponent())
-        .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+            .addComponent(new AchievementPopupComponent())
+            .addComponent(inputComponent)
+            .addComponent(new TerminalDisplay())
+            .addComponent(new ShopInterface());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }

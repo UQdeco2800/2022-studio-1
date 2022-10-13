@@ -32,7 +32,7 @@ public class MainGameActions extends Component {
   @Override
   public void create() {
     entity.getEvents().addListener("exit", this::onExit);
-    entity.getEvents().addListener("shop", this::openShop);
+
     entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("guideBook", this::openGuidebook);
     entity.getEvents().addListener("achievement", this::onAchievements);
