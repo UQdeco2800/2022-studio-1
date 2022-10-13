@@ -253,7 +253,7 @@ public class PlayerActions extends Component {
    * Respawns the player
    */
   public void respawn(DayNightCycleStatus partOfDay) {
-    if (partOfDay == DayNightCycleStatus.DAY) {
+    if (partOfDay == DayNightCycleStatus.DAY && !playerAlive) {
       if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() == DayNightCycleStatus.DAY) {
         // respawn
         entity.getEvents().trigger("after_death");
@@ -263,5 +263,4 @@ public class PlayerActions extends Component {
       }
     }
   }
-
 }
