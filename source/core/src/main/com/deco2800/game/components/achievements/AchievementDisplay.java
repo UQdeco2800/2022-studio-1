@@ -157,20 +157,22 @@ public class AchievementDisplay extends UIComponent {
 
         this.addButtonEvent(backButton, "Exit");
 
-        exitTable.add(backButton).expand().right().top().size(50f).pad(5);
+        exitTable.add(backButton).right().top().size(50f).pad(5);
         
         // Display main content
         displayTable.align(Align.top);
         displayTable.pad(50f);
 
-        contentTable.add(navigationTable).colspan(2).expand();
-        contentTable.add(displayTable).colspan(6).expand();
+        navigationTable.pad(50f);
+
+        contentTable.add(navigationTable).colspan(2).expand().pad(0f);
+        contentTable.add(displayTable).colspan(6).expand().pad(0f);
 
         rootTable.add(exitTable).colspan(8).fillX();
         rootTable.row();
         //rootTable.add(title).colspan(8).expand();
         rootTable.row();
-        rootTable.add(contentTable).colspan(8).expand();
+        rootTable.add(contentTable).colspan(8).expand().pad(30f);
 
         stage.addActor(rootTable);
         //stage.setDebugAll(true);
