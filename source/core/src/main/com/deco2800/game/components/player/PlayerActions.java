@@ -138,7 +138,7 @@ public class PlayerActions extends Component {
       }
     }
     for (Entity i : radius) {
-      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player")) {
+      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player") && i.isCollectable()) {
         closestEntity = i;
         break;
       }

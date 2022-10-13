@@ -270,9 +270,9 @@ public class ForestGameArea extends GameArea {
         case SPIKY_BUSH:
           envObj = ObstacleFactory.createSpikyTree();
           break;
-        case SPEED_ARTEFACT:
-          envObj = ObstacleFactory.createAoeSpeedArtefact();
-          break;
+//        case SPEED_ARTEFACT:
+//          envObj = ObstacleFactory.createAoeSpeedArtefact();
+//          break;
         case KNOCKBACK_TOWER:
           envObj = ObstacleFactory.createBillboard();
           break;

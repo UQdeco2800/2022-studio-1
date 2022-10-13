@@ -184,23 +184,23 @@ public class ObstacleFactory {
    * 
    * @return entity
    */
-  public static Entity createAoeSpeedArtefact() {
-    Entity artefact = createEnvironmentalObject("images/landscape_objects/chalice.png",
-        EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
-        0.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
-    artefact.setName("Chalice");
-    artefact.setCollectable(false);
-    Vector2 aoeSize = new Vector2();
-    Vector2 size = artefact.getScale();
-    // sets aoe to twice the scale of the object
-    aoeSize.x = size.x * 4;
-    aoeSize.y = size.y * 4;
-    artefact.addComponent(new HitboxComponent());
-    artefact.getComponent(HitboxComponent.class).setAsBox(aoeSize);
-    artefact.getComponent(CollisionEffectComponent.class).setAoe(true);
-    artefact.getComponent(CollisionEffectComponent.class).setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
-    return artefact;
-  }
+//  public static Entity createAoeSpeedArtefact() {
+//    Entity artefact = createEnvironmentalObject("images/landscape_objects/chalice.png",
+//        EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
+//        0.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
+//    artefact.setName("Chalice");
+//    artefact.setCollectable(false);
+//    Vector2 aoeSize = new Vector2();
+//    Vector2 size = artefact.getScale();
+//    // sets aoe to twice the scale of the object
+//    aoeSize.x = size.x * 4;
+//    aoeSize.y = size.y * 4;
+//    artefact.addComponent(new HitboxComponent());
+//    artefact.getComponent(HitboxComponent.class).setAsBox(aoeSize);
+//    artefact.getComponent(CollisionEffectComponent.class).setAoe(true);
+//    artefact.getComponent(CollisionEffectComponent.class).setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
+//    return artefact;
+//  }
 
   /**
    * creates a pillar entity
