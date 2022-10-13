@@ -96,11 +96,15 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   protected void setToVelocity(Body body, Vector2 desiredVelocity) {
+
+    if (desiredVelocity.x == 0 && desiredVelocity.y == 0) {
+      return;
+    }
+
     // impulse force = (desired velocity - current velocity) * mass
     Vector2 velocity = body.getLinearVelocity();
     Vector2 impulse = desiredVelocity.cpy().sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
-    body.setBullet(enabled);
   }
 
   protected Vector2 getDirection() {
