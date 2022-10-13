@@ -128,14 +128,6 @@ public class AchievementDisplay extends UIComponent {
         contentTable.defaults().pad(10f);
 
         // Title
-        // fonts -> https://libgdxinfo.wordpress.com/basic-label/
-        /*
-        Image title = new Image(new Texture(Gdx.files.internal("Achievements/AchievementsTitle.png")));
-        title.setAlign(Align.center);
-        title.setHeight(Gdx.graphics.getHeight() * 0.2f);
-
-         */
-
         Label title = new Label("Achievements", skin, "title");
         title.setFontScale(2f);
         title.setAlignment(Align.center);
@@ -156,49 +148,49 @@ public class AchievementDisplay extends UIComponent {
         displayTable.setBackground(badgeBackgroundBox);
 
         // Add display content
-        changeDisplay(this.displayTable, AchievementType.SUMMARY);
+        changeDisplay(AchievementType.SUMMARY);
 
         // Home Button
         ImageButton summaryButton = createButton(AchievementType.SUMMARY);
-        this.addButtonEvent(summaryButton, "Summary");
+        this.addButtonEvent(summaryButton, AchievementType.SUMMARY.getTitle());
         navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
 
         // Building Button
         ImageButton buildingButton = createButton(AchievementType.BUILDINGS);
-        this.addButtonEvent(buildingButton, "Building");
+        this.addButtonEvent(buildingButton, AchievementType.BUILDINGS.getTitle());
 
         navigationTable.add(buildingButton).expand();
 
         // Game Button
         ImageButton gameButton = createButton(AchievementType.GAME);
-        this.addButtonEvent(gameButton, "Game");
+        this.addButtonEvent(gameButton, AchievementType.GAME.getTitle());
 
         navigationTable.add(gameButton).expand();
         navigationTable.row();
 
         // Kill Button
         ImageButton killButton = createButton(AchievementType.KILLS);
-        this.addButtonEvent(killButton, "Kill");
+        this.addButtonEvent(killButton, AchievementType.KILLS.getTitle());
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
         ImageButton resourceButton = createButton(AchievementType.RESOURCES);
-        this.addButtonEvent(resourceButton, "Resource");
+        this.addButtonEvent(resourceButton, AchievementType.RESOURCES.getTitle());
 
         navigationTable.add(resourceButton).expand();
         navigationTable.row();
 
         // Upgrade Button
         ImageButton upgradeButton = createButton(AchievementType.UPGRADES);
-        this.addButtonEvent(upgradeButton, "Upgrade");
+        this.addButtonEvent(upgradeButton, AchievementType.UPGRADES.getTitle());
 
         navigationTable.add(upgradeButton).expand();
 
         // Misc Button
         ImageButton miscButton = createButton(AchievementType.MISC);
-        this.addButtonEvent(miscButton, "Misc");
+        this.addButtonEvent(miscButton, AchievementType.MISC.getTitle());
 
         navigationTable.add(miscButton).expand();
 
@@ -432,18 +424,19 @@ public class AchievementDisplay extends UIComponent {
         return summaryCard;
     }
 
-    public static void changeSelectedIcon(Table navigationTable, AchievementType selected) {
+    public void changeSelectedIcon(AchievementType selected) {
         SnapshotArray<Actor> navActors = navigationTable.getChildren();
 
         for (int i = 0; i < navActors.size; i++) {
             if (navActors.get(i) != null && navActors.get(i).getClass() == AchievementButton.class) {
                 AchievementButton button = (AchievementButton) navActors.get(i);
-                button.setChecked(!button.getType().equals(selected));
+
+                button.setChecked(true);
             }
         }
     }
 
-    public static void changeDisplay(Table displayTable, AchievementType type) {
+    public void changeDisplay(AchievementType type) {
         displayTable.clear();
         Label title = new Label(type.getTitle(), skin, "title");
         title.setFontScale(1f);
@@ -534,20 +527,26 @@ public class AchievementDisplay extends UIComponent {
                         }
                     });
             button.addListener(
-                    new TextTooltip("Return to game",skin)
+                    new TextTooltip("Return to game", skin)
             );
 
             return;
         }
 
         button.addListener(
-                new ChangeListener() {
+                new ClickListener() {
                     @Override
-                    public void changed(ChangeEvent event, Actor actor) {
+                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                         logger.debug("{} button clicked", name);
-                        entity.getEvents().trigger(events.get(name), displayTable, navigationTable);
+                        changeDisplay(AchievementType.valueOf(name.toUpperCase()));
+                        changeSelectedIcon(AchievementType.valueOf(name.toUpperCase()));
+                        return false;
                     }
                 });
+
+        button.addListener(
+                new TextTooltip(name, skin)
+        );
     }
 
     /**
