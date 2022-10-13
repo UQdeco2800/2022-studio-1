@@ -125,7 +125,6 @@ public class RangeService {
             radialPerimeter.add(leftLeftTop);
         }
 
-
         return radialPerimeter;
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.files.SaveGame;
@@ -639,6 +640,9 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
     pirateCrabEnemy.setName("Mr. Crabs@" + pirateCrabEnemy.getId());
+    pirateCrabEnemy.setCollectable(true);
+    pirateCrabEnemy.setResourceType(ResourceType.GOLD);
+    pirateCrabEnemy.setResourceAmount(50);
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);

@@ -143,7 +143,6 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   public void updateEnemyPosInUgs(Body body, Vector2 desiredVelocity) {
     // Initialise
-
     Entity owner = getEntity();
     Vector2 currentPos = owner.getPosition();
     UGS ugs = ServiceLocator.getUGSService();
