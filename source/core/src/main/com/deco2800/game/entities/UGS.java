@@ -1,16 +1,18 @@
 package com.deco2800.game.entities;
 
-import java.sql.Time;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +26,22 @@ import org.slf4j.LoggerFactory;
 public class UGS {
     private HashMap<String, Tile> tiles;
     private static final Logger logger = LoggerFactory.getLogger(UGS.class);
-    static int MAPSIZE = 120;
+
+    private ArrayList<Entity> structures = new ArrayList<>();
+    static int MAPSIZE = 120; 
 
     public UGS() {
         this.tiles = new HashMap<String, Tile>();
-        // generateUGS();
+//        generateUGS();
     }
 
+    public void addStructure(Entity e) {
+        structures.add(e);
+    }
+
+    public ArrayList<Entity> getStructures() {
+        return structures;
+    }
     /**
      * Takes a String (concatenated x,y value) and returns the associated tile's
      * type
@@ -75,6 +86,15 @@ public class UGS {
                 }
             }
         }
+    }
+
+    public String getStringByEntity(Entity entity) {
+        for (String tilePos: tiles.keySet()) {
+            if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
+                return tilePos;
+            }
+        }
+        return null;
     }
 
     /**
@@ -398,5 +418,20 @@ public class UGS {
      */
     public HashMap<String, Tile> printUGS() {
         return this.tiles;
+    }
+
+    /**
+     * Looks up the entity in the UGS at the cursor position in grid coordinates as the key
+     * @return entity in the grid coordinate the cursor is in
+     */
+    public Entity getClickedEntity() {
+        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+        CameraComponent camComp = camera.getComponent(CameraComponent.class);
+        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
+        GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain")
+                .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
+        String stringCoord = generateCoordinate(loc.x, loc.y);
+        return tiles.get(stringCoord).getEntity();
     }
 }

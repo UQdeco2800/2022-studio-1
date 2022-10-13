@@ -1,5 +1,6 @@
 package com.deco2800.game.files;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -44,14 +45,13 @@ public class SaveGame {
 
         // loop through all entities and check they have an environmental component,
         // save texture and position
-        for (Entity ent : ServiceLocator.getEntityService().getEntityMap().values()) {
+        for (Entity ent : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
 
-            if (ent.getComponent(EnvironmentalComponent.class) != null
-                    && ent.getComponent(TextureRenderComponent.class) != null) {
+            if (ent.getComponent(EnvironmentalComponent.class) != null && (ent.getComponent(TextureRenderComponent.class) != null || ent.getComponent(AnimationRenderComponent.class) != null)) {
                 environmentalObjects
                         .add(new Tuple().setTexture(ent.getComponent(TextureRenderComponent.class).getTexturePath())
-                                .setPosition(ent.getPosition()).setName(ent.getName()));
-
+                                .setPosition(ent.getPosition()).setName(ent.getName()).setTileString(ServiceLocator.getUGSService().getStringByEntity(ent))
+                        .setCreationMethod(ent.getCreationMethod()));
             }
         }
 
@@ -65,7 +65,7 @@ public class SaveGame {
      * @throws InvocationTargetException throw error when invoking methods fails
      * @throws IllegalAccessException    throw error when invoking method fails
      */
-    private static void loadEnvrionmentalObjects() throws InvocationTargetException, IllegalAccessException {
+    private static void loadEnvrionmentalObjects() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         logger.debug("Begin Loading Environment");
         ArrayList obstacles = FileLoader.readClass(ArrayList.class, savePathEnvironmental, FileLoader.Location.LOCAL);
 
@@ -75,23 +75,26 @@ public class SaveGame {
 
             if (obstacle.texture.contains("Tree") || obstacle.texture.contains("limestone-boulder")
                     || obstacle.texture.contains("marble-stone")) {
-                newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null,
+                newEnvironmentalObject = (Entity) ObstacleFactory.class.getMethod(obstacle.creationMethod, String.class).invoke(null,
                         obstacle.texture);
             } else {
-                newEnvironmentalObject = (Entity) environmentalGeneration.get(obstacle.texture).invoke(null);
+                newEnvironmentalObject = (Entity) ObstacleFactory.class.getMethod(obstacle.creationMethod).invoke(null);
             }
 
             newEnvironmentalObject.setPosition(obstacle.position);
-
             newEnvironmentalObject.setName(obstacle.name);
-            ServiceLocator.getEntityService().register(newEnvironmentalObject);
-            ServiceLocator.getEntityService().registerNamed(newEnvironmentalObject.getName(), newEnvironmentalObject);
 
+            int x_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(0));
+            int y_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(1));
+
+            ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), newEnvironmentalObject, newEnvironmentalObject.getName());
         }
         logger.debug("Finished Loading Environment");
     }
 
     /**
+<<<<<<< HEAD
+=======
      * Helper method that generates a map mapping textures to each corresponding
      * creator method in obstacle factory
      *
@@ -156,25 +159,17 @@ public class SaveGame {
         logger.debug("Begin Saving Structures");
         ArrayList<Tuple> structuresList = new ArrayList<>();
 
-        Map<String, Entity> structures = ServiceLocator.getStructureService().getAllNamedEntities();
-
         // loop through all entities saving texture, position and name of structure
-        for (String name : structures.keySet()) {
-            if (structures.get(name).getComponent(TextureRenderComponent.class) != null) {
-                structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                        .setTexture(structures.get(name).getComponent(TextureRenderComponent.class).getTexturePath()));
-            } else if (structures.get(name).getComponent(AnimationRenderComponent.class) != null) {
-                if (name.contains("wood")) {
-                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                            .setTexture("wood"));
-                } else if (name.contains("stoneQuarry")) {
-                    structuresList.add(new Tuple().setName(name).setPosition(structures.get(name).getPosition())
-                            .setTexture("stoneQuarry"));
-                }
 
+        for (Entity entity: ServiceLocator.getUGSService().getStructures()) {
+            if (entity.getComponent(TextureRenderComponent.class) != null || entity.getComponent(AnimationRenderComponent.class) != null) {
+                Tuple storage = new Tuple();
+                structuresList.add(storage.setName(entity.getName())
+                        .setCreationMethod(entity.getCreationMethod())
+                        .setPosition(entity.getPosition())
+                        .setTileString(ServiceLocator.getUGSService().getStringByEntity(entity)));
             }
         }
-
         FileLoader.writeClass(structuresList, savePathStructures, FileLoader.Location.LOCAL);
         logger.debug("Finished Saving Structures");
     }
@@ -187,7 +182,7 @@ public class SaveGame {
      * @throws IllegalAccessException    when invoking method fails due to
      *                                   permisions
      */
-    private static void loadStructures() throws InvocationTargetException, IllegalAccessException {
+    private static void loadStructures() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         logger.debug("Begin Loading Structures");
         ArrayList structures = FileLoader.readClass(ArrayList.class, savePathStructures, FileLoader.Location.LOCAL);
 
@@ -196,28 +191,21 @@ public class SaveGame {
             Tuple structureRepresentation = (Tuple) st;
             Entity structure;
 
-            if (structureRepresentation.texture.contains("TOWER")) {
-
-                int count = 1;
-
-                // count level of tower
-                for (int i = 0; i < structureRepresentation.texture.length(); i++) {
-                    if (structureRepresentation.texture.indexOf(i) == 'I') {
-                        count++;
-                    }
-                }
-
-                structure = (Entity) structureGeneration.get(structureRepresentation.texture).invoke(null, count);
+            if (structureRepresentation.name.contains("tower")) {
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, int.class, String.class, Boolean.class).invoke(null,1, structureRepresentation.name, false);
+            } else if (structureRepresentation.name.contains("wall")) {
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class, int.class).invoke(null, structureRepresentation.name, false, 0);
             } else {
-
-                structure = (Entity) structureGeneration.get(structureRepresentation.texture).invoke(null);
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class).invoke(null, structureRepresentation.name, false);
             }
 
-            structure.setPosition(structureRepresentation.position);
             structure.setName(structureRepresentation.name);
 
-            ServiceLocator.getStructureService().registerNamed(structure.getName(), structure);
-            ServiceLocator.getEntityService().registerNamed(structure.getName(), structure);
+            int x_tile = Integer.parseInt(Arrays.asList(structureRepresentation.tileString.split(",")).get(0));
+            int y_tile = Integer.parseInt(Arrays.asList(structureRepresentation.tileString.split(",")).get(1));
+
+            ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), structure, structure.getName());
+            ServiceLocator.getUGSService().addStructure(structure);
         }
         logger.debug("Finished Loading Structures");
     }
@@ -287,6 +275,7 @@ public class SaveGame {
         // the more elegant way to do this
         // in sprint 4, but I don't want to mess with that code this sprint to avoid
         // conflicts
+        // lmao this wont work if you close the game at which point caretaker/memento would need to be seralized which is just a further extension of this and is more work
         HashMap<String, Object> status = new HashMap();
         status.put("gold", player.getComponent(InventoryComponent.class).getGold());
         status.put("stone", player.getComponent(InventoryComponent.class).getStone());
@@ -330,8 +319,8 @@ public class SaveGame {
             player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
             player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
             player.getComponent(InventoryComponent.class).setArmor((Equipments) d.get("armor"));
-            player.getComponent(InventoryComponent.class)
-                    .setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
+//            player.getComponent(InventoryComponent.class)
+//                    .setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
 
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();
@@ -376,22 +365,14 @@ public class SaveGame {
      */
     public static void saveGameState() {
         logger.debug("Begin Saving");
-        try {
+        saveCrystal();
+        savePlayer();
+        saveEnvironmentalObjects();
+        //structureGenerationSetUp();
+        saveStructures();
 
-            environmentalGenerationSetUp();
-            saveEnvironmentalObjects();
+        saveGameData();
 
-            structureGenerationSetUp();
-            saveStructures();
-
-            saveCrystal();
-            savePlayer();
-
-            saveGameData();
-
-        } catch (NoSuchMethodException ignored) {
-
-        }
         logger.debug("Finished Saving");
     }
 
@@ -402,15 +383,12 @@ public class SaveGame {
         logger.debug("Begin Loading");
         try {
 
-            structureGenerationSetUp();
             loadStructures();
-
-            environmentalGenerationSetUp();
             loadEnvrionmentalObjects();
             loadCrystal();
             loadPlayer();
 
-            loadGameData();
+            //loadGameData();
 
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
             logger.error("ERROR OCCURED: " + ignored);

@@ -1,11 +1,17 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.*;
+import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.maingame.MainGameNpcInterface;
+import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
@@ -34,6 +40,9 @@ import java.util.TimerTask;
 
 public class CrystalFactory {
     private static final CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
+
+
+
 
     /**
      * Creates a crystal entity.
@@ -82,62 +91,34 @@ public class CrystalFactory {
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
         // crystal.dispose();
-        if (level == 1) {
-            // crystal.addComponent(new
-            // TextureRenderComponent("images/crystal_level2.png"));
-            triggerCrystal("images/crystal_level2.png");
-        } else if (level == 2) {
-            ServiceLocator.getEntityService().getNamedEntity("crystal2").dispose();
-            CrystalFactory.triggerCrystal("images/crystal_level3.png");
-            // crystal.addComponent(new
-            // TextureRenderComponent("images/crystal_level3.png"));
-            ServiceLocator.getEntityService().unregisterNamed("crystal2");
-        }
-        if (level < 3) {
-            // upgrading only increases max health and does not impact current health
-
-            crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000 + (100 * level));
-            // crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
-            crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
-
-            /* Expand the map! */
-            Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
-            terrain.getComponent(TerrainComponent.class).incrementMapLvl();
-
-            ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_UPGRADED,
-                    AchievementType.UPGRADES, 1);
-        } else
-            System.out.println("Crystal has reached max level");
-    }
-
-    /**
-     * Determine if crystal is being clicked
-     * 
-     * @param screenX x coordinate
-     * @param screenY y coordinate
-     */
-    public static boolean crystalClicked(int screenX, int screenY) {
-        // testing crystal upgrade on click
-        Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        mousePosV2.x -= 0.5;
-        mousePosV2.y -= 0.5;
-        Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-        float xPos = crystal.getPosition().x;
-        float yPos = crystal.getPosition().y;
-
-        // System.out.println(mousePosV2);
-        // crystal position x = 60.0, y = 0.0
-        if (xPos - 8 < mousePosV2.x && mousePosV2.x < xPos + 8) {
-            if (yPos - 8 < mousePosV2.y && mousePosV2.y < yPos + 8) {
-                // crystal.getComponent(CombatStatsComponent.class).upgrade();
-                upgradeCrystal();
-                return true;
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+            if (level == 1) {
+                // crystal.addComponent(new
+                // TextureRenderComponent("images/crystal_level2.png"));
+                triggerCrystal("images/crystal_level2.png");
+                player.getComponent(InventoryComponent.class).addGold(-2000);
+                PlayerStatsDisplay.updateItems();
+            } else if (level == 2) {
+                ServiceLocator.getEntityService().getNamedEntity("crystal2").dispose();
+                CrystalFactory.triggerCrystal("images/crystal_level3.png");
+                // crystal.addComponent(new
+                // TextureRenderComponent("images/crystal_level3.png"));
+                ServiceLocator.getEntityService().unregisterNamed("crystal2");
+                player.getComponent(InventoryComponent.class).addGold(-5000);
+                PlayerStatsDisplay.updateItems();
             }
-        }
-        return false;
+                // upgrading only increases max health and does not impact current health
+                crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000 + (100 * level));
+                // crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
+                crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
+
+                /* Expand the map! */
+                Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
+                terrain.getComponent(TerrainComponent.class).incrementMapLvl();
+
+                ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_UPGRADED,
+                        AchievementType.UPGRADES, 1);
+
     }
 
     /**
