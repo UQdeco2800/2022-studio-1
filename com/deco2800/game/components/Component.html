@@ -81,8 +81,10 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Component</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Core component class from which all components inherit. Contains logic for creating, updating,
- and disposing. Components can be attached to an entity to give it specific behaviour. It is
+<div class="block">Core component class from which all components inherit. Contains logic for
+ creating, updating,
+ and disposing. Components can be attached to an entity to give it specific
+ behaviour. It is
  unlikely that changes will need to be made here.</div>
 </section>
 <section class="summary">
@@ -175,7 +177,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Called once per frame of the game, and should be used for most component logic.</div>
+<div class="block">Called once per frame of the game, and should be used for most component
+ logic.</div>
 </div>
 </div>
 </div>
@@ -232,23 +235,28 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="create()">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span>()</div>
-<div class="block">Called when the entity is created and registered. Initial logic such as calls to GetComponent
- should be made here, not in the constructor which is called before an entity is finished.</div>
+<div class="block">Called when the entity is created and registered. Initial logic such as calls
+ to GetComponent
+ should be made here, not in the constructor which is called before an entity
+ is finished.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="earlyUpdate()">
 <h3>earlyUpdate</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">earlyUpdate</span>()</div>
-<div class="block">Early update called once per frame of the game, before update(). Use this only for logic that
- must run before other updates, such as physics. Not called if component is disabled.</div>
+<div class="block">Early update called once per frame of the game, before update(). Use this
+ only for logic that
+ must run before other updates, such as physics. Not called if component is
+ disabled.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
-<div class="block">Called once per frame of the game, and should be used for most component logic. Not called if
+<div class="block">Called once per frame of the game, and should be used for most component
+ logic. Not called if
  component is disabled.</div>
 </section>
 </li>
@@ -256,14 +264,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="dispose()">
 <h3>dispose</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">dispose</span>()</div>
-<div class="block">Called when the component is disposed. Dispose of any internal resources here.</div>
+<div class="block">Called when the component is disposed. Dispose of any internal resources
+ here.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="setEntity(com.deco2800.game.entities.Entity)">
 <h3>setEntity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEntity</span><wbr><span class="parameters">(<a href="../entities/Entity.html" title="class in com.deco2800.game.entities">Entity</a>&nbsp;entity)</span></div>
-<div class="block">Set the entity to which this component belongs. This is called by the Entity, and should not be
+<div class="block">Set the entity to which this component belongs. This is called by the Entity,
+ and should not be
  set manually.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -286,8 +296,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setEnabled(boolean)">
 <h3>setEnabled</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEnabled</span><wbr><span class="parameters">(boolean&nbsp;enabled)</span></div>
-<div class="block">Enable or disable the component. While disabled, a component does not run update() or
- earlyUpdate(). Other events inside the component may still fire. The component can still be
+<div class="block">Enable or disable the component. While disabled, a component does not run
+ update() or
+ earlyUpdate(). Other events inside the component may still fire. The
+ component can still be
  disposed while disabled.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -299,14 +311,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="triggerUpdate()">
 <h3>triggerUpdate</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerUpdate</span>()</div>
-<div class="block">Used to trigger the component to update itself. This should not need to be called manually.</div>
+<div class="block">Used to trigger the component to update itself. This should not need to be
+ called manually.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="triggerEarlyUpdate()">
 <h3>triggerEarlyUpdate</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">triggerEarlyUpdate</span>()</div>
-<div class="block">Used to trigger the component to early-update itself. This should not need to be called
+<div class="block">Used to trigger the component to early-update itself. This should not need to
+ be called
  manually.</div>
 </section>
 </li>
