@@ -2,7 +2,6 @@ package com.deco2800.game.components.achievements;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
