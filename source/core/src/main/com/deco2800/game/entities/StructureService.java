@@ -38,7 +38,7 @@ public class StructureService extends EntityService {
   private static final Logger logger = LoggerFactory.getLogger(StructureService.class);
   private static final int INITIAL_CAPACITY = 40;
 
-  private final Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); // Deprecate
+  private static Array<Entity> structureEntities = new Array<>(false, INITIAL_CAPACITY); // Deprecate
 
   private final Map<String, Entity> namedStructureEntities = new HashMap<String, Entity>(); // Deprecate
 
@@ -161,6 +161,7 @@ public class StructureService extends EntityService {
 
     Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
+
       switch (structureName) {
         case "wall":
           structure = StructureFactory.createWall(entityName, false, orientation);
@@ -182,6 +183,11 @@ public class StructureService extends EntityService {
           structure = StructureFactory.createTrap(entityName, false);
           break;
 
+        case "turret":
+          structure = StructureFactory.createTurret(entityName);
+          structureEntities.add(structure);
+          break;
+
         case "stoneQuarry":
           structure = ResourceBuildingFactory.createStoneQuarry(entityName);
           break;
@@ -192,9 +198,11 @@ public class StructureService extends EntityService {
 
         default:
           return false;
+
       }
 
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
+      ServiceLocator.getUGSService().addStructure(structure);
       float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
       worldPosition.x -= tileSize/4;
       worldPosition.y -= tileSize/8;
@@ -251,6 +259,7 @@ public class StructureService extends EntityService {
     String entityName = "Temp";
     entityName = name + entityName;
 
+    // @TODO change to switch statement for efficiency
     if (Objects.equals(name, "wall")) {
       tempEntity = StructureFactory.createWall(entityName, true, orientation);
     } else if (Objects.equals(name, "tower1")) {
@@ -265,6 +274,8 @@ public class StructureService extends EntityService {
       tempEntity = StructureFactory.createTrap(entityName, true);
     } else if (Objects.equals(name, "stoneQuarry")) {
       tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
+    } else if (Objects.equals(name, "turret")) {
+      tempEntity = StructureFactory.createTurret(entityName);
     }
     // Update achievements for structures/building
     //This is not a successfully built building, so I don't think it warrants an achievement
@@ -347,9 +358,10 @@ public class StructureService extends EntityService {
     }
   }
 
-  public static void setUiPopUp(int screenX, int screenY) {
 
-    // getting the building location on the map
+  public static void setUiPopUp(int screenX, int screenY, boolean onClick) {
+    //getting the building location on the map
+
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
@@ -357,19 +369,26 @@ public class StructureService extends EntityService {
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
         .worldToTilePosition(mousePosV2.x, mousePosV2.y);
     // building name
-    String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
-    // if UI is false on click then the pop-up should appear
-    if (!uiIsVisible) {
-      uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-          .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
-      uiIsVisible = true;
-      // else the pop-up will be removed
-    } else {
-      if (uiIsVisible) {
+
+    //if UI is false on click then the pop-up should appear
+    if (onClick) {
+      if (!uiIsVisible) {
+        try {
+          String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
+
+          uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
+                  .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+          uiIsVisible = true;
+          // else the pop-up will be removed
+        } catch (NullPointerException e) {
+          logger.debug("Error with UGS having building null");
+        }
+      } else {
         uiPopUp.remove();
         uiIsVisible = false;
       }
     }
-  }
+    }
+
 
 }

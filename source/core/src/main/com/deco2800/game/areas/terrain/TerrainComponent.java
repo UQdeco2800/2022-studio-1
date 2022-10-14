@@ -216,6 +216,7 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public void partOfDayPassed(DayNightCycleStatus partOfDay) {
+    System.out.println(partOfDay.name());
     if (partOfDay == DayNightCycleStatus.DAY) {
       getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(false);
       getMap().getLayers().get(currentMapLvl * 2).setVisible(true);

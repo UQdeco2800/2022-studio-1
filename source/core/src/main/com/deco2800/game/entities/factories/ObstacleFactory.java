@@ -13,8 +13,9 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.services.ServiceLocator;
-
+import java.util.Arrays;
 import java.security.SecureRandom;
+
 
 /**
  * Factory to create obstacle entities.
@@ -308,6 +309,8 @@ public class ObstacleFactory {
     environmentalObject.setCollectable(false);
     environmentalObject.getComponent(PhysicsComponent.class).setBodyType(BodyType.StaticBody);
     environmentalObject.scaleHeight(heightScale);
+
+    environmentalObject.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
 
     PhysicsUtils.setScaledCollider(environmentalObject, scaleX, scaleY);
     return environmentalObject;

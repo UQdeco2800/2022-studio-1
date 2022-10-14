@@ -107,6 +107,10 @@ public class CombatStatsComponent extends Component {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
+        if (entity != null && Objects.equals(entity.getName(), "crystal") && this.health > health) {
+          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_DAMAGED, 11);
+        }
+
         this.health = health;
       }
     } else {
