@@ -26,7 +26,7 @@ public class DayNightCycleComponent extends InputComponent {
     public static final TextureRegion BLACK_IMAGE = new TextureRegion();
 
     public static final float NIGHT_INTENSITY = 0.95f;
-    public static final float DUSK_INTENSITY = 0.035f;
+    public static final float DUSK_INTENSITY = 0.06f;
     public static final float DAWN_INTENSITY = 0.095f;
     public static final float DAY_INTENSITY = 0.18f;
 
@@ -111,7 +111,7 @@ public class DayNightCycleComponent extends InputComponent {
         };
 
         this.ambientColour = switch (partOfDay) {
-            case DAWN,DAY,DUSK -> bright;
+            case DAWN, DAY, DUSK -> bright;
             case NIGHT -> dark;
             default -> bright;
         };
