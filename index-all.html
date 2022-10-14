@@ -627,7 +627,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Combat Stats Component with maxHealth parameter to enable increase of
  maxHealth with each level upgrade independent
- to current health</div>
+ to current health (For crystal)
+ Implements baseAttack, defense which are no use to crystal as constructor with 3 parameters is already present</div>
 </dd>
 <dt><a href="com/deco2800/game/ui/terminal/commands/Command.html" class="type-name-link" title="interface in com.deco2800.game.ui.terminal.commands">Command</a> - Interface in <a href="com/deco2800/game/ui/terminal/commands/package-summary.html">com.deco2800.game.ui.terminal.commands</a></dt>
 <dd>
@@ -1075,6 +1076,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Factory to create crystal entity.</div>
 </dd>
+<dt><a href="com/deco2800/game/entities/factories/CrystalService.html" class="type-name-link" title="class in com.deco2800.game.entities.factories">CrystalService</a> - Class in <a href="com/deco2800/game/entities/factories/package-summary.html">com.deco2800.game.entities.factories</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/factories/CrystalService.html#%3Cinit%3E()" class="member-name-link">CrystalService()</a> - Constructor for class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalService.html" title="class in com.deco2800.game.entities.factories">CrystalService</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/DayNightCycleService.html#currentCycleStatus" class="member-name-link">currentCycleStatus</a> - Variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/DayNightCycleService.html#currentDayMillis" class="member-name-link">currentDayMillis</a> - Variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/DayNightCycleService.html" title="class in com.deco2800.game.services">DayNightCycleService</a></dt>
@@ -3685,7 +3690,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Read generic Java classes from a JSON file.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/CrystalFactory.html#recoverCrystalHealth(com.deco2800.game.entities.Entity)" class="member-name-link">recoverCrystalHealth(Entity)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalFactory.html" title="class in com.deco2800.game.entities.factories">CrystalFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/CrystalService.html#recoverCrystalHealth(com.deco2800.game.entities.Entity)" class="member-name-link">recoverCrystalHealth(Entity)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalService.html" title="class in com.deco2800.game.entities.factories">CrystalService</a></dt>
 <dd>
 <div class="block">Recover crystal health at dawn, day, and dusk</div>
 </dd>
@@ -4050,6 +4055,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the entity's width and scale the height to maintain aspect ratio.</div>
 </dd>
 <dt><a href="com/deco2800/game/areas/terrain/IsoTileRenderer.html#screenPos" class="member-name-link">screenPos</a> - Static variable in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/IsoTileRenderer.html" title="class in com.deco2800.game.areas.terrain">IsoTileRenderer</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/entities/factories/CrystalService.html#screenShake()" class="member-name-link">screenShake()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalService.html" title="class in com.deco2800.game.entities.factories">CrystalService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/input/InputComponent.html#scrolled(float,float)" class="member-name-link">scrolled(float, float)</a> - Method in class com.deco2800.game.input.<a href="com/deco2800/game/input/InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></dt>
 <dd>&nbsp;</dd>
@@ -4644,6 +4651,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Start playback of an animation.</div>
 </dd>
+<dt><a href="com/deco2800/game/components/camera/CameraActions.html#startScreenShake()" class="member-name-link">startScreenShake()</a> - Method in class com.deco2800.game.components.camera.<a href="com/deco2800/game/components/camera/CameraActions.html" title="class in com.deco2800.game.components.camera">CameraActions</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#STAT_ACHIEVEMENT_1_MILESTONE" class="member-name-link">STAT_ACHIEVEMENT_1_MILESTONE</a> - Static variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
 <div class="block">Default stat achievement first level</div>
@@ -5039,7 +5048,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Checks if it is morning and that it's not the first day.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/CrystalFactory.html#triggerCrystal(java.lang.String)" class="member-name-link">triggerCrystal(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalFactory.html" title="class in com.deco2800.game.entities.factories">CrystalFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/CrystalService.html#triggerCrystal(java.lang.String)" class="member-name-link">triggerCrystal(String)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalService.html" title="class in com.deco2800.game.entities.factories">CrystalService</a></dt>
 <dd>
 <div class="block">Spawns Crystal outside of Game Area class</div>
 </dd>
@@ -5231,7 +5240,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Updates the UGS in response to map state changing: updates each coordinate in
  the UGS to the new tile type.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/CrystalFactory.html#upgradeCrystal()" class="member-name-link">upgradeCrystal()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalFactory.html" title="class in com.deco2800.game.entities.factories">CrystalFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/CrystalService.html#upgradeCrystal()" class="member-name-link">upgradeCrystal()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalService.html" title="class in com.deco2800.game.entities.factories">CrystalService</a></dt>
 <dd>
 <div class="block">Upgrades the level of the Crystal changes its texture and increases its
  maximum health</div>
