@@ -202,7 +202,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       PopUp.remove();
       isVisible = false;
     }
-    Boolean onClick = false;
     Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
 
 
@@ -234,16 +233,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
       if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
-        if (!onClick) {
           if (entityName.contains("tower1") || entityName.contains("wall") ||
                   entityName.contains("trap") || entityName.contains("tower2")
                   || entityName.contains("tower3")) {
-            onClick = true;
-            StructureService.setUiPopUp(screenX, screenY, onClick);
+            StructureService.setUiPopUp(screenX, screenY);
           }
-        } else {
-          onClick = false;
-        }
       }
       }
     }
