@@ -11,6 +11,8 @@ import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
+import com.deco2800.game.components.shop.ArtefactShopDisplay;
+import com.deco2800.game.components.shop.ShopInterface;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
@@ -228,7 +230,8 @@ public class MainGameScreen extends ScreenAdapter {
             .addComponent(new AchievementPopupComponent())
             .addComponent(inputComponent)
             .addComponent(new TerminalDisplay())
-            .addComponent(new ShopInterface());
+            .addComponent(new ShopInterface())
+            .addComponent(new ArtefactShopDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }

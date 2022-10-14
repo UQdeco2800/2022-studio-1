@@ -353,11 +353,6 @@ public class ShopArtefactDisplay extends UIComponent {
 
     // Add items to the stage
     table3.add(leftButton).width(50f).height(50f);
-    table2.add(prevItem).width(100f).height(100f);
-    table2.add(currentItem).width(150f).height(150f);
-    table2.add(nextItem).width(100f).height(100f);
-    table2.row();
-    table2.add(itemNumber).colspan(3).center();
     table4.add(rightButton).width(50f).height(50f);
     table5.add(priceDisplay).width(250f).height(150f);
     table1.add(descriptionDisplay).width(400f).height(300f);

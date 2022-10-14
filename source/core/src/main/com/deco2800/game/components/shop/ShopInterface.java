@@ -1,4 +1,4 @@
-package com.deco2800.game.components.maingame;
+package com.deco2800.game.components.shop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +71,7 @@ public class ShopInterface extends UIComponent {
         equipment.padTop(100f);
 
         //setup background for shop
-        backgroundTable.setSize((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
+        backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
         Texture shopInterfaceTexture = new Texture(Gdx.files.internal("images/shop-background.png"));
         TextureRegionDrawable shop = new TextureRegionDrawable(shopInterfaceTexture);
         backgroundTable.setBackground(shop);
@@ -84,15 +83,15 @@ public class ShopInterface extends UIComponent {
         TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
         ImageButton crossFrame = new ImageButton(cross, cross);
         crossFrame.setSize(40f, 40f);
-        crossFrame.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f + 30f,
-                backgroundTable.getHeight() + Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f -70f);
+        crossFrame.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
+                Gdx.graphics.getHeight() * 0.85f -70f);
 
         //setup title
         subtitle = new Label("Shop", skin, "title");
         subtitle.setFontScale(3f);
         subtitle.setColor(skin.getColor("black"));
-        subtitle.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f + 110f,
-                backgroundTable.getHeight() + Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f - 110f);
+        subtitle.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
+                Gdx.graphics.getHeight() * 0.85f - 110f);
 
         //setup building category
         buildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
@@ -130,6 +129,7 @@ public class ShopInterface extends UIComponent {
                         group.setVisible(false);
                         category.setVisible(false);
                         subtitle.setVisible(false);
+                        entity.getEvents().trigger("closeAll");
                     }
                 });
 
@@ -140,6 +140,7 @@ public class ShopInterface extends UIComponent {
                         logger.debug("Opening building shop page");
                         category.setVisible(false);
                         subtitle.setVisible(false);
+                        entity.getEvents().trigger("buildShop");
                     }
                 });
 
@@ -150,6 +151,7 @@ public class ShopInterface extends UIComponent {
                         logger.debug("Opening artefact shop page");
                         category.setVisible(false);
                         subtitle.setVisible(false);
+                        entity.getEvents().trigger("artefactShop");
                     }
                 });
 
@@ -160,6 +162,7 @@ public class ShopInterface extends UIComponent {
                         logger.debug("Opening equipment shop page");
                         category.setVisible(false);
                         subtitle.setVisible(false);
+                        entity.getEvents().trigger("equipmentShop");
                     }
                 });
 
@@ -178,7 +181,7 @@ public class ShopInterface extends UIComponent {
         equipment.row();
         equipment.add(equipmentTitle);
 
-        category.setSize((float) (Gdx.graphics.getWidth() * 0.6), (float) (Gdx.graphics.getHeight() * 0.4));
+        category.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
         category.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth()/2.3f,
                 Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight()/4f);
         category.addActor(building);
@@ -201,7 +204,6 @@ public class ShopInterface extends UIComponent {
         group.setVisible(true);
         category.setVisible(true);
         subtitle.setVisible(true);
-
     }
 
     @Override
