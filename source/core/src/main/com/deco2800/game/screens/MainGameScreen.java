@@ -13,6 +13,8 @@ import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
 import com.deco2800.game.components.shop.ArtefactShopDisplay;
 import com.deco2800.game.components.shop.BuildingShopDisplay;
+import com.deco2800.game.components.shop.EquipmentsShopDisplay;
+import com.deco2800.game.components.shop.EquipmentsShopDisplay;
 import com.deco2800.game.components.shop.ShopInterface;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -233,7 +235,9 @@ public class MainGameScreen extends ScreenAdapter {
             .addComponent(new TerminalDisplay())
             .addComponent(new ShopInterface())
             .addComponent(new ArtefactShopDisplay())
-            .addComponent(new BuildingShopDisplay());
+            .addComponent(new BuildingShopDisplay())
+            .addComponent(new EquipmentsShopDisplay());
+
     ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }
