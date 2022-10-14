@@ -119,7 +119,6 @@ public class NPCFactory {
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
     pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
-    ServiceLocator.getEntityService().registerNamed("pirateCrabEnemy@" + pirateCrabEnemy.getId(), pirateCrabEnemy);
 
 
     return pirateCrabEnemy;
@@ -150,7 +149,6 @@ public class NPCFactory {
     ElectricEelEnemy.setName("ElectricEel");
     ElectricEelEnemy.setCollectable(false);
 
-    ServiceLocator.getEntityService().registerNamed("ElectricEel",  ElectricEelEnemy);
     PhysicsUtils.setScaledCollider(ElectricEelEnemy, 12f, 12f);
     ElectricEelEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
     ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
@@ -191,8 +189,7 @@ public class NPCFactory {
     boss.getComponent(EffectNearBy.class).enableRegen();
     boss.getComponent(EffectNearBy.class).enableAttackDamageBuff();
     boss.getComponent(EntityClassification.class).setEntityType(EntityClassification.NPCClassification.BOSS);
-
-    ServiceLocator.getEntityService().registerNamed("bossEnemy", boss);
+    
     return boss;
   }
 
@@ -299,7 +296,8 @@ public class NPCFactory {
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
-               // .addComponent(new TextureRenderComponent("images/NPC-V2.1.png"))
+
+                .addComponent(new TextureRenderComponent("images/npcs/NPC-V2.1.png"))
                 .addComponent(aiComponent);
 
         npc.setCollectable(false);

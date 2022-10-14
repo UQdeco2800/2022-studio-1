@@ -55,26 +55,35 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.add(Vector2Utils.UP);
           entity.getEvents().trigger("ch_dir_w");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "UP");
+          // movePlayerInUgs(walkDirection);
+          // ServiceLocator.getEntityService().getNamedEntity("player").getComponent(PlayerActions.class).update();
+          updatePlayerMovement(0, true);
           return true;
         case Keys.A:
           walkDirection.add(Vector2Utils.LEFT);
           entity.getEvents().trigger("ch_dir_a");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "LEFT");
+          // movePlayerInUgs(walkDirection);
+          updatePlayerMovement(1, true);
           return true;
         case Keys.S:
           walkDirection.add(Vector2Utils.DOWN);
           entity.getEvents().trigger("ch_dir_s");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "DOWN");
+          // movePlayerInUgs(walkDirection);
+          updatePlayerMovement(2, true);
           return true;
         case Keys.D:
           walkDirection.add(Vector2Utils.RIGHT);
           entity.getEvents().trigger("ch_dir_d");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "RIGHT");
+          // movePlayerInUgs(walkDirection);
+          updatePlayerMovement(3, true);
           return true;
         case Keys.E:
           entity.getEvents().trigger("weapons");
@@ -104,27 +113,31 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (PlayerActions.playerAlive) {
       switch (keycode) {
         case Keys.Q:
-          //entity.setScale(11f, 10.5f);
+          // entity.setScale(11f, 10.5f);
           entity.getEvents().trigger("playerDeath");
           return true;
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
-          triggerWalkEvent();
-          movePlayerInUgs();
+          // triggerWalkEvent();
+          // movePlayerInUgs();
+          updatePlayerMovement(0, false);
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
-          triggerWalkEvent();
-          movePlayerInUgs();
+          // triggerWalkEvent();
+          // movePlayerInUgs();
+          updatePlayerMovement(1, false);
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
-          triggerWalkEvent();
+          // triggerWalkEvent();
+          updatePlayerMovement(2, false);
           return true;
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
-          triggerWalkEvent();
-          movePlayerInUgs();
+          // triggerWalkEvent();
+          // movePlayerInUgs();
+          updatePlayerMovement(3, false);
           return true;
         case Keys.R:
           if (ServiceLocator.getStructureService().getTempBuildState()) {
@@ -232,6 +245,10 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     return true;
   }
 
+  private void updatePlayerMovement(int key, boolean pressed) {
+    getEntity().getEvents().trigger("updatePlayerPosition", key, pressed);
+  }
+
   private void triggerWalkEvent() {
     if (walkDirection.epsilonEquals(Vector2.Zero)) {
       entity.getEvents().trigger("walkStop");
@@ -252,52 +269,34 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   }
 
 
-  private void movePlayerInUgs() {
-    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
-    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y);
-    String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
-
-    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
-    Tile oldPlayerTile;
-    for (Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
-      if (entry.getValue().getEntity() == player) {
-        String currentPos = entry.getKey();
-        if (!currentPos.equals(key)) {
-          oldPlayerTile = entry.getValue();
-          String oldTileType = entry.getValue().getTileType();
-          Tile replacement = new Tile();
-          replacement.setTileType(oldTileType);
-          ServiceLocator.getUGSService().change(entry.getKey(), replacement);
-        }
-      }
-    }
-
-    // RESET WHERE THE PLAYER IS
-    ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
-
-
-
-
-//
-//    switch (direction) {
-//      case "right":
-//        // move right 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0, "player");
-//        return;
-//      case "left":
-//        // move left 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0, "player");
-//        return;
-//      case "up":
-//        // move up 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1, "player");
-//        return ;
-//      case "down":
-//        // move down 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1, "player");
-//    }
-
-  }
+  // // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
+  // Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+  // GridPoint2 playerCurrentPos =
+  // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x,
+  // player.getPosition().y);
+  // String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
+  //
+  // // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE
+  // SAME TYPE
+  // if (ServiceLocator.getUGSService().printUGS().get(key).getEntity() != player)
+  // {
+  //
+  // Tile oldPlayerTile;
+  // for (Entry<String, Tile> entry :
+  // ServiceLocator.getUGSService().printUGS().entrySet()) {
+  // if (entry.getValue().getEntity() == player) {
+  // String currentPos = entry.getKey();
+  // if (!currentPos.equals(key)) {
+  // oldPlayerTile = entry.getValue();
+  // String oldTileType = entry.getValue().getTileType();
+  // Tile replacement = new Tile();
+  // replacement.setTileType(oldTileType);
+  // ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+  // }
+  // }
+  // }
+  //
+  // // RESET WHERE THE PLAYER IS
+  // ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
 
 }
