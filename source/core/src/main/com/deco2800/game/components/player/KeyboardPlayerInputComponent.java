@@ -119,23 +119,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           // movePlayerInUgs();
           updatePlayerMovement(0, false);
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           // movePlayerInUgs();
           updatePlayerMovement(1, false);
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           updatePlayerMovement(2, false);
           return true;
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           // movePlayerInUgs();
           updatePlayerMovement(3, false);
           return true;
