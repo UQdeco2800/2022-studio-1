@@ -136,7 +136,7 @@ public class TerrainComponent extends RenderComponent {
     return walls;
   }
 
-  private void damageSunkenBuildings() {
+  protected void damageSunkenBuildings() {
 
     String[] buildingNames = { "wall", "tower", "trap", "stoneQuarry", "woodCutter" };
 
@@ -164,7 +164,7 @@ public class TerrainComponent extends RenderComponent {
    * Updates the UGS in response to map state changing: updates each coordinate in
    * the UGS to the new tile type.
    */
-  private void updateUGS() {
+  protected void updateUGS() {
     TiledMapTileLayer currentLayer = getTileMapTileLayer(currentMapLvl * 2 + isNight);
     UGS ugs = ServiceLocator.getUGSService();
     for (int x = 0; x < currentLayer.getWidth(); x++) {
@@ -182,7 +182,7 @@ public class TerrainComponent extends RenderComponent {
   public void incrementMapLvl() {
 
     int newLevelNum = (currentMapLvl + 1) * 2 + isNight;
-    if (newLevelNum > getMap().getLayers().size()) {
+    if (newLevelNum > getMap().getLayers().size() - 1) {
       logger.error("TerrainComponent[incrementMapLvl] => incremented level number is outside the bounds of layers");
       return;
     }
@@ -216,6 +216,7 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public void partOfDayPassed(DayNightCycleStatus partOfDay) {
+    System.out.println(partOfDay.name());
     if (partOfDay == DayNightCycleStatus.DAY) {
       getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(false);
       getMap().getLayers().get(currentMapLvl * 2).setVisible(true);

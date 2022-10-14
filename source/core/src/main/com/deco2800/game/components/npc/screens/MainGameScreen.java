@@ -78,8 +78,7 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_4.png",
       "images/clock_sprites/clock_day4_5.png",
       "images/clock_sprites/clock_day4_6.png",
-      "images/clock_sprites/clock_day4_7.png",
-      "images/clock_sprites/clock_day4_8.png",
+      "images/clock_sprites/clock_boss.png",
       "images/anim_demo/woodresourcebuilding.png",
       "images/storyLine/skipButton.png",
       "images/storyLine/textBox.png"
@@ -152,6 +151,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void render(float delta) {
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
+    ServiceLocator.getStructureService().update();
     renderer.render();
   }
 
@@ -224,7 +224,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(new MainGameTutorials())
-            .addComponent(new EpilogueLayover())
+        .addComponent(new EpilogueLayover())
         .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());

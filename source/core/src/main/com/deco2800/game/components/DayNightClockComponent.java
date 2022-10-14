@@ -47,8 +47,7 @@ public class DayNightClockComponent extends UIComponent {
             "images/clock_sprites/clock_day4_4.png",
             "images/clock_sprites/clock_day4_5.png",
             "images/clock_sprites/clock_day4_6.png",
-            "images/clock_sprites/clock_day4_7.png",
-            "images/clock_sprites/clock_day4_8.png"
+            "images/clock_sprites/clock_boss.png"
     };
 
     private int currentSprite = -1;
@@ -101,7 +100,10 @@ public class DayNightClockComponent extends UIComponent {
      * @param partOfDay DayNightCycleStatus
      */
     private void changeSprite(DayNightCycleStatus partOfDay) {
-        this.currentSprite += 1;
+        if (this.currentSprite != clockSprites.length - 1) {
+            this.currentSprite += 1;
+        }
+
         this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[currentSprite], Texture.class));
 
         rightTable.clear();
