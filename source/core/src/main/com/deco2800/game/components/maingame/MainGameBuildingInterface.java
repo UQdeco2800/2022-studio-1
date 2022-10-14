@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.ScreenShakeComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.entities.factories.CrystalFactory;
@@ -29,6 +31,8 @@ import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
@@ -37,6 +41,7 @@ public class MainGameBuildingInterface extends UIComponent {
     private Table CrystalUI;
     private Label CrystalLabel;
     private Image crystalImage;
+    public ScreenShakeComponent screenShakeComponent;
 
 
     private boolean visability;
@@ -215,7 +220,7 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     public Table makeCrystalPopUp(Boolean value, float x, float y) {
-
+        this.screenShakeComponent = new ScreenShakeComponent();
         float uiHeight = 200f;
         float screenHeight = Gdx.graphics.getHeight();
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
@@ -281,6 +286,17 @@ public class MainGameBuildingInterface extends UIComponent {
 
                         if (level == 1 && playerGold >= 2000) {
                             logger.info("Sufficient gold to upgrade crystal");
+//                            Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+//                            CameraComponent camComp = camera.getComponent(CameraComponent.class);
+//
+//                                float x = (random.nextFloat() - 0.5f) * 2 * .2f;
+//                                float y = (random.nextFloat() - 0.5f) * 2 * .2f;
+//                                float z = (random.nextFloat() - 0.5f) * 2 * .2f;
+//
+//                                // Set the camera to this new x/y position
+//                                camComp.getCamera().translate(-50,-y,-z);
+                            //screenShakeComponent.ScreenShake(.2f, .1f);
+                            //screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
                             CrystalFactory.upgradeCrystal();
                             CrystalUI.remove();
                         }

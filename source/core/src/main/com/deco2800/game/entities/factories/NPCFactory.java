@@ -299,7 +299,7 @@ public class NPCFactory {
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.NPC))
-                .addComponent(new TextureRenderComponent("images/NPC-V2.1.png"))
+               // .addComponent(new TextureRenderComponent("images/NPC-V2.1.png"))
                 .addComponent(aiComponent);
 
         npc.setCollectable(false);

@@ -126,14 +126,9 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           triggerWalkEvent();
           movePlayerInUgs();
           return true;
-        case Keys.O:
-          triggerCrystalAttacked();
-          return true;
         case Keys.R:
           if (ServiceLocator.getStructureService().getTempBuildState()) {
             ServiceLocator.getStructureService().rotateTempStructure();
-          } else {
-            triggerCrystalRestoreHealth();
           }
 
           return true;
@@ -254,58 +249,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 30);
     // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
-  }
-
-  /**
-   * Triggers crystal restore health to can be used in the shopping feature (for
-   * testing purposes)
-   */
-  private void triggerCrystalRestoreHealth() {
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-    InventoryComponent inventoryComponent = entity.getComponent(InventoryComponent.class);
-    int gold = inventoryComponent.getGold();
-    int health = combatStatsComponent.getHealth();
-    int maxHealth = combatStatsComponent.getMaxHealth();
-    if (maxHealth - health >= 50) {
-      if (gold >= 5) {
-        inventoryComponent.setGold(gold - 5);
-        combatStatsComponent.setHealth(health + 50);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 40) {
-      if (gold >= 4) {
-        inventoryComponent.setGold(gold - 4);
-        combatStatsComponent.setHealth(health + 40);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 30) {
-      if (gold >= 3) {
-        inventoryComponent.setGold(gold - 3);
-        combatStatsComponent.setHealth(health + 30);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 20) {
-      if (gold >= 2) {
-        inventoryComponent.setGold(gold - 2);
-        combatStatsComponent.setHealth(health + 20);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 10) {
-      if (gold >= 1) {
-        inventoryComponent.setGold(gold - 1);
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else {
-      System.out.println("Crystal has reached max health");
-    }
-    // System.out.println(inventoryComponent.getGold());
   }
 
 

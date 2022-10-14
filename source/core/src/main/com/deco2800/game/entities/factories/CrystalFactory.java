@@ -42,6 +42,8 @@ public class CrystalFactory {
     private static final CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
 
 
+    public ScreenShakeComponent screenShakeComponent;
+
 
 
     /**
@@ -111,6 +113,7 @@ public class CrystalFactory {
                 crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000 + (100 * level));
                 // crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
                 crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
+
 
                 /* Expand the map! */
                 Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
