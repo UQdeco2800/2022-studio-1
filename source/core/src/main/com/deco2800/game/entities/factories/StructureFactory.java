@@ -119,8 +119,8 @@ public static Entity createTrap(String name, Boolean isTemp) {
     } else {
       TOWER1I = "images/attack_towers/lv1GuardianLeft.png";
     }
-    String TOWER1II = "images/attack_towers/lv1GuardianLeft.png";
-    String TOWER1III = "images/attack_towers/lv1GuardianRight.png";
+    String TOWER1II = "images/attack_towers/lv2GuardianLeft.png";
+    String TOWER1III = "images/attack_towers/lv3GuardianRight.png";
 
     Entity tower1;
     BaseStructureConfig config;

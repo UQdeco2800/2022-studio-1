@@ -496,7 +496,8 @@ public class MainGameInterface extends UIComponent {
             entity.getEvents().trigger("shop");
           }
         });
-    rightSideTable.add(guideBookButton).right().bottom().size(100f, 100f);
+
+
     crossFrame.addListener(
         new ChangeListener() {
           @Override
@@ -1140,6 +1141,8 @@ public class MainGameInterface extends UIComponent {
             }
           }
         });
+
+    rightSideTable.add(guideBookButton).right().bottom().size(80f, 80f).padBottom(5f);
 
     rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
     // adding building button to the right

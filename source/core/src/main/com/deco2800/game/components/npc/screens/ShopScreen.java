@@ -1,21 +1,20 @@
-package com.deco2800.game.screens;
+package com.deco2800.game.components.npc.screens;
 
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.Memento;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.ShopArea;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
-import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.components.shop.ShopActions;
-import com.deco2800.game.components.shop.ShopArtefactDisplay;
 import com.deco2800.game.components.shop.ShopBackground;
+import com.deco2800.game.components.shop.ShopReturn;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -31,31 +30,29 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.terminal.Terminal;
 import com.deco2800.game.ui.terminal.TerminalDisplay;
 
-public class ShopArtefactScreen extends ScreenAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ShopArtefactScreen.class);
-
+public class ShopScreen extends ScreenAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(ShopScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    public ShopArtefactScreen(AtlantisSinks game) {
+    public ShopScreen(AtlantisSinks game) {
         this.game = game;
 
-        logger.debug("Initialising artefact shop screen services");
+        logger.debug("Initialising shop screen services");
         ServiceLocator.registerTimeSource(new GameTime());
-        ServiceLocator.registerInputService(new InputService());
 
+        ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
+        MainArea.getInstance().setMainArea(new ShopArea());
 
         loadAssets();
         createUI();
-        MainArea.getInstance().setMainArea(new ShopArea());
 
         logger.debug("Initialising main game screen entities");
-
     }
 
     @Override
@@ -82,7 +79,7 @@ public class ShopArtefactScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing shop artefact game screen");
+        logger.debug("Disposing shop screen");
         renderer.dispose();
         unloadAssets();
 
@@ -117,19 +114,16 @@ public class ShopArtefactScreen extends ScreenAdapter {
         Entity uiCommon = new Entity();
         uiCommon.addComponent(new ShopBackground());
         ServiceLocator.getEntityService().register(uiCommon);
-        Entity uiArtefact = new Entity();
-        uiArtefact.addComponent(new InputDecorator(stage, 10))
+        Entity uiExit = new Entity();
+        uiExit.addComponent(new InputDecorator(stage, 10))
                 .addComponent(new PerformanceDisplay())
+                .addComponent(new InventoryComponent(lastStatus.getGold(), lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new ShopActions(this.game))
-                .addComponent(new InventoryComponent(lastStatus.getGold(),
-                        lastStatus.getStone(), lastStatus.getWood()))
                 .addComponent(new CommonShopComponents())
-                .addComponent(new ShopArtefactDisplay())
                 .addComponent(new Terminal())
                 .addComponent(inputComponent)
-                .addComponent(new TerminalDisplay());
-        uiArtefact.getComponent(InventoryComponent.class).setItems(lastStatus.getItemList());
-        ServiceLocator.getEntityService().register(uiArtefact);
-
+                .addComponent(new TerminalDisplay())
+                .addComponent(new ShopReturn());
+        ServiceLocator.getEntityService().register(uiExit);
     }
 }
