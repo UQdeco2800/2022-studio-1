@@ -42,13 +42,22 @@ public class MainMenuDisplay extends UIComponent {
   }
 
   public void updateDisplay() {
-      if (rootTable == null) rootTable = display();
+      if (rootTable == null) {
+          rootTable = display();
+          return;
+      }
       Texture colour = new Texture(Gdx.files.internal("images/atlantis_background/atlantis_background (" + currentStep + ").png"));
       Drawable backgroundColour = new TextureRegionDrawable(colour);
       rootTable.setBackground(backgroundColour);
   }
 
   public Table display() {
+
+      float screenHeight = Gdx.graphics.getHeight();
+
+      float titleHeight = screenHeight * 0.55f;
+      float buttonHeight = screenHeight * 0.1f;
+
       rootTable = new Table();
       rootTable.setFillParent(true);
 
@@ -59,7 +68,6 @@ public class MainMenuDisplay extends UIComponent {
               new Image(
                       ServiceLocator.getResourceService()
                               .getAsset("images/uiElements/exports/title.png", Texture.class));
-
 
       // Background Colour
       Texture colour = new Texture(Gdx.files.internal("images/atlantis_background/atlantis_background (" + currentStep + ").png"));
@@ -164,13 +172,13 @@ public class MainMenuDisplay extends UIComponent {
                   }
               });
 
-      mainTable.add(title).padBottom(50f);
+      mainTable.add(title).padTop(0.5f * buttonHeight).size(titleHeight * title.getWidth() / title.getHeight(), titleHeight);
       mainTable.row();
-      mainTable.add(homeButton);
+      mainTable.add(homeButton).size(buttonHeight * homeButton.getWidth() / homeButton.getHeight(), buttonHeight);
       mainTable.row();
-      mainTable.add(loadButton);
+      mainTable.add(loadButton).size(buttonHeight * loadButton.getWidth() / loadButton.getHeight(), buttonHeight);
       mainTable.row();
-      mainTable.add(exitButton);
+      mainTable.add(exitButton).size(buttonHeight * exitButton.getWidth() / exitButton.getHeight(), buttonHeight);
 
       settingsTable.add(settingsButton).expandX().expandY().right().bottom().pad(0f, 0f, 0f, 0f);
 

@@ -42,7 +42,7 @@ public class MainMenuScreen extends ScreenAdapter {
     this.time = 0f;
 
     ArrayList<String> mainTextures = new ArrayList<>(List.of(mainMenuTextures));
-    for (int i = 0; i <= 55; i++) {
+    for (int i = 1; i <= 55; i++) {
       mainTextures.add("images/atlantis_background/atlantis_background ("+i+").png");
     }
 
@@ -64,7 +64,7 @@ public class MainMenuScreen extends ScreenAdapter {
   @Override
   public void render(float delta) {
     this.time += delta;
-    if (this.time > 0.3f) {
+    if (this.time > 0.4f) {
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
       rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).getDisplay();
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).updateDisplay();
@@ -76,8 +76,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
   @Override
   public void resize(int width, int height) {
-    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).getDisplay();
-    ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).updateDisplay();
+    if (rootTable != null) rootTable.remove();
+    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
     renderer.resize(width, height);
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
