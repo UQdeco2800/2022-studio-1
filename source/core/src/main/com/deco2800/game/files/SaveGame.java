@@ -114,8 +114,6 @@ public class SaveGame {
                 ObstacleFactory.class.getMethod("createWoodenFence"));
         environmentalGeneration.put("images/landscape_objects/pillar.png",
                 ObstacleFactory.class.getMethod("createPillar"));
-        environmentalGeneration.put("images/landscape_objects/chalice.png",
-                ObstacleFactory.class.getMethod("createAoeSpeedArtefact"));
         environmentalGeneration.put("images/landscape_objects/billboard.png",
                 ObstacleFactory.class.getMethod("createBillboard"));
         environmentalGeneration.put("images/landscape_objects/geyser.png",
