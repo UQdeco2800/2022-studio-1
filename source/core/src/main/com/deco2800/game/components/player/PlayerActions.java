@@ -77,10 +77,10 @@ public class PlayerActions extends Component {
       long gameTime = ServiceLocator.getTimeSource().getTime();
 
       if (gameTime > lastMovementTime) {
-        int posX = movementKeyPressed[3] ? 1 : 0;
-        int negX = movementKeyPressed[1] ? 1 : 0;
-        int posY = movementKeyPressed[0] ? 1 : 0;
-        int negY = movementKeyPressed[2] ? 1 : 0;
+        float posX = movementKeyPressed[3] ? 1 : 0;
+        float negX = movementKeyPressed[1] ? 1 : 0;
+        float posY = movementKeyPressed[0] ? 1 : 0;
+        float negY = movementKeyPressed[2] ? 1 : 0;
 
         Vector2 movement = new Vector2(posX - negX, posY - negY);
         movePlayerInUgs(movement);
@@ -110,7 +110,7 @@ public class PlayerActions extends Component {
     String keyCoorSplit[] = keyOfPlayer.split(",");
     GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(keyCoorSplit[0]), Integer.parseInt(keyCoorSplit[1]));
 
-    ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, (int) direction.x, (int) direction.y);
+    ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, direction.x, direction.y);
 
     // uncomment in case of emergency
     // switch (direction.toString()) {
