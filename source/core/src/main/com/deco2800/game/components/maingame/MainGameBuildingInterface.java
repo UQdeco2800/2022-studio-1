@@ -15,12 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.ScreenShakeComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
-import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.CrystalService;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -41,7 +39,6 @@ public class MainGameBuildingInterface extends UIComponent {
     private Table CrystalUI;
     private Label CrystalLabel;
     private Image crystalImage;
-    public ScreenShakeComponent screenShakeComponent;
 
 
     private boolean visability;
@@ -220,7 +217,6 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     public Table makeCrystalPopUp(Boolean value, float x, float y) {
-        this.screenShakeComponent = new ScreenShakeComponent();
         float uiHeight = 200f;
         float screenHeight = Gdx.graphics.getHeight();
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
@@ -297,12 +293,14 @@ public class MainGameBuildingInterface extends UIComponent {
 //                                camComp.getCamera().translate(-50,-y,-z);
                             //screenShakeComponent.ScreenShake(.2f, .1f);
                             //screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
-                            CrystalFactory.upgradeCrystal();
+                            CrystalService.upgradeCrystal();
+                            entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
                         else if (level == 2 && playerGold >= 5000) {
                             logger.info("Sufficient gold to upgrade crystal");
-                            CrystalFactory.upgradeCrystal();
+                            CrystalService.upgradeCrystal();
+                            entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
 

@@ -12,6 +12,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.CrystalService;
 import com.deco2800.game.entities.factories.PlayerFactory;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
@@ -140,7 +141,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
     woodLabel = new Label(String.valueOf(woodCount), skin, "large");
 
-    CrystalFactory.recoverCrystalHealth(crystal);
+    CrystalService.recoverCrystalHealth(crystal);
 
 
     table.add(heartImage).pad(5);
