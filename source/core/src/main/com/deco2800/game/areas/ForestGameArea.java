@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
@@ -25,10 +27,7 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -268,9 +267,6 @@ public class ForestGameArea extends GameArea {
         case SPIKY_BUSH:
           envObj = ObstacleFactory.createSpikyTree();
           break;
-        case SPEED_ARTEFACT:
-          envObj = ObstacleFactory.createAoeSpeedArtefact();
-          break;
         case KNOCKBACK_TOWER:
           envObj = ObstacleFactory.createBillboard();
           break;
@@ -445,9 +441,9 @@ public class ForestGameArea extends GameArea {
     Collection<Entity> entities = this.entityMapping.getEntities();
     Iterator itr = entities.iterator();
 
-    for (; itr.hasNext();) {
+    while (itr.hasNext()) {
       Entity entity = (Entity) itr.next();
-      if (entity.getName() == "wall") {
+      if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
     }
@@ -639,6 +635,9 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
     pirateCrabEnemy.setName("Mr. Crabs@" + pirateCrabEnemy.getId());
+    pirateCrabEnemy.setCollectable(true);
+    pirateCrabEnemy.setResourceType(ResourceType.GOLD);
+    pirateCrabEnemy.setResourceAmount(50);
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);

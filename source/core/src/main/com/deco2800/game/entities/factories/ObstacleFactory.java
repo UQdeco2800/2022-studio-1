@@ -177,30 +177,6 @@ public class ObstacleFactory {
   }
 
   /**
-   * creates an AOE artefact that changes player speed in an area of effect around
-   * the artefact.
-   * 
-   * @return entity
-   */
-  public static Entity createAoeSpeedArtefact() {
-    Entity artefact = createEnvironmentalObject("images/landscape_objects/chalice.png",
-        EnvironmentalComponent.EnvironmentalObstacle.SPEED_ARTEFACT,
-        0.5f, 0.2f, 0.2f, CollisionEffectComponent.CollisionEffect.SLOW, 1.4f);
-    artefact.setName("Chalice");
-    artefact.setCollectable(false);
-    Vector2 aoeSize = new Vector2();
-    Vector2 size = artefact.getScale();
-    // sets aoe to twice the scale of the object
-    aoeSize.x = size.x * 4;
-    aoeSize.y = size.y * 4;
-    artefact.addComponent(new HitboxComponent());
-    artefact.getComponent(HitboxComponent.class).setAsBox(aoeSize);
-    artefact.getComponent(CollisionEffectComponent.class).setAoe(true);
-    artefact.getComponent(CollisionEffectComponent.class).setEffectTarget(CollisionEffectComponent.EffectTarget.PLAYER);
-    return artefact;
-  }
-
-  /**
    * creates a pillar entity
    * 
    * @return entity
@@ -281,7 +257,9 @@ public class ObstacleFactory {
         CollisionEffectComponent.CollisionEffect.NONE, 1f);
 
     shell.setName("Shell@" + shell.getId());
-    shell.setCollectable(false);
+    shell.setCollectable(true);
+    shell.setResourceType(ResourceType.GOLD);
+    shell.setResourceAmount(10);
     shell.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return shell;

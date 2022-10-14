@@ -81,7 +81,9 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_boss.png",
       "images/anim_demo/woodresourcebuilding.png",
       "images/storyLine/skipButton.png",
-      "images/storyLine/textBox.png"
+      "images/storyLine/textBox.png",
+      "images/crystalhealth.png",
+      "images/crystalhealth2.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
