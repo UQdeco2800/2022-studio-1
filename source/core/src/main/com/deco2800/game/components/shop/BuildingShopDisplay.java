@@ -1,4 +1,5 @@
 package com.deco2800.game.components.shop;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
-import com.deco2800.game.components.shop.artefacts.Artefact;
-import com.deco2800.game.entities.configs.ArtefactConfig;
+import com.deco2800.game.components.shop.artefacts.ShopBuilding;
+import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
@@ -22,19 +23,19 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class ArtefactShopDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(ArtefactShopDisplay.class);
+public class BuildingShopDisplay extends UIComponent {
+    private static final Logger logger = LoggerFactory.getLogger(BuildingShopDisplay.class);
     private static final float Z_INDEX = 2f;
-    
+
     Table itemDisplay;
-    Group artefactShop;
+    Group buildingShop;
 
 
-    private CircularLinkedList<Artefact> stock;
-    private Node<Artefact> current;
-    private ArtefactConfig stats;
-    private ArtefactConfig prevStats;
-    private ArtefactConfig nextStats;
+    private CircularLinkedList<ShopBuilding> stock;
+    private Node<ShopBuilding> current;
+    private ShopBuildingConfig stats;
+    private ShopBuildingConfig prevStats;
+    private ShopBuildingConfig nextStats;
 
     Label subtitle;
     Label itemNumber;
@@ -74,33 +75,33 @@ public class ArtefactShopDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
-        entity.getEvents().addListener("artefactShop", this::openShop);
+        entity.getEvents().addListener("buildingShop", this::openShop);
         entity.getEvents().addListener("closeAll", this::closeShop);
-        addActors();
+        addActor();
     }
 
-    private void addActors() {
-        artefactShop = new Group();
+    private void addActor() {
+        buildingShop = new Group();
         itemDisplay = new Table();
         itemDisplay.setFillParent(true);
         itemDisplay.setSize((float) (Gdx.graphics.getWidth() * 0.6), (float) (Gdx.graphics.getHeight() * 0.4));
-        
+
         // Create linked list of the available shop stock
-        stock = new CircularLinkedList<Artefact>();
-        List<Artefact> artefactOptions = Artefact.getAllartefactTypes();
-        for (Artefact e : artefactOptions) {
+        stock = new CircularLinkedList<ShopBuilding>();
+        List<ShopBuilding> buildingOptions = ShopBuilding.getAllBuildingTypes();
+        for (ShopBuilding e : buildingOptions) {
             stock.add(e);
         }
         current = stock.head;
         i = 1;
-        itemNumber = new Label("Item " + i + "/" + artefactOptions.size(), skin, "button");
+        itemNumber = new Label("Item " + i + "/" + buildingOptions.size(), skin, "button");
         itemNumber.setFontScale(1.5f);
         itemNumber.setColor(skin.getColor("black"));
 
-        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
-        // Create the current artefact to display
+        prevStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.prev.t));
+        stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
+        nextStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.next.t));
+        // Create the current building to display
         currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
         currentItem = new Image(currentTexture);
 
@@ -132,8 +133,10 @@ public class ArtefactShopDisplay extends UIComponent {
 
         // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
-                Integer.toString(stats.goldCost), skin.getColor("black"),
-                "button", 1f,
+                "Stone: " + Integer.toString(stats.stoneCost) + " Wood: "
+                        + Integer.toString(stats.woodCost),
+                skin.getColor("black"),
+                "font_small", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
                 true);
@@ -141,10 +144,9 @@ public class ArtefactShopDisplay extends UIComponent {
         // create description sticker
         descriptionDisplay = ShopUtils.createImageTextButton(
                 stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea()
+                        + "Inventory Count: " + MainArea.getInstance().getGameArea()
                         .getPlayer().getComponent(InventoryComponent.class)
-                        .getItemCount(current.t),
+                        .getBuildingCount(current.t),
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
@@ -165,7 +167,7 @@ public class ArtefactShopDisplay extends UIComponent {
         upBack = new TextureRegionDrawable(backTexture);
         backButton = new ImageButton(upBack, upBack);
 
-        subtitle = new Label("ARTEFACTS", skin, "title");
+        subtitle = new Label("BUILDINGS", skin, "title");
         subtitle.setFontScale(3f);
         subtitle.setColor(skin.getColor("black"));
 
@@ -203,17 +205,16 @@ public class ArtefactShopDisplay extends UIComponent {
                 Gdx.graphics.getHeight() * 0.85f -70f);
         backButton.setSize(40f, 40f);
 
-        artefactShop.addActor(itemDisplay);
-        artefactShop.addActor(leftButton);
-        artefactShop.addActor(rightButton);
-        artefactShop.addActor(buyButton);
-        artefactShop.addActor(priceDisplay);
-        artefactShop.addActor(subtitle);
-        artefactShop.addActor(backButton);
-        artefactShop.setVisible(false);
+        buildingShop.addActor(itemDisplay);
+        buildingShop.addActor(leftButton);
+        buildingShop.addActor(rightButton);
+        buildingShop.addActor(buyButton);
+        buildingShop.addActor(priceDisplay);
+        buildingShop.addActor(subtitle);
+        buildingShop.addActor(backButton);
+        buildingShop.setVisible(false);
+        stage.addActor(buildingShop);
 
-        stage.addActor(artefactShop);
-        // Add listeners to relevant buttons
         rightButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -231,7 +232,7 @@ public class ArtefactShopDisplay extends UIComponent {
                         carouselLeft();
                     }
                 });
-
+        
         buyButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -240,130 +241,141 @@ public class ArtefactShopDisplay extends UIComponent {
                         buyItem();
                     }
                 });
-
+        
         backButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Back button clicked");
-                        artefactShop.setVisible(false);
+                        closeShop();
                         entity.getEvents().trigger("shop");
                     }
                 });
-
-        
-    }
-
-    private void carouselRight() {
-        Node<Artefact> temp = current;
-        current = stock.head.next;
-        stock.head = stock.head.next;
-        stock.tail = temp;
-        prevStats = FileLoader.readClass(ArtefactConfig.class,
-                Artefact.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ArtefactConfig.class,
-                Artefact.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ArtefactConfig.class,
-                Artefact.getFilepath(current.next.t));
-
-        priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
-        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost);
-        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                : redDrawable;
-        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        descriptionDisplay
-                .setText(stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea().getPlayer()
-                        .getComponent(InventoryComponent.class)
-                        .getItemCount(current.t));
-        i = i == Artefact.getAllartefactTypes().size() ? 1 : i + 1;
-        itemNumber.setText("Item " + i + "/" + Artefact.getAllartefactTypes().size());
-        currentItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        stats.itemBackgroundImagePath))));
-        prevItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        prevStats.itemBackgroundImagePath))));
-        nextItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        nextStats.itemBackgroundImagePath))));
-    }
-
-    private void carouselLeft() {
-        Node<Artefact> temp = current;
-        current = stock.head.prev;
-        stock.head = stock.head.prev;
-        stock.tail = temp.prev;
-        prevStats = FileLoader.readClass(ArtefactConfig.class,
-                Artefact.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ArtefactConfig.class,
-                Artefact.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ArtefactConfig.class,
-                Artefact.getFilepath(current.next.t));
-        priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
-        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost);
-        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                : redDrawable;
-        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        descriptionDisplay
-                .setText(stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea().getPlayer()
-                        .getComponent(InventoryComponent.class)
-                        .getItemCount(current.t));
-        i = i == 1 ? Artefact.getAllartefactTypes().size() : i - 1;
-        itemNumber.setText("Item " + i + "/" + Artefact.getAllartefactTypes().size());
-        currentItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        stats.itemBackgroundImagePath))));
-        prevItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        prevStats.itemBackgroundImagePath))));
-        nextItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        nextStats.itemBackgroundImagePath))));
     }
 
     private void buyItem() {
         if (MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost)) {
-            logger.info("Sufficient Gold");
+                .hasStone(stats.stoneCost) &&
+                MainArea.getInstance().getGameArea().getPlayer()
+                        .getComponent(InventoryComponent.class)
+                        .hasWood(stats.woodCost)) {
+            logger.info("Sufficient resources");
             MainArea.getInstance().getGameArea().getPlayer()
                     .getComponent(InventoryComponent.class)
-                    .addGold(-1 * stats.goldCost);
-            MainArea.getInstance().getGameArea().getPlayer()
-                    .getComponent(PlayerStatsDisplay.class)
-                    .updateResourceAmount();
-            Sound coinSound = Gdx.audio.newSound(
-                    Gdx.files.internal("sounds/coin.mp3"));
-            coinSound.play();
+                    .addWood(-1 * stats.woodCost);
             MainArea.getInstance().getGameArea().getPlayer()
                     .getComponent(InventoryComponent.class)
-                    .addItems(current.t);
+                    .addStone(-1 * stats.stoneCost);
+            MainArea.getInstance().getGameArea().getPlayer()
+                    .getComponent(InventoryComponent.class)
+                    .addBuilding(current.t);
+            Sound rockSound = Gdx.audio.newSound(
+                    Gdx.files.internal("sounds/rock.mp3"));
+            rockSound.play();
 
             // Trigger events for achievements
             ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
         } else {
-            logger.info("Insufficient gold!");
+            logger.info("Insufficient resource!");
             Sound filesound = Gdx.audio.newSound(
                     Gdx.files.internal("sounds/purchase_fail.mp3"));
             filesound.play();
         }
+        descriptionDisplay.setText(stats.name + "\n" + stats.description + "\n"
+                + "Inventory Count: "
+                + MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .getBuildingCount(current.t));
         sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost);
+                .hasStone(stats.stoneCost)
+                && MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .hasWood(stats.woodCost);
+        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                : redDrawable;
+        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                : redDrawable;
+        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                : redDrawable;
+
+        MainArea.getInstance().getGameArea().getPlayer().getComponent(PlayerStatsDisplay.class).updateResourceAmount();
+    }
+
+    private void carouselLeft() {
+        Node<ShopBuilding> temp = current;
+        current = stock.head.prev;
+        stock.head = stock.head.prev;
+        stock.tail = temp.prev;
+
+        prevStats = FileLoader.readClass(ShopBuildingConfig.class,
+                ShopBuilding.getFilepath(current.prev.t));
+        stats = FileLoader.readClass(ShopBuildingConfig.class,
+                ShopBuilding.getFilepath(current.t));
+        nextStats = FileLoader.readClass(ShopBuildingConfig.class,
+                ShopBuilding.getFilepath(current.next.t));
+
+        priceDisplay.setText(
+                "Stone: " + Integer.toString(stats.woodCost) + " Wood: "
+                        + Integer.toString(stats.woodCost));
+
+        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .hasStone(stats.stoneCost)
+                && MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .hasWood(stats.woodCost);
+        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                : redDrawable;
+        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                : redDrawable;
+        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                : redDrawable;
+
+        descriptionDisplay
+                .setText(stats.name + "\n" + stats.description + "\n"
+                        + "Inventory Count: "
+                        + MainArea.getInstance().getGameArea().getPlayer()
+                        .getComponent(InventoryComponent.class)
+                        .getBuildingCount(
+                                current.t));
+        i = i == 1 ? ShopBuilding.getAllBuildingTypes().size() : i - 1;
+        itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
+        currentItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                        stats.itemBackgroundImagePath))));
+        prevItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                        prevStats.itemBackgroundImagePath))));
+        nextItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                        nextStats.itemBackgroundImagePath))));
+    }
+
+    private void carouselRight() {
+        Node<ShopBuilding> temp = current;
+        current = stock.head.next;
+        stock.head = stock.head.next;
+        stock.tail = temp;
+
+        // read the stats of the new current
+        prevStats = FileLoader.readClass(ShopBuildingConfig.class,
+                ShopBuilding.getFilepath(current.prev.t));
+        stats = FileLoader.readClass(ShopBuildingConfig.class,
+                ShopBuilding.getFilepath(current.t));
+        nextStats = FileLoader.readClass(ShopBuildingConfig.class,
+                ShopBuilding.getFilepath(current.next.t));
+
+        priceDisplay.setText("Stone: " + Integer.toString(stats.stoneCost)
+                + " Wood: "
+                + Integer.toString(stats.woodCost));
+        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .hasStone(stats.stoneCost)
+                && MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .hasWood(stats.woodCost);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
         buyButton.getStyle().down = sufficientFunds ? brownDrawable
@@ -373,17 +385,28 @@ public class ArtefactShopDisplay extends UIComponent {
         descriptionDisplay
                 .setText(stats.name + "\n" + stats.description + "\n"
                         + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea().getPlayer().getComponent(
-                                InventoryComponent.class)
-                        .getItemCount(current.t));
+                        + MainArea.getInstance().getGameArea().getPlayer()
+                        .getComponent(InventoryComponent.class)
+                        .getBuildingCount(current.t));
+        i = i == ShopBuilding.getAllBuildingTypes().size() ? 1 : i + 1;
+        itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
+        currentItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                        stats.itemBackgroundImagePath))));
+        prevItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                        prevStats.itemBackgroundImagePath))));
+        nextItem.setDrawable(new TextureRegionDrawable(
+                new Texture(Gdx.files.internal(
+                        nextStats.itemBackgroundImagePath))));
     }
 
     private void openShop() {
-        artefactShop.setVisible(true);
+        buildingShop.setVisible(true);
     }
 
     private void closeShop() {
-        artefactShop.setVisible(false);
+        buildingShop.setVisible(false);
     }
     @Override
     public void draw(SpriteBatch batch) {
@@ -399,7 +422,6 @@ public class ArtefactShopDisplay extends UIComponent {
     @Override
     public void dispose() {
         stage.clear();
-        artefactShop.clear();
         super.dispose();
     }
 }

@@ -127,8 +127,7 @@ public class ShopInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Close shop page");
                         group.setVisible(false);
-                        category.setVisible(false);
-                        subtitle.setVisible(false);
+                        closeShop();
                         entity.getEvents().trigger("closeAll");
                     }
                 });
@@ -138,9 +137,8 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Opening building shop page");
-                        category.setVisible(false);
-                        subtitle.setVisible(false);
-                        entity.getEvents().trigger("buildShop");
+                        closeShop();
+                        entity.getEvents().trigger("buildingShop");
                     }
                 });
 
@@ -149,8 +147,7 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Opening artefact shop page");
-                        category.setVisible(false);
-                        subtitle.setVisible(false);
+                        closeShop();
                         entity.getEvents().trigger("artefactShop");
                     }
                 });
@@ -160,8 +157,7 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Opening equipment shop page");
-                        category.setVisible(false);
-                        subtitle.setVisible(false);
+                        closeShop();
                         entity.getEvents().trigger("equipmentShop");
                     }
                 });
@@ -198,6 +194,10 @@ public class ShopInterface extends UIComponent {
         stage.addActor(subtitle);
     }
 
+    private void closeShop() {
+        category.setVisible(false);
+        subtitle.setVisible(false);
+    }
 
 
     private void openShop() {
