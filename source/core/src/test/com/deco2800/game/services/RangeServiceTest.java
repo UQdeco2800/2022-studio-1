@@ -57,11 +57,11 @@ public class RangeServiceTest {
         newTile.setEntity(entity);
         ugsService.add(coordinate, newTile);
 
-        try {
-            rangeService.perimeter(entity);
-        } catch (NullPointerException e) {
-            return;
-        }
+//        try {
+//            rangeService.perimeter(entity);
+//        } catch (NullPointerException e) {
+//            return;
+//        }
 
     }
 
