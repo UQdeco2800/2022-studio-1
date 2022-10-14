@@ -119,23 +119,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           // movePlayerInUgs();
           updatePlayerMovement(0, false);
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           // movePlayerInUgs();
           updatePlayerMovement(1, false);
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           updatePlayerMovement(2, false);
           return true;
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
           // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
           // movePlayerInUgs();
           updatePlayerMovement(3, false);
           return true;
@@ -197,7 +201,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       PopUp.remove();
       isVisible = false;
     }
-    Boolean onClick = false;
     Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
 
 
@@ -229,16 +232,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
       if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
-        if (!onClick) {
           if (entityName.contains("tower1") || entityName.contains("wall") ||
                   entityName.contains("trap") || entityName.contains("tower2")
                   || entityName.contains("tower3")) {
-            onClick = true;
-            StructureService.setUiPopUp(screenX, screenY, onClick);
+            StructureService.setUiPopUp(screenX, screenY);
           }
-        } else {
-          onClick = false;
-        }
       }
       }
     }
