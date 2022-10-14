@@ -25,10 +25,7 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static java.sql.DriverManager.println;
 
@@ -446,9 +443,9 @@ public class ForestGameArea extends GameArea {
     Collection<Entity> entities = this.entityMapping.getEntities();
     Iterator itr = entities.iterator();
 
-    for (;itr.hasNext();) {
+    while (itr.hasNext()) {
       Entity entity = (Entity) itr.next();
-      if (entity.getName() == "wall") {
+      if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
     }
