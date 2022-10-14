@@ -1,13 +1,13 @@
 {
 position: {
-	x: 963.5
-	y: 9.25
+	x: 978.7815
+	y: -13.25
 }
 name: player
 playerState: {
 	gold: {
 		class: java.lang.Integer
-		value: 3000
+		value: 10010
 	}
 	weapon: {
 		class: com.deco2800.game.components.shop.equipments.Equipments
@@ -31,7 +31,7 @@ playerState: {
 	}
 	wood: {
 		class: java.lang.Integer
-		value: 1000
+		value: 1050
 	}
 	items: {
 		class: java.util.HashMap
@@ -44,7 +44,7 @@ playerState: {
 	]
 	stone: {
 		class: java.lang.Integer
-		value: 1000
+		value: 1010
 	}
 }
 }

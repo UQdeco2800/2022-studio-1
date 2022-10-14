@@ -87,10 +87,10 @@ public class CrystalService {
                     time.cancel();
                 }
                 if ( !interval) {
-                    camera.translate(+5,5);
+                    camera.translate(3,3);
                     interval = true;
                 } else {
-                    camera.translate(-5,-5);
+                    camera.translate(-3,-3);
                     interval = false;
                 }
                 i[0]++;
