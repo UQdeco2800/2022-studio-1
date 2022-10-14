@@ -136,7 +136,7 @@ public class TerrainComponent extends RenderComponent {
     return walls;
   }
 
-  private void damageSunkenBuildings() {
+  protected void damageSunkenBuildings() {
 
     String[] buildingNames = { "wall", "tower", "trap", "stoneQuarry", "woodCutter" };
 
