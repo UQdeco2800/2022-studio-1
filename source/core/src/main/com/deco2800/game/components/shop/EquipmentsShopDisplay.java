@@ -304,6 +304,7 @@ public class EquipmentsShopDisplay extends UIComponent {
                     // Trigger events for achievements
                     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
                 }
+                entity.getEvents().trigger("updateEquipment");
             } else {
                 // invalid purchase if the armor is already in inventory
                 if (MainArea.getInstance().getGameArea().getPlayer()

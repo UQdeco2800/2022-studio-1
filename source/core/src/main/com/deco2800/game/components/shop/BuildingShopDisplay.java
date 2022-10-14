@@ -301,6 +301,7 @@ public class BuildingShopDisplay extends UIComponent {
                 : redDrawable;
 
         MainArea.getInstance().getGameArea().getPlayer().getComponent(PlayerStatsDisplay.class).updateResourceAmount();
+        entity.getEvents().trigger("updateBuilding");
     }
 
     private void carouselLeft() {

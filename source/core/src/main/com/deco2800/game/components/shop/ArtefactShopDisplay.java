@@ -355,6 +355,7 @@ public class ArtefactShopDisplay extends UIComponent {
 
             // Trigger events for achievements
             ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
+            entity.getEvents().trigger("updateArtefact");
         } else {
             logger.info("Insufficient gold!");
             Sound filesound = Gdx.audio.newSound(
