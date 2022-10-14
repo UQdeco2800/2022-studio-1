@@ -550,6 +550,8 @@ public class ForestGameArea extends GameArea {
    * }
    */
 
+
+
   /**
    * Spawns NPCs during the day and removes them at night.
    * NPCs spawn based on the number of buildings you have.
@@ -559,7 +561,6 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
-    // System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
 
       case DAWN:
@@ -577,9 +578,7 @@ public class ForestGameArea extends GameArea {
 
       case DUSK:
         if (NPCNum != StructuresNum) {
-          // System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
-            // System.out.println("spawned");
             spawnNPCharacter();
           }
         }
@@ -591,7 +590,7 @@ public class ForestGameArea extends GameArea {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
-        // Set NPC number to 0 and updaste this in NPCService
+        // Set NPC number to 0 and update this in NPCService
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
@@ -719,21 +718,20 @@ public class ForestGameArea extends GameArea {
     spawnEnemy(ninjaStarfishEnemy);
   }
 
+  /**
+   * Spawns an interactable NPC on the island
+   */
   private void spawnNPCharacter() {
+
     Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    // int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
     int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());
 
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
-    // NPC.setPosition(terrainFactory.getMapSize().x / 3,
-    // terrainFactory.getMapSize().y / 3);
-    // ServiceLocator.getEntityService().addEntity(NPC);
-
   }
 
   private void playMusic() {
