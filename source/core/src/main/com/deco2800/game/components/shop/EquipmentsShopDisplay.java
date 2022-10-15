@@ -298,13 +298,13 @@ public class EquipmentsShopDisplay extends UIComponent {
                             .getComponent(CombatStatsComponent.class)
                             .setAttackMultiplier(
                                     stats.attack);
+                    entity.getEvents().trigger("updateEquipment");
 
                     coinSound.play();
 
                     // Trigger events for achievements
                     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
                 }
-                entity.getEvents().trigger("updateEquipment");
             } else {
                 // invalid purchase if the armor is already in inventory
                 if (MainArea.getInstance().getGameArea().getPlayer()
@@ -331,6 +331,7 @@ public class EquipmentsShopDisplay extends UIComponent {
                             .getComponent(InventoryComponent.class)
                             .addGold(-1 * stats.goldCost);
                     coinSound.play();
+                    entity.getEvents().trigger("updateEquipment");
 
                     // Trigger event for item Bought
                     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);

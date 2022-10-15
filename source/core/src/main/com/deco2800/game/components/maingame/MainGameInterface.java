@@ -467,6 +467,7 @@ public class MainGameInterface extends UIComponent {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
             logger.debug("Inventory button clicked");
+            entity.getEvents().trigger("closeAll");
             group.setVisible(true);
           }
         });
@@ -487,6 +488,8 @@ public class MainGameInterface extends UIComponent {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
             logger.debug("Shop button clicked");
+            group.setVisible(false);
+            entity.getEvents().trigger("closeAll");
             entity.getEvents().trigger("shop");
           }
         });
@@ -1178,8 +1181,105 @@ public class MainGameInterface extends UIComponent {
   }
 
   private void updateArtefact() {
+    clockQuantity.setText("X" + MainArea.getInstance().getGameArea()
+            .getPlayer()
+            .getComponent(InventoryComponent.class)
+            .getItems()
+            .getOrDefault(Artefact.CLOCK, 0));
+    potionQuantity.setText("X" + MainArea.getInstance().getGameArea()
+            .getPlayer()
+            .getComponent(InventoryComponent.class)
+            .getItems()
+            .getOrDefault(Artefact.HEALTH_POTION,0));
+    bedQuantity.setText("X" + MainArea.getInstance().getGameArea()
+            .getPlayer()
+            .getComponent(InventoryComponent.class)
+            .getItems()
+            .getOrDefault(Artefact.BED, 0));
   }
 
   private void updateEquipment() {
+    equipmentPos = 0;
+    currEquipListSize = MainArea.getInstance().getGameArea().getPlayer()
+            .getComponent(InventoryComponent.class).getEquipmentList().size();
+
+    if (currEquipListSize == 1) {
+      prevTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+      nextTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+      currentEquipment = MainArea.getInstance().getGameArea().getPlayer()
+              .getComponent(InventoryComponent.class).getEquipmentList()
+              .get(0);
+      EquipmentConfig currData = FileLoader.readClass(EquipmentConfig.class,
+              Equipments.getFilepath(currentEquipment));
+      currTexture = new Texture(Gdx.files.internal(currData.itemBackgroundImagePath));
+    } else if (currEquipListSize == 2) {
+      prevTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+
+      currentEquipment = MainArea.getInstance().getGameArea().getPlayer()
+              .getComponent(InventoryComponent.class).getEquipmentList()
+              .get(0);
+      EquipmentConfig data = FileLoader.readClass(EquipmentConfig.class,
+              Equipments.getFilepath(currentEquipment));
+      currTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+      data = FileLoader.readClass(EquipmentConfig.class,
+              Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                      .getComponent(InventoryComponent.class).getEquipmentList()
+                      .get(1)));
+      nextTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+    } else {
+      currentEquipment = MainArea.getInstance().getGameArea().getPlayer()
+              .getComponent(InventoryComponent.class).getEquipmentList()
+              .get(0);
+      EquipmentConfig data = FileLoader.readClass(EquipmentConfig.class,
+              Equipments.getFilepath(currentEquipment));
+      currTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+
+      data = FileLoader.readClass(EquipmentConfig.class,
+              Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                      .getComponent(InventoryComponent.class).getEquipmentList()
+                      .get(1)));
+      nextTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+
+      data = FileLoader.readClass(EquipmentConfig.class,
+              Equipments.getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                      .getComponent(InventoryComponent.class).getEquipmentList()
+                      .get(currEquipListSize - 1)));
+      prevTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+    }
+    prevEquipment.setDrawable(new TextureRegionDrawable(prevTexture));
+
+    currEquipment.setDrawable(new TextureRegionDrawable(currTexture));
+
+    nextEquipment.setDrawable(new TextureRegionDrawable(nextTexture));
+
+    equipmentStats = FileLoader.readClass(
+            EquipmentConfig.class,
+            Equipments.getFilepath(currentEquipment));
+    description.setText(equipmentStats.name + "\n" + equipmentStats.description);
+
+    Texture defenceItemTexture;
+    if (MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class)
+            .getArmor() == null) {
+      defenceItemTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+    } else {
+      EquipmentConfig armor = FileLoader.readClass(EquipmentConfig.class, Equipments
+              .getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                      .getComponent(InventoryComponent.class).getArmor()));
+      defenceItemTexture = new Texture(Gdx.files.internal(armor.itemBackgroundImagePath));
+    }
+    defenceItem.setDrawable(new TextureRegionDrawable(defenceItemTexture));
+
+    Texture attackItemTexture;
+    if (MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class)
+            .getWeapon() == null) {
+      attackItemTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+    } else {
+      EquipmentConfig weapon = FileLoader.readClass(EquipmentConfig.class, Equipments
+              .getFilepath(MainArea.getInstance().getGameArea().getPlayer()
+                      .getComponent(InventoryComponent.class).getWeapon()));
+      attackItemTexture = new Texture(Gdx.files.internal(weapon.itemBackgroundImagePath));
+    }
+    attackItem.setDrawable(new TextureRegionDrawable(attackItemTexture));
   }
+
 }

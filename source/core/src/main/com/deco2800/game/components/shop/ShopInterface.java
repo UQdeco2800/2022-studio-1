@@ -43,6 +43,7 @@ public class ShopInterface extends UIComponent {
     public void create() {
         super.create();
         entity.getEvents().addListener("shop", this::openShop);
+        entity.getEvents().addListener("closeAll", this::closeShop);
         addActors();
 
     }
@@ -137,7 +138,7 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Opening building shop page");
-                        closeShop();
+                        changeShop();
                         entity.getEvents().trigger("buildingShop");
                     }
                 });
@@ -147,7 +148,7 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Opening artefact shop page");
-                        closeShop();
+                        changeShop();
                         entity.getEvents().trigger("artefactShop");
                     }
                 });
@@ -157,7 +158,7 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Opening equipment shop page");
-                        closeShop();
+                        changeShop();
                         entity.getEvents().trigger("equipmentShop");
                     }
                 });
@@ -194,11 +195,16 @@ public class ShopInterface extends UIComponent {
         stage.addActor(subtitle);
     }
 
-    private void closeShop() {
+    private void changeShop() {
         category.setVisible(false);
         subtitle.setVisible(false);
     }
 
+    private void closeShop() {
+        group.setVisible(false);
+        category.setVisible(false);
+        subtitle.setVisible(false);
+    }
 
     private void openShop() {
         group.setVisible(true);
