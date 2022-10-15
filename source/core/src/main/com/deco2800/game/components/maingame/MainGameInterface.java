@@ -437,20 +437,51 @@ public class MainGameInterface extends UIComponent {
     placeButton.setPosition(rightBox.getX() + 120f, rightBox.getY() + 135f);
 
     // Entering the Shop Button
-    Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
+    Texture shopTexture = new Texture(Gdx.files.internal("images/shop.png"));
+    Texture shopTextureOnClick = new Texture(Gdx.files.internal("images/shop_onClick.png"));
     TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
     TextureRegionDrawable downShop = new TextureRegionDrawable(shopTexture);
-    ImageButton shopButton = new ImageButton(upShop, downShop);
+    TextureRegionDrawable shopChecked = new TextureRegionDrawable(shopTextureOnClick);
+    ImageButton shopButton = new ImageButton(upShop, downShop, shopChecked);
+
+    shopButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                shopButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                shopButton.setChecked(false);
+              }
+            });
+
 
     // Entering the Inventory Button -- need to add the inventory button
     Texture inventoryTexture = new Texture(Gdx.files.internal("images/inventory.png"));
+    Texture inventoryOnClickTexture = new Texture(Gdx.files.internal("images/inventory_OnClick.png"));
     TextureRegionDrawable downInventory = new TextureRegionDrawable(inventoryTexture);
     TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
-    ImageButton inventoryButton = new ImageButton(upInventory, downInventory);
+    TextureRegionDrawable inventoryChecked = new TextureRegionDrawable(inventoryOnClickTexture);
+    ImageButton inventoryButton = new ImageButton(upInventory, downInventory, inventoryChecked);
+
+    inventoryButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                inventoryButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                inventoryButton.setChecked(false);
+              }
+            });
 
     // the achievements button
-    Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
-    Texture achievementsTextureOnClick = new Texture(Gdx.files.internal("images/achievemnets_onclick.png"));
+    Texture achievementsTexture = new Texture(Gdx.files.internal("images/achievemnets_onclick.png"));
+    Texture achievementsTextureOnClick = new Texture(Gdx.files.internal("images/Achievements.png"));
     TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
     TextureRegionDrawable downAchievements = new TextureRegionDrawable(achievementsTexture);
     TextureRegionDrawable achievementsChecked = new TextureRegionDrawable(achievementsTextureOnClick);
@@ -478,22 +509,23 @@ public class MainGameInterface extends UIComponent {
     ImageButton guideBookButton = new ImageButton(upGuidebook, downGuidebook);
 
     // trigger for guidebook
-    guideBookButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+    guideBookButton.addListener(  new ClickListener() {
+      @Override
+      public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Guidebook button clicked");
             entity.getEvents().trigger("guideBook");
+            return true;
           }
         });
 
     // Triggers an event when the button is pressed.
     inventoryButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Inventory button clicked");
             group.setVisible(true);
+            return true;
           }
         });
 
