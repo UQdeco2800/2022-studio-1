@@ -35,7 +35,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
-    private Table BuildingUI;
+    private Table BuildingUI = new Table();
     private Table CrystalUI;
     private Label CrystalLabel;
     private Image crystalImage;
@@ -99,13 +99,13 @@ public class MainGameBuildingInterface extends UIComponent {
         String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
         CrystalLabel = new Label(buildingName, skin, "large");
 
-        // Heart image
+        //Heart image
         Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
         //Health Bar Image
         Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
 
-//        //Health Bar image
+        //Health Bar image
         buildingHealth = clickedStructure;
         progressBar = buildingHealth.getComponent(HealthBarComponent.class).getProgressBar();
         progressBar.getStyle().background = DrawableUtil
@@ -169,11 +169,10 @@ public class MainGameBuildingInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell button clicked");
                         StructureFactory.handleBuildingDestruction(entity.getName());
-                        //Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                        //player.getComponent(InventoryComponent.class).addStone(sell);
+                        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        player.getComponent(InventoryComponent.class).addStone(sell);
                     }
                 });
-
 
         //table
         Table buildingInfo = new Table();
