@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
@@ -25,12 +27,7 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import static java.sql.DriverManager.println;
+import java.util.*;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -115,9 +112,9 @@ public class ForestGameArea extends GameArea {
       "images/65x33_tiles/water_night1.png",
       "images/65x33_tiles/water_night2.png",
       "images/65x33_tiles/water_night3.png",
-          "images/65x33_tiles/invalidTile.png",
-          "images/65x33_tiles/validTile.png",
-          "images/seastack1.png",
+      "images/65x33_tiles/invalidTile.png",
+      "images/65x33_tiles/validTile.png",
+      "images/seastack1.png",
       "images/seastack2.png",
       "images/Eel_Bright_SW.png",
       "images/Eel_Bright_NE.png",
@@ -128,21 +125,23 @@ public class ForestGameArea extends GameArea {
       "images/shipWreckBack.png",
       "images/shipWreckFront.png",
       "images/ElectricEel.png",
+      "images/eel_projectile.png",
       "images/starfish.png",
       "images/NpcPlaceholder.png",
       "images/NPC convo.png",
       "images/npc1.png",
       "images/npcs/NPC-V2.2.png",
       "images/npcs/NPC-V2.1.png",
-          "images/guardianLegacy1left.png",
-          "images/guardianLegacy1right.png",
-          "images/cornerWall1.png",
-          "images/cornerWall2.png",
-          "images/cornerWall3.png",
-          "images/cornerWall4.png",
-          "images/wallRight.png",
-          "images/wallLeft.png",
-          "images/attack_towers/lv1GuardianLeft.png"
+      "images/guardianLegacy1left.png",
+      "images/guardianLegacy1right.png",
+      "images/cornerWall1.png",
+      "images/cornerWall2.png",
+      "images/cornerWall3.png",
+      "images/cornerWall4.png",
+      "images/wallRight.png",
+      "images/wallLeft.png",
+      "images/turret.png",
+      "images/attack_towers/lv1GuardianLeft.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -208,7 +207,6 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-
     // spawnNPCharacter();
 
     if (this.loadGame) {
@@ -270,9 +268,6 @@ public class ForestGameArea extends GameArea {
           break;
         case SPIKY_BUSH:
           envObj = ObstacleFactory.createSpikyTree();
-          break;
-        case SPEED_ARTEFACT:
-          envObj = ObstacleFactory.createAoeSpeedArtefact();
           break;
         case KNOCKBACK_TOWER:
           envObj = ObstacleFactory.createBillboard();
@@ -420,7 +415,7 @@ public class ForestGameArea extends GameArea {
     GridPoint2 tileCoords = new GridPoint2(x_pos, y_pos);
     ServiceLocator.getUGSService().setEntity(tileCoords, crystal, crystal.getName());
 
-    //spawnWorldBorders(-1, 0);
+    // spawnWorldBorders(-1, 0);
 
     return crystal;
   }
@@ -435,10 +430,10 @@ public class ForestGameArea extends GameArea {
       if (terrain.getCurrentMapLvl() == 0) {
         // GAME OVER
       } else {
-        //int oldLvl = terrain.getCurrentMapLvl();
+        // int oldLvl = terrain.getCurrentMapLvl();
         terrain.decrementMapLvl();
-        //int newLvl = terrain.getCurrentMapLvl();
-        //spawnWorldBorders(oldLvl, newLvl);
+        // int newLvl = terrain.getCurrentMapLvl();
+        // spawnWorldBorders(oldLvl, newLvl);
       }
     }
 
@@ -448,9 +443,9 @@ public class ForestGameArea extends GameArea {
     Collection<Entity> entities = this.entityMapping.getEntities();
     Iterator itr = entities.iterator();
 
-    for (;itr.hasNext();) {
+    while (itr.hasNext()) {
       Entity entity = (Entity) itr.next();
-      if (entity.getName() == "wall") {
+      if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
     }
@@ -468,71 +463,89 @@ public class ForestGameArea extends GameArea {
 
     Iterator itr = borderLevel.iterator();
 
-    for (Iterator it = itr; it.hasNext(); ) {
+    for (Iterator it = itr; it.hasNext();) {
       GridPoint2 pos = (GridPoint2) it.next();
       Entity wall = ObstacleFactory.createWall(20f, 1f, 1f);
       this.entityMapping.addEntity(wall);
       spawnEntityAt(wall, pos, false, false);
     }
 
-    /*for (int x = 1; x < mapSize.x - 1; x++) {
-      for (int y = 1; y < mapSize.y - 1; y++) {
+    /*
+     * for (int x = 1; x < mapSize.x - 1; x++) {
+     * for (int y = 1; y < mapSize.y - 1; y++) {
+     * 
+     * TerrainTile tile = (TerrainTile) tiledMapTileLayer.getCell(x, y).getTile();
+     * 
+     * if (tile.getName() == "water") {
+     * Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+     * 
+     * this.entityMapping.addEntity(wall);
+     * super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+     * }
+     */
+    /*
+     * TerrainTile above = (TerrainTile) tiledMapTileLayer.getCell(x, y +
+     * 1).getTile();
+     * TerrainTile below = (TerrainTile) tiledMapTileLayer.getCell(x, y -
+     * 1).getTile();
+     * TerrainTile left = (TerrainTile) tiledMapTileLayer.getCell(x - 1,
+     * y).getTile();
+     * TerrainTile right = (TerrainTile) tiledMapTileLayer.getCell(x + 1,
+     * y).getTile();
+     * TerrainTile rightAbove = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y +
+     * 1).getTile();
+     * TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y -
+     * 1).getTile();
+     * TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y +
+     * 1).getTile();
+     * TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y -
+     * 1).getTile();
+     */
 
-        TerrainTile tile = (TerrainTile) tiledMapTileLayer.getCell(x, y).getTile();
-
-        if (tile.getName() == "water") {
-          Entity wall = ObstacleFactory.createWall(1f, 0.5f);
-
-          this.entityMapping.addEntity(wall);
-          super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
-        }*/
-/*
-        TerrainTile above = (TerrainTile) tiledMapTileLayer.getCell(x, y + 1).getTile();
-        TerrainTile below = (TerrainTile) tiledMapTileLayer.getCell(x, y - 1).getTile();
-        TerrainTile left = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y).getTile();
-        TerrainTile right = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y).getTile();
-        TerrainTile rightAbove = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y + 1).getTile();
-        TerrainTile rightBelow = (TerrainTile) tiledMapTileLayer.getCell(x + 1, y - 1).getTile();
-        TerrainTile leftAbove = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y + 1).getTile();
-        TerrainTile leftBelow = (TerrainTile) tiledMapTileLayer.getCell(x - 1, y - 1).getTile();*/
-
-        /*if (tile.getName().equals("grass")) {
-          if (above.getName().equals("water")) {
-            createBorderWall(x, y + 1);
-          }
-          if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
-            createBorderWall(x, y - 1);
-          }
-          if (left.getName().equals("water")) {
-            createBorderWall(x - 1, y);
-          }
-          if (right.getName().equals("cliff") || right.getName().equals("cliffRight")) {
-            createBorderWall(x + 1, y);
-          }
-          if (rightAbove.getName().equals("water") || rightAbove.getName().equals("cliffRight")
-                  || rightAbove.getName().equals("cliff")) {
-            createBorderWall(x + 1, y + 1);
-          }
-          if (rightBelow.getName().equals("cliff")) {
-            createBorderWall(x + 1, y - 1);
-          }
-          if (leftAbove.getName().equals("water")) {
-            createBorderWall(x - 1, y + 1);
-          }
-          if (leftBelow.getName().equals("water") || leftBelow.getName().equals("cliff")
-                  || leftBelow.getName().equals("cliffLeft")) {
-            createBorderWall(x - 1, y + 1);
-          }
-        }
-      }
-    }*/
+    /*
+     * if (tile.getName().equals("grass")) {
+     * if (above.getName().equals("water")) {
+     * createBorderWall(x, y + 1);
+     * }
+     * if (below.getName().equals("cliff") || below.getName().equals("cliffLeft")) {
+     * createBorderWall(x, y - 1);
+     * }
+     * if (left.getName().equals("water")) {
+     * createBorderWall(x - 1, y);
+     * }
+     * if (right.getName().equals("cliff") || right.getName().equals("cliffRight"))
+     * {
+     * createBorderWall(x + 1, y);
+     * }
+     * if (rightAbove.getName().equals("water") ||
+     * rightAbove.getName().equals("cliffRight")
+     * || rightAbove.getName().equals("cliff")) {
+     * createBorderWall(x + 1, y + 1);
+     * }
+     * if (rightBelow.getName().equals("cliff")) {
+     * createBorderWall(x + 1, y - 1);
+     * }
+     * if (leftAbove.getName().equals("water")) {
+     * createBorderWall(x - 1, y + 1);
+     * }
+     * if (leftBelow.getName().equals("water") ||
+     * leftBelow.getName().equals("cliff")
+     * || leftBelow.getName().equals("cliffLeft")) {
+     * createBorderWall(x - 1, y + 1);
+     * }
+     * }
+     * }
+     * }
+     */
   }
 
-  /*private void createBorderWall(int x, int y) {
-    //Fix this to match Luke's stuff
-    Entity wall = ObstacleFactory.createWall(1f, 0.5f);
-    super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
-  }*/
+  /*
+   * private void createBorderWall(int x, int y) {
+   * //Fix this to match Luke's stuff
+   * Entity wall = ObstacleFactory.createWall(1f, 0.5f);
+   * super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
+   * }
+   */
 
   /**
    * Spawns NPCs during the day and removes them at night.
@@ -596,8 +609,8 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
-          spawnElectricEelEnemy();
-          spawnNinjaStarfishEnemy();
+          // spawnElectricEelEnemy();
+          // spawnNinjaStarfishEnemy();
           if (dayNum == BOSS_DAY) {
             spawnMeleeBoss();
           }
@@ -623,7 +636,10 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
-    pirateCrabEnemy.setName("Mr. Crabs");
+    pirateCrabEnemy.setName("Mr. Crabs@" + pirateCrabEnemy.getId());
+    pirateCrabEnemy.setCollectable(true);
+    pirateCrabEnemy.setResourceType(ResourceType.GOLD);
+    pirateCrabEnemy.setResourceAmount(50);
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
@@ -704,7 +720,7 @@ public class ForestGameArea extends GameArea {
     Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-//    int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
+    // int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
     int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());

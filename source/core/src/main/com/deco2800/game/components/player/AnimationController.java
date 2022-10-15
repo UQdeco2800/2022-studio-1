@@ -1,5 +1,6 @@
 package com.deco2800.game.components.player;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.components.shop.equipments.Equipments;
@@ -25,6 +26,7 @@ public class AnimationController extends Component {
     entity.getEvents().addListener("ch_dir_a", this::ch_dir_a);
     entity.getEvents().addListener("ch_dir_s", this::ch_dir_s);
     entity.getEvents().addListener("ch_dir_d", this::ch_dir_d);
+    entity.getEvents().addListener("walk_rev", this::walk_rev);
 
     entity.getEvents().addListener("attack_anim", this::attack_anim);
     entity.getEvents().addListener("attack_anim_rev", this::attack_anim_rev);
@@ -39,6 +41,8 @@ public class AnimationController extends Component {
     animator.stopAnimation();
     if (anim.length() > 2) {
       anim = anim.substring(0, 4).concat(dir);
+      animator.removeAnimation(anim);
+      animator.addAnimation(anim, 0.15f, Animation.PlayMode.LOOP_REVERSED);
       animator.startAnimation(anim);
     }else{
       animator.startAnimation(dir);
@@ -60,6 +64,13 @@ public class AnimationController extends Component {
 
   void ch_dir_d() {
     wrapper("d");
+  }
+
+  void walk_rev() {
+    String anim = animator.getCurrentAnimation();
+    animator.removeAnimation(anim);
+    animator.addAnimation(anim, 0.15f, Animation.PlayMode.REVERSED);
+    animator.startAnimation(anim);
   }
 
   void attack_anim(){    

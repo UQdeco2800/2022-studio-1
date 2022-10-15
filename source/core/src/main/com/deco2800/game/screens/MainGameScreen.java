@@ -14,7 +14,6 @@ import com.deco2800.game.components.maingame.*;
 import com.deco2800.game.components.shop.ArtefactShopDisplay;
 import com.deco2800.game.components.shop.BuildingShopDisplay;
 import com.deco2800.game.components.shop.EquipmentsShopDisplay;
-import com.deco2800.game.components.shop.EquipmentsShopDisplay;
 import com.deco2800.game.components.shop.ShopInterface;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -83,11 +82,12 @@ public class MainGameScreen extends ScreenAdapter {
       "images/clock_sprites/clock_day4_4.png",
       "images/clock_sprites/clock_day4_5.png",
       "images/clock_sprites/clock_day4_6.png",
-      "images/clock_sprites/clock_day4_7.png",
-      "images/clock_sprites/clock_day4_8.png",
+      "images/clock_sprites/clock_boss.png",
       "images/anim_demo/woodresourcebuilding.png",
       "images/storyLine/skipButton.png",
-      "images/storyLine/textBox.png"
+      "images/storyLine/textBox.png",
+      "images/crystalhealth.png",
+      "images/crystalhealth2.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
@@ -157,6 +157,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void render(float delta) {
     physicsEngine.update();
     ServiceLocator.getEntityService().update();
+    ServiceLocator.getStructureService().update();
     renderer.render();
   }
 
@@ -219,24 +220,23 @@ public class MainGameScreen extends ScreenAdapter {
 
     Entity ui = new Entity();
     ui.addComponent(new InputDecorator(stage, 10))
-            .addComponent(new PerformanceDisplay())
-            .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
-            .addComponent(new MainGameExitDisplay())
-            .addComponent(new MainGameInterface())
-            .addComponent(new MainGameBuildingInterface())
-            .addComponent(new MainGameNpcInterface())
-            .addComponent(new DayNightClockComponent())
-            .addComponent(new DayNightClockComponent())
-            .addComponent(new Terminal())
-            .addComponent(new MainGameTutorials())
-            .addComponent(new EpilogueLayover())
-            .addComponent(new AchievementPopupComponent())
-            .addComponent(inputComponent)
-            .addComponent(new TerminalDisplay())
-            .addComponent(new ShopInterface())
-            .addComponent(new ArtefactShopDisplay())
-            .addComponent(new BuildingShopDisplay())
-            .addComponent(new EquipmentsShopDisplay());
+        .addComponent(new PerformanceDisplay())
+        .addComponent(new MainGameActions(this.game, MainArea.getInstance().getGameArea().getPlayer()))
+        .addComponent(new MainGameExitDisplay())
+        .addComponent(new MainGameInterface())
+        .addComponent(new MainGameBuildingInterface())
+        .addComponent(new MainGameNpcInterface())
+        .addComponent(new DayNightClockComponent())
+        .addComponent(new Terminal())
+        .addComponent(new MainGameTutorials())
+        .addComponent(new EpilogueLayover())
+        .addComponent(new AchievementPopupComponent())
+        .addComponent(inputComponent)
+        .addComponent(new TerminalDisplay())
+        .addComponent(new ShopInterface())
+        .addComponent(new ArtefactShopDisplay())
+        .addComponent(new BuildingShopDisplay())
+        .addComponent(new EquipmentsShopDisplay());
 
     ServiceLocator.getEntityService().registerNamed("ui", ui);
   }

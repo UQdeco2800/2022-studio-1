@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
-import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.CrystalService;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -28,6 +28,8 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.badlogic.gdx.math.MathUtils.random;
 
 
 public class MainGameBuildingInterface extends UIComponent {
@@ -215,17 +217,25 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     public Table makeCrystalPopUp(Boolean value, float x, float y) {
-
         float uiHeight = 200f;
         float screenHeight = Gdx.graphics.getHeight();
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         int playerGold = player.getComponent(InventoryComponent.class).getGold();
-        String cost;
+        Image crystalhealth;
+        String cost,health;
         if (level == 1){
             cost = "2000";
-        } else cost = "5000";
+            health = "+100";
+            crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth.png", Texture.class));
+
+        } else {
+            cost = "5000";
+            health = "+200";
+            crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth2.png", Texture.class));
+
+        }
 
         y = screenHeight - y + 100;
         if (y + uiHeight > screenHeight) {
@@ -260,7 +270,7 @@ public class MainGameBuildingInterface extends UIComponent {
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
         TextButton upgradeButton = ShopUtils.createImageTextButton(
-                "Upgrade for:" + "\n" + cost,
+                "Upgrade" + "\n" + cost,
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, false);
 
@@ -272,12 +282,25 @@ public class MainGameBuildingInterface extends UIComponent {
 
                         if (level == 1 && playerGold >= 2000) {
                             logger.info("Sufficient gold to upgrade crystal");
-                            CrystalFactory.upgradeCrystal();
+//                            Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+//                            CameraComponent camComp = camera.getComponent(CameraComponent.class);
+//
+//                                float x = (random.nextFloat() - 0.5f) * 2 * .2f;
+//                                float y = (random.nextFloat() - 0.5f) * 2 * .2f;
+//                                float z = (random.nextFloat() - 0.5f) * 2 * .2f;
+//
+//                                // Set the camera to this new x/y position
+//                                camComp.getCamera().translate(-50,-y,-z);
+                            //screenShakeComponent.ScreenShake(.2f, .1f);
+                            //screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
+                            CrystalService.upgradeCrystal();
+                            entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
                         else if (level == 2 && playerGold >= 5000) {
                             logger.info("Sufficient gold to upgrade crystal");
-                            CrystalFactory.upgradeCrystal();
+                            CrystalService.upgradeCrystal();
+                            entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
 
@@ -300,27 +323,34 @@ public class MainGameBuildingInterface extends UIComponent {
         }
 
         //table
-        Table buildingInfo = new Table();
-        buildingInfo.add(CrystalLabel).center();
+        Table CrystalInfo = new Table();
+        CrystalInfo.add(CrystalLabel).center();
 
 
 
         //healthInfo.add(healthAmount);
 
         Table leftTable = new Table();
-        leftTable.padBottom(30f);
+        leftTable.padTop(10f);
+        leftTable.padBottom(10f);
         leftTable.row();
-        leftTable.add(buildingInfo);
+        leftTable.add(CrystalInfo);
+        leftTable.row();
         leftTable.add(crystalImage);
-        leftTable.row();
 
 
         Table rightTable = new Table();
-        rightTable.padBottom(30f);
-        //rightTable.add(sellButton).size(250f, 80f).center().padBottom(10f).padRight(20f).padTop(23f);
+        rightTable.padLeft(20f);
+        rightTable.padRight(20f);
+        rightTable.padBottom(10f);
+        Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
+        Label crystalLabel = new Label(health, skin, "large");
+        rightTable.add(crystalhealth).size(300f,50f);
+        rightTable.add(crystalLabel).size(50f,60f).padTop(10f).padBottom(10f);
+        //rightTable.add(healthLabel);
         rightTable.row();
         if(crystal.getComponent(CombatStatsComponent.class).getLevel()<3) {
-            rightTable.add(upgradeButton).size(250f, 80f).center();
+            rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);
         }
         else {
 //            Label crystalLabel = new Label("Crystal has reached max level", skin, "large");
@@ -329,7 +359,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.add(leftTable);
-        CrystalUI.add(rightTable);
+        CrystalUI.add(rightTable).padTop(10f);
 
 
         stage.addActor(CrystalUI);

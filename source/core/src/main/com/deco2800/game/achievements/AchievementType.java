@@ -5,14 +5,14 @@ package com.deco2800.game.achievements;
  * each type can have many achievements
  */
 public enum AchievementType {
-    SUMMARY("Summary", "", ""),
-    RESOURCES("Resources","images/achievements/Resource_Icon.png",
+    SUMMARY("Summary", "images/achievements/Summary_Icon.png", ""),
+    RESOURCES("Resources","images/achievements/Resources_Icon.png",
             "images/achievements/Resource_64x64_Icon.png"),
-    BUILDINGS("Buildings","images/achievements/Building_Icon.png",
+    BUILDINGS("Buildings","images/achievements/Buildings_Icon.png",
             "images/achievements/Building_64x64_Icon.png"),
-    KILLS("Kills","images/achievements/Kill_Icon.png",
+    KILLS("Kills","images/achievements/Kills_Icon.png",
             "images/achievements/Kill_64x64_Icon.png"),
-    UPGRADES("Upgrades","images/achievements/Upgrade_Icon.png",
+    UPGRADES("Upgrades","images/achievements/Upgrades_Icon.png",
             "images/achievements/Upgrade_64x64_Icon.png"),
     GAME ("Game","images/achievements/Game_Icon.png",
             "images/achievements/Game_64x64_Icon.png"),
