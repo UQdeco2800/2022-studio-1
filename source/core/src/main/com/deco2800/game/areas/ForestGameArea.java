@@ -141,14 +141,20 @@ public class ForestGameArea extends GameArea {
       "images/wallRight.png",
       "images/wallLeft.png",
       "images/turret.png",
-      "images/attack_towers/lv1GuardianLeft.png"
+      "images/attack_towers/lv1GuardianLeft.png",
+      "images/attack_towers/animations/towerLevel2.png"
   };
 
   private static final String[] forestTextureAtlases = {
-      "images/terrain_iso_grass.atlas", "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas", "images/eel_animations/eel.atlas", "images/starfish_animation/starfish.atlas",
-      "images/final_boss_animations/final_boss.atlas", "images/npc_animations/NPC1sprite.atlas",
-      "images/npc_animations/npc.atlas"
+      "images/terrain_iso_grass.atlas",
+      "images/ghost.atlas", "images/ghostKing.atlas",
+      "images/eel_animations/eel.atlas",
+      "images/eel_animations/eel.atlas",
+      "images/starfish_animation/starfish.atlas",
+      "images/final_boss_animations/final_boss.atlas",
+      "images/npc_animations/NPC1sprite.atlas",
+      "images/npc_animations/npc.atlas",
+      "images/attack_towers/animations/towerLevel2.atlas"
   };
 
   // Sound effect files
@@ -159,7 +165,7 @@ public class ForestGameArea extends GameArea {
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String backgroundSounds = "sounds/BgCricket.mp3";
   private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
-  private static final String[] shopPopUpMusic = {shopMusic};
+  private static final String[] shopPopUpMusic = { shopMusic };
   private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
@@ -760,6 +766,7 @@ public class ForestGameArea extends GameArea {
     ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
     playMusic();
   }
+
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();

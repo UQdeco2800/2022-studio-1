@@ -4,6 +4,13 @@ size: 1024, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+default
+  rotate: false
+  xy: 2, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 6
 towerLevel2
   rotate: false
   xy: 2, 2
@@ -48,15 +55,15 @@ towerLevel2
   index: 4
 towerLevel2
   rotate: false
-  xy: 404, 4
-  size: 65, 84
-  orig: 65, 84
+  xy: 404, 2
+  size: 65, 86
+  orig: 65, 86
   offset: 0, 0
   index: 5
 towerLevel2
   rotate: false
-  xy: 471, 5
-  size: 65, 83
-  orig: 65, 83
+  xy: 471, 2
+  size: 65, 86
+  orig: 65, 86
   offset: 0, 0
   index: 1

@@ -1,6 +1,5 @@
 package com.deco2800.game.components.maingame;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.audio.Sound;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
@@ -40,13 +39,10 @@ public class MainGameBuildingInterface extends UIComponent {
     private Label CrystalLabel;
     private Image crystalImage;
 
-
     private boolean visability;
-
 
     Entity buildingHealth;
     private ProgressBar progressBar;
-
 
     @Override
     public void create() {
@@ -58,22 +54,20 @@ public class MainGameBuildingInterface extends UIComponent {
 
     }
 
-
-
     public Table makeUIPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
 
-        //Building that was clicked
+        // Building that was clicked
         Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
 
         // code below will work later but crashed at the moment
-        //int gold = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
+        // int gold =
+        // ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
         int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
         int baseAttack = clickedStructure.getComponent(CombatStatsComponent.class).getBaseAttack();
         int sell = 0;
 
         float uiHeight = 200f;
         float screenHeight = Gdx.graphics.getHeight();
-
 
         y = screenHeight - y + 100;
         if (y + uiHeight > screenHeight) {
@@ -93,11 +87,10 @@ public class MainGameBuildingInterface extends UIComponent {
         BuildingUI.setSize(uiWidth, uiHeight);
         BuildingUI.setPosition(x, y);
 
-
         BuildingUI.setVisible(true);
 
         // add popup
-        //insert pop up texture
+        // insert pop up texture
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
@@ -106,24 +99,25 @@ public class MainGameBuildingInterface extends UIComponent {
 
         // Insert building health image and bar
         // Heart image
-        Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
+        Image heartImage = new Image(
+                ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
-        //Health Bar Image
-        Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
-        //Label healthAmount = new Label(Integer.toString(health), skin, "large");
+        // Health Bar Image
+        Image healthBarImage = new Image(
+                ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
+        // Label healthAmount = new Label(Integer.toString(health), skin, "large");
 
-//        //Health Bar image
+        // //Health Bar image
         buildingHealth = clickedStructure;
         progressBar = buildingHealth.getComponent(HealthBarComponent.class).getProgressBar();
         progressBar.getStyle().background = DrawableUtil
-                .getRectangularColouredDrawable(50, 15,  Color.BROWN);
+                .getRectangularColouredDrawable(50, 15, Color.BROWN);
         progressBar.getStyle().knob = DrawableUtil
                 .getRectangularColouredDrawable(0, 15, Color.MAROON);
         progressBar.getStyle().knobBefore = DrawableUtil
                 .getRectangularColouredDrawable(50, 15, Color.MAROON);
 
-
-        //upgrade button
+        // upgrade button
         Texture homeButton1 = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
@@ -133,34 +127,38 @@ public class MainGameBuildingInterface extends UIComponent {
                 "button", 1f, homeDown, homeUp, skin, false);
 
         upgradeButton.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent changeEvent, Actor actor) {
-                    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                    //Obtain reference to player, for some reason it was being accessed as 'entity'
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        // Obtain reference to player, for some reason it was being accessed as 'entity'
 
-                    logger.info("Upgrade Button clicked");
+                        logger.info("Upgrade Button clicked");
 
-                    if (player.getComponent(InventoryComponent.class).hasGold(100)) {
-                        logger.info("Sufficient resources");
+                        if (player.getComponent(InventoryComponent.class).hasGold(100)) {
+                            logger.info("Sufficient resources");
 
-                        //Subtract currency from inventory
-                        player.getComponent(InventoryComponent.class).addGold(-1 * 100);
+                            // Subtract currency from inventory
+                            player.getComponent(InventoryComponent.class).addGold(-1 * 100);
 
-                        //Get building and convert it's position to gridPoint2
-                        Vector2 position = clickedStructure.getPosition();
-                        GridPoint2 gridPoint2 = new GridPoint2((int) position.x, (int) position.y);
-                        
-                        StructureFactory.upgradeStructure(gridPoint2, clickedStructure.getName());
-                    } else {
-                        logger.info("Insufficient resource!");
-                        Sound filesound = Gdx.audio.newSound(
-                            Gdx.files.internal("sounds/purchase_fail.mp3"));
-                        filesound.play();
+                            Vector2 worldPos = clickedStructure.getPosition();
+                            int worldX = Math.round(worldPos.x);
+                            int worldY = Math.round(worldPos.y);
+
+                            GridPoint2 position = ServiceLocator.getEntityService().getNamedEntity("terrain")
+                                    .getComponent(TerrainComponent.class).worldToTilePosition(worldX, worldY);
+
+                            position.y += 1;
+
+                            StructureFactory.upgradeStructure(position, clickedStructure.getName());
+                        } else {
+                            logger.info("Insufficient resource!");
+                            Sound filesound = Gdx.audio.newSound(
+                                    Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                        }
                     }
-                } 
-            }
-        );
+                });
 
         // sell button
         TextButton sellButton = ShopUtils.createImageTextButton(
@@ -168,29 +166,27 @@ public class MainGameBuildingInterface extends UIComponent {
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, false);
 
-
-        //event handlers for buttons -- sell and upgrade
+        // event handlers for buttons -- sell and upgrade
         sellButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell button clicked");
                         StructureFactory.handleBuildingDestruction(entity.getName());
-                        //Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                        //player.getComponent(InventoryComponent.class).addStone(sell);
+                        // Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        // player.getComponent(InventoryComponent.class).addStone(sell);
                     }
                 });
 
-
-        //table
+        // table
         Table buildingInfo = new Table();
         buildingInfo.add(CrystalLabel).center();
 
         Table healthInfo = new Table();
         healthInfo.add(heartImage);
-        healthInfo.stack(progressBar, healthBarImage).size(200f,30f);
+        healthInfo.stack(progressBar, healthBarImage).size(200f, 30f);
 
-        //healthInfo.add(healthAmount);
+        // healthInfo.add(healthAmount);
 
         Table leftTable = new Table();
         leftTable.padBottom(30f);
@@ -198,7 +194,6 @@ public class MainGameBuildingInterface extends UIComponent {
         leftTable.add(buildingInfo);
         leftTable.row();
         leftTable.add(healthInfo);
-
 
         Table rightTable = new Table();
         rightTable.padBottom(30f);
@@ -209,7 +204,6 @@ public class MainGameBuildingInterface extends UIComponent {
         BuildingUI.setBackground(backgroundColour);
         BuildingUI.add(leftTable);
         BuildingUI.add(rightTable);
-
 
         stage.addActor(BuildingUI);
 
@@ -224,16 +218,18 @@ public class MainGameBuildingInterface extends UIComponent {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         int playerGold = player.getComponent(InventoryComponent.class).getGold();
         Image crystalhealth;
-        String cost,health;
-        if (level == 1){
+        String cost, health;
+        if (level == 1) {
             cost = "2000";
             health = "+100";
-            crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth.png", Texture.class));
+            crystalhealth = new Image(
+                    ServiceLocator.getResourceService().getAsset("images/crystalhealth.png", Texture.class));
 
         } else {
             cost = "5000";
             health = "+200";
-            crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth2.png", Texture.class));
+            crystalhealth = new Image(
+                    ServiceLocator.getResourceService().getAsset("images/crystalhealth2.png", Texture.class));
 
         }
 
@@ -255,17 +251,16 @@ public class MainGameBuildingInterface extends UIComponent {
         CrystalUI.setSize(uiWidth, uiHeight);
         CrystalUI.setPosition(x, y);
 
-
         CrystalUI.setVisible(true);
 
         // add popup
-        //insert pop up texture
+        // insert pop up texture
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         CrystalLabel = new Label("CRYSTAL", skin, "large");
 
-        //upgrade button
+        // upgrade button
         Texture homeButton1 = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
@@ -282,53 +277,50 @@ public class MainGameBuildingInterface extends UIComponent {
 
                         if (level == 1 && playerGold >= 2000) {
                             logger.info("Sufficient gold to upgrade crystal");
-//                            Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-//                            CameraComponent camComp = camera.getComponent(CameraComponent.class);
-//
-//                                float x = (random.nextFloat() - 0.5f) * 2 * .2f;
-//                                float y = (random.nextFloat() - 0.5f) * 2 * .2f;
-//                                float z = (random.nextFloat() - 0.5f) * 2 * .2f;
-//
-//                                // Set the camera to this new x/y position
-//                                camComp.getCamera().translate(-50,-y,-z);
-                            //screenShakeComponent.ScreenShake(.2f, .1f);
-                            //screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
+                            // Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+                            // CameraComponent camComp = camera.getComponent(CameraComponent.class);
+                            //
+                            // float x = (random.nextFloat() - 0.5f) * 2 * .2f;
+                            // float y = (random.nextFloat() - 0.5f) * 2 * .2f;
+                            // float z = (random.nextFloat() - 0.5f) * 2 * .2f;
+                            //
+                            // // Set the camera to this new x/y position
+                            // camComp.getCamera().translate(-50,-y,-z);
+                            // screenShakeComponent.ScreenShake(.2f, .1f);
+                            // screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
                             CrystalService.upgradeCrystal();
                             entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
-                        }
-                        else if (level == 2 && playerGold >= 5000) {
+                        } else if (level == 2 && playerGold >= 5000) {
                             logger.info("Sufficient gold to upgrade crystal");
                             CrystalService.upgradeCrystal();
                             entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
 
-                        else if (level == 3){
+                else if (level == 3) {
                             logger.info("Crystal has reached Max Level");
-                        }
-                        else {
+                        } else {
                             logger.info("Insufficient gold to upgrade crystal!");
                             Sound filesound = Gdx.audio.newSound(
-                            Gdx.files.internal("sounds/purchase_fail.mp3"));
+                                    Gdx.files.internal("sounds/purchase_fail.mp3"));
                             filesound.play();
                         }
                     }
-                }
-        );
+                });
         if (level == 1) {
-            crystalImage = new Image(ServiceLocator.getResourceService().getAsset("images/crystal_level2.png", Texture.class));
+            crystalImage = new Image(
+                    ServiceLocator.getResourceService().getAsset("images/crystal_level2.png", Texture.class));
         } else {
-            crystalImage = new Image(ServiceLocator.getResourceService().getAsset("images/crystal_level3.png", Texture.class));
+            crystalImage = new Image(
+                    ServiceLocator.getResourceService().getAsset("images/crystal_level3.png", Texture.class));
         }
 
-        //table
+        // table
         Table CrystalInfo = new Table();
         CrystalInfo.add(CrystalLabel).center();
 
-
-
-        //healthInfo.add(healthAmount);
+        // healthInfo.add(healthAmount);
 
         Table leftTable = new Table();
         leftTable.padTop(10f);
@@ -338,29 +330,29 @@ public class MainGameBuildingInterface extends UIComponent {
         leftTable.row();
         leftTable.add(crystalImage);
 
-
         Table rightTable = new Table();
         rightTable.padLeft(20f);
         rightTable.padRight(20f);
         rightTable.padBottom(10f);
-        Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
+        Image heartImage = new Image(
+                ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
         Label crystalLabel = new Label(health, skin, "large");
-        rightTable.add(crystalhealth).size(300f,50f);
-        rightTable.add(crystalLabel).size(50f,60f).padTop(10f).padBottom(10f);
-        //rightTable.add(healthLabel);
+        rightTable.add(crystalhealth).size(300f, 50f);
+        rightTable.add(crystalLabel).size(50f, 60f).padTop(10f).padBottom(10f);
+        // rightTable.add(healthLabel);
         rightTable.row();
-        if(crystal.getComponent(CombatStatsComponent.class).getLevel()<3) {
-            rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);
-        }
-        else {
-//            Label crystalLabel = new Label("Crystal has reached max level", skin, "large");
-//            rightTable.add(crystalLabel).size(250f, 80f).center();
+        if (crystal.getComponent(CombatStatsComponent.class).getLevel() < 3) {
+            rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f)
+                    .padBottom(10f);
+        } else {
+            // Label crystalLabel = new Label("Crystal has reached max level", skin,
+            // "large");
+            // rightTable.add(crystalLabel).size(250f, 80f).center();
         }
 
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.add(leftTable);
         CrystalUI.add(rightTable).padTop(10f);
-
 
         stage.addActor(CrystalUI);
 
@@ -385,7 +377,6 @@ public class MainGameBuildingInterface extends UIComponent {
     private String prettyPrint(Graphics.DisplayMode displayMode) {
         return displayMode.width + "x" + displayMode.height + ", " + displayMode.refreshRate + "hz";
     }
-
 
     @Override
     public void draw(SpriteBatch batch) {
