@@ -503,10 +503,26 @@ public class MainGameInterface extends UIComponent {
             });
 
     // Guidebook button
-    Texture guideBookTexture = new Texture(Gdx.files.internal("images/uiElements/exports/help-button.png"));
+    Texture guideBookTexture = new Texture(Gdx.files.internal("images/guidebook.png"));
+    Texture guideBookTextureCheck = new Texture(Gdx.files.internal("images/guideBookCheck.png"));
     TextureRegionDrawable upGuidebook = new TextureRegionDrawable(guideBookTexture);
     TextureRegionDrawable downGuidebook = new TextureRegionDrawable(guideBookTexture);
-    ImageButton guideBookButton = new ImageButton(upGuidebook, downGuidebook);
+    TextureRegionDrawable guidebookCheck = new TextureRegionDrawable(guideBookTextureCheck);
+    ImageButton guideBookButton = new ImageButton(upGuidebook, downGuidebook, guidebookCheck);
+
+    //Adds hover state to achievements
+    guideBookButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                guideBookButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                guideBookButton.setChecked(false);
+              }
+            });
 
     // trigger for guidebook
     guideBookButton.addListener(  new ClickListener() {
@@ -1196,7 +1212,7 @@ public class MainGameInterface extends UIComponent {
           }
         });
 
-    rightSideTable.add(guideBookButton).right().bottom().size(80f, 80f).padBottom(5f);
+    rightSideTable.add(guideBookButton).right().bottom().size(100f, 100f);
 
     rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
     // adding building button to the right
