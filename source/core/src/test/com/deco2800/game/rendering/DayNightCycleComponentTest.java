@@ -25,13 +25,6 @@ class DayNightCycleComponentTest {
         dayNightCycleComponent = new DayNightCycleComponent();
     }
 
-
-    @Test
-    public void shouldSetIntensityToDawnIntensity() {
-        dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DAWN);
-        assertEquals(DayNightCycleComponent.DAWN_INTENSITY, dayNightCycleComponent.getIntensity());
-    }
-
     @Test
     public void shouldShadeDawnWithBrightAmbientColour() {
         dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DAWN);

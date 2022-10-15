@@ -71,8 +71,9 @@ public class DayNightCycleComponent {
         if (dayNightCycleService != null) {
             dayNightCycleService.getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                     this::onPartOfDayChange);
+            this.currentPartOfDay = dayNightCycleService.getCurrentCycleStatus();
         }
-        this.currentPartOfDay = dayNightCycleService.getCurrentCycleStatus();
+
 
         this.config =  FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json");
     }
