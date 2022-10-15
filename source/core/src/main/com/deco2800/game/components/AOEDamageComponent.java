@@ -157,6 +157,8 @@ public class AOEDamageComponent extends Component {
 
         private void damageTargets() {
                 for (int i = 0; i < numTargets; i++) {
+                        if (targets[i] == null)
+                                continue;
                         targets[i].getComponent(CombatStatsComponent.class).hit(combatStats);
                 }
         }
