@@ -69,8 +69,9 @@ public class MainGameBuildingInterface extends UIComponent {
         // code below will work later but crashed at the moment
         int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
         int baseAttack = clickedStructure.getComponent(CombatStatsComponent.class).getBaseAttack();
+        Label healthAmount = new Label("" + health, skin);
 
-        float uiHeight = 200f;
+        float uiHeight = 300f;
         float screenHeight = Gdx.graphics.getHeight();
 
 
@@ -79,7 +80,7 @@ public class MainGameBuildingInterface extends UIComponent {
             y -= uiHeight + 100;
         }
 
-        float uiWidth = 650f;
+        float uiWidth = 700f;
         float screenWidth = Gdx.graphics.getWidth();
 
         x = (x - 0.5f * uiWidth);
@@ -121,7 +122,7 @@ public class MainGameBuildingInterface extends UIComponent {
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
         TextButton upgradeButton = ShopUtils.createImageTextButton(
-                "Upgrade for:" + "\n" + "100",
+                "\n Upgrade for:" + "\n" + "100",
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, false);
 
@@ -161,7 +162,7 @@ public class MainGameBuildingInterface extends UIComponent {
         String[] arrOfStr = stoneAndwood.split(",");
 
         TextButton sellButton = ShopUtils.createImageTextButton(
-                "Sell for: \n" + " Stone:" + arrOfStr[0] + " & Wood: " + arrOfStr[1],
+                "\n"+ "Sell for: \n" + " Stone: " + arrOfStr[0] + "\n & Wood: " + arrOfStr[1],
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, false);
 
@@ -191,7 +192,7 @@ public class MainGameBuildingInterface extends UIComponent {
         healthInfo.add(heartImage);
         healthInfo.stack(progressBar, healthBarImage).size(200f,30f);
 
-        //healthInfo.add(healthAmount);
+        healthInfo.add(healthAmount).padLeft(5f);
 
         Table leftTable = new Table();
         leftTable.padBottom(30f);
@@ -203,9 +204,9 @@ public class MainGameBuildingInterface extends UIComponent {
 
         Table rightTable = new Table();
         rightTable.padBottom(30f);
-        rightTable.add(sellButton).size(250f, 80f).center().padBottom(10f).padRight(20f).padTop(23f);
+        rightTable.add(sellButton).size(300f, 100f).center().padBottom(10f).padRight(20f).padTop(23f);
         rightTable.row();
-        rightTable.add(upgradeButton).size(250f, 80f).center();
+        rightTable.add(upgradeButton).size(300f, 100f).center();
 
         BuildingUI.setBackground(backgroundColour);
         BuildingUI.add(leftTable);
