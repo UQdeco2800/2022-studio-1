@@ -15,6 +15,7 @@ import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.configs.EnemyConfig;
 import com.deco2800.game.entities.configs.NPCConfigs;
+import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -24,6 +25,7 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
