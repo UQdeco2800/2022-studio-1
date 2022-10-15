@@ -16,6 +16,7 @@ import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.files.FileLoader;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -298,6 +299,8 @@ public class EquipmentsShopDisplay extends UIComponent {
                             .getComponent(CombatStatsComponent.class)
                             .setAttackMultiplier(
                                     stats.attack);
+                    MainArea.getInstance().getGameArea().getPlayer().getComponent(AnimationRenderComponent.class)
+                            .startAnimation(Equipments.getAnimationName(current.t));
                     entity.getEvents().trigger("updateEquipment");
 
                     coinSound.play();
