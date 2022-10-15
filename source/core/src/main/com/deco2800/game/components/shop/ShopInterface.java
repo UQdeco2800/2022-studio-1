@@ -130,7 +130,7 @@ public class ShopInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Close shop page");
                         closeShop();
-                        ((ForestGameArea) MainArea.getInstance().getGameArea()).exitShop();
+                        entity.getEvents().trigger("closeAll");
                     }
                 });
 
@@ -202,6 +202,7 @@ public class ShopInterface extends UIComponent {
     }
 
     private void closeShop() {
+        ((ForestGameArea) MainArea.getInstance().getGameArea()).exitShop();
         group.setVisible(false);
         category.setVisible(false);
         subtitle.setVisible(false);
