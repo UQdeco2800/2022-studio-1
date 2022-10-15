@@ -5,16 +5,25 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.*;
-import com.deco2800.game.entities.factories.ObstacleFactory;
-import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.entities.configs.CrystalConfig;
+import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.extensions.GameExtension;
+import com.deco2800.game.input.InputService;
+import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsService;
+import com.deco2800.game.physics.components.ColliderComponent;
+import com.deco2800.game.physics.components.HitboxComponent;
+import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.*;
+import com.deco2800.game.services.configs.DayNightCycleConfig;
 import com.deco2800.game.utils.RenderUtil;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.Test;
@@ -33,6 +42,10 @@ import static org.mockito.Mockito.*;
 public class SaveGameTest {
 
     String filePath = "Saves/";
+    Entity testPlayer;
+    Entity testCrystal;
+    private static final CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
+    Tile testTile;
 
     private static final String[] forestTextures = {
             "images/Centaur_Back_left.png",
@@ -123,6 +136,12 @@ public class SaveGameTest {
             "images/TOWER3I.png"
     };
 
+    private static final String[] textureAtlases = {
+            "images/anim_demo/main.atlas",
+            "images/eel_animations/eel.atlas",
+            "images/starfish_animation/starfish.atlas"
+    };
+
     void deleteFiles() {
         try {
             Files.deleteIfExists(Path.of(filePath + "Environmental.json"));
@@ -130,17 +149,22 @@ public class SaveGameTest {
             Files.deleteIfExists(Path.of(filePath + "Structures.json"));
             Files.deleteIfExists(Path.of(filePath + "Player.json"));
             Files.deleteIfExists(Path.of(filePath + "Crystal.json"));
+            Files.deleteIfExists(Path.of(filePath + "Enemies.json"));
         } catch (IOException ignored) {
 
         }
     }
 
     void setUpServices() {
+        ServiceLocator.registerTimeSource(new GameTime());
+
         EntityService entityService = new EntityService();
         StructureService structureService = new StructureService();
-        DayNightCycleService dayNightCycleService = new DayNightCycleService();
+        DayNightCycleService dayNightCycleService = new DayNightCycleService(ServiceLocator.getTimeSource(),
+                FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
         ResourceService resourceService = new ResourceService();
         RenderService renderService = new RenderService();
+        InputService inputService = new InputService();
 
         AchievementHandler achievementHandler = new AchievementHandler();
         PhysicsService physicsService = new PhysicsService();
@@ -154,8 +178,10 @@ public class SaveGameTest {
         ServiceLocator.registerAchievementHandler(achievementHandler);
         ServiceLocator.registerPhysicsService(physicsService);
         ServiceLocator.registerUGSService(ugs);
+        ServiceLocator.registerInputService(inputService);
 
         resourceService.loadTextures(forestTextures);
+        resourceService.loadTextureAtlases(textureAtlases);
 
         //mock terrain to avoid nullpointerexception when scaling entities
         TerrainComponent terrain = mock(TerrainComponent.class);
@@ -183,6 +209,23 @@ public class SaveGameTest {
         }
     }
 
+    void setUpEnemyTesting() {
+        deleteFiles();
+        setUpServices();
+
+        testTile = new Tile();
+        testCrystal = new Entity()
+                .addComponent(new TextureRenderComponent("images/crystal.png"))
+                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                .addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
+                        crystalStats.defense, crystalStats.level, 1000));
+        ServiceLocator.getUGSService().add(new GridPoint2(1, 1), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(1, 1), testCrystal, "crystal");
+        testPlayer = mock(Entity.class);
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), testPlayer, "player");
+    }
+
     @Test
     void testSaveGameEmpty() {
         deleteFiles();
@@ -192,6 +235,7 @@ public class SaveGameTest {
         assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
         assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
         assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
     }
 
     @Test
@@ -431,5 +475,155 @@ public class SaveGameTest {
         assertEquals("rock1", ServiceLocator.getUGSService().getEntity(new GridPoint2(0,0)).getName());
         assertEquals("tree1", ServiceLocator.getUGSService().getEntity(new GridPoint2(1,1)).getName());
 
+    }
+
+
+    @Test
+    void testSaveGameSingleEnemy() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs@" + testEnemy.getId());
+        testEnemy.setPosition(2,2);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Enemies.json");
+        assertEquals(1, load.size());
+    }
+
+
+    @Test
+    void testSaveGameMultipleEnemies() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs@" + testEnemy.getId());
+        testEnemy.setPosition(2,2);
+        Entity testEnemy1 = NPCFactory.createElectricEelEnemy(testPlayer, testCrystal);
+        testEnemy1.setName("Mr. Electricity@" + testEnemy1.getId());
+        testEnemy1.setPosition(3,3);
+        Entity testEnemy2 = NPCFactory.createStarFishEnemy(testPlayer, testCrystal);
+        testEnemy2.setName("Mr. Starfish@" + testEnemy2.getId());
+        testEnemy2.setPosition(4,4);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        ServiceLocator.getEntityService().registerNamed("testEel",  testEnemy1);
+        ServiceLocator.getUGSService().add(new GridPoint2(3, 3), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(3, 3), testEnemy, "testEnemy1");
+
+        //Starfish already registered in NPCFactory!
+        //ServiceLocator.getEntityService().registerNamed("testStarfish",  testEnemy2);
+        ServiceLocator.getUGSService().add(new GridPoint2(4, 4), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(4, 4), testEnemy, "testEnemy1");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Enemies.json");
+        assertEquals(3, load.size());
+    }
+
+
+    @Test
+    void testSaveGameFollowedBySingleEnemyLoad() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs");
+        testEnemy.setPosition(2,2);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        SaveGame.loadGameState();
+        int numberOfEnemies = 0;
+        //Cannot use UGS because it's only used for structures and environmental objects, also maybe because enemies move(?)
+        for (Entity enemy : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+            if (enemy.getClass() == Enemy.class){
+                numberOfEnemies++;
+                assertEquals("Mr. Crabs", enemy.getName());
+            }
+        }
+        assertEquals(1,numberOfEnemies);
+    }
+
+
+    @Test
+    void testSaveGameFollowedByMultipleEnemiesLoad() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs1");
+        testEnemy.setPosition(2,2);
+        Entity testEnemy1 = NPCFactory.createElectricEelEnemy(testPlayer, testCrystal);
+        testEnemy1.setName("Mr. Electricity2");
+        testEnemy1.setPosition(3,3);
+        Entity testEnemy2 = NPCFactory.createStarFishEnemy(testPlayer, testCrystal);
+        testEnemy2.setName("Mr. Starfish3");
+        testEnemy2.setPosition(4,4);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        ServiceLocator.getEntityService().registerNamed("testEel",  testEnemy1);
+        ServiceLocator.getUGSService().add(new GridPoint2(3, 3), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(3, 3), testEnemy, "testEnemy1");
+
+        //Starfish already registered in NPCFactory!
+        //ServiceLocator.getEntityService().registerNamed("testStarfish",  testEnemy2);
+        ServiceLocator.getUGSService().add(new GridPoint2(4, 4), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(4, 4), testEnemy, "testEnemy2");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        SaveGame.loadGameState();
+        int numberOfEnemies = 0;
+        int numberOfCrabs = 0;
+        int numberOfEels = 0;
+        int numberOfStarfishes = 0;
+        //Cannot use UGS because it's only used for structures and environmental objects, also maybe because enemies move(?)
+        for (Entity enemy : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+            if (enemy.getClass() == Enemy.class){
+                numberOfEnemies++;
+                if(enemy.getName() == "Mr. Crabs1"){
+                    numberOfCrabs++;
+                } else if (enemy.getName() == "Mr. Electricity2") {
+                    numberOfEels++;
+                } else if (enemy.getName() == "Mr. Starfish3") {
+                    numberOfStarfishes++;
+                }
+            }
+        }
+        assertEquals(1,numberOfCrabs);
+        assertEquals(1,numberOfEels);
+        assertEquals(1,numberOfStarfishes);
+        assertEquals(3,numberOfEnemies);
     }
 }
