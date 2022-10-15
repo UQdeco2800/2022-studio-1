@@ -64,7 +64,6 @@ public class MainGameBuildingInterface extends UIComponent {
         Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
 
         // code below will work later but crashed at the moment
-        //int gold = ServiceLocator.getStructureService().getNamedEntity(structureName).getComponent(InventoryComponent.class).getGold();
         int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
         int baseAttack = clickedStructure.getComponent(CombatStatsComponent.class).getBaseAttack();
         int sell = 0;
@@ -86,29 +85,23 @@ public class MainGameBuildingInterface extends UIComponent {
         x = Math.min(x, screenWidth - uiWidth);
 
         visability = value;
-
+        BuildingUI.setVisible(true);
         BuildingUI = new Table();
         BuildingUI.setSize(uiWidth, uiHeight);
         BuildingUI.setPosition(x, y);
 
 
-        BuildingUI.setVisible(true);
-
-        // add popup
-        //insert pop up texture
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
         CrystalLabel = new Label(buildingName, skin, "large");
 
-        // Insert building health image and bar
         // Heart image
         Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
         //Health Bar Image
         Image healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
-        //Label healthAmount = new Label(Integer.toString(health), skin, "large");
 
 //        //Health Bar image
         buildingHealth = clickedStructure;

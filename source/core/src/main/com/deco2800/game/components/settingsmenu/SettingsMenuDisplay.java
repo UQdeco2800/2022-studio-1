@@ -176,11 +176,12 @@ public class SettingsMenuDisplay extends UIComponent {
     TextureRegionDrawable backHover = new TextureRegionDrawable(backTextureHover);
     ImageButton backButton = new ImageButton(back,back,backHover);
 
-    Texture applyTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
-    TextureRegionDrawable apply = new TextureRegionDrawable(applyTexture);
-    TextButton applyButton = ShopUtils.createImageTextButton("APPLY", skin.getColor("black"), "title", 1f, apply,
-            apply, skin, false);
-    applyButton.padBottom(0);
+    Texture applyTexture = new Texture(Gdx.files.internal("images/applyButton.png"));
+    Texture applyHoeverTexture = new Texture(Gdx.files.internal("images/applyButtonCheckOut.png"));
+    TextureRegionDrawable applyBack = new TextureRegionDrawable(applyTexture);
+    TextureRegionDrawable applyHover = new TextureRegionDrawable(applyHoeverTexture);
+    ImageButton applyButton= new ImageButton(applyBack,applyBack,applyHover);
+
 
     backButton.addListener(
             new ClickListener() {
@@ -205,17 +206,31 @@ public class SettingsMenuDisplay extends UIComponent {
             });
 
     applyButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Apply button clicked");
             applyChanges();
+            return true;
           }
         });
 
+    applyButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                applyButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                applyButton.setChecked(false);
+              }
+            });
+
     Table table = new Table();
-    table.add(backButton).expandX().left().pad(0f, 25f, 15f, 0f).size(80f);
-    table.add(applyButton).expandX().right().pad(0f, 0f, 15f, 25f);
+    table.add(backButton).expandX().left().padLeft(10f).size(80f);
+    table.add(applyButton).expandX().right().size(300f);
     return table;
   }
 
@@ -232,10 +247,6 @@ public class SettingsMenuDisplay extends UIComponent {
     settings.vsync = vsyncCheck.isChecked();
 
     UserSettings.set(settings, true);
-  }
-
-  public Boolean getMusicStatus() {
-    return musicStatus;
   }
 
   private void exitMenu() {

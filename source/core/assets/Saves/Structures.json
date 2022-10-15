@@ -1,1 +1,11 @@
-[]
+[
+{
+	class: com.deco2800.game.files.Tuple
+	position: {
+		x: 944
+		y: 16
+	}
+	name: "wall(57, 61)"
+	creationMethod: createWall
+}
+]
