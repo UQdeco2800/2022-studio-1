@@ -510,11 +510,12 @@ public class MainGameInterface extends UIComponent {
 
     // trigger for shop button
     shopButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Shop button clicked");
             entity.getEvents().trigger("shop");
+            return true;
           }
         });
 

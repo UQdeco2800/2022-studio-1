@@ -90,17 +90,13 @@ public class MainMenuDisplay extends UIComponent {
       TextureRegionDrawable loadChecked = new TextureRegionDrawable(loadButton2);
       ImageButton loadButton = new ImageButton(loadUp, loadDown, loadChecked);
 
-      // inserting settings Button
-      Texture settingsButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/settings.png"));
-      TextureRegionDrawable settingsUp = new TextureRegionDrawable(settingsButton1);
-      TextureRegionDrawable settingsDown = new TextureRegionDrawable(settingsButton1);
-      ImageButton settingsButton = new ImageButton(settingsUp, settingsDown);
-
       // inserting exit Button
       Texture exitButton1 = new Texture(Gdx.files.internal("images/uiElements/exports/exit_button.png"));
+      Texture exitButton2 = new Texture(Gdx.files.internal("images/offButton_OnClick.png"));
       TextureRegionDrawable exitUp = new TextureRegionDrawable(exitButton1);
       TextureRegionDrawable exitDown = new TextureRegionDrawable(exitButton1);
-      ImageButton exitButton = new ImageButton(exitUp, exitDown);
+      TextureRegionDrawable exitButtonChecked = new TextureRegionDrawable(exitButton2);
+      ImageButton exitButton = new ImageButton(exitUp, exitDown, exitButtonChecked);
 
       // Triggers an event when the button is pressed
       homeButton.addListener(
@@ -154,23 +150,65 @@ public class MainMenuDisplay extends UIComponent {
               }
       );
 
+      // Entering the system button
+      Texture settingTexture = new Texture(Gdx.files.internal("images/settingsGame.png"));
+      Texture settingTextureHover = new Texture(Gdx.files.internal("images/settingsGame_hover.png"));
+      TextureRegionDrawable upSetting = new TextureRegionDrawable(settingTexture);
+      TextureRegionDrawable downSetting = new TextureRegionDrawable(settingTexture);
+      TextureRegionDrawable checkedSetting = new TextureRegionDrawable(settingTextureHover);
+      ImageButton settingsButton = new ImageButton(upSetting, downSetting, checkedSetting);
+
+      // Settings Button
       settingsButton.addListener(
-              new ChangeListener() {
+              new ClickListener() {
                   @Override
-                  public void changed(ChangeEvent changeEvent, Actor actor) {
-                      logger.debug("Settings button clicked");
+                  public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                      logger.debug("Settings button clicked on game page");
+                      logger.info("Game paused");
                       entity.getEvents().trigger("settings");
+                      return true;
+                  }
+              });
+      //Adds hover state to button
+      settingsButton.addListener(
+              new InputListener() {
+                  @Override
+                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      settingsButton.setChecked(true);
+                  }
+
+                  @Override
+                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      settingsButton.setChecked(false);
+                  }
+              });
+      settingsButton.addListener(
+              new TextTooltip("  Settings",skin)
+      );
+
+      exitButton.addListener(
+              new ClickListener(){
+                  @Override
+                  public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                      logger.debug("Exit button clicked");
+                      entity.getEvents().trigger("exit");
+                      return true;
                   }
               });
 
       exitButton.addListener(
-              new ChangeListener() {
+              new InputListener() {
                   @Override
-                  public void changed(ChangeEvent changeEvent, Actor actor) {
-                      logger.debug("Exit button clicked");
-                      entity.getEvents().trigger("exit");
+                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      exitButton.setChecked(true);
                   }
-              });
+
+                  @Override
+                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      exitButton.setChecked(false);
+                  }
+              }
+      );
 
       mainTable.add(title).padTop(0.5f * buttonHeight).size(titleHeight * title.getWidth() / title.getHeight(), titleHeight);
       mainTable.row();
@@ -180,7 +218,7 @@ public class MainMenuDisplay extends UIComponent {
       mainTable.row();
       mainTable.add(exitButton).size(buttonHeight * exitButton.getWidth() / exitButton.getHeight(), buttonHeight);
 
-      settingsTable.add(settingsButton).expandX().expandY().right().bottom().pad(0f, 0f, 0f, 0f);
+      settingsTable.add(settingsButton).expandX().expandY().right().bottom().size(50f,50f);
 
       rootTable.add(mainTable).expandX();
       rootTable.row();
@@ -189,9 +227,7 @@ public class MainMenuDisplay extends UIComponent {
       stage.addActor(rootTable);
       return rootTable;
   }
-
   private void addActors() {
-
   }
 
   @Override
