@@ -78,6 +78,11 @@ public class SaveGame {
             Tuple obstacle = (Tuple) ob;
             Entity newEnvironmentalObject;
 
+            if (obstacle.tileString == null) {
+                logger.debug("failed to load obstacle" + obstacle.name);
+                return;
+            }
+
             if (obstacle.texture.contains("Tree") || obstacle.texture.contains("limestone-boulder")
                     || obstacle.texture.contains("marble-stone")) {
                 newEnvironmentalObject = (Entity) ObstacleFactory.class.getMethod(obstacle.creationMethod, String.class).invoke(null,
@@ -88,7 +93,6 @@ public class SaveGame {
 
             newEnvironmentalObject.setPosition(obstacle.position);
             newEnvironmentalObject.setName(obstacle.name);
-
             int x_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(0));
             int y_tile = Integer.parseInt(Arrays.asList(obstacle.tileString.split(",")).get(1));
 
@@ -98,8 +102,6 @@ public class SaveGame {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Helper method that generates a map mapping textures to each corresponding
      * creator method in obstacle factory
      *
@@ -114,8 +116,6 @@ public class SaveGame {
                 ObstacleFactory.class.getMethod("createWoodenFence"));
         environmentalGeneration.put("images/landscape_objects/pillar.png",
                 ObstacleFactory.class.getMethod("createPillar"));
-        environmentalGeneration.put("images/landscape_objects/chalice.png",
-                ObstacleFactory.class.getMethod("createAoeSpeedArtefact"));
         environmentalGeneration.put("images/landscape_objects/billboard.png",
                 ObstacleFactory.class.getMethod("createBillboard"));
         environmentalGeneration.put("images/landscape_objects/geyser.png",
@@ -449,7 +449,7 @@ public class SaveGame {
             loadPlayer();
             loadEnemies();
 
-            //loadGameData();
+//            loadGameData();
 
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
             logger.error("ERROR OCCURED: " + ignored);

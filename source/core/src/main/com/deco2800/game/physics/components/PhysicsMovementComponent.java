@@ -1,12 +1,22 @@
 package com.deco2800.game.physics.components;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.ai.movement.MovementController;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.Tile;
+import com.deco2800.game.entities.UGS;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 /** Movement controller for a physics-based entity. */
 public class PhysicsMovementComponent extends Component implements MovementController {
@@ -74,7 +84,15 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
-    setToVelocity(body, desiredVelocity);
+
+    if (getEntity().getName().contains("Mr")) {
+      if (ServiceLocator.getTimeSource().getTime() % 500 < 2) {
+        updateEnemyPosInUgs(body, desiredVelocity);
+      }
+    } else {
+      setToVelocity(body, desiredVelocity);
+    }
+
   }
 
   protected void setToVelocity(Body body, Vector2 desiredVelocity) {
@@ -121,5 +139,36 @@ public class PhysicsMovementComponent extends Component implements MovementContr
    */
   public void resetSpeed() {
     this.maxSpeed = defaultMaxSpeed;
+  }
+
+  public void updateEnemyPosInUgs(Body body, Vector2 desiredVelocity) {
+    // Initialise
+    Entity owner = getEntity();
+    Vector2 currentPos = owner.getPosition();
+    UGS ugs = ServiceLocator.getUGSService();
+
+    setToVelocity(body, desiredVelocity);
+
+    if (!owner.getName().contains("Mr.")) {
+
+      String previousCoordString = ugs.getStringByEntity(owner);
+
+      GridPoint2 newTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
+          .getComponent(TerrainComponent.class)
+          .worldToTilePosition(owner.getPosition().x, owner.getPosition().y);
+
+      String newCoordString = ugs.generateCoordinate(newTilePos.x, newTilePos.y);
+
+      if (!previousCoordString.equals(newCoordString)) {
+
+        if (ugs.checkEntityPlacement(newTilePos, "enemy")) {
+          ugs.getTile(previousCoordString).clearTile();
+          ugs.getTile(newCoordString).setEntity(owner);
+        } else {
+          setToVelocity(body, new Vector2(0, 0));
+        }
+      }
+
+    }
   }
 }

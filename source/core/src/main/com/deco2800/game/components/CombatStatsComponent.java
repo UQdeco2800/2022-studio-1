@@ -245,7 +245,7 @@ public class CombatStatsComponent extends Component {
 
   public void hit(CombatStatsComponent attacker) {
     if (!invincible) {
-      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
       setHealth(newHealth);
       Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
       hurtSound.play();
