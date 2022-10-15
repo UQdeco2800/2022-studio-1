@@ -1,20 +1,13 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
-import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
-import com.deco2800.game.components.settingsmenu.SettingsActions;
-import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
-import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
-import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +26,6 @@ import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
 import java.util.*;
-
-import static java.sql.DriverManager.println;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -197,23 +188,9 @@ public class ForestGameArea extends GameArea {
    */
   @Override
   public void create() {
-
     loadAssets();
     displayUI();
-
     playMusic();
-
-
-    Entity ui = new Entity();
-    ui.addComponent(new SettingsActions());
-    Boolean musicStatus = ui.getComponent(SettingsActions.class).musicOff();
-    if (!musicStatus) {
-      stopMusic();
-    } else {
-      playMusic();
-    }
-
-
     spawnTerrain();
     ServiceLocator.getUGSService().generateUGS();
 
@@ -221,14 +198,12 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-
     logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
     // spawnNPCharacter();
-
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -763,11 +738,6 @@ public class ForestGameArea extends GameArea {
       ambience.setLooping(true);
       ambience.setVolume(0.1f);
       ambience.play();
-  }
-
-  private void stopMusic() {
-    music.stop();
-    ambience.stop();
   }
 
   private void loadAssets() {

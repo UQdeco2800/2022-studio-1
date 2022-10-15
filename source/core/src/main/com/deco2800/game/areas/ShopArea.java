@@ -60,12 +60,10 @@ public class ShopArea extends GameArea {
     }
 
     private void playMusic() {
-        if (settings.getMusicStatus()) {
             Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
             music.setLooping(true);
             music.setVolume(0.3f);
             music.play();
-        }
     }
 
     private void unloadAssets() {
