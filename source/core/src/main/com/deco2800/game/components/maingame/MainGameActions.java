@@ -32,7 +32,6 @@ public class MainGameActions extends Component {
   @Override
   public void create() {
     entity.getEvents().addListener("exit", this::onExit);
-
     entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("guideBook", this::openGuidebook);
     entity.getEvents().addListener("achievement", this::onAchievements);
@@ -120,33 +119,6 @@ public class MainGameActions extends Component {
         player.getComponent(InventoryComponent.class).getEquipmentList());
     CareTaker.getInstance().add(currentStatus);
     game.setSettingsScreen(AtlantisSinks.ScreenType.MAIN_GAME);
-  }
-
-  /**
-   * swaps screen to the shop screen, saves player's current status to the
-   * caretaker to retrieve when entering shop
-   * screen
-   */
-  private void openShop() {
-    logger.info("Exiting main game screen");
-    SaveGame.saveGameState();
-
-    CareTaker playerStatus = CareTaker.getInstance();
-    Memento currentStatus = new Memento(playerStatus.size(),
-        player.getComponent(InventoryComponent.class).getGold(),
-        player.getComponent(InventoryComponent.class).getStone(),
-        player.getComponent(InventoryComponent.class).getWood(),
-        player.getComponent(CombatStatsComponent.class).getHealth(),
-        player.getComponent(InventoryComponent.class).getItems(),
-        player.getComponent(InventoryComponent.class).getBuildings(),
-        player.getComponent(CombatStatsComponent.class).getAttackMultiplier(),
-        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
-        player.getComponent(InventoryComponent.class).getWeapon(),
-        player.getComponent(InventoryComponent.class).getArmor(),
-        player.getComponent(InventoryComponent.class).getEquipmentList());
-    playerStatus.add(currentStatus);
-    ServiceLocator.getDayNightCycleService().pause();
-    game.setScreen(AtlantisSinks.ScreenType.SHOP);
   }
 
   private void onFirstNight(DayNightCycleStatus partOfDay) {
