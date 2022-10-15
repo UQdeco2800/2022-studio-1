@@ -359,7 +359,7 @@ public class StructureService extends EntityService {
   }
 
 
-  public static void setUiPopUp(int screenX, int screenY, boolean onClick) {
+  public static void setUiPopUp(int screenX, int screenY) {
     //getting the building location on the map
 
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -371,7 +371,6 @@ public class StructureService extends EntityService {
     // building name
 
     //if UI is false on click then the pop-up should appear
-    if (onClick) {
       if (!uiIsVisible) {
         try {
           String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
@@ -387,7 +386,6 @@ public class StructureService extends EntityService {
         uiPopUp.remove();
         uiIsVisible = false;
       }
-    }
     }
 
 

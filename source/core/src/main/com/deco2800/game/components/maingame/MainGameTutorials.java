@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,6 +24,8 @@ public class MainGameTutorials extends UIComponent {
     private Table objectiveHeader;
     private Table objective;
     private Table control;
+
+    private Table mine;
     private Table shopArrow;
     private final Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
     private Image objectiveImg;
@@ -43,6 +46,10 @@ public class MainGameTutorials extends UIComponent {
     private Image enemyInteract;
     private static boolean playerControlComp = true;
 
+    private static boolean mining = false;
+
+    private static boolean miningSpace = false;
+
     private static boolean up = false;
     private static boolean down = false;
     private static boolean left = false;
@@ -61,11 +68,12 @@ public class MainGameTutorials extends UIComponent {
         player.getEvents().addListener("updateObjective", this::updateObjective);
         player.getEvents().addListener("enemyKill", this::onEnemyKill);
         player.getEvents().addListener("playerControlTut", this::onPlayerControl);
+        player.getEvents().addListener("noMine", this::displayCantMine);
+        player.getEvents().addListener("removeNoMine", this::removeCantMine);
         ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                 this::onNight);
         addActors();
     }
-
 
     private void addActors() {
 
@@ -86,6 +94,12 @@ public class MainGameTutorials extends UIComponent {
         control.bottom();
         control.padBottom(50);
         control.setFillParent(true);
+
+        mine = new Table();
+        mine.bottom();
+        mine.padBottom(50);
+        mine.setFillParent(true);
+        mining = false;
 
         prompts = new Table();
         prompts.bottom();
@@ -160,6 +174,8 @@ public class MainGameTutorials extends UIComponent {
         stage.addActor(objective);
         stage.addActor(prompts);
         stage.addActor(control);
+        stage.addActor(mine);
+
     }
 
     private void displayPrompts() {
@@ -205,6 +221,25 @@ public class MainGameTutorials extends UIComponent {
             objective.clear();
             objectiveHeader.clear();
             //shopObjective();
+        }
+    }
+
+    private void displayCantMine() {
+        if (!mining) {
+            // When player tries to mine without axe
+            Texture playMine = new Texture(Gdx.files.internal("images/tutorials/cantmine.png"));
+            Image playerMine = new Image(playMine);
+            mine.add(playerMine).width(461).height(187);
+            mining = true;
+            miningSpace = true;
+        }
+
+    }
+
+    private void removeCantMine() {
+        if (mining) {
+            mine.clear();
+            mining = false;
         }
     }
 
@@ -297,6 +332,7 @@ public class MainGameTutorials extends UIComponent {
         prompts.clear();
         control.clear();
         objective.clear();
+        mine.clear();
         super.dispose();
     }
 }
