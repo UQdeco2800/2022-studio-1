@@ -25,7 +25,7 @@ public class DayNightCycleComponent {
     private final ShaderProgram dayNightCycleShader;
     public static final TextureRegion BLACK_IMAGE = new TextureRegion();
 
-    public static final float NIGHT_INTENSITY = 0.055f;
+    public static final float NIGHT_INTENSITY = 0.015f;
     public static final float DUSK_INTENSITY = 0.075f;
     public static final float DAWN_INTENSITY = 0.095f;
     public static final float DAY_INTENSITY = 0.15f;
@@ -85,7 +85,11 @@ public class DayNightCycleComponent {
      * @param batch the sprite batch to apply the filter to
      */
     public void render(SpriteBatch batch) {
-        this.fade();
+
+        if (!ServiceLocator.getDayNightCycleService().hasEnded()) {
+            this.fade();
+        }
+
         dayNightCycleShader.bind();
         {
             dayNightCycleShader.setUniformi("u_lightmap", 1);
@@ -147,17 +151,17 @@ public class DayNightCycleComponent {
     private void fade() {
         if (currentPartOfDay != null) {
             if (shouldFade()) {
-                this.intensity = switch (currentPartOfDay) {
-                    case DAWN, NIGHT -> intensity + getCycleIntensityStep(currentPartOfDay);
-                    case DAY, DUSK -> intensity - getCycleIntensityStep(currentPartOfDay);
-                    default -> intensity;
-                };
+                    this.intensity = switch (currentPartOfDay) {
+                        case DAWN, NIGHT -> intensity + getCycleIntensityStep(currentPartOfDay);
+                        case DAY, DUSK -> intensity - getCycleIntensityStep(currentPartOfDay);
+                        default -> intensity;
+                    };
 
-                this.ambientColour = bright;
+                    this.ambientColour = bright;
 
-                this.lastIntensityFade = System.currentTimeMillis();
-            }
-        }
+                    this.lastIntensityFade = System.currentTimeMillis();
+                }
+                }
     }
 
     /**
