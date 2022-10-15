@@ -45,6 +45,8 @@ public class AOEDamageComponent extends Component {
 
         private void updateTargets() {
 
+                targets = new Entity[numTargets];
+
                 UGS ugs = ServiceLocator.getUGSService();
                 Vector2 ownerWorldPosition = getEntity().getCenterPosition();
 
@@ -53,6 +55,29 @@ public class AOEDamageComponent extends Component {
                                 .worldToTilePosition(ownerWorldPosition.x, ownerWorldPosition.y);
 
                 ArrayList<GridPoint2> tilesInRadius = generateCircle(ownerTilePositon);
+
+                for (int i = 0; i < tilesInRadius.size(); i++) {
+                        Entity target = ugs.getEntity(ownerTilePositon);
+                        if (target.getName().contains("Mr")) {
+                                boolean slotFilled = false;
+                                for (int j = 0; j < numTargets; j++) {
+                                        if (targets[j] == null) {
+                                                targets[j] = target;
+                                                slotFilled = true;
+                                                break;
+                                        }
+                                }
+
+                                if (slotFilled)
+                                        break;
+
+                                for (int j = 0; j < numTargets; j++) {
+                                        if (getDistanceToTarget(target) < getDistanceToTarget(targets[j])) {
+                                                targets[j] = target;
+                                        }
+                                }
+                        }
+                }
         }
 
         private ArrayList<GridPoint2> generateCircle(GridPoint2 c) {
@@ -116,7 +141,12 @@ public class AOEDamageComponent extends Component {
                 map.computeIfAbsent(Integer.valueOf(x), k -> new ArrayList<>()).add(Integer.valueOf(y));
         }
 
+        private float getDistanceToTarget(Entity target) {
+                return this.getEntity().getPosition().dst(target.getPosition());
+        }
+
         private void damageTargets() {
 
         }
+
 }
