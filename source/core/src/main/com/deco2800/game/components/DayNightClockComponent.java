@@ -109,4 +109,27 @@ public class DayNightClockComponent extends UIComponent {
         rightTable.clear();
         rightTable.add(clockImage).left().bottom().size(200f, 200f);
     }
+
+    public void loadFromSave() {
+        DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
+        int dayNum = cycleService.getCurrentDayNumber();
+        //8 segments in the clock, starts at dawn (between night & dawn)
+        int numUpdates = (dayNum - 1) * 8;
+        DayNightCycleStatus status = cycleService.getCurrentCycleStatus();
+        switch (status) {
+            case DUSK:
+                numUpdates += 5;
+                break;
+            case NIGHT:
+                numUpdates += 6 + (cycleService.partOfDayHalveIteration - 1);
+                break;
+            case DAY:
+                numUpdates += cycleService.partOfDayHalveIteration;
+                break;
+            default:
+                break;
+        }
+        this.currentSprite = numUpdates - 1;
+        changeSprite(status);
+    }
 }

@@ -47,6 +47,8 @@ public class DayNightCycleService {
     public int partOfDayHalveIteration;
 
     public int lastPartOfDayHalveIteration;
+    public long loadedTimeOffset;
+    private boolean loaded;
 
     private transient EventHandler events;
 
@@ -56,7 +58,9 @@ public class DayNightCycleService {
     public DayNightCycleService() {}
 
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
-        this.events = new EventHandler(); //
+        this.events = new EventHandler();
+        //todo remove below
+        loaded = false;
 
         this.ended = false;
         this.isStarted = false;
@@ -66,10 +70,46 @@ public class DayNightCycleService {
 
         this.totalDurationPaused = 0;
         this.currentDayNumber = 0;
+        this.loadedTimeOffset = 0;
         this.currentDayMillis = timer.getTime();
 
         this.config = config;
         this.timer = timer;
+    }
+
+    /**
+     * loads the DayNightCycleService from save, setting attributes as necessary
+     * Sets LoadedTimeOffset
+     * @param dayNum the day number when saved
+     * @param dayMs the ms through that day when saved
+     * @param currentStatus the status when saved
+     * @param prevStatus the previous status when saved
+     * @param partOfDayHalveIteration the iteration through the day/night the timer was when saved
+     * @param lastPartOfDayHalveIteration the number of half iterations
+     * @param timeSinceLastPartOfDay time since last day status
+     */
+    public void loadFromSave(int dayNum, long dayMs, DayNightCycleStatus currentStatus, DayNightCycleStatus prevStatus,
+                             int partOfDayHalveIteration, int lastPartOfDayHalveIteration, long timeSinceLastPartOfDay) {
+        loaded = true;
+        //todo remove above
+        long dayDiff = (dayNum - currentDayNumber) * (config.nightLength + config.duskLength + config.dayLength
+                + config.dawnLength);
+        long dayMsDiff = dayMs - currentDayMillis;
+
+        this.loadedTimeOffset = dayDiff + dayMsDiff;
+
+        this.currentDayNumber = dayNum;
+        this.currentCycleStatus = prevStatus;
+        setPartOfDayTo(currentStatus);
+        this.partOfDayHalveIteration = partOfDayHalveIteration;
+
+
+        this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
+                config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused +
+                this.loadedTimeOffset;
+
+
+        // note that if config changes after this, we might have some issues still with the dayMs
     }
 
 
@@ -233,6 +273,11 @@ public class DayNightCycleService {
                     durationPaused = 0;
                 }
 
+                // Definitely a better way to do this but this works for now
+                this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
+                        config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused +
+                        this.loadedTimeOffset;
+
                 // Move clock for parts of day with more than one half
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
                         this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
@@ -247,10 +292,6 @@ public class DayNightCycleService {
                         partOfDayHalveIteration++;
                     }
                 }
-
-                // Definitely a better way to do this but this works for now
-                this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
-                        config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused;
 
                 if (this.currentDayMillis >= config.dawnLength && this.currentCycleStatus == DayNightCycleStatus.DAWN) {
                     this.setPartOfDayTo(DayNightCycleStatus.DAY);

@@ -137,7 +137,7 @@ public class MainGameScreen extends ScreenAdapter {
     // AtlantisSinksGameArea(terrainFactory));
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
-    createUI();
+    createUI(loadGame);
 
     /*
      * Achievements setup
@@ -207,7 +207,7 @@ public class MainGameScreen extends ScreenAdapter {
    * the screen and
    * capturing and handling ui input.
    */
-  private void createUI() {
+  private void createUI(boolean loadGame) {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
@@ -221,7 +221,6 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
-        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(new MainGameTutorials())
         .addComponent(new EpilogueLayover())
@@ -229,5 +228,9 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay());
     ServiceLocator.getEntityService().registerNamed("ui", ui);
+
+    if (loadGame) {
+      ui.getComponent(DayNightClockComponent.class).loadFromSave();
+    }
   }
 }
