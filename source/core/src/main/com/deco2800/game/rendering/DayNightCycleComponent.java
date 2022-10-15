@@ -152,6 +152,8 @@ public class DayNightCycleComponent {
                     default -> intensity;
                 };
 
+                this.ambientColour = bright;
+
                 this.lastIntensityFade = System.currentTimeMillis();
             }
         }
