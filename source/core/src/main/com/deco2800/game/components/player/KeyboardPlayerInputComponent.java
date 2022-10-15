@@ -57,6 +57,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("ch_dir_w");
           // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "UP");
+          entity.getEvents().trigger("removeNoMine");
           // movePlayerInUgs(walkDirection);
           // ServiceLocator.getEntityService().getNamedEntity("player").getComponent(PlayerActions.class).update();
           updatePlayerMovement(0, true);
@@ -66,6 +67,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("ch_dir_a");
           // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "LEFT");
+          entity.getEvents().trigger("removeNoMine");
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(1, true);
           return true;
@@ -74,6 +76,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("ch_dir_s");
           // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "DOWN");
+          entity.getEvents().trigger("removeNoMine");
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(2, true);
           return true;
@@ -82,6 +85,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("ch_dir_d");
           // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "RIGHT");
+          entity.getEvents().trigger("removeNoMine");
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(3, true);
           return true;

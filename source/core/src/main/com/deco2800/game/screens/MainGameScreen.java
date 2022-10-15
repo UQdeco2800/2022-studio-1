@@ -11,6 +11,10 @@ import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
+import com.deco2800.game.components.shop.ArtefactShopDisplay;
+import com.deco2800.game.components.shop.BuildingShopDisplay;
+import com.deco2800.game.components.shop.EquipmentsShopDisplay;
+import com.deco2800.game.components.shop.ShopInterface;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.files.FileLoader;
@@ -223,13 +227,17 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new MainGameBuildingInterface())
         .addComponent(new MainGameNpcInterface())
         .addComponent(new DayNightClockComponent())
-        .addComponent(new DayNightClockComponent())
         .addComponent(new Terminal())
         .addComponent(new MainGameTutorials())
         .addComponent(new EpilogueLayover())
         .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
-        .addComponent(new TerminalDisplay());
+        .addComponent(new TerminalDisplay())
+        .addComponent(new ShopInterface())
+        .addComponent(new ArtefactShopDisplay())
+        .addComponent(new BuildingShopDisplay())
+        .addComponent(new EquipmentsShopDisplay());
+
     ServiceLocator.getEntityService().registerNamed("ui", ui);
   }
 }
