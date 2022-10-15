@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.entities.factories.CrystalService;
 import com.deco2800.game.entities.factories.StructureFactory;
@@ -68,7 +69,6 @@ public class MainGameBuildingInterface extends UIComponent {
         // code below will work later but crashed at the moment
         int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
         int baseAttack = clickedStructure.getComponent(CombatStatsComponent.class).getBaseAttack();
-        int sell = 0;
 
         float uiHeight = 200f;
         float screenHeight = Gdx.graphics.getHeight();
@@ -131,33 +131,37 @@ public class MainGameBuildingInterface extends UIComponent {
                 public void changed(ChangeEvent changeEvent, Actor actor) {
                     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
                     //Obtain reference to player, for some reason it was being accessed as 'entity'
-
+                    int playerGold = player.getComponent(InventoryComponent.class).getGold();
                     logger.info("Upgrade Button clicked");
-
-                    if (player.getComponent(InventoryComponent.class).hasGold(100)) {
+                    if (playerGold > 2000) {
                         logger.info("Sufficient resources");
-
                         //Subtract currency from inventory
-                        player.getComponent(InventoryComponent.class).addGold(-1 * 100);
+                        player.getComponent(InventoryComponent.class).addGold(-1 * 2000);
+                        PlayerStatsDisplay.updateItems();
 
                         //Get building and convert it's position to gridPoint2
                         Vector2 position = clickedStructure.getPosition();
                         GridPoint2 gridPoint2 = new GridPoint2((int) position.x, (int) position.y);
-                        
                         StructureFactory.upgradeStructure(gridPoint2, clickedStructure.getName());
+                        BuildingUI.remove();
+
                     } else {
                         logger.info("Insufficient resource!");
                         Sound filesound = Gdx.audio.newSound(
-                            Gdx.files.internal("sounds/purchase_fail.mp3"));
+                                Gdx.files.internal("sounds/purchase_fail.mp3"));
                         filesound.play();
+
                     }
                 } 
             }
         );
 
         // sell button
+        String stoneAndwood = ServiceLocator.getStructureService().SellBuilding(structureName, entityCords);
+        String[] arrOfStr = stoneAndwood.split(",");
+
         TextButton sellButton = ShopUtils.createImageTextButton(
-                "Sell" + "\n",
+                "Sell for: \n" + " Stone:" + arrOfStr[0] + " & Wood: " + arrOfStr[1],
                 skin.getColor("black"),
                 "button", 1f, homeDown, homeUp, skin, false);
 
@@ -168,9 +172,14 @@ public class MainGameBuildingInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell button clicked");
-                        StructureFactory.handleBuildingDestruction(entity.getName());
+
                         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                        player.getComponent(InventoryComponent.class).addStone(sell);
+                        player.getComponent(InventoryComponent.class).addStone(Integer.parseInt(arrOfStr[0]));
+                        player.getComponent(InventoryComponent.class).addWood(Integer.parseInt(arrOfStr[1]));
+                        PlayerStatsDisplay.updateItems();
+                        // Remove building entity
+                        ServiceLocator.getUGSService().removeEntity(structureName);
+                        BuildingUI.remove();
                     }
                 });
 
@@ -226,7 +235,6 @@ public class MainGameBuildingInterface extends UIComponent {
             cost = "5000";
             health = "+200";
             crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth2.png", Texture.class));
-
         }
 
         y = screenHeight - y + 100;

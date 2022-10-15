@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
@@ -198,7 +200,6 @@ public class StructureService extends EntityService {
 
         default:
           return false;
-
       }
 
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
@@ -358,7 +359,6 @@ public class StructureService extends EntityService {
     }
   }
 
-
   public static void setUiPopUp(int screenX, int screenY) {
     //getting the building location on the map
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
@@ -385,6 +385,56 @@ public class StructureService extends EntityService {
       uiPopUp.remove();
       uiIsVisible = false;
     }
+  }
+
+  public String SellBuilding(String buildingName, GridPoint2 entityCords) {
+    Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
+    int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
+
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    int stone = 0;
+    int wood = 0;
+
+
+   if (health < 10) {
+     stone = 10;
+     wood = 4;
+     player.getComponent(InventoryComponent.class).addStone(10);
+     player.getComponent(InventoryComponent.class).addWood(4);
+
+   } else if (health < 20) {
+     stone = 20;
+     wood = 8;
+
+   }else if( health < 30) {
+     stone = 30;
+     wood = 5;
+   }else if(health < 40) {
+     stone = 40;
+     wood = 8;
+
+   }else if (health < 50) {
+     stone = 50;
+     wood = 10;
+
+   }else if (health < 60) {
+     stone = 60;
+     wood = 15;
+
+   } else if (health < 70) {
+     stone = 70;
+     wood = 20;
+   }else if (health < 80) {
+     stone = 80;
+     wood = 25;
+
+
+   }else if (health < 90) {
+     stone = 90;
+     wood = 30;
+   }
+    String stoneAndWood = stone + "," + wood;
+    return stoneAndWood;
   }
 
 }
