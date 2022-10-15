@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
@@ -116,15 +117,28 @@ public class MainGameBuildingInterface extends UIComponent {
         progressBar.getStyle().knobBefore = DrawableUtil
                 .getRectangularColouredDrawable(50, 15, Color.MAROON);
 
-
         //upgrade button
         Texture homeButton1 = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable homeUp = new TextureRegionDrawable(homeButton1);
         TextureRegionDrawable homeDown = new TextureRegionDrawable(homeButton1);
-        TextButton upgradeButton = ShopUtils.createImageTextButton(
-                "\n Upgrade for:" + "\n" + "100",
-                skin.getColor("black"),
-                "button", 1f, homeDown, homeUp, skin, false);
+
+        Texture goldenCategoryTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
+        Texture redCategoryTexture = new Texture(Gdx.files.internal("images/upgradeButtonFailed.png"));
+        TextureRegionDrawable goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
+        Texture brownCategoryTexture = new Texture(Gdx.files.internal("images/upgradeButtonOnclick.png"));
+        TextureRegionDrawable brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+        TextureRegionDrawable redDrawable = new TextureRegionDrawable(redCategoryTexture);
+
+        // create buy button
+        Boolean sufficientFunds = (MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class)
+                .hasGold(2000));
+        TextButton upgradeButton = ShopUtils.createImageTextButton("\n Upgrade for: " + "\n" + "2000", skin.getColor("black"), "button", 1f,
+                sufficientFunds ? brownDrawable : redDrawable,
+                sufficientFunds ? goldenDrawable : redDrawable,
+                skin,
+                false);
+
 
         upgradeButton.addListener(
             new ChangeListener() {
@@ -161,11 +175,17 @@ public class MainGameBuildingInterface extends UIComponent {
         String stoneAndwood = ServiceLocator.getStructureService().SellBuilding(structureName, entityCords);
         String[] arrOfStr = stoneAndwood.split(",");
 
-        TextButton sellButton = ShopUtils.createImageTextButton(
-                "\n"+ "Sell for: \n" + " Stone: " + arrOfStr[0] + "\n & Wood: " + arrOfStr[1],
-                skin.getColor("black"),
-                "button", 1f, homeDown, homeUp, skin, false);
-
+       Boolean sufficientFundsSell = (MainArea.getInstance().getGameArea().getPlayer()
+                .getComponent(InventoryComponent.class).hasStone(Integer.parseInt(arrOfStr[0])) && MainArea.getInstance()
+               .getGameArea().getPlayer()
+               .getComponent(InventoryComponent.class).hasWood(Integer.parseInt(arrOfStr[1])));
+        TextButton  sellButton = ShopUtils.createImageTextButton("\n Sell for: " + "\n" + "Wood: " + arrOfStr[1]
+                        + " & Stone: " + arrOfStr[0]
+                , skin.getColor("black"), "button", 1f,
+                sufficientFundsSell ? brownDrawable : redDrawable,
+                sufficientFundsSell ? goldenDrawable : redDrawable,
+                skin,
+                false);
 
         //event handlers for buttons -- sell and upgrade
         sellButton.addListener(
