@@ -68,6 +68,10 @@ public class AOEDamageComponent extends Component {
 
                 for (int i = 0; i < tilesInRadius.size(); i++) {
                         Entity target = ugs.getEntity(ownerTilePositon);
+
+                        if (target == null)
+                                continue;
+
                         if (target.getName().contains("Mr")) {
                                 boolean slotFilled = false;
                                 for (int j = 0; j < numTargets; j++) {
