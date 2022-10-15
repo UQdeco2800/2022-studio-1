@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
+import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
@@ -25,12 +27,7 @@ import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import static java.sql.DriverManager.println;
+import java.util.*;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
@@ -161,6 +158,8 @@ public class ForestGameArea extends GameArea {
   // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String backgroundSounds = "sounds/BgCricket.mp3";
+  private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
+  private static final String[] shopPopUpMusic = {shopMusic};
   private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
@@ -269,9 +268,6 @@ public class ForestGameArea extends GameArea {
           break;
         case SPIKY_BUSH:
           envObj = ObstacleFactory.createSpikyTree();
-          break;
-        case SPEED_ARTEFACT:
-          envObj = ObstacleFactory.createAoeSpeedArtefact();
           break;
         case KNOCKBACK_TOWER:
           envObj = ObstacleFactory.createBillboard();
@@ -447,9 +443,9 @@ public class ForestGameArea extends GameArea {
     Collection<Entity> entities = this.entityMapping.getEntities();
     Iterator itr = entities.iterator();
 
-    for (; itr.hasNext();) {
+    while (itr.hasNext()) {
       Entity entity = (Entity) itr.next();
-      if (entity.getName() == "wall") {
+      if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
     }
@@ -641,6 +637,9 @@ public class ForestGameArea extends GameArea {
   private void spawnPirateCrabEnemy() {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
     pirateCrabEnemy.setName("Mr. Crabs@" + pirateCrabEnemy.getId());
+    pirateCrabEnemy.setCollectable(true);
+    pirateCrabEnemy.setResourceType(ResourceType.GOLD);
+    pirateCrabEnemy.setResourceAmount(50);
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
@@ -748,6 +747,19 @@ public class ForestGameArea extends GameArea {
     ambience.play();
   }
 
+  public void playShopMusic() {
+    ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
+    Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
+    music.setLooping(true);
+    music.setVolume(0.3f);
+    music.play();
+  }
+
+  public void exitShop() {
+    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+    playMusic();
+  }
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -755,6 +767,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(soundEffects);
     resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(shopPopUpMusic);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
@@ -769,6 +782,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(soundEffects);
     resourceService.unloadAssets(forestMusic);
+    resourceService.unloadAssets(shopPopUpMusic);
   }
 
   @Override
@@ -776,6 +790,7 @@ public class ForestGameArea extends GameArea {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
     this.unloadAssets();
   }
 

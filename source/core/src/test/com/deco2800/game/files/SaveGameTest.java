@@ -1,9 +1,12 @@
 package com.deco2800.game.files;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
@@ -12,6 +15,7 @@ import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.*;
+import com.deco2800.game.utils.RenderUtil;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -115,7 +119,8 @@ public class SaveGameTest {
             "images/cornerWall4.png",
             "images/wallRight.png",
             "images/wallLeft.png",
-            "images/attack_towers/lv1GuardianLeft.png"
+            "images/attack_towers/lv1GuardianLeft.png",
+            "images/TOWER3I.png"
     };
 
     void deleteFiles() {
@@ -136,6 +141,7 @@ public class SaveGameTest {
         DayNightCycleService dayNightCycleService = new DayNightCycleService();
         ResourceService resourceService = new ResourceService();
         RenderService renderService = new RenderService();
+
         AchievementHandler achievementHandler = new AchievementHandler();
         PhysicsService physicsService = new PhysicsService();
         UGS ugs = new UGS();
@@ -155,6 +161,20 @@ public class SaveGameTest {
         TerrainComponent terrain = mock(TerrainComponent.class);
         when(terrain.getTileSize()).thenReturn(1f);
         when(terrain.tileToWorldPosition(new GridPoint2(0, 0))).thenReturn(new Vector2(0, 0));
+        when(terrain.tileToWorldPosition(new GridPoint2(1, 1))).thenReturn(new Vector2(1, 1));
+        when(terrain.tileToWorldPosition(new GridPoint2(2, 2))).thenReturn(new Vector2(2, 2));
+        when(terrain.tileToWorldPosition(new GridPoint2(3, 3))).thenReturn(new Vector2(3, 3));
+        when(terrain.tileToWorldPosition(new GridPoint2(4, 4))).thenReturn(new Vector2(4, 4));
+        when(terrain.tileToWorldPosition(new GridPoint2(5, 5))).thenReturn(new Vector2(5, 5));
+
+
+        Entity camera = new Entity().addComponent(new CameraComponent());
+
+        camera.addComponent(new CameraActions());
+
+        ServiceLocator.getEntityService().registerNamed("camera", camera);
+
+
         Entity terrainEntity = new Entity().addComponent(terrain);
         ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
@@ -194,377 +214,222 @@ public class SaveGameTest {
         ArrayList load = FileLoader.readClass(ArrayList.class, filePath + "Environmental.json");
         assertEquals(load.size(), 1);
     }
+
+
+    @Test
+    void testSaveGameMultipleStaticEntityGeneric() {
+        deleteFiles();
+        setUpServices();
+
+        Entity test = ObstacleFactory.createRock();
+        test.setPosition(new Vector2(0, 0));
+
+        Entity test2 = ObstacleFactory.createTree();
+        test2.setPosition(new Vector2(0, 0));
+
+        Tile tile = new Tile();
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+
+        Tile tile2 = new Tile();
+        ServiceLocator.getUGSService().add(new GridPoint2(1, 1), tile2);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(1, 1), test2, "test2");
+
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class, filePath + "Environmental.json");
+        assertEquals(load.size(), 2);
+    }
+
+
+    @Test
+    void testSaveGameSingleStaticEntityStructure() {
+        deleteFiles();
+        setUpServices();
+
+        Entity test = StructureFactory.createTower1(1, "test", false);
+        test.setPosition(0,0);
+        Tile tile = new Tile();
+
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+
+        ServiceLocator.getUGSService().addStructure(test);
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Structures.json");
+        assertEquals(1, load.size());
+    }
+
+    @Test
+    void testSaveGameMultipleStaticEntityStructure() {
+        deleteFiles();
+        setUpServices();
+
+        Entity test = StructureFactory.createTower1(1, "test", false);
+        test.setPosition(0,0);
+        Tile tile = new Tile();
+
+        Entity test2 = StructureFactory.createWall("test", false, 0);
+        test2.setPosition(1,1);
+        Tile tile2 = new Tile();
+
+        Entity test1 = StructureFactory.createTower3(1, "test", false);;
+        test1.setPosition(2,2);
+        Tile tile1 = new Tile();
+
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+        ServiceLocator.getUGSService().addStructure(test);
+
+        ServiceLocator.getUGSService().add(new GridPoint2(1, 1), tile2);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(1, 1), test2, "test1");
+        ServiceLocator.getUGSService().addStructure(test2);
+
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), tile1);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2,2), test1, "test2");
+        ServiceLocator.getUGSService().addStructure(test2);
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Structures.json");
+        assertEquals(3, load.size());
+    }
+
+
+    @Test
+    void testSaveGameFollowedByLoadGameStructure() {
+        deleteFiles();
+        setUpServices();
+
+        Entity test = StructureFactory.createTower1(1, "test", false);
+        test.setPosition(0,0);
+        Tile tile = new Tile();
+
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+        ServiceLocator.getUGSService().addStructure(test);
+
+        SaveGame.saveGameState();
+
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        SaveGame.loadGameState();
+
+       assertEquals(1, ServiceLocator.getUGSService().getStructures().size());
+    }
+
+    @Test
+    void testSaveGameFollowedByMultipleStaticLoadGameStructure() {
+        deleteFiles();
+        setUpServices();
+
+        deleteFiles();
+        setUpServices();
+
+
+        Entity test = StructureFactory.createTower1(1, "test", false);
+        test.setPosition(0,0);
+        Tile tile = new Tile();
+
+        Entity test2 = StructureFactory.createWall("test1", false, 0);
+        test2.setPosition(1,1);
+        Tile tile2 = new Tile();
+
+        Entity test1 = StructureFactory.createTower3(1, "test2", false);;
+        test1.setPosition(2,2);
+        Tile tile1 = new Tile();
+
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+        ServiceLocator.getUGSService().addStructure(test);
+
+        ServiceLocator.getUGSService().add(new GridPoint2(1, 1), tile2);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(1, 1), test2, "test1");
+        ServiceLocator.getUGSService().addStructure(test2);
+
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), tile1);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2,2), test1, "test2");
+        ServiceLocator.getUGSService().addStructure(test2);
+
+        SaveGame.saveGameState();
+
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        SaveGame.loadGameState();
+
+        assertEquals(3, ServiceLocator.getUGSService().getStructures().size());
+        assertEquals(ServiceLocator.getUGSService().getEntity(new GridPoint2(2,2)).getName(), "test2");
+        assertEquals(ServiceLocator.getUGSService().getEntity(new GridPoint2(1,1)).getName(), "test1");
+        assertEquals(ServiceLocator.getUGSService().getEntity(new GridPoint2(0,0)).getName(), "test");
+    }
+
+    @Test
+    void testSaveGameFollowedBySingleEnvironmentalObject() {
+        deleteFiles();
+        setUpServices();
+
+        Entity test = ObstacleFactory.createRock();
+        test.setPosition(new Vector2(0, 0));
+        Tile tile = new Tile();
+        test.setName("test");
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        SaveGame.loadGameState();
+        assertEquals("test", ServiceLocator.getUGSService().getEntity(new GridPoint2(0,0)).getName());
+    }
+
+    @Test
+    void testSaveGameFollowedByMultipleEnvironmentalObject() {
+
+        deleteFiles();
+        setUpServices();
+
+        Entity test = ObstacleFactory.createRock();
+        test.setPosition(new Vector2(0, 0));
+        test.setName("rock1");
+
+        Entity test2 = ObstacleFactory.createTree();
+        test2.setPosition(new Vector2(1, 1));
+        test2.setName("tree1");
+
+        Tile tile = new Tile();
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), tile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), test, "test");
+
+        Tile tile2 = new Tile();
+        ServiceLocator.getUGSService().add(new GridPoint2(1, 1), tile2);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(1, 1), test2, "test2");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+
+        SaveGame.loadGameState();
+        assertEquals("rock1", ServiceLocator.getUGSService().getEntity(new GridPoint2(0,0)).getName());
+        assertEquals("tree1", ServiceLocator.getUGSService().getEntity(new GridPoint2(1,1)).getName());
+
+    }
 }
-//
-//    @Test
-//    void testSaveGameMultipleStaticEntityGeneric() {
-//        deleteFiles();
-//        setUpServices();
-//
-//        Entity test =  ObstacleFactory.createRock();
-//
-//        ServiceLocator.getUGSService().setEntity(new GridPoint2(10,10),test, "test");
-//
-//        SaveGame.saveGameState();
-//        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-//
-//        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Environmental.json");
-//        assertEquals(load.size(), 1);
-//    }
-//
-//
-////    @Test
-////    void testSaveGameSingleStaticEntityStructure() {
-////        deleteFiles();
-////        setUpServices();
-////
-////        Entity test = StructureFactory.createTower1(1);
-////
-////        ServiceLocator.getStructureService().registerNamed(test.getName(), test);
-////
-////        SaveGame.saveGameState();
-////        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-////
-////        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Structures.json");
-////        assertEquals(1, load.size());
-////    }
-//
-////    @Test
-////    void testSaveGameMultipleStaticEntityStructure() {
-////        deleteFiles();
-////        setUpServices();
-////
-////        Entity test = StructureFactory.createTower1(1);
-////        test.setName("a");
-////        Entity test2 = StructureFactory.createTower2(1);
-////        test.setName("b");
-////        Entity test3 = StructureFactory.createTower3(2);
-////        test3.setName("c");
-////        Entity test4 = StructureFactory.createWall();
-////        test4.setName("d");
-////
-////        ServiceLocator.getStructureService().registerNamed(test.getName(), test);
-////        ServiceLocator.getStructureService().registerNamed(test2.getName(), test2);
-////        ServiceLocator.getStructureService().registerNamed(test3.getName(), test3);
-////        ServiceLocator.getStructureService().registerNamed(test4.getName(), test4);
-////
-////        SaveGame.saveGameState();
-////        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-////
-////        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Structures.json");
-////        assertEquals(4, load.size());
-////    }
-//
-//
-//    @Test
-//    void testSaveGameSingleStaticEntityEnvironment() {
-//        deleteFiles();
-//        setUpServices();
-//
-//        Entity test = ObstacleFactory.createRock();
-//        ServiceLocator.getEntityService().addEntity(test);
-//
-//        SaveGame.saveGameState();
-//        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-//
-//        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Environmental.json");
-//        assertEquals(1, load.size());
-//    }
-//
-//    @Test
-//    void testSaveGameMultipleStaticEntityEnvironment() {
-//        deleteFiles();
-//        setUpServices();
-//
-//        Entity rock = ObstacleFactory.createRock();
-//        rock.setPosition(new Vector2(1,1));
-//        Entity tree = ObstacleFactory.createTree();
-//        tree.setPosition(new Vector2(2,2));
-//        Entity shell = ObstacleFactory.createShell();
-//        shell.setPosition(new Vector2(3,3));
-//        Entity shipFront = ObstacleFactory.createShipwreckFront();
-//        shipFront.setPosition(new Vector2(4,4));
-//        Entity shipEnd = ObstacleFactory.createShipwreckBack();
-//        shipEnd.setPosition(new Vector2(5,5));
-//        Entity pillar = ObstacleFactory.createPillar();
-//        pillar.setPosition(new Vector2(6,6));
-//        Entity chalace = ObstacleFactory.createAoeSpeedArtefact();
-//        chalace.setPosition(new Vector2(7,7));
-//        Entity vines = ObstacleFactory.createVine();
-//        vines.setPosition(new Vector2(8,8));
-//
-//        ServiceLocator.getEntityService().addEntity(rock);
-//        ServiceLocator.getEntityService().addEntity(tree);
-//        ServiceLocator.getEntityService().addEntity(shell);
-//        ServiceLocator.getEntityService().addEntity(shipFront);
-//        ServiceLocator.getEntityService().addEntity(shipEnd);
-//        ServiceLocator.getEntityService().addEntity(pillar);
-//        ServiceLocator.getEntityService().addEntity(chalace);
-//        ServiceLocator.getEntityService().addEntity(vines);
-//
-//        SaveGame.saveGameState();
-//        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-//
-//        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Environmental.json");
-//        assertEquals(8, load.size());
-//    }
-//
-////    @Test
-////    void testSaveGameFollowedByLoadGameStructure() {
-////        deleteFiles();
-////        setUpServices();
-////
-////        Entity test = StructureFactory.createTower1(1);
-////        test.setPosition(new Vector2(5,5));
-////
-////        ServiceLocator.getStructureService().addEntity(test);
-////
-////        SaveGame.saveGameState();
-////
-////        ServiceLocator.getStructureService().unregister(test);
-////
-////        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-////
-////        SaveGame.loadGameState();
-////
-////       assertEquals(1, ServiceLocator.getStructureService().getEntities().size());
-////    }
-//
-////    @Test
-////    void testSaveGameFollowedByMultipleStaticLoadGameStructure() {
-////        deleteFiles();
-////        setUpServices();
-////
-////        Entity test = StructureFactory.createTower1(1);
-////        test.setPosition(new Vector2(5,5));
-////        test.setName("a");
-////        Entity test2 = StructureFactory.createTower2(1);
-////        test2.setPosition(new Vector2(6,6));
-////        test2.setName("b");
-////        Entity test3 = StructureFactory.createTower3(1);
-////        test3.setPosition(new Vector2(7,7));
-////        test3.setName("c");
-////        Entity test4 = StructureFactory.createWall();
-////        test4.setPosition(new Vector2(8,8));
-////        test4.setName("d");
-////
-////        ServiceLocator.getStructureService().addEntity(test);
-////        ServiceLocator.getStructureService().addEntity(test2);
-////        ServiceLocator.getStructureService().addEntity(test3);
-////        ServiceLocator.getStructureService().addEntity(test4);
-////
-////        SaveGame.saveGameState();
-////
-////        ServiceLocator.getStructureService().unregister(test);
-////        ServiceLocator.getStructureService().unregister(test2);
-////        ServiceLocator.getStructureService().unregister(test3);
-////        ServiceLocator.getStructureService().unregister(test4);
-////
-////        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-////
-////        SaveGame.loadGameState();
-////        System.out.println(ServiceLocator.getStructureService().getEntities());
-////        assertEquals(4, ServiceLocator.getStructureService().getEntities().size());
-////    }
-//
-//
-////    @Test
-////    void testSaveGameFollowedByMultipleStaticLoadGameStructureALL() {
-////        deleteFiles();
-////        setUpServices();
-////
-////        Entity test = StructureFactory.createTower1(1);
-////        test.setPosition(new Vector2(5,5));
-////        test.setName("a");
-////
-////        Entity test1a = StructureFactory.createTower1(2);
-////        test1a.setPosition(new Vector2(5,5));
-////        test1a.setName("aa");
-////
-////        Entity test1b = StructureFactory.createTower1(3);
-////        test1b.setPosition(new Vector2(5,5));
-////        test1b.setName("aaa");
-////
-////        Entity test2 = StructureFactory.createTower2(1);
-////        test2.setPosition(new Vector2(6,6));
-////        test2.setName("b");
-////
-////        Entity test2a = StructureFactory.createTower2(2);
-////        test2a.setPosition(new Vector2(6,6));
-////        test2a.setName("bb");
-////
-////        Entity test2b = StructureFactory.createTower2(3);
-////        test2b.setPosition(new Vector2(6,6));
-////        test2b.setName("bbb");
-////
-////
-////        Entity test3 = StructureFactory.createTower3(1);
-////        test3.setPosition(new Vector2(7,7));
-////        test3.setName("c");
-////
-////        Entity test3a = StructureFactory.createTower3(2);
-////        test3a.setPosition(new Vector2(7,7));
-////        test3a.setName("cc");
-////
-////        Entity test3b = StructureFactory.createTower3(3);
-////        test3b.setPosition(new Vector2(7,7));
-////        test3b.setName("cc");
-////
-////
-////        Entity test4 = StructureFactory.createWall();
-////        test4.setPosition(new Vector2(8,8));
-////        test4.setName("d");
-////
-////        Entity test5 = StructureFactory.createTrap();
-////        test5.setPosition(new Vector2(8,8));
-////        test5.setName("d");
-////
-////        ServiceLocator.getStructureService().addEntity(test);
-////        ServiceLocator.getStructureService().addEntity(test1a);
-////        ServiceLocator.getStructureService().addEntity(test1b);
-////
-////        ServiceLocator.getStructureService().addEntity(test2);
-////        ServiceLocator.getStructureService().addEntity(test2a);
-////        ServiceLocator.getStructureService().addEntity(test2b);
-////
-////        ServiceLocator.getStructureService().addEntity(test3);
-////        ServiceLocator.getStructureService().addEntity(test3a);
-////        ServiceLocator.getStructureService().addEntity(test3b);
-////
-////        ServiceLocator.getStructureService().addEntity(test4);
-////        ServiceLocator.getStructureService().addEntity(test5);
-////
-////        SaveGame.saveGameState();
-////
-////        ServiceLocator.getStructureService().unregister(test);
-////        ServiceLocator.getStructureService().unregister(test1a);
-////        ServiceLocator.getStructureService().unregister(test1b);
-////
-////        ServiceLocator.getStructureService().unregister(test2);
-////        ServiceLocator.getStructureService().unregister(test2a);
-////        ServiceLocator.getStructureService().unregister(test2b);
-////
-////        ServiceLocator.getStructureService().unregister(test3);
-////        ServiceLocator.getStructureService().unregister(test3a);
-////        ServiceLocator.getStructureService().unregister(test3b);
-////
-////        ServiceLocator.getStructureService().unregister(test4);
-////        ServiceLocator.getStructureService().unregister(test5);
-////
-////        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-////
-////        SaveGame.loadGameState();
-////        System.out.println(ServiceLocator.getStructureService().getEntities());
-////        assertEquals(4, ServiceLocator.getStructureService().getEntities().size());
-////    }
-//
-////    @Test
-////    void testSaveGameFollowedByMultipleStaticLoadGameStructurePositionsRemain() {
-////        deleteFiles();
-////        setUpServices();
-////
-////        Entity test = StructureFactory.createTower1(1);
-////        test.setPosition(new Vector2(5,5));
-////        test.setName("a");
-////        Vector2 test_position = test.getPosition();
-////        Entity test2 = StructureFactory.createTower2(1);
-////        test2.setPosition(new Vector2(6,6));
-////        test2.setName("b");
-////        Vector2 test2_position = test2.getPosition();
-////        Entity test3 = StructureFactory.createTower3(1);
-////        test3.setPosition(new Vector2(7,7));
-////        test3.setName("c");
-////        Vector2 test3_position = test3.getPosition();
-////        Entity test4 = StructureFactory.createWall();
-////        test4.setPosition(new Vector2(8,8));
-////        test4.setName("d");
-////        Vector2 test4_position = test4.getPosition();
-////
-////        ServiceLocator.getStructureService().registerNamed(test.getName(),test);
-////        ServiceLocator.getStructureService().registerNamed(test2.getName(),test2);
-////        ServiceLocator.getStructureService().registerNamed(test3.getName(),test3);
-////        ServiceLocator.getStructureService().registerNamed(test4.getName(),test4);
-////
-////        SaveGame.saveGameState();
-////
-////        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-////        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-////
-////        SaveGame.loadGameState();
-////
-////        assertEquals( ServiceLocator.getStructureService().getNamedEntity("a").getPosition(), test_position);
-////        assertEquals( ServiceLocator.getStructureService().getNamedEntity("b").getPosition(), test2_position);
-////        assertEquals( ServiceLocator.getStructureService().getNamedEntity("c").getPosition(), test3_position);
-////        assertEquals( ServiceLocator.getStructureService().getNamedEntity("d").getPosition(), test4_position);
-////
-////    }
-//
-//
-//    @Test
-//    void testSaveGameFollowedBySingleEnvironmentalObject() {
-//        deleteFiles();
-//        setUpServices();
-//
-//        Entity test = ObstacleFactory.createRock();
-//        test.setPosition(new Vector2(5,5));
-//        test.setName("a");
-//
-//        ServiceLocator.getEntityService().register(test);
-//        SaveGame.saveGameState();
-//        ServiceLocator.getEntityService().unregister(test);
-//
-//        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-//
-//        SaveGame.loadGameState();
-//
-//
-//        assertEquals( 2, ServiceLocator.getEntityService().getAllNamedEntities().size());
-//    }
-//
-//    @Test
-//    void testSaveGameFollowedByMultipleEnvironmentalObject() {
-//        deleteFiles();
-//        setUpServices();
-//
-//        Entity test = ObstacleFactory.createRock();
-//        test.setPosition(new Vector2(5,5));
-//        test.setName("a");
-//        Entity test2 = ObstacleFactory.createTree();
-//        test2.setPosition(new Vector2(6,6));
-//        test2.setName("b");
-//        Entity test3 = ObstacleFactory.createPillar();
-//        test3.setPosition(new Vector2(7,7));
-//        test3.setName("c");
-//
-//        SaveGame.saveGameState();
-//
-//
-//        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
-//        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
-//
-//        SaveGame.loadGameState();
-//        System.out.println(ServiceLocator.getEntityService().getAllNamedEntities());
-//
-//        assertEquals( 4, ServiceLocator.getEntityService().getAllNamedEntities().size());
-//    }
-//}

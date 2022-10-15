@@ -44,6 +44,9 @@ public class KeyboardCameraInputComponent extends InputComponent {
                                 zoom = true;
                                 triggerZoomEvent();
                                 return true;
+//                        case Keys.T:
+//                                triggerScreenShake();
+//                                return true;
                         case Keys.X:
                                 zoomOut = true;
                                 triggerZoomOutEvent();
@@ -121,5 +124,9 @@ public class KeyboardCameraInputComponent extends InputComponent {
                 } else {
                         entity.getEvents().trigger("stopZoomOut");
                 }
+        }
+
+        private void triggerScreenShake() {
+                entity.getEvents().trigger("screenShake");
         }
 }
