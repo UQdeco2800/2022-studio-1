@@ -11,6 +11,7 @@ import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.HitboxComponent;
+import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
 
 public class AOEDamageComponent extends Component {
@@ -23,12 +24,18 @@ public class AOEDamageComponent extends Component {
         private CombatStatsComponent combatStats;
         private HitboxComponent hitbox;
 
+        private GameTime gameTime;
+        private int updateRate = 5000; // time inbetween each update
+        private long lastUpdate = 0;
+
         public AOEDamageComponent(short targetLayer, int numTargets, int radiusRange) {
                 this.targetLayer = targetLayer;
                 this.numTargets = numTargets;
                 this.rangeRadius = radiusRange;
 
                 targets = new Entity[numTargets];
+
+                this.gameTime = ServiceLocator.getTimeSource();
         }
 
         @Override
@@ -39,8 +46,11 @@ public class AOEDamageComponent extends Component {
 
         @Override
         public void update() {
-                updateTargets();
-                damageTargets();
+                if (gameTime.getTime() > lastUpdate + updateRate) {
+                        updateTargets();
+                        damageTargets();
+                        lastUpdate = gameTime.getTime();
+                }
         }
 
         private void updateTargets() {
@@ -146,7 +156,9 @@ public class AOEDamageComponent extends Component {
         }
 
         private void damageTargets() {
-
+                for (int i = 0; i < numTargets; i++) {
+                        targets[i].getComponent(CombatStatsComponent.class).hit(combatStats);
+                }
         }
 
 }
