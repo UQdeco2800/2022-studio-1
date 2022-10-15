@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.MainArea;
@@ -447,9 +450,26 @@ public class MainGameInterface extends UIComponent {
 
     // the achievements button
     Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
+    Texture achievementsTextureOnClick = new Texture(Gdx.files.internal("images/achievemnets_onclick.png"));
     TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
     TextureRegionDrawable downAchievements = new TextureRegionDrawable(achievementsTexture);
-    ImageButton achievementsButton = new ImageButton(upAchievements, downAchievements);
+    TextureRegionDrawable achievementsChecked = new TextureRegionDrawable(achievementsTextureOnClick);
+    ImageButton achievementsButton = new ImageButton(upAchievements, downAchievements, achievementsChecked);
+
+
+    //Adds hover state to achievements
+    achievementsButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+               achievementsButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                achievementsButton.setChecked(false);
+              }
+            });
 
     // Guidebook button
     Texture guideBookTexture = new Texture(Gdx.files.internal("images/uiElements/exports/help-button.png"));
@@ -479,11 +499,12 @@ public class MainGameInterface extends UIComponent {
 
     // Trigger for an achievement
     achievementsButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+                    new ClickListener() {
+                      @Override
+                      public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Achievement button clicked");
             entity.getEvents().trigger("achievement");
+            return true;
           }
         });
 
