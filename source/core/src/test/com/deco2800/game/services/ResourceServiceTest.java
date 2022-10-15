@@ -141,8 +141,7 @@ class ResourceServiceTest {
 
     AssetManager assetManager = spy(AssetManager.class);
     ResourceService resourceService = new ResourceService(assetManager);
-    Boolean musicStatus = true;
-    resourceService.loadMusic(textures, true);
+    resourceService.loadMusic(textures);
     verify(assetManager).load(asset1, Music.class);
     verify(assetManager).load(asset2, Music.class);
   }

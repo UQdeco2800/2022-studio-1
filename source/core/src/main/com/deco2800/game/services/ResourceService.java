@@ -161,10 +161,8 @@ public class ResourceService implements Disposable {
    *
    * @param musicNames music filenames
    */
-  public void loadMusic(String[] musicNames, boolean musicStatus) {
-    if (musicStatus) {
-      loadAssets(musicNames, Music.class);
-    }
+  public void loadMusic(String[] musicNames) {
+    loadAssets(musicNames, Music.class);
   }
 
 

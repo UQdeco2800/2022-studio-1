@@ -47,7 +47,7 @@ public class GuidebookArea extends GameArea {
     private void loadAssets() {
         logger.debug("Loading assets");
         ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadMusic(gameMusic, true);
+        resourceService.loadMusic(gameMusic);
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
