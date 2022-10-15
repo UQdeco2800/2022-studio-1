@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,9 +129,8 @@ public class ShopInterface extends UIComponent {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Close shop page");
-                        group.setVisible(false);
                         closeShop();
-                        entity.getEvents().trigger("closeAll");
+                        ((ForestGameArea) MainArea.getInstance().getGameArea()).exitShop();
                     }
                 });
 

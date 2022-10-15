@@ -159,6 +159,8 @@ public class ForestGameArea extends GameArea {
   // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String backgroundSounds = "sounds/BgCricket.mp3";
+  private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
+  private static final String[] shopPopUpMusic = {shopMusic};
   private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
@@ -729,6 +731,19 @@ public class ForestGameArea extends GameArea {
     ambience.play();
   }
 
+  public void playShopMusic() {
+    ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
+    Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
+    music.setLooping(true);
+    music.setVolume(0.3f);
+    music.play();
+  }
+
+  public void exitShop() {
+    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+    playMusic();
+  }
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
@@ -736,6 +751,7 @@ public class ForestGameArea extends GameArea {
     resourceService.loadTextureAtlases(forestTextureAtlases);
     resourceService.loadSounds(soundEffects);
     resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(shopPopUpMusic);
 
     while (!resourceService.loadForMillis(10)) {
       // This could be upgraded to a loading screen
@@ -750,6 +766,7 @@ public class ForestGameArea extends GameArea {
     resourceService.unloadAssets(forestTextureAtlases);
     resourceService.unloadAssets(soundEffects);
     resourceService.unloadAssets(forestMusic);
+    resourceService.unloadAssets(shopPopUpMusic);
   }
 
   @Override
@@ -757,6 +774,7 @@ public class ForestGameArea extends GameArea {
     super.dispose();
     ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
     ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
     this.unloadAssets();
   }
 

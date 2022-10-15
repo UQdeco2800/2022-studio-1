@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -478,6 +479,7 @@ public class MainGameInterface extends UIComponent {
           @Override
           public void changed(ChangeEvent changeEvent, Actor actor) {
             logger.debug("Achievement button clicked");
+            entity.getEvents().trigger("closeAll");
             entity.getEvents().trigger("achievement");
           }
         });
@@ -491,8 +493,10 @@ public class MainGameInterface extends UIComponent {
             group.setVisible(false);
             entity.getEvents().trigger("closeAll");
             entity.getEvents().trigger("shop");
+            ((ForestGameArea) MainArea.getInstance().getGameArea()).playShopMusic();
           }
         });
+
     rightSideTable.add(guideBookButton).right().bottom().size(100f, 100f);
     crossFrame.addListener(
         new ChangeListener() {
