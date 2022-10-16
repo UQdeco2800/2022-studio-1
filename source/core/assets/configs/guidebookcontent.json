@@ -17,7 +17,7 @@
     "pageNumber": 2,
     "header": "Crystal",
     "content": "The crystal must be protected at all costs. The health of the crystal rises with the help of upgrades found in the shop and durations of time without being attacked and falls with the exposure to enemies. You can track the crystal health with the crystal health status bar. \n\nTip: build your defences in the best positions to beat the enemies.",
-    "image": "images/uiElements/exports/crystal.png",
+    "image": "images/uiElements/exports/Crystal Badge.png",
     "imagePosition": "DOWN"
   },
   {
@@ -38,7 +38,7 @@
     "pageNumber": 5,
     "header": "Enemies",
     "content": "At night, the enemies will attack the main character and the crystal. \n\nTo attack the enemies press <SPACE>. \n\nOn the final night cycle, beat the big boss to win the game.",
-    "image": "images/uiElements/exports/allEnemies.png",
+    "image": "images/uiElements/exports/Enemy Villain.png",
     "imagePosition": "UP"
   },
   {
@@ -52,7 +52,7 @@
     "pageNumber": 7,
     "header": "Type of Buildings",
     "content": "There are a variety of buildings with different attacking and protection measures. All buildings are bought from the shop and once in play can be upgraded by clicking on the building pop-up.",
-    "image": "images/uiElements/exports/allBuildings.png",
+    "image": "images/uiElements/exports/Tower Building.png",
     "imagePosition": "DOWN"
   },
   {
@@ -66,14 +66,14 @@
     "pageNumber": 9,
     "header": "Resource Buildings",
     "content": "The Stone Quarry and Wood Cutter buildings are used to generate resources for further building upgrades. Resource buildings can be bought in the shop. \n\nThe Stone Quarry costs 50 wood to place and will generate 100 stone each morning. \n\nThe Wood Cutter costs 50 stone to place and will generate 100 wood each morning.",
-    "image": "images/shop-quarry.png",
+    "image": "images/uiElements/exports/Resource Building.png",
     "imagePosition": "UP"
   },
   {
     "pageNumber": 10,
     "header": "Currency",
     "content": "There are 3 types of currency: coins, wood, and stones. The coins are used in the shop, wood and stones are used for buying buildings.",
-    "image": "images/uiElements/exports/allCurrencies.png",
+    "image": "images/uiElements/exports/Money Badge.png",
     "imagePosition": "DOWN"
   },
   {

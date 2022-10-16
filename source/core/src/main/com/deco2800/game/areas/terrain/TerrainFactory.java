@@ -74,9 +74,10 @@ public class TerrainFactory {
     spawnableTilesList = new ArrayList<>();
     landTilesList = new ArrayList<>();
     centerPoints = new ArrayList<>();
+    bordersPositionList = new ArrayList<>();
 
     try {
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 3; i++) {
 
         ArrayList<ArrayList<Integer>> levelDetails = new ArrayList<>();
         FileHandle handle = Gdx.files.internal("map-levels/level" + i + ".txt");
@@ -106,8 +107,12 @@ public class TerrainFactory {
         in.close();
       }
     } catch (Exception e) {
-      //e.printStackTrace();
+      // e.printStackTrace();
       logger.error("loadLevels exception", e);
+    }
+
+    if (levels.size() == 0) {
+      System.out.println("no valid map file");
     }
 
   }
@@ -130,7 +135,8 @@ public class TerrainFactory {
     TiledMap tiledMap = createMap(tilePixelSize);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
 
-    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size, landTilesList);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size, landTilesList,
+        bordersPositionList);
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
@@ -141,9 +147,6 @@ public class TerrainFactory {
    * Creates new TiledMap and calls fillTiles to generate the base layer for it
    * 
    * @param tileSize size of tiles
-   * @param grass    grass texture
-   * @param water    water texture
-   * @param sand     sand texture
    * @return new TiledMap with the generated map contained
    */
   private TiledMap createMap(GridPoint2 tileSize) {
@@ -234,6 +237,10 @@ public class TerrainFactory {
     }
   }
 
+  public ArrayList<ArrayList<GridPoint2>> getBordersPositionList() {
+    return bordersPositionList;
+  }
+
   private TextureRegion createTileTexture(String tileName, ResourceService resourceService) {
     return new TextureRegion(
         resourceService.getAsset("images/65x33_tiles/" + tileName + ".png", Texture.class));
@@ -243,6 +250,7 @@ public class TerrainFactory {
       TerrainTile sandTile, TerrainTile[] seaweedTiles, TerrainTile shorelineTiles[], int levelNum,
       GridPoint2 map_size) {
 
+    ArrayList<GridPoint2> borderPos = new ArrayList<GridPoint2>();
     ArrayList<ArrayList<Integer>> level = levels.get(levelNum);
     ArrayList<GridPoint2> spawnableTiles = new ArrayList<>();
     ArrayList<GridPoint2> landTiles = new ArrayList<>();
@@ -259,6 +267,7 @@ public class TerrainFactory {
           case 0: // water
             cell.setTile(waterTile);
             spawnableTiles.add(new GridPoint2(x + xoff, y + yoff));
+            borderPos.add(new GridPoint2(x, y));
             break;
           case 1: // sand
             landTiles.add(new GridPoint2(x + xoff, y + yoff));
@@ -266,7 +275,7 @@ public class TerrainFactory {
             // Randomly choose a land tile to use
             // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
             // - 5/8 chance for sand tile
-            //int r = (int) (Math.random() * 7);
+            // int r = (int) (Math.random() * 7);
             int r = (int) (new SecureRandom().nextInt(7));
 
             if (r < 3) {
@@ -287,12 +296,14 @@ public class TerrainFactory {
             break;
           default:
             cell.setTile(waterTile);
+            borderPos.add(new GridPoint2(x, y));
         }
 
         layer.setCell(x + xoff, y + yoff, cell);
 
       }
     }
+    bordersPositionList.add(borderPos);
 
     spawnableTilesList.add(spawnableTiles);
     landTilesList.add(landTiles);

@@ -1,38 +1,22 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-<<<<<<< HEAD
-	texture: images/TOWER1I.png
 	position: {
-		x: 932
-		y: 10
+		x: 928
 	}
-	name: "tower1(57, 59)"
-=======
-	texture: images/Wall-right.png
-	position: {
-		x: 956
-		y: 6
-	}
-	name: "wall(59, 60)"
+	name: "wall(58, 58)"
+	tileString: "58,58"
+	creationMethod: createWall
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
 	position: {
-		x: 940
-		y: 6
+		x: 936
+		y: -4
 	}
-	name: "wall(58, 59)"
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/Wall-right.png
-	position: {
-		x: 940
-		y: 14
-	}
-	name: "wall(57, 60)"
->>>>>>> cf61b8298755287f5193e3741afcedf5fa2b7d2a
+	name: "wall(59, 58)"
+	tileString: "59,58"
+	creationMethod: createWall
+	rotation: 1
 }
 ]

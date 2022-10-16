@@ -47,7 +47,7 @@ public class TerrainComponent extends RenderComponent {
   private int currentMapLvl = 0;
   private int isNight = 0;
   private ArrayList<ArrayList<GridPoint2>> landTilesList;
-  private ArrayList<Entity> walls;
+  private ArrayList<ArrayList<GridPoint2>> walls;
 
   private final TiledMap tiledMap;
   private final TiledMapRenderer tiledMapRenderer;
@@ -67,7 +67,7 @@ public class TerrainComponent extends RenderComponent {
       TerrainOrientation orientation,
       float tileSize,
       GridPoint2 island_size,
-      ArrayList<ArrayList<GridPoint2>> landTilesList) {
+      ArrayList<ArrayList<GridPoint2>> landTilesList, ArrayList<ArrayList<GridPoint2>> walls) {
     this.camera = camera;
     this.tiledMap = map;
     this.orientation = orientation;
@@ -92,7 +92,7 @@ public class TerrainComponent extends RenderComponent {
         this::partOfDayPassed);
 
     this.landTilesList = landTilesList;
-    this.walls = new ArrayList<>();
+    this.walls = walls;
 
   }
 
@@ -132,11 +132,11 @@ public class TerrainComponent extends RenderComponent {
     return currentMapLvl;
   }
 
-  public ArrayList<Entity> getWalls() {
+  public ArrayList<ArrayList<GridPoint2>> getWalls() {
     return walls;
   }
 
-  private void damageSunkenBuildings() {
+  protected void damageSunkenBuildings() {
 
     String[] buildingNames = { "wall", "tower", "trap", "stoneQuarry", "woodCutter" };
 
@@ -164,7 +164,7 @@ public class TerrainComponent extends RenderComponent {
    * Updates the UGS in response to map state changing: updates each coordinate in
    * the UGS to the new tile type.
    */
-  private void updateUGS() {
+  protected void updateUGS() {
     TiledMapTileLayer currentLayer = getTileMapTileLayer(currentMapLvl * 2 + isNight);
     UGS ugs = ServiceLocator.getUGSService();
     for (int x = 0; x < currentLayer.getWidth(); x++) {
@@ -182,7 +182,7 @@ public class TerrainComponent extends RenderComponent {
   public void incrementMapLvl() {
 
     int newLevelNum = (currentMapLvl + 1) * 2 + isNight;
-    if (newLevelNum > getMap().getLayers().size()) {
+    if (newLevelNum > getMap().getLayers().size() - 1) {
       logger.error("TerrainComponent[incrementMapLvl] => incremented level number is outside the bounds of layers");
       return;
     }
@@ -216,6 +216,7 @@ public class TerrainComponent extends RenderComponent {
   }
 
   public void partOfDayPassed(DayNightCycleStatus partOfDay) {
+    System.out.println(partOfDay.name());
     if (partOfDay == DayNightCycleStatus.DAY) {
       getMap().getLayers().get(currentMapLvl * 2 + 1).setVisible(false);
       getMap().getLayers().get(currentMapLvl * 2).setVisible(true);

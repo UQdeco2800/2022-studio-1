@@ -3,15 +3,8 @@ texture: images/crystal.png
 position: {
 	x: 964
 	y: 2
-<<<<<<< HEAD:source/core/assets/Saves/Crystal.json
 }
 name: crystal
 level: 1
 health: 1000
-=======
-	}
-name: crystal
-level: 1
-health: 960
->>>>>>> origin/main:Saves/Crystal.json
 }

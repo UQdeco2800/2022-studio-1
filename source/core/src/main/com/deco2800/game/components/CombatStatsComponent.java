@@ -63,7 +63,9 @@ public class CombatStatsComponent extends Component {
   /**
    * Combat Stats Component with maxHealth parameter to enable increase of
    * maxHealth with each level upgrade independent
-   * to current health
+   * to current health (For crystal)
+   * Implements baseAttack, defense which are no use to crystal as constructor with 3 parameters is already present
+   *
    */
   public CombatStatsComponent(int health, int baseAttack, int defense, int level, int maxHealth) {
     setHealth(health);
@@ -107,6 +109,10 @@ public class CombatStatsComponent extends Component {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
+        if (entity != null && Objects.equals(entity.getName(), "crystal") && this.health > health) {
+          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_DAMAGED, 11);
+        }
+
         this.health = health;
       }
     } else {
@@ -241,7 +247,7 @@ public class CombatStatsComponent extends Component {
 
   public void hit(CombatStatsComponent attacker) {
     if (!invincible) {
-      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
       setHealth(newHealth);
       Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
       hurtSound.play();
