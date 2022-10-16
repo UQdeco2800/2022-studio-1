@@ -32,7 +32,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.concurrent.TimeUnit.*;
 
-
 public class GuidebookScreen extends ScreenAdapter {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookScreen.class);
     private final AtlantisSinks game;
@@ -57,7 +56,21 @@ public class GuidebookScreen extends ScreenAdapter {
             "images/uiElements/exports/allCurrencies.png",
             "images/Shop.png",
             "images/inventory.png",
-            "images/Achievements.png"
+            "images/Achievements.png",
+            "images/uiElements/exports/Crystal Badge.png",
+            "images/uiElements/exports/Cup badge.png",
+            "images/uiElements/exports/Enemy Villain.png",
+            "images/uiElements/exports/Money Badge.png",
+            "images/uiElements/exports/Resource Building.png",
+            "images/uiElements/exports/nightDay badge.png",
+            "images/uiElements/exports/upgrade building badge.png",
+            "images/uiElements/exports/wall resource building.png",
+            "images/uiElements/exports/wall resource building.png",
+            "images/uiElements/exports/wood achievement.png",
+            "images/uiElements/exports/Tower Building.png",
+            "images/uiElements/exports/Sword Badge.png",
+            "images/uiElements/exports/Sheild badge.png",
+            "images/uiElements/exports/nightDay badge.png",
     };
 
     public GuidebookScreen(AtlantisSinks game) {
@@ -72,7 +85,6 @@ public class GuidebookScreen extends ScreenAdapter {
         ServiceLocator.registerEntityService(new EntityService());
         ServiceLocator.registerRenderService(new RenderService());
 
-
         renderer = RenderFactory.createRenderer();
         MainArea.getInstance().setMainArea(new GuidebookArea());
 
@@ -85,8 +97,9 @@ public class GuidebookScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         if (renderTrigger == 1) {
-            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
-            for (Table table: guidebook) {
+            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+                    .getComponent(GuidebookDisplay.class).getGuidebook();
+            for (Table table : guidebook) {
                 if (table != null) {
                     table.remove();
                 }
@@ -95,7 +108,8 @@ public class GuidebookScreen extends ScreenAdapter {
                 case CLOSED -> GuidebookDisplay.bookStatus = GuidebookStatus.OPENING;
                 case OPENING, FLICK_NEXT, FLICK_PREVIOUS -> GuidebookDisplay.bookStatus = GuidebookStatus.OPEN;
             }
-            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+            guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+                    .getComponent(GuidebookDisplay.class).displayBook();
             renderTrigger = 0;
         }
         ServiceLocator.getEntityService().update();
@@ -105,15 +119,17 @@ public class GuidebookScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
-        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
-        for (Table table: guidebook) {
+        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+                .getGuidebook();
+        for (Table table : guidebook) {
             if (table == null) {
                 continue;
             } else {
                 table.remove();
             }
         }
-        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+                .displayBook();
         logger.trace("Resized renderer: ({} x {})", width, height);
     }
 
@@ -171,7 +187,8 @@ public class GuidebookScreen extends ScreenAdapter {
         ui.addComponent(new GuidebookExitDisplay()).addComponent(new InputDecorator(stage, 11));
         ServiceLocator.getEntityService().registerNamed("guidebook", ui);
 
-        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
+        guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+                .getGuidebook();
 
         ScheduledExecutorService opening = Executors.newSingleThreadScheduledExecutor();
 

@@ -2,18 +2,20 @@ package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Null;
 import com.deco2800.game.screens.GuidebookStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.Page;
 import com.deco2800.game.ui.UIComponent;
+import com.deco2800.game.utils.TextUtil;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +25,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 
 public class GuidebookDisplay extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(GuidebookDisplay.class);
@@ -47,16 +48,16 @@ public class GuidebookDisplay extends UIComponent {
         addActors();
     }
 
-
     private void addActors() {
     }
 
     public Table[] getGuidebook() {
-        return new Table[]{book, content, controls};
+        return new Table[] { book, content, controls };
     }
 
     /**
-     * Displays the guidebook according to the state defined in GuidebookDisplay.bookStatus
+     * Displays the guidebook according to the state defined in
+     * GuidebookDisplay.bookStatus
      */
     public Table[] displayBook() {
         switch (bookStatus) {
@@ -67,7 +68,7 @@ public class GuidebookDisplay extends UIComponent {
                 return displayOpenBook();
             }
         }
-        return new Table[]{book, content, controls};
+        return new Table[] { book, content, controls };
     }
 
     /**
@@ -114,7 +115,7 @@ public class GuidebookDisplay extends UIComponent {
 
         stage.addActor(book);
 
-        return new Table[]{book, content, controls};
+        return new Table[] { book, content, controls };
     }
 
     /**
@@ -134,9 +135,12 @@ public class GuidebookDisplay extends UIComponent {
         float pageHeight = 0.8f * bookHeight;
         float maxImageHeight = 0.3f * pageHeight;
 
-        Image bookImage = new Image(ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
-        Image leftHeaderFrame = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
-        Image rightHeaderFrame = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
+        Image bookImage = new Image(
+                ServiceLocator.getResourceService().getAsset("images/guidebook-open.png", Texture.class));
+        Image leftHeaderFrame = new Image(ServiceLocator.getResourceService()
+                .getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
+        Image rightHeaderFrame = new Image(ServiceLocator.getResourceService()
+                .getAsset("images/uiElements/exports/guidebook-heading-frame.png", Texture.class));
 
         Texture backPageTexture = new Texture(Gdx.files.internal("images/back_page.png"));
         TextureRegionDrawable upBack = new TextureRegionDrawable(backPageTexture);
@@ -191,14 +195,14 @@ public class GuidebookDisplay extends UIComponent {
             rightPageImage = new Image(ServiceLocator.getResourceService().getAsset(rightPageImagePath, Texture.class));
         }
 
-        leftPageContent = format(leftPageContent, charactersPerLine);
-        rightPageContent = format(rightPageContent, charactersPerLine);
+        leftPageContent = TextUtil.lineFormat(leftPageContent, charactersPerLine);
+        rightPageContent = TextUtil.lineFormat(rightPageContent, charactersPerLine);
 
-        Label leftHeader = new Label(leftPageHeader, skin, "large");
-        Label rightHeader = new Label(rightPageHeader, skin, "large");
+        Label leftHeader = TextUtil.createTextLabel(leftPageHeader, 0xe6bd39ff, 32);
+        Label rightHeader = TextUtil.createTextLabel(rightPageHeader, 0xe6bd39ff, 32);
 
-        Label leftContent = new Label(leftPageContent, skin, "small");
-        Label rightContent = new Label(rightPageContent, skin, "small");
+        Label leftContent = TextUtil.createTextLabel(leftPageContent, 0x000000ff, 16);
+        Label rightContent = TextUtil.createTextLabel(rightPageContent, 0x000000ff, 16);
 
         leftHeader.setAlignment(Align.center);
         rightHeader.setAlignment(Align.center);
@@ -212,15 +216,18 @@ public class GuidebookDisplay extends UIComponent {
             leftPage.row();
         }
         if (leftPageImage != null && pages[currentPage].imagePosition.equals("UP")) {
-            leftPage.add(leftPageImage).size(leftPageImage.getWidth() * maxImageHeight / leftPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+            leftPage.add(leftPageImage)
+                    .size(leftPageImage.getWidth() * maxImageHeight / leftPageImage.getHeight(), maxImageHeight)
+                    .padBottom(0.08f * bookHeight);
             leftPage.row();
         }
         leftPage.add(leftContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
         if (leftPageImage != null && pages[currentPage].imagePosition.equals("DOWN")) {
             leftPage.row();
-            leftPage.add(leftPageImage).size(leftPageImage.getWidth() * maxImageHeight / leftPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+            leftPage.add(leftPageImage)
+                    .size(leftPageImage.getWidth() * maxImageHeight / leftPageImage.getHeight(), maxImageHeight)
+                    .padBottom(0.08f * bookHeight);
         }
-
 
         rightPage.setSize(0.5f * bookWidth, bookHeight);
         if (!rightPageHeader.equals("")) {
@@ -228,17 +235,21 @@ public class GuidebookDisplay extends UIComponent {
             rightPage.row();
         }
         if (rightPageImage != null && pages[currentPage + 1].imagePosition.equals("UP")) {
-            rightPage.add(rightPageImage).size(rightPageImage.getWidth() * maxImageHeight / rightPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+            rightPage.add(rightPageImage)
+                    .size(rightPageImage.getWidth() * maxImageHeight / rightPageImage.getHeight(), maxImageHeight)
+                    .padBottom(0.08f * bookHeight);
             rightPage.row();
         }
         rightPage.add(rightContent).fillX().expandX().expandY().fillY().width(0.7f * 0.5f * bookWidth);
         if (rightPageImage != null && pages[currentPage + 1].imagePosition.equals("DOWN")) {
             rightPage.row();
-            rightPage.add(rightPageImage).size(rightPageImage.getWidth() * maxImageHeight / rightPageImage.getHeight(), maxImageHeight).padBottom(0.08f * bookHeight);
+            rightPage.add(rightPageImage)
+                    .size(rightPageImage.getWidth() * maxImageHeight / rightPageImage.getHeight(), maxImageHeight)
+                    .padBottom(0.08f * bookHeight);
         }
 
         content = new Table();
-        //content.debug();
+        // content.debug();
         content.setSize(bookWidth, pageHeight);
         content.setPosition((screenWidth - bookWidth) / 2f, (screenHeight - pageHeight) / 2f);
 
@@ -251,21 +262,25 @@ public class GuidebookDisplay extends UIComponent {
         content.add(rightPage);
 
         book.add(bookImage).expandX().expandY().center().size(bookWidth, bookHeight);
-        controls.add(backPageButton).expandX().expandY().bottom().left().size(0.04f * bookWidth).padLeft(0.07f * bookWidth);
-        controls.add(nextPageButton).expandX().expandY().bottom().right().size(0.04f * bookWidth).padRight(0.07f * bookWidth);
+        controls.add(backPageButton).expandX().expandY().bottom().left().size(0.04f * bookWidth)
+                .padLeft(0.07f * bookWidth);
+        controls.add(nextPageButton).expandX().expandY().bottom().right().size(0.04f * bookWidth)
+                .padRight(0.07f * bookWidth);
 
         stage.addActor(book);
         stage.addActor(content);
         stage.addActor(controls);
 
-        return new Table[]{book, content, controls};
+        return new Table[] { book, content, controls };
     }
 
     /**
-     * Formats a String based on the maximum number of character required per line and places a newline character
-     * (i.e., \n) in between line blocks of total character counter less than or equal to the provided number per line
+     * Formats a String based on the maximum number of character required per line
+     * and places a newline character
+     * (i.e., \n) in between line blocks of total character counter less than or
+     * equal to the provided number per line
      *
-     * @param labelContent: the string to format
+     * @param labelContent:  the string to format
      * @param numberPerLine: the maximum character count per line
      *
      * @return a formatted string as per the description above.
@@ -273,9 +288,10 @@ public class GuidebookDisplay extends UIComponent {
     public String format(String labelContent, int numberPerLine) {
         StringBuilder formattedString = new StringBuilder();
         int count = 0;
-        for (String word: labelContent.split(" ")) {
+        for (String word : labelContent.split(" ")) {
             if (count + word.length() >= numberPerLine) {
-                if (!word.contains("\n")) formattedString.append('\n');
+                if (!word.contains("\n"))
+                    formattedString.append('\n');
                 count = 0;
             } else if (word.contains("\n")) {
                 count = 0;
@@ -287,7 +303,8 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     /**
-     * Parses the JSON file to produce an array of Pages which can be used to retrieve content from
+     * Parses the JSON file to produce an array of Pages which can be used to
+     * retrieve content from
      *
      * @param path: the filepath where the JSON file is located
      *
@@ -319,5 +336,18 @@ public class GuidebookDisplay extends UIComponent {
     public void dispose() {
         stage.clear();
         super.dispose();
+    }
+
+    public static Label textLabel(String text, int textColour, float fontSize) {
+        Color color = new Color(textColour);
+
+        Label.LabelStyle fontStyle = new Label.LabelStyle();
+        fontStyle.font = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
+        fontStyle.fontColor = color;
+
+        Label formattedText = new Label(text, fontStyle);
+        formattedText.setFontScale(fontSize / 32);
+
+        return formattedText;
     }
 }

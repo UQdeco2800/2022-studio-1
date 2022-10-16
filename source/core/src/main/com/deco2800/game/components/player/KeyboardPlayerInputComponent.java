@@ -236,7 +236,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
       if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
-          if (entityName.contains("tower1") || entityName.contains("wall") ||
+        if (entityName.contains("tower1") || entityName.contains("wallTemp") ||
                   entityName.contains("trap") || entityName.contains("tower2")
                   || entityName.contains("tower3")) {
             StructureService.setUiPopUp(screenX, screenY);

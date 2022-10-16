@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
-import com.deco2800.game.screens.AchievementScreen;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,10 +61,9 @@ public class AtlantisSinks extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
-    }  else if (screenType ==screenType.GUIDEBOOK) {
+    } else if (screenType == screenType.GUIDEBOOK) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
-    }
-    else {
+    } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
     setScreen(newScreen(screenType, null));

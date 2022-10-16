@@ -86,8 +86,11 @@ public class MainGameScreen extends ScreenAdapter {
       "images/anim_demo/woodresourcebuilding.png",
       "images/storyLine/skipButton.png",
       "images/storyLine/textBox.png",
-      "images/crystalhealth.png",
-      "images/crystalhealth2.png"
+      "images/crystalhealth3.png",
+      "images/crystalhealth4.png",
+      "images/crystalIcon.png",
+      "images/upgrade500.2.png",
+      "images/upgrade1500.2.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
@@ -124,7 +127,6 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.registerStructureService(new StructureService());
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
-    ServiceLocator.getInputService().register(dayNightCycleComponent);
     ServiceLocator.registerResourceManagementService(new ResourceManagementService());
     ServiceLocator.registerAchievementHandler(new AchievementHandler());
     ServiceLocator.registerNpcService(new NpcService());
@@ -132,7 +134,6 @@ public class MainGameScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
-    ServiceLocator.getDayNightCycleService().start();
     loadAssets();
 
     logger.debug("Initialising main game screen entities");
@@ -143,7 +144,7 @@ public class MainGameScreen extends ScreenAdapter {
     // AtlantisSinksGameArea(terrainFactory));
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
-    createUI();
+    createUI(loadGame);
 
     /*
      * Achievements setup
@@ -213,7 +214,7 @@ public class MainGameScreen extends ScreenAdapter {
    * the screen and
    * capturing and handling ui input.
    */
-  private void createUI() {
+  private void createUI(boolean loadGame) {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
@@ -239,5 +240,9 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new EquipmentsShopDisplay());
 
     ServiceLocator.getEntityService().registerNamed("ui", ui);
+
+    if (loadGame) {
+      ui.getComponent(DayNightClockComponent.class).loadFromSave();
+    }
   }
 }
