@@ -28,6 +28,14 @@ import java.util.*;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
+  public static final String TITLE_FONT = "title";
+  public static final String LARGE_FONT = "large";
+  public static final String SMALL_FONT = "small";
+  public static final String BUTTON_FONT = "button";
+  public static final String BLACK = "black";
+  public static final String WHITE = "white";
+  public static final String TERRAIN = "terrain";
+
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(59, 59);
   // private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);

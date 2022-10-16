@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * events is triggered.
  */
 public class MainGameActions extends Component {
+  public static final String EVENT_CLOSE_ALL = "closeAll";
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
   private AtlantisSinks game;
   private Entity player;
@@ -136,6 +137,7 @@ public class MainGameActions extends Component {
         // ServiceLocator.getDayNightCycleService().pause();
         // game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
         break;
+      default:
     }
   }
 }
