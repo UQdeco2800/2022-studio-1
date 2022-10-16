@@ -1,13 +1,4 @@
 {
-  "ghost": {
-    "health": 40,
-    "baseAttack": 10
-  },
-  "ghostKing": {
-    "health": 100,
-    "baseAttack": 25,
-    "spookyFactor": 7
-  },
   "pirateCrab": {
     "health": 50,
     "baseAttack": 10,
@@ -22,6 +13,10 @@
     "health": 30,
     "baseAttack": 20,
     "gold": 20
+  },
+  "meleeBossEnemy": {
+    "health": 100,
+    "baseAttack": 25
   }
 }
 

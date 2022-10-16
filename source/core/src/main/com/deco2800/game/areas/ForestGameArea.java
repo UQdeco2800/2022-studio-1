@@ -46,7 +46,7 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
-  private static final int BOSS_DAY = 2;
+  private static final int BOSS_DAY = 3;
   private static final int MIN_NUM_STARFISH = 1;
   private static final int MAX_NUM_STARFISH = 3;
 
@@ -172,8 +172,8 @@ public class ForestGameArea extends GameArea {
   // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-  private Entity player;
-  private Entity crystal;
+  //private Entity player;
+  //private Entity crystal;
   private int dayNum = 1;
   private Boolean loadGame;
 
@@ -439,11 +439,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void destroyWorldBorders(int lvl) {
-    Collection<Entity> entities = this.entityMapping.getEntities();
-    Iterator itr = entities.iterator();
-
-    while (itr.hasNext()) {
-      Entity entity = (Entity) itr.next();
+    for (Entity entity : this.entityMapping.getEntities()) {
       if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
@@ -600,19 +596,18 @@ public class ForestGameArea extends GameArea {
   private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay) {
       case DAWN:
-        break;
-      case DAY:
-        break;
       case DUSK:
+      case DAY:
         break;
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
           // spawnElectricEelEnemy();
           // spawnNinjaStarfishEnemy();
-          if (dayNum == BOSS_DAY) {
-            spawnMeleeBoss();
-          }
+        }
+
+        if (dayNum == BOSS_DAY) {
+          spawnMeleeBoss();
         }
         break;
     }
@@ -679,8 +674,9 @@ public class ForestGameArea extends GameArea {
         entity.getComponent(CombatStatsComponent.class).setHealth(30);
         entity.getComponent(CombatStatsComponent.class).setBaseAttack(30);
         entity.getComponent(CombatStatsComponent.class).setBaseDefense(3);
+        break;
       default:
-        System.out.println("Level is invalided");
+        System.out.println("Level is invalid");
     }
   }
 
