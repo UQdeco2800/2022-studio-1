@@ -216,12 +216,19 @@ public class SaveGame {
     /**
      * Loads achievements from save file
      *
+     * @param otherFileHandle  optional file handle to read from
      * @return list of achievements loaded
      */
-    public static List<Achievement> loadAchievements() {
+    public static List<Achievement> loadAchievements(FileHandle otherFileHandle) {
         Json json = getAchievementsJsonConfig();
-        FileHandle achievementsFileHandle  = Gdx.files.local(savePathAchievements);
-        AchievementData data = json.fromJson(AchievementData.class, achievementsFileHandle);
+        FileHandle fileHandle;
+
+        if (otherFileHandle == null) {
+            fileHandle = Gdx.files.local(savePathAchievements);
+        } else {
+            fileHandle = otherFileHandle;
+        }
+        AchievementData data = json.fromJson(AchievementData.class, fileHandle);
 
         return data.getAchievements();
     }

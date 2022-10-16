@@ -1,6 +1,7 @@
 package com.deco2800.game.services;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
@@ -133,7 +134,7 @@ public class AchievementHandler {
         if (Files.exists(Path.of(Gdx.files.getLocalStoragePath() +
                 Gdx.files.local("Saves/playerAchievementsVersion5.json").path()))) {
             // Load from file
-            this.achievements = this.loadAchievements();
+            this.achievements = this.loadAchievements(null);
         } else {
             this.achievements = AchievementFactory.createInitialAchievements();
             this.saveAchievements();
@@ -241,8 +242,8 @@ public class AchievementHandler {
      *
      * @return ArrayList
      */
-    public List<Achievement> loadAchievements() {
-        return SaveGame.loadAchievements();
+    public List<Achievement> loadAchievements(FileHandle fileHandle) {
+        return SaveGame.loadAchievements(fileHandle);
     }
 
     /**

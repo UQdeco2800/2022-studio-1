@@ -28,7 +28,7 @@ public class AchievementHandlerTest {
         ArrayList<Achievement> originalAchievements = new ArrayList<>(achievementHandler.getAchievements());
         FileHandle achievementFileHandle = Gdx.files.internal("test/files/testAchievements.json");
 
-        Assertions.assertNotEquals(originalAchievements, achievementHandler.loadAchievements());
+        Assertions.assertNotEquals(originalAchievements, achievementHandler.loadAchievements(achievementFileHandle));
     }
 
     @Test
