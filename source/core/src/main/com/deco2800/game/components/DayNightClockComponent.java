@@ -139,6 +139,9 @@ public class DayNightClockComponent extends UIComponent {
             default:
                 break;
         }
+        if (numUpdates >= clockSprites.length) {
+            numUpdates = clockSprites.length;
+        }
         this.currentSprite = numUpdates - 1;
         changeSprite(status);
         loaded = true;
