@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.achievements.AchievementInterface;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.components.shop.artefacts.Artefact;
@@ -24,6 +25,7 @@ import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -111,7 +113,7 @@ public class MainGameInterface extends UIComponent {
 
     Label subtitle = new Label("Inventory", skin, "title");
     subtitle.setFontScale(1f);
-    subtitle.setColor(skin.getColor("black"));
+    subtitle.setColor(skin.getColor(ForestGameArea.BLACK));
     subtitle.setPosition(inventoryFrame.getX() + 110f, inventoryFrame.getY() + 610f);
 
     Image heartImage = new Image(
@@ -137,8 +139,8 @@ public class MainGameInterface extends UIComponent {
     leftTitleBox.setSize(350f, 60f);
     leftTitleBox.setPosition(leftBox.getX(), leftBox.getY() + 460f);
 
-    Label leftTitle = new Label("Equipment", skin, "small");
-    leftTitle.setColor(skin.getColor("white"));
+    Label leftTitle = new Label("Equipment", skin, ForestGameArea.SMALL_FONT);
+    leftTitle.setColor(skin.getColor(ForestGameArea.WHITE));
     leftTitle.setPosition(leftBox.getX() + 125f, leftBox.getY() + 480f);
 
     Texture leftArrowTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
@@ -213,14 +215,14 @@ public class MainGameInterface extends UIComponent {
 
     Texture leftSmallTitle1Texture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
     TextureRegionDrawable leftSmallTitle1Drawable = new TextureRegionDrawable(leftSmallTitle1Texture);
-    TextButton leftSmallTitle1 = ShopUtils.createInventoryButton("Equip", skin.getColor("black"), "button",
+    TextButton leftSmallTitle1 = ShopUtils.createInventoryButton("Equip", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT,
         1f, leftSmallTitle1Drawable, leftSmallTitle1Drawable, skin, false);
     leftSmallTitle1.setSize(125f, 60f);
     leftSmallTitle1.setPosition(leftBox.getX() + 20f, leftBox.getY() + 320f);
 
     Texture leftSmallTitle2Texture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
     TextureRegionDrawable leftSmallTitle2Drawable = new TextureRegionDrawable(leftSmallTitle2Texture);
-    TextButton leftSmallTitle2 = ShopUtils.createInventoryButton("Disarm", skin.getColor("black"), "button",
+    TextButton leftSmallTitle2 = ShopUtils.createInventoryButton("Disarm", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT,
         1f, leftSmallTitle2Drawable, leftSmallTitle2Drawable, skin, false);
     leftSmallTitle2.setSize(125f, 60f);
     leftSmallTitle2.setPosition(leftBox.getX() + 175f, leftBox.getY() + 320f);
@@ -231,7 +233,7 @@ public class MainGameInterface extends UIComponent {
     Texture descriptionTexture = new Texture(Gdx.files.internal("images/description-box.png"));
     TextureRegionDrawable descriptionDrawable = new TextureRegionDrawable(descriptionTexture);
     description = ShopUtils.createImageTextButton(equipmentStats.name + "\n" + equipmentStats.description,
-        skin.getColor("black"), "button",
+        skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT,
         1f, descriptionDrawable, descriptionDrawable, skin, true);
     description.setSize((float) (description.getWidth() / 2.1), description.getHeight() / 5);
     description.setPosition(leftBox.getX() + 10f, leftBox.getY() + 250f);
@@ -256,8 +258,8 @@ public class MainGameInterface extends UIComponent {
     attackItem.setSize(40f, 40f);
     attackItem.setPosition(leftBox.getX() + 115f, leftBox.getY() + 200f);
 
-    Label attack = new Label("Attack", skin, "small");
-    attack.setColor(skin.getColor("black"));
+    Label attack = new Label("Attack", skin, ForestGameArea.SMALL_FONT);
+    attack.setColor(skin.getColor(ForestGameArea.BLACK));
     attack.setSize(0.3f, 0.3f);
     attack.setPosition(leftBox.getX() + 105f, leftBox.getY() + 190f);
 
@@ -276,8 +278,8 @@ public class MainGameInterface extends UIComponent {
     defenceItem.setSize(40f, 40f);
     defenceItem.setPosition(leftBox.getX() + 190f, leftBox.getY() + 200f);
 
-    Label defence = new Label("Defence", skin, "small");
-    defence.setColor(skin.getColor("black"));
+    Label defence = new Label("Defence", skin, ForestGameArea.SMALL_FONT);
+    defence.setColor(skin.getColor(ForestGameArea.BLACK));
     defence.setSize(0.3f, 0.3f);
     defence.setPosition(leftBox.getX() + 175f, leftBox.getY() + 190f);
 
@@ -293,8 +295,8 @@ public class MainGameInterface extends UIComponent {
     rightHealthFrame.setSize(350f, 60f);
     rightHealthFrame.setPosition(rightBox.getX() - 50f, rightBox.getY() + 460f);
 
-    Label healthTitle = new Label("Health", skin, "small");
-    healthTitle.setColor(skin.getColor("white"));
+    Label healthTitle = new Label("Health", skin, ForestGameArea.SMALL_FONT);
+    healthTitle.setColor(skin.getColor(ForestGameArea.WHITE));
     healthTitle.setPosition(rightBox.getX() + 80f, rightBox.getY() + 480f);
 
     Texture potionTexture = new Texture(Gdx.files.internal("images/shop-health-potion.png"));
@@ -306,13 +308,13 @@ public class MainGameInterface extends UIComponent {
     potionQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
         .getComponent(InventoryComponent.class).getItems()
         .getOrDefault(Artefact.HEALTH_POTION, 0), skin,
-        "large");
-    potionQuantity.setColor(skin.getColor("black"));
+        ForestGameArea.LARGE_FONT);
+    potionQuantity.setColor(skin.getColor(ForestGameArea.BLACK));
     potionQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 405f);
 
     Texture potionUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
     TextureRegionDrawable potionUseDrawable = new TextureRegionDrawable(potionUseTexture);
-    TextButton potionUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button",
+    TextButton potionUseButton = ShopUtils.createInventoryButton("USE", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT,
         1f, potionUseDrawable, potionUseDrawable, skin, false);
     potionUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 365f);
 
@@ -324,13 +326,13 @@ public class MainGameInterface extends UIComponent {
 
     clockQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
         .getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.CLOCK, 0),
-        skin, "large");
-    clockQuantity.setColor(skin.getColor("black"));
+        skin, ForestGameArea.LARGE_FONT);
+    clockQuantity.setColor(skin.getColor(ForestGameArea.BLACK));
     clockQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 355f);
 
     Texture clockUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
     TextureRegionDrawable clockUseDrawable = new TextureRegionDrawable(clockUseTexture);
-    TextButton clockUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button", 1f,
+    TextButton clockUseButton = ShopUtils.createInventoryButton("USE", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
         clockUseDrawable, clockUseDrawable, skin, false);
     clockUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 315f);
 
@@ -342,13 +344,13 @@ public class MainGameInterface extends UIComponent {
 
     bedQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
         .getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.BED, 0), skin,
-        "large");
-    bedQuantity.setColor(skin.getColor("black"));
+        ForestGameArea.LARGE_FONT);
+    bedQuantity.setColor(skin.getColor(ForestGameArea.BLACK));
     bedQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 305f);
 
     Texture bedUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
     TextureRegionDrawable bedUseDrawable = new TextureRegionDrawable(bedUseTexture);
-    TextButton bedUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button", 1f,
+    TextButton bedUseButton = ShopUtils.createInventoryButton("USE", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
         bedUseDrawable, bedUseDrawable, skin, false);
     bedUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 265f);
 
@@ -358,8 +360,8 @@ public class MainGameInterface extends UIComponent {
     rightBuildingFrame.setSize(350f, 60f);
     rightBuildingFrame.setPosition(rightBox.getX() - 50f, rightBox.getY() + 255f);
 
-    Label buildingTitle = new Label("Buildings", skin, "small");
-    buildingTitle.setColor(skin.getColor("white"));
+    Label buildingTitle = new Label("Buildings", skin, ForestGameArea.SMALL_FONT);
+    buildingTitle.setColor(skin.getColor(ForestGameArea.WHITE));
     buildingTitle.setPosition(rightBox.getX() + 80f, rightBox.getY() + 275f);
 
     Texture buildingLeftArrowTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
@@ -427,7 +429,7 @@ public class MainGameInterface extends UIComponent {
 
     Texture placeButtonTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
     TextureRegionDrawable placeButtonDrawable = new TextureRegionDrawable(placeButtonTexture);
-    TextButton placeButton = ShopUtils.createInventoryButton("Place", skin.getColor("black"), "button", 1f,
+    TextButton placeButton = ShopUtils.createInventoryButton("Place", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
         placeButtonDrawable, placeButtonDrawable, skin, false);
     placeButton.setPosition(rightBox.getX() + 120f, rightBox.getY() + 135f);
 
@@ -533,7 +535,7 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Inventory button clicked");
-            entity.getEvents().trigger("closeAll");
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
             group.setVisible(true);
             return true;
           }
@@ -545,8 +547,9 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Achievement button clicked");
-            entity.getEvents().trigger("closeAll");
-            entity.getEvents().trigger("achievement");
+            group.setVisible(false);
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
+            entity.getEvents().trigger(AchievementInterface.EVENT_OPEN_ACHIEVEMENTS);
             return true;
           }
         });
@@ -558,7 +561,7 @@ public class MainGameInterface extends UIComponent {
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Shop button clicked");
             group.setVisible(false);
-            entity.getEvents().trigger("closeAll");
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
             entity.getEvents().trigger("shop");
             ((ForestGameArea) MainArea.getInstance().getGameArea()).playShopMusic();
             return true;
@@ -929,51 +932,53 @@ public class MainGameInterface extends UIComponent {
                   .removeBuilding(currentBuilding);
 
               group.setVisible(false);
-              ServiceLocator.getStructureService().buildTempStructure(buildingCamelName);
-              currBuildingList = getBuildingList();
+              if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() != DayNightCycleStatus.NIGHT) {
+                ServiceLocator.getStructureService().buildTempStructure(buildingCamelName);
+                currBuildingList = getBuildingList();
 
-              if (currBuildingList.size() == 0) {
-                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currentBuilding = null;
-              } else if (currBuildingList.size() == 1) {
-                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                if (currBuildingList.size() == 0) {
+                  prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currentBuilding = null;
+                } else if (currBuildingList.size() == 1) {
+                  prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
 
-                nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currentBuilding = currBuildingList.get(0);
-                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currentBuilding));
-                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-              } else if (currBuildingList.size() == 2) {
-                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currentBuilding = currBuildingList.get(0);
-                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currentBuilding));
-                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currentBuilding = currBuildingList.get(0);
+                  ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currentBuilding));
+                  currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                } else if (currBuildingList.size() == 2) {
+                  prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currentBuilding = currBuildingList.get(0);
+                  ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currentBuilding));
+                  currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-                data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currBuildingList.get(1)));
-                nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-              } else {
-                currentBuilding = currBuildingList.get(0);
-                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currentBuilding));
-                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currBuildingList.get(1)));
+                  nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                } else {
+                  currentBuilding = currBuildingList.get(0);
+                  ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currentBuilding));
+                  currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-                data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currBuildingList.get(1)));
-                nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currBuildingList.get(1)));
+                  nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-                data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
-                prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
+                  prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                }
+                prevBuilding.setDrawable(new TextureRegionDrawable(prevBuildingTexture));
+
+                currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
+
+                nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
               }
-              prevBuilding.setDrawable(new TextureRegionDrawable(prevBuildingTexture));
-
-              currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
-
-              nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
             } else {
               logger.debug("No building to place!");
             }

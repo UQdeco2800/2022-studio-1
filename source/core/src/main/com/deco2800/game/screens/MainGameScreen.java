@@ -8,6 +8,7 @@ import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.DayNightClockComponent;
+import com.deco2800.game.components.achievements.AchievementInterface;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
@@ -33,6 +34,8 @@ import com.deco2800.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 /**
  * The game screen containing the main game.
  *
@@ -42,53 +45,6 @@ import org.slf4j.LoggerFactory;
  */
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
-
-  private static final String[] mainGameTextures = {
-      "images/uiElements/exports/heart.png",
-      "images/uiElements/exports/coin.png",
-      "images/healthBar.png",
-      "images/empty_healthbar.png",
-      "images/uiElements/exports/crystal.png",
-      "images/icon_stone.png",
-      "images/atlantisBasicBackground.png",
-      "images/icon_wood.png",
-      "images/clock_sprites/clock_day1_1.png",
-      "images/clock_sprites/clock_day1_2.png",
-      "images/clock_sprites/clock_day1_3.png",
-      "images/clock_sprites/clock_day1_4.png",
-      "images/clock_sprites/clock_day1_5.png",
-      "images/clock_sprites/clock_day1_6.png",
-      "images/clock_sprites/clock_day1_7.png",
-      "images/clock_sprites/clock_day1_8.png",
-      "images/clock_sprites/clock_day2_1.png",
-      "images/clock_sprites/clock_day2_2.png",
-      "images/clock_sprites/clock_day2_3.png",
-      "images/clock_sprites/clock_day2_4.png",
-      "images/clock_sprites/clock_day2_5.png",
-      "images/clock_sprites/clock_day2_6.png",
-      "images/clock_sprites/clock_day2_7.png",
-      "images/clock_sprites/clock_day2_8.png",
-      "images/clock_sprites/clock_day3_1.png",
-      "images/clock_sprites/clock_day3_2.png",
-      "images/clock_sprites/clock_day3_3.png",
-      "images/clock_sprites/clock_day3_4.png",
-      "images/clock_sprites/clock_day3_5.png",
-      "images/clock_sprites/clock_day3_6.png",
-      "images/clock_sprites/clock_day3_7.png",
-      "images/clock_sprites/clock_day3_8.png",
-      "images/clock_sprites/clock_day4_1.png",
-      "images/clock_sprites/clock_day4_2.png",
-      "images/clock_sprites/clock_day4_3.png",
-      "images/clock_sprites/clock_day4_4.png",
-      "images/clock_sprites/clock_day4_5.png",
-      "images/clock_sprites/clock_day4_6.png",
-      "images/clock_sprites/clock_boss.png",
-      "images/anim_demo/woodresourcebuilding.png",
-      "images/storyLine/skipButton.png",
-      "images/storyLine/textBox.png",
-      "images/crystalhealth.png",
-      "images/crystalhealth2.png"
-  };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
 
@@ -103,7 +59,6 @@ public class MainGameScreen extends ScreenAdapter {
   public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
 
     this.game = game;
-    System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -116,7 +71,7 @@ public class MainGameScreen extends ScreenAdapter {
     physicsEngine = physicsService.getPhysics();
 
     ServiceLocator.registerInputService(new InputService());
-    ServiceLocator.registerResourceService(new ResourceService());
+    //ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRangeService(new RangeService());
@@ -157,6 +112,17 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().update();
     ServiceLocator.getStructureService().update();
     renderer.render();
+
+    // delete entities MUST BE DONE HERE DUE TO CONCURRENCY ISSUES
+    if (ServiceLocator.getEntityService() != null) {
+      if (!ServiceLocator.getEntityService().getCurrentWorldStep()) {
+
+        for (Entity e : ServiceLocator.getEntityService().getToDestroyEntities()) {
+          e.dispose();
+        }
+      }
+    }
+    ServiceLocator.getEntityService().toDestroyEntities = new ArrayList<>();
   }
 
   @Override
@@ -169,6 +135,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void pause() {
     ServiceLocator.getDayNightCycleService().pause();
     logger.info("Game paused");
+    System.exit(0);
   }
 
   @Override
@@ -182,19 +149,11 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Disposing main game screen");
 
     renderer.dispose();
-    unloadAssets();
-
-    ServiceLocator.getEntityService().dispose();
-    ServiceLocator.getRenderService().dispose();
-    ServiceLocator.getResourceService().dispose();
-
-    ServiceLocator.clear();
   }
 
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(mainGameTextures);
     resourceService.loadTextureAtlases(mainGameTextureAtlases);
     ServiceLocator.getResourceService().loadAll();
   }
@@ -202,7 +161,6 @@ public class MainGameScreen extends ScreenAdapter {
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(mainGameTextures);
     resourceService.unloadAssets(mainGameTextureAtlases);
   }
 
@@ -231,6 +189,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
+        .addComponent(new AchievementInterface())
         .addComponent(new ShopInterface())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())

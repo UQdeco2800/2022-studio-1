@@ -3,12 +3,10 @@ package com.deco2800.game.files;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.components.CameraComponent;
-import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.*;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
-import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.ObstacleFactory;
@@ -29,6 +27,7 @@ import com.deco2800.game.services.*;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
 import com.deco2800.game.utils.RenderUtil;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -135,8 +134,48 @@ public class SaveGameTest {
             "images/cornerWall4.png",
             "images/wallRight.png",
             "images/wallLeft.png",
-            "images/attack_towers/lv1GuardianLeft.png",
+            "images/attack_towers/tow1_1_l.png",
+            "images/attack_towers/tow1_1_r.png",
+            "images/attack_towers/tow1_2_l.png",
+            "images/attack_towers/tow1_2_r.png",
+            "images/attack_towers/tow1_3_l.png",
+            "images/attack_towers/tow1_3_r.png",
+            "images/attack_towers/tow2_2_l.gif",
             "images/TOWER3I.png"
+    };
+
+    private final String[] clockSprites = {
+            "images/clock_sprites/clock_day1_1.png",
+            "images/clock_sprites/clock_day1_2.png",
+            "images/clock_sprites/clock_day1_3.png",
+            "images/clock_sprites/clock_day1_4.png",
+            "images/clock_sprites/clock_day1_5.png",
+            "images/clock_sprites/clock_day1_6.png",
+            "images/clock_sprites/clock_day1_7.png",
+            "images/clock_sprites/clock_day1_8.png",
+            "images/clock_sprites/clock_day2_1.png",
+            "images/clock_sprites/clock_day2_2.png",
+            "images/clock_sprites/clock_day2_3.png",
+            "images/clock_sprites/clock_day2_4.png",
+            "images/clock_sprites/clock_day2_5.png",
+            "images/clock_sprites/clock_day2_6.png",
+            "images/clock_sprites/clock_day2_7.png",
+            "images/clock_sprites/clock_day2_8.png",
+            "images/clock_sprites/clock_day3_1.png",
+            "images/clock_sprites/clock_day3_2.png",
+            "images/clock_sprites/clock_day3_3.png",
+            "images/clock_sprites/clock_day3_4.png",
+            "images/clock_sprites/clock_day3_5.png",
+            "images/clock_sprites/clock_day3_6.png",
+            "images/clock_sprites/clock_day3_7.png",
+            "images/clock_sprites/clock_day3_8.png",
+            "images/clock_sprites/clock_day4_1.png",
+            "images/clock_sprites/clock_day4_2.png",
+            "images/clock_sprites/clock_day4_3.png",
+            "images/clock_sprites/clock_day4_4.png",
+            "images/clock_sprites/clock_day4_5.png",
+            "images/clock_sprites/clock_day4_6.png",
+            "images/clock_sprites/clock_boss.png"
     };
 
     private static final String[] textureAtlases = {
@@ -145,6 +184,7 @@ public class SaveGameTest {
             "images/starfish_animation/starfish.atlas"
     };
 
+    @BeforeEach
     void deleteFiles() {
         try {
             Files.deleteIfExists(Path.of(filePath + "Environmental.json"));
@@ -158,6 +198,7 @@ public class SaveGameTest {
         }
     }
 
+    @BeforeEach
     void setUpServices() {
         ServiceLocator.registerTimeSource(new GameTime());
 
@@ -184,6 +225,7 @@ public class SaveGameTest {
         ServiceLocator.registerInputService(inputService);
 
         resourceService.loadTextures(forestTextures);
+        resourceService.loadTextures(clockSprites);
         resourceService.loadTextureAtlases(textureAtlases);
 
         //mock terrain to avoid nullpointerexception when scaling entities
@@ -217,14 +259,10 @@ public class SaveGameTest {
         ServiceLocator.getEntityService().registerNamed("camera", camera);
 
         while (!resourceService.loadForMillis(10)) {
-
         }
     }
 
     void setUpEnemyTesting() {
-        deleteFiles();
-        setUpServices();
-
         testTile = new Tile();
         testCrystal = new Entity()
                 .addComponent(new TextureRenderComponent("images/crystal.png"))
@@ -240,9 +278,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameEmpty() {
-        deleteFiles();
-        setUpServices();
-
         SaveGame.saveGameState();
         assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
         assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
@@ -252,9 +287,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameSingleStaticEntityGeneric() {
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
         Tile tile = new Tile();
@@ -274,9 +306,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameMultipleStaticEntityGeneric() {
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
 
@@ -304,10 +333,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameSingleStaticEntityStructure() {
-        deleteFiles();
-        setUpServices();
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -327,10 +353,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameMultipleStaticEntityStructure() {
-        deleteFiles();
-        setUpServices();
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -338,7 +361,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test", false);;
+        Entity test1 = StructureFactory.createTower3(1, "test", false);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
@@ -366,10 +389,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedByLoadGameStructure() {
-        deleteFiles();
-        setUpServices();
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -393,11 +413,7 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        deleteFiles();
-        setUpServices();
-
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -405,7 +421,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test2", false);;
+        Entity test1 = StructureFactory.createTower3(1, "test2", false);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
@@ -437,9 +453,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedBySingleEnvironmentalObject() {
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
         Tile tile = new Tile();
@@ -458,10 +471,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedByMultipleEnvironmentalObject() {
-
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
         test.setName("rock1");
@@ -637,5 +646,35 @@ public class SaveGameTest {
         assertEquals(1,numberOfEels);
         assertEquals(1,numberOfStarfishes);
         assertEquals(3,numberOfEnemies);
+    }
+
+    @Test
+    void testSaveDayNightCycle() {
+        DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
+        cycleService.currentDayNumber = 3;
+        cycleService.currentCycleStatus = DayNightCycleStatus.DUSK;
+        SaveGame.saveGameState();
+        cycleService.currentDayNumber = 1;
+        cycleService.currentCycleStatus = DayNightCycleStatus.NIGHT;
+        SaveGame.loadGameState();
+        assertEquals(3, cycleService.currentDayNumber);
+        assertEquals(DayNightCycleStatus.DUSK, cycleService.currentCycleStatus);
+    }
+
+    @Test
+    void testClockLoad() {
+        Stage stage = mock(Stage.class);
+        ServiceLocator.getRenderService().setStage(stage);
+        DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
+        cycleService.currentDayNumber = 1;
+        //says day 1, but is passed to the rest of the game and shown on clock as day 2
+        cycleService.currentCycleStatus = DayNightCycleStatus.DUSK;
+        DayNightClockComponent clockComponent = new DayNightClockComponent();
+        new Entity().addComponent(clockComponent);
+        clockComponent.create();
+        clockComponent.loadFromSave();
+        int currentSprite = clockComponent.getCurrentSprite();
+        assertEquals((1 * 8 + 5), currentSprite);
+        assertEquals("images/clock_sprites/clock_day2_6.png", clockSprites[currentSprite]);
     }
 }

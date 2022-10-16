@@ -87,7 +87,7 @@ public class ShopInterface extends UIComponent {
         ImageButton crossFrame = new ImageButton(cross, cross);
         crossFrame.setSize(40f, 40f);
         crossFrame.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
+                Gdx.graphics.getHeight() * 0.85f - 70f);
 
         //setup title
         subtitle = new Label("Shop", skin, "title");
