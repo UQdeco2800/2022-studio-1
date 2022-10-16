@@ -6,12 +6,9 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.storyline.epilogueDisplay;
 import com.deco2800.game.components.storyline.storyLineAction;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
-import com.deco2800.game.input.InputService;
-import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
@@ -24,7 +21,7 @@ public class EpilogueScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    //load all the texture images
+    // load all the texture images
     private static final String[] storylineTextures = {
             "images/StoryLine/SL_1.png",
             "images/StoryLine/SL_2.png",
@@ -36,10 +33,10 @@ public class EpilogueScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
+//        ServiceLocator.registerInputService(new InputService());
+//        ServiceLocator.registerResourceService(new ResourceService());
+//        ServiceLocator.registerEntityService(new EntityService());
+//        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -74,10 +71,10 @@ public class EpilogueScreen extends ScreenAdapter {
         logger.debug("Disposing epilogue screen");
 
         renderer.dispose();
-        unloadAssets();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
+//        unloadAssets();
+//        ServiceLocator.getRenderService().dispose();
+//        ServiceLocator.getEntityService().dispose();
+//        ServiceLocator.clear();
     }
 
     private void loadAssets() {
@@ -94,7 +91,8 @@ public class EpilogueScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates the storyline UI including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

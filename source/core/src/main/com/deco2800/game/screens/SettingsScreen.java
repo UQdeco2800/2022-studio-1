@@ -31,11 +31,11 @@ public class SettingsScreen extends ScreenAdapter {
     backScreen = prevScreen;
 
     logger.debug("Initialising settings screen services");
-    ServiceLocator.registerInputService(new InputService());
-    ServiceLocator.registerResourceService(new ResourceService());
-    ServiceLocator.registerEntityService(new EntityService());
-    ServiceLocator.registerRenderService(new RenderService());
-    ServiceLocator.registerTimeSource(new GameTime());
+//    ServiceLocator.registerInputService(new InputService());
+//    ServiceLocator.registerResourceService(new ResourceService());
+//    ServiceLocator.registerEntityService(new EntityService());
+//    ServiceLocator.registerRenderService(new RenderService());
+//    ServiceLocator.registerTimeSource(new GameTime());
 
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(5f, 5f);
@@ -57,14 +57,15 @@ public class SettingsScreen extends ScreenAdapter {
   @Override
   public void dispose() {
     renderer.dispose();
-    ServiceLocator.getRenderService().dispose();
-    ServiceLocator.getEntityService().dispose();
-
-    ServiceLocator.clear();
+//    ServiceLocator.getRenderService().dispose();
+//    ServiceLocator.getEntityService().dispose();
+//
+//    ServiceLocator.clear();
   }
 
   /**
-   * Creates the setting screen's ui including components for rendering ui elements to the screen
+   * Creates the setting screen's ui including components for rendering ui
+   * elements to the screen
    * and capturing and handling ui input.
    */
   private void createUI() {

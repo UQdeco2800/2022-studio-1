@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,8 +63,7 @@ public class AtlantisSinks extends Game {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
     }  else if (screenType == ScreenType.GUIDEBOOK) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
-    }
-    else {
+    } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
     setScreen(newScreen(screenType, null));
@@ -113,8 +113,6 @@ public class AtlantisSinks extends Game {
         return new EpilogueScreen(this);
       case GUIDEBOOK:
         return new GuidebookScreen(this);
-      case ACHIEVEMENT:
-        return new AchievementScreen(this);
       case MAIN_GAME_LOAD:
         return new MainGameScreen(this, true);
       default:
@@ -123,8 +121,8 @@ public class AtlantisSinks extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, STORY_LINE_PROLOGUE, LOAD_PAGE, MAIN_GAME, SETTINGS, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK,
-    MAIN_GAME_LOAD, ACHIEVEMENT
+    MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK,
+    MAIN_GAME_LOAD, LOAD_PAGE
   }
 
   /**

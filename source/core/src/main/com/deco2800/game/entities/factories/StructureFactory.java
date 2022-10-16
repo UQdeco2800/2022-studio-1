@@ -16,6 +16,7 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+
 import com.deco2800.game.components.tasks.ShootMultipleTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
@@ -50,8 +51,9 @@ public class StructureFactory {
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = { "images/wallLeft.png", "images/wallRight.png" };
-  private static String[] tower1Sprites = { "images/attack_towers/lv1GuardianLeft.png",
-      "images/attack_towers/lv1GuardianRight.png" };
+  private static String[] tower1Sprites = { "images/attack_towers/tow1_1_l.png",
+  "images/attack_towers/tow1_r_l.png", "images/attack_towers/tow1_2_l.png", "images/attack_towers/tow1_2_r.png",
+  "images/attack_towers/tow1_3_l.png", "images/attack_towers/tow1_3_r.png" };
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -142,19 +144,25 @@ public class StructureFactory {
    * @param level of the tower to create
    * @return entity
    */
-  public static Entity createTower1(int level, String name, Boolean isTemp) {
+  public static Entity createTower1(int level, String name, Boolean isTemp, int orientation) {
     // TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/attack_towers/lv1GuardianLeft.png"; // change texture to be temp
+      TOWER1I = "images/attack_towers/tow1_1_l.png"; // change texture to be temp
     } else {
-      TOWER1I = "images/attack_towers/lv1GuardianLeft.png";
+      TOWER1I = "images/attack_towers/tow1_1_l.png";
     }
-    String TOWER1II = "towerLevel2";
-    String TOWER1III = "images/attack_towers/lv3GuardianRight.png";
+    String TOWER1II = "images/attack_towers/tow1_2_l.png";
+    String TOWER1III = "images/attack_towers/tow1_3_l.png";
 
     Entity tower1;
     BaseStructureConfig config;
+
+    if (orientation == 1) {
+      TOWER1I = "images/attack_towers/tow1_1_r.png";
+      TOWER1II = "images/attack_towers/tow1_2_r.png";
+      TOWER1III = "images/attack_towers/tow1_3_r.png";
+    }
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
@@ -197,9 +205,9 @@ public class StructureFactory {
     // @TODO Change string constant
     String TOWER2I;
     if (isTemp) {
-      TOWER2I = "images/TOWER2I.png"; // change texture to be temp texture
+      TOWER2I = "images/attack_towers/tow2_2_l.gif"; // change texture to be temp texture
     } else {
-      TOWER2I = "images/TOWER2I.png";
+      TOWER2I = "images/attack_towers/tow2_2_l.gif";
     }
     String TOWER2II = "images/TOWER2II.png";
     String TOWER2III = "images/TOWER2III.png";
@@ -307,7 +315,7 @@ public class StructureFactory {
      */
 
     Entity structure = new Entity();
-
+    animated = false; // We can't add animation to structure because its disposal causing problem.
     if (animated) {
 
       // texture (String) must just be the name of the file without extension
@@ -421,12 +429,12 @@ public class StructureFactory {
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower1 = StructureFactory.createTower1(2, structName, false);
+          tower1 = StructureFactory.createTower1(2, structName, false, 0);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;
         case 2:
-          tower1 = StructureFactory.createTower1(3, structName, false);
+          tower1 = StructureFactory.createTower1(3, structName, false, 0);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;

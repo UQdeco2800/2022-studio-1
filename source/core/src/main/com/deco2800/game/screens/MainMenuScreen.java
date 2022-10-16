@@ -34,8 +34,168 @@ public class MainMenuScreen extends ScreenAdapter {
   private float time;
 
   private static String[] mainMenuTextures = {
-          "images/uiElements/exports/title.png"
+      "images/uiElements/exports/title.png",
+          "images/Centaur_Back_left.png",
+          "images/Centaur_Back_right.png",
+          "images/Centaur_left.png",
+          "images/Centaur_right.png",
+          "images/landscape_objects/leftPalmTree.png",
+          "images/landscape_objects/rightPalmTree.png",
+          "images/landscape_objects/groupPalmTrees.png",
+          "images/landscape_objects/almond-tree-60x62.png",
+          "images/landscape_objects/fig-tree-60x62.png",
+          "images/landscape_objects/vines.png",
+          "images/landscape_objects/cypress-tree-60x100.png",
+          "images/landscape_objects/geyser.png",
+          "images/boss_enemy_angle1.png",
+          "images/landscape_objects/billboard.png",
+          "images/landscape_objects/chalice.png",
+          "images/landscape_objects/pillar.png",
+          "images/landscape_objects/wooden-fence-60x60.png",
+          "images/65x33_tiles/shell.png",
+          "images/pirate_crab_NE.png",
+          "images/pirate_crab_NW.png",
+          "images/pirate_crab_SE.png",
+          "images/pirate_crab_SW.png",
+          "images/crystal.png",
+          "images/crystal_level2.png",
+          "images/crystal_level3.png",
+          "images/65x33_tiles/sand.png",
+          "images/65x33_tiles/sand_night.png",
+          "images/65x33_tiles/seaweed_1.png",
+          "images/65x33_tiles/seaweed_1_night.png",
+          "images/65x33_tiles/seaweed_2.png",
+          "images/65x33_tiles/seaweed_2_night.png",
+          "images/65x33_tiles/seaweed_3.png",
+          "images/65x33_tiles/seaweed_3_night.png",
+          "images/65x33_tiles/shorelineBottom.png",
+          "images/65x33_tiles/shorelineTop.png",
+          "images/65x33_tiles/shorelineBottomRight.png",
+          "images/65x33_tiles/shorelineBottomLeft.png",
+          "images/65x33_tiles/shorelineTopRight.png",
+          "images/65x33_tiles/shorelineTopLeft.png",
+          "images/65x33_tiles/shorelineLeft.png",
+          "images/65x33_tiles/shorelineRight.png",
+          "images/65x33_tiles/shorelineBottom_night.png",
+          "images/65x33_tiles/shorelineTop_night.png",
+          "images/65x33_tiles/shorelineBottomRight_night.png",
+          "images/65x33_tiles/shorelineBottomLeft_night.png",
+          "images/65x33_tiles/shorelineTopRight_night.png",
+          "images/65x33_tiles/shorelineTopLeft_night.png",
+          "images/65x33_tiles/shorelineLeft_night.png",
+          "images/65x33_tiles/shorelineRight_night.png",
+          "images/65x33_tiles/water0.png",
+          "images/65x33_tiles/water1.png",
+          "images/65x33_tiles/water2.png",
+          "images/65x33_tiles/water3.png",
+          "images/65x33_tiles/water_night0.png",
+          "images/65x33_tiles/water_night1.png",
+          "images/65x33_tiles/water_night2.png",
+          "images/65x33_tiles/water_night3.png",
+          "images/65x33_tiles/invalidTile.png",
+          "images/65x33_tiles/validTile.png",
+          "images/seastack1.png",
+          "images/seastack2.png",
+          "images/Eel_Bright_SW.png",
+          "images/Eel_Bright_NE.png",
+          "images/Eel_Bright_NW.png",
+          "images/Eel_Bright_SW.png",
+          "images/shipRack.png",
+          "images/shipRackFront.png",
+          "images/shipWreckBack.png",
+          "images/shipWreckFront.png",
+          "images/ElectricEel.png",
+          "images/eel_projectile.png",
+          "images/starfish.png",
+          "images/NpcPlaceholder.png",
+          "images/NPC convo.png",
+          "images/npc1.png",
+          "images/npcs/NPC-V2.2.png",
+          "images/npcs/NPC-V2.1.png",
+          "images/guardianLegacy1left.png",
+          "images/guardianLegacy1right.png",
+          "images/cornerWall1.png",
+          "images/cornerWall2.png",
+          "images/cornerWall3.png",
+          "images/cornerWall4.png",
+          "images/wallRight.png",
+          "images/wallLeft.png",
+          "images/turret.png",
+          "images/attack_towers/lv1GuardianLeft.png",
+          "images/attack_towers/animations/towerLevel2.png",
+          "images.attack_towers/lv1GuardianRight.png",
+          "images/uiElements/exports/heart.png",
+          "images/uiElements/exports/coin.png",
+          "images/healthBar.png",
+          "images/empty_healthbar.png",
+          "images/uiElements/exports/crystal.png",
+          "images/icon_stone.png",
+          "images/atlantisBasicBackground.png",
+          "images/icon_wood.png",
+          "images/clock_sprites/clock_day1_1.png",
+          "images/clock_sprites/clock_day1_2.png",
+          "images/clock_sprites/clock_day1_3.png",
+          "images/clock_sprites/clock_day1_4.png",
+          "images/clock_sprites/clock_day1_5.png",
+          "images/clock_sprites/clock_day1_6.png",
+          "images/clock_sprites/clock_day1_7.png",
+          "images/clock_sprites/clock_day1_8.png",
+          "images/clock_sprites/clock_day2_1.png",
+          "images/clock_sprites/clock_day2_2.png",
+          "images/clock_sprites/clock_day2_3.png",
+          "images/clock_sprites/clock_day2_4.png",
+          "images/clock_sprites/clock_day2_5.png",
+          "images/clock_sprites/clock_day2_6.png",
+          "images/clock_sprites/clock_day2_7.png",
+          "images/clock_sprites/clock_day2_8.png",
+          "images/clock_sprites/clock_day3_1.png",
+          "images/clock_sprites/clock_day3_2.png",
+          "images/clock_sprites/clock_day3_3.png",
+          "images/clock_sprites/clock_day3_4.png",
+          "images/clock_sprites/clock_day3_5.png",
+          "images/clock_sprites/clock_day3_6.png",
+          "images/clock_sprites/clock_day3_7.png",
+          "images/clock_sprites/clock_day3_8.png",
+          "images/clock_sprites/clock_day4_1.png",
+          "images/clock_sprites/clock_day4_2.png",
+          "images/clock_sprites/clock_day4_3.png",
+          "images/clock_sprites/clock_day4_4.png",
+          "images/clock_sprites/clock_day4_5.png",
+          "images/clock_sprites/clock_day4_6.png",
+          "images/clock_sprites/clock_boss.png",
+          "images/anim_demo/woodresourcebuilding.png",
+          "images/storyLine/skipButton.png",
+          "images/storyLine/textBox.png",
+          "images/crystalhealth3.png",
+          "images/crystalhealth4.png",
+          "images/crystalIcon.png",
+          "images/upgrade500.2.png",
+          "images/upgrade1500.2.png",
+          "images/attack_towers/tow1_1_l.png"
   };
+
+  private static final String[] forestTextureAtlases = {
+          "images/terrain_iso_grass.atlas",
+          "images/ghost.atlas", "images/ghostKing.atlas",
+          "images/eel_animations/eel.atlas",
+          "images/eel_animations/eel.atlas",
+          "images/starfish_animation/starfish.atlas",
+          "images/final_boss_animations/final_boss.atlas",
+          "images/npc_animations/NPC1sprite.atlas",
+          "images/npc_animations/npc.atlas",
+          "images/attack_towers/animations/towerLevel2.atlas"
+  };
+
+  // Sound effect files
+  private static final String[] soundEffects = {
+          "sounds/sword_swing.mp3", "sounds/footsteps_grass_single.mp3", "sounds/hurt.mp3"
+  };
+  // Music files
+  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
+  private static final String backgroundSounds = "sounds/BgCricket.mp3";
+  private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
+  private static final String[] shopPopUpMusic = { shopMusic };
+  private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
 
   public MainMenuScreen(AtlantisSinks game) {
     this.game = game;
@@ -43,7 +203,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     ArrayList<String> mainTextures = new ArrayList<>(List.of(mainMenuTextures));
     for (int i = 1; i <= 55; i++) {
-      mainTextures.add("images/atlantis_background/atlantis_background ("+i+").png");
+      mainTextures.add("images/atlantis_background/atlantis_background (" + i + ").png");
     }
 
     mainMenuTextures = mainTextures.toArray(new String[0]);
@@ -66,7 +226,8 @@ public class MainMenuScreen extends ScreenAdapter {
     this.time += delta;
     if (this.time > 0.4f) {
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
-      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).getDisplay();
+      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
+          .getDisplay();
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).updateDisplay();
       this.time = delta;
     }
@@ -76,7 +237,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
   @Override
   public void resize(int width, int height) {
-    if (rootTable != null) rootTable.remove();
+    if (rootTable != null)
+      rootTable.remove();
     rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
     renderer.resize(width, height);
     logger.trace("Resized renderer: ({} x {})", width, height);
@@ -97,11 +259,11 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Disposing main menu screen");
 
     renderer.dispose();
-    unloadAssets();
-    ServiceLocator.getRenderService().dispose();
-    ServiceLocator.getEntityService().dispose();
-
-    ServiceLocator.clear();
+//    unloadAssets();
+//    ServiceLocator.getRenderService().dispose();
+//    ServiceLocator.getEntityService().dispose();
+//
+//    ServiceLocator.clear();
   }
 
   private void loadAssets() {
@@ -109,6 +271,14 @@ public class MainMenuScreen extends ScreenAdapter {
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(mainMenuTextures);
     ServiceLocator.getResourceService().loadAll();
+    resourceService.loadTextureAtlases(forestTextureAtlases);
+    resourceService.loadSounds(soundEffects);
+    resourceService.loadMusic(forestMusic);
+    resourceService.loadMusic(shopPopUpMusic);
+    while (!resourceService.loadForMillis(1)) {
+      // This could be upgraded to a loading screen
+      logger.info("Loading... {}%", resourceService.getProgress());
+    }
   }
 
   private void unloadAssets() {
@@ -118,7 +288,8 @@ public class MainMenuScreen extends ScreenAdapter {
   }
 
   /**
-   * Creates the main menu's ui including components for rendering ui elements to the screen and
+   * Creates the main menu's ui including components for rendering ui elements to
+   * the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
@@ -129,6 +300,7 @@ public class MainMenuScreen extends ScreenAdapter {
         .addComponent(new InputDecorator(stage, 10))
         .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().registerNamed("menu", ui);
-    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).getDisplay();
+    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
+        .getDisplay();
   }
 }

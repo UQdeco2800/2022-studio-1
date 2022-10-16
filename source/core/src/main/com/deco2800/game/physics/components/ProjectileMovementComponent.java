@@ -13,6 +13,7 @@ public class ProjectileMovementComponent extends PhysicsMovementComponent {
                 super.create();
                 physicsComponent.getBody().setBullet(true);
                 origin = entity.getPosition();
+
         }
 
         @Override
