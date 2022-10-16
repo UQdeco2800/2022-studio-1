@@ -54,7 +54,7 @@ public class StructureService extends EntityService {
 
   private static String tempEntityName;
 
-  private static int orientation;
+  private static int orientation = 0;
 
   /**
    * Register a new entity with the entity service. The entity will be created and
@@ -170,7 +170,7 @@ public class StructureService extends EntityService {
           break;
 
         case "tower1":
-          structure = StructureFactory.createTower1(1, entityName, false);
+          structure = StructureFactory.createTower1(1, entityName, false, orientation);
           break;
 
         case "tower2":
@@ -264,7 +264,7 @@ public class StructureService extends EntityService {
     if (Objects.equals(name, "wall")) {
       tempEntity = StructureFactory.createWall(entityName, true, orientation);
     } else if (Objects.equals(name, "tower1")) {
-      tempEntity = StructureFactory.createTower1(1, entityName, true);
+      tempEntity = StructureFactory.createTower1(1, entityName, true, orientation);
     } else if (Objects.equals(name, "tower2")) {
       tempEntity = StructureFactory.createTower2(1, entityName, true);
     } else if (Objects.equals(name, "woodCutter")) {
@@ -298,7 +298,7 @@ public class StructureService extends EntityService {
    * @param entityType type of entity being checked
    */
   public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
-    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType);
+    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType, 1);
     for (GridPoint2 mapPos: surroundingTiles.keySet()) {
       String entityName = "visual" + mapPos.toString();
       Entity visualTile;
@@ -334,7 +334,9 @@ public class StructureService extends EntityService {
    * Rotate the current temp structure
    */
   public static void rotateTempStructure() {
+    
     toggleStructureOrientation();
+    
     ServiceLocator.getEntityService().getNamedEntity(getTempEntityName()).dispose();
     clearVisualTiles();
     String entityName = getTempEntityName();

@@ -165,6 +165,8 @@ public class AOEDamageComponent extends Component {
                 for (int i = 0; i < numTargets; i++) {
                         if (targets[i] == null)
                                 continue;
+
+                        System.out.println("Damaged Target: " + targets[i].getName());
                         targets[i].getComponent(CombatStatsComponent.class).hit(combatStats);
                 }
         }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -182,7 +181,7 @@ public class MainGameTutorials extends UIComponent {
         Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
         Entity closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
-        Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) currentPlayer.getPosition().x,
+        Entity closestEntity = ServiceLocator.getEntityService().findClosestEntity((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
 
         prompts.clear();
@@ -246,12 +245,13 @@ public class MainGameTutorials extends UIComponent {
     //remove the player control prompt after the user has pressed the buttons
     private void onPlayerControl(String controlType) {
         switch (controlType) {
-            case "UP": up = true;
-            case "DOWN": down = true;
-            case "LEFT": left = true;
-            case "RIGHT": right = true;
-            case "SPACE": space = true;
+            case "UP" -> up = true;
+            case "DOWN" -> down = true;
+            case "LEFT" -> left = true;
+            case "RIGHT" -> right = true;
+            case "SPACE" -> space = true;
         }
+        
         if (up && down && right && left && space) {
             control.clear();
             playerControlComp = false;

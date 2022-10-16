@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.achievements.AchievementInterface;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.shop.ShopUtils;
 import com.deco2800.game.components.shop.artefacts.Artefact;
@@ -545,8 +546,9 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Achievement button clicked");
+            group.setVisible(false);
             entity.getEvents().trigger("closeAll");
-            entity.getEvents().trigger("achievement");
+            entity.getEvents().trigger(AchievementInterface.EVENT_OPEN_ACHIEVEMENTS);
             return true;
           }
         });
