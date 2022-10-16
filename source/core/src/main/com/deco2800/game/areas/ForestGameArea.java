@@ -439,11 +439,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void destroyWorldBorders(int lvl) {
-    Collection<Entity> entities = this.entityMapping.getEntities();
-    Iterator itr = entities.iterator();
-
-    while (itr.hasNext()) {
-      Entity entity = (Entity) itr.next();
+    for (Entity entity : this.entityMapping.getEntities()) {
       if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
@@ -608,9 +604,10 @@ public class ForestGameArea extends GameArea {
           spawnPirateCrabEnemy();
           // spawnElectricEelEnemy();
           // spawnNinjaStarfishEnemy();
-          if (dayNum == BOSS_DAY) {
-            spawnMeleeBoss();
-          }
+        }
+
+        if (dayNum == BOSS_DAY) {
+          spawnMeleeBoss();
         }
         break;
     }
