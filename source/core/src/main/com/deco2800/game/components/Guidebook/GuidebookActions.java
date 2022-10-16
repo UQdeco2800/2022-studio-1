@@ -8,8 +8,8 @@ import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.memento.Originator;
 import com.deco2800.game.rendering.Renderer;
-import com.deco2800.game.components.npc.screens.GuidebookScreen;
-import com.deco2800.game.components.npc.screens.GuidebookStatus;
+import com.deco2800.game.screens.GuidebookScreen;
+import com.deco2800.game.screens.GuidebookStatus;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
@@ -44,20 +44,22 @@ public class GuidebookActions extends Component {
         entity.getEvents().addListener("backPage", this::backPage);
         entity.getEvents().addListener("nextPage", this::nextPage);
 
-        
     }
+
     private void nextPage() {
         int proposedNextPage = GuidebookDisplay.currentPage + 2;
         if (proposedNextPage >= GuidebookDisplay.maxPages) {
             return;
         }
         GuidebookDisplay.currentPage = proposedNextPage;
-        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
-        for (Table table: guidebook) {
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+                .getComponent(GuidebookDisplay.class).getGuidebook();
+        for (Table table : guidebook) {
             table.remove();
         }
         GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_NEXT;
-        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+                .displayBook();
 
         ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
 
@@ -77,12 +79,14 @@ public class GuidebookActions extends Component {
         }
         GuidebookDisplay.currentPage = proposedBackPage;
 
-        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).getGuidebook();
-        for (Table table: guidebook) {
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+                .getComponent(GuidebookDisplay.class).getGuidebook();
+        for (Table table : guidebook) {
             table.remove();
         }
         GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_PREVIOUS;
-        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class).displayBook();
+        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+                .displayBook();
 
         ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
 
@@ -93,7 +97,6 @@ public class GuidebookActions extends Component {
 
         flicking.schedule(flickTask, 250, MILLISECONDS);
     }
-
 
     /**
      * Swaps to the Main game screen. updates player status before exiting the shop
@@ -116,7 +119,8 @@ public class GuidebookActions extends Component {
     }
 
     /**
-     * Saves the currently relevant status of the player based on the type of shop screen they are in
+     * Saves the currently relevant status of the player based on the type of shop
+     * screen they are in
      */
     private void saveStatus() {
         Originator currentStatus = new Originator(playerStatus.size());

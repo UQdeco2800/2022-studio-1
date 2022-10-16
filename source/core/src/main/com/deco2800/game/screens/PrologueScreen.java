@@ -1,4 +1,4 @@
-package com.deco2800.game.components.npc.screens;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,13 +18,13 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PrologueScreen extends ScreenAdapter{
+public class PrologueScreen extends ScreenAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(PrologueScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    //load all the texture images
+    // load all the texture images
     private static final String[] storylineTextures = {
             "images/StoryLine/prologue1_revised.png",
             "images/StoryLine/prologue2_revised.png",
@@ -94,7 +94,8 @@ public class PrologueScreen extends ScreenAdapter{
     }
 
     /**
-     * Creates the storyline UI including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

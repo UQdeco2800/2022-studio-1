@@ -1,4 +1,4 @@
-package com.deco2800.game.components.npc.screens;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
@@ -141,7 +141,7 @@ public class MainGameScreen extends ScreenAdapter {
     // AtlantisSinksGameArea(terrainFactory));
     MainArea.getInstance().setMainArea(new ForestGameArea(terrainFactory, loadGame));
 
-    createUI();
+    createUI(loadGame);
 
     /*
      * Achievements setup
@@ -211,7 +211,7 @@ public class MainGameScreen extends ScreenAdapter {
    * the screen and
    * capturing and handling ui input.
    */
-  private void createUI() {
+  private void createUI(boolean loadGame) {
     logger.debug("Creating ui");
     Stage stage = ServiceLocator.getRenderService().getStage();
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForTerminal();
@@ -237,5 +237,9 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new EquipmentsShopDisplay());
 
     ServiceLocator.getEntityService().registerNamed("ui", ui);
+
+    if (loadGame) {
+      ui.getComponent(DayNightClockComponent.class).loadFromSave();
+    }
   }
 }
