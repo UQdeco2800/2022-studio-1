@@ -15,7 +15,6 @@ com.deco2800.game.components.infrastructure
 com.deco2800.game.components.maingame
 com.deco2800.game.components.mainmenu
 com.deco2800.game.components.npc
-com.deco2800.game.components.npc.screens
 com.deco2800.game.components.player
 com.deco2800.game.components.settingsmenu
 com.deco2800.game.components.shop
@@ -36,6 +35,7 @@ com.deco2800.game.physics
 com.deco2800.game.physics.components
 com.deco2800.game.physics.raycast
 com.deco2800.game.rendering
+com.deco2800.game.screens
 com.deco2800.game.services
 com.deco2800.game.services.configs
 com.deco2800.game.ui
