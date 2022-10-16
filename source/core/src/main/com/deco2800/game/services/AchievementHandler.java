@@ -1,16 +1,13 @@
 package com.deco2800.game.services;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.deco2800.game.achievements.Achievement;
-import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.achievements.AchievementFactory;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.events.EventHandler;
+import com.deco2800.game.files.SaveGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,28 +116,6 @@ public class AchievementHandler {
      */
     private final Map<Integer, List<Integer>> customStatMilestones;
 
-    /**
-     * File handler for the player achievement file
-     * <p>
-     * V3 - 09/10/2022 notifyOnLoad added
-     * <p>
-     * V4 - 12/10/2022 isOneNight boolean added
-     * <p>
-     * V5 - 12/10/2022 Removed some achievements from achievement list
-     */
-    private final FileHandle achievementsFileHandle = Gdx.files
-            .external("AtlantisSinks/playerAchievementsVersion5.json");
-
-    /**
-     * Used for reading and writing to the player achievement file
-     */
-    private final Json json;
-
-    /**
-     * Stores the last time the status of the achievement handler was saved to the
-     * player achievement file
-     */
-    private long lastSaved;
 
     /**
      * Logs status updated from the service
@@ -155,13 +130,10 @@ public class AchievementHandler {
     public AchievementHandler() {
         this.events = new EventHandler();
 
-        json = new Json();
-        json.setElementType(AchievementData.class, "achievements", Achievement.class);
-        json.setOutputType(JsonWriter.OutputType.json);
-
-        if (Files.exists(Path.of(Gdx.files.getExternalStoragePath() + achievementsFileHandle.path()))) {
+        if (Files.exists(Path.of(Gdx.files.getLocalStoragePath() +
+                Gdx.files.local("Saves/playerAchievementsVersion5.json").path()))) {
             // Load from file
-            this.achievements = this.loadAchievements(achievementsFileHandle);
+            this.achievements = this.loadAchievements();
         } else {
             this.achievements = AchievementFactory.createInitialAchievements();
             this.saveAchievements();
@@ -258,36 +230,19 @@ public class AchievementHandler {
     }
 
     /**
-     * Getter method for last time achievements were saved
-     * 
-     * @return long
-     */
-    public long getLastSaved() {
-        return this.lastSaved;
-    }
-
-    /**
      * Saves the current state of the achievement list with the current time
      */
     public void saveAchievements() {
-        this.lastSaved = System.currentTimeMillis();
-
-        AchievementData achievementData = new AchievementData(this.lastSaved, new ArrayList<>(this.achievements));
-
-        achievementsFileHandle.writeString(json.prettyPrint(achievementData), false);
+        SaveGame.saveAchievements(this.achievements);
     }
 
     /**
      * Loads the achievement list from the achievement file
-     * 
-     * @param fH FileHandle
+     *
      * @return ArrayList
      */
-    public List<Achievement> loadAchievements(FileHandle fH) {
-        AchievementData data = json.fromJson(AchievementData.class, fH);
-        this.lastSaved = data.getLastSaved();
-
-        return data.getAchievements();
+    public List<Achievement> loadAchievements() {
+        return SaveGame.loadAchievements();
     }
 
     /**

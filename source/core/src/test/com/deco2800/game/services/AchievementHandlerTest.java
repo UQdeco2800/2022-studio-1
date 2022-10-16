@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
@@ -23,20 +22,13 @@ public class AchievementHandlerTest {
         achievementHandler = new AchievementHandler();
     }
 
-    @Test
-    public void shouldSaveAchievements() {
-        long originalTime = achievementHandler.getLastSaved();
-        achievementHandler.saveAchievements();
-
-        Assertions.assertNotEquals(originalTime, achievementHandler.getLastSaved());
-    }
 
     @Test
     public void shouldLoadAchievements() {
         ArrayList<Achievement> originalAchievements = new ArrayList<>(achievementHandler.getAchievements());
         FileHandle achievementFileHandle = Gdx.files.internal("test/files/testAchievements.json");
 
-        Assertions.assertNotEquals(originalAchievements, achievementHandler.loadAchievements(achievementFileHandle));
+        Assertions.assertNotEquals(originalAchievements, achievementHandler.loadAchievements());
     }
 
     @Test
