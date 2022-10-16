@@ -15,13 +15,12 @@ import com.deco2800.game.services.ServiceLocator;
 
 public class ProjectileFactory {
     public static Entity createProjectile(Entity shooter, Entity target) {
-        System.out.println("SHOOTER IS" + shooter);
+
         Vector2 targetNew = target.getPosition();
         return makeProjectile(targetNew, shooter);
     }
 
     private static Entity makeProjectile(Vector2 destination, Entity source) {
-        System.out.println("WE MADE A FUCKING PROJECTILE");
         String texturePath = "images/eel_projectile.png";
 
         if (source.getName().contains("turret")) {
