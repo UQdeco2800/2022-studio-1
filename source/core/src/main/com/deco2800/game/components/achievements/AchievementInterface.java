@@ -178,7 +178,7 @@ public class AchievementInterface extends UIComponent {
         group.addActor(backButton);
         group.setVisible(false);
         stage.addActor(group);
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
     }
 
     private void openAchievements() {
