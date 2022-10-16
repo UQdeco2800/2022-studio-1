@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.BodyUserData;
 import com.deco2800.game.physics.components.HitboxComponent;
@@ -144,7 +145,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
         }
 
         // if no collisions, rotate opposite and walk for a bit (prevents walking in circles, I hope)
-        if (collisionEntities.size() == 0) {
+        if (collisionEntities.isEmpty()) {
             RotationDirection invert = (rotation == RotationDirection.LEFT ? RotationDirection.RIGHT : RotationDirection.LEFT);
             movementTask.setTarget(convertDirectionToTarget(rotateVector(currentDirection, invert)));
             movementTask.update();
@@ -193,7 +194,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
      * @return active priority
      */
     private int getActivePriority() {
-        if (collisionEntities.size() != 0 || adjusting) {
+        if (!collisionEntities.isEmpty() || adjusting) {
             return 3;
         } else {
             return -1;
@@ -205,7 +206,7 @@ public class MeleeAvoidObstacleTask extends DefaultTask implements PriorityTask 
      * @return inactive priority
      */
     private int getInactivePriority() {
-        if (!moving() && collisionEntities.size() != 0) {
+        if (!moving() && !collisionEntities.isEmpty()) {
             return 3;
         } else {
             return -1;

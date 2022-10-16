@@ -93,12 +93,12 @@ public class AchievementHandlerTest {
             Assertions.assertEquals(AchievementHandler.STAT_ACHIEVEMENT_10_MILESTONE, achievement.getTotalAchieved());
         });
 
-        new Achievement(100, AchievementType.GAME, true, "test", "test").setTotalAchieved(10);
+        new Achievement(100, AchievementType.GAME, true, false, false, "test", "test").setTotalAchieved(10);
     }
 
     @Test
     public void shouldCompleteStatAchievement() {
-        Achievement test = new Achievement(100, AchievementType.GAME, true, "test", "test");
+        Achievement test = new Achievement(100, AchievementType.GAME, true, false, false, "test", "test");
         test.setTotalAchieved(50);
 
         achievementHandler.checkStatAchievementMilestones(test);

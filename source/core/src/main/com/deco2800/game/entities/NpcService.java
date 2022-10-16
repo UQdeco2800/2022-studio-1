@@ -167,10 +167,10 @@ public class NpcService extends EntityService {
 
 //            System.out.println(xPos);
 //            System.out.println(yPos);
-//            if (xPos+2.6 < mousePosV2.x && mousePosV2.x < xPos+4.6) {
-//                if (yPos+1.3 < mousePosV2.y && mousePosV2.y < yPos+5.6) {
-            if (xPos+1 < mousePosV2.x && mousePosV2.x < xPos+3) {
-                if (yPos+0.5 < mousePosV2.y && mousePosV2.y < yPos+4) {
+            if (xPos+2.6 < mousePosV2.x && mousePosV2.x < xPos+4.6) {
+                if (yPos+1.3 < mousePosV2.y && mousePosV2.y < yPos+5.6) {
+//            if (xPos+1 < mousePosV2.x && mousePosV2.x < xPos+3) {
+//                if (yPos+0.5 < mousePosV2.y && mousePosV2.y < yPos+4) {
 
                     //System.out.println("npc clicked");
                     //initiate conversationS

@@ -1,8 +1,7 @@
 package com.deco2800.game.screens;
 
-
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.Guidebook.GuidebookActions;
+import com.deco2800.game.screens.GuidebookScreen;
 import com.deco2800.game.extensions.GameExtension;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,13 +11,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
 @RunWith(MockitoJUnitRunner.class)
 public class guidebookScreenTest {
-    @Mock GuidebookScreen screen;
-    @Mock AtlantisSinks game;
+    @Mock
+    GuidebookScreen screen;
+    @Mock
+    AtlantisSinks game;
 
     @BeforeEach
     void beforeEach() {
@@ -28,7 +28,7 @@ public class guidebookScreenTest {
     /**
      *
      * @return True if the class is null
-     * False is the class is not null
+     *         False is the class is not null
      */
     public boolean testingNull() {
         if (screen.getClass() != null) {
@@ -45,15 +45,10 @@ public class guidebookScreenTest {
         assertTrue(testingNull());
     }
 
-//    @Test
-//    public void resizeTest() {
-//        mock(screen.getClass());
-//        verify(screen, times(1)).resize(100, 100);
-//    }
-
-
-
-
-
+    // @Test
+    // public void resizeTest() {
+    // mock(screen.getClass());
+    // verify(screen, times(1)).resize(100, 100);
+    // }
 
 }

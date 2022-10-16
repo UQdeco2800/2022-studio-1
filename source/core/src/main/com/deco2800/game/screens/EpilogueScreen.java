@@ -24,7 +24,7 @@ public class EpilogueScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    //load all the texture images
+    // load all the texture images
     private static final String[] storylineTextures = {
             "images/StoryLine/SL_1.png",
             "images/StoryLine/SL_2.png",
@@ -94,7 +94,8 @@ public class EpilogueScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates the storyline UI including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

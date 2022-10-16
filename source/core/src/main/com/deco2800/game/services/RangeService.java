@@ -18,48 +18,112 @@ public class RangeService {
 
     /**
      * This function allows you to pass in an entity and retrieve an array containing every entity store in the UGS that
-     * are in the 8 squares around it: (Top Left, Directly Above, Top Right, Right, Bottom Right, Directly Bellow, Bottom Left, Left)
+     * are in the 8 squares around it + the players square: (Under Player, Top Left, Directly Above, Top Right, Right, Bottom Right, Directly Bellow, Bottom Left, Left)
      * @param middle the entity whose perimeter you want to find
      * @return an array list containing the perimeter in the form above
      */
-    public ArrayList<Entity> perimeter(Entity middle) {
-        ArrayList<Entity> radialPerimeter = new ArrayList<>();
-        Vector2 entityPos = middle.getPosition();
-        GridPoint2 gridPos =
-                ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x, entityPos.y);
-        String stringPos = UGS.generateCoordinate(gridPos.x, gridPos.y);
+    public ArrayList<Entity> perimeter(Entity middle, GridPoint2 gridPos) {
 
-        String stringPlayerAboveLeft = UGS.generateCoordinate(gridPos.x - 1, gridPos.y - 1);
+        ArrayList<Entity> radialPerimeter = new ArrayList<>();
+//        Vector2 entityPos = middle.getPosition();
+//        GridPoint2 gridPos =
+//                ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x, entityPos.y);
+        Equipments invent = MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWeapon();
+
+        // Add whats under the player
+        GridPoint2 stringUnderThePlayer = new GridPoint2(gridPos.x, gridPos.y);
+        Entity underThePlayer = ServiceLocator.getUGSService().getEntity(stringUnderThePlayer);
+        radialPerimeter.add(underThePlayer);
+
+        // Add the top row of the first perimeter (right to left)
+        GridPoint2 stringPlayerAboveLeft = new GridPoint2(gridPos.x - 1, gridPos.y - 1);
         Entity aboveLeft = ServiceLocator.getUGSService().getEntity(stringPlayerAboveLeft);
         radialPerimeter.add(aboveLeft);
-
-        String stringPlayerAbove = UGS.generateCoordinate(gridPos.x, gridPos.y - 1);
+        GridPoint2 stringPlayerAbove = new GridPoint2(gridPos.x, gridPos.y - 1);
         Entity above = ServiceLocator.getUGSService().getEntity(stringPlayerAbove);
         radialPerimeter.add(above);
-
-        String stringPlayerAboveRight = UGS.generateCoordinate(gridPos.x + 1, gridPos.y - 1);
+        GridPoint2 stringPlayerAboveRight = new GridPoint2(gridPos.x + 1, gridPos.y - 1);
         Entity aboveRight = ServiceLocator.getUGSService().getEntity(stringPlayerAboveRight);
         radialPerimeter.add(aboveRight);
 
-        String stringPlayerRight = UGS.generateCoordinate(gridPos.x + 1, gridPos.y);
+        // Add the right side of the first perimeter
+        GridPoint2 stringPlayerRight = new GridPoint2(gridPos.x + 1, gridPos.y);
         Entity right = ServiceLocator.getUGSService().getEntity(stringPlayerRight);
         radialPerimeter.add(right);
 
-        String stringPlayerBottomRight = UGS.generateCoordinate(gridPos.x + 1, gridPos.y + 1);
+        // Add the bottom row of the first perimeter (left to right)
+        GridPoint2 stringPlayerBottomRight = new GridPoint2(gridPos.x + 1, gridPos.y + 1);
         Entity bottomRight = ServiceLocator.getUGSService().getEntity(stringPlayerBottomRight);
         radialPerimeter.add(bottomRight);
-
-        String stringPlayerBottom = UGS.generateCoordinate(gridPos.x, gridPos.y + 1);
+        GridPoint2 stringPlayerBottom = new GridPoint2(gridPos.x, gridPos.y + 1);
         Entity bottom = ServiceLocator.getUGSService().getEntity(stringPlayerBottom);
         radialPerimeter.add(bottom);
-
-        String stringPlayerBottomLeft = UGS.generateCoordinate(gridPos.x - 1, gridPos.y + 1);
+        GridPoint2 stringPlayerBottomLeft = new GridPoint2(gridPos.x - 1, gridPos.y + 1);
         Entity bottomLeft = ServiceLocator.getUGSService().getEntity(stringPlayerBottomLeft);
         radialPerimeter.add(bottomLeft);
 
-        String stringPlayerLeft = UGS.generateCoordinate(gridPos.x - 1, gridPos.y);
+        // Add the left side of the first perimeter
+        GridPoint2 stringPlayerLeft = new GridPoint2(gridPos.x - 1, gridPos.y);
         Entity left = ServiceLocator.getUGSService().getEntity(stringPlayerLeft);
         radialPerimeter.add(left);
+
+        if (invent.equals(Equipments.BOW_AND_ARROW)) {
+            // Add the top row of the second perimeter (right to left)
+            GridPoint2 stringPlayerTopTopLeft = new GridPoint2(gridPos.x - 2, gridPos.y + 2);
+            Entity topTopLeft = ServiceLocator.getUGSService().getEntity(stringPlayerTopTopLeft);
+            radialPerimeter.add(topTopLeft);
+            GridPoint2 stringPlayerTopTopMidLeft = new GridPoint2(gridPos.x - 1, gridPos.y + 2);
+            Entity topTopMidLeft = ServiceLocator.getUGSService().getEntity(stringPlayerTopTopMidLeft);
+            radialPerimeter.add(topTopMidLeft);
+            GridPoint2 stringPlayerTopTopMid = new GridPoint2(gridPos.x, gridPos.y + 2);
+            Entity topTopMid = ServiceLocator.getUGSService().getEntity(stringPlayerTopTopMid);
+            radialPerimeter.add(topTopMid);
+            GridPoint2 stringPlayerTopTopMidRight = new GridPoint2(gridPos.x + 1, gridPos.y + 2);
+            Entity topTopMidRight = ServiceLocator.getUGSService().getEntity(stringPlayerTopTopMidRight);
+            radialPerimeter.add(topTopMidRight);
+            GridPoint2 stringPlayerTopTopRight = new GridPoint2(gridPos.x + 2, gridPos.y + 2);
+            Entity topTopRight = ServiceLocator.getUGSService().getEntity(stringPlayerTopTopRight);
+            radialPerimeter.add(topTopRight);
+
+            // Add right side of the second perimeter (top to bottom)
+            GridPoint2 stringPlayerRightRightTop = new GridPoint2(gridPos.x + 2, gridPos.y + 1);
+            Entity rightRightTop = ServiceLocator.getUGSService().getEntity(stringPlayerRightRightTop);
+            radialPerimeter.add(rightRightTop);
+            GridPoint2 stringPlayerRightRightMid = new GridPoint2(gridPos.x + 2, gridPos.y);
+            Entity rightRightMid = ServiceLocator.getUGSService().getEntity(stringPlayerRightRightMid);
+            radialPerimeter.add(rightRightMid);
+            GridPoint2 stringPlayerRightRightBot = new GridPoint2(gridPos.x + 2, gridPos.y - 1);
+            Entity rightRightBot = ServiceLocator.getUGSService().getEntity(stringPlayerRightRightBot);
+            radialPerimeter.add(rightRightBot);
+
+            // Add bottom side of the second perimeter (left to right)
+            GridPoint2 stringPlayerBotBotRight = new GridPoint2(gridPos.x + 2, gridPos.y - 2);
+            Entity botBotRight = ServiceLocator.getUGSService().getEntity(stringPlayerBotBotRight);
+            radialPerimeter.add(botBotRight);
+            GridPoint2 stringPlayerBotBotMidRight = new GridPoint2(gridPos.x + 1, gridPos.y - 2);
+            Entity botBotMidRight = ServiceLocator.getUGSService().getEntity(stringPlayerBotBotMidRight);
+            radialPerimeter.add(botBotMidRight);
+            GridPoint2 stringPlayerBotBotMid = new GridPoint2(gridPos.x, gridPos.y - 2);
+            Entity botBotMid = ServiceLocator.getUGSService().getEntity(stringPlayerBotBotMid);
+            radialPerimeter.add(botBotMid);
+            GridPoint2 stringPlayerBotBotMidLeft = new GridPoint2(gridPos.x - 1, gridPos.y - 2);
+            Entity botBotMidLeft = ServiceLocator.getUGSService().getEntity(stringPlayerBotBotMidLeft);
+            radialPerimeter.add(botBotMidLeft);
+            GridPoint2 stringPlayerBotBotLeft = new GridPoint2(gridPos.x - 2, gridPos.y - 2);
+            Entity botBotLeft = ServiceLocator.getUGSService().getEntity(stringPlayerBotBotLeft);
+            radialPerimeter.add(botBotLeft);
+
+            // Add left side of the second perimeter (bottom to top)
+            GridPoint2 stringPlayerLeftLeftBot = new GridPoint2(gridPos.x - 2, gridPos.y - 1);
+            Entity leftLeftBot = ServiceLocator.getUGSService().getEntity(stringPlayerLeftLeftBot);
+            radialPerimeter.add(leftLeftBot);
+            GridPoint2 stringPlayerLeftLeftMid = new GridPoint2(gridPos.x - 2, gridPos.y);
+            Entity leftLeftMid = ServiceLocator.getUGSService().getEntity(stringPlayerLeftLeftMid);
+            radialPerimeter.add(leftLeftMid);
+            GridPoint2 stringPlayerLeftLeftTop = new GridPoint2(gridPos.x - 1, gridPos.y);
+            Entity leftLeftTop = ServiceLocator.getUGSService().getEntity(stringPlayerLeftLeftTop);
+            radialPerimeter.add(leftLeftTop);
+        }
 
         return radialPerimeter;
     }
@@ -69,12 +133,11 @@ public class RangeService {
      * to the enemies not yet moving in the UGS.
      * @return the string generated key that is stored in the hashmap of where the player is standing
      */
-    public String getPlayerTile() {
+    public GridPoint2 getPlayerTile() {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         Vector2 playerPos = player.getPosition();
         GridPoint2 gPlayerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(playerPos.x, playerPos.y);
-        String key = UGS.generateCoordinate(gPlayerPos.x, gPlayerPos.y);
-        return key;
+        return gPlayerPos;
     }
 
     /**
@@ -100,51 +163,17 @@ public class RangeService {
      */
     public Boolean playerInRangeOf (Entity toCompare) {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+        GridPoint2 playerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
         ArrayList<Entity> ugs = registeredInUGS();
         boolean inRange = false;
         if (ugs.contains(toCompare)) {
-            ArrayList<Entity> aroundPlayer = perimeter(player);
-            HashMap<Artefact, Integer> invent = MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getItems();
-            if (invent.containsKey(Equipments.BOW_AND_ARROW)) {
-                if (aroundPlayer.contains(toCompare)) {
-                    inRange = true;
-                }
-            } else /*if (invent.containsKey(Equipments.SWORD) || invent.containsKey(Equipments.AXE) || invent.containsKey(Equipments.TRIDENT)) */ {
-                if (aroundPlayer.contains(toCompare)) {
-                    inRange = true;
-                }
+            ArrayList<Entity> aroundPlayer = perimeter(player, playerPos);
+            if (aroundPlayer.contains(toCompare)) {
+                inRange = true;
             }
         }
         return inRange;
     }
-
-    /**
-     * This function was semi created to come back to in Sprint 4 to try and aid buildings team. Alot of it depreicated
-     * with the new UGS
-     * @param toCompare an entity that you want to see if its around the player
-     */
-//    public Boolean withinTowerRange (Entity toCompare) {
-//        boolean inRange = false;
-//        ArrayList<Entity> withinRange = new ArrayList<>();
-//        for (String i : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
-//            if (i.contains("tower")) {
-//                for (String j : ServiceLocator.getEntityService().getAllNamedEntities().keySet()) {
-//                    if (j.contains("nemy")) {
-//                        Vector2 towerPos = ServiceLocator.getEntityService().getAllNamedEntities().get(i).getPosition();
-//                        Vector2 enemyPos = ServiceLocator.getEntityService().getAllNamedEntities().get(j).getPosition();
-//                        if (Math.abs(towerPos.x - enemyPos.x) < 10 && Math.abs(towerPos.y - enemyPos.y) < 10) {
-//                            withinRange.add(ServiceLocator.getEntityService().getAllNamedEntities().get(j));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        // Then loop through all of the enemies within this "in tower range" list add "hit" them and deduct health
-//        // Just dont know how to be constantly checking for this
-//        // Could u add this as a listener event per clock tick?? idk?
-//        return inRange;
-//    }
-
 
 
 }

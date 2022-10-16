@@ -1,22 +1,18 @@
 package com.deco2800.game.components.achievements;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.screens.AchievementScreen;
@@ -27,63 +23,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
  */
 public class AchievementDisplay extends UIComponent {
     /**
-     * Event string for achievement summary button press
-     */
-    public static final String EVENT_SUMMARY_BUTTON_CLICKED = "summaryButtonClicked";
-
-    /**
-     * Event string for building achievement button press
-     */
-    public static final String EVENT_BUILDING_BUTTON_CLICKED = "buildingButtonClicked";
-
-    /**
-     * Event string for game achievement button press
-     */
-    public static final String EVENT_GAME_BUTTON_CLICKED = "gameButtonClicked";
-
-    /**
-     * Event string for kill achievement button press
-     */
-    public static final String EVENT_KILL_BUTTON_CLICKED = "killButtonClicked";
-
-    /**
-     * Event string for resource achievement button press
-     */
-    public static final String EVENT_RESOURCE_BUTTON_CLICKED = "resourceButtonClicked";
-
-    /**
-     * Event string for resource achievement button press
-     */
-    public static final String EVENT_UPGRADE_BUTTON_CLICKED = "upgradeButtonClicked";
-
-    /**
-     * Event string for misc achievement button press
-     */
-    public static final String EVENT_MISC_BUTTON_CLICKED = "miscButtonClicked";
-
-    /**
      * Event string for exit button press
      */
     public static final String EVENT_EXIT_BUTTON_CLICKED = "exitButtonClicked";
 
     /**
-     * Hashmap of button types and their events
-     */
-    private final HashMap<String, String> events = new HashMap<>();
-
-    /**
      * Logger for the AchievementBaseDisplay class
      */
     private static final Logger logger = LoggerFactory.getLogger(AchievementScreen.class);
-
-    private static final float Z_INDEX = 2f;
 
     /**
      * Table for displaying all screen content
@@ -96,11 +50,15 @@ public class AchievementDisplay extends UIComponent {
     private Table displayTable;
 
     /**
+     * Table for containing achievement navigation buttons
+     */
+    private Table navigationTable;
+
+    /**
      * Create the achievement base display
      */
     public void create() {
         super.create();
-        mapEvents();
         addActors();
     }
 
@@ -115,7 +73,7 @@ public class AchievementDisplay extends UIComponent {
         rootTable.center();
 
         Table exitTable = new Table();
-        Table navigationTable = new Table();
+        this.navigationTable = new Table();
         navigationTable.defaults().pad(10f);
         this.displayTable = new Table();
         displayTable.defaults().pad(10f);
@@ -123,21 +81,10 @@ public class AchievementDisplay extends UIComponent {
         contentTable.defaults().pad(10f);
 
         // Title
-        // fonts -> https://libgdxinfo.wordpress.com/basic-label/
-        /*
-        Image title = new Image(new Texture(Gdx.files.internal("Achievements/AchievementsTitle.png")));
-        title.setAlign(Align.center);
-        title.setHeight(Gdx.graphics.getHeight() * 0.2f);
-
-         */
-
-        Label.LabelStyle titleStyle = new Label.LabelStyle();
-        titleStyle.font = new BitmapFont(Gdx.files.internal("flat-earth/skin/fonts/pixel_32.fnt"));
-        titleStyle.fontColor = Color.BLACK;
-
-        Label title = new Label("Achievements",titleStyle);
-        title.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() * 0.5f);
+        Label title = new Label("Achievements", skin, "title");
+        title.setFontScale(2f);
         title.setAlignment(Align.center);
+        exitTable.add(title).colspan(8).expand();
 
         // Background Colour
         Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
@@ -149,66 +96,69 @@ public class AchievementDisplay extends UIComponent {
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
 
-        Texture badgeDescription = new Texture(Gdx.files.internal("images/achievements/Badge_Description_1580x126_Box.png"));
-        Drawable badgeDescriptionBox = new TextureRegionDrawable(badgeDescription);
-
         contentTable.setBackground(backgroundBox);
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
         // Add display content
-        changeDisplay(this.displayTable, AchievementType.SUMMARY);
+        changeDisplay(AchievementType.SUMMARY);
 
         // Home Button
-        ImageButton summaryButton = createButton("images/achievements/Summary_Button.png");
-        this.addButtonEvent(summaryButton, "Summary");
+        ImageButton summaryButton = createButton(AchievementType.SUMMARY);
+        this.addButtonEvent(summaryButton, AchievementType.SUMMARY.getTitle());
         navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
 
         // Building Button
-        ImageButton buildingButton = createButton("images/achievements/Building_Icon.png");
-        this.addButtonEvent(buildingButton, "Building");
+        ImageButton buildingButton = createButton(AchievementType.BUILDINGS);
+        this.addButtonEvent(buildingButton, AchievementType.BUILDINGS.getTitle());
 
         navigationTable.add(buildingButton).expand();
 
         // Game Button
-        ImageButton gameButton = createButton("images/achievements/Game_Icon.png");
-        this.addButtonEvent(gameButton, "Game");
+        ImageButton gameButton = createButton(AchievementType.GAME);
+        this.addButtonEvent(gameButton, AchievementType.GAME.getTitle());
 
         navigationTable.add(gameButton).expand();
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton("images/achievements/Kill_Icon.png");
-        this.addButtonEvent(killButton, "Kill");
+        ImageButton killButton = createButton(AchievementType.KILLS);
+        this.addButtonEvent(killButton, AchievementType.KILLS.getTitle());
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton("images/achievements/Resource_Icon.png");
-        this.addButtonEvent(resourceButton, "Resource");
+        ImageButton resourceButton = createButton(AchievementType.RESOURCES);
+        this.addButtonEvent(resourceButton, AchievementType.RESOURCES.getTitle());
 
         navigationTable.add(resourceButton).expand();
         navigationTable.row();
 
         // Upgrade Button
-        ImageButton upgradeButton = createButton("images/achievements/Upgrade_Icon.png");
-        this.addButtonEvent(upgradeButton, "Upgrade");
+        ImageButton upgradeButton = createButton(AchievementType.UPGRADES);
+        this.addButtonEvent(upgradeButton, AchievementType.UPGRADES.getTitle());
 
         navigationTable.add(upgradeButton).expand();
 
         // Misc Button
-        ImageButton miscButton = createButton("images/achievements/Misc_Icon.png");
-        this.addButtonEvent(miscButton, "Misc");
+        ImageButton miscButton = createButton(AchievementType.MISC);
+        this.addButtonEvent(miscButton, AchievementType.MISC.getTitle());
 
         navigationTable.add(miscButton).expand();
 
         // Back Button
-        ImageButton exitButton = createButton("images/uiElements/exports/back.png");
-        this.addButtonEvent(exitButton, "Exit");
+        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
+        TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
+        TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
+        TextureRegionDrawable checkedBack = new TextureRegionDrawable(backTextureHover);
+        ImageButton backButton = new ImageButton(upBack, downBack, checkedBack);
 
-        exitTable.add(exitButton).expandX().expandY().right().top().pad(0f, 0f, 0f, 0f);
-        
+        this.addButtonEvent(backButton, "Exit");
+
+        exitTable.add(backButton).expand().right().top().size(50f).pad(5);
+
         // Display main content
         displayTable.align(Align.top);
         displayTable.pad(50f);
@@ -218,12 +168,12 @@ public class AchievementDisplay extends UIComponent {
 
         rootTable.add(exitTable).colspan(8).fillX();
         rootTable.row();
-        rootTable.add(title).colspan(8).expand();
+        // rootTable.add(title).colspan(8).expand();
         rootTable.row();
         rootTable.add(contentTable).colspan(8).expand();
 
         stage.addActor(rootTable);
-        //stage.setDebugAll(true);
+        // stage.setDebugAll(true);
     }
 
     @Override
@@ -238,33 +188,34 @@ public class AchievementDisplay extends UIComponent {
     }
 
     /**
-     *  Creates the milestone button actor.
-     *  listens on hover events to display milestone achievement
-     *  in description
+     * Creates the milestone button actor.
+     * listens on hover events to display milestone achievement
+     * in description
      *
-     * @param milestoneNumber milestoneNumber
-     * @param isComplete whether the milestone is complete
-     * @param achievement the achievement to create the image button for
+     * @param milestoneNumber  milestoneNumber
+     * @param isComplete       whether the milestone is complete
+     * @param achievement      the achievement to create the image button for
      * @param descriptionLabel the description label for the achievement
      * @return an image or
      */
-    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete, Achievement achievement,
-                                                        Label descriptionLabel) {
+    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete,
+            Achievement achievement,
+            Label descriptionLabel) {
         switch (milestoneNumber) {
             case 1: {
                 return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 1);
             }
-          case 2: {
-              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 2);
-          }
-          case 3: {
-              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 3);
-          }
-          case 4: {
-              return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 4);
-          }
-          default:
-              return null;
+            case 2: {
+                return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 2);
+            }
+            case 3: {
+                return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 3);
+            }
+            case 4: {
+                return createMilestoneImageButtonWithHoverEvent(isComplete, descriptionLabel, achievement, 4);
+            }
+            default:
+                return null;
         }
     }
 
@@ -272,24 +223,27 @@ public class AchievementDisplay extends UIComponent {
      *
      * Creates a milestone button for the achievement card with hover events on it
      *
-     * @param isComplete whether the milestone is achieved
-     * @param descriptionLabel the UI label which will be dynamically changed on hover
-     * @param achievement the achievement to create the button for
-     * @param milestoneNumber the milestone number
+     * @param isComplete       whether the milestone is achieved
+     * @param descriptionLabel the UI label which will be dynamically changed on
+     *                         hover
+     * @param achievement      the achievement to create the button for
+     * @param milestoneNumber  the milestone number
      * @return the image button
      */
-    private static Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel, Achievement achievement, int milestoneNumber) {
+    private static Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel,
+            Achievement achievement, int milestoneNumber) {
         AchievementHandler achievementService = ServiceLocator.getAchievementHandler();
 
         Texture backgroundTexture = new Texture(Gdx.files.internal(
-                isComplete ? "images/achievements/milestone_%d_completed.png".formatted(milestoneNumber) :
-                        "images/achievements/milestone_%d_incomplete.png".formatted(milestoneNumber) ));
+                isComplete ? "images/achievements/milestone_%d_completed.png".formatted(milestoneNumber)
+                        : "images/achievements/milestone_%d_incomplete.png".formatted(milestoneNumber)));
         var image = new Image(backgroundTexture);
         if (isComplete) {
             image.addListener(new ClickListener() {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, @Null Actor fromActor) {
-                    descriptionLabel.setText(achievement.getDescription().formatted(achievementService.getMilestoneTotal(achievement, milestoneNumber)));
+                    descriptionLabel.setText(achievement.getDescription()
+                            .formatted(achievementService.getMilestoneTotal(achievement, milestoneNumber)));
                 }
 
                 @Override
@@ -304,7 +258,7 @@ public class AchievementDisplay extends UIComponent {
     /**
      * Constructs the achievement milestone buttons for a given achievement
      *
-     * @param achievement the achievement to create the buttons for
+     * @param achievement      the achievement to create the buttons for
      * @param descriptionLabel the label to be changed on hover
      * @return a row of buttons table
      */
@@ -315,13 +269,13 @@ public class AchievementDisplay extends UIComponent {
         milestoneButtons.add(getMilestoneImageButtonByNumber(1,
                 achievementService.isMilestoneAchieved(achievement, 1), achievement, descriptionLabel));
         milestoneButtons.add(getMilestoneImageButtonByNumber(2,
-                achievementService.isMilestoneAchieved(achievement, 2),achievement,descriptionLabel));
+                achievementService.isMilestoneAchieved(achievement, 2), achievement, descriptionLabel));
         milestoneButtons.add(getMilestoneImageButtonByNumber(3,
-                achievementService.isMilestoneAchieved(achievement, 3),achievement,descriptionLabel));
+                achievementService.isMilestoneAchieved(achievement, 3), achievement, descriptionLabel));
         milestoneButtons.add(getMilestoneImageButtonByNumber(4,
-                achievementService.isMilestoneAchieved(achievement, 4),achievement,descriptionLabel));
-       milestoneButtons.add();
-       return milestoneButtons;
+                achievementService.isMilestoneAchieved(achievement, 4), achievement, descriptionLabel));
+        milestoneButtons.add();
+        return milestoneButtons;
     }
 
     /**
@@ -333,12 +287,15 @@ public class AchievementDisplay extends UIComponent {
     public static Table buildAchievementCard(Achievement achievement) {
         Table achievementCard = new Table();
         achievementCard.pad(30);
-        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Texture backgroundTexture = new Texture(
+                Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png"
+                        : "images/achievements/achievement_card_locked_n.png"));
         Image backgroundImg = new Image(backgroundTexture);
         achievementCard.setBackground(backgroundImg.getDrawable());
 
         Table achievementCardHeader = new Table();
-        Texture achievementTypeTexture = new Texture(Gdx.files.internal(achievement.getAchievementType().getPopupImage()));
+        Texture achievementTypeTexture = new Texture(
+                Gdx.files.internal(achievement.getAchievementType().getPopupImage()));
         Image achievementTypeImage = new Image(achievementTypeTexture);
         achievementTypeImage.setAlign(Align.left);
         achievementCardHeader.add(achievementTypeImage);
@@ -375,6 +332,7 @@ public class AchievementDisplay extends UIComponent {
 
     /**
      * Split a description string into multiple lines
+     * 
      * @param description String
      * @return ArrayList
      */
@@ -411,7 +369,10 @@ public class AchievementDisplay extends UIComponent {
         Table summaryCard = new Table();
         summaryCard.pad(30f);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompleted(type) ? "images/achievements/achievement_card_completed.png" : "images/achievements/achievement_card_locked_n.png"));
+        Texture backgroundTexture = new Texture(
+                Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
+                        ? "images/achievements/achievement_card_completed.png"
+                        : "images/achievements/achievement_card_locked_n.png"));
         Image backgroundImg = new Image(backgroundTexture);
         summaryCard.setBackground(backgroundImg.getDrawable());
 
@@ -427,9 +388,23 @@ public class AchievementDisplay extends UIComponent {
         return summaryCard;
     }
 
-    public static void changeDisplay(Table displayTable, AchievementType type) {
+    public void changeSelectedIcon(AchievementType selected) {
+        SnapshotArray<Actor> navActors = navigationTable.getChildren();
+
+        for (int i = 0; i < navActors.size; i++) {
+            if (navActors.get(i) != null && navActors.get(i).getClass() == AchievementButton.class) {
+                AchievementButton button = (AchievementButton) navActors.get(i);
+
+                button.setChecked(true);
+            }
+        }
+    }
+
+    public void changeDisplay(AchievementType type) {
         displayTable.clear();
-        displayTable.add(new Label(type.getTitle(), skin)).colspan(6).expandX();
+        Label title = new Label(type.getTitle(), skin, "title");
+        title.setFontScale(1f);
+        displayTable.add(title).colspan(6).expandX();
         displayTable.row();
 
         int achievementsAdded = 0;
@@ -466,44 +441,75 @@ public class AchievementDisplay extends UIComponent {
 
     /**
      * Creates an ImageButton from a provided image
-     * @param image String: File location
+     * 
+     * @param type AchievementType
      * @return ImageButton
      */
-    private ImageButton createButton(String image) {
+    private static ImageButton createButton(AchievementType type) {
+        String image = "images/achievements/" + type.getTitle() + "_Icon.png";
+        String imageNotSelected = "images/achievements/" + type.getTitle() + "_NotCurrent.png";
+
         Texture buttonTexture = new Texture(Gdx.files.internal(image));
         TextureRegionDrawable up = new TextureRegionDrawable(buttonTexture);
         TextureRegionDrawable down = new TextureRegionDrawable(buttonTexture);
 
-        return new ImageButton(up, down);
+        Texture buttonNotSelected = new Texture(Gdx.files.internal(imageNotSelected));
+        TextureRegionDrawable isUnselected = new TextureRegionDrawable(buttonNotSelected);
+
+        AchievementButton button = new AchievementButton(up, down, isUnselected, type);
+        button.setChecked(!type.equals(AchievementType.SUMMARY));
+
+        return button;
     }
 
     /**
      * Add listener to the provided ImageButton
+     * 
      * @param button ImageButton
-     * @param name String
+     * @param name   String
      */
     private void addButtonEvent(ImageButton button, String name) {
+        if (Objects.equals(name, "Exit")) {
+            button.addListener(
+                    new ClickListener() {
+                        @Override
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            logger.debug("Exit button clicked");
+                            entity.getEvents().trigger(EVENT_EXIT_BUTTON_CLICKED, displayTable, navigationTable);
+                            return true;
+                        }
+                    });
+            // Adds hover state to button
+            button.addListener(
+                    new InputListener() {
+                        @Override
+                        public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                            button.setChecked(true);
+                        }
+
+                        @Override
+                        public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                            button.setChecked(false);
+                        }
+                    });
+            button.addListener(
+                    new TextTooltip("Return to game", skin));
+
+            return;
+        }
+
         button.addListener(
-                new ChangeListener() {
+                new ClickListener() {
                     @Override
-                    public void changed(ChangeEvent event, Actor actor) {
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         logger.debug("{} button clicked", name);
-                        entity.getEvents().trigger(events.get(name), displayTable);
+                        changeDisplay(AchievementType.valueOf(name.toUpperCase()));
+                        changeSelectedIcon(AchievementType.valueOf(name.toUpperCase()));
+                        return false;
                     }
                 });
-    }
 
-    /**
-     * Maps button names to event strings
-     */
-    private void mapEvents() {
-        this.events.put("Summary", EVENT_SUMMARY_BUTTON_CLICKED);
-        this.events.put("Building", EVENT_BUILDING_BUTTON_CLICKED);
-        this.events.put("Game", EVENT_GAME_BUTTON_CLICKED);
-        this.events.put("Kill", EVENT_KILL_BUTTON_CLICKED);
-        this.events.put("Resource", EVENT_RESOURCE_BUTTON_CLICKED);
-        this.events.put("Upgrade", EVENT_UPGRADE_BUTTON_CLICKED);
-        this.events.put("Misc", EVENT_MISC_BUTTON_CLICKED);
-        this.events.put("Exit", EVENT_EXIT_BUTTON_CLICKED);
+        button.addListener(
+                new TextTooltip(name, skin));
     }
 }

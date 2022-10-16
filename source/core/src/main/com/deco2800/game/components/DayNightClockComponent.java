@@ -15,6 +15,8 @@ import com.deco2800.game.ui.UIComponent;
 public class DayNightClockComponent extends UIComponent {
     private Image clockImage;
     private Table rightTable;
+    private long timeLoaded;
+    private boolean loaded;
 
     private final String[] clockSprites = {
             "images/clock_sprites/clock_day1_1.png",
@@ -47,8 +49,7 @@ public class DayNightClockComponent extends UIComponent {
             "images/clock_sprites/clock_day4_4.png",
             "images/clock_sprites/clock_day4_5.png",
             "images/clock_sprites/clock_day4_6.png",
-            "images/clock_sprites/clock_day4_7.png",
-            "images/clock_sprites/clock_day4_8.png"
+            "images/clock_sprites/clock_boss.png"
     };
 
     private int currentSprite = -1;
@@ -101,10 +102,61 @@ public class DayNightClockComponent extends UIComponent {
      * @param partOfDay DayNightCycleStatus
      */
     private void changeSprite(DayNightCycleStatus partOfDay) {
-        this.currentSprite += 1;
+        if (loaded) {
+            if (ServiceLocator.getDayNightCycleService().getTimer().getTime() - timeLoaded < 300) {
+                //avoid asynchronous update triggers right after being loaded in
+                return;
+            } else {
+                loaded = false;
+            }
+        }
+        if (this.currentSprite != clockSprites.length - 1) {
+            this.currentSprite += 1;
+        }
+
         this.clockImage = new Image(ServiceLocator.getResourceService().getAsset(clockSprites[currentSprite], Texture.class));
 
         rightTable.clear();
         rightTable.add(clockImage).left().bottom().size(200f, 200f);
+    }
+
+    /**
+     * Loads the clock when a save is loaded.
+     * Sets the current sprite equal to the current DayNightCycle day number and status
+     */
+    public void loadFromSave() {
+        DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
+        int dayNum = cycleService.getCurrentDayNumber();
+        //8 segments in the clock, starts at dawn (between night & dawn)
+        int numUpdates = (dayNum - 1) * 8;
+        DayNightCycleStatus status = cycleService.getCurrentCycleStatus();
+        switch (status) {
+            case DUSK:
+                numUpdates += 5;
+                break;
+            case NIGHT:
+                numUpdates += 6 + (cycleService.partOfDayHalveIteration - 1);
+                break;
+            case DAY:
+                numUpdates += cycleService.partOfDayHalveIteration;
+                break;
+            default:
+                break;
+        }
+        if (numUpdates >= clockSprites.length) {
+            numUpdates = clockSprites.length;
+        }
+        this.currentSprite = numUpdates - 1;
+        changeSprite(status);
+        loaded = true;
+        timeLoaded = cycleService.getTimer().getTime();
+    }
+
+    /**
+     * for testing purposes
+     * @return index of the current sprite
+     */
+    public int getCurrentSprite() {
+        return this.currentSprite;
     }
 }
