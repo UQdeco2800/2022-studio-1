@@ -87,7 +87,7 @@ public class AchievementInterface extends UIComponent {
         Label title = new Label("Achievements", skin, "title");
         title.setFontScale(2f);
         title.setAlignment(Align.center);
-        rootTable.add(title).colspan(8).expand().pad(20f, 0f, 20f, 0f);
+        rootTable.add(title).expandX().pad(60f, 0f, 50f, 0f);
 
         // Background Colour
         Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
@@ -164,7 +164,7 @@ public class AchievementInterface extends UIComponent {
 
         this.addButtonEvent(backButton, "Exit");
 
-        rootTable.add(backButton).size(40f).pad(5);
+        rootTable.add(backButton).size(40f).pad(60f);
 
         // Display main content
         displayTable.align(Align.top);
@@ -331,30 +331,33 @@ public class AchievementInterface extends UIComponent {
         achievementCard.add(descriptionLabel).colspan(3).expandX();
         achievementCard.row();
 
+
+        Label tempLabel;
+
         for (String s : achievementDescription) {
             if (achievementDescription.indexOf(s) == 0) {
                 continue;
             }
 
-            descriptionLabel = new Label(s, skin, "large");
-            descriptionLabel.setFontScale(0.7f);
-            achievementCard.add(descriptionLabel).colspan(3).expandX();
+            tempLabel = new Label(s, skin, "large");
+            tempLabel.setFontScale(0.7f);
+            achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
         if (achievementDescription.size() == 1) {
-            descriptionLabel = new Label("", skin, "large");
-            descriptionLabel.setFontScale(0.7f);
-            achievementCard.add(descriptionLabel).colspan(3).expandX();
+            tempLabel = new Label("", skin, "large");
+            tempLabel.setFontScale(0.7f);
+            achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
         if (achievement.isStat()) {
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).expandX().colspan(3).padBottom(20).align(Align.center);
         } else {
-            descriptionLabel = new Label("", skin, "large");
-            descriptionLabel.setFontScale(0.7f);
-            achievementCard.add(descriptionLabel).colspan(3).expandX();
+            tempLabel = new Label("", skin, "large");
+            tempLabel.setFontScale(0.7f);
+            achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
