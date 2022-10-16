@@ -16,7 +16,7 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.tasks.ShootMultipleTask;
+
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
@@ -125,13 +125,13 @@ public class StructureFactory {
     Entity turret = createBaseStructure("images/turret.png", name, false);
     BaseStructureConfig config = configs.turret;
 
-    AITaskComponent aiTaskComponent = new AITaskComponent()
-        .addTask(new ShootMultipleTask(new ArrayList<>(), 500f));
+//    AITaskComponent aiTaskComponent = new AITaskComponent()
+//        .addTask(new ShootMultipleTask(new ArrayList<>(), 500f));
 
     turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
         .addComponent(new ResourceCostComponent(config.gold))
-        .addComponent((new HealthBarComponent(50, 10)))
-        .addComponent(aiTaskComponent);
+        .addComponent((new HealthBarComponent(50, 10)));
+        //.addComponent(aiTaskComponent);
 
     return turret;
   }

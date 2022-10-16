@@ -15,12 +15,13 @@ import com.deco2800.game.services.ServiceLocator;
 
 public class ProjectileFactory {
     public static Entity createProjectile(Entity shooter, Entity target) {
+        System.out.println("SHOOTER IS" + shooter);
         Vector2 targetNew = target.getPosition();
         return makeProjectile(targetNew, shooter);
     }
 
     private static Entity makeProjectile(Vector2 destination, Entity source) {
-
+        System.out.println("WE MADE A FUCKING PROJECTILE");
         String texturePath = "images/eel_projectile.png";
 
         if (source.getName().contains("turret")) {
@@ -30,19 +31,19 @@ public class ProjectileFactory {
         Entity projectile = new Entity()
                 .addComponent(new TextureRenderComponent("images/eel_projectile.png"))
                 .addComponent(new PhysicsComponent())
-                .addComponent(new ProjectileMovementComponent())
+                .addComponent(new PhysicsMovementComponent())
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                 .addComponent(new CombatStatsComponent(1, 5))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 0.2f));
 
-        projectile.getComponent(ProjectileMovementComponent.class).setTarget(destination);
-        projectile.getComponent(ProjectileMovementComponent.class).setMoving(true);
-        projectile.getComponent(ProjectileMovementComponent.class).setNewSpeed(new Vector2(4, 4));
-        projectile.getComponent(ColliderComponent.class).setSensor(true);
+        projectile.getComponent(PhysicsMovementComponent.class).setTarget(destination);
+        projectile.getComponent(PhysicsMovementComponent.class).setMoving(true);
+        projectile.getComponent(PhysicsMovementComponent.class).setNewSpeed(new Vector2(4, 4));
+        projectile.getComponent(ColliderComponent.class).setSensor(false);
 
-        projectile.setPosition(source.getPosition());
+        projectile.setPosition(source.getPosition().x, source.getPosition().y);
         PhysicsUtils.setScaledCollider(projectile, 2f, 2f);
         projectile.scaleHeight(20f);
 

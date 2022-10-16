@@ -34,6 +34,8 @@ import com.deco2800.game.ui.terminal.TerminalDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 /**
  * The game screen containing the main game.
  *
@@ -107,7 +109,6 @@ public class MainGameScreen extends ScreenAdapter {
   public MainGameScreen(AtlantisSinks game, Boolean loadGame) {
 
     this.game = game;
-    System.out.println(loadGame);
     logger.debug("Initialising main game screen services");
     ServiceLocator.registerTimeSource(new GameTime());
 
@@ -165,11 +166,13 @@ public class MainGameScreen extends ScreenAdapter {
     // delete entities MUST BE DONE HERE DUE TO CONCURRENCY ISSUES
     if (ServiceLocator.getEntityService() != null) {
       if (!ServiceLocator.getEntityService().getCurrentWorldStep()) {
+
         for (Entity e : ServiceLocator.getEntityService().getToDestroyEntities()) {
           e.dispose();
         }
       }
     }
+    ServiceLocator.getEntityService().toDestroyEntities = new ArrayList<>();
   }
 
   @Override
