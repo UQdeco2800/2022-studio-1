@@ -1,4 +1,4 @@
-package com.deco2800.game.components.npc.screens;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
