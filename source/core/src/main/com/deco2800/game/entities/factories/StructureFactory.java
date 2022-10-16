@@ -473,7 +473,6 @@ public class StructureFactory {
     }
     // Remove building entity
     int orientation = ServiceLocator.getUGSService().getEntityByName(structName).getComponent(OrientationComponent.class).getOrientation();
-    System.out.println(orientation);
     ServiceLocator.getUGSService().removeEntity(structName);
 
     // Upgrade depending on building
@@ -487,12 +486,10 @@ public class StructureFactory {
         case 1:
           tower1 = StructureFactory.createTower1(2, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
-          ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;
         case 2:
           tower1 = StructureFactory.createTower1(3, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
-          ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;
       }
     } else if (structName.contains("tower2")) {
@@ -502,12 +499,10 @@ public class StructureFactory {
         case 1:
           tower2 = StructureFactory.createTower2(2, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
-          ServiceLocator.getStructureService().registerNamed(structName, tower2);
           break;
         case 2:
           tower2 = StructureFactory.createTower2(3, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
-          ServiceLocator.getStructureService().registerNamed(structName, tower2);
           break;
       }
     } else if (structName.contains("tower3")) {
@@ -517,12 +512,10 @@ public class StructureFactory {
         case 1:
           tower3 = StructureFactory.createTower3(2, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
-          ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
         case 2:
           tower3 = StructureFactory.createTower3(3, structName, false);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
-          ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
       }
     }
