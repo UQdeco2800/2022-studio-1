@@ -171,7 +171,7 @@ public class StructureService extends EntityService {
           structure = StructureFactory.createTower1(1, entityName, false, orientation);
           break;
         case "tower2":
-          structure = StructureFactory.createTower2(1, entityName, false);
+          structure = StructureFactory.createTower2(1, entityName, false, orientation);
           break;
         case "tower3":
           structure = StructureFactory.createTower3(1, entityName, false);
@@ -252,7 +252,7 @@ public class StructureService extends EntityService {
     } else if (Objects.equals(name, "tower1")) {
       tempEntity = StructureFactory.createTower1(1, entityName, true, orientation);
     } else if (Objects.equals(name, "tower2")) {
-      tempEntity = StructureFactory.createTower2(1, entityName, true);
+      tempEntity = StructureFactory.createTower2(1, entityName, true, orientation);
     } else if (Objects.equals(name, "woodCutter")) {
       tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {

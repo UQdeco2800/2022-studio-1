@@ -18,6 +18,7 @@ import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 
+import com.deco2800.game.components.storyline.epilogueDisplay;
 import com.deco2800.game.components.tasks.ShootMultipleTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
@@ -32,6 +33,7 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
+import com.sun.jdi.ObjectReference;
 import org.w3c.dom.Text;
 
 /**
@@ -250,7 +252,8 @@ public class StructureFactory {
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new AOEDamageComponent(4, 3, 4500))
             .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower2.getComponent(TextureRenderComponent.class).getTexture();
@@ -264,7 +267,8 @@ public class StructureFactory {
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new AOEDamageComponent(5, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower2.getComponent(TextureRenderComponent.class).getTexture();
@@ -277,7 +281,8 @@ public class StructureFactory {
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
             .addComponent(new AOEDamageComponent(3, 2, 4750))
             .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower2.getComponent(TextureRenderComponent.class).getTexture();
@@ -499,11 +504,11 @@ public class StructureFactory {
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower2 = StructureFactory.createTower2(2, structName, false);
+          tower2 = StructureFactory.createTower2(2, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
         case 2:
-          tower2 = StructureFactory.createTower2(3, structName, false);
+          tower2 = StructureFactory.createTower2(3, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower2, structName);
           break;
       }
