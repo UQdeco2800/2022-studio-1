@@ -16,6 +16,7 @@ import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+
 import com.deco2800.game.components.tasks.ShootMultipleTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;

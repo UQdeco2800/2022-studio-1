@@ -192,6 +192,8 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
+    spawnElectricEelEnemy();
+
     // spawnNPCharacter();
     if (this.loadGame) {
       SaveGame.loadGameState();
@@ -577,8 +579,6 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay) {
-      case DAWN:
-      case DUSK:
       case DAY:
         break;
       case NIGHT:
@@ -587,7 +587,6 @@ public class ForestGameArea extends GameArea {
           // spawnElectricEelEnemy();
           // spawnNinjaStarfishEnemy();
         }
-
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }

@@ -8,6 +8,10 @@ config: {
 	maxDays: 4
 }
 timer: {
+<<<<<<< HEAD
 	startTime: 1665915547148
+=======
+	startTime: 1665911958117
+>>>>>>> cleanup
 }
 }

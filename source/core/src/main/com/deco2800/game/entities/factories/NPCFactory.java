@@ -74,7 +74,6 @@ public class NPCFactory {
   public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
     Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
     EnemyConfig config = configs.ElectricEel;
-    //TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/Eel_Bright_SW.png");
 
     AnimationRenderComponent animator =
             new AnimationRenderComponent(

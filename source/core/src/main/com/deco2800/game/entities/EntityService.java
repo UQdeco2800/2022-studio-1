@@ -26,7 +26,7 @@ public class EntityService {
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
   private boolean currentWorldStep;
-  private ArrayList<Entity> toDestroyEntities = new ArrayList<>();
+  public ArrayList<Entity> toDestroyEntities = new ArrayList<>();
 
   //You may ask why a second map instead of entities? I honestly have no clue
   //but this was the only way I could get a list of entities without crashing while looping in a component
@@ -77,12 +77,21 @@ public class EntityService {
     return this.toDestroyEntities;
   }
 
+  public void setDestroyEntire(ArrayList<Entity> newEntities) {
+    this.toDestroyEntities = newEntities;
+  }
+
   /**
    *
    * @param e entity to destroy
    */
   public void addToDestroyEntities(Entity e) {
-    this.toDestroyEntities.add(e);
+    if (!this.toDestroyEntities.contains(e)) {
+      this.toDestroyEntities.add(e);
+      unregister(e);
+    }
+
+
   }
 
 

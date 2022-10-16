@@ -77,7 +77,6 @@ public class UGS {
                 String strCoord = generateCoordinate(x, y);
                 Entity entityToRemove = tiles.get(strCoord).getEntity();
                 if (entityToRemove != null) {
-                    System.out.println(entityToRemove.getId() + ": " + x + " " + y);
 
                     if (tiles.get(strCoord).getEntity().getName().equals(name)) {
                         ServiceLocator.getEntityService().getNamedEntity(name).dispose();
@@ -207,7 +206,7 @@ public class UGS {
 //                    logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
-//                    logger.info("Building cannot be built on water");
+                    logger.info("entity type Building cannot be built on water");
                     return false;
                 }
             } else if (entityType.contains("player")) {
