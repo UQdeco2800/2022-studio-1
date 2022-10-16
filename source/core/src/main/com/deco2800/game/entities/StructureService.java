@@ -367,7 +367,6 @@ public class StructureService extends EntityService {
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
             .worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    System.out.println("enters set up UI pop-up");
     //if UI is false on click then the pop-up should appear
     if (!uiIsVisible) {
       try {
