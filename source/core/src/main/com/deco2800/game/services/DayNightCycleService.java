@@ -129,7 +129,7 @@ public class DayNightCycleService {
      *
      * @return boolean
      */
-    public boolean isPaused() {
+    public boolean paused() {
         return this.isPaused;
     }
 
