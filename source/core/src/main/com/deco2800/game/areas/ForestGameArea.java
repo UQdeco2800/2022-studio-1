@@ -1,17 +1,13 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.areas.terrain.TerrainTile;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
-import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
-import com.deco2800.game.utils.math.RandomUtils;
 import com.deco2800.game.entities.factories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +21,8 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+
+
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -53,6 +51,9 @@ public class ForestGameArea extends GameArea {
   private static final int BOSS_DAY = 2;
   private static final int MIN_NUM_STARFISH = 1;
   private static final int MAX_NUM_STARFISH = 3;
+
+  private Music music;
+  private Music ambience;
 
   private static final String[] forestTextures = {
       "images/Centaur_Back_left.png",
@@ -195,11 +196,9 @@ public class ForestGameArea extends GameArea {
    */
   @Override
   public void create() {
-
     loadAssets();
-
     displayUI();
-
+    playMusic();
     spawnTerrain();
     ServiceLocator.getUGSService().generateUGS();
 
@@ -207,14 +206,12 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-
     logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
     // spawnNPCharacter();
-
     if (this.loadGame) {
       SaveGame.loadGameState();
     } else {
@@ -226,13 +223,10 @@ public class ForestGameArea extends GameArea {
         this::spawnSetEnemies);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnNPC);
-
-    playMusic();
   }
 
   private void displayUI() {
     Entity ui = new Entity();
-
     ui.addComponent(new GameAreaDisplay("Atlantis Sinks"));
   }
 
@@ -740,17 +734,18 @@ public class ForestGameArea extends GameArea {
   }
 
   private void playMusic() {
-    // Background Music
-    Music music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-    music.setLooping(true);
-    music.setVolume(0.3f);
-    music.play();
+      // Background Music
+      music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+      music.setLooping(true);
+      music.setVolume(0.3f);
+      music.play();
 
-    // Background Ambience
-    Music ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
-    ambience.setLooping(true);
-    ambience.setVolume(0.1f);
-    ambience.play();
+
+      // Background Ambience
+      ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
+      ambience.setLooping(true);
+      ambience.setVolume(0.1f);
+      ambience.play();
   }
 
   public void playShopMusic() {
