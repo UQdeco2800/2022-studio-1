@@ -138,12 +138,6 @@ public class ShopInterface extends UIComponent {
         group.addActor(backgroundTable);
         group.addActor(crossFrame);
 
-        /*
-         * building.add(buildingBtn);
-         * building.row();
-         * building.add(buildingTitle);
-         */
-
         artefact.add(artefactBtn);
         artefact.row();
         artefact.add(artefactTitle);

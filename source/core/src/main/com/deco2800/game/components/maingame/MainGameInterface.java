@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
+import com.deco2800.game.components.achievements.AchievementInterface;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,7 +163,7 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Inventory button clicked");
-            entity.getEvents().trigger("closeAll");
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
             entity.getEvents().trigger("inventory");
             return true;
           }
@@ -174,7 +175,7 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Building button clicked");
-            entity.getEvents().trigger("closeAll");
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
             entity.getEvents().trigger("buildingShop");
             return true;
           }
@@ -186,8 +187,8 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Achievement button clicked");
-            entity.getEvents().trigger("closeAll");
-            entity.getEvents().trigger("achievement");
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
+            entity.getEvents().trigger(AchievementInterface.EVENT_OPEN_ACHIEVEMENTS);
             return true;
           }
         });
@@ -198,7 +199,7 @@ public class MainGameInterface extends UIComponent {
           @Override
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Shop button clicked");
-            entity.getEvents().trigger("closeAll");
+            entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
             entity.getEvents().trigger("shop");
             ((ForestGameArea) MainArea.getInstance().getGameArea()).playShopMusic();
             return true;

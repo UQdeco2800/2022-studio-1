@@ -59,6 +59,7 @@ public class TouchAttackComponent extends Component {
   }
 
   private void onCollisionStart(Fixture me, Fixture other) {
+
     if (!hitboxComponent.getFixture().equals(me)) {
       // Not triggered by hitbox, ignore
       return;
@@ -85,8 +86,5 @@ public class TouchAttackComponent extends Component {
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
 
-    if (this.getEntity().getName().contains("Projectile")) {
-      ServiceLocator.getEntityService().getEntities().remove(this.getEntity());
-    }
   }
 }
