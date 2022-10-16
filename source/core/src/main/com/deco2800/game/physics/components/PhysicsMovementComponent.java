@@ -28,6 +28,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   protected PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
+  private long lastUpdate = 0;
 
   @Override
   public void create() {
@@ -86,8 +87,9 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
 
     if (getEntity().getName().contains("Mr")) {
-      if (ServiceLocator.getTimeSource().getTime() % 500 < 2) {
+      if (ServiceLocator.getTimeSource().getTime() + 500 > lastUpdate) {
         updateEnemyPosInUgs(body, desiredVelocity);
+        lastUpdate = ServiceLocator.getTimeSource().getTime();
       }
     } else {
       setToVelocity(body, desiredVelocity);
