@@ -22,6 +22,8 @@ import java.util.TimerTask;
  * extended for more specific combat needs.
  */
 public class CombatStatsComponent extends Component {
+  public static final String CRYSTAL = "crystal";
+  public static final String PLAYER = "player";
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
@@ -111,7 +113,7 @@ public class CombatStatsComponent extends Component {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
-        if (entity != null && Objects.equals(entity.getName(), "crystal") && this.health > health) {
+        if (entity != null && Objects.equals(entity.getName(), CRYSTAL) && this.health > health) {
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_DAMAGED, 11);
         }
 
@@ -133,11 +135,11 @@ public class CombatStatsComponent extends Component {
           }
         }
 
-        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
-          killEntity("crystal");
+        if (entity != null && Objects.equals(entity.getName(), CRYSTAL)) {
+          killEntity(CRYSTAL);
         }
-        if (entity != null && Objects.equals(entity.getName(), "player")) {
-          killEntity("player");
+        if (entity != null && Objects.equals(entity.getName(), PLAYER)) {
+          killEntity(PLAYER);
         }
       }
     }
@@ -155,10 +157,10 @@ public class CombatStatsComponent extends Component {
   public void killEntity(String entityName) {
     //String entityName = entity.getName()t
     switch (entityName) {
-      case "player":
+      case PLAYER:
         entity.getEvents().trigger("playerDeath");
         break;
-      case "crystal":
+      case CRYSTAL:
         Timer time = new Timer();
         TimerTask destroyedAnimation = new TimerTask() {
             @Override
