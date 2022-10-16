@@ -120,6 +120,10 @@ public class DayNightClockComponent extends UIComponent {
         rightTable.add(clockImage).left().bottom().size(200f, 200f);
     }
 
+    /**
+     * Loads the clock when a save is loaded.
+     * Sets the current sprite equal to the current DayNightCycle day number and status
+     */
     public void loadFromSave() {
         DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
         int dayNum = cycleService.getCurrentDayNumber();
@@ -146,5 +150,13 @@ public class DayNightClockComponent extends UIComponent {
         changeSprite(status);
         loaded = true;
         timeLoaded = cycleService.getTimer().getTime();
+    }
+
+    /**
+     * for testing purposes
+     * @return index of the current sprite
+     */
+    public int getCurrentSprite() {
+        return this.currentSprite;
     }
 }
