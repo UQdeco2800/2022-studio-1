@@ -54,8 +54,10 @@ public class StructureFactory {
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = { "images/wallLeft.png", "images/wallRight.png" };
   private static String[] tempTower1Sprites = {"images/attack_towers/tempStructures/temp_tow1_1_l.png", "images/attack_towers/tempStructures/temp_tow1_1_r.png"};
-  private static String[] tower1Sprites = { "images/attack_towers/tow1_1_l.png",
-  "images/attack_towers/tow1_1_r.png" };
+  private static String[][] tower1Sprites = { {"images/attack_towers/tow1_1_l.png",
+  "images/attack_towers/tow1_1_r.png"}, {"images/attack_towers/tow1_2_l.png",
+          "images/attack_towers/tow1_2_r.png"}, {"images/attack_towers/tow1_3_l.png",
+          "images/attack_towers/tow1_3_r.png"} };
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -160,10 +162,10 @@ public class StructureFactory {
     if (isTemp) {
       TOWER1I = tempTower1Sprites[orientation]; // change texture to be temp
     } else {
-      TOWER1I = tower1Sprites[orientation];
+      TOWER1I = tower1Sprites[0]  [orientation];
     }
-    String TOWER1II = "images/attack_towers/tow1_2_l.png";
-    String TOWER1III = "images/attack_towers/tow1_3_l.png";
+    String TOWER1II = tower1Sprites[1][orientation];
+    String TOWER1III = tower1Sprites[2][orientation];
 
     Entity tower1;
     BaseStructureConfig config;
@@ -470,6 +472,8 @@ public class StructureFactory {
       return;
     }
     // Remove building entity
+    int orientation = ServiceLocator.getUGSService().getEntityByName(structName).getComponent(OrientationComponent.class).getOrientation();
+    System.out.println(orientation);
     ServiceLocator.getUGSService().removeEntity(structName);
 
     // Upgrade depending on building
@@ -481,12 +485,12 @@ public class StructureFactory {
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower1 = StructureFactory.createTower1(2, structName, false, 0);
+          tower1 = StructureFactory.createTower1(2, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;
         case 2:
-          tower1 = StructureFactory.createTower1(3, structName, false, 0);
+          tower1 = StructureFactory.createTower1(3, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;
