@@ -113,6 +113,7 @@ public class NPCFactory {
   public static Entity createMeleeBoss(Entity target) {
     Entity boss = createBaseEnemy(target);
     MeleeBossConfig config = configs.meleeBossEnemy;
+    config.speed = new Vector2(0.3f, 0.3f);
     AnimationRenderComponent animator = new AnimationRenderComponent(
             ServiceLocator.getResourceService().getAsset("images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
     animator.addAnimation("boss_frame", 0.1f, Animation.PlayMode.LOOP);
