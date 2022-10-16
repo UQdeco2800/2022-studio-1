@@ -160,6 +160,15 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().update();
     ServiceLocator.getStructureService().update();
     renderer.render();
+
+    // delete entities MUST BE DONE HERE DUE TO CONCURRENCY ISSUES
+    if (ServiceLocator.getEntityService() != null) {
+      if (!ServiceLocator.getEntityService().getCurrentWorldStep()) {
+        for (Entity e : ServiceLocator.getEntityService().getToDestroyEntities()) {
+          e.dispose();
+        }
+      }
+    }
   }
 
   @Override
