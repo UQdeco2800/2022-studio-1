@@ -82,10 +82,11 @@ public class StructureFactory {
   public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure(tower1Sprites[orientation], name, false); // change texture to be temp texture
+      wall = createBaseStructure(wallSprites[orientation], name, false); // change texture to be temp texture
     } else {
-      wall = createBaseStructure(tower1Sprites[orientation], name, false);
+      wall = createBaseStructure(wallSprites[orientation], name, false);
     }
+    wall.setRotation(orientation);
     BaseStructureConfig config = configs.wall;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
         .addComponent(new ResourceCostComponent(config.gold))

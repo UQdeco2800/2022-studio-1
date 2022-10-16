@@ -57,6 +57,7 @@ public class Entity {
   private Vector2 newPosition;
   private boolean tweening;
   private Vector2 tweeningVector = new Vector2();
+  private int rotation = -1;
 
   // TODO: Fix Comment Array. Make HashMap<String, Component> so to be able to
   // search for a specific component
@@ -74,6 +75,14 @@ public class Entity {
 
   public String getName() {
     return this.name;
+  }
+
+  public void setRotation(int rotation) {
+    this.rotation = rotation;
+  }
+
+  public int getRotation() {
+    return this.rotation;
   }
 
   public void setCreationMethod(String classMethod) {
