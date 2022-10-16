@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
-import com.deco2800.game.screens.AchievementScreen;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -28,7 +27,9 @@ import java.util.Objects;
 /**
  * Base achievement display class to be extended by achievement type screens
  */
-public class AchievementDisplay extends UIComponent {
+public class AchievementInterface extends UIComponent {
+    public static final String EVENT_OPEN_ACHIEVEMENTS = "achievement";
+
     /**
      * Event string for exit button press
      */
@@ -37,7 +38,7 @@ public class AchievementDisplay extends UIComponent {
     /**
      * Logger for the AchievementBaseDisplay class
      */
-    private static final Logger logger = LoggerFactory.getLogger(AchievementScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(AchievementInterface.class);
 
     /**
      * Table for displaying all screen content
@@ -59,6 +60,8 @@ public class AchievementDisplay extends UIComponent {
      */
     public void create() {
         super.create();
+        entity.getEvents().addListener(EVENT_OPEN_ACHIEVEMENTS, this::openAchievements);
+        entity.getEvents().addListener("closeAll", this::closeAchievements);
         addActors();
     }
 
@@ -148,7 +151,7 @@ public class AchievementDisplay extends UIComponent {
         navigationTable.add(miscButton).expand();
 
         // Back Button
-        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        Texture backTexture = new Texture(Gdx.files.internal("images/cross.png"));
         Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
         TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
         TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
@@ -174,8 +177,17 @@ public class AchievementDisplay extends UIComponent {
         rootTable.row();
         rootTable.add(contentTable).colspan(8).expand().pad(30f);
 
+        rootTable.setVisible(false);
         stage.addActor(rootTable);
         // stage.setDebugAll(true);
+    }
+
+    private void openAchievements() {
+        rootTable.setVisible(true);
+    }
+
+    private void closeAchievements() {
+        rootTable.setVisible(false);
     }
 
     @Override
@@ -314,7 +326,7 @@ public class AchievementDisplay extends UIComponent {
         ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ? achievement.getDescription().formatted(achievement.getTotalAchieved()) : achievement.getDescription());
 
         var descriptionLabel = new Label(achievementDescription.get(0), skin, "large");
-        descriptionLabel.setFontScale(0.6f);
+        descriptionLabel.setFontScale(0.7f);
         achievementCard.add(descriptionLabel).colspan(3).expandX();
         achievementCard.row();
 
@@ -324,14 +336,14 @@ public class AchievementDisplay extends UIComponent {
             }
 
             descriptionLabel = new Label(s, skin, "large");
-            descriptionLabel.setFontScale(0.6f);
+            descriptionLabel.setFontScale(0.7f);
             achievementCard.add(descriptionLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
         if (achievementDescription.size() == 1) {
             descriptionLabel = new Label("", skin, "large");
-            descriptionLabel.setFontScale(0.6f);
+            descriptionLabel.setFontScale(0.7f);
             achievementCard.add(descriptionLabel).colspan(3).expandX();
             achievementCard.row();
         }
@@ -340,7 +352,7 @@ public class AchievementDisplay extends UIComponent {
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).expandX().colspan(3).padBottom(20).align(Align.center);
         } else {
             descriptionLabel = new Label("", skin, "large");
-            descriptionLabel.setFontScale(0.6f);
+            descriptionLabel.setFontScale(0.7f);
             achievementCard.add(descriptionLabel).colspan(3).expandX();
             achievementCard.row();
         }
@@ -501,7 +513,8 @@ public class AchievementDisplay extends UIComponent {
                         @Override
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                             logger.debug("Exit button clicked");
-                            entity.getEvents().trigger(EVENT_EXIT_BUTTON_CLICKED);
+                            closeAchievements();
+                            entity.getEvents().trigger("closeAll");
                             return true;
                         }
                     });
@@ -519,7 +532,7 @@ public class AchievementDisplay extends UIComponent {
                         }
                     });
             button.addListener(
-                    new TextTooltip("Return to game", skin));
+                    new TextTooltip("Close achievement page", skin));
 
             return;
         }

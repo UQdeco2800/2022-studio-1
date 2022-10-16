@@ -8,6 +8,7 @@ import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.DayNightClockComponent;
+import com.deco2800.game.components.achievements.AchievementInterface;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
@@ -234,6 +235,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
+        .addComponent(new AchievementInterface())
         .addComponent(new ShopInterface())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())

@@ -111,8 +111,8 @@ public class AtlantisSinks extends Game {
         return new EpilogueScreen(this);
       case GUIDEBOOK:
         return new GuidebookScreen(this);
-      case ACHIEVEMENT:
-        return new AchievementScreen(this);
+      //case ACHIEVEMENT:
+      //  return new AchievementScreen(this);
       case MAIN_GAME_LOAD:
         return new MainGameScreen(this, true);
       default:
