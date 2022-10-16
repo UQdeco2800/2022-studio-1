@@ -415,7 +415,7 @@ public class SaveGame {
 
             int x_tile = Integer.parseInt(Arrays.asList(enemy.tileString.split(",")).get(0));
             int y_tile = Integer.parseInt(Arrays.asList(enemy.tileString.split(",")).get(1));
-            System.out.println(enemy.name.substring(0,enemy.name.indexOf("@")) + "@" + newEnemy.getId());
+
             newEnemy.setName(enemy.name.substring(0,enemy.name.indexOf("@")) + "@" + newEnemy.getId());
             ServiceLocator.getUGSService().setEntity(new GridPoint2(x_tile, y_tile), newEnemy, enemy.name.substring(0, enemy.name.indexOf("@")) + "@" + newEnemy.getId());
         }
