@@ -22,8 +22,6 @@ import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 
-
-
 import java.security.SecureRandom;
 import java.util.*;
 
@@ -735,18 +733,17 @@ public class ForestGameArea extends GameArea {
   }
 
   private void playMusic() {
-      // Background Music
-      music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
-      music.setLooping(true);
-      music.setVolume(0.3f);
-      music.play();
+    // Background Music
+    music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    music.setLooping(true);
+    music.setVolume(0.3f);
+    music.play();
 
-
-      // Background Ambience
-      ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
-      ambience.setLooping(true);
-      ambience.setVolume(0.1f);
-      ambience.play();
+    // Background Ambience
+    ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
+    ambience.setLooping(true);
+    ambience.setVolume(0.1f);
+    ambience.play();
   }
 
   public void playShopMusic() {

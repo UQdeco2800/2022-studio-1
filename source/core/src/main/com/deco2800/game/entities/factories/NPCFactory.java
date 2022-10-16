@@ -192,6 +192,7 @@ public class NPCFactory {
                     .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                     .addComponent(aiComponent);
 
+    enemy.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
     return enemy;
   }
@@ -221,6 +222,7 @@ public class NPCFactory {
                     .addComponent(new TouchAttackComponent(PhysicsLayer.RangeNPC))
                     .addComponent(aiComponent);
 
+    enemy.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
     PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
     return enemy;
   }
