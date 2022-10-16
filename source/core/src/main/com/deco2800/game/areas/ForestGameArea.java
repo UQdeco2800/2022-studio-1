@@ -76,7 +76,7 @@ public class ForestGameArea extends GameArea {
       "images/pirate_crab_NW.png",
       "images/pirate_crab_SE.png",
       "images/pirate_crab_SW.png",
-      "images/crystal.png",
+      "images/crystal2.0.png",
       "images/crystal_level2.png",
       "images/crystal_level3.png",
       "images/65x33_tiles/sand.png",
@@ -404,7 +404,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
-    Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+    Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }

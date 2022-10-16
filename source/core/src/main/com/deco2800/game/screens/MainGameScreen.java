@@ -88,9 +88,11 @@ public class MainGameScreen extends ScreenAdapter {
       "images/storyLine/textBox.png",
       "images/crystalhealth3.png",
       "images/crystalhealth4.png",
-      "images/crystalIcon.png",
       "images/upgrade500.2.png",
-      "images/upgrade1500.2.png"
+      "images/upgrade1500.2.png",
+      "images/upgradeFail500.png",
+      "images/upgradeFail1500.png",
+      "images/tutorials/crystalLevelPopUp.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);

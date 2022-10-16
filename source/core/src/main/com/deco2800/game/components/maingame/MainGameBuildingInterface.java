@@ -31,6 +31,9 @@ import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class MainGameBuildingInterface extends UIComponent {
@@ -245,23 +248,39 @@ public class MainGameBuildingInterface extends UIComponent {
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         int playerGold = player.getComponent(InventoryComponent.class).getGold();
+        //player.getComponent(InventoryComponent.class).addGold(-9500);
+
         Image crystalhealth;
         String cost,health;
         TextureRegionDrawable buttonUp;
         TextureRegionDrawable buttonDown;
         Texture button;
+
         if (level == 1){
             cost = "500";
             health = "+200";
             crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth3.png", Texture.class));
-            button = new Texture(Gdx.files.internal("images/upgrade500.2.png"));
+            crystalImage = new Image(
+                    ServiceLocator.getResourceService().getAsset("images/crystal2.0.png", Texture.class));
+            if (playerGold >= 500) {
+                button = new Texture(Gdx.files.internal("images/upgrade500.2.png"));
+            }
+            else {
+                button = new Texture(Gdx.files.internal("images/upgradeFail500.png"));
+            }
 
         } else {
             cost = "1500";
             health = "+300";
             crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth4.png", Texture.class));
-            button = new Texture(Gdx.files.internal("images/upgrade1500.2.png"));
-        }
+            crystalImage = new Image(
+                    ServiceLocator.getResourceService().getAsset("images/crystal_level3.png", Texture.class));
+            if (playerGold >= 1500) {
+                button = new Texture(Gdx.files.internal("images/upgrade1500.2.png"));
+            }
+            else {
+                button = new Texture(Gdx.files.internal("images/upgradeFail1500.png"));
+            }        }
 
         y = screenHeight - y + 100;
         if (y + uiHeight > screenHeight) {
@@ -306,32 +325,22 @@ public class MainGameBuildingInterface extends UIComponent {
 
                         if (level == 1 && playerGold >= 500) {
                             logger.info("Sufficient gold to upgrade crystal");
-                            // Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-                            // CameraComponent camComp = camera.getComponent(CameraComponent.class);
-                            //
-                            // float x = (random.nextFloat() - 0.5f) * 2 * .2f;
-                            // float y = (random.nextFloat() - 0.5f) * 2 * .2f;
-                            // float z = (random.nextFloat() - 0.5f) * 2 * .2f;
-                            //
-                            // // Set the camera to this new x/y position
-                            // camComp.getCamera().translate(-50,-y,-z);
-                            // screenShakeComponent.ScreenShake(.2f, .1f);
-                            // screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
                             CrystalService.upgradeCrystal();
-                            entity.getEvents().trigger("screenShake");
+                            //entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
                         else if (level == 2 && playerGold >= 1500) {
 
                             logger.info("Sufficient gold to upgrade crystal");
                             CrystalService.upgradeCrystal();
-                            entity.getEvents().trigger("screenShake");
+                            //entity.getEvents().trigger("screenShake");
                             CrystalUI.remove();
                         }
 
-                else if (level == 3) {
+                        else if (level == 3) {
                             logger.info("Crystal has reached Max Level");
-                        } else {
+                        }
+                        else {
                             logger.info("Insufficient gold to upgrade crystal!");
                             Sound filesound = Gdx.audio.newSound(
                                     Gdx.files.internal("sounds/purchase_fail.mp3"));
@@ -339,13 +348,7 @@ public class MainGameBuildingInterface extends UIComponent {
                         }
                     }
                 });
-        if (level == 1) {
-            crystalImage = new Image(
-                    ServiceLocator.getResourceService().getAsset("images/crystal_level2.png", Texture.class));
-        } else {
-            crystalImage = new Image(
-                    ServiceLocator.getResourceService().getAsset("images/crystal_level3.png", Texture.class));
-        }
+
 
         Label UpgradeCrystalLabel = new Label("Upgrade Crystal?", skin, "large");
 
@@ -360,13 +363,12 @@ public class MainGameBuildingInterface extends UIComponent {
         leftTable.padBottom(10f);
         //leftTable.add(CrystalInfo);
         leftTable.row();
-        leftTable.add(crystalImage);
+        leftTable.add(crystalImage).size(150,200);
 
         Table rightTable = new Table();
         rightTable.padLeft(20f);
         rightTable.padRight(20f);
         rightTable.padBottom(10f);
-        Image crystalImage = new Image(ServiceLocator.getResourceService().getAsset("images/crystalIcon.png", Texture.class));
         rightTable.add(UpgradeCrystalLabel);
         rightTable.row();
         Label healthLabel = new Label(health, skin, "large");
@@ -379,14 +381,30 @@ public class MainGameBuildingInterface extends UIComponent {
             rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);
         }
         else {
-//            Label healthLabel = new Label("Crystal has reached max level", skin, "large");
-//            rightTable.add(healthLabel).size(250f, 80f).center();
+            Label levelLabel = new Label("Max level reached", skin, "large");
+            rightTable.add(levelLabel).size(250f, 80f).center();
         }
 
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.add(leftTable);
         CrystalUI.add(rightTable).padTop(10f);
 
+        stage.addActor(CrystalUI);
+
+        return CrystalUI;
+    }
+
+    public Table makeCrystalPopUp2(Boolean value) {
+        visability = value;
+        CrystalUI = new Table();
+        CrystalUI.setSize(461, 187);
+        CrystalUI.setPosition(730,50);
+        CrystalUI.setVisible(true);
+        Texture colour = new Texture(Gdx.files.internal("images/tutorials/crystalLevelPopUp.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+        CrystalUI.setBackground(backgroundColour);
+        CrystalUI.bottom();
+        CrystalUI.padBottom(50);
         stage.addActor(CrystalUI);
 
         return CrystalUI;
