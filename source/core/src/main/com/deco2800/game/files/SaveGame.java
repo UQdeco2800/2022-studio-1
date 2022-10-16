@@ -109,8 +109,6 @@ public class SaveGame {
                 ObstacleFactory.class.getMethod("createWoodenFence"));
         environmentalGeneration.put("images/landscape_objects/pillar.png",
                 ObstacleFactory.class.getMethod("createPillar"));
-        environmentalGeneration.put("images/landscape_objects/chalice.png",
-                ObstacleFactory.class.getMethod("createAoeSpeedArtefact"));
         environmentalGeneration.put("images/landscape_objects/billboard.png",
                 ObstacleFactory.class.getMethod("createBillboard"));
         environmentalGeneration.put("images/landscape_objects/geyser.png",
@@ -256,7 +254,7 @@ public class SaveGame {
             }
             crystal.setPosition(crystalRepresentation.position);
             for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
-                CrystalFactory.upgradeCrystal();
+                CrystalService.upgradeCrystal();
             }
             crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
         }

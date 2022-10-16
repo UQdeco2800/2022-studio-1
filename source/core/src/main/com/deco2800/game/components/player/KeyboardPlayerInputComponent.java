@@ -55,26 +55,39 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.add(Vector2Utils.UP);
           entity.getEvents().trigger("ch_dir_w");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "UP");
+          entity.getEvents().trigger("removeNoMine");
+          // movePlayerInUgs(walkDirection);
+          // ServiceLocator.getEntityService().getNamedEntity("player").getComponent(PlayerActions.class).update();
+          updatePlayerMovement(0, true);
           return true;
         case Keys.A:
           walkDirection.add(Vector2Utils.LEFT);
           entity.getEvents().trigger("ch_dir_a");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "LEFT");
+          entity.getEvents().trigger("removeNoMine");
+          // movePlayerInUgs(walkDirection);
+          updatePlayerMovement(1, true);
           return true;
         case Keys.S:
           walkDirection.add(Vector2Utils.DOWN);
           entity.getEvents().trigger("ch_dir_s");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "DOWN");
+          entity.getEvents().trigger("removeNoMine");
+          // movePlayerInUgs(walkDirection);
+          updatePlayerMovement(2, true);
           return true;
         case Keys.D:
           walkDirection.add(Vector2Utils.RIGHT);
           entity.getEvents().trigger("ch_dir_d");
-          triggerWalkEvent();
+          // triggerWalkEvent();
           entity.getEvents().trigger("playerControlTut", "RIGHT");
+          entity.getEvents().trigger("removeNoMine");
+          // movePlayerInUgs(walkDirection);
+          updatePlayerMovement(3, true);
           return true;
         case Keys.E:
           entity.getEvents().trigger("weapons");
@@ -104,36 +117,39 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     if (PlayerActions.playerAlive) {
       switch (keycode) {
         case Keys.Q:
-          //entity.setScale(11f, 10.5f);
+          // entity.setScale(11f, 10.5f);
           entity.getEvents().trigger("playerDeath");
           return true;
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
-          triggerWalkEvent();
-          movePlayerInUgs();
+          // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
+          // movePlayerInUgs();
+          updatePlayerMovement(0, false);
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
-          triggerWalkEvent();
-          movePlayerInUgs();
+          // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
+          // movePlayerInUgs();
+          updatePlayerMovement(1, false);
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
-          triggerWalkEvent();
+          // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
+          updatePlayerMovement(2, false);
           return true;
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
-          triggerWalkEvent();
-          movePlayerInUgs();
-          return true;
-        case Keys.O:
-          triggerCrystalAttacked();
+          // triggerWalkEvent();
+          entity.getEvents().trigger("walk_rev");
+          // movePlayerInUgs();
+          updatePlayerMovement(3, false);
           return true;
         case Keys.R:
           if (ServiceLocator.getStructureService().getTempBuildState()) {
             ServiceLocator.getStructureService().rotateTempStructure();
-          } else {
-            triggerCrystalRestoreHealth();
           }
 
           return true;
@@ -189,7 +205,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       PopUp.remove();
       isVisible = false;
     }
-    Boolean onClick = false;
     Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
 
 
@@ -221,20 +236,19 @@ public class KeyboardPlayerInputComponent extends InputComponent {
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
       if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
-        if (!onClick) {
-          if (entityName.contains("tower1") || entityName.contains("wall") ||
+        if (entityName.contains("tower1") || entityName.contains("wallTemp") ||
                   entityName.contains("trap") || entityName.contains("tower2")
                   || entityName.contains("tower3")) {
-            onClick = true;
-            StructureService.setUiPopUp(screenX, screenY, onClick);
+            StructureService.setUiPopUp(screenX, screenY);
           }
-        } else {
-          onClick = false;
-        }
       }
       }
     }
     return true;
+  }
+
+  private void updatePlayerMovement(int key, boolean pressed) {
+    getEntity().getEvents().trigger("updatePlayerPosition", key, pressed);
   }
 
   private void triggerWalkEvent() {
@@ -256,105 +270,35 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
 
-  /**
-   * Triggers crystal restore health to can be used in the shopping feature (for
-   * testing purposes)
-   */
-  private void triggerCrystalRestoreHealth() {
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-    CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
-    InventoryComponent inventoryComponent = entity.getComponent(InventoryComponent.class);
-    int gold = inventoryComponent.getGold();
-    int health = combatStatsComponent.getHealth();
-    int maxHealth = combatStatsComponent.getMaxHealth();
-    if (maxHealth - health >= 50) {
-      if (gold >= 5) {
-        inventoryComponent.setGold(gold - 5);
-        combatStatsComponent.setHealth(health + 50);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 40) {
-      if (gold >= 4) {
-        inventoryComponent.setGold(gold - 4);
-        combatStatsComponent.setHealth(health + 40);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 30) {
-      if (gold >= 3) {
-        inventoryComponent.setGold(gold - 3);
-        combatStatsComponent.setHealth(health + 30);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 20) {
-      if (gold >= 2) {
-        inventoryComponent.setGold(gold - 2);
-        combatStatsComponent.setHealth(health + 20);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else if (maxHealth - health >= 10) {
-      if (gold >= 1) {
-        inventoryComponent.setGold(gold - 1);
-        combatStatsComponent.setHealth(health + 10);
-      } else {
-        System.out.println("Gold insufficient");
-      }
-    } else {
-      System.out.println("Crystal has reached max health");
-    }
-    // System.out.println(inventoryComponent.getGold());
-  }
 
-
-  private void movePlayerInUgs() {
-    // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
-    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-    GridPoint2 playerCurrentPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y);
-    String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
-
-    // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE SAME TYPE
-    Tile oldPlayerTile;
-    for (Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
-      if (entry.getValue().getEntity() == player) {
-        String currentPos = entry.getKey();
-        if (!currentPos.equals(key)) {
-          oldPlayerTile = entry.getValue();
-          String oldTileType = entry.getValue().getTileType();
-          Tile replacement = new Tile();
-          replacement.setTileType(oldTileType);
-          ServiceLocator.getUGSService().change(entry.getKey(), replacement);
-        }
-      }
-    }
-
-    // RESET WHERE THE PLAYER IS
-    ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
-
-
-
-
-//
-//    switch (direction) {
-//      case "right":
-//        // move right 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 1, 0, "player");
-//        return;
-//      case "left":
-//        // move left 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, -1, 0, "player");
-//        return;
-//      case "up":
-//        // move up 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, 1, "player");
-//        return ;
-//      case "down":
-//        // move down 1 square
-//        ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, 0, -1, "player");
-//    }
-
-  }
+  // // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
+  // Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+  // GridPoint2 playerCurrentPos =
+  // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x,
+  // player.getPosition().y);
+  // String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
+  //
+  // // FIND WHERE THE PLAYER WAS AND REPLACE THAT TILE WITH A NEW TILE OF THE
+  // SAME TYPE
+  // if (ServiceLocator.getUGSService().printUGS().get(key).getEntity() != player)
+  // {
+  //
+  // Tile oldPlayerTile;
+  // for (Entry<String, Tile> entry :
+  // ServiceLocator.getUGSService().printUGS().entrySet()) {
+  // if (entry.getValue().getEntity() == player) {
+  // String currentPos = entry.getKey();
+  // if (!currentPos.equals(key)) {
+  // oldPlayerTile = entry.getValue();
+  // String oldTileType = entry.getValue().getTileType();
+  // Tile replacement = new Tile();
+  // replacement.setTileType(oldTileType);
+  // ServiceLocator.getUGSService().change(entry.getKey(), replacement);
+  // }
+  // }
+  // }
+  //
+  // // RESET WHERE THE PLAYER IS
+  // ServiceLocator.getUGSService().setEntity(playerCurrentPos, player, "player");
 
 }
