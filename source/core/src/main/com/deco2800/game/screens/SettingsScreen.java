@@ -1,4 +1,4 @@
-package com.deco2800.game.components.npc.screens;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -64,7 +64,8 @@ public class SettingsScreen extends ScreenAdapter {
   }
 
   /**
-   * Creates the setting screen's ui including components for rendering ui elements to the screen
+   * Creates the setting screen's ui including components for rendering ui
+   * elements to the screen
    * and capturing and handling ui input.
    */
   private void createUI() {
