@@ -1,7 +1,7 @@
 {
     "type": "armor",
     "name": "Chestplate",
-    "goldCost": 120,
+    "goldCost": 200,
     "stoneCost": 0,
     "woodCost": 0,
     "attack": 0,
