@@ -166,7 +166,7 @@ public class ArtefactShopDisplay extends UIComponent {
         backButton = new ImageButton(upBack, upBack);
 
         subtitle = new Label("ARTEFACTS", skin, "title");
-        subtitle.setFontScale(3f);
+        subtitle.setFontScale(1.5f);
         subtitle.setColor(skin.getColor("black"));
 
         itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);

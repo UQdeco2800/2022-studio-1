@@ -91,7 +91,7 @@ public class ShopInterface extends UIComponent {
 
         //setup title
         subtitle = new Label("Shop", skin, "title");
-        subtitle.setFontScale(3f);
+        subtitle.setFontScale(1.5f);
         subtitle.setColor(skin.getColor("black"));
         subtitle.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
                 Gdx.graphics.getHeight() * 0.85f - 110f);
