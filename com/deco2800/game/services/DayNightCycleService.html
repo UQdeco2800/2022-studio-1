@@ -111,17 +111,23 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#EVENT_PART_OF_DAY_PASSED" class="member-name-link">EVENT_PART_OF_DAY_PASSED</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="#isPaused" class="member-name-link">isPaused</a></code></div>
+<div class="col-first odd-row-color"><code><a href="../events/EventHandler.html" title="class in com.deco2800.game.events">EventHandler</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#events" class="member-name-link">events</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#isStarted" class="member-name-link">isStarted</a></code></div>
+<div class="col-second even-row-color"><code><a href="#isPaused" class="member-name-link">isPaused</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#lastCycleStatus" class="member-name-link">lastCycleStatus</a></code></div>
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#isStarted" class="member-name-link">isStarted</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>int</code></div>
-<div class="col-second even-row-color"><code><a href="#lastPartOfDayHalveIteration" class="member-name-link">lastPartOfDayHalveIteration</a></code></div>
+<div class="col-first even-row-color"><code><a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a></code></div>
+<div class="col-second even-row-color"><code><a href="#lastCycleStatus" class="member-name-link">lastCycleStatus</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#lastPartOfDayHalveIteration" class="member-name-link">lastPartOfDayHalveIteration</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>long</code></div>
+<div class="col-second even-row-color"><code><a href="#loadedTimeOffset" class="member-name-link">loadedTimeOffset</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>int</code></div>
 <div class="col-second odd-row-color"><code><a href="#partOfDayHalveIteration" class="member-name-link">partOfDayHalveIteration</a></code></div>
@@ -229,31 +235,41 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns whether the day night cycle is paused.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadFromSave(int,long,com.deco2800.game.services.DayNightCycleStatus,com.deco2800.game.services.DayNightCycleStatus,int)" class="member-name-link">loadFromSave</a><wbr>(int&nbsp;dayNum,
+ long&nbsp;dayMs,
+ <a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;currentStatus,
+ <a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;prevStatus,
+ int&nbsp;partOfDayHalveIteration)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">loads the DayNightCycleService from save, setting attributes as necessary
+ Sets LoadedTimeOffset</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pause()" class="member-name-link">pause</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Pauses the timer for the day night cycle.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resume()" class="member-name-link">resume</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run()" class="member-name-link">run</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resume()" class="member-name-link">resume</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#run()" class="member-name-link">run</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Main loop for the service that updates the game status.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPartOfDayTo(com.deco2800.game.services.DayNightCycleStatus)" class="member-name-link">setPartOfDayTo</a><wbr>(<a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;nextPartOfDay)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPartOfDayTo(com.deco2800.game.services.DayNightCycleStatus)" class="member-name-link">setPartOfDayTo</a><wbr>(<a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;nextPartOfDay)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Helps make testing easy in mocking.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Starts the day night cycle for the game.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stops the day night cycle timer for the game.</div>
 </div>
 </div>
@@ -399,6 +415,18 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">lastPartOfDayHalveIteration</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="loadedTimeOffset">
+<h3>loadedTimeOffset</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">loadedTimeOffset</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="events">
+<h3>events</h3>
+<div class="member-signature"><span class="modifiers">public transient</span>&nbsp;<span class="return-type"><a href="../events/EventHandler.html" title="class in com.deco2800.game.events">EventHandler</a></span>&nbsp;<span class="element-name">events</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -429,6 +457,26 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="loadFromSave(int,long,com.deco2800.game.services.DayNightCycleStatus,com.deco2800.game.services.DayNightCycleStatus,int)">
+<h3>loadFromSave</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadFromSave</span><wbr><span class="parameters">(int&nbsp;dayNum,
+ long&nbsp;dayMs,
+ <a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;currentStatus,
+ <a href="DayNightCycleStatus.html" title="enum class in com.deco2800.game.services">DayNightCycleStatus</a>&nbsp;prevStatus,
+ int&nbsp;partOfDayHalveIteration)</span></div>
+<div class="block">loads the DayNightCycleService from save, setting attributes as necessary
+ Sets LoadedTimeOffset</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>dayNum</code> - the day number when saved</dd>
+<dd><code>dayMs</code> - the ms through that day when saved</dd>
+<dd><code>currentStatus</code> - the status when saved</dd>
+<dd><code>prevStatus</code> - the previous status when saved</dd>
+<dd><code>partOfDayHalveIteration</code> - the iteration through the day/night the timer was when saved</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="hasEnded()">
 <h3>hasEnded</h3>
