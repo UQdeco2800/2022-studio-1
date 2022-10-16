@@ -6,8 +6,13 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class CameraActions extends Component {
@@ -16,6 +21,9 @@ public class CameraActions extends Component {
         private Vector2 playerPosition = Vector2.Zero.cpy();
         private boolean zoomIn = false;
         private boolean zoomOut = false;
+        private boolean screenShake = false;
+        boolean interval = false;
+        long cameraShakeStartTime;
         private Vector2 panDirection = Vector2.Zero.cpy();
 
         @Override
@@ -28,6 +36,8 @@ public class CameraActions extends Component {
                 entity.getEvents().addListener("zoomStop", this::stopZoom);
                 entity.getEvents().addListener("stopZoomOut", this::stopZoomOut);
                 entity.getEvents().addListener("zoomOut", this::zoomOut);
+                entity.getEvents().addListener("screenShake", this::startScreenShake);
+
         }
 
         /**
@@ -89,6 +99,44 @@ public class CameraActions extends Component {
                 this.playerMoving = false;
         }
 
+        public void startScreenShake(){
+                this.screenShake = true;
+                this.cameraShakeStartTime = ServiceLocator.getTimeSource().getTime();
+
+        }
+
+        void shake(){
+
+                CameraComponent cameraComp = entity.getComponent(CameraComponent.class);
+                OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
+                long currentGameTime = ServiceLocator.getTimeSource().getTime();
+                final int[] i = {0};
+
+                Timer time = new Timer();
+                TimerTask shake = new TimerTask() {
+                        @Override
+                        public void run() {
+                                if (i[0] == 10){
+                                        System.out.println("stop");
+                                        time.cancel();
+                                }
+                                if ( !interval) {
+                                        camera.translate(+10,10);
+                                        interval = true;
+                                } else {
+                                        camera.translate(-10,-10);
+                                        interval = false;
+                                }
+                                i[0]++;
+
+                        }
+                };
+                time.scheduleAtFixedRate(shake, 200, 200);
+
+
+
+
+        }
         /**
          * Updates the current position of the camera.
          */
@@ -128,6 +176,13 @@ public class CameraActions extends Component {
                                 camera.update();
                         }
                 }
+
+                if (screenShake) {
+                        shake();
+                        camera.update();
+                        screenShake = false;
+                 }
+
         }
 
 }

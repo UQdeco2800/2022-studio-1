@@ -1,0 +1,10 @@
+[
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {}
+	name: Rock@92
+	tileString: "0,0"
+	creationMethod: createRock
+}
+]

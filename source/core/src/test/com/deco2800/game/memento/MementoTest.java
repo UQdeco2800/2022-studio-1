@@ -86,6 +86,15 @@ class MementoTest {
     }
 
     @Test
+    void shouldGetItemList() {
+        HashMap<Artefact, Integer> dummy = new HashMap<>();
+        dummy.put(Artefact.HEALTH_POTION, 1);
+        Memento test = new Memento(1, 2, 3, 4, 5, dummy, null, 5,
+                6, null, null, null);
+        assertEquals(1, test.getItemList().get(Artefact.HEALTH_POTION));
+    }
+
+    @Test
     void shouldGetEquipmentList() {
         List<Equipments> dummy = new ArrayList<>();
         dummy.add(Equipments.CHESTPLATE);

@@ -263,7 +263,7 @@ public class SaveGame {
             }
             crystal.setPosition(crystalRepresentation.position);
             for (int i = crystalStats.level; i < crystalRepresentation.level; i++) {
-                CrystalFactory.upgradeCrystal();
+                CrystalService.upgradeCrystal();
             }
             crystal.getComponent(CombatStatsComponent.class).setHealth(crystalRepresentation.health);
             loadedCrystal=crystal;

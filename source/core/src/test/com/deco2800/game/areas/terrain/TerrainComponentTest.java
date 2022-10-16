@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -17,13 +16,18 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.security.Provider.Service;
 import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
@@ -43,14 +47,6 @@ import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
-
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 @ExtendWith(GameExtension.class)
 class TerrainComponentTest {
@@ -74,6 +70,7 @@ class TerrainComponentTest {
     var gameTime = Mockito.spy(ServiceLocator.getTimeSource());
     dayNightCycleService = Mockito.spy(new DayNightCycleService(gameTime, config));
     ServiceLocator.registerDayNightCycleService(dayNightCycleService);
+
   }
 
   @Test

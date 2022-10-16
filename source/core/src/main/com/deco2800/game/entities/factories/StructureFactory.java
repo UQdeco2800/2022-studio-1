@@ -3,6 +3,7 @@ package com.deco2800.game.entities.factories;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -27,9 +28,11 @@ import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 /**
  * Factory to create structure entities with predefined components.
@@ -79,9 +82,9 @@ public class StructureFactory {
   public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure(tower1Sprites[orientation], name); // change texture to be temp texture
+      wall = createBaseStructure(tower1Sprites[orientation], name, false); // change texture to be temp texture
     } else {
-      wall = createBaseStructure(tower1Sprites[orientation], name);
+      wall = createBaseStructure(tower1Sprites[orientation], name, false);
     }
     BaseStructureConfig config = configs.wall;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
@@ -107,9 +110,9 @@ public class StructureFactory {
     // TODO change trap texture
     Entity trap;
     if (isTemp) {
-      trap = createBaseStructure("images/trap.png", name); // change texture to be temp texture
+      trap = createBaseStructure("images/trap.png", name, false); // change texture to be temp texture
     } else {
-      trap = createBaseStructure("images/trap.png", name);
+      trap = createBaseStructure("images/trap.png", name, false);
     }
     BaseStructureConfig config = configs.trap;
 
@@ -121,7 +124,7 @@ public class StructureFactory {
   }
 
   public static Entity createTurret(String name) {
-    Entity turret = createBaseStructure("images/turret.png", name);
+    Entity turret = createBaseStructure("images/turret.png", name, false);
     BaseStructureConfig config = configs.turret;
 
     AITaskComponent aiTaskComponent = new AITaskComponent()
@@ -145,11 +148,11 @@ public class StructureFactory {
     // TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/attack_towers/lv1GuardianLeft.png"; // change texture to be temp texture
+      TOWER1I = "images/attack_towers/lv1GuardianLeft.png"; // change texture to be temp
     } else {
       TOWER1I = "images/attack_towers/lv1GuardianLeft.png";
     }
-    String TOWER1II = "images/attack_towers/lv2GuardianLeft.png";
+    String TOWER1II = "towerLevel2";
     String TOWER1III = "images/attack_towers/lv3GuardianRight.png";
 
     Entity tower1;
@@ -157,7 +160,7 @@ public class StructureFactory {
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower1 = createBaseStructure(TOWER1II, name);
+        tower1 = createBaseStructure(TOWER1II, name, true);
         config = configs.tower1I;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -166,7 +169,7 @@ public class StructureFactory {
         return tower1;
 
       case 3: // Represents the second upgraded version of the tower
-        tower1 = createBaseStructure(TOWER1III, name);
+        tower1 = createBaseStructure(TOWER1III, name, false);
         config = configs.tower1II;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -174,7 +177,7 @@ public class StructureFactory {
             .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
       default:
-        tower1 = createBaseStructure(TOWER1I, name);
+        tower1 = createBaseStructure(TOWER1I, name, false);
         config = configs.tower1;
 
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
@@ -207,7 +210,7 @@ public class StructureFactory {
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower2 = createBaseStructure(TOWER2II, name);
+        tower2 = createBaseStructure(TOWER2II, name, false);
         config = configs.tower2I;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -216,7 +219,7 @@ public class StructureFactory {
         return tower2;
 
       case 3: // Represents the second upgraded version of the tower
-        tower2 = createBaseStructure(TOWER2III, name);
+        tower2 = createBaseStructure(TOWER2III, name, false);
         config = configs.tower2II;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -224,7 +227,7 @@ public class StructureFactory {
             .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
       default:
-        tower2 = createBaseStructure(TOWER2I, name);
+        tower2 = createBaseStructure(TOWER2I, name, false);
         config = configs.tower2;
 
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
@@ -258,7 +261,7 @@ public class StructureFactory {
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower3 = createBaseStructure(TOWER3II, name);
+        tower3 = createBaseStructure(TOWER3II, name, false);
         config = configs.tower3I;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -267,7 +270,7 @@ public class StructureFactory {
         return tower3;
 
       case 3: // Represents the second upgraded version of the tower
-        tower3 = createBaseStructure(TOWER3III, name);
+        tower3 = createBaseStructure(TOWER3III, name, false);
         config = configs.tower3II;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
@@ -275,7 +278,7 @@ public class StructureFactory {
             .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
       default:
-        tower3 = createBaseStructure(TOWER3I, name);
+        tower3 = createBaseStructure(TOWER3I, name, false);
         config = configs.tower3;
 
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
@@ -293,7 +296,7 @@ public class StructureFactory {
    * @param texture image representation for created structure
    * @return structure entity
    */
-  public static Entity createBaseStructure(String texture, String name) {
+  public static Entity createBaseStructure(String texture, String name, boolean animated) {
     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BUILDING_PLACED,
         AchievementType.BUILDINGS, 1);
 
@@ -304,15 +307,32 @@ public class StructureFactory {
      * .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
      * .addTask(new ChaseTask(target, 10, 3f, 4f));
      */
-    Entity structure = new Entity()
-        .addComponent(new TextureRenderComponent(texture))
-        .addComponent(new PhysicsComponent())
+
+    Entity structure = new Entity();
+
+    if (animated) {
+
+      // texture (String) must just be the name of the file without extension
+
+      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
+          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
+      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
+      animator.startAnimation(texture);
+      structure.addComponent(animator);
+
+      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
+    } else {
+      structure.addComponent(new TextureRenderComponent(texture));
+      structure.getComponent(TextureRenderComponent.class).scaleEntity();
+    }
+
+    structure.addComponent(new PhysicsComponent())
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
     // .addComponent(aiComponent);
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-    structure.getComponent(TextureRenderComponent.class).scaleEntity();
+
     structure.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
     PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
     structure.setName(name);
