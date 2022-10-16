@@ -47,6 +47,7 @@ public class AOEDamageComponent extends Component {
 
         @Override
         public void update() {
+
                 if (gameTime.getTime() > lastUpdate + updateRate) {
                         updateTargets();
                         damageTargets();
