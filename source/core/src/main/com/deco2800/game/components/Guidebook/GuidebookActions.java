@@ -48,7 +48,7 @@ public class GuidebookActions extends Component {
 
     private void nextPage() {
         int proposedNextPage = GuidebookDisplay.currentPage + 2;
-        if (proposedNextPage >= GuidebookDisplay.maxPages) {
+        if (proposedNextPage >= GuidebookDisplay.MAX_PAGES) {
             return;
         }
         GuidebookDisplay.currentPage = proposedNextPage;

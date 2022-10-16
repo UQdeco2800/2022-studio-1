@@ -38,7 +38,12 @@ public class GuidebookDisplay extends UIComponent {
     private Table controls;
 
     private static final Page[] pages = parseGuidebookContentJson("configs/guidebookcontent.json");
-    public static final int maxPages = pages.length;
+    public static final int MAX_PAGES;
+
+    static {
+        assert pages != null;
+        MAX_PAGES = pages.length;
+    }
 
     public static int currentPage = 0;
 
