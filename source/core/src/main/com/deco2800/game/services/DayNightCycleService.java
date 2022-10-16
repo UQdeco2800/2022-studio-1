@@ -59,7 +59,6 @@ public class DayNightCycleService {
 
     public DayNightCycleService(GameTime timer, DayNightCycleConfig config) {
         this.events = new EventHandler();
-        //todo remove below
         loaded = false;
 
         this.ended = false;
@@ -85,13 +84,9 @@ public class DayNightCycleService {
      * @param currentStatus the status when saved
      * @param prevStatus the previous status when saved
      * @param partOfDayHalveIteration the iteration through the day/night the timer was when saved
-     * @param lastPartOfDayHalveIteration the number of half iterations
-     * @param timeSinceLastPartOfDay time since last day status
      */
     public void loadFromSave(int dayNum, long dayMs, DayNightCycleStatus currentStatus, DayNightCycleStatus prevStatus,
-                             int partOfDayHalveIteration, int lastPartOfDayHalveIteration, long timeSinceLastPartOfDay) {
-        loaded = true;
-        //todo remove above
+                             int partOfDayHalveIteration) {
         long dayDiff = (dayNum - currentDayNumber) * (config.nightLength + config.duskLength + config.dayLength
                 + config.dawnLength);
         long dayMsDiff = dayMs - currentDayMillis;
@@ -103,13 +98,11 @@ public class DayNightCycleService {
         setPartOfDayTo(currentStatus);
         this.partOfDayHalveIteration = partOfDayHalveIteration;
 
-
         this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
                 config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused +
                 this.loadedTimeOffset;
 
-
-        // note that if config changes after this, we might have some issues still with the dayMs
+        loaded = true;
     }
 
 
@@ -225,7 +218,11 @@ public class DayNightCycleService {
         }
 
         this.isStarted = true;
-        this.setPartOfDayTo(DayNightCycleStatus.DAWN);
+        if (!loaded) {
+            this.setPartOfDayTo(DayNightCycleStatus.DAWN);
+        } else {
+            loaded = false;
+        }
 
         return JobSystem.launch(() -> {
             try {

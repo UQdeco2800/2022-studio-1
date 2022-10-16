@@ -354,8 +354,7 @@ public class SaveGame {
         DayNightCycleService currentService = ServiceLocator.getDayNightCycleService();
         currentService.pause();
         currentService.loadFromSave(savedCycle.currentDayNumber, savedCycle.currentDayMillis, savedCycle.currentCycleStatus,
-                savedCycle.lastCycleStatus, savedCycle.partOfDayHalveIteration, savedCycle.lastPartOfDayHalveIteration,
-                savedCycle.timeSinceLastPartOfDay);
+                savedCycle.lastCycleStatus, savedCycle.partOfDayHalveIteration);
         currentService.start();
 
         //will only be called loading from game screen, otherwise called from MainGameScreen
