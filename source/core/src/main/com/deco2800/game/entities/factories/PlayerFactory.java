@@ -104,8 +104,8 @@ public class PlayerFactory {
     player.setName("player");
     player.setCollectable(false);
 
-    PhysicsUtils.setScaledCollider(player, 15f, 15f);
-    player.getComponent(ColliderComponent.class).setDensity(1.5f);
+    PhysicsUtils.setScaledCollider(player, 0.1f, 0.1f);
+    //player.getComponent(ColliderComponent.class).setDensity(1f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("axe_w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
     player.setScale(10.5f, 9.5f);
