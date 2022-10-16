@@ -319,7 +319,8 @@ public class UGS {
      * 
      * Moves from 3,3 -> "2,2"
      * {x-1, y-1}
-     *  @param currentPosition String
+     * 
+     * @param currentPosition String
      * @param xDirection      Boolean
      * @param yDirection      Boolean
      */
@@ -341,7 +342,6 @@ public class UGS {
                     .getComponent(TerrainComponent.class)
                     .tileToWorldPosition((int) newPosition.x, (int) newPosition.y);
             entity.tweenPosition(newWorldPos);
-            System.out.println(newPosition.toString());
 
         }
 

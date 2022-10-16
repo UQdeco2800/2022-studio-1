@@ -124,7 +124,6 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.registerStructureService(new StructureService());
     var dayNightCycleComponent = new DayNightCycleComponent();
     ServiceLocator.getRenderService().setDayNightCycleComponent(dayNightCycleComponent);
-    ServiceLocator.getInputService().register(dayNightCycleComponent);
     ServiceLocator.registerResourceManagementService(new ResourceManagementService());
     ServiceLocator.registerAchievementHandler(new AchievementHandler());
     ServiceLocator.registerNpcService(new NpcService());
@@ -132,7 +131,6 @@ public class MainGameScreen extends ScreenAdapter {
     renderer = RenderFactory.createRenderer();
     renderer.getCamera().getEntity().setPosition(CAMERA_POSITION);
     renderer.getDebug().renderPhysicsWorld(physicsEngine.getWorld());
-    ServiceLocator.getDayNightCycleService().start();
     loadAssets();
 
     logger.debug("Initialising main game screen entities");
