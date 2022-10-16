@@ -53,6 +53,8 @@ public class InventoryDisplay extends UIComponent {
     @Override
     public void create() {
         super.create();
+        entity.getEvents().addListener("updateEquipment", this::updateEquipment);
+        entity.getEvents().addListener("updateArtefact", this::updateArtefact);
         entity.getEvents().addListener("inventory", this::openInventory);
         entity.getEvents().addListener("close", this::closeInventory);
         addActors();

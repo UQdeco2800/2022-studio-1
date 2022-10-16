@@ -152,10 +152,7 @@ public class BuildingShopDisplay extends UIComponent {
 
                 // create description sticker
                 descriptionDisplay = ShopUtils.createImageTextButton(
-                                stats.name + "\n" + stats.description + "\n"
-                                                + "Inventory Count: " + MainArea.getInstance().getGameArea()
-                                                                .getPlayer().getComponent(InventoryComponent.class)
-                                                                .getBuildingCount(current.t),
+                                stats.name + "\n" + stats.description + "\n",
                                 skin.getColor("black"),
                                 "button", 1f,
                                 brownDrawable, brownDrawable, skin,
@@ -287,9 +284,6 @@ public class BuildingShopDisplay extends UIComponent {
                         MainArea.getInstance().getGameArea().getPlayer()
                                         .getComponent(InventoryComponent.class)
                                         .addStone(-1 * stats.stoneCost);
-                        MainArea.getInstance().getGameArea().getPlayer()
-                                        .getComponent(InventoryComponent.class)
-                                        .addBuilding(current.t);
                         Sound rockSound = Gdx.audio.newSound(
                                         Gdx.files.internal("sounds/rock.mp3"));
                         rockSound.play();
@@ -303,11 +297,7 @@ public class BuildingShopDisplay extends UIComponent {
                                         Gdx.files.internal("sounds/purchase_fail.mp3"));
                         filesound.play();
                 }
-                descriptionDisplay.setText(stats.name + "\n" + stats.description + "\n"
-                                + "Inventory Count: "
-                                + MainArea.getInstance().getGameArea().getPlayer()
-                                                .getComponent(InventoryComponent.class)
-                                                .getBuildingCount(current.t));
+                descriptionDisplay.setText(stats.name + "\n" + stats.description + "\n");
                 sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
                                 .getComponent(InventoryComponent.class)
                                 .hasStone(stats.stoneCost)
@@ -357,12 +347,7 @@ public class BuildingShopDisplay extends UIComponent {
                                 : redDrawable;
 
                 descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description + "\n"
-                                                + "Inventory Count: "
-                                                + MainArea.getInstance().getGameArea().getPlayer()
-                                                                .getComponent(InventoryComponent.class)
-                                                                .getBuildingCount(
-                                                                                current.t));
+                                .setText(stats.name + "\n" + stats.description + "\n");
                 i = i == 1 ? ShopBuilding.getAllBuildingTypes().size() : i - 1;
                 itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
                 currentItem.setDrawable(new TextureRegionDrawable(
@@ -406,11 +391,7 @@ public class BuildingShopDisplay extends UIComponent {
                 buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                                 : redDrawable;
                 descriptionDisplay
-                                .setText(stats.name + "\n" + stats.description + "\n"
-                                                + "Inventory Count: "
-                                                + MainArea.getInstance().getGameArea().getPlayer()
-                                                                .getComponent(InventoryComponent.class)
-                                                                .getBuildingCount(current.t));
+                                .setText(stats.name + "\n" + stats.description + "\n");
                 i = i == ShopBuilding.getAllBuildingTypes().size() ? 1 : i + 1;
                 itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
                 currentItem.setDrawable(new TextureRegionDrawable(
