@@ -154,6 +154,7 @@ public class ForestGameArea extends GameArea {
       "images/final_boss_animations/final_boss.atlas",
       "images/npc_animations/NPC1sprite.atlas",
       "images/npc_animations/npc.atlas",
+      "images/crystal_animation/crystal_damaged.atlas",
       "images/attack_towers/animations/towerLevel2.atlas"
   };
 
