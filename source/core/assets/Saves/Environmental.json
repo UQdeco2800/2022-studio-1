@@ -1,58 +1,190 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
+	texture: images/shipWreckFront.png
 	position: {
-		x: 980
+		x: 516
+		y: 58
+	}
+	name: ShipwreckFront@849
+	tileString: "25,39"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1092
+		y: -86
+	}
+	name: ShipwreckBack@832
+	tileString: "79,57"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 932
 		y: 10
 	}
-	name: Shell@76
-	tileString: "60,62"
-	creationMethod: createShell
+	name: ShipwreckBack@830
+	tileString: "57,59"
+	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
+	texture: images/shipWreckBack.png
 	position: {
-		x: 956
-		y: 22
+		x: 1148
+		y: 30
 	}
-	name: Shell@75
-	tileString: "57,62"
-	creationMethod: createShell
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/65x33_tiles/shell.png
-	position: {
-		x: 924
-		y: 14
-	}
-	name: Shell@74
-	tileString: "56,59"
-	creationMethod: createShell
+	name: ShipwreckBack@831
+	tileString: "68,75"
+	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/landscape_objects/pillar.png
 	position: {
-		x: 972
+		x: 948
+		y: -14
+	}
+	name: Pillar@867
+	tileString: "61,57"
+	creationMethod: createPillar
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 940
 		y: -2
 	}
-	name: Pillar@73
-	tileString: "61,60"
-	creationMethod: createPillar
+	name: Shell@868
+	tileString: "59,58"
+	creationMethod: createShell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 684
+		y: 142
+	}
+	name: Rock@880
+	tileString: "25,60"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 972
+		y: 22
+	}
+	name: Shell@869
+	tileString: "58,63"
+	creationMethod: createShell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 780
+		y: 22
+	}
+	name: Rock@882
+	tileString: "46,51"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 860
+		y: -42
+	}
+	name: Rock@881
+	tileString: "59,48"
+	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckFront.png
 	position: {
-		x: 1068
-		y: -114
+		x: 972
+		y: 278
 	}
-	name: ShipwreckFront@60
-	tileString: "81,52"
+	name: ShipwreckFront@840
+	tileString: "26,95"
 	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1124
+		y: -30
+	}
+	name: ShipwreckFront@842
+	tileString: "74,66"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 556
+		y: -34
+	}
+	name: Rock@888
+	tileString: "39,30"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 924
+		y: 78
+	}
+	name: ShipwreckFront@841
+	tileString: "48,67"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 884
+		y: -118
+	}
+	name: Rock@887
+	tileString: "70,40"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 868
+		y: 10
+	}
+	name: ShipwreckFront@844
+	tileString: "53,55"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/leftPalmTree.png
+	position: {
+		x: 980
+		y: -6
+	}
+	name: Tree@865
+	tileString: "62,60"
+	creationMethod: createTree
 }
 {
 	class: com.deco2800.game.files.Tuple
@@ -61,118 +193,140 @@
 		x: 1036
 		y: -106
 	}
-	name: ShipwreckFront@62
+	name: ShipwreckFront@843
 	tileString: "78,51"
 	creationMethod: createShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
+	texture: images/landscape_objects/rightPalmTree.png
 	position: {
-		x: 836
-		y: -22
+		x: 996
+		y: -14
 	}
-	name: ShipwreckFront@61
-	tileString: "55,49"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1052
-		y: 70
-	}
-	name: ShipwreckFront@64
-	tileString: "57,74"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1300
-		y: 154
-	}
-	name: ShipwreckFront@63
-	tileString: "62,100"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 948
-		y: -38
-	}
-	name: ShipwreckFront@66
-	tileString: "64,54"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 724
-		y: -174
-	}
-	name: ShipwreckFront@65
-	tileString: "67,23"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 796
-		y: 198
-	}
-	name: ShipwreckFront@68
-	tileString: "25,74"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 652
-		y: 142
-	}
-	name: ShipwreckFront@67
-	tileString: "23,58"
-	creationMethod: createShipwreckFront
+	name: Tree@864
+	tileString: "64,60"
+	creationMethod: createTree
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1180
-		y: 214
+		x: 980
+		y: 242
 	}
-	name: Rock@110
-	tileString: "47,100"
+	name: Rock@889
+	tileString: "31,91"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
+	texture: images/shipWreckFront.png
 	position: {
 		x: 988
-		y: -162
+		y: 278
 	}
-	name: Rock@112
-	tileString: "82,41"
-	creationMethod: createRock
+	name: ShipwreckFront@846
+	tileString: "27,96"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/landscape_objects/leftPalmTree.png
+	position: {
+		x: 996
+		y: 2
+	}
+	name: Tree@863
+	tileString: "62,62"
+	creationMethod: createTree
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1332
-		y: 82
+		x: 1028
+		y: -14
 	}
-	name: Rock@111
-	tileString: "73,93"
+	name: Rock@884
+	tileString: "66,62"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1012
+		y: -294
+	}
+	name: ShipwreckFront@845
+	tileString: "100,26"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1148
+		y: -226
+	}
+	name: Rock@883
+	tileString: "100,43"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1180
+		y: -98
+	}
+	name: ShipwreckFront@848
+	tileString: "86,61"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 820
+		y: 66
+	}
+	name: Rock@886
+	tileString: "43,59"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1020
+		y: -234
+	}
+	name: ShipwreckFront@847
+	tileString: "93,34"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1180
+		y: 206
+	}
+	name: Rock@885
+	tileString: "48,99"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 836
+		y: -54
+	}
+	name: Rock@907
+	tileString: "59,45"
 	creationMethod: createRock
 }
 {
@@ -180,692 +334,54 @@
 	texture: images/seastack2.png
 	position: {
 		x: 964
-		y: -134
-	}
-	name: Rock@114
-	tileString: "77,43"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 948
-		y: 130
-	}
-	name: Rock@113
-	tileString: "43,75"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 772
-		y: -126
-	}
-	name: Rock@116
-	tileString: "64,32"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1148
-		y: 150
-	}
-	name: Rock@115
-	tileString: "53,90"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 876
-		y: 46
-	}
-	name: ShipwreckFront@51
-	tileString: "49,60"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1396
-		y: 18
-	}
-	name: ShipwreckFront@50
-	tileString: "85,89"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/groupPalmTrees.png
-	position: {
-		x: 1004
-		y: -2
-	}
-	name: Tree@70
-	tileString: "63,62"
-	creationMethod: createTree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 684
-		y: -130
-	}
-	name: ShipwreckFront@53
-	tileString: "59,26"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1204
-		y: -86
-	}
-	name: ShipwreckFront@52
-	tileString: "86,64"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 956
-		y: 110
-	}
-	name: ShipwreckFront@55
-	tileString: "46,73"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1388
-		y: 78
-	}
-	name: ShipwreckFront@54
-	tileString: "77,96"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 756
-		y: 74
-	}
-	name: ShipwreckFront@57
-	tileString: "38,56"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
-	position: {
-		x: 988
-		y: 14
-	}
-	name: Tree@71
-	tileString: "60,63"
-	creationMethod: createTree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 948
-		y: -294
-	}
-	name: ShipwreckFront@56
-	tileString: "96,22"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1092
-		y: -126
-	}
-	name: ShipwreckBack@27
-	tileString: "84,52"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1092
-		y: 122
-	}
-	name: ShipwreckFront@59
-	tileString: "53,83"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 764
-		y: 86
-	}
-	name: ShipwreckBack@28
-	tileString: "37,58"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 556
-		y: 62
-	}
-	name: ShipwreckFront@58
-	tileString: "27,42"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 740
-		y: -22
-	}
-	name: Rock@89
-	tileString: "49,43"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 772
-		y: -38
-	}
-	name: ShipwreckBack@29
-	tileString: "53,43"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 924
-		y: -146
-	}
-	name: Rock@101
-	tileString: "76,39"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 780
-		y: 198
-	}
-	name: Rock@100
-	tileString: "24,73"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1116
-		y: 38
-	}
-	name: Rock@86
-	tileString: "65,74"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 980
-		y: -70
-	}
-	name: Rock@85
-	tileString: "70,52"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 876
-		y: 238
-	}
-	name: Rock@88
-	tileString: "25,84"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/landscape_objects/leftPalmTree.png
-	position: {
-		x: 948
-		y: -14
-	}
-	name: Tree@69
-	tileString: "61,57"
-	creationMethod: createTree
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 460
-		y: -26
-	}
-	name: Rock@87
-	tileString: "32,25"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 716
-		y: -178
-	}
-	name: Rock@82
-	tileString: "67,22"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1012
-		y: -126
-	}
-	name: Rock@107
-	tileString: "79,47"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1052
-		y: -170
-	}
-	name: ShipwreckBack@20
-	tileString: "87,44"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 708
-		y: 42
-	}
-	name: Rock@81
-	tileString: "39,49"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 452
-		y: 2
-	}
-	name: Rock@106
-	tileString: "28,28"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 876
-		y: -202
-	}
-	name: ShipwreckBack@21
-	tileString: "80,29"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1124
-		y: -14
-	}
-	name: Rock@84
-	tileString: "72,68"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 948
-		y: 314
-	}
-	name: Rock@109
-	tileString: "20,98"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1268
-		y: 162
-	}
-	name: ShipwreckBack@22
-	tileString: "59,99"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1212
-		y: 6
-	}
-	name: Rock@83
-	tileString: "75,76"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 884
-		y: -182
-	}
-	name: Rock@108
-	tileString: "78,32"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1460
-		y: 50
-	}
-	name: ShipwreckBack@23
-	tileString: "85,97"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 556
-		y: -106
-	}
-	name: Rock@103
-	tileString: "48,21"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 404
-		y: 26
-	}
-	name: ShipwreckBack@24
-	tileString: "22,28"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1124
-		y: -86
-	}
-	name: Rock@102
-	tileString: "81,59"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1204
 		y: 178
 	}
-	name: ShipwreckBack@25
-	tileString: "53,97"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1236
-		y: -118
-	}
-	name: Rock@80
-	tileString: "92,62"
+	name: Rock@906
+	tileString: "38,82"
 	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 596
-		y: -14
-	}
-	name: Rock@105
-	tileString: "39,35"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 636
-		y: -122
-	}
-	name: ShipwreckBack@26
-	tileString: "55,24"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1452
-		y: -18
-	}
-	name: Rock@104
-	tileString: "93,88"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 972
-		y: -74
-	}
-	name: ShipwreckFront@40
-	tileString: "70,51"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1444
-		y: 50
-	}
-	name: ShipwreckFront@42
-	tileString: "84,96"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1092
-		y: 162
-	}
-	name: ShipwreckFront@41
-	tileString: "48,88"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1492
-		y: 26
-	}
-	name: ShipwreckFront@44
-	tileString: "90,96"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 796
-		y: -122
-	}
-	name: ShipwreckFront@43
-	tileString: "65,34"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 868
-		y: -14
-	}
-	name: ShipwreckFront@46
-	tileString: "56,52"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 948
-		y: -54
-	}
-	name: ShipwreckFront@45
-	tileString: "66,52"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 772
-		y: 138
-	}
-	name: ShipwreckBack@16
-	tileString: "31,65"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1012
-		y: -174
-	}
-	name: ShipwreckFront@48
-	tileString: "85,41"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1052
-		y: -10
-	}
-	name: ShipwreckBack@17
-	tileString: "67,64"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 428
-		y: 38
-	}
-	name: ShipwreckFront@47
-	tileString: "22,31"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 452
-		y: -62
-	}
-	name: ShipwreckBack@18
-	tileString: "36,20"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1052
-		y: -74
-	}
-	name: ShipwreckBack@19
-	tileString: "75,56"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 972
-		y: -42
-	}
-	name: ShipwreckFront@49
-	tileString: "66,55"
-	creationMethod: createShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 868
-		y: 274
+		x: 932
+		y: 58
 	}
-	name: Rock@97
-	tileString: "20,88"
+	name: Rock@909
+	tileString: "51,65"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 756
-		y: -118
+		x: 1380
+		y: 66
 	}
-	name: Rock@96
-	tileString: "62,32"
+	name: Rock@908
+	tileString: "78,94"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1124
+		y: -230
+	}
+	name: Rock@903
+	tileString: "99,41"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 980
+		y: 266
+	}
+	name: Rock@905
+	tileString: "28,94"
 	creationMethod: createRock
 }
 {
@@ -873,98 +389,263 @@
 	texture: images/seastack1.png
 	position: {
 		x: 1140
-		y: 82
+		y: 178
 	}
-	name: Rock@99
-	tileString: "61,81"
+	name: Rock@904
+	tileString: "49,93"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1164
-		y: -202
+		x: 828
+		y: 142
 	}
-	name: Rock@98
-	tileString: "98,47"
+	name: Rock@871
+	tileString: "34,69"
 	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1228
+		y: 30
+	}
+	name: ShipwreckFront@851
+	tileString: "73,80"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1140
+		y: -150
+	}
+	name: ShipwreckFront@850
+	tileString: "90,52"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 828
+		y: 150
+	}
+	name: Rock@877
+	tileString: "33,70"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1012
+		y: 18
+	}
+	name: Rock@910
+	tileString: "61,65"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 900
+		y: -214
+	}
+	name: ShipwreckFront@852
+	tileString: "83,29"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1100
+		y: 126
+	}
+	name: Rock@876
+	tileString: "53,84"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 916
+		y: 170
+	}
+	name: ShipwreckFront@855
+	tileString: "36,78"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1460
+		y: -46
+	}
+	name: Rock@879
+	tileString: "97,85"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 660
+		y: 18
+	}
+	name: ShipwreckFront@854
+	tileString: "39,43"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/65x33_tiles/shell.png
+	position: {
+		x: 956
+		y: -10
+	}
+	name: Shell@870
+	tileString: "61,58"
+	creationMethod: createShell
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1036
+		y: 286
+	}
+	name: Rock@878
+	tileString: "29,100"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 756
+		y: 82
+	}
+	name: ShipwreckFront@857
+	tileString: "37,57"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1204
+		y: 18
+	}
+	name: Rock@873
+	tileString: "73,77"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1228
+		y: -170
+	}
+	name: ShipwreckFront@856
+	tileString: "98,55"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1348
+		y: -46
+	}
+	name: Rock@872
+	tileString: "90,78"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 764
+		y: 86
+	}
+	name: ShipwreckFront@859
+	tileString: "37,58"
+	creationMethod: createShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 1244
-		y: 30
+		x: 780
+		y: -202
 	}
-	name: Rock@93
-	tileString: "74,81"
+	name: Rock@875
+	tileString: "74,23"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
+	texture: images/shipWreckFront.png
 	position: {
-		x: 1156
-		y: -166
+		x: 660
+		y: -46
 	}
-	name: Rock@92
-	tileString: "93,51"
+	name: ShipwreckFront@858
+	tileString: "47,35"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 860
+		y: 118
+	}
+	name: Rock@874
+	tileString: "39,68"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 676
-		y: 74
+		x: 724
+		y: 162
 	}
-	name: ShipwreckBack@10
-	tileString: "33,51"
+	name: ShipwreckBack@812
+	tileString: "25,65"
 	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 788
-		y: 170
-	}
-	name: Rock@95
-	tileString: "28,70"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 892
-		y: 110
+		x: 964
+		y: -294
 	}
-	name: ShipwreckBack@11
-	tileString: "42,69"
+	name: ShipwreckBack@813
+	tileString: "97,23"
 	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 980
-		y: -110
-	}
-	name: Rock@94
-	tileString: "75,47"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 804
-		y: 226
+		x: 748
+		y: -66
 	}
-	name: ShipwreckBack@12
-	tileString: "22,78"
+	name: ShipwreckBack@810
+	tileString: "55,38"
 	creationMethod: createShipwreckBack
 }
 {
@@ -972,87 +653,76 @@
 	texture: images/shipWreckBack.png
 	position: {
 		x: 1060
-		y: 42
+		y: 250
 	}
-	name: ShipwreckBack@13
-	tileString: "61,71"
+	name: ShipwreckBack@811
+	tileString: "35,97"
 	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 836
-		y: 90
+		x: 780
+		y: 6
 	}
-	name: ShipwreckBack@14
-	tileString: "41,63"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 1308
-		y: -114
-	}
-	name: Rock@91
-	tileString: "96,67"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 836
-		y: 242
-	}
-	name: ShipwreckBack@15
-	tileString: "22,82"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack2.png
-	position: {
-		x: 1124
-		y: -78
-	}
-	name: Rock@90
-	tileString: "80,60"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckFront.png
-	position: {
-		x: 1004
-		y: 70
-	}
-	name: ShipwreckFront@39
-	tileString: "54,71"
-	creationMethod: createShipwreckFront
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 492
-		y: 54
-	}
-	name: ShipwreckBack@9
-	tileString: "24,37"
+	name: ShipwreckBack@818
+	tileString: "48,49"
 	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 1468
-		y: 46
+		x: 1036
+		y: 110
 	}
-	name: ShipwreckBack@38
-	tileString: "86,97"
+	name: ShipwreckBack@819
+	tileString: "51,78"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 804
+		y: 146
+	}
+	name: ShipwreckBack@816
+	tileString: "32,68"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1412
+		y: -94
+	}
+	name: ShipwreckBack@817
+	tileString: "100,76"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 748
+		y: 22
+	}
+	name: ShipwreckBack@814
+	tileString: "44,49"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 636
+		y: -146
+	}
+	name: ShipwreckBack@815
+	tileString: "58,21"
 	creationMethod: createShipwreckBack
 }
 {
@@ -1060,131 +730,439 @@
 	texture: images/seastack1.png
 	position: {
 		x: 964
-		y: 58
+		y: 10
 	}
-	name: Rock@79
-	tileString: "53,67"
+	name: Rock@866
+	tileString: "59,61"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack2.png
 	position: {
-		x: 1020
-		y: 270
+		x: 900
+		y: 114
 	}
-	name: Rock@78
-	tileString: "30,97"
+	name: Rock@901
+	tileString: "42,70"
 	creationMethod: createRock
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {
-		x: 748
+		x: 1244
+		y: -58
+	}
+	name: Rock@900
+	tileString: "85,70"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1052
 		y: 78
 	}
-	name: Rock@77
-	tileString: "37,56"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 540
-		y: -98
-	}
-	name: ShipwreckBack@30
-	tileString: "46,21"
+	name: ShipwreckBack@823
+	tileString: "56,75"
 	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
+	texture: images/shipWreckFront.png
 	position: {
-		x: 1276
-		y: 126
+		x: 588
+		y: 102
 	}
-	name: ShipwreckBack@31
-	tileString: "64,95"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1324
-		y: 94
-	}
-	name: ShipwreckBack@32
-	tileString: "71,94"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 644
-		y: 42
-	}
-	name: ShipwreckBack@33
-	tileString: "35,45"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
-	position: {
-		x: 996
-		y: 2
-	}
-	name: Rock@72
-	tileString: "62,62"
-	creationMethod: createRock
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1060
-		y: -62
-	}
-	name: ShipwreckBack@34
-	tileString: "74,58"
-	creationMethod: createShipwreckBack
-}
-{
-	class: com.deco2800.game.files.Tuple
-	texture: images/shipWreckBack.png
-	position: {
-		x: 1116
-		y: 214
-	}
-	name: ShipwreckBack@35
-	tileString: "43,96"
-	creationMethod: createShipwreckBack
+	name: ShipwreckFront@839
+	tileString: "24,49"
+	creationMethod: createShipwreckFront
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
 		x: 900
-		y: 266
+		y: -70
 	}
-	name: ShipwreckBack@36
-	tileString: "23,89"
+	name: ShipwreckBack@824
+	tileString: "65,47"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1076
+		y: 114
+	}
+	name: ShipwreckFront@838
+	tileString: "53,81"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1020
+		y: 118
+	}
+	name: ShipwreckBack@821
+	tileString: "49,78"
 	creationMethod: createShipwreckBack
 }
 {
 	class: com.deco2800.game.files.Tuple
 	texture: images/shipWreckBack.png
 	position: {
-		x: 660
+		x: 740
+		y: 2
+	}
+	name: ShipwreckBack@822
+	tileString: "46,46"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1020
+		y: 294
+	}
+	name: ShipwreckBack@820
+	tileString: "27,100"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1356
+		y: -2
+	}
+	name: ShipwreckBack@829
+	tileString: "85,84"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 828
+		y: 254
+	}
+	name: ShipwreckBack@827
+	tileString: "20,83"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1020
+		y: -274
+	}
+	name: ShipwreckBack@828
+	tileString: "98,29"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 868
+		y: -142
+	}
+	name: ShipwreckBack@825
+	tileString: "72,36"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1284
+		y: 10
+	}
+	name: ShipwreckBack@826
+	tileString: "79,81"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 612
+		y: -54
+	}
+	name: ShipwreckFront@833
+	tileString: "45,31"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1172
+		y: 18
+	}
+	name: ShipwreckFront@835
+	tileString: "71,75"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1044
+		y: 202
+	}
+	name: ShipwreckFront@834
+	tileString: "40,90"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 772
+		y: 178
+	}
+	name: ShipwreckFront@837
+	tileString: "26,70"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1076
+		y: 170
+	}
+	name: ShipwreckFront@836
+	tileString: "46,88"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 716
+		y: -114
+	}
+	name: ShipwreckBack@809
+	tileString: "59,30"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 788
 		y: -102
 	}
-	name: ShipwreckBack@37
-	tileString: "54,28"
+	name: ShipwreckBack@807
+	tileString: "62,36"
 	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 708
+		y: -22
+	}
+	name: ShipwreckBack@808
+	tileString: "47,41"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1148
+		y: 54
+	}
+	name: ShipwreckBack@805
+	tileString: "65,78"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 964
+		y: -78
+	}
+	name: ShipwreckBack@806
+	tileString: "70,50"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 572
+		y: -18
+	}
+	name: ShipwreckBack@803
+	tileString: "38,33"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckBack.png
+	position: {
+		x: 1092
+		y: -238
+	}
+	name: ShipwreckBack@804
+	tileString: "98,38"
+	creationMethod: createShipwreckBack
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1020
+		y: -250
+	}
+	name: ShipwreckFront@860
+	tileString: "95,32"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 956
+		y: -26
+	}
+	name: ShipwreckFront@862
+	tileString: "63,56"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/shipWreckFront.png
+	position: {
+		x: 1244
+		y: 158
+	}
+	name: ShipwreckFront@861
+	tileString: "58,97"
+	creationMethod: createShipwreckFront
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 796
+		y: 14
+	}
+	name: Rock@891
+	tileString: "48,51"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1012
+		y: -94
+	}
+	name: Rock@890
+	tileString: "75,51"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 1084
+		y: 150
+	}
+	name: Rock@893
+	tileString: "49,86"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 908
+		y: 142
+	}
+	name: Rock@892
+	tileString: "39,74"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 940
+		y: 118
+	}
+	name: Rock@899
+	tileString: "44,73"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 1228
+		y: -106
+	}
+	name: Rock@898
+	tileString: "90,63"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 596
+		y: 82
+	}
+	name: Rock@895
+	tileString: "27,47"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack2.png
+	position: {
+		x: 660
+		y: 114
+	}
+	name: Rock@894
+	tileString: "27,55"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 916
+		y: -166
+	}
+	name: Rock@897
+	tileString: "78,36"
+	creationMethod: createRock
+}
+{
+	class: com.deco2800.game.files.Tuple
+	texture: images/seastack1.png
+	position: {
+		x: 764
+		y: -2
+	}
+	name: Rock@896
+	tileString: "48,47"
+	creationMethod: createRock
 }
 ]
