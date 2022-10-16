@@ -131,6 +131,7 @@ public class UGS {
                 ServiceLocator.getEntityService().registerNamed(entityName, entity);
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+
                 entity.setPosition(entityWorldPos);
 
                 String stringCoord = generateCoordinate(coordinate.x, coordinate.y);

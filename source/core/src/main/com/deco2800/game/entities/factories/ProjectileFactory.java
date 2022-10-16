@@ -1,7 +1,9 @@
 package com.deco2800.game.entities.factories;
 
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.GameArea;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
@@ -22,9 +24,10 @@ public class ProjectileFactory {
     private static Entity makeProjectile(Vector2 destination, Entity source) {
 
         String texturePath = "images/eel_projectile.png";
+        short targetLayer = PhysicsLayer.PLAYER;
 
         if (source.getName().contains("turret")) {
-            // change to turret proj
+            targetLayer = PhysicsLayer.ENEMY;
         }
 
         Entity projectile = new Entity()
@@ -32,17 +35,26 @@ public class ProjectileFactory {
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ProjectileMovementComponent())
                 .addComponent(new ColliderComponent())
-                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
+                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
                 .addComponent(new CombatStatsComponent(1, 5))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
-                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 0.2f));
+                .addComponent(new TouchAttackComponent(targetLayer, 0.2f));
+
+        destination.y -= ServiceLocator.getEntityService().getNamedEntity("terrain")
+                .getComponent(TerrainComponent.class).getTileSize() / 2;
 
         projectile.getComponent(ProjectileMovementComponent.class).setTarget(destination);
         projectile.getComponent(ProjectileMovementComponent.class).setMoving(true);
         projectile.getComponent(ProjectileMovementComponent.class).setNewSpeed(new Vector2(4, 4));
         projectile.getComponent(ColliderComponent.class).setSensor(true);
+        projectile.getComponent(ColliderComponent.class).setTangible(targetLayer);
 
-        projectile.setPosition(source.getPosition());
+        Vector2 sourcePosition = source.getPosition();
+
+        sourcePosition.y -= ServiceLocator.getEntityService().getNamedEntity("terrain")
+                .getComponent(TerrainComponent.class).getTileSize() / 3;
+
+        projectile.setPosition(sourcePosition);
         PhysicsUtils.setScaledCollider(projectile, 2f, 2f);
         projectile.scaleHeight(20f);
 
