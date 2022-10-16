@@ -9,6 +9,7 @@ public enum ShopBuilding {
     TOWER2,
     TOWER3,
     TRAP,
+    TURRET,
     WOODCUTTER,
     QUARRY;
 
@@ -19,6 +20,7 @@ public enum ShopBuilding {
             case TOWER2 -> "configs/buildings/tower2.json";
             case TOWER3 -> "configs/buildings/tower3.json";
             case TRAP -> "configs/buildings/trap.json";
+            case TURRET -> "configs/buildings/turret.json";
             case WOODCUTTER -> "configs/buildings/woodCutter.json";
             case QUARRY -> "configs/buildings/quarry.json";
         };

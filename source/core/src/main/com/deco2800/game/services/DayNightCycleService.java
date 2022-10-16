@@ -236,12 +236,14 @@ public class DayNightCycleService {
                 // Move clock for parts of day with more than one half
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
                         this.currentCycleStatus == DayNightCycleStatus.NIGHT) {
-                    long elapsed = System.currentTimeMillis() - timeSinceLastPartOfDay;
+                    long elapsed = this.currentDayMillis - timeSinceLastPartOfDay;
+                    
                     if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration) &&
                             partOfDayHalveIteration != lastPartOfDayHalveIteration) {
                         Gdx.app.postRunnable(() -> {
                             events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
                         });
+
                         partOfDayHalveIteration++;
                     }
                 }
@@ -305,13 +307,14 @@ public class DayNightCycleService {
         Gdx.app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
         });
-        this.timeSinceLastPartOfDay = this.timer.getTime();
         if (nextPartOfDay == DayNightCycleStatus.NIGHT) {
+            this.timeSinceLastPartOfDay = config.dawnLength + config.dayLength + config.duskLength;
             this.timePerHalveOfPartOfDay = config.nightLength / 2;
             lastPartOfDayHalveIteration = 2;
             this.partOfDayHalveIteration = 1;
         }
         if (nextPartOfDay == DayNightCycleStatus.DAY) {
+            this.timeSinceLastPartOfDay = config.dawnLength;
             this.timePerHalveOfPartOfDay = config.dayLength / 4;
             lastPartOfDayHalveIteration = 4;
             this.partOfDayHalveIteration = 1;

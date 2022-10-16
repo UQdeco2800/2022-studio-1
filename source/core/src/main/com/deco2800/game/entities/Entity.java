@@ -12,6 +12,8 @@ import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.utils.math.Vector2Utils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +41,7 @@ public class Entity {
   private static final String EVT_NAME_POS = "setPosition";
 
   private String name;
-
+  private String creationMethod;
   private final int id;
   private Boolean collectable = false;
   private ResourceType resourceType;
@@ -51,6 +53,11 @@ public class Entity {
   private Vector2 position = Vector2.Zero.cpy();
   private Vector2 scale = new Vector2(1, 1);
   private Array<Component> createdComponents;
+
+  private Vector2 newPosition;
+  private boolean tweening;
+  private Vector2 tweeningVector = new Vector2();
+  private int rotation = -1;
 
   // TODO: Fix Comment Array. Make HashMap<String, Component> so to be able to
   // search for a specific component
@@ -68,6 +75,22 @@ public class Entity {
 
   public String getName() {
     return this.name;
+  }
+
+  public void setRotation(int rotation) {
+    this.rotation = rotation;
+  }
+
+  public int getRotation() {
+    return this.rotation;
+  }
+
+  public void setCreationMethod(String classMethod) {
+    this.creationMethod = classMethod;
+  }
+
+  public String getCreationMethod(){
+    return this.creationMethod;
   }
 
   /**
@@ -116,6 +139,35 @@ public class Entity {
     return position.cpy(); // Cpy gives us pass-by-value to prevent bugs
   }
 
+  public void tweenPosition(Vector2 newPosition) {
+
+    tweening = true;
+    this.newPosition = newPosition;
+
+    float xDiff = Math.abs(position.x - newPosition.x);
+    float yDiff = Math.abs(position.y - newPosition.y);
+    boolean xReached = xDiff < 1;
+    boolean yReached = yDiff < 1;
+
+    if (xReached && yReached) {
+      tweening = false;
+    }
+
+    tweeningVector.x = newPosition.x > position.x ? 0.5f : -0.5f;
+    tweeningVector.y = newPosition.y > position.y ? 0.25f : -0.25f;
+
+    if (xDiff < 1) {
+      tweeningVector.x = 0;
+    }
+
+    if (yDiff < 1) {
+      tweeningVector.y = 0;
+    }
+
+    setPosition(position.cpy().add(tweeningVector));
+
+  }
+
   /**
    * Set the entity's game position.
    *
@@ -148,6 +200,7 @@ public class Entity {
     this.position = position;
     if (notify) {
       getEvents().trigger(EVT_NAME_POS, position);
+      getEvents().trigger("updateUgs");
     }
   }
 
@@ -156,7 +209,8 @@ public class Entity {
    *
    */
   public void setTileGridPosition(GridPoint2 tileCoord) {
-    this.position = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(tileCoord);
+    this.position = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+        .tileToWorldPosition(tileCoord);
   }
 
   /**
@@ -298,6 +352,11 @@ public class Entity {
     if (!enabled) {
       return;
     }
+
+    if (tweening) {
+      tweenPosition(newPosition);
+    }
+
     for (Component component : createdComponents) {
       component.triggerEarlyUpdate();
     }

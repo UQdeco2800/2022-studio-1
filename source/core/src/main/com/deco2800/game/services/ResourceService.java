@@ -165,6 +165,7 @@ public class ResourceService implements Disposable {
     loadAssets(musicNames, Music.class);
   }
 
+
   public void unloadAssets(String[] assetNames) {
     for (String assetName : assetNames) {
       logger.debug("Unloading {}", assetName);
@@ -179,5 +180,9 @@ public class ResourceService implements Disposable {
   @Override
   public void dispose() {
     assetManager.clear();
+  }
+
+  public AssetManager getAssetManager() {
+    return this.assetManager;
   }
 }

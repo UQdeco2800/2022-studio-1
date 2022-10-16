@@ -44,6 +44,9 @@ public class LoadingScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         ServiceLocator.getEntityService().update();
+        if (ServiceLocator.getResourceService().getAssetManager().update()) {
+            game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        }
         renderer.render();
     }
 

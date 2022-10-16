@@ -1,27 +1,12 @@
 package com.deco2800.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.deco2800.game.areas.GuidebookArea;
-import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Guidebook.GuidebookActions;
 import com.deco2800.game.components.Guidebook.GuidebookDisplay;
 import com.deco2800.game.components.Guidebook.GuidebookExitDisplay;
-import com.deco2800.game.components.maingame.MainGameActions;
-import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.components.maingame.MainGameExitDisplay;
-import com.deco2800.game.components.maingame.MainGameInterface;
-import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.settingsmenu.MusicSettings;
-import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
-import com.deco2800.game.entities.configs.StructureConfig;
-import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.memento.Memento;
-import com.deco2800.game.services.configs.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +14,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.components.gamearea.PerformanceDisplay;
-import com.deco2800.game.components.shop.CommonShopComponents;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -43,14 +26,9 @@ import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.ui.terminal.Terminal;
-import com.deco2800.game.ui.terminal.TerminalDisplay;
-import com.google.gson.Gson;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.*;
 
@@ -79,7 +57,21 @@ public class GuidebookScreen extends ScreenAdapter {
             "images/uiElements/exports/allCurrencies.png",
             "images/Shop.png",
             "images/inventory.png",
-            "images/Achievements.png"
+            "images/Achievements.png",
+            "images/uiElements/exports/Crystal Badge.png",
+            "images/uiElements/exports/Cup badge.png",
+            "images/uiElements/exports/Enemy Villain.png",
+            "images/uiElements/exports/Money Badge.png",
+            "images/uiElements/exports/Resource Building.png",
+            "images/uiElements/exports/nightDay badge.png",
+            "images/uiElements/exports/upgrade building badge.png",
+            "images/uiElements/exports/wall resource building.png",
+            "images/uiElements/exports/wall resource building.png",
+            "images/uiElements/exports/wood achievement.png",
+            "images/uiElements/exports/Tower Building.png",
+            "images/uiElements/exports/Sword Badge.png",
+            "images/uiElements/exports/Sheild badge.png",
+            "images/uiElements/exports/nightDay badge.png",
     };
 
     public GuidebookScreen(AtlantisSinks game) {

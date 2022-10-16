@@ -13,9 +13,9 @@ import com.deco2800.game.rendering.DebugRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public class ShootTask extends DefaultTask implements PriorityTask {
-    private final Entity target;
+    protected Entity target;
     private static final int SECOND = 500;
-    private final GameTime TotalTime;
+    protected final GameTime TotalTime;
     private long taskEnd;
     private final int priority;
     private final float viewDistance;
@@ -25,9 +25,10 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     private final RaycastHit hit = new RaycastHit();
 
     /**
-     * @param target The entity to chase.
-     * @param priority Task priority when chasing (0 when not chasing).
-     * @param viewDistance Maximum distance from the entity at which chasing can start.
+     * @param target       The entity to chase.
+     * @param priority     Task priority when chasing (0 when not chasing).
+     * @param viewDistance Maximum distance from the entity at which chasing can
+     *                     start.
      */
     public ShootTask(Entity target, int priority, float viewDistance, float maxChaseDistance) {
         this.target = target;
@@ -63,12 +64,15 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         return getInactivePriority();
     }
 
-    private float getDistanceToTarget() {
+    protected float getDistanceToTarget() {
+        if (target == null)
+            return -1f;
         return owner.getEntity().getPosition().dst(target.getPosition());
     }
 
     private int getActivePriority() {
-        float dst = getDistanceToTarget();
+        float dst = Math.abs(getDistanceToTarget());
+
         if (dst > maxChaseDistance || !isTargetVisible()) {
             return -1; // Too far, stop chasing
         }
@@ -84,6 +88,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     }
 
     private boolean isTargetVisible() {
+        if (target == null)
+            return false;
+
         Vector2 from = owner.getEntity().getCenterPosition();
         Vector2 to = target.getCenterPosition();
         // If there is an obstacle in the path to the player, not visible.

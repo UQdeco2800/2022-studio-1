@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class LoadingDisplay extends UIComponent {
 
@@ -18,12 +20,15 @@ public class LoadingDisplay extends UIComponent {
     private Table loadingTips;
     private Label currLoadProgress;
 
-
     @Override
     public void create() {
         super.create();
         addActors();
         entity.getEvents().addListener("loadStatUpdate", this::updateLoadingStat);
+    }
+
+    private void beginProcessing() {
+        ServiceLocator.getResourceService().getAssetManager().update();
     }
 
     private void addActors() {
@@ -52,7 +57,6 @@ public class LoadingDisplay extends UIComponent {
         CharSequence LoadStat = String.format("Loading:  %d", loadProgress);
         currLoadProgress = new Label(String.valueOf(LoadStat), skin, "large");
 
-
         // display the tips
         //TODO: make a list / LinkedList of tips to pick randomly from
         CharSequence getTips = "insert tips here";
@@ -70,7 +74,7 @@ public class LoadingDisplay extends UIComponent {
     public void updateLoadingStat(int loadProgress) {
         CharSequence newLoadStat = String.format("Loading:  %d", loadProgress);
         currLoadProgress.setText(newLoadStat);
-        if (loadProgress >= 100) {
+        if (loadProgress >= 90) {
             logger.debug("Loading complete");
             entity.getEvents().trigger("loadingFinish");
         }

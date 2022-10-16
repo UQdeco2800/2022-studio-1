@@ -33,14 +33,34 @@ public class AchievementScreen extends ScreenAdapter {
      * Array of achievement icon textures
      */
     private static final String[] achievementTextures = {
-            "images/achievements/Building_Icon.png",
+            "images/achievements/achievement_card_completed.png",
+            "images/achievements/achievement_card_locked_n.png",
+            "images/achievements/Badge_Background_Box.png",
+            "images/achievements/BadgeContent_Box.png",
+            "images/achievements/Buildings_Icon.png",
             "images/achievements/Game_Icon.png",
-            "images/achievements/Kill_Icon.png",
+            "images/achievements/Kills_Icon.png",
             "images/achievements/Misc_Icon.png",
-            "images/achievements/Resource_Icon.png",
-            "images/achievements/Upgrade_Icon.png",
+            "images/achievements/Resources_Icon.png",
+            "images/achievements/Upgrades_Icon.png",
             "images/uiElements/exports/exit_button.png",
-            "images/achievements/summaryIcon.png"
+            "images/achievements/Summary_Icon.png",
+            "images/achievements/Buildings_NotCurrent.png",
+            "images/achievements/Game_NotCurrent.png",
+            "images/achievements/Kills_NotCurrent.png",
+            "images/achievements/Misc_NotCurrent.png",
+            "images/achievements/Resources_NotCurrent.png",
+            "images/achievements/Upgrades_NotCurrent.png",
+            "images/achievements/Summary_NotCurrent.png",
+            "images/achievements/Tab_Background_Box.png",
+            "images/achievements/milestone_1_completed.png",
+            "images/achievements/milestone_1_incomplete.png",
+            "images/achievements/milestone_2_completed.png",
+            "images/achievements/milestone_2_incomplete.png",
+            "images/achievements/milestone_3_completed.png",
+            "images/achievements/milestone_3_incomplete.png",
+            "images/achievements/milestone_4_completed.png",
+            "images/achievements/milestone_4_incomplete.png"
     };
 
     /**
