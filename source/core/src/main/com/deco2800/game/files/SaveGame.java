@@ -357,17 +357,6 @@ public class SaveGame {
                 savedCycle.lastCycleStatus, savedCycle.partOfDayHalveIteration, savedCycle.lastPartOfDayHalveIteration,
                 savedCycle.timeSinceLastPartOfDay);
         currentService.start();
-//
-//
-//        currentService.currentDayNumber = savedDayNightCycle.currentDayNumber;
-//        currentService.currentDayMillis = savedDayNightCycle.currentDayMillis;
-//        currentService.currentCycleStatus = savedDayNightCycle.currentCycleStatus;
-//        currentService.lastCycleStatus = savedDayNightCycle.lastCycleStatus;
-//        currentService.partOfDayHalveIteration = savedDayNightCycle.partOfDayHalveIteration;
-//        currentService.lastPartOfDayHalveIteration = savedDayNightCycle.lastPartOfDayHalveIteration;
-//        currentService.timeSinceLastPartOfDay = savedDayNightCycle.timeSinceLastPartOfDay;
-//        currentService.timePerHalveOfPartOfDay = savedDayNightCycle.timePerHalveOfPartOfDay;
-//        //current day millis, boolean status ones, anything that mentions time
 
         //will only be called loading from game screen, otherwise called from MainGameScreen
         Entity ui = ServiceLocator.getEntityService().getNamedEntity("ui");

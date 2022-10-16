@@ -10,11 +10,13 @@ import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.extensions.GameExtension;
 import com.deco2800.game.physics.PhysicsService;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.*;
+import com.deco2800.game.services.configs.DayNightCycleConfig;
 import com.deco2800.game.utils.RenderUtil;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.Test;
@@ -139,6 +141,16 @@ public class SaveGameTest {
         EntityService entityService = new EntityService();
         StructureService structureService = new StructureService();
         DayNightCycleService dayNightCycleService = new DayNightCycleService();
+        dayNightCycleService.config = new DayNightCycleConfig();
+        dayNightCycleService.config.dawnLength = 1;
+        dayNightCycleService.config.dayLength = 1;
+        dayNightCycleService.config.duskLength = 1;
+        dayNightCycleService.config.nightLength = 1;
+        dayNightCycleService.config.maxDays = 1;
+        dayNightCycleService.timer = mock(GameTime.class);
+        when(dayNightCycleService.timer.getTime()).thenReturn(10000L);
+        dayNightCycleService.events = new EventHandler();
+
         ResourceService resourceService = new ResourceService();
         RenderService renderService = new RenderService();
 
@@ -166,17 +178,26 @@ public class SaveGameTest {
         when(terrain.tileToWorldPosition(new GridPoint2(3, 3))).thenReturn(new Vector2(3, 3));
         when(terrain.tileToWorldPosition(new GridPoint2(4, 4))).thenReturn(new Vector2(4, 4));
         when(terrain.tileToWorldPosition(new GridPoint2(5, 5))).thenReturn(new Vector2(5, 5));
+        when(terrain.worldToTilePosition(0, 0)).thenReturn(new GridPoint2(0,0));
+        when(terrain.worldToTilePosition(1, 1)).thenReturn(new GridPoint2(1,1));
+        when(terrain.worldToTilePosition(2, 2)).thenReturn(new GridPoint2(2,2));
+        when(terrain.worldToTilePosition(3, 3)).thenReturn(new GridPoint2(3,3));
+        when(terrain.worldToTilePosition(4, 4)).thenReturn(new GridPoint2(4,4));
 
+//        float x = any(float.class);
+//        float y = any(float.class);
+//        when(terrain.worldToTilePosition(x, y)).thenReturn(new GridPoint2((int) x, (int) y));
+
+        Entity terrainEntity = new Entity();
+        terrainEntity.setName("terrain");
+        terrainEntity.addComponent(terrain);
+        ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
         Entity camera = new Entity().addComponent(new CameraComponent());
 
         camera.addComponent(new CameraActions());
 
         ServiceLocator.getEntityService().registerNamed("camera", camera);
-
-
-        Entity terrainEntity = new Entity().addComponent(terrain);
-        ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
         while (!resourceService.loadForMillis(10)) {
 

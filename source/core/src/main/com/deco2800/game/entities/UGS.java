@@ -91,7 +91,7 @@ public class UGS {
 
     public String getStringByEntity(Entity entity) {
         //getting position, conversions
-        Vector2 pos = entity.getCenterPosition();
+        Vector2 pos = entity.getPosition();
         GridPoint2 coord = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                         .worldToTilePosition(pos.x, pos.y);
         String tilePos = generateCoordinate(coord.x, coord.y);

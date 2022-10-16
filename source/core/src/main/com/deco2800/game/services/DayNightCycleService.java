@@ -50,7 +50,7 @@ public class DayNightCycleService {
     public long loadedTimeOffset;
     private boolean loaded;
 
-    private transient EventHandler events;
+    public transient EventHandler events;
 
     /**
      * Empty method here for save game functionality DO NOT USE
