@@ -1,11 +1,1 @@
-[
-{
-	class: com.deco2800.game.files.Tuple
-	position: {
-		x: 976
-	}
-	name: "wall(61, 61)"
-	tileString: "61,61"
-	creationMethod: createWall
-}
-]
+[]
