@@ -20,7 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Base game screen for displaying the player's achievements. To be extended for displaying actual
+ * Base game screen for displaying the player's achievements. To be extended for
+ * displaying actual
  * achievement pages.
  */
 public class AchievementScreen extends ScreenAdapter {
@@ -75,6 +76,7 @@ public class AchievementScreen extends ScreenAdapter {
 
     /**
      * Initialises the AchievementBaseScreen with all necessary services and assets
+     * 
      * @param game AtlantisSinks
      */
     public AchievementScreen(AtlantisSinks game) {

@@ -1,9 +1,13 @@
 package com.deco2800.game.components.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
@@ -66,9 +70,9 @@ public class PlayerActions extends Component {
   @Override
   public void update() {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    Vector2 playerCenterPos = ServiceLocator.getEntityService().getNamedEntity("player").getPosition();
-    camera.setPosition(playerCenterPos);
+    Vector2 playerCenterPos = ServiceLocator.getEntityService().getNamedEntity("player").getCenterPosition();
 
+    moving = false;
     for (int i = 0; i < 4; i++) {
       moving = moving || movementKeyPressed[i];
     }
@@ -193,16 +197,22 @@ public class PlayerActions extends Component {
         break;
       }
     }
+    boolean mine = false;
     for (Entity i : radius) {
-      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player") && i.isCollectable()) {
+      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player")
+          && i.isCollectable()) {
         if (current.getComponent(InventoryComponent.class).getWeapon() == Equipments.AXE) {
+          mine = false;
           closestEntity = i;
           break;
+        } else if (!current.getComponent(InventoryComponent.class).getWeapon().equals(Equipments.AXE)) {
+          mine = true;
         }
       }
     }
 
     if (closestEnemy != null) {
+      mine = false;
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
       if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
         CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
@@ -228,6 +238,9 @@ public class PlayerActions extends Component {
     }
     PlayerStatsDisplay.updateItems();
     this.entity.getEvents().trigger("showPrompts");
+    if (mine) {
+      this.entity.getEvents().trigger("noMine");
+    }
   }
 
   /**

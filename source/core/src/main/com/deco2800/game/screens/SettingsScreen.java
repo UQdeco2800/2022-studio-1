@@ -4,13 +4,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.settingsmenu.SettingsMenuDisplay;
-import com.deco2800.game.components.settingsmenu.MusicSettings;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.GameTime;
@@ -66,7 +64,8 @@ public class SettingsScreen extends ScreenAdapter {
   }
 
   /**
-   * Creates the setting screen's ui including components for rendering ui elements to the screen
+   * Creates the setting screen's ui including components for rendering ui
+   * elements to the screen
    * and capturing and handling ui input.
    */
   private void createUI() {
@@ -74,7 +73,6 @@ public class SettingsScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
     ui.addComponent(new SettingsMenuDisplay(game, backScreen)).addComponent(new InputDecorator(stage, 10));
-    ui.addComponent(new MusicSettings(game)).addComponent(new InputDecorator(stage, 9));
     ServiceLocator.getEntityService().register(ui);
   }
 }
