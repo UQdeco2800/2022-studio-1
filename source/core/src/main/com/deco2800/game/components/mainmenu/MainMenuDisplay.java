@@ -228,6 +228,7 @@ public class MainMenuDisplay extends UIComponent {
       return rootTable;
   }
   private void addActors() {
+      // Handled outside
   }
 
   @Override
