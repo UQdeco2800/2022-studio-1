@@ -52,9 +52,9 @@ public class StructureFactory {
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = { "images/wallLeft.png", "images/wallRight.png" };
+  private static String[] tempTower1Sprites = {"images/attack_towers/tempStructures/temp_tow1_1_l.png", "images/attack_towers/tempStructures/temp_tow1_1_r.png"};
   private static String[] tower1Sprites = { "images/attack_towers/tow1_1_l.png",
-  "images/attack_towers/tow1_r_l.png", "images/attack_towers/tow1_2_l.png", "images/attack_towers/tow1_2_r.png",
-  "images/attack_towers/tow1_3_l.png", "images/attack_towers/tow1_3_r.png" };
+  "images/attack_towers/tow1_1_r.png" };
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -88,6 +88,7 @@ public class StructureFactory {
     }
     wall.setRotation(orientation);
     BaseStructureConfig config = configs.wall;
+    config.orientation = orientation;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
         .addComponent(new ResourceCostComponent(config.gold))
         .addComponent((new HealthBarComponent(50, 10)));
@@ -156,9 +157,9 @@ public class StructureFactory {
     // TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/attack_towers/tow1_1_l.png"; // change texture to be temp
+      TOWER1I = tempTower1Sprites[orientation]; // change texture to be temp
     } else {
-      TOWER1I = "images/attack_towers/tow1_1_l.png";
+      TOWER1I = tower1Sprites[orientation];
     }
     String TOWER1II = "images/attack_towers/tow1_2_l.png";
     String TOWER1III = "images/attack_towers/tow1_3_l.png";
@@ -166,11 +167,6 @@ public class StructureFactory {
     Entity tower1;
     BaseStructureConfig config;
 
-    if (orientation == 1) {
-      TOWER1I = "images/attack_towers/tow1_1_r.png";
-      TOWER1II = "images/attack_towers/tow1_2_r.png";
-      TOWER1III = "images/attack_towers/tow1_3_r.png";
-    }
     float tileSize;
     Texture t;
 
@@ -178,6 +174,7 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower1 = createBaseStructure(TOWER1II, name, true);
         config = configs.tower1I;
+        config.orientation = orientation;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new AOEDamageComponent(3, 2, 5000))
             .addComponent(new ResourceCostComponent(config.gold))
@@ -191,6 +188,7 @@ public class StructureFactory {
       case 3: // Represents the second upgraded version of the tower
         tower1 = createBaseStructure(TOWER1III, name, false);
         config = configs.tower1II;
+        config.orientation = orientation;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new AOEDamageComponent(5, 3, 5000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
@@ -203,7 +201,7 @@ public class StructureFactory {
       default:
         tower1 = createBaseStructure(TOWER1I, name, false);
         config = configs.tower1;
-
+        config.orientation = orientation;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
             .addComponent(new AOEDamageComponent(1, 1, 5000))
             .addComponent(new ResourceCostComponent(config.gold))
