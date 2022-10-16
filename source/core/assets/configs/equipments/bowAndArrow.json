@@ -1,7 +1,7 @@
 {
     "type": "weapon",
     "name": "Bow and Arrow",
-    "goldCost": 30,
+    "goldCost": 200,
     "stoneCost": 0,
     "woodCost": 0,
     "attack": 3,

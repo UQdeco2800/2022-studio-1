@@ -104,7 +104,7 @@ public class MainGameInterface extends UIComponent {
     TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
     ImageButton crossFrame = new ImageButton(cross, cross);
     crossFrame.setSize(40f, 40f);
-    crossFrame.setPosition(inventoryFrame.getX() + 60f, inventoryFrame.getY() + 610f);
+    crossFrame.setPosition(inventoryFrame.getX() + 700f, inventoryFrame.getY() + 610f);
 
     Label subtitle = new Label("Inventory", skin, "title");
     subtitle.setFontScale(1f);
