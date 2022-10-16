@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
@@ -322,10 +321,10 @@ public class UGS {
      * {x-1, y-1}
      * 
      * @param currentPosition String
-     * @param yDirection      Boolean
      * @param xDirection      Boolean
+     * @param yDirection      Boolean
      */
-    public void moveEntity(Entity entity, GridPoint2 currentPosition, int xDirection, int yDirection) {
+    public void moveEntity(Entity entity, GridPoint2 currentPosition, float xDirection, float yDirection) {
 
         String oldPosKey = generateCoordinate(currentPosition.x, currentPosition.y);
 
@@ -343,7 +342,6 @@ public class UGS {
                     .getComponent(TerrainComponent.class)
                     .tileToWorldPosition((int) newPosition.x, (int) newPosition.y);
             entity.tweenPosition(newWorldPos);
-            System.out.println(newPosition.toString());
 
         }
 

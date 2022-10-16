@@ -77,7 +77,7 @@ public class TerrainFactory {
     bordersPositionList = new ArrayList<>();
 
     try {
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 3; i++) {
 
         ArrayList<ArrayList<Integer>> levelDetails = new ArrayList<>();
         FileHandle handle = Gdx.files.internal("map-levels/level" + i + ".txt");
@@ -107,8 +107,12 @@ public class TerrainFactory {
         in.close();
       }
     } catch (Exception e) {
-      //e.printStackTrace();
+      // e.printStackTrace();
       logger.error("loadLevels exception", e);
+    }
+
+    if (levels.size() == 0) {
+      System.out.println("no valid map file");
     }
 
   }
@@ -131,7 +135,8 @@ public class TerrainFactory {
     TiledMap tiledMap = createMap(tilePixelSize);
     TiledMapRenderer renderer = createRenderer(tiledMap, tileWorldSize / tilePixelSize.x);
 
-    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size, landTilesList, bordersPositionList);
+    return new TerrainComponent(camera, tiledMap, renderer, orientation, tileWorldSize, island_size, landTilesList,
+        bordersPositionList);
   }
 
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
@@ -270,7 +275,7 @@ public class TerrainFactory {
             // Randomly choose a land tile to use
             // - 1/8 chance for ground tile, seaweed1 tile, seaweed 2 tile
             // - 5/8 chance for sand tile
-            //int r = (int) (Math.random() * 7);
+            // int r = (int) (Math.random() * 7);
             int r = (int) (new SecureRandom().nextInt(7));
 
             if (r < 3) {

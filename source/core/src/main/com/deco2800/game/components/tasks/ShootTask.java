@@ -49,8 +49,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         Entity entity = this.owner.getEntity();
-        System.out.println("[ShootTask] {Owner: " + entity.getName() + "} {Time-taskEnd:" + TotalTime.getTime() + " - "
-                + taskEnd + "}");
         if (TotalTime.getTime() >= taskEnd) {
             ProjectileFactory.createProjectile(entity, target);
             taskEnd = TotalTime.getTime() + (SECOND);
@@ -59,7 +57,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public int getPriority() {
-        System.out.println(status.name());
         if (status == Status.ACTIVE) {
             return getActivePriority();
         }
@@ -75,9 +72,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     private int getActivePriority() {
         float dst = Math.abs(getDistanceToTarget());
-        System.out.println("Visibility: " + isTargetVisible());
-
-        System.out.println("Distance: " + dst + " Max Distance: " + maxChaseDistance);
 
         if (dst > maxChaseDistance || !isTargetVisible()) {
             return -1; // Too far, stop chasing
