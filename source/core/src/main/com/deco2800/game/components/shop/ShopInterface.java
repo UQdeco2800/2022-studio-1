@@ -58,18 +58,18 @@ public class ShopInterface extends UIComponent {
         building = new Table();
         building.setFillParent(true);
         building.center().left();
-        building.setSize(200f, 200f);
-        building.padLeft(100f).padTop(100f);
+        building.setSize(100f, 100f);
+        building.padRight(100f).padTop(100f);
 
         artefact = new Table();
         artefact.setFillParent(true);
-        artefact.setSize(200f, 200f);
+        artefact.setSize(100f, 100f);
         artefact.center().right();
-        artefact.padRight(100f).padTop(100f);
+        artefact.padLeft(100f).padTop(100f);
 
         equipment = new Table();
         equipment.setFillParent(true);
-        equipment.setSize(200f, 200f);
+        equipment.setSize(100f, 100f);
         equipment.center();
         equipment.padTop(100f);
 
