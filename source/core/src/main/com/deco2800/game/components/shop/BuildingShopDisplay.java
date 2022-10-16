@@ -24,405 +24,423 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class BuildingShopDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(BuildingShopDisplay.class);
-    private static final float Z_INDEX = 2f;
+        private static final Logger logger = LoggerFactory.getLogger(BuildingShopDisplay.class);
+        private static final float Z_INDEX = 2f;
 
-    Table itemDisplay;
-    Group buildingShop;
+        Table itemDisplay;
+        Group buildingShop;
 
+        private CircularLinkedList<ShopBuilding> stock;
+        private Node<ShopBuilding> current;
+        private ShopBuildingConfig stats;
+        private ShopBuildingConfig prevStats;
+        private ShopBuildingConfig nextStats;
 
-    private CircularLinkedList<ShopBuilding> stock;
-    private Node<ShopBuilding> current;
-    private ShopBuildingConfig stats;
-    private ShopBuildingConfig prevStats;
-    private ShopBuildingConfig nextStats;
+        Label subtitle;
+        Label itemNumber;
+        int i;
 
-    Label subtitle;
-    Label itemNumber;
-    int i;
+        private Texture leftTexture;
+        private TextureRegionDrawable left;
+        private Button leftButton;
 
-    private Texture leftTexture;
-    private TextureRegionDrawable left;
-    private Button leftButton;
+        private Texture rightTexture;
+        private TextureRegionDrawable right;
+        private Button rightButton;
 
-    private Texture rightTexture;
-    private TextureRegionDrawable right;
-    private Button rightButton;
+        private Image currentItem;
+        private Texture currentTexture;
+        private Image prevItem;
+        private Texture prevTexture;
+        private Image nextItem;
+        private Texture nextTexture;
 
-    private Image currentItem;
-    private Texture currentTexture;
-    private Image prevItem;
-    private Texture prevTexture;
-    private Image nextItem;
-    private Texture nextTexture;
+        private Texture goldenCategoryTexture;
+        private TextureRegionDrawable goldenDrawable;
+        private Texture brownCategoryTexture;
+        private TextureRegionDrawable brownDrawable;
+        private Texture redCategoryTexture;
+        private TextureRegionDrawable redDrawable;
 
-    private Texture goldenCategoryTexture;
-    private TextureRegionDrawable goldenDrawable;
-    private Texture brownCategoryTexture;
-    private TextureRegionDrawable brownDrawable;
-    private Texture redCategoryTexture;
-    private TextureRegionDrawable redDrawable;
+        private TextButton descriptionDisplay;
+        private TextButton buyButton;
+        private TextButton priceDisplay;
+        boolean sufficientFunds;
 
-    private TextButton descriptionDisplay;
-    private TextButton buyButton;
-    private TextButton priceDisplay;
-    boolean sufficientFunds;
+        private Texture backTexture;
+        private TextureRegionDrawable upBack;
+        private ImageButton backButton;
 
-    private Texture backTexture;
-    private TextureRegionDrawable upBack;
-    private ImageButton backButton;
-    
-    @Override
-    public void create() {
-        super.create();
-        entity.getEvents().addListener("buildingShop", this::openShop);
-        entity.getEvents().addListener("closeAll", this::closeShop);
-        addActor();
-    }
-
-    private void addActor() {
-        buildingShop = new Group();
-        itemDisplay = new Table();
-        itemDisplay.setFillParent(true);
-        itemDisplay.setSize((float) (Gdx.graphics.getWidth() * 0.6), (float) (Gdx.graphics.getHeight() * 0.4));
-
-        // Create linked list of the available shop stock
-        stock = new CircularLinkedList<ShopBuilding>();
-        List<ShopBuilding> buildingOptions = ShopBuilding.getAllBuildingTypes();
-        for (ShopBuilding e : buildingOptions) {
-            stock.add(e);
+        @Override
+        public void create() {
+                super.create();
+                entity.getEvents().addListener("buildingShop", this::openShop);
+                entity.getEvents().addListener("closeAll", this::closeShop);
+                addActor();
         }
-        current = stock.head;
-        i = 1;
-        itemNumber = new Label("Item " + i + "/" + buildingOptions.size(), skin, "button");
-        itemNumber.setFontScale(1.5f);
-        itemNumber.setColor(skin.getColor("black"));
 
-        prevStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.next.t));
-        // Create the current building to display
-        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
-        currentItem = new Image(currentTexture);
+        private void addActor() {
+                buildingShop = new Group();
+                itemDisplay = new Table();
+                // itemDisplay.setFillParent(true);
+                itemDisplay.setSize((float) (Gdx.graphics.getWidth() * 0.7), (float) (Gdx.graphics.getHeight() * 0.7));
+                Texture shopInterfaceTexture = new Texture(Gdx.files.internal("images/popup-border.png"));
+                TextureRegionDrawable shop = new TextureRegionDrawable(shopInterfaceTexture);
+                itemDisplay.setBackground(shop);
+                itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f - itemDisplay.getWidth() / 2f,
+                                Gdx.graphics.getHeight() / 2f - itemDisplay.getHeight() / 2f);
 
-        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
-        prevItem = new Image(prevTexture);
+                // Create linked list of the available shop stock
+                stock = new CircularLinkedList<ShopBuilding>();
+                List<ShopBuilding> buildingOptions = ShopBuilding.getAllBuildingTypes();
+                for (ShopBuilding e : buildingOptions) {
+                        stock.add(e);
+                }
+                current = stock.head;
+                i = 1;
+                itemNumber = new Label("Building " + i + "/" + buildingOptions.size(), skin, "button");
+                itemNumber.setFontScale(1.5f);
+                itemNumber.setColor(skin.getColor("black"));
 
-        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
-        nextItem = new Image(nextTexture);
+                prevStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.prev.t));
+                stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
+                nextStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.next.t));
+                // Create the current building to display
+                currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
+                currentItem = new Image(currentTexture);
 
-        // Create textures for arrows, price, descrition and buy button
-        brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
-        leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
-        rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
-        goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
-        goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
-        brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
-        redDrawable = new TextureRegionDrawable(redCategoryTexture);
-        left = new TextureRegionDrawable(leftTexture);
-        right = new TextureRegionDrawable(rightTexture);
+                prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+                prevItem = new Image(prevTexture);
 
-        // create left button
-        leftButton = new Button(left);
-        leftButton.setTransform(true);
+                nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+                nextItem = new Image(nextTexture);
 
-        // create right button
-        rightButton = new Button(right);
-        rightButton.setTransform(true);
+                // Create textures for arrows, price, descrition and buy button
+                brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
+                leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
+                rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
+                goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+                redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
+                goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
+                brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
+                redDrawable = new TextureRegionDrawable(redCategoryTexture);
+                left = new TextureRegionDrawable(leftTexture);
+                right = new TextureRegionDrawable(rightTexture);
 
-        // create price sticker
-        priceDisplay = ShopUtils.createImageTextButton(
-                "Stone: " + Integer.toString(stats.stoneCost) + " Wood: "
-                        + Integer.toString(stats.woodCost),
-                skin.getColor("black"),
-                "font_small", 1f,
-                goldenDrawable, goldenDrawable,
-                skin,
-                true);
+                // create left button
+                leftButton = new Button(left);
+                leftButton.setTransform(true);
 
-        // create description sticker
-        descriptionDisplay = ShopUtils.createImageTextButton(
-                stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: " + MainArea.getInstance().getGameArea()
-                        .getPlayer().getComponent(InventoryComponent.class)
-                        .getBuildingCount(current.t),
-                skin.getColor("black"),
-                "button", 1f,
-                brownDrawable, brownDrawable, skin,
-                true);
+                // create right button
+                rightButton = new Button(right);
+                rightButton.setTransform(true);
 
-        // create buy button
-        sufficientFunds = MainArea.getInstance().getGameArea()
-                .getPlayer().getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost);
-        buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                sufficientFunds ? brownDrawable : redDrawable,
-                sufficientFunds ? goldenDrawable : redDrawable,
-                skin,
-                false);
+                // create price sticker
+                priceDisplay = ShopUtils.createImageTextButton(
+                                "Stone: " + Integer.toString(stats.stoneCost) + " Wood: "
+                                                + Integer.toString(stats.woodCost),
+                                skin.getColor("black"),
+                                "font_small", 1f,
+                                goldenDrawable, goldenDrawable,
+                                skin,
+                                true);
 
-        // create the back button
-        backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
-        upBack = new TextureRegionDrawable(backTexture);
-        backButton = new ImageButton(upBack, upBack);
+                // create description sticker
+                descriptionDisplay = ShopUtils.createImageTextButton(
+                                stats.name + "\n" + stats.description + "\n"
+                                                + "Inventory Count: " + MainArea.getInstance().getGameArea()
+                                                                .getPlayer().getComponent(InventoryComponent.class)
+                                                                .getBuildingCount(current.t),
+                                skin.getColor("black"),
+                                "button", 1f,
+                                brownDrawable, brownDrawable, skin,
+                                true);
 
-        subtitle = new Label("BUILDINGS", skin, "title");
-        subtitle.setFontScale(1.5f);
-        subtitle.setColor(skin.getColor("black"));
+                // create buy button
+                sufficientFunds = MainArea.getInstance().getGameArea()
+                                .getPlayer().getComponent(InventoryComponent.class)
+                                .hasGold(stats.goldCost);
+                buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
+                                sufficientFunds ? brownDrawable : redDrawable,
+                                sufficientFunds ? goldenDrawable : redDrawable,
+                                skin,
+                                false);
 
-        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
-        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.row();
-        itemDisplay.add(itemNumber).colspan(3).center();
-        itemDisplay.row();
-        itemDisplay.add(descriptionDisplay).colspan(3).center()
-                .width(Gdx.graphics.getWidth() * 0.17f)
-                .height(Gdx.graphics.getHeight() * 0.31f);
-        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+                // create the back button
+                backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+                upBack = new TextureRegionDrawable(backTexture);
+                backButton = new ImageButton(upBack, upBack);
 
-        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
-                Gdx.graphics.getHeight() / 2f);
-        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+                subtitle = new Label("Buildings", skin, "title");
+                subtitle.setFontScale(1.5f);
+                subtitle.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.07f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.25f);
+                subtitle.setColor(skin.getColor("black"));
 
-        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
-                Gdx.graphics.getHeight() / 2f);
-        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+                prevItem.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.13f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.07f);
+                prevItem.setSize(Gdx.graphics.getWidth() * 0.058f, Gdx.graphics.getWidth() * 0.058f);
 
-        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+                currentItem.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.04f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.05f);
+                currentItem.setSize(Gdx.graphics.getWidth() * 0.087f, Gdx.graphics.getWidth() * 0.087f);
+                nextItem.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.07f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.07f);
+                nextItem.setSize(Gdx.graphics.getWidth() * 0.058f, Gdx.graphics.getWidth() * 0.058f);
 
-        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+                itemNumber.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.05f,
+                                Gdx.graphics.getHeight() / 2f /* - Gdx.graphics.getHeight() * 0.05f */);
+                descriptionDisplay.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.2f,
+                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.35f);
+                descriptionDisplay.setSize(Gdx.graphics.getWidth() * 0.4f, Gdx.graphics.getWidth() * 0.3f);
+                // itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f,
+                // Gdx.graphics.getHeight() * 0.361f);
 
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
-                Gdx.graphics.getHeight() * 0.85f - 110f);
+                leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.2f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
+                leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
 
-        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
-        backButton.setSize(40f, 40f);
+                rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.17f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
+                rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
 
-        buildingShop.addActor(itemDisplay);
-        buildingShop.addActor(leftButton);
-        buildingShop.addActor(rightButton);
-        buildingShop.addActor(buyButton);
-        buildingShop.addActor(priceDisplay);
-        buildingShop.addActor(subtitle);
-        buildingShop.addActor(backButton);
-        buildingShop.setVisible(false);
-        stage.addActor(buildingShop);
+                buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
+                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+                buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
 
-        rightButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Right button clicked");
-                        carouselRight();
-                    }
-                });
+                priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
+                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+                priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
 
-        leftButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Left button clicked");
-                        carouselLeft();
-                    }
-                });
-        
-        buyButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.info("Buy button clicked");
-                        buyItem();
-                    }
-                });
-        
-        backButton.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent changeEvent, Actor actor) {
-                        logger.debug("Back button clicked");
-                        closeShop();
-                        entity.getEvents().trigger("shop");
-                    }
-                });
-    }
+                backButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.25f,
+                                Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.25f);
+                backButton.setSize(40f, 40f);
 
-    private void buyItem() {
-        if (MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasStone(stats.stoneCost) &&
-                MainArea.getInstance().getGameArea().getPlayer()
-                        .getComponent(InventoryComponent.class)
-                        .hasWood(stats.woodCost)) {
-            logger.info("Sufficient resources");
-            MainArea.getInstance().getGameArea().getPlayer()
-                    .getComponent(InventoryComponent.class)
-                    .addWood(-1 * stats.woodCost);
-            MainArea.getInstance().getGameArea().getPlayer()
-                    .getComponent(InventoryComponent.class)
-                    .addStone(-1 * stats.stoneCost);
-            MainArea.getInstance().getGameArea().getPlayer()
-                    .getComponent(InventoryComponent.class)
-                    .addBuilding(current.t);
-            Sound rockSound = Gdx.audio.newSound(
-                    Gdx.files.internal("sounds/rock.mp3"));
-            rockSound.play();
+                buildingShop.addActor(itemDisplay);
+                buildingShop.addActor(leftButton);
+                buildingShop.addActor(prevItem);
+                buildingShop.addActor(currentItem);
+                buildingShop.addActor(nextItem);
+                buildingShop.addActor(rightButton);
+                buildingShop.addActor(itemNumber);
+                buildingShop.addActor(descriptionDisplay);
+                buildingShop.addActor(buyButton);
+                buildingShop.addActor(priceDisplay);
+                buildingShop.addActor(subtitle);
+                buildingShop.addActor(backButton);
+                buildingShop.setVisible(false);
+                stage.addActor(buildingShop);
 
-            // Trigger events for achievements
-            ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
-        } else {
-            logger.info("Insufficient resource!");
-            Sound filesound = Gdx.audio.newSound(
-                    Gdx.files.internal("sounds/purchase_fail.mp3"));
-            filesound.play();
+                rightButton.addListener(
+                                new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent changeEvent, Actor actor) {
+                                                logger.info("Right button clicked");
+                                                carouselRight();
+                                        }
+                                });
+
+                leftButton.addListener(
+                                new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent changeEvent, Actor actor) {
+                                                logger.info("Left button clicked");
+                                                carouselLeft();
+                                        }
+                                });
+
+                buyButton.addListener(
+                                new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent changeEvent, Actor actor) {
+                                                logger.info("Buy button clicked");
+                                                buyItem();
+                                        }
+                                });
+
+                backButton.addListener(
+                                new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent changeEvent, Actor actor) {
+                                                logger.debug("Back button clicked");
+                                                closeShop();
+                                        }
+                                });
         }
-        descriptionDisplay.setText(stats.name + "\n" + stats.description + "\n"
-                + "Inventory Count: "
-                + MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .getBuildingCount(current.t));
-        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasStone(stats.stoneCost)
-                && MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasWood(stats.woodCost);
-        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                : redDrawable;
-        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                : redDrawable;
 
-        MainArea.getInstance().getGameArea().getPlayer().getComponent(PlayerStatsDisplay.class).updateResourceAmount();
-        entity.getEvents().trigger("updateBuilding");
-    }
+        private void buyItem() {
+                if (MainArea.getInstance().getGameArea().getPlayer()
+                                .getComponent(InventoryComponent.class)
+                                .hasStone(stats.stoneCost) &&
+                                MainArea.getInstance().getGameArea().getPlayer()
+                                                .getComponent(InventoryComponent.class)
+                                                .hasWood(stats.woodCost)) {
+                        logger.info("Sufficient resources");
+                        MainArea.getInstance().getGameArea().getPlayer()
+                                        .getComponent(InventoryComponent.class)
+                                        .addWood(-1 * stats.woodCost);
+                        MainArea.getInstance().getGameArea().getPlayer()
+                                        .getComponent(InventoryComponent.class)
+                                        .addStone(-1 * stats.stoneCost);
+                        MainArea.getInstance().getGameArea().getPlayer()
+                                        .getComponent(InventoryComponent.class)
+                                        .addBuilding(current.t);
+                        Sound rockSound = Gdx.audio.newSound(
+                                        Gdx.files.internal("sounds/rock.mp3"));
+                        rockSound.play();
 
-    private void carouselLeft() {
-        Node<ShopBuilding> temp = current;
-        current = stock.head.prev;
-        stock.head = stock.head.prev;
-        stock.tail = temp.prev;
+                        // Trigger events for achievements
+                        ServiceLocator.getAchievementHandler().getEvents()
+                                        .trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);
+                } else {
+                        logger.info("Insufficient resource!");
+                        Sound filesound = Gdx.audio.newSound(
+                                        Gdx.files.internal("sounds/purchase_fail.mp3"));
+                        filesound.play();
+                }
+                descriptionDisplay.setText(stats.name + "\n" + stats.description + "\n"
+                                + "Inventory Count: "
+                                + MainArea.getInstance().getGameArea().getPlayer()
+                                                .getComponent(InventoryComponent.class)
+                                                .getBuildingCount(current.t));
+                sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
+                                .getComponent(InventoryComponent.class)
+                                .hasStone(stats.stoneCost)
+                                && MainArea.getInstance().getGameArea().getPlayer()
+                                                .getComponent(InventoryComponent.class)
+                                                .hasWood(stats.woodCost);
+                buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                                : redDrawable;
+                buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                                : redDrawable;
 
-        prevStats = FileLoader.readClass(ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(current.next.t));
+                MainArea.getInstance().getGameArea().getPlayer().getComponent(PlayerStatsDisplay.class)
+                                .updateResourceAmount();
+                entity.getEvents().trigger("updateBuilding");
+        }
 
-        priceDisplay.setText(
-                "Stone: " + Integer.toString(stats.woodCost) + " Wood: "
-                        + Integer.toString(stats.woodCost));
+        private void carouselLeft() {
+                Node<ShopBuilding> temp = current;
+                current = stock.head.prev;
+                stock.head = stock.head.prev;
+                stock.tail = temp.prev;
 
-        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasStone(stats.stoneCost)
-                && MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasWood(stats.woodCost);
-        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                : redDrawable;
-        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                : redDrawable;
+                prevStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.prev.t));
+                stats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.t));
+                nextStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.next.t));
 
-        descriptionDisplay
-                .setText(stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea().getPlayer()
-                        .getComponent(InventoryComponent.class)
-                        .getBuildingCount(
-                                current.t));
-        i = i == 1 ? ShopBuilding.getAllBuildingTypes().size() : i - 1;
-        itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
-        currentItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        stats.itemBackgroundImagePath))));
-        prevItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        prevStats.itemBackgroundImagePath))));
-        nextItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        nextStats.itemBackgroundImagePath))));
-    }
+                priceDisplay.setText(
+                                "Stone: " + Integer.toString(stats.woodCost) + " Wood: "
+                                                + Integer.toString(stats.woodCost));
 
-    private void carouselRight() {
-        Node<ShopBuilding> temp = current;
-        current = stock.head.next;
-        stock.head = stock.head.next;
-        stock.tail = temp;
+                sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
+                                .getComponent(InventoryComponent.class)
+                                .hasStone(stats.stoneCost)
+                                && MainArea.getInstance().getGameArea().getPlayer()
+                                                .getComponent(InventoryComponent.class)
+                                                .hasWood(stats.woodCost);
+                buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                                : redDrawable;
+                buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                                : redDrawable;
 
-        // read the stats of the new current
-        prevStats = FileLoader.readClass(ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ShopBuildingConfig.class,
-                ShopBuilding.getFilepath(current.next.t));
+                descriptionDisplay
+                                .setText(stats.name + "\n" + stats.description + "\n"
+                                                + "Inventory Count: "
+                                                + MainArea.getInstance().getGameArea().getPlayer()
+                                                                .getComponent(InventoryComponent.class)
+                                                                .getBuildingCount(
+                                                                                current.t));
+                i = i == 1 ? ShopBuilding.getAllBuildingTypes().size() : i - 1;
+                itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
+                currentItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(
+                                                stats.itemBackgroundImagePath))));
+                prevItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(
+                                                prevStats.itemBackgroundImagePath))));
+                nextItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(
+                                                nextStats.itemBackgroundImagePath))));
+        }
 
-        priceDisplay.setText("Stone: " + Integer.toString(stats.stoneCost)
-                + " Wood: "
-                + Integer.toString(stats.woodCost));
-        sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasStone(stats.stoneCost)
-                && MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasWood(stats.woodCost);
-        buyButton.getStyle().up = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
-                : redDrawable;
-        buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
-                : redDrawable;
-        descriptionDisplay
-                .setText(stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea().getPlayer()
-                        .getComponent(InventoryComponent.class)
-                        .getBuildingCount(current.t));
-        i = i == ShopBuilding.getAllBuildingTypes().size() ? 1 : i + 1;
-        itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
-        currentItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        stats.itemBackgroundImagePath))));
-        prevItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        prevStats.itemBackgroundImagePath))));
-        nextItem.setDrawable(new TextureRegionDrawable(
-                new Texture(Gdx.files.internal(
-                        nextStats.itemBackgroundImagePath))));
-    }
+        private void carouselRight() {
+                Node<ShopBuilding> temp = current;
+                current = stock.head.next;
+                stock.head = stock.head.next;
+                stock.tail = temp;
 
-    private void openShop() {
-        buildingShop.setVisible(true);
-    }
+                // read the stats of the new current
+                prevStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.prev.t));
+                stats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.t));
+                nextStats = FileLoader.readClass(ShopBuildingConfig.class,
+                                ShopBuilding.getFilepath(current.next.t));
 
-    private void closeShop() {
-        buildingShop.setVisible(false);
-    }
-    @Override
-    public void draw(SpriteBatch batch) {
-        // draw is handled by the stage
+                priceDisplay.setText("Stone: " + Integer.toString(stats.stoneCost)
+                                + " Wood: "
+                                + Integer.toString(stats.woodCost));
+                sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
+                                .getComponent(InventoryComponent.class)
+                                .hasStone(stats.stoneCost)
+                                && MainArea.getInstance().getGameArea().getPlayer()
+                                                .getComponent(InventoryComponent.class)
+                                                .hasWood(stats.woodCost);
+                buyButton.getStyle().up = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                buyButton.getStyle().down = sufficientFunds ? brownDrawable
+                                : redDrawable;
+                buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
+                                : redDrawable;
+                descriptionDisplay
+                                .setText(stats.name + "\n" + stats.description + "\n"
+                                                + "Inventory Count: "
+                                                + MainArea.getInstance().getGameArea().getPlayer()
+                                                                .getComponent(InventoryComponent.class)
+                                                                .getBuildingCount(current.t));
+                i = i == ShopBuilding.getAllBuildingTypes().size() ? 1 : i + 1;
+                itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
+                currentItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(
+                                                stats.itemBackgroundImagePath))));
+                prevItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(
+                                                prevStats.itemBackgroundImagePath))));
+                nextItem.setDrawable(new TextureRegionDrawable(
+                                new Texture(Gdx.files.internal(
+                                                nextStats.itemBackgroundImagePath))));
+        }
 
-    }
+        private void openShop() {
+                buildingShop.setVisible(true);
+        }
 
-    @Override
-    public float getZIndex() {
-        return Z_INDEX;
-    }
+        private void closeShop() {
+                buildingShop.setVisible(false);
+        }
 
-    @Override
-    public void dispose() {
-        stage.clear();
-        super.dispose();
-    }
+        @Override
+        public void draw(SpriteBatch batch) {
+                // draw is handled by the stage
+
+        }
+
+        @Override
+        public float getZIndex() {
+                return Z_INDEX;
+        }
+
+        @Override
+        public void dispose() {
+                stage.clear();
+                super.dispose();
+        }
 }
