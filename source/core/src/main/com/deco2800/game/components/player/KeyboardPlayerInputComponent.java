@@ -17,6 +17,7 @@ import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.memento.Originator;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
@@ -98,6 +99,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("playerControlTut", "SPACE");
           entity.getEvents().trigger("skipEpilogue");
           return true;
+        case Keys.N:
+          ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
         default:
           return false;
       }
