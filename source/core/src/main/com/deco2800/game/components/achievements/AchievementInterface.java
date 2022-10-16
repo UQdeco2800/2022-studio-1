@@ -76,7 +76,6 @@ public class AchievementInterface extends UIComponent {
                 Gdx.graphics.getHeight() / 2f - rootTable.getHeight() / 2f);
         rootTable.center();
 
-        Table exitTable = new Table();
         this.navigationTable = new Table();
         navigationTable.defaults().pad(10f);
         this.displayTable = new Table();
@@ -88,7 +87,7 @@ public class AchievementInterface extends UIComponent {
         Label title = new Label("Achievements", skin, "title");
         title.setFontScale(2f);
         title.setAlignment(Align.center);
-        exitTable.add(title).colspan(8).expand().pad(20f, 0f, 20f, 0f);
+        rootTable.add(title).colspan(8).expand().pad(20f, 0f, 20f, 0f);
 
         // Background Colour
         Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
@@ -165,7 +164,7 @@ public class AchievementInterface extends UIComponent {
 
         this.addButtonEvent(backButton, "Exit");
 
-        exitTable.add(backButton).expand().right().top().size(50f).pad(5);
+        rootTable.add(backButton).size(40f).pad(5);
 
         // Display main content
         displayTable.align(Align.top);
@@ -176,9 +175,6 @@ public class AchievementInterface extends UIComponent {
         contentTable.add(navigationTable).colspan(2).expand().pad(0f);
         contentTable.add(displayTable).colspan(6).expand().pad(0f);
 
-        rootTable.add(exitTable).colspan(8).fillX();
-        rootTable.row();
-        // rootTable.add(title).colspan(8).expand();
         rootTable.row();
         rootTable.add(contentTable).colspan(8).expand().pad(30f);
 
