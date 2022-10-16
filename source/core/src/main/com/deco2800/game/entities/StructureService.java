@@ -163,45 +163,35 @@ public class StructureService extends EntityService {
 
     Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
-
       switch (structureName) {
         case "wall":
           structure = StructureFactory.createWall(entityName, false, orientation);
           break;
-
         case "tower1":
           structure = StructureFactory.createTower1(1, entityName, false, orientation);
           break;
-
         case "tower2":
           structure = StructureFactory.createTower2(1, entityName, false);
           break;
-
         case "tower3":
           structure = StructureFactory.createTower3(1, entityName, false);
           break;
-
         case "trap":
           structure = StructureFactory.createTrap(entityName, false);
           break;
-
         case "turret":
           structure = StructureFactory.createTurret(entityName);
           structureEntities.add(structure);
           break;
-
         case "stoneQuarry":
           structure = ResourceBuildingFactory.createStoneQuarry(entityName);
           break;
-
         case "woodCutter":
           structure = ResourceBuildingFactory.createWoodCutter(entityName);
           break;
-
         default:
           return false;
       }
-
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
       ServiceLocator.getUGSService().addStructure(structure);
       float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
