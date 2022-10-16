@@ -176,7 +176,6 @@ public class UGS {
         int starting_yPos = centerCoord.y - offset;
         for (int x = starting_xPos; x < starting_xPos + (offset * 2) + 1; x++) {
             for (int y = starting_yPos; y < starting_yPos + (offset * 2) + 1; y++) {
-                // if (!(x == centerCoord.x && y == centerCoord.y)) {
                 if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
                     surroundingTiles.put(new GridPoint2(x, y), "empty");
                 } else {

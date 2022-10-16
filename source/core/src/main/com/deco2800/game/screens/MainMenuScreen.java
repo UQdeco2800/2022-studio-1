@@ -259,11 +259,6 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Disposing main menu screen");
 
     renderer.dispose();
-//    unloadAssets();
-//    ServiceLocator.getRenderService().dispose();
-//    ServiceLocator.getEntityService().dispose();
-//
-//    ServiceLocator.clear();
   }
 
   private void loadAssets() {
