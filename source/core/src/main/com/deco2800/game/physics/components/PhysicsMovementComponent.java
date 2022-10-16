@@ -155,26 +155,25 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
     setToVelocity(body, desiredVelocity);
 
-    if (!owner.getName().contains("Mr.")) {
 
-      String previousCoordString = ugs.getStringByEntity(owner);
+    String previousCoordString = ugs.getStringByEntity(owner);
 
-      GridPoint2 newTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-          .getComponent(TerrainComponent.class)
-          .worldToTilePosition(owner.getPosition().x, owner.getPosition().y);
+    GridPoint2 newTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
+        .getComponent(TerrainComponent.class)
+        .worldToTilePosition(owner.getPosition().x, owner.getPosition().y);
 
-      String newCoordString = ugs.generateCoordinate(newTilePos.x, newTilePos.y);
+    String newCoordString = ugs.generateCoordinate(newTilePos.x, newTilePos.y);
 
-      if (!previousCoordString.equals(newCoordString)) {
+    if (!previousCoordString.equals(newCoordString)) {
 
-        if (ugs.checkEntityPlacement(newTilePos, "enemy")) {
-          ugs.getTile(previousCoordString).clearTile();
-          ugs.getTile(newCoordString).setEntity(owner);
-        } else {
-          setToVelocity(body, new Vector2(0, 0));
-        }
+      if (ugs.checkEntityPlacement(newTilePos, "enemy")) {
+        ugs.getTile(previousCoordString).clearTile();
+        ugs.getTile(newCoordString).setEntity(owner);
+      } else {
+        setToVelocity(body, new Vector2(0, 0));
       }
-
     }
+
+
   }
 }

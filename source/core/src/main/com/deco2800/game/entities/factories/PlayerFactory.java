@@ -105,7 +105,7 @@ public class PlayerFactory {
     player.setCollectable(false);
 
     ServiceLocator.getEntityService().registerNamed("player", player);
-    PhysicsUtils.setScaledCollider(player, 15f, 15f);
+    PhysicsUtils.setScaledCollider(player, 1f, 1f);
     player.getComponent(ColliderComponent.class).setDensity(1.5f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("axe_w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
