@@ -36,10 +36,10 @@ public class EpilogueScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
+//        ServiceLocator.registerInputService(new InputService());
+//        ServiceLocator.registerResourceService(new ResourceService());
+//        ServiceLocator.registerEntityService(new EntityService());
+//        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -74,10 +74,10 @@ public class EpilogueScreen extends ScreenAdapter {
         logger.debug("Disposing epilogue screen");
 
         renderer.dispose();
-        unloadAssets();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
+//        unloadAssets();
+//        ServiceLocator.getRenderService().dispose();
+//        ServiceLocator.getEntityService().dispose();
+//        ServiceLocator.clear();
     }
 
     private void loadAssets() {

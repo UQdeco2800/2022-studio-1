@@ -1,6 +1,7 @@
 package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -54,119 +55,100 @@ public class ForestGameArea extends GameArea {
   private Music ambience;
 
   private static final String[] forestTextures = {
-      "images/Centaur_Back_left.png",
-      "images/Centaur_Back_right.png",
-      "images/Centaur_left.png",
-      "images/Centaur_right.png",
-      "images/landscape_objects/leftPalmTree.png",
-      "images/landscape_objects/rightPalmTree.png",
-      "images/landscape_objects/groupPalmTrees.png",
-      "images/landscape_objects/almond-tree-60x62.png",
-      "images/landscape_objects/fig-tree-60x62.png",
-      "images/landscape_objects/vines.png",
-      "images/landscape_objects/cypress-tree-60x100.png",
-      "images/landscape_objects/geyser.png",
-      "images/boss_enemy_angle1.png",
-      "images/landscape_objects/billboard.png",
-      "images/landscape_objects/chalice.png",
-      "images/landscape_objects/pillar.png",
-      "images/landscape_objects/wooden-fence-60x60.png",
-      "images/65x33_tiles/shell.png",
-      "images/pirate_crab_NE.png",
-      "images/pirate_crab_NW.png",
-      "images/pirate_crab_SE.png",
-      "images/pirate_crab_SW.png",
-      "images/crystal.png",
-      "images/crystal_level2.png",
-      "images/crystal_level3.png",
-      "images/65x33_tiles/sand.png",
-      "images/65x33_tiles/sand_night.png",
-      "images/65x33_tiles/seaweed_1.png",
-      "images/65x33_tiles/seaweed_1_night.png",
-      "images/65x33_tiles/seaweed_2.png",
-      "images/65x33_tiles/seaweed_2_night.png",
-      "images/65x33_tiles/seaweed_3.png",
-      "images/65x33_tiles/seaweed_3_night.png",
-      "images/65x33_tiles/shorelineBottom.png",
-      "images/65x33_tiles/shorelineTop.png",
-      "images/65x33_tiles/shorelineBottomRight.png",
-      "images/65x33_tiles/shorelineBottomLeft.png",
-      "images/65x33_tiles/shorelineTopRight.png",
-      "images/65x33_tiles/shorelineTopLeft.png",
-      "images/65x33_tiles/shorelineLeft.png",
-      "images/65x33_tiles/shorelineRight.png",
-      "images/65x33_tiles/shorelineBottom_night.png",
-      "images/65x33_tiles/shorelineTop_night.png",
-      "images/65x33_tiles/shorelineBottomRight_night.png",
-      "images/65x33_tiles/shorelineBottomLeft_night.png",
-      "images/65x33_tiles/shorelineTopRight_night.png",
-      "images/65x33_tiles/shorelineTopLeft_night.png",
-      "images/65x33_tiles/shorelineLeft_night.png",
-      "images/65x33_tiles/shorelineRight_night.png",
-      "images/65x33_tiles/water0.png",
-      "images/65x33_tiles/water1.png",
-      "images/65x33_tiles/water2.png",
-      "images/65x33_tiles/water3.png",
-      "images/65x33_tiles/water_night0.png",
-      "images/65x33_tiles/water_night1.png",
-      "images/65x33_tiles/water_night2.png",
-      "images/65x33_tiles/water_night3.png",
-      "images/65x33_tiles/invalidTile.png",
-      "images/65x33_tiles/validTile.png",
-      "images/seastack1.png",
-      "images/seastack2.png",
-      "images/Eel_Bright_SW.png",
-      "images/Eel_Bright_NE.png",
-      "images/Eel_Bright_NW.png",
-      "images/Eel_Bright_SW.png",
-      "images/shipRack.png",
-      "images/shipRackFront.png",
-      "images/shipWreckBack.png",
-      "images/shipWreckFront.png",
-      "images/ElectricEel.png",
-      "images/eel_projectile.png",
-      "images/starfish.png",
-      "images/NpcPlaceholder.png",
-      "images/NPC convo.png",
-      "images/npc1.png",
-      "images/npcs/NPC-V2.2.png",
-      "images/npcs/NPC-V2.1.png",
-      "images/guardianLegacy1left.png",
-      "images/guardianLegacy1right.png",
-      "images/cornerWall1.png",
-      "images/cornerWall2.png",
-      "images/cornerWall3.png",
-      "images/cornerWall4.png",
-      "images/wallRight.png",
-      "images/wallLeft.png",
-      "images/turret.png",
-      "images/attack_towers/lv1GuardianLeft.png",
-      "images/attack_towers/animations/towerLevel2.png",
-      "images.attack_towers/lv1GuardianRight.png"
+//      "images/Centaur_Back_left.png",
+//      "images/Centaur_Back_right.png",
+//      "images/Centaur_left.png",
+//      "images/Centaur_right.png",
+//      "images/landscape_objects/leftPalmTree.png",
+//      "images/landscape_objects/rightPalmTree.png",
+//      "images/landscape_objects/groupPalmTrees.png",
+//      "images/landscape_objects/almond-tree-60x62.png",
+//      "images/landscape_objects/fig-tree-60x62.png",
+//      "images/landscape_objects/vines.png",
+//      "images/landscape_objects/cypress-tree-60x100.png",
+//      "images/landscape_objects/geyser.png",
+//      "images/boss_enemy_angle1.png",
+//      "images/landscape_objects/billboard.png",
+//      "images/landscape_objects/chalice.png",
+//      "images/landscape_objects/pillar.png",
+//      "images/landscape_objects/wooden-fence-60x60.png",
+//      "images/65x33_tiles/shell.png",
+//      "images/pirate_crab_NE.png",
+//      "images/pirate_crab_NW.png",
+//      "images/pirate_crab_SE.png",
+//      "images/pirate_crab_SW.png",
+//      "images/crystal.png",
+//      "images/crystal_level2.png",
+//      "images/crystal_level3.png",
+//      "images/65x33_tiles/sand.png",
+//      "images/65x33_tiles/sand_night.png",
+//      "images/65x33_tiles/seaweed_1.png",
+//      "images/65x33_tiles/seaweed_1_night.png",
+//      "images/65x33_tiles/seaweed_2.png",
+//      "images/65x33_tiles/seaweed_2_night.png",
+//      "images/65x33_tiles/seaweed_3.png",
+//      "images/65x33_tiles/seaweed_3_night.png",
+//      "images/65x33_tiles/shorelineBottom.png",
+//      "images/65x33_tiles/shorelineTop.png",
+//      "images/65x33_tiles/shorelineBottomRight.png",
+//      "images/65x33_tiles/shorelineBottomLeft.png",
+//      "images/65x33_tiles/shorelineTopRight.png",
+//      "images/65x33_tiles/shorelineTopLeft.png",
+//      "images/65x33_tiles/shorelineLeft.png",
+//      "images/65x33_tiles/shorelineRight.png",
+//      "images/65x33_tiles/shorelineBottom_night.png",
+//      "images/65x33_tiles/shorelineTop_night.png",
+//      "images/65x33_tiles/shorelineBottomRight_night.png",
+//      "images/65x33_tiles/shorelineBottomLeft_night.png",
+//      "images/65x33_tiles/shorelineTopRight_night.png",
+//      "images/65x33_tiles/shorelineTopLeft_night.png",
+//      "images/65x33_tiles/shorelineLeft_night.png",
+//      "images/65x33_tiles/shorelineRight_night.png",
+//      "images/65x33_tiles/water0.png",
+//      "images/65x33_tiles/water1.png",
+//      "images/65x33_tiles/water2.png",
+//      "images/65x33_tiles/water3.png",
+//      "images/65x33_tiles/water_night0.png",
+//      "images/65x33_tiles/water_night1.png",
+//      "images/65x33_tiles/water_night2.png",
+//      "images/65x33_tiles/water_night3.png",
+//      "images/65x33_tiles/invalidTile.png",
+//      "images/65x33_tiles/validTile.png",
+//      "images/seastack1.png",
+//      "images/seastack2.png",
+//      "images/Eel_Bright_SW.png",
+//      "images/Eel_Bright_NE.png",
+//      "images/Eel_Bright_NW.png",
+//      "images/Eel_Bright_SW.png",
+//      "images/shipRack.png",
+//      "images/shipRackFront.png",
+//      "images/shipWreckBack.png",
+//      "images/shipWreckFront.png",
+//      "images/ElectricEel.png",
+//      "images/eel_projectile.png",
+//      "images/starfish.png",
+//      "images/NpcPlaceholder.png",
+//      "images/NPC convo.png",
+//      "images/npc1.png",
+//      "images/npcs/NPC-V2.2.png",
+//      "images/npcs/NPC-V2.1.png",
+//      "images/guardianLegacy1left.png",
+//      "images/guardianLegacy1right.png",
+//      "images/cornerWall1.png",
+//      "images/cornerWall2.png",
+//      "images/cornerWall3.png",
+//      "images/cornerWall4.png",
+//      "images/wallRight.png",
+//      "images/wallLeft.png",
+//      "images/turret.png",
+//      "images/attack_towers/lv1GuardianLeft.png",
+//      "images/attack_towers/animations/towerLevel2.png",
+//      "images.attack_towers/lv1GuardianRight.png"
   };
 
-  private static final String[] forestTextureAtlases = {
-      "images/terrain_iso_grass.atlas",
-      "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas",
-      "images/eel_animations/eel.atlas",
-      "images/starfish_animation/starfish.atlas",
-      "images/final_boss_animations/final_boss.atlas",
-      "images/npc_animations/NPC1sprite.atlas",
-      "images/npc_animations/npc.atlas",
-      "images/attack_towers/animations/towerLevel2.atlas"
-  };
-
-  // Sound effect files
-  private static final String[] soundEffects = {
-      "sounds/sword_swing.mp3", "sounds/footsteps_grass_single.mp3", "sounds/hurt.mp3"
-  };
-  // Music files
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String backgroundSounds = "sounds/BgCricket.mp3";
   private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
-  private static final String[] shopPopUpMusic = { shopMusic };
-  private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
   // private EnvironmentalCollision entityMapping;
@@ -205,7 +187,7 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
+//    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
@@ -763,26 +745,22 @@ public class ForestGameArea extends GameArea {
   private void loadAssets() {
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(forestTextures);
-    resourceService.loadTextureAtlases(forestTextureAtlases);
-    resourceService.loadSounds(soundEffects);
-    resourceService.loadMusic(forestMusic);
-    resourceService.loadMusic(shopPopUpMusic);
-
-    while (!resourceService.loadForMillis(10)) {
-      // This could be upgraded to a loading screen
-      logger.info("Loading... {}%", resourceService.getProgress());
-    }
+//    resourceService.loadTextures(forestTextures);
+//    resourceService.loadTextureAtlases(forestTextureAtlases);
+//    resourceService.loadSounds(soundEffects);
+//    resourceService.loadMusic(forestMusic);
+//    resourceService.loadMusic(shopPopUpMusic);
+//    while (!resourceService.loadForMillis(1)) {
+//      // This could be upgraded to a loading screen
+//      logger.info("Loading... {}%", resourceService.getProgress());
+//    }
   }
 
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.unloadAssets(forestTextures);
-    resourceService.unloadAssets(forestTextureAtlases);
-    resourceService.unloadAssets(soundEffects);
-    resourceService.unloadAssets(forestMusic);
-    resourceService.unloadAssets(shopPopUpMusic);
+
   }
 
   @Override
