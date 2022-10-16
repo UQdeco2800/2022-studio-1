@@ -105,10 +105,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Resource Cost Component constructor for objects which only cost gold.</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">ResourceCostComponent</a><wbr>(int&nbsp;gold,
- int&nbsp;stone)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int)" class="member-name-link">ResourceCostComponent</a><wbr>(int&nbsp;stone,
+ int&nbsp;wood)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Resource Cost Component with extra parameter for stone.</div>
+<div class="block">Resource Cost Component with parameters for only stone and wood.</div>
 </div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int)" class="member-name-link">ResourceCostComponent</a><wbr>(int&nbsp;gold,
  int&nbsp;stone,
@@ -178,20 +178,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(int,int)">
-<h3>ResourceCostComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ResourceCostComponent</span><wbr><span class="parameters">(int&nbsp;gold,
- int&nbsp;stone)</span></div>
-<div class="block">Resource Cost Component with extra parameter for stone.
- Gold and stone have a minimum value of 0</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>gold</code> - </dd>
-<dd><code>stone</code> - </dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="&lt;init&gt;(int,int,int)">
 <h3>ResourceCostComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ResourceCostComponent</span><wbr><span class="parameters">(int&nbsp;gold,
@@ -203,6 +189,21 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>gold</code> - </dd>
+<dd><code>stone</code> - </dd>
+<dd><code>wood</code> - </dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(int,int)">
+<h3>ResourceCostComponent</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ResourceCostComponent</span><wbr><span class="parameters">(int&nbsp;stone,
+ int&nbsp;wood)</span></div>
+<div class="block">Resource Cost Component with parameters for only stone and wood.
+ 
+ Both parameters have a minimum value of 0</div>
+<dl class="notes">
+<dt>Parameters:</dt>
 <dd><code>stone</code> - </dd>
 <dd><code>wood</code> - </dd>
 </dl>
