@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
+import java.sql.Struct;
+
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);
     private static final float Z_INDEX = 2f;
@@ -141,16 +143,10 @@ public class MainGameBuildingInterface extends UIComponent {
                     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
                     //Obtain reference to player, for some reason it was being accessed as 'entity'
                     int playerGold = player.getComponent(InventoryComponent.class).getGold();
-                    logger.info("Upgrade Button clicked");
                     if (playerGold > 2000) {
                         logger.info("Sufficient resources");
-                        //Subtract currency from inventory
-                        player.getComponent(InventoryComponent.class).addGold(-1 * 2000);
-                        PlayerStatsDisplay.updateItems();
 
                         //Get building and convert it's position to gridPoint2
-                        //Vector2 position = clickedStructure.getPosition();
-                        //GridPoint2 gridPoint2 = new GridPoint2((int) position.x, (int) position.y);
 
                         Vector2 worldPos = clickedStructure.getPosition();
                         int worldX = Math.round(worldPos.x);
@@ -161,6 +157,14 @@ public class MainGameBuildingInterface extends UIComponent {
 
                         position.y += 1;
                         StructureFactory.upgradeStructure(position, clickedStructure.getName());
+                        logger.info("Upgrade Button clicked");
+
+                        if (!clickedStructure.getName().contains("wall")) {
+                            //Subtract currency from inventory if ! wall
+                            player.getComponent(InventoryComponent.class).addGold(-1 * 2000);
+                            PlayerStatsDisplay.updateItems();
+                        }
+
                         BuildingUI.remove();
 
                     } else {
@@ -173,20 +177,28 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
         // sell button
-        String stoneAndwood = ServiceLocator.getStructureService().SellBuilding(structureName, entityCords);
-        String[] arrOfStr = stoneAndwood.split(",");
+//        String stoneAndwood = ServiceLocator.getStructureService().SellBuilding(structureName, entityCords);
+//        String[] arrOfStr = stoneAndwood.split(",");
 
-       Boolean sufficientFundsSell = (MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class).hasStone(Integer.parseInt(arrOfStr[0])) && MainArea.getInstance()
-               .getGameArea().getPlayer()
-               .getComponent(InventoryComponent.class).hasWood(Integer.parseInt(arrOfStr[1])));
-        TextButton  sellButton = ShopUtils.createImageTextButton("\n Sell for: " + "\n" + "Wood: " + arrOfStr[1]
-                        + " & Stone: " + arrOfStr[0]
-                , skin.getColor("black"), "button", 1f,
-                sufficientFundsSell ? brownDrawable : redDrawable,
-                sufficientFundsSell ? goldenDrawable : redDrawable,
-                skin,
-                false);
+    //    Boolean sufficientFundsSell = (MainArea.getInstance().getGameArea().getPlayer()
+    //             .getComponent(InventoryComponent.class).hasStone(Integer.parseInt(arrOfStr[0])) && MainArea.getInstance()
+    //            .getGameArea().getPlayer()
+    //            .getComponent(InventoryComponent.class).hasWood(Integer.parseInt(arrOfStr[1])));
+    //     // TextButton  sellButton = ShopUtils.createImageTextButton("\n Sell for: " + "\n" + "Wood: " + arrOfStr[1]
+        //                 + " & Stone: " + arrOfStr[0]
+        //         , skin.getColor("black"), "button", 1f,
+        //         sufficientFundsSell ? brownDrawable : redDrawable,
+        //         sufficientFundsSell ? goldenDrawable : redDrawable,
+        //         skin,
+        //         false);
+        TextButton  sellButton = ShopUtils.createImageTextButton("\n Sell"
+        , skin.getColor("black"), "button", 1f,
+        // sufficientFundsSell ? brownDrawable : redDrawable,
+        // sufficientFundsSell ? goldenDrawable : redDrawable,
+        brownDrawable,
+        goldenDrawable,
+        skin,
+        false);
 
         sellButton.addListener(
                 new ChangeListener() {
@@ -194,12 +206,9 @@ public class MainGameBuildingInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell button clicked");
 
-                        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-                        player.getComponent(InventoryComponent.class).addStone(Integer.parseInt(arrOfStr[0]));
-                        player.getComponent(InventoryComponent.class).addWood(Integer.parseInt(arrOfStr[1]));
+                        StructureFactory.handleBuildingDestruction(clickedStructure.getName());
                         PlayerStatsDisplay.updateItems();
                         // Remove building entity
-                        ServiceLocator.getUGSService().removeEntity(structureName);
                         BuildingUI.remove();
                     }
                 });
@@ -236,6 +245,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         return BuildingUI;
     }
+    
 
 
 
@@ -333,52 +343,45 @@ public class MainGameBuildingInterface extends UIComponent {
 
 
         //event handlers for buttons -- sell and upgrade
-        // sellButton.addListener(
-        //         new ChangeListener() {
-        //             @Override
-        //             public void changed(ChangeEvent changeEvent, Actor actor) {
-        //                 logger.info("Sell button clicked");
-        //                 StructureFactory.handleBuildingDestruction(clickedStructure.getName());
-        //                 //Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-        //                 //player.getComponent(InventoryComponent.class).addStone(sell);
-        //         new ChangeListener() {
-        //             @Override
-        //             public void changed(ChangeEvent changeEvent, Actor actor) {
-        //                 logger.info("Upgrade Button clicked");
+        sellButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent changeEvent, Actor actor) {
+                        logger.info("Upgrade Button clicked");
 
-        //                 if (level == 1 && playerGold >= 2000) {
-        //                     logger.info("Sufficient gold to upgrade crystal");
-        //                     // Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-        //                     // CameraComponent camComp = camera.getComponent(CameraComponent.class);
-        //                     //
-        //                     // float x = (random.nextFloat() - 0.5f) * 2 * .2f;
-        //                     // float y = (random.nextFloat() - 0.5f) * 2 * .2f;
-        //                     // float z = (random.nextFloat() - 0.5f) * 2 * .2f;
-        //                     //
-        //                     // // Set the camera to this new x/y position
-        //                     // camComp.getCamera().translate(-50,-y,-z);
-        //                     // screenShakeComponent.ScreenShake(.2f, .1f);
-        //                     // screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
-        //                     CrystalService.upgradeCrystal();
-        //                     entity.getEvents().trigger("screenShake");
-        //                     CrystalUI.remove();
-        //                 } else if (level == 2 && playerGold >= 5000) {
-        //                     logger.info("Sufficient gold to upgrade crystal");
-        //                     CrystalService.upgradeCrystal();
-        //                     entity.getEvents().trigger("screenShake");
-        //                     CrystalUI.remove();
-        //                 }
+                        if (level == 1 && playerGold >= 2000) {
+                            logger.info("Sufficient gold to upgrade crystal");
+                            // Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
+                            // CameraComponent camComp = camera.getComponent(CameraComponent.class);
+                            //
+                            // float x = (random.nextFloat() - 0.5f) * 2 * .2f;
+                            // float y = (random.nextFloat() - 0.5f) * 2 * .2f;
+                            // float z = (random.nextFloat() - 0.5f) * 2 * .2f;
+                            //
+                            // // Set the camera to this new x/y position
+                            // camComp.getCamera().translate(-50,-y,-z);
+                            // screenShakeComponent.ScreenShake(.2f, .1f);
+                            // screenShakeComponent.tick(ServiceLocator.getTimeSource().getDeltaTime());
+                            CrystalService.upgradeCrystal();
+                            entity.getEvents().trigger("screenShake");
+                            CrystalUI.remove();
+                        } else if (level == 2 && playerGold >= 5000) {
+                            logger.info("Sufficient gold to upgrade crystal");
+                            CrystalService.upgradeCrystal();
+                            entity.getEvents().trigger("screenShake");
+                            CrystalUI.remove();
+                        }
 
-        //         else if (level == 3) {
-        //                     logger.info("Crystal has reached Max Level");
-        //                 } else {
-        //                     logger.info("Insufficient gold to upgrade crystal!");
-        //                     Sound filesound = Gdx.audio.newSound(
-        //                             Gdx.files.internal("sounds/purchase_fail.mp3"));
-        //                     filesound.play();
-        //                 }
-        //             }
-        //         });
+                else if (level == 3) {
+                            logger.info("Crystal has reached Max Level");
+                        } else {
+                            logger.info("Insufficient gold to upgrade crystal!");
+                            Sound filesound = Gdx.audio.newSound(
+                                    Gdx.files.internal("sounds/purchase_fail.mp3"));
+                            filesound.play();
+                        }
+                    }
+                });
         if (level == 1) {
             crystalImage = new Image(
                     ServiceLocator.getResourceService().getAsset("images/crystal_level2.png", Texture.class));

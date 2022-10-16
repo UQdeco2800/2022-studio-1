@@ -88,8 +88,8 @@ public class StructureFactory {
     }
     wall.setRotation(orientation);
     BaseStructureConfig config = configs.wall;
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-        .addComponent(new ResourceCostComponent(config.gold))
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
         .getTileSize();
@@ -117,9 +117,9 @@ public class StructureFactory {
     }
     BaseStructureConfig config = configs.trap;
 
-    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
         .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
-        .addComponent(new ResourceCostComponent(config.gold))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
     return trap;
   }
@@ -131,8 +131,8 @@ public class StructureFactory {
     AITaskComponent aiTaskComponent = new AITaskComponent()
         .addTask(new ShootMultipleTask(new ArrayList<>(), 500f));
 
-    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-        .addComponent(new ResourceCostComponent(config.gold))
+    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)))
         .addComponent(aiTaskComponent);
 
@@ -163,16 +163,16 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower1 = createBaseStructure(TOWER1II, name, true);
         config = configs.tower1I;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
             .addComponent(new AOEDamageComponent(3, 2, 5000))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
 
       case 3: // Represents the second upgraded version of the tower
         tower1 = createBaseStructure(TOWER1III, name, false);
         config = configs.tower1II;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
             .addComponent(new AOEDamageComponent(5, 3, 5000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
@@ -181,9 +181,9 @@ public class StructureFactory {
         tower1 = createBaseStructure(TOWER1I, name, false);
         config = configs.tower1;
 
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
             .addComponent(new AOEDamageComponent(1, 1, 5000))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
     }
@@ -213,16 +213,16 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower2 = createBaseStructure(TOWER2II, name, false);
         config = configs.tower2I;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
             .addComponent(new AOEDamageComponent(4, 3, 4500))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
 
       case 3: // Represents the second upgraded version of the tower
         tower2 = createBaseStructure(TOWER2III, name, false);
         config = configs.tower2II;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
             .addComponent(new AOEDamageComponent(5, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
@@ -231,9 +231,9 @@ public class StructureFactory {
         tower2 = createBaseStructure(TOWER2I, name, false);
         config = configs.tower2;
 
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
             .addComponent(new AOEDamageComponent(3, 2, 4750))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
     }
@@ -264,16 +264,16 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower3 = createBaseStructure(TOWER3II, name, false);
         config = configs.tower3I;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
             .addComponent(new AOEDamageComponent(6, 3, 3750))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
 
       case 3: // Represents the second upgraded version of the tower
         tower3 = createBaseStructure(TOWER3III, name, false);
         config = configs.tower3II;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
             .addComponent(new AOEDamageComponent(7, 4, 3000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
@@ -282,9 +282,9 @@ public class StructureFactory {
         tower3 = createBaseStructure(TOWER3I, name, false);
         config = configs.tower3;
 
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
             .addComponent(new AOEDamageComponent(4, 3, 4250))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
     }
