@@ -71,8 +71,9 @@ public class AchievementInterface extends UIComponent {
     private void addActors() {
         rootTable = new Table();
         rootTable.defaults().pad(10f);
-        rootTable.setFillParent(true);
-
+        rootTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
+        rootTable.setPosition(Gdx.graphics.getWidth() / 2f - rootTable.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - rootTable.getHeight() / 2f);
         rootTable.center();
 
         Table exitTable = new Table();
@@ -99,7 +100,7 @@ public class AchievementInterface extends UIComponent {
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
 
-        contentTable.setBackground(backgroundBox);
+        rootTable.setBackground(backgroundBox);
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
