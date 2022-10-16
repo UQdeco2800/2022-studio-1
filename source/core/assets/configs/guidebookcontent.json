@@ -52,7 +52,7 @@
     "pageNumber": 7,
     "header": "Type of Buildings",
     "content": "There are a variety of buildings with different attacking and protection measures. All buildings are bought from the shop and once in play can be upgraded by clicking on the building pop-up.",
-    "image": "images/uiElements/exports/Tower Building.png",
+    "image": "images/buildings.png",
     "imagePosition": "DOWN"
   },
   {
@@ -73,7 +73,7 @@
     "pageNumber": 10,
     "header": "Currency",
     "content": "There are 3 types of currency: coins, wood, and stones. The coins are used in the shop, wood and stones are used for buying buildings.",
-    "image": "images/uiElements/exports/Money Badge.png",
+    "image": "images/achievement Badges.png",
     "imagePosition": "DOWN"
   },
   {

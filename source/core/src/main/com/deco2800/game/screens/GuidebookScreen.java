@@ -58,19 +58,12 @@ public class GuidebookScreen extends ScreenAdapter {
             "images/inventory.png",
             "images/Achievements.png",
             "images/uiElements/exports/Crystal Badge.png",
-            "images/uiElements/exports/Cup badge.png",
             "images/uiElements/exports/Enemy Villain.png",
-            "images/uiElements/exports/Money Badge.png",
             "images/uiElements/exports/Resource Building.png",
             "images/uiElements/exports/nightDay badge.png",
-            "images/uiElements/exports/upgrade building badge.png",
-            "images/uiElements/exports/wall resource building.png",
-            "images/uiElements/exports/wall resource building.png",
-            "images/uiElements/exports/wood achievement.png",
-            "images/uiElements/exports/Tower Building.png",
-            "images/uiElements/exports/Sword Badge.png",
-            "images/uiElements/exports/Sheild badge.png",
             "images/uiElements/exports/nightDay badge.png",
+            "images/achievement Badges.png",
+            "images/buildings.png"
     };
 
     public GuidebookScreen(AtlantisSinks game) {
