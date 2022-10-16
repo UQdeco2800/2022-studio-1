@@ -171,7 +171,11 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/crystalIcon.png",
           "images/upgrade500.2.png",
           "images/upgrade1500.2.png",
-          "images/attack_towers/tow1_1_l.png"
+          "images/attack_towers/tow1_1_l.png",
+          "images/upgradeFail500.png",
+          "images/upgradeFail1500.png",
+          "images/tutorials/crystalLevelPopUp.png",
+          "images/crystal2.0.png"
   };
 
   private static final String[] forestTextureAtlases = {
