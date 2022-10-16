@@ -25,6 +25,7 @@ import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -931,51 +932,53 @@ public class MainGameInterface extends UIComponent {
                   .removeBuilding(currentBuilding);
 
               group.setVisible(false);
-              ServiceLocator.getStructureService().buildTempStructure(buildingCamelName);
-              currBuildingList = getBuildingList();
+              if (ServiceLocator.getDayNightCycleService().getCurrentCycleStatus() != DayNightCycleStatus.NIGHT) {
+                ServiceLocator.getStructureService().buildTempStructure(buildingCamelName);
+                currBuildingList = getBuildingList();
 
-              if (currBuildingList.size() == 0) {
-                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currentBuilding = null;
-              } else if (currBuildingList.size() == 1) {
-                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                if (currBuildingList.size() == 0) {
+                  prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currentBuilding = null;
+                } else if (currBuildingList.size() == 1) {
+                  prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
 
-                nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currentBuilding = currBuildingList.get(0);
-                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currentBuilding));
-                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-              } else if (currBuildingList.size() == 2) {
-                prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
-                currentBuilding = currBuildingList.get(0);
-                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currentBuilding));
-                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  nextBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currentBuilding = currBuildingList.get(0);
+                  ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currentBuilding));
+                  currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                } else if (currBuildingList.size() == 2) {
+                  prevBuildingTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
+                  currentBuilding = currBuildingList.get(0);
+                  ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currentBuilding));
+                  currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-                data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currBuildingList.get(1)));
-                nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
-              } else {
-                currentBuilding = currBuildingList.get(0);
-                ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currentBuilding));
-                currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currBuildingList.get(1)));
+                  nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                } else {
+                  currentBuilding = currBuildingList.get(0);
+                  ShopBuildingConfig data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currentBuilding));
+                  currBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-                data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currBuildingList.get(1)));
-                nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currBuildingList.get(1)));
+                  nextBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
 
-                data = FileLoader.readClass(ShopBuildingConfig.class,
-                    ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
-                prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                  data = FileLoader.readClass(ShopBuildingConfig.class,
+                          ShopBuilding.getFilepath(currBuildingList.get(currBuildingList.size() - 1)));
+                  prevBuildingTexture = new Texture(Gdx.files.internal(data.itemBackgroundImagePath));
+                }
+                prevBuilding.setDrawable(new TextureRegionDrawable(prevBuildingTexture));
+
+                currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
+
+                nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
               }
-              prevBuilding.setDrawable(new TextureRegionDrawable(prevBuildingTexture));
-
-              currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
-
-              nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
             } else {
               logger.debug("No building to place!");
             }
