@@ -3,22 +3,20 @@ package com.deco2800.game.entities.factories;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.areas.terrain.TerrainFactory;
+import com.deco2800.game.components.AOEDamageComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.tasks.ShootMultipleTask;
-import com.deco2800.game.components.tasks.ShootTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
@@ -32,7 +30,6 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
-import com.badlogic.gdx.graphics.g2d.Animation;
 
 /**
  * Factory to create structure entities with predefined components.
@@ -82,10 +79,11 @@ public class StructureFactory {
   public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure(tower1Sprites[orientation], name, false); // change texture to be temp texture
+      wall = createBaseStructure(wallSprites[orientation], name, false); // change texture to be temp texture
     } else {
-      wall = createBaseStructure(tower1Sprites[orientation], name, false);
+      wall = createBaseStructure(wallSprites[orientation], name, false);
     }
+    wall.setRotation(orientation);
     BaseStructureConfig config = configs.wall;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
         .addComponent(new ResourceCostComponent(config.gold))
@@ -163,7 +161,7 @@ public class StructureFactory {
         tower1 = createBaseStructure(TOWER1II, name, true);
         config = configs.tower1I;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(3, 2, 5000))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
@@ -172,7 +170,7 @@ public class StructureFactory {
         tower1 = createBaseStructure(TOWER1III, name, false);
         config = configs.tower1II;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(5, 3, 5000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
@@ -181,7 +179,7 @@ public class StructureFactory {
         config = configs.tower1;
 
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(1, 1, 5000))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower1;
@@ -213,7 +211,7 @@ public class StructureFactory {
         tower2 = createBaseStructure(TOWER2II, name, false);
         config = configs.tower2I;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(4, 3, 4500))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
@@ -222,7 +220,7 @@ public class StructureFactory {
         tower2 = createBaseStructure(TOWER2III, name, false);
         config = configs.tower2II;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(5, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
@@ -231,7 +229,7 @@ public class StructureFactory {
         config = configs.tower2;
 
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(3, 2, 4750))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower2;
@@ -264,7 +262,7 @@ public class StructureFactory {
         tower3 = createBaseStructure(TOWER3II, name, false);
         config = configs.tower3I;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(6, 3, 3750))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
@@ -273,7 +271,7 @@ public class StructureFactory {
         tower3 = createBaseStructure(TOWER3III, name, false);
         config = configs.tower3II;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(7, 4, 3000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower3;
@@ -282,7 +280,7 @@ public class StructureFactory {
         config = configs.tower3;
 
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+            .addComponent(new AOEDamageComponent(4, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold))
             .addComponent((new HealthBarComponent(50, 10)));
         return tower3;

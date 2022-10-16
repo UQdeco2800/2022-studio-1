@@ -1,4 +1,4 @@
-package com.deco2800.game.components.npc.screens;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,7 +34,7 @@ public class MainMenuScreen extends ScreenAdapter {
   private float time;
 
   private static String[] mainMenuTextures = {
-          "images/uiElements/exports/title.png"
+      "images/uiElements/exports/title.png"
   };
 
   public MainMenuScreen(AtlantisSinks game) {
@@ -43,7 +43,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     ArrayList<String> mainTextures = new ArrayList<>(List.of(mainMenuTextures));
     for (int i = 1; i <= 55; i++) {
-      mainTextures.add("images/atlantis_background/atlantis_background ("+i+").png");
+      mainTextures.add("images/atlantis_background/atlantis_background (" + i + ").png");
     }
 
     mainMenuTextures = mainTextures.toArray(new String[0]);
@@ -66,7 +66,8 @@ public class MainMenuScreen extends ScreenAdapter {
     this.time += delta;
     if (this.time > 0.4f) {
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
-      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).getDisplay();
+      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
+          .getDisplay();
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).updateDisplay();
       this.time = delta;
     }
@@ -76,7 +77,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
   @Override
   public void resize(int width, int height) {
-    if (rootTable != null) rootTable.remove();
+    if (rootTable != null)
+      rootTable.remove();
     rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
     renderer.resize(width, height);
     logger.trace("Resized renderer: ({} x {})", width, height);
@@ -118,7 +120,8 @@ public class MainMenuScreen extends ScreenAdapter {
   }
 
   /**
-   * Creates the main menu's ui including components for rendering ui elements to the screen and
+   * Creates the main menu's ui including components for rendering ui elements to
+   * the screen and
    * capturing and handling ui input.
    */
   private void createUI() {
@@ -129,6 +132,7 @@ public class MainMenuScreen extends ScreenAdapter {
         .addComponent(new InputDecorator(stage, 10))
         .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().registerNamed("menu", ui);
-    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).getDisplay();
+    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
+        .getDisplay();
   }
 }

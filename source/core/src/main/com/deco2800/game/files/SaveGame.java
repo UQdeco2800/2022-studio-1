@@ -173,6 +173,10 @@ public class SaveGame {
         for (Entity entity: ServiceLocator.getUGSService().getStructures()) {
             if (entity.getComponent(TextureRenderComponent.class) != null || entity.getComponent(AnimationRenderComponent.class) != null) {
                 Tuple storage = new Tuple();
+                if (entity.getRotation() != -1) {
+                    storage.setRotation(entity.getRotation());
+                }
+
                 structuresList.add(storage.setName(entity.getName())
                         .setCreationMethod(entity.getCreationMethod())
                         .setPosition(entity.getPosition())
@@ -203,7 +207,8 @@ public class SaveGame {
             if (structureRepresentation.name.contains("tower")) {
                 structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, int.class, String.class, Boolean.class).invoke(null,1, structureRepresentation.name, false);
             } else if (structureRepresentation.name.contains("wall")) {
-                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class, int.class).invoke(null, structureRepresentation.name, false, 0);
+                structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class, int.class).invoke(null,
+                        structureRepresentation.name, false, structureRepresentation.rotation);
             } else {
                 structure = (Entity) StructureFactory.class.getMethod(structureRepresentation.creationMethod, String.class, Boolean.class).invoke(null, structureRepresentation.name, false);
             }
@@ -329,8 +334,6 @@ public class SaveGame {
             player.getComponent(CombatStatsComponent.class).setBaseDefense((int) d.get("defence"));
             player.getComponent(InventoryComponent.class).setWeapon((Equipments) d.get("weapon"));
             player.getComponent(InventoryComponent.class).setArmor((Equipments) d.get("armor"));
-//            player.getComponent(InventoryComponent.class)
-//                    .setBuildings((HashMap<ShopBuilding, Integer>) d.get("buildings"));
 
             player.setPosition(p.position);
             player.getComponent(PlayerStatsDisplay.class).updateResourceAmount();

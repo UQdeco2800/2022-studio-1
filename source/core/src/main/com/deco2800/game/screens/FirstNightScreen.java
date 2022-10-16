@@ -1,14 +1,13 @@
-package com.deco2800.game.components.npc.screens;
+package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.storyline.epilogueDisplay;
-import com.deco2800.game.components.storyline.storyLineAction;
+import com.deco2800.game.components.firstnight.FirstNightDisplay;
+import com.deco2800.game.components.firstnight.FirstNightActions;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
-import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.rendering.RenderService;
@@ -18,24 +17,22 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EpilogueScreen extends ScreenAdapter {
+public class FirstNightScreen extends ScreenAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(EpilogueScreen.class);
+    private static final Logger logger = LoggerFactory.getLogger(FirstNightScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    //load all the texture images
+    // load all the texture images
     private static final String[] storylineTextures = {
-            "images/StoryLine/SL_1.png",
-            "images/StoryLine/SL_2.png",
-            "images/StoryLine/SL_3.png",
-            "test/files/clearBackground.png",
+            "images/StoryLine/clearBackground.png",
+            "images/StoryLine/FirstNight.png"
     };
 
-    public EpilogueScreen(AtlantisSinks game) {
+    public FirstNightScreen(AtlantisSinks game) {
         this.game = game;
 
-        logger.debug("Initialising storyline screen services");
+        logger.debug("Initialising firstNight screen services");
         ServiceLocator.registerInputService(new InputService());
         ServiceLocator.registerResourceService(new ResourceService());
         ServiceLocator.registerEntityService(new EntityService());
@@ -71,7 +68,7 @@ public class EpilogueScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        logger.debug("Disposing epilogue screen");
+        logger.debug("Disposing first night screen");
 
         renderer.dispose();
         unloadAssets();
@@ -94,19 +91,17 @@ public class EpilogueScreen extends ScreenAdapter {
     }
 
     /**
-     * Creates the storyline UI including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {
-        logger.debug("Creating epilogue ui");
+        logger.debug("Creating storyline ui");
         Stage stage = ServiceLocator.getRenderService().getStage();
-        InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForStoryLine();
         Entity ui = new Entity();
-        ui.addComponent(new epilogueDisplay())
+        ui.addComponent(new FirstNightDisplay())
                 .addComponent(new InputDecorator(stage, 10))
-                .addComponent(inputComponent)
-                .addComponent(new storyLineAction(game));
+                .addComponent(new FirstNightActions(game));
         ServiceLocator.getEntityService().register(ui);
     }
-
 }
