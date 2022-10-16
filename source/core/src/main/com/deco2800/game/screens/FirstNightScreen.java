@@ -8,10 +8,8 @@ import com.deco2800.game.components.firstnight.FirstNightActions;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
-import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
 import com.deco2800.game.input.InputService;
-import com.deco2800.game.memento.CareTaker;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.ResourceService;
@@ -19,13 +17,13 @@ import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FirstNightScreen extends ScreenAdapter{
+public class FirstNightScreen extends ScreenAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(FirstNightScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    //load all the texture images
+    // load all the texture images
     private static final String[] storylineTextures = {
             "images/StoryLine/clearBackground.png",
             "images/StoryLine/FirstNight.png"
@@ -93,7 +91,8 @@ public class FirstNightScreen extends ScreenAdapter{
     }
 
     /**
-     * Creates the storyline UI including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {

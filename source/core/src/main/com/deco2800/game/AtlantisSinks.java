@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.deco2800.game.files.UserSettings;
 import com.deco2800.game.screens.*;
-import com.deco2800.game.screens.AchievementScreen;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,13 +61,9 @@ public class AtlantisSinks extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
-    } else if (screenType == ScreenType.SHOP || screenType == ScreenType.BUILD_SHOP
-        || screenType == ScreenType.ARTEFACT_SHOP || screenType == ScreenType.EQUIPMENT_SHOP) {
+    } else if (screenType == screenType.GUIDEBOOK) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
-    } else if (screenType ==screenType.GUIDEBOOK) {
-      Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
-    }
-    else {
+    } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
     }
     setScreen(newScreen(screenType, null));
@@ -109,14 +105,6 @@ public class AtlantisSinks extends Game {
         return new MainGameScreen(this, false);
       case SETTINGS:
         return new SettingsScreen(this, prevScreen);
-      case SHOP:
-        return new ShopScreen(this);
-      case BUILD_SHOP:
-        return new ShopBuildScreen(this);
-      case ARTEFACT_SHOP:
-        return new ShopArtefactScreen(this);
-      case EQUIPMENT_SHOP:
-        return new ShopEquipmentScreen(this);
       case FIRST_NIGHT:
         return new FirstNightScreen(this);
       case STORY_LINE_EPILOGUE:
@@ -133,8 +121,8 @@ public class AtlantisSinks extends Game {
   }
 
   public enum ScreenType {
-    MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, SHOP, BUILD_SHOP, ARTEFACT_SHOP,
-    EQUIPMENT_SHOP, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK, MAIN_GAME_LOAD, ACHIEVEMENT
+    MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK,
+    MAIN_GAME_LOAD, ACHIEVEMENT
   }
 
   /**

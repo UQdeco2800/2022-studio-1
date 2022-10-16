@@ -130,6 +130,7 @@ public class Memento {
      * @return - current armor
      */
     public Equipments getArmor() {return armor;}
+
     /**
      * retrieve the list of artefact items saved in the memento
      * 

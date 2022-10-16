@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainTile;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
@@ -90,6 +89,26 @@ public class UGS {
     }
 
     public String getStringByEntity(Entity entity) {
+//        //getting position, conversions
+//        Vector2 pos = entity.getPosition();
+//        GridPoint2 coord = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+//                        .worldToTilePosition(pos.x, pos.y);
+//        String tilePos = generateCoordinate(coord.x, coord.y);
+//        Entity tileEntity = tiles.get(tilePos).getEntity();
+//        //check the tile at entity's center position to see if it contains the entity
+//        if (tileEntity != null && tileEntity.equals(entity)) {
+//            return tilePos;
+//        } else {
+//            //check the tiles around that tile, just in case
+//            for (GridPoint2 coord2 : getSurroundingTiles(coord, "environmentalObject").keySet()) {
+//                tilePos = generateCoordinate(coord2.x, coord2.y);
+//                tileEntity = tiles.get(tilePos).getEntity();
+//                if (tileEntity != null && tileEntity.equals((entity))) {
+//                    return tilePos;
+//                }
+//            }
+//        }
+//        return null;
         for (String tilePos : tiles.keySet()) {
             if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
                 return tilePos;
@@ -322,10 +341,10 @@ public class UGS {
      * {x-1, y-1}
      * 
      * @param currentPosition String
-     * @param yDirection      Boolean
      * @param xDirection      Boolean
+     * @param yDirection      Boolean
      */
-    public void moveEntity(Entity entity, GridPoint2 currentPosition, int xDirection, int yDirection) {
+    public void moveEntity(Entity entity, GridPoint2 currentPosition, float xDirection, float yDirection) {
 
         String oldPosKey = generateCoordinate(currentPosition.x, currentPosition.y);
 
@@ -343,7 +362,6 @@ public class UGS {
                     .getComponent(TerrainComponent.class)
                     .tileToWorldPosition((int) newPosition.x, (int) newPosition.y);
             entity.tweenPosition(newWorldPos);
-            System.out.println(newPosition.toString());
 
         }
 
