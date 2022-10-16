@@ -28,10 +28,11 @@ public class AOEDamageComponent extends Component {
         private int updateRate = 5000; // time inbetween each update
         private long lastUpdate = 0;
 
-        public AOEDamageComponent(short targetLayer, int numTargets, int radiusRange) {
+        public AOEDamageComponent(int numTargets, int radiusRange, int attackRate) {
                 this.targetLayer = targetLayer;
                 this.numTargets = numTargets;
                 this.rangeRadius = radiusRange;
+                this.updateRate = attackRate;
 
                 targets = new Entity[numTargets];
 
