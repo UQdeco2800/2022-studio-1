@@ -194,10 +194,6 @@ public class StructureService extends EntityService {
       }
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
       ServiceLocator.getUGSService().addStructure(structure);
-      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
-      worldPosition.x -= tileSize/4;
-      worldPosition.y -= tileSize/8;
-      structure.setPosition(worldPosition);
       return true;
     }
     return false;

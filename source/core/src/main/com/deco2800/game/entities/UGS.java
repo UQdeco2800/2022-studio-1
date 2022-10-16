@@ -152,8 +152,15 @@ public class UGS {
                 }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                System.out.println(entity.getClass());
-                entity.setPosition(entityWorldPos);
+                if (entityName.contains("wall") || entityName.contains("tower1") || entityName.contains("tower2") || entityName.contains("tower3")
+                || entityName.contains("turret") || entityName.contains("trap")) {
+                    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+                    entityWorldPos.x -= tileSize/4;
+                    entityWorldPos.y -= tileSize/8;
+                    entity.setPosition(entityWorldPos);
+                } else {
+                    entity.setPosition(entityWorldPos);
+                }
 
                 String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
                 tiles.get(stringCoord).setEntity(entity);

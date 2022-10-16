@@ -227,7 +227,7 @@ public class StructureFactory {
    * @param level of the tower
    * @return tower2 entity
    */
-  public static Entity createTower2(int level, String name, Boolean isTemp) {
+  public static Entity createTower2(int level, String name, Boolean isTemp, int orientation) {
     // @TODO Change string constant
     String TOWER2I;
     if (isTemp) {
@@ -246,6 +246,7 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower2 = createBaseStructure(TOWER2II, name, false);
         config = configs.tower2I;
+        config.orientation = orientation;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new AOEDamageComponent(4, 3, 4500))
             .addComponent(new ResourceCostComponent(config.gold))
@@ -259,6 +260,7 @@ public class StructureFactory {
       case 3: // Represents the second upgraded version of the tower
         tower2 = createBaseStructure(TOWER2III, name, false);
         config = configs.tower2II;
+        config.orientation = orientation;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new AOEDamageComponent(5, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
@@ -271,7 +273,7 @@ public class StructureFactory {
       default:
         tower2 = createBaseStructure(TOWER2I, name, false);
         config = configs.tower2;
-
+        config.orientation = orientation;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
             .addComponent(new AOEDamageComponent(3, 2, 4750))
             .addComponent(new ResourceCostComponent(config.gold))
