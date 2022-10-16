@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -31,11 +32,6 @@ public class AchievementInterface extends UIComponent {
     public static final String EVENT_OPEN_ACHIEVEMENTS = "achievement";
 
     /**
-     * Event string for exit button press
-     */
-    public static final String EVENT_EXIT_BUTTON_CLICKED = "exitButtonClicked";
-
-    /**
      * Logger for the AchievementBaseDisplay class
      */
     private static final Logger logger = LoggerFactory.getLogger(AchievementInterface.class);
@@ -43,7 +39,7 @@ public class AchievementInterface extends UIComponent {
     /**
      * Table for displaying all screen content
      */
-    private Table rootTable;
+    private Group group;
 
     /**
      * Table for containing all achievement badges
@@ -69,12 +65,20 @@ public class AchievementInterface extends UIComponent {
      * Adds content tables to the resource stage
      */
     private void addActors() {
-        rootTable = new Table();
-        rootTable.defaults().pad(30f);
-        rootTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
-        rootTable.setPosition(Gdx.graphics.getWidth() / 2f - rootTable.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - rootTable.getHeight() / 2f);
-        rootTable.center();
+        group = new Group();
+        Table backgroundTable = new Table();
+
+        Table content = new Table();
+        content.setFillParent(true);
+        content.center();
+        content.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
+        content.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
+
+        // Setup background for achievements
+        backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
+        backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
 
         this.navigationTable = new Table();
         navigationTable.defaults().pad(10f);
@@ -86,20 +90,20 @@ public class AchievementInterface extends UIComponent {
         // Title
         Label title = new Label("Achievements", skin, "title");
         title.setFontScale(2f);
-        title.setAlignment(Align.center);
-        rootTable.add(title).expandX().pad(60f, 0f, 50f, 0f);
+        title.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
+                Gdx.graphics.getHeight() * 0.85f - 110f);
 
         // Background Colour
         Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png")); // _1348x888
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png"));
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
-        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png")); //
+        Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png"));
         Drawable tabBackgroundBox = new TextureRegionDrawable(tabBackground);
 
-        rootTable.setBackground(backgroundBox);
+        backgroundTable.setBackground(backgroundBox);
         navigationTable.setBackground(tabBackgroundBox);
         displayTable.setBackground(badgeBackgroundBox);
 
@@ -164,7 +168,9 @@ public class AchievementInterface extends UIComponent {
 
         this.addButtonEvent(backButton, "Exit");
 
-        rootTable.add(backButton).size(40f).pad(60f);
+        group.addActor(backgroundTable);
+        group.addActor(backButton);
+        group.addActor(title);
 
         // Display main content
         displayTable.align(Align.top);
@@ -175,20 +181,20 @@ public class AchievementInterface extends UIComponent {
         contentTable.add(navigationTable).colspan(2).expand().pad(0f);
         contentTable.add(displayTable).colspan(6).expand().pad(0f);
 
-        rootTable.row();
-        rootTable.add(contentTable).colspan(8).expand().pad(30f);
+        content.add(contentTable).colspan(8).expand().pad(30f);
+        group.addActor(content);
 
-        rootTable.setVisible(false);
-        stage.addActor(rootTable);
+        group.setVisible(false);
+        stage.addActor(group);
         stage.setDebugAll(true);
     }
 
     private void openAchievements() {
-        rootTable.setVisible(true);
+        group.setVisible(true);
     }
 
     private void closeAchievements() {
-        rootTable.setVisible(false);
+        group.setVisible(false);
     }
 
     @Override
@@ -199,7 +205,7 @@ public class AchievementInterface extends UIComponent {
     @Override
     public void dispose() {
         super.dispose();
-        rootTable.clear();
+        group.clear();
     }
 
     /**
@@ -330,7 +336,6 @@ public class AchievementInterface extends UIComponent {
         descriptionLabel.setFontScale(0.7f);
         achievementCard.add(descriptionLabel).colspan(3).expandX();
         achievementCard.row();
-
 
         Label tempLabel;
 
