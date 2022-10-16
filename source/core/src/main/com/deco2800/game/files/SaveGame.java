@@ -103,63 +103,6 @@ public class SaveGame {
         logger.debug("Finished Loading Environment");
     }
 
-    /**
-     * Helper method that generates a map mapping textures to each corresponding
-     * creator method in obstacle factory
-     *
-     * @throws NoSuchMethodException if the method doesnt exist or has been changed
-     */
-    private static void environmentalGenerationSetUp() throws NoSuchMethodException {
-        environmentalGeneration.put("images/shipWreckBack.png", ObstacleFactory.class.getMethod("createShipwreckBack"));
-        environmentalGeneration.put("images/shipWreckFront.png",
-                ObstacleFactory.class.getMethod("createShipwreckFront"));
-        environmentalGeneration.put("images/65x33_tiles/shell.png", ObstacleFactory.class.getMethod("createShell"));
-        environmentalGeneration.put("images/landscape_objects/wooden-fence-60x60.png",
-                ObstacleFactory.class.getMethod("createWoodenFence"));
-        environmentalGeneration.put("images/landscape_objects/pillar.png",
-                ObstacleFactory.class.getMethod("createPillar"));
-        environmentalGeneration.put("images/landscape_objects/billboard.png",
-                ObstacleFactory.class.getMethod("createBillboard"));
-        environmentalGeneration.put("images/landscape_objects/geyser.png",
-                ObstacleFactory.class.getMethod("createGeyser"));
-        environmentalGeneration.put("images/landscape_objects/cypress-tree-60x100.png",
-                ObstacleFactory.class.getMethod("createSpikyTree"));
-        environmentalGeneration.put("images/landscape_objects/vines.png",
-                ObstacleFactory.class.getMethod("createVine"));
-        environmentalGeneration.put("images/landscape_objects/limestone-boulder-60x60.png",
-                ObstacleFactory.class.getMethod("createRock", String.class));
-        environmentalGeneration.put("images/landscape_objects/marble-stone-60x40.png",
-                ObstacleFactory.class.getMethod("createRock", String.class));
-        environmentalGeneration.put("images/landscape_objects/leftPalmTree.png",
-                ObstacleFactory.class.getMethod("createTree", String.class));
-        environmentalGeneration.put("images/landscape_objects/rightPalmTree.png",
-                ObstacleFactory.class.getMethod("createTree", String.class));
-        environmentalGeneration.put("images/landscape_objects/groupPalmTrees.png",
-                ObstacleFactory.class.getMethod("createTree", String.class));
-    }
-
-    /**
-     * Helper method that generates a map for textures to corresponding creator
-     * method in obstacle factory
-     *
-     * @throws NoSuchMethodException if the method does not exist
-     */
-    private static void structureGenerationSetUp() throws NoSuchMethodException {
-        structureGeneration.put("images/TOWER1I.png", StructureFactory.class.getMethod("createTower1", int.class));
-        structureGeneration.put("images/TOWER1II.png", StructureFactory.class.getMethod("createTower1", int.class));
-        structureGeneration.put("images/TOWER1III.png", StructureFactory.class.getMethod("createTower1", int.class));
-        structureGeneration.put("images/TOWER2I.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWER2II.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWRER2III.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWER2III.png", StructureFactory.class.getMethod("createTower2", int.class));
-        structureGeneration.put("images/TOWER3I.png", StructureFactory.class.getMethod("createTower3", int.class));
-        structureGeneration.put("images/TOWER3II.png", StructureFactory.class.getMethod("createTower3", int.class));
-        structureGeneration.put("images/TOWER3III.png", StructureFactory.class.getMethod("createTower3", int.class));
-        structureGeneration.put("images/trap.png", StructureFactory.class.getMethod("createTrap"));
-        structureGeneration.put("images/Wall-right.png", StructureFactory.class.getMethod("createWall"));
-        structureGeneration.put("wood", ResourceBuildingFactory.class.getMethod("createWoodCutter"));
-        structureGeneration.put("stoneQuarry", ResourceBuildingFactory.class.getMethod("createStoneQuarry"));
-    }
 
     /**
      * Save all structures

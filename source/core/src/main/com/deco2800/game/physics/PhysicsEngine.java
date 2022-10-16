@@ -40,6 +40,9 @@ public class PhysicsEngine implements Disposable {
   }
 
   public void update() {
+    if (ServiceLocator.getEntityService() != null) {
+      ServiceLocator.getEntityService().setCurrentWorldStep(true);
+    }
     // Updating physics isn't as easy as triggering an update every frame. Each frame could take a
     // different amount of time to run, but physics simulations are only stable if computed at a
     // consistent frame rate! See: https://gafferongames.com/post/fix_your_timestep/
@@ -52,6 +55,9 @@ public class PhysicsEngine implements Disposable {
     while (accumulator >= PHYSICS_TIMESTEP) {
       world.step(PHYSICS_TIMESTEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
       accumulator -= PHYSICS_TIMESTEP;
+    }
+    if (ServiceLocator.getEntityService() != null) {
+      ServiceLocator.getEntityService().setCurrentWorldStep(false);
     }
   }
 

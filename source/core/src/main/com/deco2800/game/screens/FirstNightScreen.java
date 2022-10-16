@@ -6,11 +6,8 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.firstnight.FirstNightDisplay;
 import com.deco2800.game.components.firstnight.FirstNightActions;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputDecorator;
-import com.deco2800.game.input.InputService;
-import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
@@ -33,10 +30,10 @@ public class FirstNightScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising firstNight screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
+//        ServiceLocator.registerInputService(new InputService());
+//        ServiceLocator.registerResourceService(new ResourceService());
+//        ServiceLocator.registerEntityService(new EntityService());
+//        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
 
@@ -71,10 +68,10 @@ public class FirstNightScreen extends ScreenAdapter {
         logger.debug("Disposing first night screen");
 
         renderer.dispose();
-        unloadAssets();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
+//        unloadAssets();
+//        ServiceLocator.getRenderService().dispose();
+//        ServiceLocator.getEntityService().dispose();
+//        ServiceLocator.clear();
     }
 
     private void loadAssets() {
