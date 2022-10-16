@@ -3,77 +3,84 @@ size: 800, 1800
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-frame 1
+default
   rotate: false
   xy: 0, 0
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 2
+frame
+  rotate: false
+  xy: 0, 0
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
   rotate: false
   xy: 400, 0
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 3
+frame
   rotate: false
   xy: 0, 300
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 4
+frame
   rotate: false
   xy: 400, 300
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 5
+frame
   rotate: false
   xy: 0, 600
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 6
+frame
   rotate: false
   xy: 400, 600
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 7
+frame
   rotate: false
   xy: 0, 900
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 8
+frame
   rotate: false
   xy: 400, 900
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 9
+frame
   rotate: false
   xy: 0, 1200
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 10
+frame
   rotate: false
   xy: 400, 1200
   size: 400, 300
   orig: 400, 300
   offset: 0, 0
   index: -1
-frame 11
+frame
   rotate: false
   xy: 0, 1500
   size: 400, 300
