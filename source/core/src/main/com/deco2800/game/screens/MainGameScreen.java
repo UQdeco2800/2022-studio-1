@@ -8,6 +8,7 @@ import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.DayNightClockComponent;
+import com.deco2800.game.components.achievements.AchievementInterface;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
@@ -160,6 +161,15 @@ public class MainGameScreen extends ScreenAdapter {
     ServiceLocator.getEntityService().update();
     ServiceLocator.getStructureService().update();
     renderer.render();
+
+    // delete entities MUST BE DONE HERE DUE TO CONCURRENCY ISSUES
+    if (ServiceLocator.getEntityService() != null) {
+      if (!ServiceLocator.getEntityService().getCurrentWorldStep()) {
+        for (Entity e : ServiceLocator.getEntityService().getToDestroyEntities()) {
+          e.dispose();
+        }
+      }
+    }
   }
 
   @Override
@@ -234,6 +244,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new AchievementPopupComponent())
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
+        .addComponent(new AchievementInterface())
         .addComponent(new ShopInterface())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
