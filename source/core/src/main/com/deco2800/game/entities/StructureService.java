@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
+import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
@@ -198,7 +200,6 @@ public class StructureService extends EntityService {
 
         default:
           return false;
-
       }
 
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
@@ -358,35 +359,81 @@ public class StructureService extends EntityService {
     }
   }
 
-
   public static void setUiPopUp(int screenX, int screenY) {
     //getting the building location on the map
-
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    // building name
-
+            .worldToTilePosition(mousePosV2.x, mousePosV2.y);
     //if UI is false on click then the pop-up should appear
-      if (!uiIsVisible) {
-        try {
-          String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
+    if (!uiIsVisible) {
+      try {
+        String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
 
-          uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-                  .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
-          uiIsVisible = true;
-          // else the pop-up will be removed
-        } catch (NullPointerException e) {
-          logger.debug("Error with UGS having building null");
-        }
-      } else {
-        uiPopUp.remove();
-        uiIsVisible = false;
+        uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
+                .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+        uiIsVisible = true;
+
+        // else the pop-up will be removed
+      } catch(NullPointerException e) {
+        logger.debug("Null error in UGS, you did not click a building");
       }
+    } else {
+      uiPopUp.remove();
+      uiIsVisible = false;
     }
+  }
 
+  public String SellBuilding(String buildingName, GridPoint2 entityCords) {
+    Entity clickedStructure = ServiceLocator.getUGSService().getEntity(entityCords);
+    int health = clickedStructure.getComponent(CombatStatsComponent.class).getHealth();
+
+    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    int stone = 0;
+    int wood = 0;
+
+
+   if (health < 10) {
+     stone = 10;
+     wood = 4;
+     player.getComponent(InventoryComponent.class).addStone(10);
+     player.getComponent(InventoryComponent.class).addWood(4);
+
+   } else if (health < 20) {
+     stone = 20;
+     wood = 8;
+
+   }else if( health < 30) {
+     stone = 30;
+     wood = 5;
+   }else if(health < 40) {
+     stone = 40;
+     wood = 8;
+
+   }else if (health < 50) {
+     stone = 50;
+     wood = 10;
+
+   }else if (health < 60) {
+     stone = 60;
+     wood = 15;
+
+   } else if (health < 70) {
+     stone = 70;
+     wood = 20;
+   }else if (health < 80) {
+     stone = 80;
+     wood = 25;
+
+
+   }else if (health < 90) {
+     stone = 90;
+     wood = 30;
+   }
+    String stoneAndWood = stone + "," + wood;
+    return stoneAndWood;
+  }
 
 }

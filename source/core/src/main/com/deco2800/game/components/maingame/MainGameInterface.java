@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
@@ -429,75 +432,143 @@ public class MainGameInterface extends UIComponent {
     placeButton.setPosition(rightBox.getX() + 120f, rightBox.getY() + 135f);
 
     // Entering the Shop Button
-    Texture shopTexture = new Texture(Gdx.files.internal("images/Shop.png"));
+    Texture shopTexture = new Texture(Gdx.files.internal("images/shop.png"));
+    Texture shopTextureOnClick = new Texture(Gdx.files.internal("images/shop_onClick.png"));
     TextureRegionDrawable upShop = new TextureRegionDrawable(shopTexture);
     TextureRegionDrawable downShop = new TextureRegionDrawable(shopTexture);
-    ImageButton shopButton = new ImageButton(upShop, downShop);
+    TextureRegionDrawable shopChecked = new TextureRegionDrawable(shopTextureOnClick);
+    ImageButton shopButton = new ImageButton(upShop, downShop, shopChecked);
+
+    shopButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                shopButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                shopButton.setChecked(false);
+              }
+            });
+
 
     // Entering the Inventory Button -- need to add the inventory button
     Texture inventoryTexture = new Texture(Gdx.files.internal("images/inventory.png"));
+    Texture inventoryOnClickTexture = new Texture(Gdx.files.internal("images/inventory_OnClick.png"));
     TextureRegionDrawable downInventory = new TextureRegionDrawable(inventoryTexture);
     TextureRegionDrawable upInventory = new TextureRegionDrawable(inventoryTexture);
-    ImageButton inventoryButton = new ImageButton(upInventory, downInventory);
+    TextureRegionDrawable inventoryChecked = new TextureRegionDrawable(inventoryOnClickTexture);
+    ImageButton inventoryButton = new ImageButton(upInventory, downInventory, inventoryChecked);
+
+    inventoryButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                inventoryButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                inventoryButton.setChecked(false);
+              }
+            });
 
     // the achievements button
-    Texture achievementsTexture = new Texture(Gdx.files.internal("images/Achievements.png"));
+    Texture achievementsTexture = new Texture(Gdx.files.internal("images/achievemnets_onclick.png"));
+    Texture achievementsTextureOnClick = new Texture(Gdx.files.internal("images/Achievements.png"));
     TextureRegionDrawable upAchievements = new TextureRegionDrawable(achievementsTexture);
     TextureRegionDrawable downAchievements = new TextureRegionDrawable(achievementsTexture);
-    ImageButton achievementsButton = new ImageButton(upAchievements, downAchievements);
+    TextureRegionDrawable achievementsChecked = new TextureRegionDrawable(achievementsTextureOnClick);
+    ImageButton achievementsButton = new ImageButton(upAchievements, downAchievements, achievementsChecked);
+
+
+    //Adds hover state to achievements
+    achievementsButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+               achievementsButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                achievementsButton.setChecked(false);
+              }
+            });
 
     // Guidebook button
-    Texture guideBookTexture = new Texture(Gdx.files.internal("images/uiElements/exports/help-button.png"));
+    Texture guideBookTexture = new Texture(Gdx.files.internal("images/guidebook.png"));
+    Texture guideBookTextureCheck = new Texture(Gdx.files.internal("images/guideBookCheck.png"));
     TextureRegionDrawable upGuidebook = new TextureRegionDrawable(guideBookTexture);
     TextureRegionDrawable downGuidebook = new TextureRegionDrawable(guideBookTexture);
-    ImageButton guideBookButton = new ImageButton(upGuidebook, downGuidebook);
+    TextureRegionDrawable guidebookCheck = new TextureRegionDrawable(guideBookTextureCheck);
+    ImageButton guideBookButton = new ImageButton(upGuidebook, downGuidebook, guidebookCheck);
+
+    //Adds hover state to achievements
+    guideBookButton.addListener(
+            new InputListener() {
+              @Override
+              public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                guideBookButton.setChecked(true);
+              }
+
+              @Override
+              public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                guideBookButton.setChecked(false);
+              }
+            });
 
     // trigger for guidebook
-    guideBookButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+    guideBookButton.addListener(  new ClickListener() {
+      @Override
+      public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Guidebook button clicked");
             entity.getEvents().trigger("guideBook");
+            return true;
           }
         });
 
     // Triggers an event when the button is pressed.
     inventoryButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Inventory button clicked");
             entity.getEvents().trigger("closeAll");
             group.setVisible(true);
+            return true;
           }
         });
 
     // Trigger for an achievement
     achievementsButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+                    new ClickListener() {
+                      @Override
+                      public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Achievement button clicked");
             entity.getEvents().trigger("closeAll");
             entity.getEvents().trigger("achievement");
+            return true;
           }
         });
 
     // trigger for shop button
     shopButton.addListener(
-        new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent changeEvent, Actor actor) {
+            new ClickListener() {
+              @Override
+              public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Shop button clicked");
             group.setVisible(false);
             entity.getEvents().trigger("closeAll");
             entity.getEvents().trigger("shop");
             ((ForestGameArea) MainArea.getInstance().getGameArea()).playShopMusic();
+            return true;
           }
         });
 
     rightSideTable.add(guideBookButton).right().bottom().size(100f, 100f);
+
     crossFrame.addListener(
         new ChangeListener() {
           @Override
@@ -910,6 +981,8 @@ public class MainGameInterface extends UIComponent {
             }
           }
         });
+
+    rightSideTable.add(guideBookButton).right().bottom().size(100f, 100f);
 
     rightSideTable.add(inventoryButton).right().bottom().size(150f, 150f);
     // adding building button to the right
