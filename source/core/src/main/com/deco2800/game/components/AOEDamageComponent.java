@@ -149,10 +149,6 @@ public class AOEDamageComponent extends Component {
                                 circlePoints.add(new GridPoint2(entry.getKey().intValue(), i));
                         }
 
-                        for (int i = 0; i < circlePoints.size(); i++) {
-                                System.out.println(circlePoints.get(i));
-                        }
-
                 }
 
                 return circlePoints;
@@ -171,11 +167,9 @@ public class AOEDamageComponent extends Component {
                 for (int i = 0; i < numTargets; i++) {
 
                         if (targets[i] == null) {
-                                System.out.println("Null target");
                                 continue;
                         }
                         targets[i].getComponent(CombatStatsComponent.class).hit(combatStats);
-                        System.out.println("Damaged Target");
                 }
         }
 

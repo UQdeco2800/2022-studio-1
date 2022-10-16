@@ -171,7 +171,6 @@ public class StructureService extends EntityService {
 
         case "tower1":
           structure = StructureFactory.createTower1(1, entityName, false);
-          System.out.println("Tower built at: " + gridPos);
           break;
 
         case "tower2":
