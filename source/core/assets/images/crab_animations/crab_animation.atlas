@@ -1,0 +1,89 @@
+crab_animation.png
+size: 800, 1800
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 0, 0
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 400, 0
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 0, 300
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 400, 300
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 0, 600
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 400, 600
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 0, 900
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 400, 900
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 0, 1200
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 400, 1200
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 0, 1500
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
