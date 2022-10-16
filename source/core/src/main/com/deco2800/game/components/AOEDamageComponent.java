@@ -94,6 +94,7 @@ public class AOEDamageComponent extends Component {
                                 }
                         }
                 }
+
         }
 
         private ArrayList<GridPoint2> generateCircle(GridPoint2 c) {
@@ -133,6 +134,7 @@ public class AOEDamageComponent extends Component {
                         int max = l.get(l.size() - 1).intValue();
 
                         for (int i = 0; i < l.size(); i++) {
+
                                 if (l.get(i).intValue() < min) {
                                         min = l.get(i).intValue();
                                         continue;
@@ -145,6 +147,10 @@ public class AOEDamageComponent extends Component {
 
                         for (int i = min; i <= max; i++) {
                                 circlePoints.add(new GridPoint2(entry.getKey().intValue(), i));
+                        }
+
+                        for (int i = 0; i < circlePoints.size(); i++) {
+                                System.out.println(circlePoints.get(i));
                         }
 
                 }
@@ -163,9 +169,13 @@ public class AOEDamageComponent extends Component {
 
         private void damageTargets() {
                 for (int i = 0; i < numTargets; i++) {
-                        if (targets[i] == null)
+
+                        if (targets[i] == null) {
+                                System.out.println("Null target");
                                 continue;
+                        }
                         targets[i].getComponent(CombatStatsComponent.class).hit(combatStats);
+                        System.out.println("Damaged Target");
                 }
         }
 
