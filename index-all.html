@@ -970,12 +970,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a tower1 entity.</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower2(int,java.lang.String,java.lang.Boolean)" class="member-name-link">createTower2(int, String, Boolean)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower2(int,java.lang.String,java.lang.Boolean,int)" class="member-name-link">createTower2(int, String, Boolean, int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a tower2 entity, adding various components to create a defensive
  tower</div>
 </dd>
-<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower3(int,java.lang.String,java.lang.Boolean)" class="member-name-link">createTower3(int, String, Boolean)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
+<dt><a href="com/deco2800/game/entities/factories/StructureFactory.html#createTower3(int,java.lang.String,java.lang.Boolean,int)" class="member-name-link">createTower3(int, String, Boolean, int)</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/StructureFactory.html" title="class in com.deco2800.game.entities.factories">StructureFactory</a></dt>
 <dd>
 <div class="block">Creates a tower3 entity, and adds various components to create a defensive
  tower.</div>
@@ -2254,6 +2254,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.html#getObstacle()" class="member-name-link">getObstacle()</a> - Method in class com.deco2800.game.components.Environmental.<a href="com/deco2800/game/components/Environmental/EnvironmentalComponent.html" title="class in com.deco2800.game.components.Environmental">EnvironmentalComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/infrastructure/OrientationComponent.html#getOrientation()" class="member-name-link">getOrientation()</a> - Method in class com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/OrientationComponent.html" title="class in com.deco2800.game.components.infrastructure">OrientationComponent</a></dt>
+<dd>
+<div class="block">get the orientation of the entity</div>
+</dd>
 <dt><a href="com/deco2800/game/physics/PhysicsService.html#getPhysics()" class="member-name-link">getPhysics()</a> - Method in class com.deco2800.game.physics.<a href="com/deco2800/game/physics/PhysicsService.html" title="class in com.deco2800.game.physics">PhysicsService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/ServiceLocator.html#getPhysicsService()" class="member-name-link">getPhysicsService()</a> - Static method in class com.deco2800.game.services.<a href="com/deco2800/game/services/ServiceLocator.html" title="class in com.deco2800.game.services">ServiceLocator</a></dt>
@@ -3313,6 +3317,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/BaseStructureConfig.html#orientation" class="member-name-link">orientation</a> - Variable in class com.deco2800.game.entities.configs.<a href="com/deco2800/game/entities/configs/BaseStructureConfig.html" title="class in com.deco2800.game.entities.configs">BaseStructureConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/infrastructure/OrientationComponent.html" class="type-name-link" title="class in com.deco2800.game.components.infrastructure">OrientationComponent</a> - Class in <a href="com/deco2800/game/components/infrastructure/package-summary.html">com.deco2800.game.components.infrastructure</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/infrastructure/OrientationComponent.html#%3Cinit%3E(int)" class="member-name-link">OrientationComponent(int)</a> - Constructor for class com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/OrientationComponent.html" title="class in com.deco2800.game.components.infrastructure">OrientationComponent</a></dt>
+<dd>
+<div class="block">orientation component constructor
+ initializes entity orientation</div>
+</dd>
 <dt><a href="com/deco2800/game/memento/Originator.html" class="type-name-link" title="class in com.deco2800.game.memento">Originator</a> - Class in <a href="com/deco2800/game/memento/package-summary.html">com.deco2800.game.memento</a></dt>
 <dd>
 <div class="block">Part of the memento design pattern, originator is the object to store the
@@ -4219,6 +4230,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/ui/terminal/Terminal.html#setOpen()" class="member-name-link">setOpen()</a> - Method in class com.deco2800.game.ui.terminal.<a href="com/deco2800/game/ui/terminal/Terminal.html" title="class in com.deco2800.game.ui.terminal">Terminal</a></dt>
 <dd>
 <div class="block">Opens the terminal.</div>
+</dd>
+<dt><a href="com/deco2800/game/components/infrastructure/OrientationComponent.html#setOrientation(int)" class="member-name-link">setOrientation(int)</a> - Method in class com.deco2800.game.components.infrastructure.<a href="com/deco2800/game/components/infrastructure/OrientationComponent.html" title="class in com.deco2800.game.components.infrastructure">OrientationComponent</a></dt>
+<dd>
+<div class="block">set the orientation of a structure</div>
 </dd>
 <dt><a href="com/deco2800/game/physics/components/PhysicsMovementComponent.html#setOriginalSpeed(com.badlogic.gdx.math.Vector2)" class="member-name-link">setOriginalSpeed(Vector2)</a> - Method in class com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/PhysicsMovementComponent.html" title="class in com.deco2800.game.physics.components">PhysicsMovementComponent</a></dt>
 <dd>
