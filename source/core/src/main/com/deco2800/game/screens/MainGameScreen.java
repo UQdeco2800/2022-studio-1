@@ -91,7 +91,14 @@ public class MainGameScreen extends ScreenAdapter {
       "images/crystalhealth4.png",
       "images/crystalIcon.png",
       "images/upgrade500.2.png",
-      "images/upgrade1500.2.png"
+      "images/upgrade1500.2.png",
+      "images/attack_towers/tow1_1_l.png",
+      "images/attack_towers/tow1_1_r.png",
+      "images/attack_towers/tow1_2_l.png",
+      "images/attack_towers/tow1_2_r.png",
+      "images/attack_towers/tow1_3_l.png",
+      "images/attack_towers/tow1_3_r.png",
+      "images/attack_towers/tow2_2_l.gif"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
