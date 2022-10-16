@@ -70,7 +70,7 @@ public class AchievementInterface extends UIComponent {
      */
     private void addActors() {
         rootTable = new Table();
-        rootTable.defaults().pad(10f);
+        rootTable.defaults().pad(30f);
         rootTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
         rootTable.setPosition(Gdx.graphics.getWidth() / 2f - rootTable.getWidth() / 2f,
                 Gdx.graphics.getHeight() / 2f - rootTable.getHeight() / 2f);
@@ -159,6 +159,10 @@ public class AchievementInterface extends UIComponent {
         TextureRegionDrawable checkedBack = new TextureRegionDrawable(backTextureHover);
         ImageButton backButton = new ImageButton(upBack, downBack, checkedBack);
 
+        backButton.setSize(40f, 40f);
+        backButton.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
+                Gdx.graphics.getHeight() * 0.85f -70f);
+
         this.addButtonEvent(backButton, "Exit");
 
         exitTable.add(backButton).expand().right().top().size(50f).pad(5);
@@ -180,7 +184,7 @@ public class AchievementInterface extends UIComponent {
 
         rootTable.setVisible(false);
         stage.addActor(rootTable);
-        // stage.setDebugAll(true);
+        stage.setDebugAll(true);
     }
 
     private void openAchievements() {

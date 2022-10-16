@@ -111,8 +111,6 @@ public class AtlantisSinks extends Game {
         return new EpilogueScreen(this);
       case GUIDEBOOK:
         return new GuidebookScreen(this);
-      //case ACHIEVEMENT:
-      //  return new AchievementScreen(this);
       case MAIN_GAME_LOAD:
         return new MainGameScreen(this, true);
       default:
@@ -122,7 +120,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK,
-    MAIN_GAME_LOAD, ACHIEVEMENT
+    MAIN_GAME_LOAD
   }
 
   /**
