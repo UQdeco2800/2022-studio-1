@@ -104,9 +104,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     } else {
       return false;
     }
-    } else {
-      return false;
-    }
   }
 
   /**

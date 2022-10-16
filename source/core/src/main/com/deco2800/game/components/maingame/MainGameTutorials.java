@@ -245,12 +245,13 @@ public class MainGameTutorials extends UIComponent {
     //remove the player control prompt after the user has pressed the buttons
     private void onPlayerControl(String controlType) {
         switch (controlType) {
-            case "UP": up = true;
-            case "DOWN": down = true;
-            case "LEFT": left = true;
-            case "RIGHT": right = true;
-            case "SPACE": space = true;
+            case "UP" -> up = true;
+            case "DOWN" -> down = true;
+            case "LEFT" -> left = true;
+            case "RIGHT" -> right = true;
+            case "SPACE" -> space = true;
         }
+        
         if (up && down && right && left && space) {
             control.clear();
             playerControlComp = false;
