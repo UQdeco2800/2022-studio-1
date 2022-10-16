@@ -140,7 +140,8 @@ public class SaveGameTest {
             "images/attack_towers/tow1_2_r.png",
             "images/attack_towers/tow1_3_l.png",
             "images/attack_towers/tow1_3_r.png",
-            "images/attack_towers/tow2_2_l.gif"
+            "images/attack_towers/tow2_2_l.gif",
+            "images/TOWER3I.png"
     };
 
     private final String[] clockSprites = {
