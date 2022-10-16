@@ -60,6 +60,11 @@ public class StructureFactory {
   "images/attack_towers/tow1_1_r.png"}, {"images/attack_towers/tow1_2_l.png",
           "images/attack_towers/tow1_2_r.png"}, {"images/attack_towers/tow1_3_l.png",
           "images/attack_towers/tow1_3_r.png"} };
+  private static String[] tempTower2Sprites = {};
+  private static String[][] tower2Sprites = {{}, {}, {}};
+  private static String [] tempTower3Sprites = {};
+  private static String[][] tower3Sprites = {{}, {}, {}};
+
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -233,12 +238,12 @@ public class StructureFactory {
     // @TODO Change string constant
     String TOWER2I;
     if (isTemp) {
-      TOWER2I = "images/attack_towers/tow2_2_l.gif"; // change texture to be temp texture
+      TOWER2I = tempTower2Sprites[orientation]; // change texture to be temp texture
     } else {
-      TOWER2I = "images/attack_towers/tow2_2_l.gif";
+      TOWER2I = tower2Sprites[0][orientation];
     }
-    String TOWER2II = "images/TOWER2II.png";
-    String TOWER2III = "images/TOWER2III.png";
+    String TOWER2II = tower2Sprites[1][orientation];
+    String TOWER2III = tower2Sprites[2][orientation];
     Entity tower2;
     BaseStructureConfig config;
     float tileSize;
@@ -298,16 +303,16 @@ public class StructureFactory {
    * @param level of the tower
    * @return tower3 entity
    */
-  public static Entity createTower3(int level, String name, Boolean isTemp) {
+  public static Entity createTower3(int level, String name, Boolean isTemp, int orientation) {
     // @TODO Change string constant
     String TOWER3I;
     if (isTemp) {
-      TOWER3I = "images/TOWER3I.png"; // change texture to be temp texture
+      TOWER3I = tempTower3Sprites[orientation]; // change texture to be temp texture
     } else {
-      TOWER3I = "images/TOWER3I.png";
+      TOWER3I = tower3Sprites[0][orientation];
     }
-    String TOWER3II = "images/TOWER3II.png";
-    String TOWER3III = "images/TOWER3III.png";
+    String TOWER3II = tower3Sprites[1][orientation];
+    String TOWER3III = tower3Sprites[2][orientation];
 
     Entity tower3;
     BaseStructureConfig config;
@@ -318,10 +323,12 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower3 = createBaseStructure(TOWER3II, name, false);
         config = configs.tower3I;
+        config.orientation = orientation;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new AOEDamageComponent(6, 3, 3750))
             .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower3.getComponent(TextureRenderComponent.class).getTexture();
@@ -331,10 +338,12 @@ public class StructureFactory {
       case 3: // Represents the second upgraded version of the tower
         tower3 = createBaseStructure(TOWER3III, name, false);
         config = configs.tower3II;
+        config.orientation = orientation;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new AOEDamageComponent(7, 4, 3000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower3.getComponent(TextureRenderComponent.class).getTexture();
@@ -343,11 +352,12 @@ public class StructureFactory {
       default:
         tower3 = createBaseStructure(TOWER3I, name, false);
         config = configs.tower3;
-
+        config.orientation = orientation;
         tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
             .addComponent(new AOEDamageComponent(4, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower3.getComponent(TextureRenderComponent.class).getTexture();
@@ -517,11 +527,11 @@ public class StructureFactory {
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower3 = StructureFactory.createTower3(2, structName, false);
+          tower3 = StructureFactory.createTower3(2, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           break;
         case 2:
-          tower3 = StructureFactory.createTower3(3, structName, false);
+          tower3 = StructureFactory.createTower3(3, structName, false, orientation);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           break;
       }
