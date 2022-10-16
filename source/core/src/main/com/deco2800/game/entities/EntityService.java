@@ -54,18 +54,33 @@ public class EntityService {
     this.register(entity);
   }
 
+  /**
+   * act as mutex lock to stop concurrent crashes with physics engine
+   * @param step if physics engine is updating
+   */
   public void setCurrentWorldStep(Boolean step) {
     this.currentWorldStep = step;
   }
 
+  /**
+   * @return if physics engine is updating
+   */
   public boolean getCurrentWorldStep() {
     return this.currentWorldStep;
   }
 
+  /**
+   *
+   * @return list of all entities to destroy
+   */
   public ArrayList<Entity> getToDestroyEntities() {
     return this.toDestroyEntities;
   }
 
+  /**
+   *
+   * @param e entity to destroy
+   */
   public void addToDestroyEntities(Entity e) {
     this.toDestroyEntities.add(e);
   }
