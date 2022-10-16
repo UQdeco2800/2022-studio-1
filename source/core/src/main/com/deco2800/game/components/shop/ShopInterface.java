@@ -97,7 +97,7 @@ public class ShopInterface extends UIComponent {
                 Gdx.graphics.getHeight() * 0.85f - 110f);
 
         //setup building category
-        buildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/attack-building-framed.png"));
+        buildingTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         buildingUp = new TextureRegionDrawable(buildingTexture);
         buildingBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 1f,
                 buildingUp, buildingUp,
@@ -106,7 +106,7 @@ public class ShopInterface extends UIComponent {
         buildingTitle = new Label(buildingText, skin, "large");
 
         //setup artefact category
-        artefactTexture = new Texture(Gdx.files.internal("images/shop-items-framed/health-potion-framed.png"));
+        artefactTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         artUp = new TextureRegionDrawable(artefactTexture);
         artefactBtn = ShopUtils.createImageTextButton("", skin.getColor("black"), "button", 1f,
                 artUp, artUp,
@@ -115,7 +115,7 @@ public class ShopInterface extends UIComponent {
         artefactTitle = new Label(artefactText, skin, "large");
 
         //setup equipment category
-        equipmentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/sword-framed.png"));
+        equipmentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         equipmentUp = new TextureRegionDrawable(equipmentTexture);
         equipmentBtn = ShopUtils.createImageTextButton("", skin.getColor("black"),
                 "button", 1f,

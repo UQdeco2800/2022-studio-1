@@ -62,6 +62,8 @@ public class EquipmentsShopDisplay extends UIComponent {
 
     private Texture goldenCategoryTexture;
     private TextureRegionDrawable goldenDrawable;
+    private Texture clickCategoryTexture;
+    private TextureRegionDrawable clickDrawable;
     private Texture brownCategoryTexture;
     private TextureRegionDrawable brownDrawable;
     private Texture redCategoryTexture;
@@ -119,9 +121,11 @@ public class EquipmentsShopDisplay extends UIComponent {
         brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
-        goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
+        goldenCategoryTexture = new Texture(Gdx.files.internal("images/buy-button.png"));
+        clickCategoryTexture = new Texture(Gdx.files.internal("images/buy-button-clicked.png"));
+        redCategoryTexture = new Texture(Gdx.files.internal("images/buy-button-cannot-buy.png"));
         goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
+        clickDrawable = new TextureRegionDrawable(clickCategoryTexture);
         brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
         redDrawable = new TextureRegionDrawable(redCategoryTexture);
         left = new TextureRegionDrawable(leftTexture);
@@ -167,8 +171,8 @@ public class EquipmentsShopDisplay extends UIComponent {
                 .getComponent(InventoryComponent.class)
                 .countInEquipmentList(current.t) == 0);
         buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                sufficientFunds ? brownDrawable : redDrawable,
                 sufficientFunds ? goldenDrawable : redDrawable,
+                sufficientFunds ? clickDrawable : redDrawable,
                 skin,
                 false);
 
@@ -352,7 +356,7 @@ public class EquipmentsShopDisplay extends UIComponent {
                 .countInEquipmentList(current.t) == 0);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+        buyButton.getStyle().down = sufficientFunds ? clickDrawable
                 : redDrawable;
         buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                 : redDrawable;
@@ -381,7 +385,7 @@ public class EquipmentsShopDisplay extends UIComponent {
                 .countInEquipmentList(current.t) == 0);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+        buyButton.getStyle().down = sufficientFunds ? clickDrawable
                 : redDrawable;
         buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                 : redDrawable;
@@ -427,7 +431,7 @@ public class EquipmentsShopDisplay extends UIComponent {
                 .countInEquipmentList(current.t) == 0);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+        buyButton.getStyle().down = sufficientFunds ? clickDrawable
                 : redDrawable;
         buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                 : redDrawable;
