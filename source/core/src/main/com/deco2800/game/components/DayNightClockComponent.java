@@ -15,6 +15,8 @@ import com.deco2800.game.ui.UIComponent;
 public class DayNightClockComponent extends UIComponent {
     private Image clockImage;
     private Table rightTable;
+    private long timeLoaded;
+    private boolean loaded;
 
     private final String[] clockSprites = {
             "images/clock_sprites/clock_day1_1.png",
@@ -100,6 +102,14 @@ public class DayNightClockComponent extends UIComponent {
      * @param partOfDay DayNightCycleStatus
      */
     private void changeSprite(DayNightCycleStatus partOfDay) {
+        if (loaded) {
+            if (ServiceLocator.getDayNightCycleService().getTimer().getTime() - timeLoaded < 300) {
+                //avoid asynchronous update triggers right after being loaded in
+                return;
+            } else {
+                loaded = false;
+            }
+        }
         if (this.currentSprite != clockSprites.length - 1) {
             this.currentSprite += 1;
         }
@@ -131,5 +141,7 @@ public class DayNightClockComponent extends UIComponent {
         }
         this.currentSprite = numUpdates - 1;
         changeSprite(status);
+        loaded = true;
+        timeLoaded = cycleService.getTimer().getTime();
     }
 }

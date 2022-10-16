@@ -262,6 +262,8 @@ public class DayNightCycleService {
     public void run() throws InterruptedException {
         long durationPaused = 0;
 
+        long timeStarted = timer.getTime();
+
         while (!this.ended) {
 
             if (!this.isPaused) {
@@ -273,7 +275,7 @@ public class DayNightCycleService {
                 // Definitely a better way to do this but this works for now
                 this.currentDayMillis = this.timer.getTime() - (this.currentDayNumber * (config.nightLength +
                         config.duskLength + config.dayLength + config.dawnLength)) - this.totalDurationPaused +
-                        this.loadedTimeOffset;
+                        this.loadedTimeOffset - timeStarted;
 
                 // Move clock for parts of day with more than one half
                 if (this.currentCycleStatus == DayNightCycleStatus.DAY ||
