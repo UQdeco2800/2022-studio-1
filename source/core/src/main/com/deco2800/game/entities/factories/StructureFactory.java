@@ -13,6 +13,7 @@ import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.AOEDamageComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.infrastructure.OrientationComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -178,7 +179,8 @@ public class StructureFactory {
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
             .addComponent(new AOEDamageComponent(3, 2, 5000))
             .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent((new OrientationComponent(config.orientation)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower1.getComponent(TextureRenderComponent.class).getTexture();
@@ -192,7 +194,8 @@ public class StructureFactory {
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
             .addComponent(new AOEDamageComponent(5, 3, 5000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower1.getComponent(TextureRenderComponent.class).getTexture();
@@ -205,7 +208,8 @@ public class StructureFactory {
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
             .addComponent(new AOEDamageComponent(1, 1, 5000))
             .addComponent(new ResourceCostComponent(config.gold))
-            .addComponent((new HealthBarComponent(50, 10)));
+            .addComponent((new HealthBarComponent(50, 10)))
+                .addComponent(new OrientationComponent(config.orientation));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
         t = tower1.getComponent(TextureRenderComponent.class).getTexture();
