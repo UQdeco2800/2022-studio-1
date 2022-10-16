@@ -298,7 +298,7 @@ public class StructureService extends EntityService {
    * @param entityType type of entity being checked
    */
   public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
-    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType);
+    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType, 1);
     for (GridPoint2 mapPos: surroundingTiles.keySet()) {
       String entityName = "visual" + mapPos.toString();
       Entity visualTile;

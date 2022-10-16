@@ -171,9 +171,8 @@ public class UGS {
      * @param entityType  type of entity being checked
      * @return map of all surrounding gridpoints and if they are full or empty
      */
-    public HashMap<GridPoint2, String> getSurroundingTiles(GridPoint2 centerCoord, String entityType) {
+    public HashMap<GridPoint2, String> getSurroundingTiles(GridPoint2 centerCoord, String entityType, int offset) {
         HashMap<GridPoint2, String> surroundingTiles = new HashMap<>();
-        int offset = 1;
         int starting_xPos = centerCoord.x - offset;
         int starting_yPos = centerCoord.y - offset;
         for (int x = starting_xPos; x < starting_xPos + (offset * 2) + 1; x++) {
