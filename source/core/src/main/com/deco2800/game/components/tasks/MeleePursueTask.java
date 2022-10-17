@@ -32,10 +32,6 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-
-        System.out.println("Creating Movement Task: [Target: {" + target.getName() + "}, {" + target.getCenterPosition()
-                + "}], [Origin: {" + owner.getEntity().getName() + "}, {" + owner.getEntity().getCenterPosition()
-                + "}]");
         movementTask.create(owner);
         movementTask.start();
     }

@@ -98,11 +98,10 @@ public class NPCFactory {
                 ElectricEelEnemy.setName("ElectricEel");
                 ElectricEelEnemy.setCollectable(false);
 
-                PhysicsUtils.setScaledCollider(ElectricEelEnemy, 12f, 12f);
-                ElectricEelEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
                 ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
                 ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
                 ElectricEelEnemy.setScale(12f, 12f);
+                PhysicsUtils.setScaledCollider(ElectricEelEnemy, 1f, 1f);
 
                 return ElectricEelEnemy;
         }
@@ -184,8 +183,8 @@ public class NPCFactory {
         // TODO: Luke make this look better and fix up NPC != enemy
         private static Enemy createBaseEnemy(Entity target) {
                 AITaskComponent aiComponent = new AITaskComponent()
-                                .addTask(new MeleePursueTask(target));
-                // .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
+                                .addTask(new MeleePursueTask(target))
+                                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())
@@ -210,11 +209,10 @@ public class NPCFactory {
                 // Vector2 RangeHitbox = new Vector2(2f, 1f);
                 AITaskComponent aiComponent = new AITaskComponent()
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                                .addTask(new RangedMovementTask(crystal, 10, 2f, 50f, 60f))
-                                .addTask(new RangedMovementTask(target, 20, 2f, 50f, 60f))
-                                .addTask(new MeleeAvoidObstacleTask(target))
-                                .addTask(new ShootTask(target, 30, 50f, 60f))
-                                .addTask(new ShootTask(crystal, 30, 50f, 60f));
+                                .addTask(new RangedMovementTask(crystal, 20, 20f, 100f, 60f))
+                                .addTask(new RangedMovementTask(target, 20, 20f, 50f, 60f))
+                                .addTask(new ShootTask(target, 30, 30f, 60f))
+                                .addTask(new ShootTask(crystal, 30, 30f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())

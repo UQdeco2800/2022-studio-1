@@ -30,7 +30,7 @@ public class MovementTask extends DefaultTask {
   private GameTime gameTime;
   private long updateMoveTimeDelta = 1500;
   private long lastUpdateMoveTime = 0;
-  private float stopDistance;
+  private float stopDistance = 0;
 
   private ArrayList<LinkedPoint> path;
   private int currentStep = 0;
@@ -196,6 +196,7 @@ public class MovementTask extends DefaultTask {
 
       for (LinkedPoint point : newPoints) {
         closed.add(point);
+
         if (point.equals(targetPosition)) { // path completed
           pathFound = true;
           break;
