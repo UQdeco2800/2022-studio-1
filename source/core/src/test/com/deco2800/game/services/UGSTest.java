@@ -1,6 +1,7 @@
 package com.deco2800.game.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.spy;
 
 import com.badlogic.gdx.math.GridPoint2;
@@ -122,6 +123,35 @@ class UGSTest {
         tiles.add(coordinate, tile);
         assertEquals(tiles.getTileType(coordinate1), "");
 
+    }
+
+    @Test
+    void testRemoveEntity() {
+        EntityService entityService = new EntityService();
+
+        UGS ugs = new UGS();
+        Tile tile1 = new Tile();
+        GridPoint2 coordinate1 = new GridPoint2(0, 0);
+        ugs.add(coordinate1, tile1);
+        Entity testEntity = new Entity();
+        ugs.setEntity(coordinate1, testEntity, "testEntity");
+
+        assertEquals(ugs.getEntity(coordinate1), testEntity);
+
+        ugs.removeEntity("testEntity");
+        assertNull(ugs.getEntity(coordinate1));
+    }
+
+    @Test
+    void testGetEntityByName() {
+        UGS ugs = new UGS();
+        Tile tile1 = new Tile();
+        GridPoint2 coordinate1 = new GridPoint2(0, 0);
+        ugs.add(coordinate1, tile1);
+        Entity testEntity = new Entity();
+        ugs.setEntity(coordinate1, testEntity, "testEntity");
+
+        assertEquals(testEntity, ugs.getEntityByName("testEntity"));
     }
 
 //    /**
