@@ -1,47 +1,47 @@
 p_crystal_damaged.png
-size: 1400, 788
+size: 175, 1140
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 default
   rotate: false
   xy: 0, 0
-  size: 700, 394
-  orig: 700, 394
+  size: 175, 285
+  orig: 175, 285
   offset: 0, 0
   index: -1
 pcrystal
   rotate: false
   xy: 0, 0
-  size: 700, 394
-  orig: 700, 394
+  size: 175, 285
+  orig: 175, 285
   offset: 0, 0
   index: -1
 pcrystal
   rotate: false
-  xy: 700, 0
-  size: 700, 394
-  orig: 700, 394
+  xy: 0, 285
+  size: 175, 285
+  orig: 175, 285
   offset: 0, 0
   index: -1
 pcrystal
   rotate: false
-  xy: 0, 394
-  size: 700, 394
-  orig: 700, 394
+  xy: 0, 570
+  size: 175, 285
+  orig: 175, 285
   offset: 0, 0
   index: -1
 pcrystal
   rotate: false
-  xy: 700, 394
-  size: 700, 394
-  orig: 700, 394
+  xy: 0, 855
+  size: 175, 285
+  orig: 175, 285
   offset: 0, 0
   index: -1
 plast
   rotate: false
-  xy: 700, 394
-  size: 700, 394
-  orig: 700, 394
+  xy: 0, 855
+  size: 175, 285
+  orig: 175, 285
   offset: 0, 0
   index: -1
