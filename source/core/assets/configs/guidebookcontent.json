@@ -18,7 +18,7 @@
     "header": "Crystal",
     "content": "The crystal must be protected at all costs. The health of the crystal rises with the help of upgrades found in the shop and durations of time without being attacked and falls with the exposure to enemies. You can track the crystal health with the crystal health status bar. \n\nTip: build your defences in the best positions to beat the enemies.",
     "image": "images/uiElements/exports/Crystal Badge.png",
-    "imagePosition": "DOWN"
+    "imagePosition": "UP"
   },
   {
     "pageNumber": 3,
@@ -32,7 +32,7 @@
     "header": "Day and Night Cycles",
     "content": "There are 4 days and 4 nights. The daytime cycle is when to prepare for the night by building up forces and the night is where the battle begins against the enemies. Survive the night cycles to progress through the game.",
     "image": "images/clock_sprites/clock_day1_1.png",
-    "imagePosition": "DOWN"
+    "imagePosition": "UP"
   },
   {
     "pageNumber": 5,
@@ -52,8 +52,8 @@
     "pageNumber": 7,
     "header": "Type of Buildings",
     "content": "There are a variety of buildings with different attacking and protection measures. All buildings are bought from the shop and once in play can be upgraded by clicking on the building pop-up.",
-    "image": "images/uiElements/exports/Tower Building.png",
-    "imagePosition": "DOWN"
+    "image": "images/buildings.png",
+    "imagePosition": "UP"
   },
   {
     "pageNumber": 8,
@@ -73,8 +73,8 @@
     "pageNumber": 10,
     "header": "Currency",
     "content": "There are 3 types of currency: coins, wood, and stones. The coins are used in the shop, wood and stones are used for buying buildings.",
-    "image": "images/uiElements/exports/Money Badge.png",
-    "imagePosition": "DOWN"
+    "image": "images/achievement Badges.png",
+    "imagePosition": "UP"
   },
   {
     "pageNumber": 11,
@@ -95,7 +95,7 @@
     "header": "Inventory",
     "content": "The inventory stores items bought in the shop. You can click on items to apply them into the game.",
     "image": "images/inventory.png",
-    "imagePosition": "DOWN"
+    "imagePosition": "UP"
   },
   {
     "pageNumber": 14,

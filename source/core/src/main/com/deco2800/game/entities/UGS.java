@@ -78,7 +78,6 @@ public class UGS {
                 String strCoord = generateCoordinate(x, y);
                 Entity entityToRemove = tiles.get(strCoord).getEntity();
                 if (entityToRemove != null) {
-
                     if (tiles.get(strCoord).getEntity().getName().equals(name)) {
                         ServiceLocator.getEntityService().getNamedEntity(name).dispose();
                         tiles.get(strCoord).setEntity(null);

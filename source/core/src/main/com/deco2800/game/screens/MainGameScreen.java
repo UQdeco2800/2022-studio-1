@@ -192,11 +192,12 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new TerminalDisplay())
         .addComponent(new AchievementInterface())
         // please don't move the order of these components
+        .addComponent(new EquipmentsShopDisplay())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
-        .addComponent(new EquipmentsShopDisplay())
-        .addComponent(new ShopInterface())
-        .addComponent(new InventoryDisplay());
+
+        .addComponent(new InventoryDisplay())
+        .addComponent(new ShopInterface());
 
     ServiceLocator.getEntityService().registerNamed("ui", ui);
 

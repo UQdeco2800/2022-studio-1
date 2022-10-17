@@ -6,7 +6,7 @@ import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.ui.UIComponent;
 
 /**
- * Extends ImageButton to store what type of achievement the button is representing
+ * Extends TextButton to store what type of achievement the button is representing
  */
 public class AchievementButton extends TextButton {
     private AchievementType type;
