@@ -87,10 +87,10 @@ public class loader extends UIComponent {
         return loadTable;
     }
 
-    public void updateLoadingStat(int loadProgress) {
-        CharSequence newLoadStat = String.format("Loading:  %d", loadProgress);
+    public void updateLoadingStat(float loadProgress) {
+        CharSequence newLoadStat = String.format("Loading:  %f", loadProgress);
         currLoadProgress.setText(newLoadStat);
-        if (loadProgress == 99) {
+        if (loadProgress >= 95) {
             logger.debug("Loading complete");
             stage.clear();
         }
