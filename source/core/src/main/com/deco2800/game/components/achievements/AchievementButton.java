@@ -1,9 +1,5 @@
 package com.deco2800.game.components.achievements;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.deco2800.game.achievements.AchievementType;
@@ -16,7 +12,7 @@ public class AchievementButton extends TextButton {
     private AchievementType type;
 
     public AchievementButton(Drawable imageUp, Drawable imageDown, Drawable imageChecked, AchievementType type) {
-        super(type.equals(AchievementType.SUMMARY) ? AchievementType.SUMMARY.getTitle() : "", new TextButtonStyle(
+        super(type.equals(AchievementType.SUMMARY) ? AchievementType.SUMMARY.getTitle() : "", new TextButton.TextButtonStyle(
                 imageUp,
                 imageDown,
                 imageChecked,
