@@ -163,7 +163,7 @@ public class AchievementInterface extends UIComponent {
 
         backButton.setSize(40f, 40f);
         backButton.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
+                Gdx.graphics.getHeight() * 0.85f - 70f);
 
         this.addExitButtonEvent(backButton);
 
