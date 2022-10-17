@@ -78,7 +78,10 @@ public class GuidebookActions extends Component {
 
         try {
             Thread.sleep(200);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
 
         Sound flipSound = Gdx.audio.newSound(
                 Gdx.files.internal("sounds/book_flip.mp3"));
@@ -117,7 +120,10 @@ public class GuidebookActions extends Component {
 
         try {
             Thread.sleep(200);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
 
         Sound flipSound = Gdx.audio.newSound(
                 Gdx.files.internal("sounds/book_flip.mp3"));
