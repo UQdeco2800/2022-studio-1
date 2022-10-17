@@ -1,21 +1,23 @@
-package com.deco2800.game.components.loadingPage;
+package com.deco2800.game.components.mainmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.deco2800.game.components.loadingPage.LoadingDisplay;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-public class LoadingDisplay extends UIComponent {
+public class loader extends UIComponent {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadingDisplay.class);
-    private Table rootTable;
+    private Table loadTable;
     private Table loadingStat;
     private Table loadingTips;
     private Label currLoadProgress;
@@ -24,29 +26,43 @@ public class LoadingDisplay extends UIComponent {
     public void create() {
         super.create();
         addActors();
-        entity.getEvents().addListener("loadStatUpdate", this::updateLoadingStat);
+        Entity menu = ServiceLocator.getEntityService().getNamedEntity("menu");
+        menu.getEvents().addListener("loadStatUpdate", this::updateLoadingStat);
     }
 
-    private void addActors() {
+    public Table getLoadDisplay() {
+        return loadTable;
+    }
 
-        rootTable = new Table();
-        rootTable.setFillParent(true);
+    public void loadUpdate() {
+        if (loadTable == null) {
+            loadTable = displayLoadScreen();
+            return;
+        }
+        Texture colour = new Texture(Gdx.files.internal("images/StoryLine/SL_1.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+        loadTable.setBackground(backgroundColour);
+    }
+
+    public Table displayLoadScreen() {
+
+        loadTable = new Table();
+        loadTable.setFillParent(true);
 
         //create table and set positioning
         loadingStat = new Table();
         loadingStat.setFillParent(true);
-        loadingStat.bottom().padBottom(100);
+        loadingStat.left().padBottom(100);
 
         loadingTips = new Table();
         loadingTips.setFillParent(true);
-        loadingTips.bottom().padBottom(60);
-
+        loadingTips.left().padBottom(60);
 
         // load and set Background
         //TODO: Replace the background with loading screen design
         Texture loadingScreenTexture = new Texture(Gdx.files.internal("images/StoryLine/SL_1.png"));
         TextureRegionDrawable loadingScreenBackground = new TextureRegionDrawable(loadingScreenTexture);
-        rootTable.setBackground(loadingScreenBackground);
+        loadTable.setBackground(loadingScreenBackground);
 
         // display the loading stat number
         int loadProgress = 0;
@@ -61,19 +77,26 @@ public class LoadingDisplay extends UIComponent {
         loadingTips.add(displayTips);
         loadingStat.add(currLoadProgress);
 
-        stage.addActor(rootTable);
-        stage.addActor(loadingStat);
-        stage.addActor(loadingTips);
+        loadTable.row();
+        loadTable.add(loadingTips).expandY().bottom();
+        loadTable.row();
+        loadTable.add(loadingStat);
 
+        stage.addActor(loadTable);
+
+        return loadTable;
     }
 
     public void updateLoadingStat(int loadProgress) {
         CharSequence newLoadStat = String.format("Loading:  %d", loadProgress);
         currLoadProgress.setText(newLoadStat);
-        if (loadProgress >= 100) {
+        if (loadProgress == 99) {
             logger.debug("Loading complete");
-            entity.getEvents().trigger("loadingFinish");
+            stage.clear();
         }
+    }
+
+    private void addActors() {
     }
 
     @Override
@@ -83,7 +106,7 @@ public class LoadingDisplay extends UIComponent {
 
     @Override
     public void dispose() {
-        rootTable.clear();
+        loadTable.clear();
         loadingStat.clear();
         loadingTips.clear();
         stage.clear();
@@ -91,3 +114,4 @@ public class LoadingDisplay extends UIComponent {
     }
 
 }
+

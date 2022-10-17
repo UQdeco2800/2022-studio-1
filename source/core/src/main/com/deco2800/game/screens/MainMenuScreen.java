@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.mainmenu.MainMenuActions;
 import com.deco2800.game.components.mainmenu.MainMenuDisplay;
+import com.deco2800.game.components.mainmenu.loader;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -31,10 +32,15 @@ public class MainMenuScreen extends ScreenAdapter {
   private final Renderer renderer;
 
   private Table rootTable;
+  private Table loadTable;
   private float time;
+  private boolean loadAssetsSwitch = true;
 
-  private static String[] mainMenuTextures = {
+  private static String[] mainMenuScreenTextures = {
       "images/uiElements/exports/title.png",
+          "images/StoryLine/SL_1.png"
+  };
+  private static String[] mainMenuTextures = {
           "images/Centaur_Back_left.png",
           "images/Centaur_Back_right.png",
           "images/Centaur_left.png",
@@ -217,14 +223,35 @@ public class MainMenuScreen extends ScreenAdapter {
 
     renderer = RenderFactory.createRenderer();
 
-    loadAssets();
+    loadScreenAsset();
+    //loadAssets();
     createUI();
   }
 
   @Override
   public void render(float delta) {
     this.time += delta;
-    if (this.time > 0.4f) {
+
+    if (this.time > 0.4f && loadAssetsSwitch) {
+      //Entity menu = ServiceLocator.getEntityService().getNamedEntity("menu");
+      //menu.getEvents().trigger("startLoad");
+      logger.info("-------------------------------load-asset-img---------------------------------");
+
+      ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
+      loadTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class)
+              .getLoadDisplay();
+      ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class).loadUpdate();
+      this.time = delta;
+
+
+      logger.info("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-loading-assets-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      loadAssetsSwitch = false;
+      loadAssets();
+    }
+
+    if (this.time > 0.5f && !loadAssetsSwitch) {
+      logger.info("-------------------------------main-menu-ani---------------------------------");
+
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
       rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
           .getDisplay();
@@ -233,13 +260,17 @@ public class MainMenuScreen extends ScreenAdapter {
     }
     ServiceLocator.getEntityService().update();
     renderer.render();
-  }
+    }
 
   @Override
   public void resize(int width, int height) {
     if (rootTable != null)
       rootTable.remove();
-    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
+    if (!loadAssetsSwitch) {
+      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
+    } else {
+      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class).displayLoadScreen();
+    }
     renderer.resize(width, height);
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
@@ -265,8 +296,15 @@ public class MainMenuScreen extends ScreenAdapter {
 //
 //    ServiceLocator.clear();
   }
+  private void loadScreenAsset() {
+    logger.debug("Loading assets");
+    ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadTextures(mainMenuScreenTextures);
+    ServiceLocator.getResourceService().loadAll();
+  }
 
   private void loadAssets() {
+    Entity menu = ServiceLocator.getEntityService().getNamedEntity("menu");
     logger.debug("Loading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
     resourceService.loadTextures(mainMenuTextures);
@@ -278,7 +316,13 @@ public class MainMenuScreen extends ScreenAdapter {
     while (!resourceService.loadForMillis(1)) {
       // This could be upgraded to a loading screen
       logger.info("Loading... {}%", resourceService.getProgress());
+      if (menu != null) {
+        menu.getEvents().trigger("loadStatUpdate", resourceService.getProgress());
+      }
+
     }
+/*    menu.getEvents().trigger("finishLoad");*/
+
   }
 
   private void unloadAssets() {
@@ -297,10 +341,13 @@ public class MainMenuScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
     ui.addComponent(new MainMenuDisplay())
+        .addComponent(new loader())
         .addComponent(new InputDecorator(stage, 10))
         .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().registerNamed("menu", ui);
     rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
         .getDisplay();
+    loadTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class)
+        .getLoadDisplay();
   }
 }
