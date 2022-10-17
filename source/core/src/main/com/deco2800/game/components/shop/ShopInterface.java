@@ -17,8 +17,10 @@ import org.slf4j.LoggerFactory;
 public class ShopInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopInterface.class);
     private static final float Z_INDEX = 2f;
-    private Label subtitle;
+    int screenWidth;
+    int screenHeight;
 
+    private Label subtitle;
     private Table backgroundTable;
     private Group group;
     private Group category;
@@ -35,6 +37,8 @@ public class ShopInterface extends UIComponent {
     private Texture equipmentTexture;
     private Label equipmentTitle;
 
+    private ImageButton crossFrame;
+
     @Override
     public void create() {
         super.create();
@@ -45,6 +49,9 @@ public class ShopInterface extends UIComponent {
     }
 
     private void addActors() {
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+
         group = new Group();
         category = new Group();
         backgroundTable = new Table();
@@ -72,7 +79,7 @@ public class ShopInterface extends UIComponent {
         // setup exit
         Texture crossTexture = new Texture(Gdx.files.internal("images/cross.png"));
         TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
-        ImageButton crossFrame = new ImageButton(cross, cross);
+        crossFrame = new ImageButton(cross, cross);
         crossFrame.setSize(40f, 40f);
         crossFrame.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
                 Gdx.graphics.getHeight() * 0.85f - 70f);
@@ -81,7 +88,7 @@ public class ShopInterface extends UIComponent {
         subtitle = new Label("Shop", skin, "title");
         subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.47f,
+        subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 100f,
                 Gdx.graphics.getHeight() * 0.75f);
 
         // setup artefact category
@@ -172,9 +179,28 @@ public class ShopInterface extends UIComponent {
     }
 
     private void openShop() {
+        compareRes();
         group.setVisible(true);
         category.setVisible(true);
         subtitle.setVisible(true);
+    }
+
+    private void compareRes() {
+        if (screenHeight != Gdx.graphics.getHeight() || screenWidth != Gdx.graphics.getWidth()) {
+            backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
+            backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
+                    Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
+            subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 100f,
+                    Gdx.graphics.getHeight() * 0.75f);
+            crossFrame.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
+                    Gdx.graphics.getHeight() * 0.85f - 70f);
+            category.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
+            category.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2.3f,
+                    Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 4f);
+            screenWidth = Gdx.graphics.getWidth();
+            screenHeight = Gdx.graphics.getHeight();
+            entity.getEvents().trigger("changeRes");
+        }
     }
 
     @Override

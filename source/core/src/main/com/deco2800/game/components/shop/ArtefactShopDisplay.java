@@ -78,14 +78,12 @@ public class ArtefactShopDisplay extends UIComponent {
         super.create();
         entity.getEvents().addListener("artefactShop", this::openShop);
         entity.getEvents().addListener("closeAll", this::closeShop);
+        entity.getEvents().addListener("changeRes", this::changeRes);
         addActors();
     }
 
     private void addActors() {
         artefactShop = new Group();
-        itemDisplay = new Table();
-        itemDisplay.setFillParent(true);
-        itemDisplay.setSize((float) (Gdx.graphics.getWidth() * 0.6), (float) (Gdx.graphics.getHeight() * 0.4));
         
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<Artefact>();
@@ -155,41 +153,8 @@ public class ArtefactShopDisplay extends UIComponent {
         subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
 
-        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
-        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.row();
-        itemDisplay.add(itemNumber).colspan(3).center();
-        itemDisplay.row();
-        itemDisplay.add(descriptionDisplay).colspan(3).center()
-                .width(Gdx.graphics.getWidth() * 0.17f)
-                .height(Gdx.graphics.getHeight() * 0.31f);
-        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+        changeRes();
 
-        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
-                Gdx.graphics.getHeight() / 2f);
-        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
-
-        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
-                Gdx.graphics.getHeight() / 2f);
-        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
-
-        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
-
-        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
-
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.45f,
-                Gdx.graphics.getHeight() * 0.75f);
-
-        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
-        backButton.setSize(40f, 40f);
-
-        artefactShop.addActor(itemDisplay);
         artefactShop.addActor(leftButton);
         artefactShop.addActor(rightButton);
         artefactShop.addActor(buyButton);
@@ -238,6 +203,55 @@ public class ArtefactShopDisplay extends UIComponent {
                 });
 
         
+    }
+
+    private void changeRes() {
+
+        itemDisplay = new Table();
+        itemDisplay.setFillParent(true);
+        itemDisplay.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
+        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+
+        itemDisplay.removeActor(prevItem);
+        itemDisplay.removeActor(currentItem);
+        itemDisplay.removeActor(nextItem);
+
+        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
+        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
+        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
+
+        itemDisplay.row();
+        itemDisplay.add(itemNumber).colspan(3).center();
+        itemDisplay.row();
+        itemDisplay.add(descriptionDisplay).colspan(3).center()
+                .width(Gdx.graphics.getWidth() * 0.31f)
+                .height(Gdx.graphics.getHeight() * 0.31f);
+        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+
+        artefactShop.addActor(itemDisplay);
+
+        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
+                Gdx.graphics.getHeight() / 2f);
+        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+
+        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
+                Gdx.graphics.getHeight() / 2f);
+        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+
+        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
+                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+
+        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
+                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+
+        subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 210f,
+                Gdx.graphics.getHeight() * 0.75f);
+
+        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
+                Gdx.graphics.getHeight() * 0.85f -70f);
+        backButton.setSize(40f, 40f);
     }
 
     private void carouselRight() {
