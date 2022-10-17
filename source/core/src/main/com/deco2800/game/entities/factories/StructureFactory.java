@@ -1,5 +1,7 @@
 package com.deco2800.game.entities.factories;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -49,6 +51,7 @@ import org.w3c.dom.Text;
  * similar characteristics.
  */
 public class StructureFactory {
+  private static final Logger logger = LoggerFactory.getLogger(StructureFactory.class);
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = { "images/wallLeft.png", "images/wallRight.png" };
@@ -88,9 +91,10 @@ public class StructureFactory {
     }
     wall.setRotation(orientation);
     BaseStructureConfig config = configs.wall;
+
     config.orientation = orientation;
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-        .addComponent(new ResourceCostComponent(config.gold))
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
         .getTileSize();
@@ -118,9 +122,9 @@ public class StructureFactory {
     }
     BaseStructureConfig config = configs.trap;
 
-    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
         .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
-        .addComponent(new ResourceCostComponent(config.gold))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
             .getTileSize();
@@ -136,8 +140,8 @@ public class StructureFactory {
     AITaskComponent aiTaskComponent = new AITaskComponent()
         .addTask(new ShootMultipleTask(new ArrayList<>(), 500f));
 
-    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-        .addComponent(new ResourceCostComponent(config.gold))
+    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)))
         .addComponent(aiTaskComponent);
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
@@ -175,9 +179,9 @@ public class StructureFactory {
         tower1 = createBaseStructure(TOWER1II, name, true);
         config = configs.tower1I;
         config.orientation = orientation;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
             .addComponent(new AOEDamageComponent(3, 2, 5000))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
@@ -189,7 +193,7 @@ public class StructureFactory {
         tower1 = createBaseStructure(TOWER1III, name, false);
         config = configs.tower1II;
         config.orientation = orientation;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
             .addComponent(new AOEDamageComponent(5, 3, 5000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
@@ -201,10 +205,11 @@ public class StructureFactory {
       default:
         tower1 = createBaseStructure(TOWER1I, name, false);
         config = configs.tower1;
+
         config.orientation = orientation;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
             .addComponent(new AOEDamageComponent(1, 1, 5000))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
@@ -240,9 +245,9 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower2 = createBaseStructure(TOWER2II, name, false);
         config = configs.tower2I;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
             .addComponent(new AOEDamageComponent(4, 3, 4500))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
@@ -253,7 +258,7 @@ public class StructureFactory {
       case 3: // Represents the second upgraded version of the tower
         tower2 = createBaseStructure(TOWER2III, name, false);
         config = configs.tower2II;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
             .addComponent(new AOEDamageComponent(5, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
@@ -266,9 +271,9 @@ public class StructureFactory {
         tower2 = createBaseStructure(TOWER2I, name, false);
         config = configs.tower2;
 
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
             .addComponent(new AOEDamageComponent(3, 2, 4750))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
@@ -305,9 +310,9 @@ public class StructureFactory {
       case 2: // Represents the first upgraded version of the tower
         tower3 = createBaseStructure(TOWER3II, name, false);
         config = configs.tower3I;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
             .addComponent(new AOEDamageComponent(6, 3, 3750))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
@@ -318,7 +323,7 @@ public class StructureFactory {
       case 3: // Represents the second upgraded version of the tower
         tower3 = createBaseStructure(TOWER3III, name, false);
         config = configs.tower3II;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
             .addComponent(new AOEDamageComponent(7, 4, 3000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
@@ -331,9 +336,9 @@ public class StructureFactory {
         tower3 = createBaseStructure(TOWER3I, name, false);
         config = configs.tower3;
 
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
             .addComponent(new AOEDamageComponent(4, 3, 4250))
-            .addComponent(new ResourceCostComponent(config.gold))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
                 .getTileSize();
@@ -363,22 +368,22 @@ public class StructureFactory {
      */
 
     Entity structure = new Entity();
-    animated = false; // We can't add animation to structure because its disposal causing problem.
-    if (animated) {
+//    animated = false; // We can't add animation to structure because its disposal causing problem.
+//    if (animated) {
 
       // texture (String) must just be the name of the file without extension
 
-      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
-          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
-      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
-      animator.startAnimation(texture);
-      structure.addComponent(animator);
-
-      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
-    } else {
+//      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
+//          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
+//      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
+//      animator.startAnimation(texture);
+//      structure.addComponent(animator);
+//
+//      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
+//    } else {
       structure.addComponent(new TextureRenderComponent(texture));
       structure.getComponent(TextureRenderComponent.class).scaleEntity();
-    }
+//    }
 
     structure.addComponent(new PhysicsComponent())
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
@@ -408,11 +413,17 @@ public class StructureFactory {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-    // Get the cost of the building
-    int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
-    int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
-    int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-    // Add (<resource> * refundMultiplier) to PLAYER's inventory
+    logger.info("Refund multiplier: " + refundMultiplier);
+      //Get the cost of the building
+      int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+      int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+      int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+      //Add (<resource> * refundMultiplier) to PLAYER's inventory
+    logger.info("stone refund: " + stone * refundMultiplier);
+    logger.info("wood refund: " + wood * refundMultiplier);
+    logger.info("wood cost: " + structure.getComponent(ResourceCostComponent.class).getWoodCost());
+    logger.info("stone cost: " + structure.getComponent(ResourceCostComponent.class).getStoneCost());
+
 
     player.getComponent(InventoryComponent.class).addGold((int) (gold * (refundMultiplier)));
     player.getComponent(InventoryComponent.class).addStone((int) (stone * refundMultiplier));
@@ -442,7 +453,7 @@ public class StructureFactory {
 
       default:
         int health = structure.getComponent(CombatStatsComponent.class).getHealth();
-        int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
+        int maxHealth = structure.getComponent(CombatStatsComponent.class).getMaxHealth();
         Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
         handleRefund(structure, refundMultiplier);
         ServiceLocator.getUGSService().removeEntity(name);
@@ -462,17 +473,14 @@ public class StructureFactory {
     // Store rectangle location, name, level
     int level = ServiceLocator.getUGSService().getEntityByName(structName)
         .getComponent(CombatStatsComponent.class).getLevel();
-    if (level > 2) {
+    if (level > 2 || structName.contains("wall")) {
       return;
     }
     // Remove building entity
     ServiceLocator.getUGSService().removeEntity(structName);
-
-    // Upgrade depending on building
-    if (structName.contains("wall")) {
-      // Might not be worth implementing depending on how enemy team implements enemy
-      // AI
-    } else if (structName.contains("tower1")) {
+    logger.info("Building upgraded at: " + gridPos);
+    //Upgrade depending on building
+   if (structName.contains("tower1")) {
       Entity tower1;
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
