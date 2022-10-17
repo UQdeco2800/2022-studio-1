@@ -184,6 +184,7 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/attack_towers/tow1_3_r.png",
           "images/attack_towers/tempStructures/temp_tow1_1_l.png",
           "images/attack_towers/tempStructures/temp_tow1_1_r.png",
+          "images/attack_towers/elecball.png",
           "images/65x33_tiles/wall_left.png",
           "images/65x33_tiles/wall_right.png"
   };

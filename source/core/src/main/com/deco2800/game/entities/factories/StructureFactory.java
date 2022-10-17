@@ -398,7 +398,6 @@ public class StructureFactory {
      */
 
     Entity structure = new Entity();
-    animated = false; // We can't add animation to structure because its disposal causing problem.
     if (animated) {
 
       // texture (String) must just be the name of the file without extension
