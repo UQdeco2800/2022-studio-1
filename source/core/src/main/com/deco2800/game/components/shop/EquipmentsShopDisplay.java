@@ -83,14 +83,13 @@ public class EquipmentsShopDisplay extends UIComponent {
         super.create();
         entity.getEvents().addListener("equipmentShop", this::openShop);
         entity.getEvents().addListener("closeAll", this::closeShop);
+        entity.getEvents().addListener("changeRes", this::changeRes);
         addActor();
     }
 
     private void addActor() {
         equipmentShop = new Group();
-        itemDisplay = new Table();
-        itemDisplay.setFillParent(true);
-        itemDisplay.setSize((float) (Gdx.graphics.getWidth() * 0.6), (float) (Gdx.graphics.getHeight() * 0.4));
+
 
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<Equipments>();
@@ -162,41 +161,8 @@ public class EquipmentsShopDisplay extends UIComponent {
         subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
 
-        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
-        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.row();
-        itemDisplay.add(itemNumber).colspan(3).center();
-        itemDisplay.row();
-        itemDisplay.add(descriptionDisplay).colspan(3).center()
-                .width(Gdx.graphics.getWidth() * 0.17f)
-                .height(Gdx.graphics.getHeight() * 0.31f);
-        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+        changeRes();
 
-        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
-                Gdx.graphics.getHeight() / 2f);
-        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
-
-        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
-                Gdx.graphics.getHeight() / 2f);
-        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
-
-        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
-
-        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
-
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.45f,
-                Gdx.graphics.getHeight() * 0.75f);
-
-        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
-        backButton.setSize(40f, 40f);
-
-        equipmentShop.addActor(itemDisplay);
         equipmentShop.addActor(leftButton);
         equipmentShop.addActor(rightButton);
         equipmentShop.addActor(buyButton);
@@ -242,6 +208,48 @@ public class EquipmentsShopDisplay extends UIComponent {
                         entity.getEvents().trigger("shop");
                     }
                 });
+    }
+
+    private void changeRes() {
+        itemDisplay = new Table();
+        itemDisplay.setFillParent(true);
+        itemDisplay.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
+        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+
+        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
+        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
+        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
+        itemDisplay.row();
+        itemDisplay.add(itemNumber).colspan(3).center();
+        itemDisplay.row();
+        itemDisplay.add(descriptionDisplay).colspan(3).center()
+                .width(Gdx.graphics.getWidth() * 0.31f)
+                .height(Gdx.graphics.getHeight() * 0.31f);
+
+        equipmentShop.addActor(itemDisplay);
+
+        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
+                Gdx.graphics.getHeight() / 2f);
+        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+
+        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
+                Gdx.graphics.getHeight() / 2f);
+        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+
+        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
+                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+
+        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
+                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+
+        subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 200f,
+                Gdx.graphics.getHeight() * 0.75f);
+
+        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
+                Gdx.graphics.getHeight() * 0.85f -70f);
+        backButton.setSize(40f, 40f);
     }
 
     private void buyItem() {
