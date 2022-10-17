@@ -21,7 +21,7 @@ public class DayNightCycleService {
 
     public static final String EVENT_INTERMITTENT_PART_OF_DAY_CLOCK = "moveClock";
 
-    private static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
+    private transient static final Logger logger = LoggerFactory.getLogger(DayNightCycleService.class);
     private volatile boolean ended;
 
     public DayNightCycleStatus currentCycleStatus;
