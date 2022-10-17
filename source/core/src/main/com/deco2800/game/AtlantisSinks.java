@@ -101,8 +101,6 @@ public class AtlantisSinks extends Game {
         return new MainMenuScreen(this);
       case STORY_LINE_PROLOGUE:
         return new PrologueScreen(this);
-      case LOAD_PAGE:
-        return new LoadingScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this, false);
       case SETTINGS:
@@ -122,7 +120,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK,
-    MAIN_GAME_LOAD, LOAD_PAGE
+    MAIN_GAME_LOAD
   }
 
   /**

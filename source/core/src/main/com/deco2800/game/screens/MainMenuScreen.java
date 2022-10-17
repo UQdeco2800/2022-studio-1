@@ -324,7 +324,6 @@ public class MainMenuScreen extends ScreenAdapter {
     resourceService.loadSounds(soundEffects);
     resourceService.loadMusic(forestMusic);
     resourceService.loadMusic(shopPopUpMusic);
-
   }
 
   private void unloadAssets() {
