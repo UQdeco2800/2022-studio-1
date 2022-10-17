@@ -17,18 +17,24 @@ import java.util.HashMap;
 public class RangeService {
 
     /**
-     * This function allows you to pass in an entity and retrieve an array containing every entity store in the UGS that
-     * are in the 8 squares around it + the players square: (Under Player, Top Left, Directly Above, Top Right, Right, Bottom Right, Directly Bellow, Bottom Left, Left)
+     * This function allows you to pass in an entity and retrieve an array
+     * containing every entity store in the UGS that
+     * are in the 8 squares around it + the players square: (Under Player, Top Left,
+     * Directly Above, Top Right, Right, Bottom Right, Directly Bellow, Bottom Left,
+     * Left)
+     * 
      * @param middle the entity whose perimeter you want to find
      * @return an array list containing the perimeter in the form above
      */
     public ArrayList<Entity> perimeter(Entity middle, GridPoint2 gridPos) {
 
         ArrayList<Entity> radialPerimeter = new ArrayList<>();
-//        Vector2 entityPos = middle.getPosition();
-//        GridPoint2 gridPos =
-//                ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x, entityPos.y);
-        Equipments invent = MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWeapon();
+        // Vector2 entityPos = middle.getPosition();
+        // GridPoint2 gridPos =
+        // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(entityPos.x,
+        // entityPos.y);
+        Equipments invent = ServiceLocator.getEntityService().getNamedEntity("player")
+                .getComponent(InventoryComponent.class).getWeapon();
 
         // Add whats under the player
         GridPoint2 stringUnderThePlayer = new GridPoint2(gridPos.x, gridPos.y);
@@ -129,19 +135,25 @@ public class RangeService {
     }
 
     /**
-     * This function returns whats in the UGS in the tile where the player is standing. This is a short term solution
+     * This function returns whats in the UGS in the tile where the player is
+     * standing. This is a short term solution
      * to the enemies not yet moving in the UGS.
-     * @return the string generated key that is stored in the hashmap of where the player is standing
+     * 
+     * @return the string generated key that is stored in the hashmap of where the
+     *         player is standing
      */
     public GridPoint2 getPlayerTile() {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
         Vector2 playerPos = player.getPosition();
-        GridPoint2 gPlayerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(playerPos.x, playerPos.y);
+        GridPoint2 gPlayerPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
+                .getComponent(TerrainComponent.class).worldToTilePosition(playerPos.x, playerPos.y);
         return gPlayerPos;
     }
 
     /**
-     * This function filters through the UGS and returns a list of all entities that are registered in the UGS
+     * This function filters through the UGS and returns a list of all entities that
+     * are registered in the UGS
+     * 
      * @return an array containing all entities that are within the UGS
      */
     public ArrayList<Entity> registeredInUGS() {
@@ -152,18 +164,22 @@ public class RangeService {
                 inUGS.add(i.getEntity());
             }
         }
-         return inUGS;
+        return inUGS;
     }
 
     /**
-     * This function allows the user to check if an entity is in range of the player. So enemies can use this to attack
+     * This function allows the user to check if an entity is in range of the
+     * player. So enemies can use this to attack
      * etc.
+     * 
      * @param toCompare an entity that you want to see if its around the player
      * @return true if its within the players perimeter and false if its not
      */
-    public Boolean playerInRangeOf (Entity toCompare) {
+    public Boolean playerInRangeOf(Entity toCompare) {
         Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-        GridPoint2 playerPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
+        GridPoint2 playerPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
+                .getComponent(TerrainComponent.class)
+                .worldToTilePosition(player.getPosition().x, player.getPosition().y + 1);
         ArrayList<Entity> ugs = registeredInUGS();
         boolean inRange = false;
         if (ugs.contains(toCompare)) {
@@ -174,6 +190,5 @@ public class RangeService {
         }
         return inRange;
     }
-
 
 }

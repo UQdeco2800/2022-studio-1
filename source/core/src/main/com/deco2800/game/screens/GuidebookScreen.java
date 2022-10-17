@@ -1,6 +1,7 @@
 package com.deco2800.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.areas.GuidebookArea;
 import com.deco2800.game.components.Guidebook.GuidebookActions;
@@ -37,6 +38,7 @@ public class GuidebookScreen extends ScreenAdapter {
     private final AtlantisSinks game;
     private final Renderer renderer;
     private static Table[] guidebook;
+    private Screen previousScreen;
 
     public static int renderTrigger = 0;
 
@@ -66,17 +68,18 @@ public class GuidebookScreen extends ScreenAdapter {
             "images/buildings.png"
     };
 
-    public GuidebookScreen(AtlantisSinks game) {
-
+    public GuidebookScreen(AtlantisSinks game, Screen previousScreen) {
         this.game = game;
+        System.out.println(game);
+        this.previousScreen = previousScreen;
 
         logger.debug("Initialising guidebook screen services");
-//        ServiceLocator.registerTimeSource(new GameTime());
-//
-//        ServiceLocator.registerInputService(new InputService());
-//        ServiceLocator.registerResourceService(new ResourceService());
-//        ServiceLocator.registerEntityService(new EntityService());
-//        ServiceLocator.registerRenderService(new RenderService());
+        // ServiceLocator.registerTimeSource(new GameTime());
+        //
+        // ServiceLocator.registerInputService(new InputService());
+        // ServiceLocator.registerResourceService(new ResourceService());
+        // ServiceLocator.registerEntityService(new EntityService());
+        // ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
         MainArea.getInstance().setMainArea(new GuidebookArea());
@@ -140,13 +143,13 @@ public class GuidebookScreen extends ScreenAdapter {
     public void dispose() {
         logger.debug("Disposing guidebook screen");
         renderer.dispose();
-//        unloadAssets();
-//
-//        ServiceLocator.getEntityService().dispose();
-//        ServiceLocator.getRenderService().dispose();
-//        ServiceLocator.getResourceService().dispose();
-//
-//        ServiceLocator.clear();
+        // unloadAssets();
+        //
+        // ServiceLocator.getEntityService().dispose();
+        // ServiceLocator.getRenderService().dispose();
+        // ServiceLocator.getResourceService().dispose();
+        //
+        // ServiceLocator.clear();
     }
 
     private void loadAssets() {
@@ -175,9 +178,11 @@ public class GuidebookScreen extends ScreenAdapter {
         Memento lastStatus = CareTaker.getInstance().getLast();
 
         Entity ui = new Entity();
-        ui.addComponent(new GuidebookDisplay()).addComponent(new InputDecorator(stage, 10));
-        ui.addComponent(new GuidebookActions(game)).addComponent(new InputDecorator(stage, 9));
         ui.addComponent(new GuidebookExitDisplay()).addComponent(new InputDecorator(stage, 11));
+        ui.addComponent(new GuidebookDisplay()).addComponent(new InputDecorator(stage, 10));
+        System.out.println("Game: " + game);
+        ui.addComponent(new GuidebookActions(game, previousScreen)).addComponent(new InputDecorator(stage, 9));
+
         ServiceLocator.getEntityService().registerNamed("guidebook", ui);
 
         guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)

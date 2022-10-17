@@ -1,6 +1,7 @@
 package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
@@ -35,10 +36,16 @@ public class GuidebookActions extends Component {
     private Renderer renderer;
     private CareTaker playerStatus;
     public int currentPage;
+    private Screen previousScreen;
 
     public GuidebookActions(AtlantisSinks game) {
         this.game = game;
         this.playerStatus = CareTaker.getInstance();
+    }
+
+    public GuidebookActions(AtlantisSinks game, Screen previousScreen) {
+        this.game = game;
+        this.previousScreen = previousScreen;
     }
 
     @Override
@@ -78,7 +85,8 @@ public class GuidebookActions extends Component {
 
         try {
             Thread.sleep(200);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+        }
 
         Sound flipSound = Gdx.audio.newSound(
                 Gdx.files.internal("sounds/book_flip.mp3"));
@@ -117,7 +125,8 @@ public class GuidebookActions extends Component {
 
         try {
             Thread.sleep(200);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+        }
 
         Sound flipSound = Gdx.audio.newSound(
                 Gdx.files.internal("sounds/book_flip.mp3"));
@@ -132,7 +141,16 @@ public class GuidebookActions extends Component {
     private void onExit() {
         logger.info("Exiting guidebook screen");
         ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GUIDEBOOK_CLOSED);
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+
+        Screen currentScreen = game.getScreen();
+
+        System.out.println(previousScreen);
+        if (previousScreen != null) {
+            game.setScreen(previousScreen);
+            currentScreen.dispose();
+        } else {
+            // game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        }
         GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }
 

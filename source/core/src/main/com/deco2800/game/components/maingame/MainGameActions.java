@@ -73,8 +73,11 @@ public class MainGameActions extends Component {
     playerStatus.add(currentStatus);
     ServiceLocator.getDayNightCycleService().pause();
 
+    getEntity().getComponent(MainGameExitDisplay.class).setEnabled(false);
     logger.info("Exiting main game screen");
+
     game.setScreen(AtlantisSinks.ScreenType.GUIDEBOOK);
+
   }
 
   /**

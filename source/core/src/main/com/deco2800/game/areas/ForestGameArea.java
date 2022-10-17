@@ -61,7 +61,7 @@ public class ForestGameArea extends GameArea {
   private Music music;
   private Music ambience;
 
- private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
+  private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
   private static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
   private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
 
@@ -70,8 +70,8 @@ public class ForestGameArea extends GameArea {
   // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-  //private Entity player;
-  //private Entity crystal;
+  // private Entity player;
+  // private Entity crystal;
   private int dayNum = 1;
   private Boolean loadGame;
 
@@ -103,10 +103,11 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-//    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
+    // logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
+    super.player = player;
 
     spawnElectricEelEnemy();
 
@@ -660,7 +661,6 @@ public class ForestGameArea extends GameArea {
   private void loadAssets() {
     logger.debug("Loading assets");
   }
-
 
   private void unloadAssets() {
     logger.debug("Unloading assets");

@@ -55,16 +55,22 @@ public class AtlantisSinks extends Game {
   public void setScreen(ScreenType screenType) {
     logger.info("Setting game screen to {}", screenType);
     Screen currentScreen = getScreen();
-    if (currentScreen != null) {
+
+    if (currentScreen != null && screenType != ScreenType.GUIDEBOOK) {
       currentScreen.dispose();
     }
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
-    }  else if (screenType == ScreenType.GUIDEBOOK) {
+    } else if (screenType == ScreenType.GUIDEBOOK) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
+    }
+
+    if (screenType == ScreenType.GUIDEBOOK) {
+      System.out.println("Made it here");
+      setScreen(newGuideBookScreen(currentScreen));
     }
     setScreen(newScreen(screenType, null));
   }
@@ -85,6 +91,10 @@ public class AtlantisSinks extends Game {
   public void dispose() {
     logger.debug("Disposing of current screen");
     getScreen().dispose();
+  }
+
+  private Screen newGuideBookScreen(Screen previousScreen) {
+    return new GuidebookScreen(this, previousScreen);
   }
 
   /**
@@ -112,7 +122,7 @@ public class AtlantisSinks extends Game {
       case STORY_LINE_EPILOGUE:
         return new EpilogueScreen(this);
       case GUIDEBOOK:
-        return new GuidebookScreen(this);
+        return new GuidebookScreen(this, null);
       case MAIN_GAME_LOAD:
         return new MainGameScreen(this, true);
       default:

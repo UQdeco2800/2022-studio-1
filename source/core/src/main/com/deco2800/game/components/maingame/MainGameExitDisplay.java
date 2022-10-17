@@ -24,7 +24,6 @@ public class MainGameExitDisplay extends UIComponent {
   private static final float Z_INDEX = 2f;
   private Table table;
 
-
   @Override
   public void create() {
     super.create();
@@ -46,30 +45,32 @@ public class MainGameExitDisplay extends UIComponent {
 
     // Triggers an event when the button is pressed.
     backButton.addListener(
-            new ClickListener() {
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    logger.debug("Exit button clicked");
-                    entity.getEvents().trigger("exit");
-                    return true;
-                }
-            });
-    //Adds hover state to button
-      backButton.addListener(
-              new InputListener() {
-                  @Override
-                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      backButton.setChecked(true);
-                  }
+        new ClickListener() {
+          @Override
+          public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            logger.debug("Exit button clicked");
+            if (enabled) {
+              entity.getEvents().trigger("exit");
+            }
 
-                  @Override
-                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      backButton.setChecked(false);
-                  }
-              });
-      backButton.addListener(
-              new TextTooltip("Back to Main Menu",skin)
-      );
+            return true;
+          }
+        });
+    // Adds hover state to button
+    backButton.addListener(
+        new InputListener() {
+          @Override
+          public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+            backButton.setChecked(true);
+          }
+
+          @Override
+          public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+            backButton.setChecked(false);
+          }
+        });
+    backButton.addListener(
+        new TextTooltip("Back to Main Menu", skin));
 
     // Entering the system button
     Texture settingTexture = new Texture(Gdx.files.internal("images/settingsGame.png"));
@@ -81,31 +82,30 @@ public class MainGameExitDisplay extends UIComponent {
 
     // Settings Button
     settingsButton.addListener(
-            new ClickListener() {
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    logger.debug("Settings button clicked on game page");
-                    logger.info("Game paused");
-                    entity.getEvents().trigger("settings");
-                    return true;
-                }
-            });
-      //Adds hover state to button
-      settingsButton.addListener(
-              new InputListener() {
-                  @Override
-                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      settingsButton.setChecked(true);
-                  }
+        new ClickListener() {
+          @Override
+          public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            logger.debug("Settings button clicked on game page");
+            logger.info("Game paused");
+            entity.getEvents().trigger("settings");
+            return true;
+          }
+        });
+    // Adds hover state to button
+    settingsButton.addListener(
+        new InputListener() {
+          @Override
+          public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+            settingsButton.setChecked(true);
+          }
 
-                  @Override
-                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      settingsButton.setChecked(false);
-                  }
-              });
-      settingsButton.addListener(
-              new TextTooltip("  Settings",skin)
-      );
+          @Override
+          public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+            settingsButton.setChecked(false);
+          }
+        });
+    settingsButton.addListener(
+        new TextTooltip("  Settings", skin));
 
     // Inserting load Button
     Texture loadTexture = new Texture(Gdx.files.internal("images/loadButton.png"));
@@ -115,33 +115,31 @@ public class MainGameExitDisplay extends UIComponent {
     TextureRegionDrawable checkedLoad = new TextureRegionDrawable(loadTextureHover);
     ImageButton loadButton = new ImageButton(upLoad, downLoad, checkedLoad);
 
-    //Triggers load event when button is pressed
+    // Triggers load event when button is pressed
     loadButton.addListener(
-            new ClickListener() {
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    logger.debug("Load button clicked on game page");
-                    entity.getEvents().trigger("load");
-                    return true;
-                }
-            }
-    );
-      //Adds hover state to button
-      loadButton.addListener(
-              new InputListener() {
-                  @Override
-                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      loadButton.setChecked(true);
-                  }
+        new ClickListener() {
+          @Override
+          public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            logger.debug("Load button clicked on game page");
+            entity.getEvents().trigger("load");
+            return true;
+          }
+        });
+    // Adds hover state to button
+    loadButton.addListener(
+        new InputListener() {
+          @Override
+          public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+            loadButton.setChecked(true);
+          }
 
-                  @Override
-                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      loadButton.setChecked(false);
-                  }
-              });
-      loadButton.addListener(
-              new TextTooltip("Load Game",skin)
-      );
+          @Override
+          public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+            loadButton.setChecked(false);
+          }
+        });
+    loadButton.addListener(
+        new TextTooltip("Load Game", skin));
 
     // Inserting save Button
     Texture saveTexture = new Texture(Gdx.files.internal("images/saveButton.png"));
@@ -151,33 +149,31 @@ public class MainGameExitDisplay extends UIComponent {
     TextureRegionDrawable checkedSave = new TextureRegionDrawable(saveTextureHover);
     ImageButton saveButton = new ImageButton(upSave, downSave, checkedSave);
 
-    //Triggers save event when button is pressed
+    // Triggers save event when button is pressed
     saveButton.addListener(
-            new ClickListener() {
-                @Override
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                    logger.debug("Save button clicked on game page");
-                    entity.getEvents().trigger("save");
-                    return true;
-                }
-            }
-    );
-      //Adds hover state to button
+        new ClickListener() {
+          @Override
+          public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            logger.debug("Save button clicked on game page");
+            entity.getEvents().trigger("save");
+            return true;
+          }
+        });
+    // Adds hover state to button
     saveButton.addListener(
-            new InputListener() {
-                  @Override
-                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      saveButton.setChecked(true);
-                  }
+        new InputListener() {
+          @Override
+          public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+            saveButton.setChecked(true);
+          }
 
-                  @Override
-                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
-                      saveButton.setChecked(false);
-                  }
-              });
-      saveButton.addListener(
-              new TextTooltip("Save Game",skin)
-      );
+          @Override
+          public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+            saveButton.setChecked(false);
+          }
+        });
+    saveButton.addListener(
+        new TextTooltip("Save Game", skin));
 
     table.add(saveButton).size(50f).pad(5);
     table.add(loadButton).size(50f).pad(5);

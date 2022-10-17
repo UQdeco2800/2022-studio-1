@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
  * Displays a button to exit the Main Game screen to the Main Menu screen.
  */
 public class GuidebookExitDisplay extends UIComponent {
-    private static final Logger logger = LoggerFactory.getLogger(com.deco2800.game.components.Guidebook.GuidebookExitDisplay.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(com.deco2800.game.components.Guidebook.GuidebookExitDisplay.class);
     private static final float Z_INDEX = 2f;
     private Table table;
-
 
     @Override
     public void create() {
@@ -32,13 +32,12 @@ public class GuidebookExitDisplay extends UIComponent {
         table.top().right();
         table.setFillParent(true);
 
-        // Entering the back button
         Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
+        Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
         TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
         TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
-        ImageButton backButton = new ImageButton(upBack, downBack);
-
-
+        TextureRegionDrawable checkedBack = new TextureRegionDrawable(backTextureHover);
+        ImageButton backButton = new ImageButton(upBack, downBack, checkedBack);
 
         // Triggers an event when the button is pressed.
         backButton.addListener(

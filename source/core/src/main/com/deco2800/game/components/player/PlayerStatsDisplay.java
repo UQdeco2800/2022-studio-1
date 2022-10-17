@@ -63,7 +63,7 @@ public class PlayerStatsDisplay extends UIComponent {
   public void create() {
     super.create();
     addActors();
-    //will be used to update health
+    // will be used to update health
     entity.getEvents().addListener("updateHealth", this::updatePlayerHealthUI);
     crystal.getEvents().addListener("updateHealth", this::updateCrystalHealthUI);
 
@@ -71,6 +71,7 @@ public class PlayerStatsDisplay extends UIComponent {
 
   /**
    * Creates actors and positions them on the stage using a table.
+   * 
    * @see Table for positioning options
    */
   private void addActors() {
@@ -79,62 +80,67 @@ public class PlayerStatsDisplay extends UIComponent {
     table.setFillParent(true);
     table.padTop(45f).padLeft(5f);
 
-    //Coin image
-    coinImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/coin.png", Texture.class));
+    // Coin image
+    coinImage = new Image(
+        ServiceLocator.getResourceService().getAsset("images/uiElements/exports/coin.png", Texture.class));
 
-    //Coin text - set as 0, for placeholder
+    // Coin text - set as 0, for placeholder
     int coin = entity.getComponent(InventoryComponent.class).getGold();
     CharSequence coinText = String.format("x %d", coin);
     coinLabel = new Label(coinText, skin, ForestGameArea.LARGE_FONT);
 
     // Heart image
-    heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
+    heartImage = new Image(
+        ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
 
-    //Health Bar Image
-    healthBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class ));
+    // Health Bar Image
+    healthBarImage = new Image(
+        ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
     // Health text level - grabbing percentile - to populate health bar
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
     healthprogressBar = player.getComponent(HealthBarComponent.class).getProgressBar();
     healthprogressBar.getStyle().background = DrawableUtil.getRectangularColouredDrawable(50, 15, Color.BROWN);
     healthprogressBar.getStyle().knob = DrawableUtil
-            .getRectangularColouredDrawable(0, 15, Color.RED);
+        .getRectangularColouredDrawable(0, 15, Color.RED);
     healthprogressBar.getStyle().knobBefore = DrawableUtil
-            .getRectangularColouredDrawable(50, 15, Color.RED);
-    //player health
+        .getRectangularColouredDrawable(50, 15, Color.RED);
+    // player health
     int playerHealth = player.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence playerHealthText = String.format("%d", playerHealth);
     healthBarLabel = new Label(playerHealthText, skin, ForestGameArea.LARGE_FONT);
 
+    // Crystal image
+    crystalImage = new Image(
+        ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
 
-    //Crystal image
-    crystalImage =  new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/crystal.png", Texture.class));
-
-    //Get crystal health bar and customise
+    // Get crystal health bar and customise
     crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
     progressBar = crystal.getComponent(HealthBarComponent.class).getProgressBar();
-            progressBar.getStyle().background = DrawableUtil
-                    .getRectangularColouredDrawable(50, 15,  Color.BROWN);
-            progressBar.getStyle().knob = DrawableUtil
-                    .getRectangularColouredDrawable(0, 15, Color.VIOLET);
-            progressBar.getStyle().knobBefore = DrawableUtil
-                    .getRectangularColouredDrawable(50, 15, Color.VIOLET);
+    progressBar.getStyle().background = DrawableUtil
+        .getRectangularColouredDrawable(50, 15, Color.BROWN);
+    progressBar.getStyle().knob = DrawableUtil
+        .getRectangularColouredDrawable(0, 15, Color.VIOLET);
+    progressBar.getStyle().knobBefore = DrawableUtil
+        .getRectangularColouredDrawable(50, 15, Color.VIOLET);
 
-    crystalBarImage = new Image(ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
-    //crystal health text
+    crystalBarImage = new Image(
+        ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
+    // crystal health text
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("%d", crystalHealth);
     crystalLabel = new Label(healthText, skin, ForestGameArea.LARGE_FONT);
 
-    //Stone image
-    stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/icon_stone.png", Texture.class));
+    // Stone image
+    stoneCurrencyImage = new Image(
+        ServiceLocator.getResourceService().getAsset("images/icon_stone.png", Texture.class));
 
-    //Stone text. 0 as an initial set up
+    // Stone text. 0 as an initial set up
     int stone = entity.getComponent(InventoryComponent.class).getStone();
     CharSequence stoneCount = String.format("x %d", stone);
 
     stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, ForestGameArea.LARGE_FONT);
 
-   // wood counter
+    // wood counter
     woodImage = new Image(ServiceLocator.getResourceService().getAsset("images/icon_wood.png", Texture.class));
 
     int woodCountInt = entity.getComponent(InventoryComponent.class).getWood();
@@ -144,31 +150,29 @@ public class PlayerStatsDisplay extends UIComponent {
 
     CrystalService.recoverCrystalHealth(crystal);
 
-
     table.add(heartImage).pad(5);
     table.stack(healthprogressBar, healthBarImage).size(200f, 30f).pad(5);
     table.add(healthBarLabel);
     table.row();
     table.add(crystalImage);
-    table.stack(progressBar,crystalBarImage).size(190f,30f).pad(5);
+    table.stack(progressBar, crystalBarImage).size(190f, 30f).pad(5);
     table.add(crystalLabel);
     table.row();
     table.add(coinImage);
-    table.add(coinLabel).pad(0,0,0,0).left();
+    table.add(coinLabel).pad(0, 0, 0, 0).left();
     table.row();
     table.add(stoneCurrencyImage);
-    table.add(stoneCurrencyLabel).pad(0,0,0,0).left();
+    table.add(stoneCurrencyLabel).pad(0, 0, 0, 0).left();
     table.row();
     table.add(woodImage).size(50f);
     table.add(woodLabel).left();
 
-    
     table.row();
     stage.addActor(table);
   }
 
   @Override
-  public void draw(SpriteBatch batch)  {
+  public void draw(SpriteBatch batch) {
     // draw is handled by the stage
   }
 
@@ -176,20 +180,24 @@ public class PlayerStatsDisplay extends UIComponent {
     CharSequence text = String.format("%d", health);
     crystalLabel.setText(text);
   }
+
   private void updatePlayerHealthUI(int playerHealth) {
     CharSequence text = String.format("%d", playerHealth);
     healthBarLabel.setText(text);
   }
 
   public static void updateItems() {
-    CharSequence stone = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getStone());
+    CharSequence stone = String.format("x %d",
+        MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getStone());
     stoneCurrencyLabel.setText(stone);
-    CharSequence gold = String.format("x %d",  MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
+    CharSequence gold = String.format("x %d",
+        MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getGold());
     coinLabel.setText(gold);
-    CharSequence wood = String.format("x %d", MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
+    CharSequence wood = String.format("x %d",
+        MainArea.getInstance().getGameArea().getPlayer().getComponent(InventoryComponent.class).getWood());
     woodLabel.setText(wood);
 
-    //updates the objective
+    // updates the objective
     ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
   }
 
@@ -206,12 +214,13 @@ public class PlayerStatsDisplay extends UIComponent {
 
   public static void updateStoneCountUI() {
     int stone = 0;
-    HashMap<String, Entity> namedEntities = (HashMap<String, Entity>) ServiceLocator.getEntityService().getAllNamedEntities();
+    HashMap<String, Entity> namedEntities = (HashMap<String, Entity>) ServiceLocator.getEntityService()
+        .getAllNamedEntities();
     int quarryCount = 0;
     for (Map.Entry<String, Entity> entry : namedEntities.entrySet()) {
-        if (entry.getKey().contains("stoneQuarry")) {
-          quarryCount += 1;
-        }
+      if (entry.getKey().contains("stoneQuarry")) {
+        quarryCount += 1;
+      }
     }
     stone = stoneCount + quarryCount * 100;
     stoneCount = stone;
