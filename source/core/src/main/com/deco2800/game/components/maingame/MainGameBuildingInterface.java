@@ -31,9 +31,6 @@ import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class MainGameBuildingInterface extends UIComponent {
@@ -240,7 +237,12 @@ public class MainGameBuildingInterface extends UIComponent {
         return BuildingUI;
     }
 
-
+    /**
+     * Create Crystal Upgrade Pop Up
+     * @param value visibility value of Pop Up
+     * @param x x coordinate of Crystal
+     * @param y y coordinate of Crystal
+     */
     public Table makeCrystalPopUp(Boolean value, float x, float y) {
         float uiHeight = 300f;
         float screenHeight = Gdx.graphics.getHeight();
@@ -337,9 +339,6 @@ public class MainGameBuildingInterface extends UIComponent {
                             CrystalUI.remove();
                         }
 
-                        else if (level == 3) {
-                            logger.info("Crystal has reached Max Level");
-                        }
                         else {
                             logger.info("Insufficient gold to upgrade crystal!");
                             Sound filesound = Gdx.audio.newSound(
@@ -380,10 +379,7 @@ public class MainGameBuildingInterface extends UIComponent {
         if(crystal.getComponent(CombatStatsComponent.class).getLevel()<3) {
             rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);
         }
-        else {
-            Label levelLabel = new Label("Max level reached", skin, "large");
-            rightTable.add(levelLabel).size(250f, 80f).center();
-        }
+
 
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.add(leftTable);
@@ -394,13 +390,17 @@ public class MainGameBuildingInterface extends UIComponent {
         return CrystalUI;
     }
 
-    public Table makeCrystalPopUp2(Boolean value) {
+    /**
+     * Create Crystal Notification when Crystal has reached max level
+     * @param value visibility value of Pop Up
+     */
+    public Table makeCrystalNoti(Boolean value) {
         visability = value;
         CrystalUI = new Table();
-        CrystalUI.setSize(461, 187);
-        CrystalUI.setPosition(730,50);
+        CrystalUI.setSize(461, 200);
+        CrystalUI.setPosition(730,45);
         CrystalUI.setVisible(true);
-        Texture colour = new Texture(Gdx.files.internal("images/tutorials/crystalLevelPopUp.png"));
+        Texture colour = new Texture(Gdx.files.internal("images/tutorials/CrystalPopUp.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.bottom();

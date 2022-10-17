@@ -7,23 +7,15 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.components.maingame.MainGameNpcInterface;
 import com.deco2800.game.entities.*;
-import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
-import com.deco2800.game.memento.Originator;
-import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
 //import java.io.Serial;     // this had an error not sure what the go is???
-
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 import java.util.*;
 
@@ -234,7 +226,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
             isVisible = true;
           }
           else {
-            PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp2(true);
+            PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalNoti(true);
             isVisible = true;
             final int[] i = {0};
             Timer time = new Timer();

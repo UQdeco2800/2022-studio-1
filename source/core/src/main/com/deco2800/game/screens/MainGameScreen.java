@@ -92,7 +92,7 @@ public class MainGameScreen extends ScreenAdapter {
       "images/upgrade1500.2.png",
       "images/upgradeFail500.png",
       "images/upgradeFail1500.png",
-      "images/tutorials/crystalLevelPopUp.png"
+      "images/tutorials/CrystalPopUp.png"
   };
 
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);

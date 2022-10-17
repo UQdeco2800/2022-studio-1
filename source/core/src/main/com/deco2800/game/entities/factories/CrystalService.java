@@ -73,6 +73,9 @@ public class CrystalService {
 
     }
 
+    /**
+     * Triggers shaking effect of the in-game camera
+     */
     public static void screenShake(){
         Entity cam = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent cameraComp = cam.getComponent(CameraComponent.class);
