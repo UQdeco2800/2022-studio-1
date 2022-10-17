@@ -38,7 +38,12 @@ public class GuidebookDisplay extends UIComponent {
     private Table controls;
 
     private static final Page[] pages = parseGuidebookContentJson("configs/guidebookcontent.json");
-    public static final int maxPages = pages.length;
+    public static final int MAX_PAGES;
+
+    static {
+        assert pages != null;
+        MAX_PAGES = pages.length;
+    }
 
     public static int currentPage = 0;
 
@@ -49,6 +54,7 @@ public class GuidebookDisplay extends UIComponent {
     }
 
     private void addActors() {
+        // Handled outside
     }
 
     public Table[] getGuidebook() {
@@ -67,6 +73,7 @@ public class GuidebookDisplay extends UIComponent {
             case OPEN -> {
                 return displayOpenBook();
             }
+            default -> {}
         }
         return new Table[] { book, content, controls };
     }
@@ -107,6 +114,7 @@ public class GuidebookDisplay extends UIComponent {
                 bookHeight = screenHeight * 0.85f;
                 bookWidth = bookHeight * 1.52f;
             }
+            default -> {}
         }
 
         Image bookImage = new Image(ServiceLocator.getResourceService().getAsset(imagePath, Texture.class));

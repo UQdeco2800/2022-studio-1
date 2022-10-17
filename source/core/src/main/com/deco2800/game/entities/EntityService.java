@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class EntityService {
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
   private boolean currentWorldStep;
-  private ArrayList<Entity> toDestroyEntities = new ArrayList<>();
+  public ArrayList<Entity> toDestroyEntities = new ArrayList<>();
 
   //You may ask why a second map instead of entities? I honestly have no clue
   //but this was the only way I could get a list of entities without crashing while looping in a component
@@ -77,12 +78,21 @@ public class EntityService {
     return this.toDestroyEntities;
   }
 
+  public void setDestroyEntire(ArrayList<Entity> newEntities) {
+    this.toDestroyEntities = newEntities;
+  }
+
   /**
    *
    * @param e entity to destroy
    */
   public void addToDestroyEntities(Entity e) {
-    this.toDestroyEntities.add(e);
+    if (!this.toDestroyEntities.contains(e)) {
+      this.toDestroyEntities.add(e);
+      unregister(e);
+    }
+
+
   }
 
 
@@ -135,6 +145,9 @@ public class EntityService {
     if (null != toRemove) {
       entityMap.remove(toRemove);
     }
+    if (entity.getName() != null && entity.getName().contains(",") && entity.getName().contains("tower")) {
+      this.namedEntities.remove(entity.getName(), entity);
+    }
   }
 
   public void removeNamedEntity (String name, Entity entity) {
@@ -150,6 +163,9 @@ public class EntityService {
     for (Entity entity : entities) {
       entity.earlyUpdate();
       entity.update();
+      if (entity.getName() != null && entity.getName().contains("tower") && entity.getComponent(CombatStatsComponent.class).getHealth() < 1) {
+        entity.dispose();
+      }
     }
   }
 

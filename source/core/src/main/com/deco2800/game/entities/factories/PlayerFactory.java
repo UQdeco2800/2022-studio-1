@@ -26,7 +26,6 @@ import com.deco2800.game.services.ServiceLocator;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-
 /**
  * Factory to create a player entity.
  *
@@ -46,13 +45,13 @@ public class PlayerFactory {
   public static Entity createPlayer() {
     InputComponent inputComponent = ServiceLocator.getInputService().getInputFactory().createForPlayer();
 
-    //e.g. "w" - when w is pressed, "wa" - during attack, when w is pressed before
+    // e.g. "w" - when w is pressed, "wa" - during attack, when w is pressed before
     AnimationRenderComponent player_start = new AnimationRenderComponent(ServiceLocator.getResourceService()
-    .getAsset("images/anim_demo/main.atlas", TextureAtlas.class));
-        
+        .getAsset("images/anim_demo/main.atlas", TextureAtlas.class));
+
     player_start.addAnimation("death_anim", 0.15f, Animation.PlayMode.NORMAL);
 
-    String[] wea_lst = {"arm_","bna_","hel_", "shi_", "swo_", "tri_", "axe_", ""};
+    String[] wea_lst = { "arm_", "bna_", "hel_", "shi_", "swo_", "tri_", "axe_", "" };
 
     for (String weapoString : wea_lst) {
       player_start.addAnimation(weapoString.concat("w"), 0.15f, Animation.PlayMode.REVERSED);
@@ -70,7 +69,7 @@ public class PlayerFactory {
     player_start.addAnimation("swo_att_wd", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("tri_att_as", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("tri_att_wd", 0.1f, Animation.PlayMode.NORMAL);
-    
+
     player_start.addAnimation("axe_get", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("bna_get_as", 0.2f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("bna_get_wd", 0.2f, Animation.PlayMode.NORMAL);
@@ -85,31 +84,29 @@ public class PlayerFactory {
     player_start.addAnimation("hel_get_as", 0.1f, Animation.PlayMode.NORMAL);
     player_start.addAnimation("hel_get_wd", 0.1f, Animation.PlayMode.NORMAL);
 
+    Entity player = new Entity()
+        .addComponent(player_start)
+        .addComponent(new PhysicsComponent())
+        .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
+        .addComponent(new AnimationController())
+        .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
+        .addComponent(new PlayerActions())
+        .addComponent(new InventoryComponent(10000, stats.stone, stats.wood))
+        .addComponent(inputComponent)
+        .addComponent(new PlayerStatsDisplay());
 
-    Entity player =
-        new Entity()
-            .addComponent(player_start)
-            .addComponent(new PhysicsComponent())
-            .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new AnimationController())
-            .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-            .addComponent(new PlayerActions())
-            .addComponent(new InventoryComponent(10000, stats.stone, stats.wood))
-            .addComponent(inputComponent)            
-            .addComponent(new PlayerStatsDisplay());
-
-    player.addComponent(new CombatStatsComponent(50 , stats.baseAttack, stats.baseDefense, 1,100))
-            .addComponent(new HealthBarComponent(100, 10));
+    player.addComponent(new CombatStatsComponent(50, stats.baseAttack, stats.baseDefense, 1, 100))
+        .addComponent(new HealthBarComponent(100, 10));
 
     player.setName("player");
     player.setCollectable(false);
 
-    PhysicsUtils.setScaledCollider(player, 15f, 15f);
-    player.getComponent(ColliderComponent.class).setDensity(1.5f);
+    PhysicsUtils.setScaledCollider(player, 0.1f, 0.1f);
+    // player.getComponent(ColliderComponent.class).setDensity(1f);
     player.getComponent(AnimationRenderComponent.class).startAnimation("axe_w");
     player.getComponent(AnimationRenderComponent.class).scaleEntity();
     player.setScale(10.5f, 9.5f);
-//    player.getComponent(TextureRenderComponent.class).scaleEntity();
+    // player.getComponent(TextureRenderComponent.class).scaleEntity();
 
     return player;
   }
