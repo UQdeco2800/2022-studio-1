@@ -58,6 +58,7 @@ public class AchievementInterface extends UIComponent {
      */
     private Group achievementBadges;
     private float badgeWidth;
+    private float badgeHeight;
 
     /**
      * Create the achievement base display
@@ -240,8 +241,7 @@ public class AchievementInterface extends UIComponent {
      * @param descriptionLabel the description label for the achievement
      * @return an image or
      */
-    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete,
-            Achievement achievement,
+    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete, Achievement achievement,
             Label descriptionLabel) {
         switch (milestoneNumber) {
             case 1: {
@@ -304,21 +304,21 @@ public class AchievementInterface extends UIComponent {
      * @param descriptionLabel the label to be changed on hover
      * @return Group of ImageButtons
      */
-    public static Group buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
+    public static Group buildAchievementMilestoneButtons(Group milestoneButtons, Achievement achievement, Label descriptionLabel) {
         var achievementService = ServiceLocator.getAchievementHandler();
-        Table milestoneButtons = new Table();
-        milestoneButtons.add();
-        milestoneButtons.add(getMilestoneImageButtonByNumber(1,
-                achievementService.isMilestoneAchieved(achievement, 1), achievement, descriptionLabel));
-        milestoneButtons.add(getMilestoneImageButtonByNumber(2,
-                achievementService.isMilestoneAchieved(achievement, 2), achievement, descriptionLabel));
-        milestoneButtons.add(getMilestoneImageButtonByNumber(3,
-                achievementService.isMilestoneAchieved(achievement, 3), achievement, descriptionLabel));
-        milestoneButtons.add(getMilestoneImageButtonByNumber(4,
+        float buttonSize = Gdx.graphics.getHeight() * 0.11f / 5f;
 
-                achievementService.isMilestoneAchieved(achievement, 4),achievement,descriptionLabel));
-       milestoneButtons.add();
-       milestoneButtons.align(Align.center);
+        for (int i = 1; i <= 4; i++) {
+            Image button = getMilestoneImageButtonByNumber(i,
+                    achievementService.isMilestoneAchieved(achievement, i), achievement, descriptionLabel);
+
+            if (button != null) {
+                button.setSize(buttonSize, buttonSize);
+                button.setPosition(milestoneButtons.getParent().getX() + (i - 1) * buttonSize, milestoneButtons.getParent().getY());
+                milestoneButtons.addActor(button);
+            }
+        }
+
        return milestoneButtons;
     }
 
@@ -364,7 +364,11 @@ public class AchievementInterface extends UIComponent {
         achievementCard.addActor(descriptionLabel);
 
         if (achievement.isStat()) {
-            achievementCard.addActor(buildAchievementMilestoneButtons(achievement, descriptionLabel));
+            Group milestoneButtons = new Group();
+            milestoneButtons.setPosition(contentX + contentWidth / 4f - milestoneButtons.getWidth() / 2f,
+                    achievementCard.getY() + Gdx.graphics.getHeight() * 0.015f);
+            achievementCard.addActor(milestoneButtons);
+            achievementCard.addActor(buildAchievementMilestoneButtons(milestoneButtons, achievement, descriptionLabel));
         }
 
         return achievementCard;
@@ -456,7 +460,7 @@ public class AchievementInterface extends UIComponent {
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
 
         this.badgeWidth = Gdx.graphics.getWidth() * 0.21f;
-        float badgeHeight = Gdx.graphics.getHeight() * 0.11f;
+        this.badgeHeight = Gdx.graphics.getHeight() * 0.11f;
 
         float leftColumnX = displayTable.getX() + displayTable.getWidth() / 4f - badgeWidth / 2f + badgeWidth / 20f;
         float rightColumnX = displayTable.getX() + displayTable.getWidth() * 3f / 4f - badgeWidth / 2f - badgeWidth / 20f;
