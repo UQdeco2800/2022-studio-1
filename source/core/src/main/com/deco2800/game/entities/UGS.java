@@ -120,7 +120,7 @@ public class UGS {
     /**
      * Takes a String and Entity, and sets the corresponding tile's
      * Entity parameter
-     * 
+     *
      * @param coordinate
      * @param entity     Entity
      */
@@ -128,14 +128,20 @@ public class UGS {
         if (checkEntityPlacement(coordinate, entityName)) {
             if (entity != null) {
                 // Add entity to the entity list through the entity service
-                if (!(entityName.equals("player"))
-                        || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
+                if (!(entityName.equals("player")) || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
                     ServiceLocator.getEntityService().registerNamed(entityName, entity);
                 }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-
-                entity.setPosition(entityWorldPos);
+                if (entityName.contains("wall") || entityName.contains("tower1") || entityName.contains("tower2") || entityName.contains("tower3")
+                        || entityName.contains("turret") || entityName.contains("trap")) {
+                    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+                    entityWorldPos.x -= tileSize/4;
+                    entityWorldPos.y -= tileSize/8;
+                    entity.setPosition(entityWorldPos);
+                } else {
+                    entity.setPosition(entityWorldPos);
+                }
 
                 String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
                 tiles.get(stringCoord).setEntity(entity);
