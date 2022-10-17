@@ -80,8 +80,6 @@ public class NPCFactory {
         public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
                 Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
                 EnemyConfig config = configs.ElectricEel;
-                // TextureRenderComponent textureRenderComponent = new
-                // TextureRenderComponent("images/Eel_Bright_SW.png");
 
                 AnimationRenderComponent animator = new AnimationRenderComponent(
                                 ServiceLocator.getResourceService().getAsset("images/eel_animations/eel.atlas",
@@ -120,6 +118,7 @@ public class NPCFactory {
         public static Entity createMeleeBoss(Entity target) {
                 Entity boss = createBaseEnemy(target);
                 MeleeBossConfig config = configs.meleeBossEnemy;
+                config.speed = new Vector2(0.3f, 0.3f);
                 AnimationRenderComponent animator = new AnimationRenderComponent(
                                 ServiceLocator.getResourceService().getAsset(
                                                 "images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
@@ -199,6 +198,7 @@ public class NPCFactory {
                                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                                 .addComponent(aiComponent);
 
+                enemy.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
                 PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
                 return enemy;
         }
@@ -227,6 +227,7 @@ public class NPCFactory {
                                 .addComponent(new TouchAttackComponent(PhysicsLayer.RangeNPC))
                                 .addComponent(aiComponent);
 
+                enemy.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
                 PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
                 return enemy;
         }
@@ -284,10 +285,9 @@ public class NPCFactory {
          * @return normal NPC
          */
         public static Entity createNormalNPC() {
-                String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
-                                "images/npcs/NPC-V2.2.png" };
+                String[] NPC_textures = { "images/npcs/NPC_V3.png",
+                                "images/npcs/npc_blacksmith_draft.png" };
 
-                // int index = (int) ((Math.random() * (NPC_textures.length)));
                 int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
                 Entity NPC = createBaseNPC();
                 NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));

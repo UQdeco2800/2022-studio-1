@@ -30,7 +30,7 @@ public class AOEDamageComponent extends Component {
         private long lastUpdate = 0;
 
         public AOEDamageComponent(int numTargets, int radiusRange, int attackRate) {
-                this.targetLayer = targetLayer;
+                //this.targetLayer = targetLayer;  //unused?
                 this.numTargets = numTargets;
                 this.rangeRadius = radiusRange;
                 this.updateRate = attackRate;
