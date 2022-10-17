@@ -8,6 +8,6 @@ config: {
 	maxDays: 4
 }
 timer: {
-	startTime: 1665915547148
+	startTime: 1665979019992
 }
 }

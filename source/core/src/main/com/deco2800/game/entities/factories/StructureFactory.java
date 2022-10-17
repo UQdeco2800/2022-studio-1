@@ -250,19 +250,25 @@ public class StructureFactory {
    * @param level of the tower
    * @return tower3 entity
    */
-  public static Entity createTower3(int level, String name, Boolean isTemp) {
+  public static Entity createTower3(int level, String name, Boolean isTemp, int orientation) {
     // @TODO Change string constant
     String TOWER3I;
     if (isTemp) {
-      TOWER3I = "images/TOWER3I.png"; // change texture to be temp texture
+      TOWER3I = "images/attack_towers/tow3_1_l.png"; // change texture to be temp texture
     } else {
-      TOWER3I = "images/TOWER3I.png";
+      TOWER3I = "images/attack_towers/tow3_1_l.png";
     }
-    String TOWER3II = "images/TOWER3II.png";
-    String TOWER3III = "images/TOWER3III.png";
+    String TOWER3II = "images/attack_towers/tow3_2_l.png";
+    String TOWER3III = "images/attack_towers/tow3_3_l.png";
 
     Entity tower3;
     BaseStructureConfig config;
+
+    if (orientation == 1) {
+      TOWER3I = "images/attack_towers/tow3_1_r.png";
+      TOWER3II = "images/attack_towers/tow3_2_r.png";
+      TOWER3III = "images/attack_towers/tow3_3_r.png";
+    }
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
@@ -458,12 +464,12 @@ public class StructureFactory {
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower3 = StructureFactory.createTower3(2, structName, false);
+          tower3 = StructureFactory.createTower3(2, structName, false, 0);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
         case 2:
-          tower3 = StructureFactory.createTower3(3, structName, false);
+          tower3 = StructureFactory.createTower3(3, structName, false, 0);
           ServiceLocator.getUGSService().setEntity(gridPos, tower3, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower3);
           break;
