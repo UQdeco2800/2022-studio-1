@@ -117,7 +117,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.Q:
         if (PlayerActions.playerAlive) {
-          // entity.setScale(11f, 10.5f);
+           // entity.setScale(11f, 10.5f);
           entity.getEvents().trigger("playerDeath");
           return true;
         } else {
