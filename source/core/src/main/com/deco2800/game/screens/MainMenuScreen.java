@@ -1,11 +1,13 @@
 package com.deco2800.game.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.mainmenu.MainMenuActions;
 import com.deco2800.game.components.mainmenu.MainMenuDisplay;
+import com.deco2800.game.components.mainmenu.loader;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
@@ -31,8 +33,17 @@ public class MainMenuScreen extends ScreenAdapter {
   private final Renderer renderer;
 
   private Table rootTable;
+  private Table loadTable;
   private float time;
+  private boolean loadAssetsSwitch = true;
+  private boolean loadComplete = false;
 
+  private static String[] mainMenuScreenTextures = {
+          "images/uiElements/exports/title.png",
+          "loadingAssets/loading_screen.png",
+          "loadingAssets/load_frame.png",
+          "loadingAssets/load_bar.png"
+  };
   private static String[] mainMenuTextures = {
           "images/uiElements/exports/title.png",
           "images/Centaur_Back_left.png",
@@ -177,6 +188,9 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/upgradeFail1500.png",
           "images/tutorials/crystalLevelPopUp.png",
           "images/crystal2.0.png",
+          "images/crystal1.png",
+          "images/crystal2.png",
+          "images/crystal3.png",
           "images/attack_towers/tow1_1_r.png",
           "images/attack_towers/tow1_2_l.png",
           "images/attack_towers/tow1_2_r.png",
@@ -216,6 +230,7 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/npc_animations/NPC1sprite.atlas",
           "images/npc_animations/npc.atlas",
           "images/crystal_animation/crystal_damaged.atlas",
+          "images/crystal_animation/p_crystal_damaged.atlas",
           "images/attack_towers/animations/towerLevel2.atlas"
   };
 
@@ -250,14 +265,43 @@ public class MainMenuScreen extends ScreenAdapter {
 
     renderer = RenderFactory.createRenderer();
 
-    loadAssets();
+    loadScreenAsset();
     createUI();
   }
 
   @Override
   public void render(float delta) {
     this.time += delta;
-    if (this.time > 0.4f) {
+
+    if (this.time > 0.4f && loadAssetsSwitch) {
+      ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
+      loadTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class)
+              .getLoadDisplay();
+      ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class).loadUpdate();
+      this.time = delta;
+      loadAssetsSwitch = false;
+      loadAssets();
+    }
+
+    if (this.time > 0.4f && !loadComplete) {
+      AssetManager assetManager = ServiceLocator.getResourceService().getAssetManager();
+      float currProgress = assetManager.getProgress() * 100;
+      logger.info("Loading... {}%", currProgress);
+      ServiceLocator.getEntityService().getNamedEntity("menu").getEvents()
+              .trigger("loadStatUpdate", currProgress);
+      if (assetManager.isFinished()) {
+        loadComplete = true;
+      } else {
+        try {
+          assetManager.update(1);
+        } catch (Exception e) {
+          logger.error(e.getMessage());
+        }
+      }
+    }
+
+    if (this.time > 0.4f && loadComplete) {
+
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
       rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
           .getDisplay();
@@ -266,13 +310,17 @@ public class MainMenuScreen extends ScreenAdapter {
     }
     ServiceLocator.getEntityService().update();
     renderer.render();
-  }
+    }
 
   @Override
   public void resize(int width, int height) {
     if (rootTable != null)
       rootTable.remove();
-    rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
+    if (!loadAssetsSwitch) {
+      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).display();
+    } else {
+      rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class).displayLoadScreen();
+    }
     renderer.resize(width, height);
     logger.trace("Resized renderer: ({} x {})", width, height);
   }
@@ -293,6 +341,12 @@ public class MainMenuScreen extends ScreenAdapter {
 
     renderer.dispose();
   }
+  private void loadScreenAsset() {
+    logger.debug("Loading assets");
+    ResourceService resourceService = ServiceLocator.getResourceService();
+    resourceService.loadTextures(mainMenuScreenTextures);
+    ServiceLocator.getResourceService().loadAll();
+  }
 
   private void loadAssets() {
     logger.debug("Loading assets");
@@ -303,10 +357,7 @@ public class MainMenuScreen extends ScreenAdapter {
     resourceService.loadSounds(soundEffects);
     resourceService.loadMusic(forestMusic);
     resourceService.loadMusic(shopPopUpMusic);
-    while (!resourceService.loadForMillis(1)) {
-      // This could be upgraded to a loading screen
-      logger.info("Loading... {}%", resourceService.getProgress());
-    }
+
   }
 
   private void unloadAssets() {
@@ -325,10 +376,13 @@ public class MainMenuScreen extends ScreenAdapter {
     Stage stage = ServiceLocator.getRenderService().getStage();
     Entity ui = new Entity();
     ui.addComponent(new MainMenuDisplay())
+        .addComponent(new loader())
         .addComponent(new InputDecorator(stage, 10))
         .addComponent(new MainMenuActions(game));
     ServiceLocator.getEntityService().registerNamed("menu", ui);
     rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)
         .getDisplay();
+    loadTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(loader.class)
+        .getLoadDisplay();
   }
 }

@@ -190,7 +190,9 @@ public class PlayerStatsDisplay extends UIComponent {
     woodLabel.setText(wood);
 
     //updates the objective
-    ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
+    if (ServiceLocator.getEntityService().getNamedEntity("player") != null) {
+      ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
+    }
   }
 
   public void updateResourceAmount() {

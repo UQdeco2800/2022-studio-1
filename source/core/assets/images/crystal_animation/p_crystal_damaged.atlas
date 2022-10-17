@@ -1,0 +1,47 @@
+p_crystal_damaged.png
+size: 250, 1600
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default
+  rotate: false
+  xy: 0, 0
+  size: 250, 400
+  orig: 250, 400
+  offset: 0, 0
+  index: -1
+pcrystal
+  rotate: false
+  xy: 0, 0
+  size: 250, 400
+  orig: 250, 400
+  offset: 0, 0
+  index: -1
+pcrystal
+  rotate: false
+  xy: 0, 400
+  size: 250, 400
+  orig: 250, 400
+  offset: 0, 0
+  index: -1
+pcrystal
+  rotate: false
+  xy: 0, 800
+  size: 250, 400
+  orig: 250, 400
+  offset: 0, 0
+  index: -1
+pcrystal
+  rotate: false
+  xy: 0, 1200
+  size: 250, 400
+  orig: 250, 400
+  offset: 0, 0
+  index: -1
+plast
+  rotate: false
+  xy: 0, 1200
+  size: 250, 400
+  orig: 250, 400
+  offset: 0, 0
+  index: -1
