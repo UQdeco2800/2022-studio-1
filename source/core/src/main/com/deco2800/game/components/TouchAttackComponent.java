@@ -59,7 +59,6 @@ public class TouchAttackComponent extends Component {
   }
 
   private void onCollisionStart(Fixture me, Fixture other) {
-
     if (!hitboxComponent.getFixture().equals(me)) {
       // Not triggered by hitbox, ignore
       return;
