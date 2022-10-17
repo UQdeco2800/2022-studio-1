@@ -209,8 +209,8 @@ public class NPCFactory {
                 // Vector2 RangeHitbox = new Vector2(2f, 1f);
                 AITaskComponent aiComponent = new AITaskComponent()
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                                .addTask(new RangedMovementTask(crystal, 20, 20f, 100f, 60f))
-                                .addTask(new RangedMovementTask(target, 20, 20f, 50f, 60f))
+                                .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
+                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
                                 .addTask(new ShootTask(target, 30, 30f, 60f))
                                 .addTask(new ShootTask(crystal, 30, 30f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
