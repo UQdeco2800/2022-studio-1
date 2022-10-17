@@ -11,13 +11,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.deco2800.game.components.loadingPage.LoadingDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import com.deco2800.game.utils.TextUtil;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class loader extends UIComponent {
 
@@ -25,6 +33,7 @@ public class loader extends UIComponent {
     private Table loadTable;
     private Label currLoadProgress;
     private Image loadBarFront;
+    private String[] tips = parseTipsJson("configs/tips.json");
 
     @Override
     public void create() {
@@ -75,8 +84,8 @@ public class loader extends UIComponent {
 
         // display the tips
         //TODO: make a list / LinkedList of tips to pick randomly from
-        CharSequence getTips = "insert tips here";
-        Label displayTips = TextUtil.createTextLabel((String) getTips, 0x000000ff, 24);
+        String tip = getRandomTip();
+        Label displayTips = TextUtil.createTextLabel( tip, 0x252525FF, 18);
 
         loadTable.add(title).expandX().expandY().padTop(50);
         loadTable.row();
@@ -112,5 +121,20 @@ public class loader extends UIComponent {
         super.dispose();
     }
 
+    private static String[] parseTipsJson(String path) {
+        Gson gson = new Gson();
+        BufferedReader buffer;
+        try {
+            buffer = Files.newBufferedReader(Paths.get(path));
+        } catch (IOException e) {
+            System.out.println("File not valid");
+            return null;
+        }
+        return gson.fromJson((Reader) buffer, String[].class);
+    }
+
+    private String getRandomTip() {
+        return tips[(int)(TimeUtils.nanoTime() % tips.length)];
+    }
 }
 
