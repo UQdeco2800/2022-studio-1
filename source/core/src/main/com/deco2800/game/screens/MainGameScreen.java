@@ -136,6 +136,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void pause() {
     ServiceLocator.getDayNightCycleService().pause();
     logger.info("Game paused");
+    System.exit(0);
   }
 
   @Override
@@ -149,13 +150,6 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Disposing main game screen");
 
     renderer.dispose();
-    // unloadAssets();
-    //
-    // ServiceLocator.getEntityService().dispose();
-    // ServiceLocator.getRenderService().dispose();
-    // ServiceLocator.getResourceService().dispose();
-    //
-    // ServiceLocator.clear();
   }
 
   private void loadAssets() {
@@ -197,7 +191,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
         .addComponent(new AchievementInterface())
-            //please don't move the order of these components
+        // please don't move the order of these components
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
         .addComponent(new EquipmentsShopDisplay())

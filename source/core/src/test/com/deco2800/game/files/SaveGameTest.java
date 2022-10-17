@@ -181,7 +181,8 @@ public class SaveGameTest {
     private static final String[] textureAtlases = {
             "images/anim_demo/main.atlas",
             "images/eel_animations/eel.atlas",
-            "images/starfish_animation/starfish.atlas"
+            "images/starfish_animation/starfish.atlas",
+            "images/crab_animations/crab_animation.atlas"
     };
 
     @BeforeEach

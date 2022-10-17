@@ -8,5 +8,6 @@
     "defense": 0,
     "description": "Mines for stone",
     "itemImagePath": "images/shop-quarry.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png"
+    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png",
+    "placementName": "stoneQuarry"
 }

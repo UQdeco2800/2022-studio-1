@@ -13,6 +13,7 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
+import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.services.AchievementHandler;
@@ -104,7 +105,8 @@ public class BuildingShopDisplay extends UIComponent {
                 itemNumber.setColor(skin.getColor("black"));
 
                 // Create the current building to display
-                currentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
+                currentTexture = new Texture(
+                                Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
                 currentItem = new Image(currentTexture);
 
                 prevTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
@@ -278,7 +280,8 @@ public class BuildingShopDisplay extends UIComponent {
                         Sound rockSound = Gdx.audio.newSound(
                                         Gdx.files.internal("sounds/rock.mp3"));
                         rockSound.play();
-
+                        closeShop();
+                        StructureService.buildTempStructure(stats.placementName);
                         // Trigger events for achievements
                         ServiceLocator.getAchievementHandler().getEvents()
                                         .trigger(AchievementHandler.EVENT_SHOP_ITEM_BOUGHT, 14);

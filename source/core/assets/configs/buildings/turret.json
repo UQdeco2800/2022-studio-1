@@ -8,5 +8,6 @@
         "defense": 0,
         "description": "Shoots enemies",
         "itemImagePath": "images/shop-attack-building.png",
-        "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png"
+        "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
+        "placementName": "turret"
 }
