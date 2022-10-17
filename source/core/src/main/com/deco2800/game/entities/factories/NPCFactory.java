@@ -54,18 +54,17 @@ public class NPCFactory {
     Entity pirateCrabEnemy = createBaseEnemy(target);
     EnemyConfig config = configs.pirateCrab;
 
-    TextureRenderComponent textureRenderComponent = new TextureRenderComponent("images/pirate_crab_SW.png");
+    AnimationRenderComponent animator = new AnimationRenderComponent(
+            ServiceLocator.getResourceService().getAsset("images/crab_animations/crab_animation.atlas", TextureAtlas.class));
+    animator.addAnimation("crab_animation", 0.1f, Animation.PlayMode.LOOP);
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     pirateCrabEnemy
             .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
             .addComponent(new HealthBarComponent(100, 10))
+            .addComponent(animator)
             .addComponent(new ContinuousAttackComponent(3000, 3000))
-            .addComponent(textureRenderComponent)
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
-
-    pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
-
 
     return pirateCrabEnemy;
   }

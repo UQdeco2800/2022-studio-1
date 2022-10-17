@@ -7,6 +7,7 @@ import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.npc.BossAnimationController;
 import com.deco2800.game.files.SaveGame;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.entities.factories.*;
@@ -536,6 +537,7 @@ public class ForestGameArea extends GameArea {
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
+    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("crab_animation");
   }
 
   /**
