@@ -275,7 +275,7 @@ public class MainGameBuildingInterface extends UIComponent {
             health = "+200";
             crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth3.png", Texture.class));
             crystalImage = new Image(
-                    ServiceLocator.getResourceService().getAsset("images/crystal2.0.png", Texture.class));
+                    ServiceLocator.getResourceService().getAsset("images/crystal2.png", Texture.class));
             if (playerGold >= 500) {
                 button = new Texture(Gdx.files.internal("images/upgrade500.2.png"));
             }
@@ -288,7 +288,7 @@ public class MainGameBuildingInterface extends UIComponent {
             health = "+300";
             crystalhealth = new Image(ServiceLocator.getResourceService().getAsset("images/crystalhealth4.png", Texture.class));
             crystalImage = new Image(
-                    ServiceLocator.getResourceService().getAsset("images/crystal_level3.png", Texture.class));
+                    ServiceLocator.getResourceService().getAsset("images/crystal3.png", Texture.class));
             if (playerGold >= 1500) {
                 button = new Texture(Gdx.files.internal("images/upgrade1500.2.png"));
             }
