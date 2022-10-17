@@ -282,7 +282,6 @@ public class NPCFactory {
           String[] NPC_textures = { "images/npcs/NPC_V3.png",
               "images/npcs/npc_blacksmith_draft.png" };
 
-//      int index = (int) ((Math.random() * (NPC_textures.length)));
       int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
       Entity NPC = createBaseNPC();
       NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
