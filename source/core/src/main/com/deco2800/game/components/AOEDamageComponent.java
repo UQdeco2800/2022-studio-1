@@ -29,7 +29,7 @@ public class AOEDamageComponent extends Component {
         private long lastUpdate = 0;
 
         public AOEDamageComponent(int numTargets, int radiusRange, int attackRate) {
-                this.targetLayer = targetLayer;
+                // this.targetLayer = targetLayer;
                 this.numTargets = numTargets;
                 this.rangeRadius = radiusRange;
                 this.updateRate = attackRate;
@@ -96,7 +96,6 @@ public class AOEDamageComponent extends Component {
                         }
                 }
         }
-
 
         private void addValue(HashMap<Integer, ArrayList<Integer>> map, int x, int y) {
                 map.computeIfAbsent(Integer.valueOf(x), k -> new ArrayList<>()).add(Integer.valueOf(y));

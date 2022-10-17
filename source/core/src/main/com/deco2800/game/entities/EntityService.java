@@ -26,6 +26,8 @@ public class EntityService {
 
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
+  private boolean currentWorldStep;
+  public ArrayList<Entity> toDestroyEntities = new ArrayList<>();
 
   //You may ask why a second map instead of entities? I honestly have no clue
   //but this was the only way I could get a list of entities without crashing while looping in a component
@@ -52,6 +54,47 @@ public class EntityService {
     this.namedEntities.put(name, entity);
     this.register(entity);
   }
+
+  /**
+   * act as mutex lock to stop concurrent crashes with physics engine
+   * @param step if physics engine is updating
+   */
+  public void setCurrentWorldStep(Boolean step) {
+    this.currentWorldStep = step;
+  }
+
+  /**
+   * @return if physics engine is updating
+   */
+  public boolean getCurrentWorldStep() {
+    return this.currentWorldStep;
+  }
+
+  /**
+   *
+   * @return list of all entities to destroy
+   */
+  public ArrayList<Entity> getToDestroyEntities() {
+    return this.toDestroyEntities;
+  }
+
+  public void setDestroyEntire(ArrayList<Entity> newEntities) {
+    this.toDestroyEntities = newEntities;
+  }
+
+  /**
+   *
+   * @param e entity to destroy
+   */
+  public void addToDestroyEntities(Entity e) {
+    if (!this.toDestroyEntities.contains(e)) {
+      this.toDestroyEntities.add(e);
+      unregister(e);
+    }
+
+
+  }
+
 
   /**
    * Returns a registered named entity
@@ -167,7 +210,7 @@ public class EntityService {
    * @param y cell cord
    * @return Entity closet
    */
-  public Entity findClosetEntity(int x, int y) {
+  public Entity findClosestEntity(int x, int y) {
     if (entityMap.values().size() == 0) {
       return null;
     }
@@ -223,52 +266,6 @@ public class EntityService {
     return closetEntity;
   }
 
-
-  /**
-   * Calculates if the given entity will collide with already existing entities
-   * Still in testing phase. Uses the scale x and scale y of the entity to determine collision/hitbox
-   * size
-   *
-   * Due to isometric view world positions must be used thus the conversion from cell coordinates
-   *
-   * @param potentialEntity The new entity to be added to the map
-   * @param xPotential the proposed x cell position of the entity
-   * @param yPotential the proposed y cell position of the entity
-   * @return true if a collision would occur else false
-   */
-  public Boolean wouldCollide(Entity potentialEntity, int xPotential, int yPotential) {
-    //if empty no collisions to check:
-    if (entityMap.values().size() == 0) {
-      return false;
-    }
-
-    //convert to world positions
-    TerrainComponent terrain = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class);
-    float x = terrain.tileToWorldPosition(xPotential, yPotential).x;
-    float y = terrain.tileToWorldPosition(xPotential, yPotential).y;
-
-    //x,y positions of potential entity
-    float potentialEntityTop = y + potentialEntity.getScale().y / 2;
-    float potentialEntityBottom = y - potentialEntity.getScale().y / 2;
-    float potentialEntityRight = x + potentialEntity.getScale().x / 2;
-    float potentialEntityLeft = x - potentialEntity.getScale().x / 2;
-
-    for (Entity entity: entityMap.values()) {
-      //x,y positions of current entity
-      float placedRight = entity.getCenterPosition().x + entity.getScale().x / 2;
-      float placedLeft = entity.getCenterPosition().x - entity.getScale().x / 2;
-      float placedTop = entity.getCenterPosition().y + entity.getScale().y / 2;
-      float placedBottom = entity.getCenterPosition().y - entity.getScale().y / 2;
-
-      //check if collision occurs with current entity
-      if (!(potentialEntityRight <  placedLeft || potentialEntityLeft > placedRight)
-              && (!(potentialEntityBottom > placedTop || potentialEntityTop < placedBottom))) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   /**
    * Checks a given tile x,y is water
    * @param x the x pos of the tile
@@ -289,25 +286,5 @@ public class EntityService {
       return tileMapping.get(tile).get(0);
     }
     return false;
-  }
-
-  /**
-   * Checks the current tile and all tiles around it for a water tile. Returns true
-   *  if near water. This is necessary as world pos doesnt perfectly allign to cell positions
-   *  therefore a buffer must be introduced
-   * @param x the tile's x cord
-   * @param y the tile's y cord
-   * @return true if near water else false
-   */
-  public boolean isNearWater(int x, int y) {
-    if (checkTileIsWater(x + 1, y) || checkTileIsWater(x - 1, y) || checkTileIsWater(x, y - 1)
-            || checkTileIsWater(x, y  + 1) || checkTileIsWater(x , y)) {
-      return true;
-    }
-    return false;
-  }
-
-  public Hashtable<Vector2, Entity> getEntityMap() {
-    return entityMap;
   }
 }

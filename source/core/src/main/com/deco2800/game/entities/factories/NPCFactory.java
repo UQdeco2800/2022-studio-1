@@ -71,8 +71,6 @@ public class NPCFactory {
 
                 pirateCrabEnemy.getComponent(TextureRenderComponent.class).scaleEntity();
 
-                PhysicsUtils.setScaledCollider(pirateCrabEnemy, 0.9f, 0.4f);
-
                 return pirateCrabEnemy;
         }
 
@@ -80,8 +78,6 @@ public class NPCFactory {
         public static Entity createElectricEelEnemy(Entity target, Entity crystal) {
                 Entity ElectricEelEnemy = createBaseRangeNPC(target, crystal);
                 EnemyConfig config = configs.ElectricEel;
-                // TextureRenderComponent textureRenderComponent = new
-                // TextureRenderComponent("images/Eel_Bright_SW.png");
 
                 AnimationRenderComponent animator = new AnimationRenderComponent(
                                 ServiceLocator.getResourceService().getAsset("images/eel_animations/eel.atlas",
@@ -102,11 +98,10 @@ public class NPCFactory {
                 ElectricEelEnemy.setName("ElectricEel");
                 ElectricEelEnemy.setCollectable(false);
 
-                PhysicsUtils.setScaledCollider(ElectricEelEnemy, 12f, 12f);
-                ElectricEelEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
                 ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
                 ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
                 ElectricEelEnemy.setScale(12f, 12f);
+                PhysicsUtils.setScaledCollider(ElectricEelEnemy, 1f, 1f);
 
                 return ElectricEelEnemy;
         }
@@ -120,6 +115,7 @@ public class NPCFactory {
         public static Entity createMeleeBoss(Entity target) {
                 Entity boss = createBaseEnemy(target);
                 MeleeBossConfig config = configs.meleeBossEnemy;
+                config.speed = new Vector2(0.3f, 0.3f);
                 AnimationRenderComponent animator = new AnimationRenderComponent(
                                 ServiceLocator.getResourceService().getAsset(
                                                 "images/final_boss_animations/final_boss.atlas", TextureAtlas.class));
@@ -187,18 +183,17 @@ public class NPCFactory {
         // TODO: Luke make this look better and fix up NPC != enemy
         private static Enemy createBaseEnemy(Entity target) {
                 AITaskComponent aiComponent = new AITaskComponent()
-                                .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
                                 .addTask(new MeleePursueTask(target))
-                                .addTask(new MeleeAvoidObstacleTask(target));
+                                .addTask(new WanderTask(new Vector2(2f, 2f), 2f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
-                                .addComponent(new PhysicsMovementComponent())
                                 .addComponent(new ColliderComponent())
-                                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.ENEMY))
+                                .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC))
                                 .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
                                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                                 .addComponent(aiComponent);
 
+                enemy.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
                 PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
                 return enemy;
         }
@@ -214,19 +209,18 @@ public class NPCFactory {
                 // Vector2 RangeHitbox = new Vector2(2f, 1f);
                 AITaskComponent aiComponent = new AITaskComponent()
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                                .addTask(new RangedMovementTask(crystal, 10, 2f, 50f, 60f))
-                                .addTask(new RangedMovementTask(target, 20, 2f, 50f, 60f))
-                                .addTask(new MeleeAvoidObstacleTask(target))
-                                .addTask(new ShootTask(target, 30, 50f, 60f))
-                                .addTask(new ShootTask(crystal, 30, 50f, 60f));
+                                .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
+                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
+                                .addTask(new ShootTask(target, 30, 30f, 60f))
+                                .addTask(new ShootTask(crystal, 30, 30f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
-                                .addComponent(new PhysicsMovementComponent())
                                 .addComponent(new ColliderComponent())
                                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.RangeNPC))
                                 .addComponent(new TouchAttackComponent(PhysicsLayer.RangeNPC))
                                 .addComponent(aiComponent);
 
+                enemy.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
                 PhysicsUtils.setScaledCollider(enemy, 0.9f, 0.4f);
                 return enemy;
         }
@@ -284,10 +278,9 @@ public class NPCFactory {
          * @return normal NPC
          */
         public static Entity createNormalNPC() {
-                String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
-                                "images/npcs/NPC-V2.2.png" };
+                String[] NPC_textures = { "images/npcs/NPC_V3.png",
+                                "images/npcs/npc_blacksmith_draft.png" };
 
-                // int index = (int) ((Math.random() * (NPC_textures.length)));
                 int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
                 Entity NPC = createBaseNPC();
                 NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));

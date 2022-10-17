@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.GameArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.TimerComponent;
 import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.entities.Entity;
@@ -22,7 +22,6 @@ public class ProjectileFactory {
     }
 
     private static Entity makeProjectile(Vector2 destination, Entity source) {
-
         String texturePath = "images/eel_projectile.png";
         short targetLayer = PhysicsLayer.PLAYER;
 

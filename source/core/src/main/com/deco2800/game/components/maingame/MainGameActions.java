@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * events is triggered.
  */
 public class MainGameActions extends Component {
+  public static final String EVENT_CLOSE_ALL = "closeAll";
   private static final Logger logger = LoggerFactory.getLogger(MainGameActions.class);
   private AtlantisSinks game;
   private Entity player;
@@ -34,7 +35,6 @@ public class MainGameActions extends Component {
     entity.getEvents().addListener("exit", this::onExit);
     entity.getEvents().addListener("settings", this::onSettings);
     entity.getEvents().addListener("guideBook", this::openGuidebook);
-    entity.getEvents().addListener("achievement", this::onAchievements);
     entity.getEvents().addListener("save", this::onSave);
     entity.getEvents().addListener("load", this::onLoad);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
@@ -137,28 +137,7 @@ public class MainGameActions extends Component {
         // ServiceLocator.getDayNightCycleService().pause();
         // game.setScreen(AtlantisSinks.ScreenType.FIRST_NIGHT);
         break;
+      default:
     }
-  }
-
-  private void onAchievements() {
-    logger.info("Exiting main game screen");
-
-    CareTaker playerStatus = CareTaker.getInstance();
-    Memento currentStatus = new Memento(playerStatus.size(),
-        player.getComponent(InventoryComponent.class).getGold(),
-        player.getComponent(InventoryComponent.class).getStone(),
-        player.getComponent(InventoryComponent.class).getWood(),
-        player.getComponent(CombatStatsComponent.class).getHealth(),
-        player.getComponent(InventoryComponent.class).getItems(),
-        player.getComponent(InventoryComponent.class).getBuildings(),
-        player.getComponent(CombatStatsComponent.class).getBaseAttack(),
-        player.getComponent(CombatStatsComponent.class).getBaseDefense(),
-        player.getComponent(InventoryComponent.class).getWeapon(),
-        player.getComponent(InventoryComponent.class).getArmor(),
-        player.getComponent(InventoryComponent.class).getEquipmentList());
-    playerStatus.add(currentStatus);
-
-    ServiceLocator.getDayNightCycleService().pause();
-    game.setScreen(AtlantisSinks.ScreenType.ACHIEVEMENT);
   }
 }
