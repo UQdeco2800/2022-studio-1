@@ -1,5 +1,6 @@
 {
 currentCycleStatus: NONE
+currentDayMillis: 1
 config: {
 	dawnLength: 15000
 	dayLength: 60000
