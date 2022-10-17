@@ -119,57 +119,76 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    */
   @Override
   public boolean keyUp(int keycode) {
-    if (PlayerActions.playerAlive) {
-      switch (keycode) {
-        case Keys.Q:
+    switch (keycode) {
+      case Keys.Q:
+        if (PlayerActions.playerAlive) {
           // entity.setScale(11f, 10.5f);
           entity.getEvents().trigger("playerDeath");
           return true;
-        case Keys.W:
+        } else {
+          return false;
+        }
+      case Keys.W:
+        if (PlayerActions.playerAlive) {
           walkDirection.sub(Vector2Utils.UP);
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_WALK_REV);
           // movePlayerInUgs();
           updatePlayerMovement(0, false);
           return true;
-        case Keys.A:
+        } else {
+          return false;
+        }
+      case Keys.A:
+        if (PlayerActions.playerAlive) {
           walkDirection.sub(Vector2Utils.LEFT);
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_WALK_REV);
           // movePlayerInUgs();
           updatePlayerMovement(1, false);
           return true;
-        case Keys.S:
+        } else {
+          return false;
+        }
+      case Keys.S:
+        if (PlayerActions.playerAlive) {
           walkDirection.sub(Vector2Utils.DOWN);
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_WALK_REV);
           updatePlayerMovement(2, false);
           return true;
-        case Keys.D:
+        } else {
+          return false;
+        }
+      case Keys.D:
+        if (PlayerActions.playerAlive) {
           walkDirection.sub(Vector2Utils.RIGHT);
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_WALK_REV);
           // movePlayerInUgs();
           updatePlayerMovement(3, false);
           return true;
-        case Keys.R:
-          if (ServiceLocator.getStructureService().getTempBuildState()) {
-            ServiceLocator.getStructureService().rotateTempStructure();
-          }
-
-          return true;
-        case Keys.SPACE:
+        } else {
+          return false;
+        }
+      case Keys.SPACE:
+        if (PlayerActions.playerAlive) {
           entity.getEvents().trigger("attack_anim_rev");
           return true;
-        case Keys.PERIOD:
-          ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class)
-              .decrementMapLvl();
-          return true;
-        default:
+        } else {
           return false;
-      }
-    } else {
-      return false;
+        }
+      case Keys.R:
+        if (ServiceLocator.getStructureService().getTempBuildState()) {
+          ServiceLocator.getStructureService().rotateTempStructure();
+        }
+        return true;
+      case Keys.PERIOD:
+        ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class)
+            .decrementMapLvl();
+        return true;
+      default:
+        return false;
     }
   }
 
