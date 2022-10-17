@@ -191,11 +191,11 @@ public class BuildingShopDisplay extends UIComponent {
                 // itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f,
                 // Gdx.graphics.getHeight() * 0.361f);
 
-                leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.2f,
+                leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
                 leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
 
-                rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.17f,
+                rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
                 rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
 
