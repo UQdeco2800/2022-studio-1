@@ -128,11 +128,13 @@ public class UGS {
         if (checkEntityPlacement(coordinate, entityName)) {
             if (entity != null) {
                 // Add entity to the entity list through the entity service
-                if (!(entityName.equals("player")) || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
+                if (!(entityName.equals("player"))
+                        || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
                     ServiceLocator.getEntityService().registerNamed(entityName, entity);
                 }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+
                 entity.setPosition(entityWorldPos);
 
                 String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
@@ -183,7 +185,7 @@ public class UGS {
         if (getEntity(coordinate) == null) {
             if (entityType.contains("structure")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
-//                    logger.info("Building has been built at {}", coordinate);
+                    // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
                     logger.info("entity type Building cannot be built on water");
@@ -191,18 +193,18 @@ public class UGS {
                 }
             } else if (entityType.contains("player")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
-//                    logger.info("Building has been built at {}", coordinate);
+                    // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
-//                    logger.info("Building cannot be built on water");
+                    // logger.info("Building cannot be built on water");
                     return false;
                 }
             } else {
-//                logger.info("Tile {} is clear", coordinate);
+                // logger.info("Tile {} is clear", coordinate);
                 return true;
             }
         }
-//        logger.info("Tile {} is not clear", coordinate);
+        // logger.info("Tile {} is not clear", coordinate);
         return false;
     }
 
@@ -288,8 +290,8 @@ public class UGS {
         if (ServiceLocator.getRangeService().registeredInUGS().contains(toRemove)) {
             Vector2 pos = toRemove.getPosition();
             GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y + 1);
-            String tileKey = generateCoordinate(gridPos.x, gridPos.y);
+                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y);
+            String tileKey = generateCoordinate(gridPos.x, gridPos.y + 1);
             String type = ServiceLocator.getUGSService().tiles.get(tileKey).getTileType();
             Tile tile = new Tile();
             tile.setTileType(type);
