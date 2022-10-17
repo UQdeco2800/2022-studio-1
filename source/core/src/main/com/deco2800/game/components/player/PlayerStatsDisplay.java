@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
@@ -84,7 +85,7 @@ public class PlayerStatsDisplay extends UIComponent {
     //Coin text - set as 0, for placeholder
     int coin = entity.getComponent(InventoryComponent.class).getGold();
     CharSequence coinText = String.format("x %d", coin);
-    coinLabel = new Label(coinText, skin, "large");
+    coinLabel = new Label(coinText, skin, ForestGameArea.LARGE_FONT);
 
     // Heart image
     heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
@@ -102,7 +103,7 @@ public class PlayerStatsDisplay extends UIComponent {
     //player health
     int playerHealth = player.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence playerHealthText = String.format("%d", playerHealth);
-    healthBarLabel = new Label(playerHealthText, skin, "large");
+    healthBarLabel = new Label(playerHealthText, skin, ForestGameArea.LARGE_FONT);
 
 
     //Crystal image
@@ -122,7 +123,7 @@ public class PlayerStatsDisplay extends UIComponent {
     //crystal health text
     int crystalHealth = crystal.getComponent(CombatStatsComponent.class).getHealth();
     CharSequence healthText = String.format("%d", crystalHealth);
-    crystalLabel = new Label(healthText, skin, "large");
+    crystalLabel = new Label(healthText, skin, ForestGameArea.LARGE_FONT);
 
     //Stone image
     stoneCurrencyImage = new Image(ServiceLocator.getResourceService().getAsset("images/icon_stone.png", Texture.class));
@@ -131,7 +132,7 @@ public class PlayerStatsDisplay extends UIComponent {
     int stone = entity.getComponent(InventoryComponent.class).getStone();
     CharSequence stoneCount = String.format("x %d", stone);
 
-    stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, "large");
+    stoneCurrencyLabel = new Label(String.valueOf(stoneCount), skin, ForestGameArea.LARGE_FONT);
 
    // wood counter
     woodImage = new Image(ServiceLocator.getResourceService().getAsset("images/icon_wood.png", Texture.class));
@@ -139,7 +140,7 @@ public class PlayerStatsDisplay extends UIComponent {
     int woodCountInt = entity.getComponent(InventoryComponent.class).getWood();
     CharSequence woodCount = String.format("x %d", woodCountInt);
 
-    woodLabel = new Label(String.valueOf(woodCount), skin, "large");
+    woodLabel = new Label(String.valueOf(woodCount), skin, ForestGameArea.LARGE_FONT);
 
     CrystalService.recoverCrystalHealth(crystal);
 
@@ -189,7 +190,9 @@ public class PlayerStatsDisplay extends UIComponent {
     woodLabel.setText(wood);
 
     //updates the objective
-    ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
+    if (ServiceLocator.getEntityService().getNamedEntity("player") != null) {
+      ServiceLocator.getEntityService().getNamedEntity("player").getEvents().trigger("updateObjective");
+    }
   }
 
   public void updateResourceAmount() {

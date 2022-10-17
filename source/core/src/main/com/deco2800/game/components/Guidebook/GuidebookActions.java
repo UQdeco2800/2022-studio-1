@@ -1,6 +1,7 @@
 package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.lang.Thread;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -26,6 +28,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * events is triggered.
  */
 public class GuidebookActions extends Component {
+    private static final String GUIDEBOOK = "guidebook";
+
     private static final Logger logger = LoggerFactory.getLogger(GuidebookActions.class);
     private AtlantisSinks game;
     private Renderer renderer;
@@ -48,17 +52,17 @@ public class GuidebookActions extends Component {
 
     private void nextPage() {
         int proposedNextPage = GuidebookDisplay.currentPage + 2;
-        if (proposedNextPage >= GuidebookDisplay.maxPages) {
+        if (proposedNextPage >= GuidebookDisplay.MAX_PAGES) {
             return;
         }
         GuidebookDisplay.currentPage = proposedNextPage;
-        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK)
                 .getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table : guidebook) {
             table.remove();
         }
         GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_NEXT;
-        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+        ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK).getComponent(GuidebookDisplay.class)
                 .displayBook();
 
         ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
@@ -67,6 +71,18 @@ public class GuidebookActions extends Component {
             GuidebookScreen.renderTrigger = 1;
             Gdx.graphics.requestRendering();
         };
+
+        Sound clickSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/mouse_click.mp3"));
+        clickSound.play();
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {}
+
+        Sound flipSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/book_flip.mp3"));
+        flipSound.play();
 
         flicking.schedule(flickTask, 250, MILLISECONDS);
     }
@@ -79,13 +95,13 @@ public class GuidebookActions extends Component {
         }
         GuidebookDisplay.currentPage = proposedBackPage;
 
-        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK)
                 .getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table : guidebook) {
             table.remove();
         }
         GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_PREVIOUS;
-        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+        ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK).getComponent(GuidebookDisplay.class)
                 .displayBook();
 
         ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
@@ -94,6 +110,18 @@ public class GuidebookActions extends Component {
             GuidebookScreen.renderTrigger = 1;
             Gdx.graphics.requestRendering();
         };
+
+        Sound clickSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/mouse_click.mp3"));
+        clickSound.play();
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {}
+
+        Sound flipSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/book_flip.mp3"));
+        flipSound.play();
 
         flicking.schedule(flickTask, 250, MILLISECONDS);
     }
@@ -104,7 +132,7 @@ public class GuidebookActions extends Component {
     private void onExit() {
         logger.info("Exiting guidebook screen");
         ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GUIDEBOOK_CLOSED);
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
         GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }
 

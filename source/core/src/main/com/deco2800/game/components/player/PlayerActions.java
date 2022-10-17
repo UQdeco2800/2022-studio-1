@@ -33,6 +33,7 @@ import java.util.*;
  * triggered
  */
 public class PlayerActions extends Component {
+  public static final String EVENT_SHOW_PROMPTS = "showPrompts";
   private Vector2 MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
   private static final Vector2 DEFAULT_MAX_SPEED = new Vector2(12.5f, 12.5f); // Metres per second
 
@@ -70,7 +71,7 @@ public class PlayerActions extends Component {
   @Override
   public void update() {
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
-    Vector2 playerCenterPos = ServiceLocator.getEntityService().getNamedEntity("player").getCenterPosition();
+    Vector2 playerCenterPos = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER).getCenterPosition();
 
     moving = false;
     for (int i = 0; i < 4; i++) {
@@ -104,7 +105,7 @@ public class PlayerActions extends Component {
   }
 
   public void movePlayerInUgs(Vector2 direction) {
-    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+    Entity player = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER);
     String keyOfPlayer = "";
     for (Map.Entry<String, Tile> entry : ServiceLocator.getUGSService().printUGS().entrySet()) {
       if (entry.getValue().getEntity() == player) {
@@ -165,7 +166,7 @@ public class PlayerActions extends Component {
     moving = true;
     Sound walkSound = ServiceLocator.getResourceService().getAsset("sounds/footsteps_grass_single.mp3", Sound.class);
     // walkSound.play();
-    this.entity.getEvents().trigger("showPrompts");
+    this.entity.getEvents().trigger(EVENT_SHOW_PROMPTS);
   }
 
   /**
@@ -175,7 +176,7 @@ public class PlayerActions extends Component {
     this.walkDirection = Vector2.Zero.cpy();
     updateSpeed();
     moving = false;
-    this.entity.getEvents().trigger("showPrompts");
+    this.entity.getEvents().trigger(EVENT_SHOW_PROMPTS);
   }
 
   /**
@@ -184,14 +185,16 @@ public class PlayerActions extends Component {
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
     Vector2 player;
-    if (ServiceLocator.getUGSService().getEntityByName("player") != null) {
-      player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
+    if (ServiceLocator.getUGSService().getEntityByName(CombatStatsComponent.PLAYER) != null) {
+      player = ServiceLocator.getUGSService().getEntityByName(CombatStatsComponent.PLAYER).getPosition();
     } else {
       return;
     }
 
     GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y + 1);
+
+
 
     Entity closestEnemy = null;
     Entity closestEntity = null;
@@ -205,7 +208,7 @@ public class PlayerActions extends Component {
     }
     boolean mine = false;
     for (Entity i : radius) {
-      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals("player")
+      if (i != null && i.getName() != null && !i.getName().contains("Mr.") && !i.getName().equals(CombatStatsComponent.PLAYER)
           && i.isCollectable()) {
         if (current.getComponent(InventoryComponent.class).getWeapon() == Equipments.AXE) {
           mine = false;
@@ -221,7 +224,7 @@ public class PlayerActions extends Component {
       mine = false;
       CombatStatsComponent enemyTarget = closestEnemy.getComponent(CombatStatsComponent.class);
       if (null != enemyTarget && ServiceLocator.getRangeService().playerInRangeOf(closestEnemy)) {
-        CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity("player")
+        CombatStatsComponent combatStats = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER)
             .getComponent(CombatStatsComponent.class);
         enemyTarget.hit(combatStats);
         if (enemyTarget.getHealth() < 1) {
@@ -243,7 +246,7 @@ public class PlayerActions extends Component {
       }
     }
     PlayerStatsDisplay.updateItems();
-    this.entity.getEvents().trigger("showPrompts");
+    this.entity.getEvents().trigger(EVENT_SHOW_PROMPTS);
     if (mine) {
       this.entity.getEvents().trigger("noMine");
     }

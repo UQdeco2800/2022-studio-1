@@ -85,16 +85,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
-
-    if (getEntity().getName().contains("Mr")) {
-      if (ServiceLocator.getTimeSource().getTime() + 500 > lastUpdate) {
-        updateEnemyPosInUgs(body, desiredVelocity);
-        lastUpdate = ServiceLocator.getTimeSource().getTime();
-      }
-    } else {
-      setToVelocity(body, desiredVelocity);
-    }
-
+    setToVelocity(body, desiredVelocity);
   }
 
   protected void setToVelocity(Body body, Vector2 desiredVelocity) {
@@ -111,7 +102,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   protected Vector2 getDirection() {
     // Move towards targetPosition based on our current position
-    return targetPosition.cpy().sub(entity.getPosition()).nor();
+    return targetPosition.cpy().sub(entity.getCenterPosition()).nor();
   }
 
   /**
@@ -147,34 +138,4 @@ public class PhysicsMovementComponent extends Component implements MovementContr
     this.maxSpeed = defaultMaxSpeed;
   }
 
-  public void updateEnemyPosInUgs(Body body, Vector2 desiredVelocity) {
-    // Initialise
-    Entity owner = getEntity();
-    Vector2 currentPos = owner.getPosition();
-    UGS ugs = ServiceLocator.getUGSService();
-
-    setToVelocity(body, desiredVelocity);
-
-    if (!owner.getName().contains("Mr.")) {
-
-      String previousCoordString = ugs.getStringByEntity(owner);
-
-      GridPoint2 newTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-          .getComponent(TerrainComponent.class)
-          .worldToTilePosition(owner.getPosition().x, owner.getPosition().y);
-
-      String newCoordString = ugs.generateCoordinate(newTilePos.x, newTilePos.y);
-
-      if (!previousCoordString.equals(newCoordString)) {
-
-        if (ugs.checkEntityPlacement(newTilePos, "enemy")) {
-          ugs.getTile(previousCoordString).clearTile();
-          ugs.getTile(newCoordString).setEntity(owner);
-        } else {
-          setToVelocity(body, new Vector2(0, 0));
-        }
-      }
-
-    }
-  }
 }

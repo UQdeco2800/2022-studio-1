@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,8 +178,16 @@ public class ResourceService implements Disposable {
     }
   }
 
+  public Array<String> getAllLoadedAssets() {
+    return assetManager.getAssetNames();
+  }
+
   @Override
   public void dispose() {
     assetManager.clear();
+  }
+
+  public AssetManager getAssetManager() {
+    return this.assetManager;
   }
 }

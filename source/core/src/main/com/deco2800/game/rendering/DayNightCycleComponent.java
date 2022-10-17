@@ -171,11 +171,16 @@ public class DayNightCycleComponent {
         this.intensity = getCurrentPartOfDayIntensity();
     }
 
+
+    public void setPartOfDay(DayNightCycleStatus partOfDay) {
+        this.currentPartOfDay = partOfDay;
+    }
+
     /**
      * Gradually fades to the next part of the day.
      * Night overrides its own light fading and replaces light shader with dark one
      */
-    private void fade() {
+    public void fade() {
         if (currentPartOfDay != null) {
             if (shouldFade()) {
                 this.intensity = switch (currentPartOfDay) {
@@ -224,7 +229,7 @@ public class DayNightCycleComponent {
      *
      * @return true if fade is needed false otherwise
      */
-    private boolean shouldFade() {
+    public boolean shouldFade() {
         if (currentPartOfDay == DayNightCycleStatus.DAWN && intensity <= getCurrentPartOfDayTargetIntensity()) {
             return (System.currentTimeMillis() - lastIntensityFade) >= FADE_DAWN_EVERY;
         } else if (currentPartOfDay == DayNightCycleStatus.NIGHT && intensity <= getCurrentPartOfDayTargetIntensity()) {

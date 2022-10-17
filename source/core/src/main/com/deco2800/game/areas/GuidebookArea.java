@@ -31,8 +31,8 @@ public class GuidebookArea extends GameArea {
 
     private static final Logger logger = LoggerFactory.getLogger(GuidebookArea.class);
 
-    private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
-    private static final String[] gameMusic = { shopMusic };
+    private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
+    private static final String[] gameMusic = { SHOP_MUSIC };
 
     public GuidebookArea() {
         super();
@@ -51,13 +51,13 @@ public class GuidebookArea extends GameArea {
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
-            logger.info("Loading... {}%", resourceService.getProgress());
+            logger.info("Loading guidebook assets... {}%", resourceService.getProgress());
 
         }
     }
 
     private void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
@@ -72,7 +72,7 @@ public class GuidebookArea extends GameArea {
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
 }

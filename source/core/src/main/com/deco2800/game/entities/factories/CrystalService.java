@@ -47,14 +47,14 @@ public class CrystalService {
         if (level == 1) {
             // crystal.addComponent(new
             // TextureRenderComponent("images/crystal_level2.png"));
-            triggerCrystal("images/crystal_level2.png");
+            triggerCrystal("images/crystal2.png");
             player.getComponent(InventoryComponent.class).addGold(-500);
             PlayerStatsDisplay.updateItems();
             crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1200);
 
         } else if (level == 2) {
             ServiceLocator.getEntityService().getNamedEntity("crystal2").dispose();
-            triggerCrystal("images/crystal_level3.png");
+            triggerCrystal("images/crystal3.png");
             // crystal.addComponent(new
             // TextureRenderComponent("images/crystal_level3.png"));
             ServiceLocator.getEntityService().unregisterNamed("crystal2");
@@ -73,11 +73,15 @@ public class CrystalService {
 
     }
 
+    /**
+     * Triggers shaking effect of the in-game camera
+     */
     public static void screenShake(){
         Entity cam = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent cameraComp = cam.getComponent(CameraComponent.class);
         OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
         long currentGameTime = ServiceLocator.getTimeSource().getTime();
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
 
         final int[] shakeNum = {0};
         final int[] power = {1};
