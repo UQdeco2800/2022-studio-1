@@ -112,6 +112,7 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/npc1.png",
           "images/npcs/NPC-V2.2.png",
           "images/npcs/NPC-V2.1.png",
+          "images/npcs/npc_blacksmith_draft",
           "images/guardianLegacy1left.png",
           "images/guardianLegacy1right.png",
           "images/cornerWall1.png",
@@ -175,7 +176,14 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/upgradeFail500.png",
           "images/upgradeFail1500.png",
           "images/tutorials/crystalLevelPopUp.png",
-          "images/crystal2.0.png"
+          "images/crystal2.0.png",
+          "images/attack_towers/tow1_1_r.png",
+          "images/attack_towers/tow1_2_l.png",
+          "images/attack_towers/tow1_2_r.png",
+          "images/attack_towers/tow1_3_l.png",
+          "images/attack_towers/tow1_3_r.png",
+          "images/attack_towers/tempStructures/temp_tow1_1_l.png",
+          "images/attack_towers/tempStructures/temp_tow1_1_r.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -264,11 +272,6 @@ public class MainMenuScreen extends ScreenAdapter {
     logger.debug("Disposing main menu screen");
 
     renderer.dispose();
-//    unloadAssets();
-//    ServiceLocator.getRenderService().dispose();
-//    ServiceLocator.getEntityService().dispose();
-//
-//    ServiceLocator.clear();
   }
 
   private void loadAssets() {

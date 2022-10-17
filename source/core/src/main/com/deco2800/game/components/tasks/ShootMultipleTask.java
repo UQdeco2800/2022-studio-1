@@ -34,6 +34,8 @@ public class ShootMultipleTask extends ShootTask {
         public void start() {
                 super.start();
                 taskEnd = TotalTime.getTime() + (updateTimeDelta);
+                System.out.println("Started");
+                updateTargets(DayNightCycleStatus.NIGHT);
         }
 
         /**
@@ -84,7 +86,6 @@ public class ShootMultipleTask extends ShootTask {
                 if (TotalTime.getTime() >= taskEnd) {
 
                         if (this.target == null) {
-                                logger.error("Target is null");
                                 return;
                         }
                         Vector2 ownerPosition = owner.getPosition();
@@ -106,9 +107,15 @@ public class ShootMultipleTask extends ShootTask {
                                 }
                         }
 
+                        System.out.println("Shooting a projectile");
                         ProjectileFactory.createProjectile(owner, target);
                         taskEnd = TotalTime.getTime() + (updateTimeDelta);
                 }
+        }
+
+        @Override
+        protected boolean isTargetVisible() {
+                return true;
         }
 
 }
