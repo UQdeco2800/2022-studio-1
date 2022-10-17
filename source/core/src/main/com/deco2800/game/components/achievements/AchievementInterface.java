@@ -331,6 +331,7 @@ public class AchievementInterface extends UIComponent {
         Table achievementCard = new Table();
 
         achievementCard.pad(30f, 40f, 30f, 40f);
+
         Texture backgroundTexture = new Texture(
                 Gdx.files.internal(achievement.isCompleted() ?
                         "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle()) :
@@ -434,6 +435,7 @@ public class AchievementInterface extends UIComponent {
     public Table buildAchievementSummaryCard(AchievementType type) {
         Table summaryCard = new Table();
         summaryCard.pad(30f, 40f, 30f, 40f);
+
         Texture backgroundTexture = new Texture(
                     Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
 
@@ -542,8 +544,13 @@ public class AchievementInterface extends UIComponent {
     }
 
     /**
+<<<<<<< HEAD
      * Add listener to the provided AchievementButton, will change display of achievement interface
      * on click
+=======
+     * Add listener to the provided AchievementButton
+     * 
+>>>>>>> main
      * @param button AchievementButton
      * @param name   String
      */

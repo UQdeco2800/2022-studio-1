@@ -194,6 +194,8 @@ public class PlayerActions extends Component {
     GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y + 1);
 
+
+
     Entity closestEnemy = null;
     Entity closestEntity = null;
 

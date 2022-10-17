@@ -50,7 +50,6 @@ public class SaveGameTest {
     Tile testTile;
 
     private static final String[] forestTextures = {
-            "images/uiElements/exports/title.png",
             "images/Centaur_Back_left.png",
             "images/Centaur_Back_right.png",
             "images/Centaur_left.png",
@@ -110,8 +109,6 @@ public class SaveGameTest {
             "images/65x33_tiles/water_night3.png",
             "images/65x33_tiles/invalidTile.png",
             "images/65x33_tiles/validTile.png",
-            "images/65x33_tiles/wall_left.png",
-            "images/65x33_tiles/wall_right.png",
             "images/seastack1.png",
             "images/seastack2.png",
             "images/Eel_Bright_SW.png",
@@ -123,7 +120,6 @@ public class SaveGameTest {
             "images/shipWreckBack.png",
             "images/shipWreckFront.png",
             "images/ElectricEel.png",
-            "images/eel_projectile.png",
             "images/starfish.png",
             "images/NpcPlaceholder.png",
             "images/NPC convo.png",
@@ -138,74 +134,14 @@ public class SaveGameTest {
             "images/cornerWall4.png",
             "images/wallRight.png",
             "images/wallLeft.png",
-            "images/turret.png",
-            "images/attack_towers/lv1GuardianLeft.png",
-            "images/attack_towers/animations/towerLevel2.png",
-            "images.attack_towers/lv1GuardianRight.png",
-            "images/uiElements/exports/heart.png",
-            "images/uiElements/exports/coin.png",
-            "images/healthBar.png",
-            "images/empty_healthbar.png",
-            "images/uiElements/exports/crystal.png",
-            "images/icon_stone.png",
-            "images/atlantisBasicBackground.png",
-            "images/icon_wood.png",
-            "images/clock_sprites/clock_day1_1.png",
-            "images/clock_sprites/clock_day1_2.png",
-            "images/clock_sprites/clock_day1_3.png",
-            "images/clock_sprites/clock_day1_4.png",
-            "images/clock_sprites/clock_day1_5.png",
-            "images/clock_sprites/clock_day1_6.png",
-            "images/clock_sprites/clock_day1_7.png",
-            "images/clock_sprites/clock_day1_8.png",
-            "images/clock_sprites/clock_day2_1.png",
-            "images/clock_sprites/clock_day2_2.png",
-            "images/clock_sprites/clock_day2_3.png",
-            "images/clock_sprites/clock_day2_4.png",
-            "images/clock_sprites/clock_day2_5.png",
-            "images/clock_sprites/clock_day2_6.png",
-            "images/clock_sprites/clock_day2_7.png",
-            "images/clock_sprites/clock_day2_8.png",
-            "images/clock_sprites/clock_day3_1.png",
-            "images/clock_sprites/clock_day3_2.png",
-            "images/clock_sprites/clock_day3_3.png",
-            "images/clock_sprites/clock_day3_4.png",
-            "images/clock_sprites/clock_day3_5.png",
-            "images/clock_sprites/clock_day3_6.png",
-            "images/clock_sprites/clock_day3_7.png",
-            "images/clock_sprites/clock_day3_8.png",
-            "images/clock_sprites/clock_day4_1.png",
-            "images/clock_sprites/clock_day4_2.png",
-            "images/clock_sprites/clock_day4_3.png",
-            "images/clock_sprites/clock_day4_4.png",
-            "images/clock_sprites/clock_day4_5.png",
-            "images/clock_sprites/clock_day4_6.png",
-            "images/clock_sprites/clock_boss.png",
-            "images/anim_demo/woodresourcebuilding.png",
-            "images/storyLine/skipButton.png",
-            "images/storyLine/textBox.png",
-            "images/crystalhealth3.png",
-            "images/crystalhealth4.png",
-            "images/crystalIcon.png",
-            "images/upgrade500.2.png",
-            "images/upgrade1500.2.png",
             "images/attack_towers/tow1_1_l.png",
             "images/attack_towers/tow1_1_r.png",
             "images/attack_towers/tow1_2_l.png",
             "images/attack_towers/tow1_2_r.png",
             "images/attack_towers/tow1_3_l.png",
             "images/attack_towers/tow1_3_r.png",
-            "images/attack_towers/tempStructures/temp_tow1_1_l.png",
-            "images/attack_towers/tempStructures/temp_tow1_1_r.png",
-            "images/attack_towers/tempStructures/temp_tower3lv1Left.png",
-            "images/attack_towers/tempStructures/temp_tower3lv1Right.png",
-            "images/attack_towers/tower3lv1Left.png",
-            "images/attack_towers/tower3lv1Right.png",
-            "images/attack_towers/tower3lv2Left.png",
-            "images/attack_towers/tower3lv2Right.png",
-            "images/attack_towers/tower3lv3Left.png",
-            "images/attack_towers/tower3lv3Right.png",
-            "images/attack_towers/tow2_2_l.gif"
+            "images/attack_towers/tow2_2_l.gif",
+            "images/TOWER3I.png"
     };
 
     private final String[] clockSprites = {
@@ -245,7 +181,8 @@ public class SaveGameTest {
     private static final String[] textureAtlases = {
             "images/anim_demo/main.atlas",
             "images/eel_animations/eel.atlas",
-            "images/starfish_animation/starfish.atlas"
+            "images/starfish_animation/starfish.atlas",
+            "images/crab_animations/crab_animation.atlas"
     };
 
     @BeforeEach
@@ -425,7 +362,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test", false, 0);
+        Entity test1 = StructureFactory.createTower3(1, "test", false);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
@@ -485,7 +422,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test2", false, 0);
+        Entity test1 = StructureFactory.createTower3(1, "test2", false);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
