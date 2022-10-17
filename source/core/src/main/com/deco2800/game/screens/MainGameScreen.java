@@ -52,7 +52,9 @@ public class MainGameScreen extends ScreenAdapter {
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
 
   private static final String[] mainGameTextureAtlases = {
-      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/main.atlas"
+      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/main.atlas",
+      "images/attack_towers/animations/tower2Level1.atlas", "images/attack_towers/animations/tower2Level2.atlas",
+      "images/attack_towers/animations/tower2Level3.atlas"
   };
 
   private final AtlantisSinks game;
