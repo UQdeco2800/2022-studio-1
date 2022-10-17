@@ -55,9 +55,10 @@ public class StructureFactory {
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = { "images/wallLeft.png", "images/wallRight.png" };
-  private static String[] tempTower1Sprites = {"images/attack_towers/tempStructures/temp_tow1_1_l.png", "images/attack_towers/tempStructures/temp_tow1_1_r.png"};
+  private static String[] tempTower1Sprites = { "images/attack_towers/tempStructures/temp_tow1_1_l.png",
+      "images/attack_towers/tempStructures/temp_tow1_1_r.png" };
   private static String[] tower1Sprites = { "images/attack_towers/tow1_1_l.png",
-  "images/attack_towers/tow1_1_r.png" };
+      "images/attack_towers/tow1_1_r.png" };
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -127,7 +128,7 @@ public class StructureFactory {
         .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-            .getTileSize();
+        .getTileSize();
     Texture t = trap.getComponent(TextureRenderComponent.class).getTexture();
     trap.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
     return trap;
@@ -145,7 +146,7 @@ public class StructureFactory {
         .addComponent((new HealthBarComponent(50, 10)))
         .addComponent(aiTaskComponent);
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-            .getTileSize();
+        .getTileSize();
     Texture t = turret.getComponent(TextureRenderComponent.class).getTexture();
     turret.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
     return turret;
@@ -184,7 +185,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower1.getComponent(TextureRenderComponent.class).getTexture();
         tower1.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower1;
@@ -198,7 +199,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower1.getComponent(TextureRenderComponent.class).getTexture();
         tower1.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower1;
@@ -211,8 +212,10 @@ public class StructureFactory {
             .addComponent(new AOEDamageComponent(1, 1, 5000))
             .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+
+        System.out.println(tower1.getComponent(ResourceCostComponent.class).getGoldCost());
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower1.getComponent(TextureRenderComponent.class).getTexture();
         tower1.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower1;
@@ -250,7 +253,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower2.getComponent(TextureRenderComponent.class).getTexture();
         tower2.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower2;
@@ -263,7 +266,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower2.getComponent(TextureRenderComponent.class).getTexture();
         tower2.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower2;
@@ -276,7 +279,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower2.getComponent(TextureRenderComponent.class).getTexture();
         tower2.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower2;
@@ -315,7 +318,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower3.getComponent(TextureRenderComponent.class).getTexture();
         tower3.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower3;
@@ -328,7 +331,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower3.getComponent(TextureRenderComponent.class).getTexture();
         tower3.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower3;
@@ -341,7 +344,7 @@ public class StructureFactory {
             .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
         tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-                .getTileSize();
+            .getTileSize();
         t = tower3.getComponent(TextureRenderComponent.class).getTexture();
         tower3.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower3;
@@ -368,22 +371,25 @@ public class StructureFactory {
      */
 
     Entity structure = new Entity();
-//    animated = false; // We can't add animation to structure because its disposal causing problem.
-//    if (animated) {
+    // animated = false; // We can't add animation to structure because its disposal
+    // causing problem.
+    // if (animated) {
 
-      // texture (String) must just be the name of the file without extension
+    // texture (String) must just be the name of the file without extension
 
-//      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
-//          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
-//      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
-//      animator.startAnimation(texture);
-//      structure.addComponent(animator);
-//
-//      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
-//    } else {
-      structure.addComponent(new TextureRenderComponent(texture));
-      structure.getComponent(TextureRenderComponent.class).scaleEntity();
-//    }
+    // AnimationRenderComponent animator = new
+    // AnimationRenderComponent(ServiceLocator.getResourceService()
+    // .getAsset("images/attack_towers/animations/" + texture + ".atlas",
+    // TextureAtlas.class));
+    // animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
+    // animator.startAnimation(texture);
+    // structure.addComponent(animator);
+    //
+    // structure.getComponent(AnimationRenderComponent.class).scaleEntity();
+    // } else {
+    structure.addComponent(new TextureRenderComponent(texture));
+    structure.getComponent(TextureRenderComponent.class).scaleEntity();
+    // }
 
     structure.addComponent(new PhysicsComponent())
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
@@ -414,16 +420,15 @@ public class StructureFactory {
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
     logger.info("Refund multiplier: " + refundMultiplier);
-      //Get the cost of the building
-      int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
-      int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
-      int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-      //Add (<resource> * refundMultiplier) to PLAYER's inventory
+    // Get the cost of the building
+    int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+    int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+    int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+    // Add (<resource> * refundMultiplier) to PLAYER's inventory
     logger.info("stone refund: " + stone * refundMultiplier);
     logger.info("wood refund: " + wood * refundMultiplier);
     logger.info("wood cost: " + structure.getComponent(ResourceCostComponent.class).getWoodCost());
     logger.info("stone cost: " + structure.getComponent(ResourceCostComponent.class).getStoneCost());
-
 
     player.getComponent(InventoryComponent.class).addGold((int) (gold * (refundMultiplier)));
     player.getComponent(InventoryComponent.class).addStone((int) (stone * refundMultiplier));
@@ -479,8 +484,8 @@ public class StructureFactory {
     // Remove building entity
     ServiceLocator.getUGSService().removeEntity(structName);
     logger.info("Building upgraded at: " + gridPos);
-    //Upgrade depending on building
-   if (structName.contains("tower1")) {
+    // Upgrade depending on building
+    if (structName.contains("tower1")) {
       Entity tower1;
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
