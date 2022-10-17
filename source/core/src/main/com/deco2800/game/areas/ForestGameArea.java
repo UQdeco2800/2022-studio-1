@@ -109,7 +109,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    //spawnElectricEelEnemy();
+    // spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -445,8 +445,6 @@ public class ForestGameArea extends GameArea {
    * super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
    * }
    */
-
-
 
   /**
    * Spawns NPCs during the day and removes them at night.

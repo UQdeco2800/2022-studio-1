@@ -55,6 +55,10 @@ public class AOEDamageComponent extends Component {
                 }
         }
 
+        /**
+         * checks all tiles within the specified radius, and records the closest enemy
+         * entities in the targets array.
+         */
         private void updateTargets() {
                 int locationX = 0;
                 int locationY = 0;
@@ -97,14 +101,20 @@ public class AOEDamageComponent extends Component {
                 }
         }
 
-        private void addValue(HashMap<Integer, ArrayList<Integer>> map, int x, int y) {
-                map.computeIfAbsent(Integer.valueOf(x), k -> new ArrayList<>()).add(Integer.valueOf(y));
-        }
-
+        /**
+         * returns the magnitude of the vector defined between the target and the owner
+         * of this component
+         * 
+         * @param target target
+         * @return distance between the target and the owner
+         */
         private float getDistanceToTarget(Entity target) {
                 return this.getEntity().getPosition().dst(target.getPosition());
         }
 
+        /**
+         * Hits all targets in the targets array
+         */
         private void damageTargets() {
                 for (Entity target : targets) {
                         if (target != null) {
