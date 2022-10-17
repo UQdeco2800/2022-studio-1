@@ -75,8 +75,8 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     private int getActivePriority() {
         float dst = Math.abs(getDistanceToTarget());
 
-        if (dst > viewDistance) {
-            return -1; // Too far, stop shooting
+        if (dst > maxChaseDistance || !isTargetVisible()) {
+            return -1; // Too far, stop chasing
         }
         return priority;
     }
@@ -89,7 +89,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         return -1;
     }
 
-    protected boolean isTargetVisible() {
+    private boolean isTargetVisible() {
         if (target == null)
             return false;
 

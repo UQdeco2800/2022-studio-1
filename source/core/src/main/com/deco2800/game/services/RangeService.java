@@ -67,7 +67,7 @@ public class RangeService {
         Entity left = ServiceLocator.getUGSService().getEntity(stringPlayerLeft);
         radialPerimeter.add(left);
 
-        if (middle == ServiceLocator.getEntityService().getNamedEntity("player") && invent.equals(Equipments.BOW_AND_ARROW)) {
+        if (invent.equals(Equipments.BOW_AND_ARROW)) {
             // Add the top row of the second perimeter (right to left)
             GridPoint2 stringPlayerTopTopLeft = new GridPoint2(gridPos.x - 2, gridPos.y + 2);
             Entity topTopLeft = ServiceLocator.getUGSService().getEntity(stringPlayerTopTopLeft);
