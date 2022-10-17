@@ -2184,10 +2184,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/achievements/AchievementData.html#getLastSaved()" class="member-name-link">getLastSaved()</a> - Method in class com.deco2800.game.achievements.<a href="com/deco2800/game/achievements/AchievementData.html" title="class in com.deco2800.game.achievements">AchievementData</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="com/deco2800/game/services/AchievementHandler.html#getLastSaved()" class="member-name-link">getLastSaved()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
-<dd>
-<div class="block">Getter method for last time achievements were saved</div>
-</dd>
 <dt><a href="com/deco2800/game/areas/terrain/TerrainComponent.html#getLayer()" class="member-name-link">getLayer()</a> - Method in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/TerrainComponent.html" title="class in com.deco2800.game.areas.terrain">TerrainComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/physics/components/ColliderComponent.html#getLayer()" class="member-name-link">getLayer()</a> - Method in class com.deco2800.game.physics.components.<a href="com/deco2800/game/physics/components/ColliderComponent.html" title="class in com.deco2800.game.physics.components">ColliderComponent</a></dt>
@@ -3016,6 +3012,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/utils/TextUtil.html#lineFormat(java.lang.String,int)" class="member-name-link">lineFormat(String, int)</a> - Static method in class com.deco2800.game.utils.<a href="com/deco2800/game/utils/TextUtil.html" title="class in com.deco2800.game.utils">TextUtil</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/files/SaveGame.html#loadAchievements(com.badlogic.gdx.files.FileHandle)" class="member-name-link">loadAchievements(FileHandle)</a> - Static method in class com.deco2800.game.files.<a href="com/deco2800/game/files/SaveGame.html" title="class in com.deco2800.game.files">SaveGame</a></dt>
+<dd>
+<div class="block">Loads achievements from save file</div>
+</dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#loadAchievements(com.badlogic.gdx.files.FileHandle)" class="member-name-link">loadAchievements(FileHandle)</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
 <div class="block">Loads the achievement list from the achievement file</div>
@@ -3951,6 +3951,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#saveAchievements()" class="member-name-link">saveAchievements()</a> - Method in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
 <div class="block">Saves the current state of the achievement list with the current time</div>
+</dd>
+<dt><a href="com/deco2800/game/files/SaveGame.html#saveAchievements(java.util.List)" class="member-name-link">saveAchievements(List&lt;Achievement&gt;)</a> - Static method in class com.deco2800.game.files.<a href="com/deco2800/game/files/SaveGame.html" title="class in com.deco2800.game.files">SaveGame</a></dt>
+<dd>
+<div class="block">Saves achievements to the games saves directory
+ using a custom JSON format</div>
 </dd>
 <dt><a href="com/deco2800/game/files/SaveGame.html" class="type-name-link" title="class in com.deco2800.game.files">SaveGame</a> - Class in <a href="com/deco2800/game/files/package-summary.html">com.deco2800.game.files</a></dt>
 <dd>
