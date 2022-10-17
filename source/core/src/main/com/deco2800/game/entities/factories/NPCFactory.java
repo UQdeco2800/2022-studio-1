@@ -74,7 +74,7 @@ public class NPCFactory {
     pirateCrabEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
     pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
     pirateCrabEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
-    pirateCrabEnemy.setScale(12f, 12f);
+    pirateCrabEnemy.setScale(12f, 10f);
 
     return pirateCrabEnemy;
   }
