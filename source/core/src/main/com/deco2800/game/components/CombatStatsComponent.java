@@ -182,7 +182,7 @@ public class CombatStatsComponent extends Component {
         };
         time.scheduleAtFixedRate(destroyedAnimation, 0, 1000);
         time.scheduleAtFixedRate(lastAnimation, 1000, 1000);
-        time.scheduleAtFixedRate(destroyed, 2000, 2000);
+        time.scheduleAtFixedRate(destroyed, 1000, 1000);
         break;
       default:
         //do nothing

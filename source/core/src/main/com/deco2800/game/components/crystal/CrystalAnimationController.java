@@ -15,10 +15,10 @@ public class CrystalAnimationController extends Component {
     }
 
     private void destroyedCrystal() {
-        animator.startAnimation("crystal");
+        animator.startAnimation("pcrystal");
     }
 
     private void lastCrystal(){
-        animator.startAnimation("last");
+        animator.startAnimation("plast");
     }
 }
