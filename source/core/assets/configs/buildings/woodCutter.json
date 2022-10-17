@@ -8,5 +8,6 @@
     "defense": 0,
     "description": "Chops for wood",
     "itemImagePath": "images/shop-quarry.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png"
+    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png",
+    "placementName": "woodCutter"
 }
