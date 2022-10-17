@@ -96,7 +96,7 @@ public class ForestGameArea extends GameArea {
   @Override
   public void create() {
     displayUI();
-    // playMusic();
+    playMusic();
     spawnTerrain();
     ServiceLocator.getUGSService().generateUGS();
 
