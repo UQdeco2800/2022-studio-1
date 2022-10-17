@@ -99,7 +99,6 @@ public class NPCFactory {
                                 .addComponent(new CombatStatsComponent(config.health, 0))
                                 .addComponent(new HealthBarComponent(100, 10))
                                 .addComponent(animator)
-                                // .addComponent(textureRenderComponent);
                                 .addComponent(new AnimationController())
                                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
@@ -218,9 +217,9 @@ public class NPCFactory {
                 AITaskComponent aiComponent = new AITaskComponent()
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
                                 .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
-                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
-                                .addTask(new ShootTask(target, 30, 30f, 60f))
-                                .addTask(new ShootTask(crystal, 30, 30f, 60f));
+                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f));
+                                //.addTask(new ShootTask(target, 30, 30f, 60f))
+                                //.addTask(new ShootTask(crystal, 30, 30f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())

@@ -501,10 +501,29 @@ public class ForestGameArea extends GameArea {
       case DAY:
         break;
       case NIGHT:
-        for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
-          spawnPirateCrabEnemy();
-          // spawnElectricEelEnemy();
-          // spawnNinjaStarfishEnemy();
+        switch (dayNum) {
+          case 1 -> {
+            for (int i = 0; i < 1; i++) {
+              spawnPirateCrabEnemy();
+              spawnElectricEelEnemy();
+              spawnNinjaStarfishEnemy();
+            }
+          }
+          case 2 -> {
+            for (int i = 0; i < 3; i++) {
+              spawnPirateCrabEnemy();
+              spawnElectricEelEnemy();
+              spawnNinjaStarfishEnemy();
+            }
+          }
+          case 3 -> {
+            for (int i = 0; i < 5; i++) {
+              spawnPirateCrabEnemy();
+              spawnElectricEelEnemy();
+              spawnNinjaStarfishEnemy();
+            }
+          }
+          default -> System.out.println("No enemy spawned");
         }
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
@@ -533,8 +552,6 @@ public class ForestGameArea extends GameArea {
     Entity pirateCrabEnemy = NPCFactory.createPirateCrabEnemy(crystal);
     pirateCrabEnemy.setName("Mr. Crabs@" + pirateCrabEnemy.getId());
     pirateCrabEnemy.setCollectable(true);
-    pirateCrabEnemy.setResourceType(ResourceType.GOLD);
-    pirateCrabEnemy.setResourceAmount(50);
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
@@ -557,29 +574,16 @@ public class ForestGameArea extends GameArea {
 
   private void levelUp(Entity entity) {
     switch (dayNum) {
-      case 1:
+      case 1 -> {
         entity.getComponent(CombatStatsComponent.class).setLevel(1);
-        entity.getComponent(CombatStatsComponent.class).setMaxHealth(10);
-        entity.getComponent(CombatStatsComponent.class).setHealth(10);
-        entity.getComponent(CombatStatsComponent.class).setBaseAttack(10);
-        entity.getComponent(CombatStatsComponent.class).setBaseDefense(1);
-        break;
-      case 2:
+      }
+      case 2 -> {
         entity.getComponent(CombatStatsComponent.class).setLevel(2);
-        entity.getComponent(CombatStatsComponent.class).setMaxHealth(20);
-        entity.getComponent(CombatStatsComponent.class).setHealth(20);
-        entity.getComponent(CombatStatsComponent.class).setBaseAttack(20);
-        entity.getComponent(CombatStatsComponent.class).setBaseDefense(2);
-        break;
-      case 3:
+      }
+      case 3 -> {
         entity.getComponent(CombatStatsComponent.class).setLevel(3);
-        entity.getComponent(CombatStatsComponent.class).setMaxHealth(30);
-        entity.getComponent(CombatStatsComponent.class).setHealth(30);
-        entity.getComponent(CombatStatsComponent.class).setBaseAttack(30);
-        entity.getComponent(CombatStatsComponent.class).setBaseDefense(3);
-        break;
-      default:
-        System.out.println("Level is invalid");
+      }
+      default -> System.out.println("Level is invalid");
     }
   }
 
@@ -588,8 +592,6 @@ public class ForestGameArea extends GameArea {
     ElectricEelEnemy.setName("Mr. Electricity");
     levelUp(ElectricEelEnemy);
     ElectricEelEnemy.setCollectable(true);
-    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
-    ElectricEelEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -614,8 +616,6 @@ public class ForestGameArea extends GameArea {
     ninjaStarfishEnemy.setName("Mr. Starfish");
     levelUp(ninjaStarfishEnemy);
     ninjaStarfishEnemy.setCollectable(true);
-    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
-    ninjaStarfishEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
   }
