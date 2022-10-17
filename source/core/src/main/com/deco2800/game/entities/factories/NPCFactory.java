@@ -63,7 +63,7 @@ public class NPCFactory {
                         ServiceLocator.getResourceService().getAsset("images/crab_animations/crab_animation.atlas", TextureAtlas.class));
                 animator.addAnimation("frame", 0.1f, Animation.PlayMode.LOOP);
 
-                // Add combat stats, health bar and animal controller to the pirate crab entity
+                // Add combat stats, health bar and animation controller to the pirate crab entity
                 pirateCrabEnemy
                                 .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
                                 .addComponent(new HealthBarComponent(100, 10))
@@ -72,7 +72,6 @@ public class NPCFactory {
                                 .addComponent(new AnimationController())
                                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
-                pirateCrabEnemy.setName("pirateCrab");
                 pirateCrabEnemy.setCollectable(false);
 
                 pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
