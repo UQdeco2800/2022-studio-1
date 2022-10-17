@@ -182,7 +182,7 @@ public class EquipmentsShopDisplay extends UIComponent {
         backButton = new ImageButton(upBack, upBack);
 
         subtitle = new Label("EQUIPMENT", skin, "title");
-        subtitle.setFontScale(1.5f);
+        subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
 
         itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
@@ -212,8 +212,8 @@ public class EquipmentsShopDisplay extends UIComponent {
                 Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
         priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
 
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
-                Gdx.graphics.getHeight() * 0.85f - 110f);
+        subtitle.setPosition(Gdx.graphics.getWidth() * 0.45f,
+                Gdx.graphics.getHeight() * 0.75f);
 
         backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
                 Gdx.graphics.getHeight() * 0.85f -70f);

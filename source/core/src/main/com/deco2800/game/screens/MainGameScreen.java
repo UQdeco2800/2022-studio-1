@@ -197,10 +197,10 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
         .addComponent(new AchievementInterface())
-        .addComponent(new ShopInterface())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
         .addComponent(new EquipmentsShopDisplay())
+        .addComponent(new ShopInterface())
         .addComponent(new InventoryDisplay());
 
     ServiceLocator.getEntityService().registerNamed("ui", ui);

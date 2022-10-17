@@ -22,8 +22,6 @@ public class ShopInterface extends UIComponent {
     private Table backgroundTable;
     private Group group;
     private Group category;
-
-    Table building;
     Table artefact;
     Table equipment;
 
@@ -81,10 +79,10 @@ public class ShopInterface extends UIComponent {
 
         // setup title
         subtitle = new Label("Shop", skin, "title");
-        subtitle.setFontScale(1.5f);
+        subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
-                Gdx.graphics.getHeight() * 0.85f - 110f);
+        subtitle.setPosition(Gdx.graphics.getWidth() * 0.47f,
+                Gdx.graphics.getHeight() * 0.75f);
 
         // setup artefact category
         artefactTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));

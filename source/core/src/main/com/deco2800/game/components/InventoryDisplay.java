@@ -72,27 +72,16 @@ public class InventoryDisplay extends UIComponent {
         inventoryFrame.setPosition(Gdx.graphics.getWidth() / 2f - inventoryFrame.getWidth() / 2f,
                 Gdx.graphics.getHeight() / 2f - inventoryFrame.getHeight() / 2f);
 
-        Texture crossTexture = new Texture(Gdx.files.internal("images/cross.png"));
+        Texture crossTexture = new Texture(Gdx.files.internal("images/backButton.png"));
         TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
         ImageButton crossFrame = new ImageButton(cross, cross);
         crossFrame.setSize(40f, 40f);
         crossFrame.setPosition(inventoryFrame.getX() + 700f, inventoryFrame.getY() + 610f);
 
         Label subtitle = new Label("Inventory", skin, "title");
-        subtitle.setFontScale(1f);
+        subtitle.setFontScale(1.5f);
         subtitle.setColor(skin.getColor("black"));
-        subtitle.setPosition(inventoryFrame.getX() + 110f, inventoryFrame.getY() + 610f);
-
-        Image heartImage = new Image(
-                ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png",
-                        Texture.class));
-        heartImage.setSize(40f, 40f);
-        heartImage.setPosition(inventoryFrame.getX() + 400f, inventoryFrame.getY() + 610f);
-
-        Image healthBarImage = new Image(
-                ServiceLocator.getResourceService().getAsset("images/healthBar.png", Texture.class));
-        healthBarImage.setSize(200f, 30f);
-        healthBarImage.setPosition(inventoryFrame.getX() + 450f, inventoryFrame.getY() + 610f);
+        subtitle.setPosition(inventoryFrame.getX() + 250f, inventoryFrame.getY() + 610f);
 
         Texture leftTexture = new Texture(Gdx.files.internal("images/box-border.png"));
         TextureRegionDrawable leftDrawable = new TextureRegionDrawable(leftTexture);
@@ -100,21 +89,16 @@ public class InventoryDisplay extends UIComponent {
         leftBox.setSize(350f, 650f);
         leftBox.setPosition(inventoryFrame.getX() + 60f, inventoryFrame.getY() + 50f);
 
-        Texture leftTitleTexture = new Texture(Gdx.files.internal("images/description-box.png"));
-        TextureRegionDrawable leftTitleDrawable = new TextureRegionDrawable(leftTitleTexture);
-        ImageButton leftTitleBox = new ImageButton(leftTitleDrawable, leftTitleDrawable);
-        leftTitleBox.setSize(350f, 60f);
-        leftTitleBox.setPosition(leftBox.getX(), leftBox.getY() + 460f);
-
         Label leftTitle = new Label("Equipment", skin, "small");
+        leftTitle.setFontScale(1.5f);
         leftTitle.setColor(skin.getColor("white"));
-        leftTitle.setPosition(leftBox.getX() + 125f, leftBox.getY() + 480f);
+        leftTitle.setPosition(leftBox.getX() + 105f, leftBox.getY() + 480f);
 
         Texture leftArrowTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         TextureRegionDrawable leftArrowDrawable = new TextureRegionDrawable(leftArrowTexture);
         ImageButton leftArrow = new ImageButton(leftArrowDrawable, leftArrowDrawable);
-        leftArrow.setSize(50f, 50f);
-        leftArrow.setPosition(leftBox.getX() + 20f, leftBox.getY() + 380f);
+        leftArrow.setSize(40f, 40f);
+        leftArrow.setPosition(leftBox.getX() + 20f, leftBox.getY() + 390f);
 
         if (currEquipListSize == 0) {
             prevTexture = new Texture(Gdx.files.internal("images/shop-category-button.png"));
@@ -163,47 +147,45 @@ public class InventoryDisplay extends UIComponent {
         }
 
         prevEquipment = new Image(prevTexture);
-        prevEquipment.setSize(50f, 50f);
-        prevEquipment.setPosition(leftBox.getX() + 75f, leftBox.getY() + 380f);
+        prevEquipment.setSize(70f, 70f);
+        prevEquipment.setPosition(leftBox.getX() + 70f, leftBox.getY() + 380f);
 
         currEquipment = new Image(currTexture);
-        currEquipment.setSize(70f, 70f);
-        currEquipment.setPosition(leftBox.getX() + 135f, leftBox.getY() + 380f);
+        currEquipment.setSize(80f, 80f);
+        currEquipment.setPosition(leftBox.getX() + 130f, leftBox.getY() + 380f);
 
         nextEquipment = new Image(nextTexture);
-        nextEquipment.setSize(50f, 50f);
-        nextEquipment.setPosition(leftBox.getX() + 215f, leftBox.getY() + 380f);
+        nextEquipment.setSize(70f, 70f);
+        nextEquipment.setPosition(leftBox.getX() + 198f, leftBox.getY() + 380f);
 
         Texture rightArrowTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
         TextureRegionDrawable rightArrowDrawable = new TextureRegionDrawable(rightArrowTexture);
         ImageButton rightArrow = new ImageButton(rightArrowDrawable, rightArrowDrawable);
-        rightArrow.setSize(50f, 50f);
-        rightArrow.setPosition(leftBox.getX() + 275f, leftBox.getY() + 380f);
+        rightArrow.setSize(40f, 40f);
+        rightArrow.setPosition(leftBox.getX() + 280f, leftBox.getY() + 390f);
 
-        Texture leftSmallTitle1Texture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        Texture leftSmallTitle1Texture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable leftSmallTitle1Drawable = new TextureRegionDrawable(leftSmallTitle1Texture);
         TextButton leftSmallTitle1 = ShopUtils.createInventoryButton("Equip", skin.getColor("black"), "button",
                 1f, leftSmallTitle1Drawable, leftSmallTitle1Drawable, skin, false);
-        leftSmallTitle1.setSize(125f, 60f);
-        leftSmallTitle1.setPosition(leftBox.getX() + 20f, leftBox.getY() + 320f);
+        leftSmallTitle1.setSize(115f, 35f);
+        leftSmallTitle1.setPosition(leftBox.getX() + 50f, leftBox.getY() + 330f);
 
-        Texture leftSmallTitle2Texture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        Texture leftSmallTitle2Texture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable leftSmallTitle2Drawable = new TextureRegionDrawable(leftSmallTitle2Texture);
         TextButton leftSmallTitle2 = ShopUtils.createInventoryButton("Disarm", skin.getColor("black"), "button",
                 1f, leftSmallTitle2Drawable, leftSmallTitle2Drawable, skin, false);
-        leftSmallTitle2.setSize(125f, 60f);
-        leftSmallTitle2.setPosition(leftBox.getX() + 175f, leftBox.getY() + 320f);
+        leftSmallTitle2.setSize(125f, 35f);
+        leftSmallTitle2.setPosition(leftBox.getX() + 175f, leftBox.getY() + 330f);
 
         equipmentStats = FileLoader.readClass(
                 EquipmentConfig.class,
                 Equipments.getFilepath(currentEquipment));
-        Texture descriptionTexture = new Texture(Gdx.files.internal("images/description-box.png"));
-        TextureRegionDrawable descriptionDrawable = new TextureRegionDrawable(descriptionTexture);
         description = ShopUtils.createImageTextButton(equipmentStats.name + "\n" + equipmentStats.description,
                 skin.getColor("black"), "button",
-                1f, descriptionDrawable, descriptionDrawable, skin, true);
+                1f, null, null, skin, true);
         description.setSize((float) (description.getWidth() / 2.1), description.getHeight() / 5);
-        description.setPosition(leftBox.getX() + 10f, leftBox.getY() + 250f);
+        description.setPosition(leftBox.getX() + 110f, leftBox.getY() + 280f);
 
         Texture selectedTexture = new Texture(Gdx.files.internal("images/selected-item-box.png"));
         TextureRegionDrawable selectedDrawable = new TextureRegionDrawable(selectedTexture);
@@ -256,15 +238,10 @@ public class InventoryDisplay extends UIComponent {
         rightBox.setSize(350f, 650f);
         rightBox.setPosition(inventoryFrame.getX() + 410f, inventoryFrame.getY() + 50f);
 
-        Texture rightHealthTexture = new Texture(Gdx.files.internal("images/description-box.png"));
-        TextureRegionDrawable rightHealthDrawable = new TextureRegionDrawable(rightHealthTexture);
-        ImageButton rightHealthFrame = new ImageButton(rightHealthDrawable, rightHealthDrawable);
-        rightHealthFrame.setSize(350f, 60f);
-        rightHealthFrame.setPosition(rightBox.getX() - 50f, rightBox.getY() + 460f);
-
         Label healthTitle = new Label("Health", skin, "small");
         healthTitle.setColor(skin.getColor("white"));
-        healthTitle.setPosition(rightBox.getX() + 80f, rightBox.getY() + 480f);
+        healthTitle.setFontScale(1.5f);
+        healthTitle.setPosition(rightBox.getX() + 120f, rightBox.getY() + 480f);
 
         Texture potionTexture = new Texture(Gdx.files.internal("images/shop-health-potion.png"));
         TextureRegionDrawable potionDrawable = new TextureRegionDrawable(potionTexture);
@@ -279,47 +256,50 @@ public class InventoryDisplay extends UIComponent {
         potionQuantity.setColor(skin.getColor("black"));
         potionQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 405f);
 
-        Texture potionUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        Texture potionUseTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable potionUseDrawable = new TextureRegionDrawable(potionUseTexture);
         TextButton potionUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button",
                 1f, potionUseDrawable, potionUseDrawable, skin, false);
-        potionUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 365f);
+        potionUseButton.setSize(115f, 35f);
+        potionUseButton.setPosition(rightBox.getX() + 210f, rightBox.getY() + 405f);
 
         Texture clockTexture = new Texture(Gdx.files.internal("images/shop-clock.png"));
         TextureRegionDrawable clockDrawable = new TextureRegionDrawable(clockTexture);
         ImageButton clock = new ImageButton(clockDrawable, clockDrawable);
         clock.setSize(40f, 40f);
-        clock.setPosition(rightBox.getX() + 50f, rightBox.getY() + 355f);
+        clock.setPosition(rightBox.getX() + 50f, rightBox.getY() + 305f);
 
         clockQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.CLOCK, 0),
                 skin, "large");
         clockQuantity.setColor(skin.getColor("black"));
-        clockQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 355f);
+        clockQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 305f);
 
-        Texture clockUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        Texture clockUseTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable clockUseDrawable = new TextureRegionDrawable(clockUseTexture);
         TextButton clockUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button", 1f,
                 clockUseDrawable, clockUseDrawable, skin, false);
-        clockUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 315f);
+        clockUseButton.setSize(115f, 35f);
+        clockUseButton.setPosition(rightBox.getX() + 210f, rightBox.getY() + 305f);
 
         Texture bedTexture = new Texture(Gdx.files.internal("images/shop-bed.png"));
         TextureRegionDrawable bedDrawable = new TextureRegionDrawable(bedTexture);
         ImageButton bed = new ImageButton(bedDrawable, bedDrawable);
         bed.setSize(40f, 40f);
-        bed.setPosition(rightBox.getX() + 50f, rightBox.getY() + 305f);
+        bed.setPosition(rightBox.getX() + 50f, rightBox.getY() + 205f);
 
         bedQuantity = new Label("X" + MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class).getItems().getOrDefault(Artefact.BED, 0), skin,
                 "large");
         bedQuantity.setColor(skin.getColor("black"));
-        bedQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 305f);
+        bedQuantity.setPosition(rightBox.getX() + 100f, rightBox.getY() + 205f);
 
-        Texture bedUseTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
+        Texture bedUseTexture = new Texture(Gdx.files.internal("images/Home_Button.png"));
         TextureRegionDrawable bedUseDrawable = new TextureRegionDrawable(bedUseTexture);
         TextButton bedUseButton = ShopUtils.createInventoryButton("USE", skin.getColor("black"), "button", 1f,
                 bedUseDrawable, bedUseDrawable, skin, false);
-        bedUseButton.setPosition(rightBox.getX() + 230f, rightBox.getY() + 265f);
+        bedUseButton.setSize(115f, 35f);
+        bedUseButton.setPosition(rightBox.getX() + 210f, rightBox.getY() + 205f);
 
         crossFrame.addListener(
                 new ChangeListener() {
@@ -587,10 +567,7 @@ public class InventoryDisplay extends UIComponent {
 
         group.addActor(inventoryFrame);
         group.addActor(subtitle);
-        group.addActor(heartImage);
-        group.addActor(healthBarImage);
         group.addActor(leftBox);
-        group.addActor(leftTitleBox);
         group.addActor(leftTitle);
         group.addActor(leftArrow);
         group.addActor(prevEquipment);
@@ -606,7 +583,6 @@ public class InventoryDisplay extends UIComponent {
         group.addActor(defenceItem);
         group.addActor(defence);
         group.addActor(rightBox);
-        group.addActor(rightHealthFrame);
         group.addActor(healthTitle);
         group.addActor(potion);
         group.addActor(potionQuantity);
