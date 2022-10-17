@@ -7,8 +7,6 @@ import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.rendering.Renderable;
 import com.deco2800.game.services.ServiceLocator;
 
-import javax.swing.*;
-
 /**
  * A generic component for rendering onto the ui.
  */
