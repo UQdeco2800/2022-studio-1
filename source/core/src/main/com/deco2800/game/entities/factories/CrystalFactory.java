@@ -37,9 +37,9 @@ public class CrystalFactory {
     public static Entity createCrystal(String texture, String name) {
         AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/crystal_damaged.atlas", TextureAtlas.class));
-        animator.addAnimation("crystal", 0.1f, Animation.PlayMode.NORMAL);
-        animator.addAnimation("last", 0.1f, Animation.PlayMode.NORMAL);
+                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/p_crystal_damaged.atlas", TextureAtlas.class));
+        animator.addAnimation("pcrystal", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("plast", 0.1f, Animation.PlayMode.NORMAL);
 
         Entity crystal = new Entity()
                 .addComponent(new TextureRenderComponent(texture))
@@ -57,8 +57,9 @@ public class CrystalFactory {
         crystal.setCollectable(false);
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-        crystal.getComponent(TextureRenderComponent.class).scaleEntity();
-        crystal.scaleHeight(15);
+        // crystal.getComponent(TextureRenderComponent.class).scaleEntity();
+        crystal.getComponent(AnimationRenderComponent.class).scaleEntity();
+        crystal.scaleHeight(15.0f);
         PhysicsUtils.setScaledCollider(crystal, 1f, 0.5f);
         return crystal;
     }
