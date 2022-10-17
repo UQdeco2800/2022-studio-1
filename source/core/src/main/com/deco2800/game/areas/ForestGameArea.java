@@ -11,6 +11,7 @@ import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.entities.factories.*;
+import com.deco2800.game.utils.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.audio.Music;
@@ -501,30 +502,12 @@ public class ForestGameArea extends GameArea {
       case DAY:
         break;
       case NIGHT:
-        switch (dayNum) {
-          case 1 -> {
-            for (int i = 0; i < 1; i++) {
-              spawnPirateCrabEnemy();
-              spawnElectricEelEnemy();
-              spawnNinjaStarfishEnemy();
-            }
-          }
-          case 2 -> {
-            for (int i = 0; i < 3; i++) {
-              spawnPirateCrabEnemy();
-              spawnElectricEelEnemy();
-              spawnNinjaStarfishEnemy();
-            }
-          }
-          case 3 -> {
-            for (int i = 0; i < 5; i++) {
-              spawnPirateCrabEnemy();
-              spawnElectricEelEnemy();
-              spawnNinjaStarfishEnemy();
-            }
-          }
-          default -> System.out.println("No enemy spawned");
+        for (int i = 0; i < MathUtils.random(1,3); i++) {
+          spawnPirateCrabEnemy();
+          spawnElectricEelEnemy();
+          spawnNinjaStarfishEnemy();
         }
+
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
@@ -576,14 +559,17 @@ public class ForestGameArea extends GameArea {
     switch (dayNum) {
       case 1 -> {
         entity.getComponent(CombatStatsComponent.class).setLevel(1);
+        entity.getComponent(CombatStatsComponent.class).levelUp();
       }
       case 2 -> {
         entity.getComponent(CombatStatsComponent.class).setLevel(2);
+        entity.getComponent(CombatStatsComponent.class).levelUp();
       }
       case 3 -> {
         entity.getComponent(CombatStatsComponent.class).setLevel(3);
+        entity.getComponent(CombatStatsComponent.class).levelUp();
       }
-      default -> System.out.println("Level is invalid");
+      default -> logger.debug("Fail to level up");
     }
   }
 

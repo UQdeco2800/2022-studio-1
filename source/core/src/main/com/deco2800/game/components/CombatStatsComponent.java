@@ -193,93 +193,97 @@ public class CombatStatsComponent extends Component {
   public void setLevel(int level) {
     if (level >= 1) {
       this.level = level;
-      // create an enemy list to contain all enemies
-      String[] enemies = {"Crab", "Electricity", "Starfish"};
-      // remove enemies if health point is 0
-      for (String enemy : enemies) {
-        if (entity != null && entity.getName().contains(enemy)) {
-          switch (enemy) {
-            case "Carb": {
-              if (level == 1) {
-                setMaxHealth(50);
-                setHealth(50);
-                setBaseAttack(10);
-                setBaseDefense(5);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(10);
-              } else if (level == 2) {
-                setMaxHealth(60);
-                setHealth(60);
-                setBaseAttack(15);
-                setBaseDefense(15);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(20);
-              } else if (level == 3) {
-                setMaxHealth(75);
-                setHealth(75);
-                setBaseAttack(20);
-                setBaseDefense(30);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(30);
-              }
-            }
-            case "Electricity": {
-              if (level == 1) {
-                setMaxHealth(30);
-                setHealth(30);
-                setBaseAttack(20);
-                setBaseDefense(0);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(20);
-              } else if (level == 2) {
-                setMaxHealth(35);
-                setHealth(35);
-                setBaseAttack(30);
-                setBaseDefense(5);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(25);
-              } else if (level == 3) {
-                setMaxHealth(45);
-                setHealth(45);
-                setBaseAttack(40);
-                setBaseDefense(15);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(40);
-              }
-            }
-            case "Starfish": {
-              if (level == 1) {
-                setMaxHealth(30);
-                setHealth(30);
-                setBaseAttack(20);
-                setBaseDefense(0);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(20);
-              } else if (level == 2) {
-                setMaxHealth(35);
-                setHealth(35);
-                setBaseAttack(30);
-                setBaseDefense(5);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(25);
-              } else if (level == 3) {
-                setMaxHealth(40);
-                setHealth(40);
-                setBaseAttack(40);
-                setBaseDefense(15);
-                entity.setResourceType(ResourceType.GOLD);
-                entity.setResourceAmount(35);
-              }
-            }
-          }
-        }
-      }
     }
 
     if (entity != null) {
       entity.getEvents().trigger("updateLevel", this.level);
     } else if (level < 1) {
       logger.error("level cannot be 0 or minus");
+    }
+  }
+
+  public void levelUp() {
+    // create an enemy list to contain all enemies
+    String[] enemies = {"Crab", "Electricity", "Starfish"};
+    for (String enemy : enemies) {
+      if (entity != null && entity.getName().contains(enemy) && getLevel() >= 1) {
+        switch (enemy) {
+          case "Carb": {
+            if (this.getLevel() == 1) {
+              setMaxHealth(50);
+              setHealth(50);
+              setBaseAttack(10);
+              setBaseDefense(5);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(10);
+            } else if (this.getLevel() == 2) {
+              setMaxHealth(60);
+              setHealth(60);
+              setBaseAttack(15);
+              setBaseDefense(15);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(20);
+            } else if (this.getLevel() == 3) {
+              setMaxHealth(75);
+              setHealth(75);
+              setBaseAttack(20);
+              setBaseDefense(30);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(30);
+            }
+          }
+          case "Electricity": {
+            if (this.getLevel() == 1) {
+              setMaxHealth(30);
+              setHealth(30);
+              setBaseAttack(20);
+              setBaseDefense(0);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(20);
+            } else if (this.getLevel() == 2) {
+              setMaxHealth(35);
+              setHealth(35);
+              setBaseAttack(30);
+              setBaseDefense(5);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(25);
+            } else if (this.getLevel() == 3) {
+              setMaxHealth(45);
+              setHealth(45);
+              setBaseAttack(40);
+              setBaseDefense(15);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(40);
+            }
+          }
+          case "Starfish": {
+            if (this.getLevel() == 1) {
+              setMaxHealth(30);
+              setHealth(30);
+              setBaseAttack(20);
+              setBaseDefense(0);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(20);
+            } else if (this.getLevel() == 2) {
+              setMaxHealth(35);
+              setHealth(35);
+              setBaseAttack(30);
+              setBaseDefense(5);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(25);
+            } else if (this.getLevel() == 3) {
+              setMaxHealth(40);
+              setHealth(40);
+              setBaseAttack(40);
+              setBaseDefense(15);
+              entity.setResourceType(ResourceType.GOLD);
+              entity.setResourceAmount(35);
+            }
+          }
+          default:
+            logger.debug("Fail to level up");
+        }
+      }
     }
   }
 
