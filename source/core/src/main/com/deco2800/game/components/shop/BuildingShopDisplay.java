@@ -99,23 +99,18 @@ public class BuildingShopDisplay extends UIComponent {
                 for (ShopBuilding e : buildingOptions) {
                         stock.add(e);
                 }
-                current = stock.head;
-                i = 1;
-                itemNumber = new Label("Building " + i + "/" + buildingOptions.size(), skin, "button");
+                itemNumber = new Label("", skin, "button");
                 itemNumber.setFontScale(1.5f);
                 itemNumber.setColor(skin.getColor("black"));
 
-                prevStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.prev.t));
-                stats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.t));
-                nextStats = FileLoader.readClass(ShopBuildingConfig.class, ShopBuilding.getFilepath(current.next.t));
                 // Create the current building to display
-                currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
+                currentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
                 currentItem = new Image(currentTexture);
 
-                prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+                prevTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
                 prevItem = new Image(prevTexture);
 
-                nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+                nextTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
                 nextItem = new Image(nextTexture);
 
                 // Create textures for arrows, price, descrition and buy button
@@ -142,8 +137,7 @@ public class BuildingShopDisplay extends UIComponent {
 
                 // create price sticker
                 priceDisplay = ShopUtils.createImageTextButton(
-                                "Stone: " + Integer.toString(stats.stoneCost) + " Wood: "
-                                                + Integer.toString(stats.woodCost),
+                                "",
                                 skin.getColor("black"),
                                 "font_small", 1f,
                                 goldenDrawable, goldenDrawable,
@@ -152,19 +146,16 @@ public class BuildingShopDisplay extends UIComponent {
 
                 // create description sticker
                 descriptionDisplay = ShopUtils.createImageTextButton(
-                                stats.name + "\n" + stats.description + "\n",
+                                "",
                                 skin.getColor("black"),
                                 "button", 1f,
                                 brownDrawable, brownDrawable, skin,
                                 true);
 
                 // create buy button
-                sufficientFunds = MainArea.getInstance().getGameArea()
-                                .getPlayer().getComponent(InventoryComponent.class)
-                                .hasGold(stats.goldCost);
                 buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                                sufficientFunds ? goldenDrawable : redDrawable,
-                                sufficientFunds ? clickDrawable : redDrawable,
+                                goldenDrawable,
+                                clickDrawable,
                                 skin,
                                 false);
 
@@ -406,6 +397,9 @@ public class BuildingShopDisplay extends UIComponent {
         }
 
         private void openShop() {
+                i = 0;
+                current = stock.tail;
+                carouselRight();
                 buildingShop.setVisible(true);
         }
 

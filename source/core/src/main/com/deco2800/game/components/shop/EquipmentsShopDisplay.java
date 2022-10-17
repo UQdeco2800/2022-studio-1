@@ -98,23 +98,18 @@ public class EquipmentsShopDisplay extends UIComponent {
         for (Equipments e : equipmentOptions) {
             stock.add(e);
         }
-        current = stock.head;
-        i = 1;
-        itemNumber = new Label("Item " + i + "/" + equipmentOptions.size(), skin, "button");
+
+        itemNumber = new Label("" + equipmentOptions.size(), skin, "button");
         itemNumber.setFontScale(1.5f);
         itemNumber.setColor(skin.getColor("black"));
-
-        prevStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.t));
-        nextStats = FileLoader.readClass(EquipmentConfig.class, Equipments.getFilepath(current.next.t));
         // Create the current equipments to display
-        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
+        currentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         currentItem = new Image(currentTexture);
 
-        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+        prevTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         prevItem = new Image(prevTexture);
 
-        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+        nextTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         nextItem = new Image(nextTexture);
 
         // Create textures for arrows, price, descrition and buy button
@@ -141,40 +136,22 @@ public class EquipmentsShopDisplay extends UIComponent {
 
         // create price sticker
         priceDisplay = ShopUtils.createImageTextButton(
-
-                // Integer.toString(current.t.getPrice()), skin.getColor("black"),
-                // displays the cost of the equipments from stats
-                "Gold: " + Integer.toString(stats.goldCost), skin.getColor("black"),
-
+                "", skin.getColor("black"),
                 "button", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
                 true);
 
         // create description sticker
-        descriptionDisplay = ShopUtils.createImageTextButton(
-                stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: " + MainArea.getInstance().getGameArea().getPlayer()
-                        .getComponent(InventoryComponent.class)
-                        .countInEquipmentList(current.t)
-                        + "/1",
+        descriptionDisplay = ShopUtils.createImageTextButton("",
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
                 true);
 
         // create buy button
-        sufficientFunds = (MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost)
-                && MainArea.getInstance().getGameArea().getPlayer()
-                .getComponent(InventoryComponent.class)
-                .countInEquipmentList(current.t) == 0);
         buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                sufficientFunds ? goldenDrawable : redDrawable,
-                sufficientFunds ? clickDrawable : redDrawable,
-                skin,
-                false);
+                goldenDrawable, clickDrawable, skin, false);
 
         // create the back button
         backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
@@ -422,6 +399,8 @@ public class EquipmentsShopDisplay extends UIComponent {
         nextStats = FileLoader.readClass(EquipmentConfig.class,
                 Equipments.getFilepath(current.next.t));
 
+        // Integer.toString(stats.goldCost()), skin.getColor("black"),
+        // displays the cost of the equipments from stats
         priceDisplay.setText("Gold: " + Integer.toString(stats.goldCost));
         sufficientFunds = (MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class)
@@ -456,6 +435,9 @@ public class EquipmentsShopDisplay extends UIComponent {
     }
 
     private void openShop() {
+        i = 0;
+        current = stock.tail;
+        carouselRight();
         equipmentShop.setVisible(true);
     }
 

@@ -93,23 +93,17 @@ public class ArtefactShopDisplay extends UIComponent {
         for (Artefact e : artefactOptions) {
             stock.add(e);
         }
-        current = stock.head;
-        i = 1;
-        itemNumber = new Label("Item " + i + "/" + artefactOptions.size(), skin, "button");
+        itemNumber = new Label("", skin, "button");
         itemNumber.setFontScale(1.5f);
         itemNumber.setColor(skin.getColor("black"));
-
-        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
         // Create the current artefact to display
-        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
+        currentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         currentItem = new Image(currentTexture);
 
-        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+        prevTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         prevItem = new Image(prevTexture);
 
-        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+        nextTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         nextItem = new Image(nextTexture);
 
         // Create textures for arrows, price, descrition and buy button
@@ -135,34 +129,22 @@ public class ArtefactShopDisplay extends UIComponent {
         rightButton.setTransform(true);
 
         // create price sticker
-        priceDisplay = ShopUtils.createImageTextButton(
-                Integer.toString(stats.goldCost), skin.getColor("black"),
+        priceDisplay = ShopUtils.createImageTextButton( "", skin.getColor("black"),
                 "button", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
                 true);
 
         // create description sticker
-        descriptionDisplay = ShopUtils.createImageTextButton(
-                stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea()
-                        .getPlayer().getComponent(InventoryComponent.class)
-                        .getItemCount(current.t),
+        descriptionDisplay = ShopUtils.createImageTextButton( "",
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
                 true);
 
         // create buy button
-        sufficientFunds = MainArea.getInstance().getGameArea()
-                .getPlayer().getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost);
         buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                sufficientFunds ? goldenDrawable : redDrawable,
-                sufficientFunds ? clickDrawable : redDrawable,
-                skin,
-                false);
+                goldenDrawable, clickDrawable, skin, false);
 
         // create the back button
         backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
@@ -384,7 +366,11 @@ public class ArtefactShopDisplay extends UIComponent {
     }
 
     private void openShop() {
+        i = 0;
+        current = stock.tail;
+        carouselRight();
         artefactShop.setVisible(true);
+
     }
 
     private void closeShop() {
