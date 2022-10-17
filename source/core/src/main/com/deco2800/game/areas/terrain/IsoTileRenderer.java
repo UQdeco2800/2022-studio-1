@@ -226,6 +226,7 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
                                 vertices[U2] = tempU;
                                 break;
                             }
+                            default:
                         }
                     }
                     batch.draw(region.getTexture(), vertices, 0, NUM_VERTICES);

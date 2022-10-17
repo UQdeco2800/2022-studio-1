@@ -14,6 +14,7 @@ import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.SecureRandom;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,19 +48,22 @@ public class CrystalService {
             // crystal.addComponent(new
             // TextureRenderComponent("images/crystal_level2.png"));
             triggerCrystal("images/crystal_level2.png");
-            player.getComponent(InventoryComponent.class).addGold(-2000);
+            player.getComponent(InventoryComponent.class).addGold(-500);
             PlayerStatsDisplay.updateItems();
+            crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1200);
+
         } else if (level == 2) {
             ServiceLocator.getEntityService().getNamedEntity("crystal2").dispose();
             triggerCrystal("images/crystal_level3.png");
             // crystal.addComponent(new
             // TextureRenderComponent("images/crystal_level3.png"));
             ServiceLocator.getEntityService().unregisterNamed("crystal2");
-            player.getComponent(InventoryComponent.class).addGold(-5000);
+            player.getComponent(InventoryComponent.class).addGold(-1500);
             PlayerStatsDisplay.updateItems();
+            crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1500);
+
         }
         // upgrading only increases max health and does not impact current health
-        crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1000 + (100 * level));
         // crystal.getComponent(CombatStatsComponent.class).setHealth(1000+(100*level));
         crystal.getComponent(CombatStatsComponent.class).setLevel(level + 1);
         screenShake();
@@ -69,31 +73,42 @@ public class CrystalService {
 
     }
 
+    /**
+     * Triggers shaking effect of the in-game camera
+     */
     public static void screenShake(){
         Entity cam = ServiceLocator.getEntityService().getNamedEntity("camera");
         CameraComponent cameraComp = cam.getComponent(CameraComponent.class);
         OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
         long currentGameTime = ServiceLocator.getTimeSource().getTime();
-        final int[] i = {0};
+        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+
+        final int[] shakeNum = {0};
+        final int[] power = {1};
+
 
         Timer time = new Timer();
         TimerTask shake = new TimerTask() {
             @Override
             public void run() {
-                if (i[0] == 6){
+                camera.update();
+                //int power = (int) (new SecureRandom().nextInt(5));
+
+                if (shakeNum[0] == 8){
                     /* Expand the map! */
                     Entity terrain = ServiceLocator.getEntityService().getNamedEntity("terrain");
                     terrain.getComponent(TerrainComponent.class).incrementMapLvl();
                     time.cancel();
                 }
                 if ( !interval) {
-                    camera.translate(3,3);
+                    camera.translate(power[0], power[0]);
                     interval = true;
                 } else {
-                    camera.translate(-3,-3);
+                    camera.translate(-power[0],-power[0]);
                     interval = false;
                 }
-                i[0]++;
+                power[0]++;
+                shakeNum[0]++;
 
             }
         };

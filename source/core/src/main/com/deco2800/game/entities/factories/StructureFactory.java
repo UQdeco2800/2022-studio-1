@@ -1,23 +1,25 @@
 package com.deco2800.game.entities.factories;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.areas.terrain.TerrainFactory;
+import com.deco2800.game.components.AOEDamageComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
-import com.deco2800.game.components.RangeAttackComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
+
 import com.deco2800.game.components.tasks.ShootMultipleTask;
-import com.deco2800.game.components.tasks.ShootTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
 import com.deco2800.game.entities.configs.StructureConfig;
@@ -27,9 +29,11 @@ import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
+import org.w3c.dom.Text;
 
 /**
  * Factory to create structure entities with predefined components.
@@ -47,11 +51,13 @@ import com.deco2800.game.services.ServiceLocator;
  * similar characteristics.
  */
 public class StructureFactory {
+  private static final Logger logger = LoggerFactory.getLogger(StructureFactory.class);
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
   private static String[] wallSprites = { "images/wallLeft.png", "images/wallRight.png" };
-  private static String[] tower1Sprites = { "images/attack_towers/lv1GuardianLeft.png",
-      "images/attack_towers/lv1GuardianRight.png" };
+  private static String[] tempTower1Sprites = {"images/attack_towers/tempStructures/temp_tow1_1_l.png", "images/attack_towers/tempStructures/temp_tow1_1_r.png"};
+  private static String[] tower1Sprites = { "images/attack_towers/tow1_1_l.png",
+  "images/attack_towers/tow1_1_r.png" };
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -79,13 +85,16 @@ public class StructureFactory {
   public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure(tower1Sprites[orientation], name); // change texture to be temp texture
+      wall = createBaseStructure(wallSprites[orientation], name, false); // change texture to be temp texture
     } else {
-      wall = createBaseStructure(tower1Sprites[orientation], name);
+      wall = createBaseStructure(wallSprites[orientation], name, false);
     }
+    wall.setRotation(orientation);
     BaseStructureConfig config = configs.wall;
-    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-        .addComponent(new ResourceCostComponent(config.gold))
+
+    config.orientation = orientation;
+    wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
         .getTileSize();
@@ -107,31 +116,38 @@ public class StructureFactory {
     // TODO change trap texture
     Entity trap;
     if (isTemp) {
-      trap = createBaseStructure("images/trap.png", name); // change texture to be temp texture
+      trap = createBaseStructure("images/trap.png", name, false); // change texture to be temp texture
     } else {
-      trap = createBaseStructure("images/trap.png", name);
+      trap = createBaseStructure("images/trap.png", name, false);
     }
     BaseStructureConfig config = configs.trap;
 
-    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
+    trap.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
         .addComponent(new TrapComponent(PhysicsLayer.NPC, 1.5f))
-        .addComponent(new ResourceCostComponent(config.gold))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)));
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+            .getTileSize();
+    Texture t = trap.getComponent(TextureRenderComponent.class).getTexture();
+    trap.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
     return trap;
   }
 
   public static Entity createTurret(String name) {
-    Entity turret = createBaseStructure("images/turret.png", name);
+    Entity turret = createBaseStructure("images/turret.png", name, false);
     BaseStructureConfig config = configs.turret;
 
     AITaskComponent aiTaskComponent = new AITaskComponent()
         .addTask(new ShootMultipleTask(new ArrayList<>(), 500f));
 
-    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-        .addComponent(new ResourceCostComponent(config.gold))
+    turret.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+        .addComponent(new ResourceCostComponent(config.stone, config.wood))
         .addComponent((new HealthBarComponent(50, 10)))
         .addComponent(aiTaskComponent);
-
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+            .getTileSize();
+    Texture t = turret.getComponent(TextureRenderComponent.class).getTexture();
+    turret.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
     return turret;
   }
 
@@ -141,46 +157,64 @@ public class StructureFactory {
    * @param level of the tower to create
    * @return entity
    */
-  public static Entity createTower1(int level, String name, Boolean isTemp) {
+  public static Entity createTower1(int level, String name, Boolean isTemp, int orientation) {
     // TODO Change string constant
     String TOWER1I;
     if (isTemp) {
-      TOWER1I = "images/attack_towers/lv1GuardianLeft.png"; // change texture to be temp texture
+      TOWER1I = tempTower1Sprites[orientation]; // change texture to be temp
     } else {
-      TOWER1I = "images/attack_towers/lv1GuardianLeft.png";
+      TOWER1I = tower1Sprites[orientation];
     }
-    String TOWER1II = "images/attack_towers/lv2GuardianLeft.png";
-    String TOWER1III = "images/attack_towers/lv3GuardianRight.png";
+    String TOWER1II = "images/attack_towers/tow1_2_l.png";
+    String TOWER1III = "images/attack_towers/tow1_3_l.png";
 
     Entity tower1;
     BaseStructureConfig config;
 
+    float tileSize;
+    Texture t;
+
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower1 = createBaseStructure(TOWER1II, name);
+        tower1 = createBaseStructure(TOWER1II, name, true);
         config = configs.tower1I;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-            .addComponent(new ResourceCostComponent(config.gold))
+        config.orientation = orientation;
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
+            .addComponent(new AOEDamageComponent(3, 2, 5000))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower1.getComponent(TextureRenderComponent.class).getTexture();
+        tower1.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower1;
 
       case 3: // Represents the second upgraded version of the tower
-        tower1 = createBaseStructure(TOWER1III, name);
+        tower1 = createBaseStructure(TOWER1III, name, false);
         config = configs.tower1II;
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+        config.orientation = orientation;
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
+            .addComponent(new AOEDamageComponent(5, 3, 5000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower1.getComponent(TextureRenderComponent.class).getTexture();
+        tower1.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower1;
       default:
-        tower1 = createBaseStructure(TOWER1I, name);
+        tower1 = createBaseStructure(TOWER1I, name, false);
         config = configs.tower1;
 
-        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-            .addComponent(new ResourceCostComponent(config.gold))
+        config.orientation = orientation;
+        tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+            .addComponent(new AOEDamageComponent(1, 1, 5000))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower1.getComponent(TextureRenderComponent.class).getTexture();
+        tower1.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower1;
     }
   }
@@ -196,41 +230,55 @@ public class StructureFactory {
     // @TODO Change string constant
     String TOWER2I;
     if (isTemp) {
-      TOWER2I = "images/TOWER2I.png"; // change texture to be temp texture
+      TOWER2I = "images/attack_towers/tow2_2_l.gif"; // change texture to be temp texture
     } else {
-      TOWER2I = "images/TOWER2I.png";
+      TOWER2I = "images/attack_towers/tow2_2_l.gif";
     }
     String TOWER2II = "images/TOWER2II.png";
     String TOWER2III = "images/TOWER2III.png";
     Entity tower2;
     BaseStructureConfig config;
+    float tileSize;
+    Texture t;
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower2 = createBaseStructure(TOWER2II, name);
+        tower2 = createBaseStructure(TOWER2II, name, false);
         config = configs.tower2I;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-            .addComponent(new ResourceCostComponent(config.gold))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
+            .addComponent(new AOEDamageComponent(4, 3, 4500))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower2.getComponent(TextureRenderComponent.class).getTexture();
+        tower2.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower2;
 
       case 3: // Represents the second upgraded version of the tower
-        tower2 = createBaseStructure(TOWER2III, name);
+        tower2 = createBaseStructure(TOWER2III, name, false);
         config = configs.tower2II;
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
+            .addComponent(new AOEDamageComponent(5, 3, 4250))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower2.getComponent(TextureRenderComponent.class).getTexture();
+        tower2.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower2;
       default:
-        tower2 = createBaseStructure(TOWER2I, name);
+        tower2 = createBaseStructure(TOWER2I, name, false);
         config = configs.tower2;
 
-        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-            .addComponent(new ResourceCostComponent(config.gold))
+        tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+            .addComponent(new AOEDamageComponent(3, 2, 4750))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower2.getComponent(TextureRenderComponent.class).getTexture();
+        tower2.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower2;
     }
   }
@@ -255,33 +303,47 @@ public class StructureFactory {
 
     Entity tower3;
     BaseStructureConfig config;
+    float tileSize;
+    Texture t;
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower3 = createBaseStructure(TOWER3II, name);
+        tower3 = createBaseStructure(TOWER3II, name, false);
         config = configs.tower3I;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-            .addComponent(new ResourceCostComponent(config.gold))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, config.health))
+            .addComponent(new AOEDamageComponent(6, 3, 3750))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower3.getComponent(TextureRenderComponent.class).getTexture();
+        tower3.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower3;
 
       case 3: // Represents the second upgraded version of the tower
-        tower3 = createBaseStructure(TOWER3III, name);
+        tower3 = createBaseStructure(TOWER3III, name, false);
         config = configs.tower3II;
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, config.health))
+            .addComponent(new AOEDamageComponent(7, 4, 3000))
             .addComponent(new ResourceCostComponent(config.gold, config.stone))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower3.getComponent(TextureRenderComponent.class).getTexture();
+        tower3.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower3;
       default:
-        tower3 = createBaseStructure(TOWER3I, name);
+        tower3 = createBaseStructure(TOWER3I, name, false);
         config = configs.tower3;
 
-        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
-            .addComponent(new RangeAttackComponent(PhysicsLayer.NPC, 10f, 100f))
-            .addComponent(new ResourceCostComponent(config.gold))
+        tower3.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, config.health))
+            .addComponent(new AOEDamageComponent(4, 3, 4250))
+            .addComponent(new ResourceCostComponent(config.stone, config.wood))
             .addComponent((new HealthBarComponent(50, 10)));
+        tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+                .getTileSize();
+        t = tower3.getComponent(TextureRenderComponent.class).getTexture();
+        tower3.setScale((tileSize), (tileSize) * (float) t.getHeight() / t.getWidth());
         return tower3;
     }
   }
@@ -293,7 +355,7 @@ public class StructureFactory {
    * @param texture image representation for created structure
    * @return structure entity
    */
-  public static Entity createBaseStructure(String texture, String name) {
+  public static Entity createBaseStructure(String texture, String name, boolean animated) {
     ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BUILDING_PLACED,
         AchievementType.BUILDINGS, 1);
 
@@ -304,15 +366,32 @@ public class StructureFactory {
      * .addTask(new WanderTask(new Vector2(2f, 2f), 2f))
      * .addTask(new ChaseTask(target, 10, 3f, 4f));
      */
-    Entity structure = new Entity()
-        .addComponent(new TextureRenderComponent(texture))
-        .addComponent(new PhysicsComponent())
+
+    Entity structure = new Entity();
+//    animated = false; // We can't add animation to structure because its disposal causing problem.
+//    if (animated) {
+
+      // texture (String) must just be the name of the file without extension
+
+//      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
+//          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
+//      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
+//      animator.startAnimation(texture);
+//      structure.addComponent(animator);
+//
+//      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
+//    } else {
+      structure.addComponent(new TextureRenderComponent(texture));
+      structure.getComponent(TextureRenderComponent.class).scaleEntity();
+//    }
+
+    structure.addComponent(new PhysicsComponent())
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.NPC));
     // .addComponent(aiComponent);
 
     structure.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-    structure.getComponent(TextureRenderComponent.class).scaleEntity();
+
     structure.setCreationMethod(Thread.currentThread().getStackTrace()[2].getMethodName());
     PhysicsUtils.setScaledCollider(structure, 0.9f, 0.4f);
     structure.setName(name);
@@ -334,11 +413,17 @@ public class StructureFactory {
    */
   public static void handleRefund(Entity structure, float refundMultiplier) {
     Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-    // Get the cost of the building
-    int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
-    int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
-    int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
-    // Add (<resource> * refundMultiplier) to PLAYER's inventory
+    logger.info("Refund multiplier: " + refundMultiplier);
+      //Get the cost of the building
+      int gold = structure.getComponent(ResourceCostComponent.class).getGoldCost();
+      int stone = structure.getComponent(ResourceCostComponent.class).getStoneCost();
+      int wood = structure.getComponent(ResourceCostComponent.class).getWoodCost();
+      //Add (<resource> * refundMultiplier) to PLAYER's inventory
+    logger.info("stone refund: " + stone * refundMultiplier);
+    logger.info("wood refund: " + wood * refundMultiplier);
+    logger.info("wood cost: " + structure.getComponent(ResourceCostComponent.class).getWoodCost());
+    logger.info("stone cost: " + structure.getComponent(ResourceCostComponent.class).getStoneCost());
+
 
     player.getComponent(InventoryComponent.class).addGold((int) (gold * (refundMultiplier)));
     player.getComponent(InventoryComponent.class).addStone((int) (stone * refundMultiplier));
@@ -368,7 +453,7 @@ public class StructureFactory {
 
       default:
         int health = structure.getComponent(CombatStatsComponent.class).getHealth();
-        int maxHealth = structure.getComponent(CombatStatsComponent.class).getBaseHealth();
+        int maxHealth = structure.getComponent(CombatStatsComponent.class).getMaxHealth();
         Float refundMultiplier = (REFUNDMULTIPLIER * ((float) health / (float) maxHealth)) / (float) 100;
         handleRefund(structure, refundMultiplier);
         ServiceLocator.getUGSService().removeEntity(name);
@@ -388,27 +473,24 @@ public class StructureFactory {
     // Store rectangle location, name, level
     int level = ServiceLocator.getUGSService().getEntityByName(structName)
         .getComponent(CombatStatsComponent.class).getLevel();
-    if (level > 2) {
+    if (level > 2 || structName.contains("wall")) {
       return;
     }
     // Remove building entity
     ServiceLocator.getUGSService().removeEntity(structName);
-
-    // Upgrade depending on building
-    if (structName.contains("wall")) {
-      // Might not be worth implementing depending on how enemy team implements enemy
-      // AI
-    } else if (structName.contains("tower1")) {
+    logger.info("Building upgraded at: " + gridPos);
+    //Upgrade depending on building
+   if (structName.contains("tower1")) {
       Entity tower1;
       switch (level) {
         // Only two possible upgrades 1->2 and 2->3
         case 1:
-          tower1 = StructureFactory.createTower1(2, structName, false);
+          tower1 = StructureFactory.createTower1(2, structName, false, 0);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;
         case 2:
-          tower1 = StructureFactory.createTower1(3, structName, false);
+          tower1 = StructureFactory.createTower1(3, structName, false, 0);
           ServiceLocator.getUGSService().setEntity(gridPos, tower1, structName);
           ServiceLocator.getStructureService().registerNamed(structName, tower1);
           break;

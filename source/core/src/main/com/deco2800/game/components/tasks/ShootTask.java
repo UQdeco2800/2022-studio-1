@@ -23,6 +23,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
     private final PhysicsEngine physics;
     private final DebugRenderer debugRenderer;
     private final RaycastHit hit = new RaycastHit();
+    private int timer = 0;
 
     /**
      * @param target       The entity to chase.
@@ -48,10 +49,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public void update() {
+        timer++;
         Entity entity = this.owner.getEntity();
-        System.out.println("[ShootTask] {Owner: " + entity.getName() + "} {Time-taskEnd:" + TotalTime.getTime() + " - "
-                + taskEnd + "}");
-        if (TotalTime.getTime() >= taskEnd) {
+        if (TotalTime.getTime() >= taskEnd && this.timer % 120 == 0) {
             ProjectileFactory.createProjectile(entity, target);
             taskEnd = TotalTime.getTime() + (SECOND);
         }
@@ -59,7 +59,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     @Override
     public int getPriority() {
-        System.out.println(status.name());
         if (status == Status.ACTIVE) {
             return getActivePriority();
         }
@@ -75,12 +74,9 @@ public class ShootTask extends DefaultTask implements PriorityTask {
 
     private int getActivePriority() {
         float dst = Math.abs(getDistanceToTarget());
-        System.out.println("Visibility: " + isTargetVisible());
 
-        System.out.println("Distance: " + dst + " Max Distance: " + maxChaseDistance);
-
-        if (dst > maxChaseDistance || !isTargetVisible()) {
-            return -1; // Too far, stop chasing
+        if (dst > viewDistance) {
+            return -1; // Too far, stop shooting
         }
         return priority;
     }
@@ -93,7 +89,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         return -1;
     }
 
-    private boolean isTargetVisible() {
+    protected boolean isTargetVisible() {
         if (target == null)
             return false;
 

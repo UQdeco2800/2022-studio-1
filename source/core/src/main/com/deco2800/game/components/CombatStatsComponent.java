@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Component used to store information related to combat such as health, attack,
@@ -20,6 +22,8 @@ import java.util.Objects;
  * extended for more specific combat needs.
  */
 public class CombatStatsComponent extends Component {
+  public static final String CRYSTAL = "crystal";
+  public static final String PLAYER = "player";
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
@@ -109,7 +113,7 @@ public class CombatStatsComponent extends Component {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
-        if (entity != null && Objects.equals(entity.getName(), "crystal") && this.health > health) {
+        if (entity != null && Objects.equals(entity.getName(), CRYSTAL) && this.health > health) {
           ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_DAMAGED, 11);
         }
 
@@ -127,16 +131,15 @@ public class CombatStatsComponent extends Component {
             if (entity.getName().contains("Zero")) {
               ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BOSS_KILL, 10L);
             }
-
-            entity.dispose();
+            ServiceLocator.getEntityService().addToDestroyEntities(entity);
           }
         }
 
-        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
-          killEntity("crystal");
+        if (entity != null && Objects.equals(entity.getName(), CRYSTAL)) {
+          killEntity(CRYSTAL);
         }
-        if (entity != null && Objects.equals(entity.getName(), "player")) {
-          killEntity("player");
+        if (entity != null && Objects.equals(entity.getName(), PLAYER)) {
+          killEntity(PLAYER);
         }
       }
     }
@@ -154,11 +157,35 @@ public class CombatStatsComponent extends Component {
   public void killEntity(String entityName) {
     //String entityName = entity.getName()t
     switch (entityName) {
-      case "player":
+      case PLAYER:
         entity.getEvents().trigger("playerDeath");
         break;
-      case "crystal":
-        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
+      case CRYSTAL:
+        Timer time = new Timer();
+        TimerTask destroyedAnimation = new TimerTask() {
+            @Override
+            public void run() {
+              ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("desCrystal");
+              //ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("lastCrystal");
+              //entity.getEvents().trigger("desCrystal");
+            }
+        };
+        TimerTask lastAnimation = new TimerTask() {
+            @Override
+            public void run() {
+              ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("lastCrystal");
+              //entity.getEvents().trigger("desCrystal");
+            }
+        };
+        TimerTask destroyed = new TimerTask() {
+            @Override
+            public void run() {
+              ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
+            }
+        };
+        time.scheduleAtFixedRate(destroyedAnimation, 0, 1000);
+        time.scheduleAtFixedRate(lastAnimation, 1000, 1000);
+        time.scheduleAtFixedRate(destroyed, 2000, 2000);
         break;
       default:
         //do nothing

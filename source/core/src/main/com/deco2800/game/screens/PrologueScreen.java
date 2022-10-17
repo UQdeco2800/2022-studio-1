@@ -6,25 +6,22 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.storyline.prologueDisplay;
 import com.deco2800.game.components.storyline.storyLineAction;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
-import com.deco2800.game.input.InputService;
-import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PrologueScreen extends ScreenAdapter{
+public class PrologueScreen extends ScreenAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(PrologueScreen.class);
     private final AtlantisSinks game;
     private final Renderer renderer;
 
-    //load all the texture images
+    // load all the texture images
     private static final String[] storylineTextures = {
             "images/StoryLine/prologue1_revised.png",
             "images/StoryLine/prologue2_revised.png",
@@ -36,11 +33,6 @@ public class PrologueScreen extends ScreenAdapter{
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
-
         renderer = RenderFactory.createRenderer();
 
         loadAssets();
@@ -74,10 +66,6 @@ public class PrologueScreen extends ScreenAdapter{
         logger.debug("Disposing storyline screen");
 
         renderer.dispose();
-        unloadAssets();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
     }
 
     private void loadAssets() {
@@ -94,7 +82,8 @@ public class PrologueScreen extends ScreenAdapter{
     }
 
     /**
-     * Creates the storyline UI including components for rendering ui elements to the screen and
+     * Creates the storyline UI including components for rendering ui elements to
+     * the screen and
      * capturing and handling ui input.
      */
     private void createUI() {
