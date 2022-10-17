@@ -303,23 +303,57 @@ public class ForestGameArea extends GameArea {
       int counter = 0;
       // check for possible collision and reroll location until valid
 
-      if (type == EnvironmentalObstacle.ROCK || type == EnvironmentalObstacle.SHIPWRECK_BACK
-          || type == EnvironmentalObstacle.SHIPWRECK_FRONT) {
-        randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
-        ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
-      } else {
-        while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
-            || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
-          randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+      switch (type) {
+        case ROCK:
+          randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
+          ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
+          return;
+        case SHELL:
+          do {
+            randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+            counter++;
+          } while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName()) && counter < 1000);
+          return;
+        case SHIPWRECK_BACK:
+        case SHIPWRECK_FRONT:
+          do {
+            randomPos = new GridPoint2(MathUtils.random(0, 119), MathUtils.random(0, 119));
+            counter++;
+          } while (ServiceLocator.getUGSService().getTileType(randomPos) != "water"
+              && !ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName()) && counter < 1000);
+          return;
+        case SPEED_ARTEFACT:
+        case SPIKY_BUSH:
+        case STONE_PILLAR:
+        case TREE:
+        case UNDEFINED:
+        case VINE:
+        case WOODEN_FENCE:
+        default:
+          while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
+              || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+            randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
 
-          // safety to avoid infinite looping on loading screen.
-          // If cant spawn the object then space has ran out on map
-          if (counter > 1000) {
-            return;
+            // safety to avoid infinite looping on loading screen.
+            // If cant spawn the object thewhile (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
+          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+            randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+    
+            // safety to avoid infinite looping on loading screen.
+            // If cant spawn the object then space has ran out on map
+            if (counter > 1000) {
+              return;
+            }
+            counter++;
+          }n space has ran out on map
+            if (counter > 1000) {
+              return;
+            }
+            counter++;
           }
-          counter++;
-        }
+
       }
+
     }
   }
 
