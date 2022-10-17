@@ -1,30 +1,36 @@
 package com.deco2800.game.files;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.deco2800.game.achievements.Achievement;
+import com.deco2800.game.achievements.AchievementData;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
-import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.artefacts.Artefact;
-import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.entities.factories.*;
-import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
-import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class that handles all save game mechanics
@@ -38,13 +44,15 @@ public class SaveGame {
     private static String savePathPlayer = "Saves/Player.json";
     private static String saveGameData = "Saves/GameData.json";
 
+    private static final String savePathAchievements = "Saves/playerAchievementsVersion5.json";
+
     private final static HashMap<String, Method> environmentalGeneration = new HashMap<>();
     private final static HashMap<String, Method> structureGeneration = new HashMap<>();
     private static Entity loadedPlayer;
     private static Entity loadedCrystal;
 
     /**
-     * Saves environmental objects to enviromental via the use of json
+     * Saves environmental objects to environmental via the use of json
      */
     private static void saveEnvironmentalObjects() {
         logger.debug("Begin Saving Environment");
@@ -174,11 +182,9 @@ public class SaveGame {
         logger.debug("Begin Saving Crystal");
         String name = "crystal";
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
-
         if (crystal == null) {
             return;
         }
-
         // save crystal level, health, texture, name, and position
         Tuple crystalRepresentation = new Tuple().setName(name).setPosition(crystal.getPosition());
         crystalRepresentation.setLevel(crystal.getComponent(CombatStatsComponent.class).getLevel());
@@ -187,6 +193,51 @@ public class SaveGame {
 
         FileLoader.writeClass(crystalRepresentation, savePathCrystal, FileLoader.Location.LOCAL);
         logger.debug("End Saving Crystal");
+    }
+
+    /**
+     * Saves achievements to the games saves directory
+     * using a custom JSON format
+     */
+    public static void saveAchievements(List<Achievement> achievements) {
+        long lastSaved = System.currentTimeMillis();
+        Json json = getAchievementsJsonConfig();
+        AchievementData achievementData = new AchievementData(lastSaved, new ArrayList<>(achievements));
+
+        FileHandle achievementsFileHandle  = Gdx.files.local(savePathAchievements);
+        achievementsFileHandle.writeString(json.prettyPrint(achievementData), false);
+    }
+
+    /**
+     * Loads achievements from save file
+     *
+     * @param otherFileHandle  optional file handle to read from
+     * @return list of achievements loaded
+     */
+    public static List<Achievement> loadAchievements(FileHandle otherFileHandle) {
+        Json json = getAchievementsJsonConfig();
+        FileHandle fileHandle;
+
+        if (otherFileHandle == null) {
+            fileHandle = Gdx.files.local(savePathAchievements);
+        } else {
+            fileHandle = otherFileHandle;
+        }
+        AchievementData data = json.fromJson(AchievementData.class, fileHandle);
+
+        return data.getAchievements();
+    }
+
+    /**
+     * The JSON configuration for serializing and de-serializing achievements
+     *
+     * @return the json config
+     */
+    private static Json getAchievementsJsonConfig () {
+        Json json = new Json();
+        json.setElementType(AchievementData.class, "achievements", Achievement.class);
+        json.setOutputType(JsonWriter.OutputType.json);
+        return json;
     }
 
     /**
@@ -204,8 +255,6 @@ public class SaveGame {
         CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
         if (crystalRepresentation != null) {
             Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-            // CrystalFactory.createCrystal(crystalRepresentation.texture,
-            // crystalRepresentation.name);
             if (crystal == null) {
                 return;
             }
@@ -229,11 +278,6 @@ public class SaveGame {
         if (player == null) {
             return;
         }
-        // save player status - look at CareTaker and Memento which would for sure be
-        // the more elegant way to do this
-        // in sprint 4, but I don't want to mess with that code this sprint to avoid
-        // conflicts
-        // lmao this wont work if you close the game at which point caretaker/memento would need to be seralized which is just a further extension of this and is more work
         HashMap<String, Object> status = new HashMap();
         status.put("gold", player.getComponent(InventoryComponent.class).getGold());
         status.put("stone", player.getComponent(InventoryComponent.class).getStone());
@@ -376,6 +420,10 @@ public class SaveGame {
         saveGameData();
 
         saveEnemies();
+
+        if (ServiceLocator.getAchievementHandler()  != null) {
+            saveAchievements(ServiceLocator.getAchievementHandler().getAchievements());
+        }
 
         logger.debug("Finished Saving");
     }

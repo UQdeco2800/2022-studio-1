@@ -15,6 +15,7 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.deco2800.game.components.crystal.CrystalAnimationController;
 
 /**
  * Factory to create crystal entity.
@@ -37,15 +38,17 @@ public class CrystalFactory {
         AnimationRenderComponent animator =
             new AnimationRenderComponent(
                     ServiceLocator.getResourceService().getAsset("images/crystal_animation/crystal_damaged.atlas", TextureAtlas.class));
-        animator.addAnimation("crystal", 0.1f, Animation.PlayMode.NORMAL);
-        animator.addAnimation("last", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("pcrystal", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("plast", 0.1f, Animation.PlayMode.NORMAL);
 
         Entity crystal = new Entity()
                 .addComponent(new TextureRenderComponent(texture))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
+                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                .addComponent(animator)
+                .addComponent(new CrystalAnimationController());
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
                 crystalStats.defense, crystalStats.level, 1000))

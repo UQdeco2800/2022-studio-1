@@ -99,12 +99,17 @@ public class CameraActions extends Component {
                 this.playerMoving = false;
         }
 
-        public void startScreenShake(){
+        /**
+         * Signify screen shake effect to start by setting boolean to true
+         */
+        void startScreenShake(){
                 this.screenShake = true;
                 this.cameraShakeStartTime = ServiceLocator.getTimeSource().getTime();
-
         }
 
+        /**
+         * Triggers shaking effect of the in-game camera
+         */
         void shake(){
 
                 CameraComponent cameraComp = entity.getComponent(CameraComponent.class);
