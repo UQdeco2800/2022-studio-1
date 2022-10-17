@@ -544,13 +544,8 @@ public class AchievementInterface extends UIComponent {
     }
 
     /**
-<<<<<<< HEAD
      * Add listener to the provided AchievementButton, will change display of achievement interface
      * on click
-=======
-     * Add listener to the provided AchievementButton
-     * 
->>>>>>> main
      * @param button AchievementButton
      * @param name   String
      */
