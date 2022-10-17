@@ -63,9 +63,7 @@ public class UGS {
      */
     public Entity getEntity(GridPoint2 coordinate) {
         String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
-        if (stringCoord == null) {
-            return null;
-        }
+        logger.info("coords are: " + stringCoord);
         return tiles.get(stringCoord).getEntity();
     }
 
@@ -91,28 +89,6 @@ public class UGS {
     }
 
     public String getStringByEntity(Entity entity) {
-        // //getting position, conversions
-        // Vector2 pos = entity.getPosition();
-        // GridPoint2 coord =
-        // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        // .worldToTilePosition(pos.x, pos.y);
-        // String tilePos = generateCoordinate(coord.x, coord.y);
-        // Entity tileEntity = tiles.get(tilePos).getEntity();
-        // //check the tile at entity's center position to see if it contains the entity
-        // if (tileEntity != null && tileEntity.equals(entity)) {
-        // return tilePos;
-        // } else {
-        // //check the tiles around that tile, just in case
-        // for (GridPoint2 coord2 : getSurroundingTiles(coord,
-        // "environmentalObject").keySet()) {
-        // tilePos = generateCoordinate(coord2.x, coord2.y);
-        // tileEntity = tiles.get(tilePos).getEntity();
-        // if (tileEntity != null && tileEntity.equals((entity))) {
-        // return tilePos;
-        // }
-        // }
-        // }
-        // return null;
         for (String tilePos : tiles.keySet()) {
             if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
                 return tilePos;
@@ -158,6 +134,7 @@ public class UGS {
                 }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
+
                 entity.setPosition(entityWorldPos);
 
                 String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
@@ -182,7 +159,6 @@ public class UGS {
         int starting_yPos = centerCoord.y - offset;
         for (int x = starting_xPos; x < starting_xPos + (offset * 2) + 1; x++) {
             for (int y = starting_yPos; y < starting_yPos + (offset * 2) + 1; y++) {
-                // if (!(x == centerCoord.x && y == centerCoord.y)) {
                 if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
                     surroundingTiles.put(new GridPoint2(x, y), "empty");
                 } else {
@@ -314,8 +290,8 @@ public class UGS {
         if (ServiceLocator.getRangeService().registeredInUGS().contains(toRemove)) {
             Vector2 pos = toRemove.getPosition();
             GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y + 1);
-            String tileKey = generateCoordinate(gridPos.x, gridPos.y);
+                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y);
+            String tileKey = generateCoordinate(gridPos.x, gridPos.y + 1);
             String type = ServiceLocator.getUGSService().tiles.get(tileKey).getTileType();
             Tile tile = new Tile();
             tile.setTileType(type);

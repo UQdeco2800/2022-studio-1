@@ -89,7 +89,7 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         return -1;
     }
 
-    private boolean isTargetVisible() {
+    protected boolean isTargetVisible() {
         if (target == null)
             return false;
 

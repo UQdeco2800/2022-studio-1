@@ -71,6 +71,7 @@ public class AITaskComponent extends Component implements TaskRunner {
     PriorityTask desiredtask = getHighestPriorityTask();
 
     if (desiredtask == null || desiredtask.getPriority() < 0) {
+      System.out.println("no priority");
       return;
     }
 

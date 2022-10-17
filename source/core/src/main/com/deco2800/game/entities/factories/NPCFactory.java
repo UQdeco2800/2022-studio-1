@@ -278,10 +278,9 @@ public class NPCFactory {
          * @return normal NPC
          */
         public static Entity createNormalNPC() {
-                String[] NPC_textures = { "images/npcs/NPC-V2.1.png",
-                                "images/npcs/NPC-V2.2.png" };
+                String[] NPC_textures = { "images/npcs/NPC_V3.png",
+                                "images/npcs/npc_blacksmith_draft.png" };
 
-                // int index = (int) ((Math.random() * (NPC_textures.length)));
                 int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
                 Entity NPC = createBaseNPC();
                 NPC.addComponent(new TextureRenderComponent(NPC_textures[index]));
