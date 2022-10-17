@@ -28,6 +28,9 @@ import java.util.ArrayList;
  * Base achievement display class to be extended by achievement type screens
  */
 public class AchievementInterface extends UIComponent {
+    /**
+     * Event string for opening the achievement screen
+     */
     public static final String EVENT_OPEN_ACHIEVEMENTS = "achievement";
 
     /**
@@ -45,8 +48,14 @@ public class AchievementInterface extends UIComponent {
      */
     private Table displayTable;
 
+    /**
+     * ArrayList of achievement icon buttons
+     */
     private ArrayList<AchievementButton> achievementButtons;
 
+    /**
+     * Group containing the achievement badges
+     */
     private Group achievementBadges;
 
     /**
@@ -194,10 +203,16 @@ public class AchievementInterface extends UIComponent {
         //stage.setDebugAll(true);
     }
 
+    /**
+     * Opens the achievement interface by setting the group's visibility to true
+     */
     private void openAchievements() {
         group.setVisible(true);
     }
 
+    /**
+     * Closes the achievement interface by setting the group's visibility to false
+     */
     private void closeAchievements() {
         group.setVisible(false);
     }
@@ -327,7 +342,7 @@ public class AchievementInterface extends UIComponent {
         achievementCard.setBackground(backgroundImg.getDrawable());
 
         Label achievementTitle = new Label(achievement.getName(), skin, ForestGameArea.TITLE_FONT);
-        achievementTitle.setFontScale(0.7f);
+        achievementTitle.setFontScale(0.5f);
         achievementTitle.setAlignment(Align.center);
         achievementCard.add(achievementTitle).colspan(3).expandX();
         achievementCard.row();
@@ -335,7 +350,7 @@ public class AchievementInterface extends UIComponent {
         ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ? achievement.getDescription().formatted(achievement.getTotalAchieved()) : achievement.getDescription());
 
         var descriptionLabel = new Label(achievementDescription.get(0), skin, ForestGameArea.LARGE_FONT);
-        descriptionLabel.setFontScale(0.7f);
+        descriptionLabel.setFontScale(0.5f);
         achievementCard.add(descriptionLabel).colspan(3).expandX();
         achievementCard.row();
 
@@ -347,14 +362,14 @@ public class AchievementInterface extends UIComponent {
             }
 
             tempLabel = new Label(s, skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.7f);
+            tempLabel.setFontScale(0.5f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
         if (achievementDescription.size() == 1) {
             tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.7f);
+            tempLabel.setFontScale(0.5f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
@@ -363,7 +378,7 @@ public class AchievementInterface extends UIComponent {
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).expandX().colspan(3).padBottom(20).align(Align.center);
         } else {
             tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.7f);
+            tempLabel.setFontScale(0.5f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
@@ -384,7 +399,7 @@ public class AchievementInterface extends UIComponent {
         ArrayList<String> splitDescription = new ArrayList<>();
         String[] temp = description.split(" ");
         int rowLength = 0;
-        int maxRowLength = 5;
+        int maxRowLength = 4;
 
         StringBuilder row = new StringBuilder();
 
@@ -409,6 +424,11 @@ public class AchievementInterface extends UIComponent {
         return splitDescription;
     }
 
+    /**
+     * Creates an achievement summary card of the provided achievement type
+     * @param type AchievementType
+     * @return Table
+     */
     public Table buildAchievementSummaryCard(AchievementType type) {
         Table summaryCard = new Table();
         summaryCard.pad(30f, 40f, 30f, 40f);
@@ -419,19 +439,28 @@ public class AchievementInterface extends UIComponent {
         summaryCard.setBackground(backgroundImg.getDrawable());
 
         Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
-        title.setFontScale(0.7f);
+        title.setFontScale(0.5f);
         summaryCard.add(title).colspan(3).expand();
         summaryCard.row();
 
         return summaryCard;
     }
 
+    /**
+     * Sets all achievement icons to be checked, used for highlighting the selected achievement icon
+     * from the navigation panel
+     */
     public void changeSelectedIcon() {
         for (AchievementButton button : this.achievementButtons) {
             button.setChecked(true);
         }
     }
 
+    /**
+     * Change displayed achievement badges to those of the provided type. If type is SUMMARY
+     * a breakdown of completion of each achievement type will be displayed
+     * @param type AchievementType
+     */
     public void changeDisplay(AchievementType type) {
         achievementBadges.clear();
 
@@ -471,10 +500,6 @@ public class AchievementInterface extends UIComponent {
 
         for (Achievement achievement : achievements) {
             if (achievement.getAchievementType() == type) {
-                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
-                    displayTable.row();
-                }
-
                 achievementBadge = buildAchievementCard(achievement);
 
                 achievementBadge.setSize(badgeWidth, badgeHeight);
@@ -515,8 +540,8 @@ public class AchievementInterface extends UIComponent {
     }
 
     /**
-     * Add listener to the provided AchievementButton
-     * 
+     * Add listener to the provided AchievementButton, will change display of achievement interface
+     * on click
      * @param button AchievementButton
      * @param name   String
      */
@@ -536,6 +561,10 @@ public class AchievementInterface extends UIComponent {
                 new TextTooltip(name, skin));
     }
 
+    /**
+     * Add listener to provided ImageButton, will close achievement interface
+     * @param button ImageButton
+     */
     public void addExitButtonEvent(ImageButton button) {
         button.addListener(
                 new ClickListener() {
