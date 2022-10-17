@@ -85,16 +85,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
   private void updateDirection(Body body) {
     Vector2 desiredVelocity = getDirection().scl(maxSpeed);
-
-    if (getEntity().getName().contains("Mr")) {
-      if (ServiceLocator.getTimeSource().getTime() + 500 > lastUpdate) {
-        updateEnemyPosInUgs(body, desiredVelocity);
-        lastUpdate = ServiceLocator.getTimeSource().getTime();
-      }
-    } else {
-      setToVelocity(body, desiredVelocity);
-    }
-
+    setToVelocity(body, desiredVelocity);
   }
 
   protected void setToVelocity(Body body, Vector2 desiredVelocity) {
@@ -145,39 +136,5 @@ public class PhysicsMovementComponent extends Component implements MovementContr
    */
   public void resetSpeed() {
     this.maxSpeed = defaultMaxSpeed;
-  }
-
-  public void updateEnemyPosInUgs(Body body, Vector2 desiredVelocity) {
-    // Initialise
-    Entity owner = getEntity();
-    if (owner != null) {
-      Vector2 currentPos = owner.getPosition();
-      UGS ugs = ServiceLocator.getUGSService();
-
-      setToVelocity(body, desiredVelocity);
-
-
-      String previousCoordString = ugs.getStringByEntity(owner);
-
-      GridPoint2 newTilePos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-              .getComponent(TerrainComponent.class)
-              .worldToTilePosition(owner.getPosition().x, owner.getPosition().y);
-
-      GridPoint2 newTilePos2 = new GridPoint2(newTilePos.x, newTilePos.y + 1);
-
-      String newCoordString = ugs.generateCoordinate(newTilePos2.x, newTilePos2.y);
-
-      if (!previousCoordString.equals(newCoordString)) {
-
-//        if (ugs.checkEntityPlacement(newTilePos2, "enemy")) {
-          ugs.getTile(previousCoordString).clearTile();
-          ugs.getTile(newCoordString).setEntity(owner);
-//        } else {
-//          setToVelocity(body, new Vector2(0, 0));
-//        }
-      }
-    }
-
-
   }
 }

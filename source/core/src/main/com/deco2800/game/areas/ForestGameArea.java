@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -70,8 +71,8 @@ public class ForestGameArea extends GameArea {
   // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-  //private Entity player;
-  //private Entity crystal;
+  // private Entity player;
+  // private Entity crystal;
   private int dayNum = 1;
   private Boolean loadGame;
 
@@ -102,7 +103,7 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-//    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
+    // logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
@@ -548,6 +549,7 @@ public class ForestGameArea extends GameArea {
 
     spawnEntityAt(entity, randomPos, true, true);
     ServiceLocator.getUGSService().setEntity(randomPos, entity, "Enemy@" + entity.getId());
+    entity.getComponent(AITaskComponent.class).updateMovementTask();
   }
 
   private void levelUp(Entity entity) {
@@ -582,6 +584,9 @@ public class ForestGameArea extends GameArea {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
     levelUp(ElectricEelEnemy);
+    ElectricEelEnemy.setCollectable(true);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -605,6 +610,9 @@ public class ForestGameArea extends GameArea {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
     levelUp(ninjaStarfishEnemy);
+    ninjaStarfishEnemy.setCollectable(true);
+    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
+    ninjaStarfishEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
   }
