@@ -127,8 +127,17 @@ public class Entity {
   }
 
   public void setResourceAmount(int resourceAmount) {
-    this.resourceAmount = resourceAmount;
+    if (resourceAmount >= 0) {
+      this.resourceAmount = resourceAmount;
+    } else {
+      logger.error("resource amount cannot be negative");
+    }
   }
+
+  public int getResourceAmount() {
+    return resourceAmount;
+  }
+
 
   /**
    * Get the entity's game position.

@@ -208,7 +208,7 @@ public class CombatStatsComponent extends Component {
     for (String enemy : enemies) {
       if (entity != null && entity.getName().contains(enemy) && getLevel() >= 1) {
         switch (enemy) {
-          case "Carb": {
+          case "Crab": {
             if (this.getLevel() == 1) {
               setMaxHealth(50);
               setHealth(50);
@@ -232,6 +232,7 @@ public class CombatStatsComponent extends Component {
               entity.setResourceAmount(30);
             }
           }
+          break;
           case "Electricity": {
             if (this.getLevel() == 1) {
               setMaxHealth(30);
@@ -256,6 +257,7 @@ public class CombatStatsComponent extends Component {
               entity.setResourceAmount(40);
             }
           }
+          break;
           case "Starfish": {
             if (this.getLevel() == 1) {
               setMaxHealth(30);
@@ -280,6 +282,7 @@ public class CombatStatsComponent extends Component {
               entity.setResourceAmount(35);
             }
           }
+          break;
           default:
             logger.debug("Fail to level up");
         }
@@ -369,7 +372,11 @@ public class CombatStatsComponent extends Component {
   }
 
   public void setBaseDefense(int defense) {
-    this.defense = defense;
+    if (defense >= 0) {
+      this.defense = defense;
+    } else {
+      logger.error("Can not set defense to a negative defense value");
+    }
   }
 
   public int getBaseDefense() {
