@@ -195,7 +195,6 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(new EquipmentsShopDisplay())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
-
         .addComponent(new InventoryDisplay())
         .addComponent(new ShopInterface());
 
