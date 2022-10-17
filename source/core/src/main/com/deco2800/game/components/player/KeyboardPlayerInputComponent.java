@@ -8,24 +8,16 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.components.maingame.MainGameNpcInterface;
 import com.deco2800.game.entities.*;
-import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.input.InputComponent;
-import com.deco2800.game.memento.Originator;
-import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
 //import java.io.Serial;     // this had an error not sure what the go is???
-
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 import java.util.*;
 
@@ -233,7 +225,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       isVisible = false;
     }
     Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
-
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
 
     if (pointer == Input.Buttons.LEFT) {
       if (ServiceLocator.getStructureService().getTempBuildState()) {
@@ -256,8 +248,28 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       } else {
         // crystal has been clicked
         if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL)) {
-          PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
-          isVisible = true;
+          if (crystal.getComponent(CombatStatsComponent.class).getLevel() < 3) {
+            PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
+            isVisible = true;
+          }
+          else {
+            PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalNoti(true);
+            isVisible = true;
+            final int[] i = {0};
+            Timer time = new Timer();
+            TimerTask showUI = new TimerTask() {
+              @Override
+              public void run() {
+                if (i[0] == 4){
+                  PopUp.remove();
+                  isVisible = false;
+                }
+                i[0]++;
+              }
+            };
+            time.scheduleAtFixedRate(showUI, 150, 150);
+          }
+
         }
 
 

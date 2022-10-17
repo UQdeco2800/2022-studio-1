@@ -23,6 +23,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -108,7 +109,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    spawnElectricEelEnemy();
+    //spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -304,7 +305,9 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
+    //Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
     Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
@@ -536,6 +539,7 @@ public class ForestGameArea extends GameArea {
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
+    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
   }
 
   /**
