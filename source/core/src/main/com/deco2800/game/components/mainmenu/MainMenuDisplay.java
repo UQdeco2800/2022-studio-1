@@ -237,10 +237,12 @@ public class MainMenuDisplay extends UIComponent {
       );
 
 
-      Texture guidebookTexture = new Texture(Gdx.files.internal("images/guidebook.png"));
+      Texture guidebookTexture = new Texture(Gdx.files.internal("images/guidebook_button.png"));
+      Texture guidebookHoverTexture = new Texture(Gdx.files.internal("images/guidebook_button_hover.png"));
       TextureRegionDrawable upGuidebook = new TextureRegionDrawable(guidebookTexture);
       TextureRegionDrawable downGuidebook = new TextureRegionDrawable(guidebookTexture);
-      ImageButton guidebookButton = new ImageButton(upGuidebook, downGuidebook);
+      TextureRegionDrawable checkedGuidebook = new TextureRegionDrawable(guidebookHoverTexture);
+      ImageButton guidebookButton = new ImageButton(upGuidebook, downGuidebook, checkedGuidebook);
 
       guidebookButton.addListener(
               new ClickListener() {
@@ -252,6 +254,21 @@ public class MainMenuDisplay extends UIComponent {
                       return true;
                   }
               });
+      guidebookButton.addListener(
+              new InputListener() {
+                  @Override
+                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      guidebookButton.setChecked(true);
+                  }
+
+                  @Override
+                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      guidebookButton.setChecked(false);
+                  }
+              });
+      settingsButton.addListener(
+              new TextTooltip("  Guidebook",skin)
+      );
 
       mainTable.add(title).padTop(0.5f * buttonHeight).size(titleHeight * title.getWidth() / title.getHeight(), titleHeight);
       mainTable.row();
@@ -261,9 +278,8 @@ public class MainMenuDisplay extends UIComponent {
       mainTable.row();
       mainTable.add(exitButton).size(buttonHeight * exitButton.getWidth() / exitButton.getHeight(), buttonHeight);
 
-      settingsTable.add(guidebookButton).expandX().expandY().right().bottom().size(50f,50f);
-      settingsTable.row();
-      settingsTable.add(settingsButton).expandX().expandY().right().bottom().size(50f,50f);
+      settingsTable.add(guidebookButton).expandX().expandY().right().bottom().size(50f,50f).pad(15f).padRight(0);
+      settingsTable.add(settingsButton).size(50f,50f).pad(15f).padLeft(7.5f);
 
       rootTable.add(mainTable).expandX();
       rootTable.row();

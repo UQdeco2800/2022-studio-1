@@ -132,7 +132,7 @@ public class GuidebookActions extends Component {
     private void onExit() {
         logger.info("Exiting guidebook screen");
         ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GUIDEBOOK_CLOSED);
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
         GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }
 
