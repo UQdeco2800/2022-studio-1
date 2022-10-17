@@ -58,6 +58,7 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/pirate_crab_SE.png",
           "images/pirate_crab_SW.png",
           "images/crystal.png",
+          "images/crystal2.0.png",
           "images/crystal_level2.png",
           "images/crystal_level3.png",
           "images/65x33_tiles/sand.png",
