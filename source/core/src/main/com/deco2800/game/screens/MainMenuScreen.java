@@ -173,6 +173,10 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/upgrade500.2.png",
           "images/upgrade1500.2.png",
           "images/attack_towers/tow1_1_l.png",
+          "images/upgradeFail500.png",
+          "images/upgradeFail1500.png",
+          "images/tutorials/crystalLevelPopUp.png",
+          "images/crystal2.0.png",
           "images/attack_towers/tow1_1_r.png",
           "images/attack_towers/tow1_2_l.png",
           "images/attack_towers/tow1_2_r.png",
@@ -192,6 +196,7 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/crab_animations/crab_animation.atlas",
           "images/npc_animations/NPC1sprite.atlas",
           "images/npc_animations/npc.atlas",
+          "images/crystal_animation/crystal_damaged.atlas",
           "images/attack_towers/animations/towerLevel2.atlas"
   };
 
