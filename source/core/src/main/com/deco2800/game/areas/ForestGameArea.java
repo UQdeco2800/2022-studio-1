@@ -1,6 +1,8 @@
 package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -21,14 +23,22 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 
 import java.security.SecureRandom;
 import java.util.*;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
+  public static final String TITLE_FONT = "title";
+  public static final String LARGE_FONT = "large";
+  public static final String SMALL_FONT = "small";
+  public static final String BUTTON_FONT = "button";
+  public static final String BLACK = "black";
+  public static final String WHITE = "white";
+  public static final String TERRAIN = "terrain";
+
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(59, 59);
   // private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);
   private static final GridPoint2[] NPC_SPAWNS = { new GridPoint2(61, 60),
@@ -46,134 +56,24 @@ public class ForestGameArea extends GameArea {
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
   private static final int MAX_NUM_EELS = 1;
-  private static final int BOSS_DAY = 2;
+  private static final int BOSS_DAY = 3;
   private static final int MIN_NUM_STARFISH = 1;
   private static final int MAX_NUM_STARFISH = 3;
 
   private Music music;
   private Music ambience;
 
-  private static final String[] forestTextures = {
-      "images/Centaur_Back_left.png",
-      "images/Centaur_Back_right.png",
-      "images/Centaur_left.png",
-      "images/Centaur_right.png",
-      "images/landscape_objects/leftPalmTree.png",
-      "images/landscape_objects/rightPalmTree.png",
-      "images/landscape_objects/groupPalmTrees.png",
-      "images/landscape_objects/almond-tree-60x62.png",
-      "images/landscape_objects/fig-tree-60x62.png",
-      "images/landscape_objects/vines.png",
-      "images/landscape_objects/cypress-tree-60x100.png",
-      "images/landscape_objects/geyser.png",
-      "images/boss_enemy_angle1.png",
-      "images/landscape_objects/billboard.png",
-      "images/landscape_objects/chalice.png",
-      "images/landscape_objects/pillar.png",
-      "images/landscape_objects/wooden-fence-60x60.png",
-      "images/65x33_tiles/shell.png",
-      "images/pirate_crab_NE.png",
-      "images/pirate_crab_NW.png",
-      "images/pirate_crab_SE.png",
-      "images/pirate_crab_SW.png",
-      "images/crystal.png",
-      "images/crystal_level2.png",
-      "images/crystal_level3.png",
-      "images/65x33_tiles/sand.png",
-      "images/65x33_tiles/sand_night.png",
-      "images/65x33_tiles/seaweed_1.png",
-      "images/65x33_tiles/seaweed_1_night.png",
-      "images/65x33_tiles/seaweed_2.png",
-      "images/65x33_tiles/seaweed_2_night.png",
-      "images/65x33_tiles/seaweed_3.png",
-      "images/65x33_tiles/seaweed_3_night.png",
-      "images/65x33_tiles/shorelineBottom.png",
-      "images/65x33_tiles/shorelineTop.png",
-      "images/65x33_tiles/shorelineBottomRight.png",
-      "images/65x33_tiles/shorelineBottomLeft.png",
-      "images/65x33_tiles/shorelineTopRight.png",
-      "images/65x33_tiles/shorelineTopLeft.png",
-      "images/65x33_tiles/shorelineLeft.png",
-      "images/65x33_tiles/shorelineRight.png",
-      "images/65x33_tiles/shorelineBottom_night.png",
-      "images/65x33_tiles/shorelineTop_night.png",
-      "images/65x33_tiles/shorelineBottomRight_night.png",
-      "images/65x33_tiles/shorelineBottomLeft_night.png",
-      "images/65x33_tiles/shorelineTopRight_night.png",
-      "images/65x33_tiles/shorelineTopLeft_night.png",
-      "images/65x33_tiles/shorelineLeft_night.png",
-      "images/65x33_tiles/shorelineRight_night.png",
-      "images/65x33_tiles/water0.png",
-      "images/65x33_tiles/water1.png",
-      "images/65x33_tiles/water2.png",
-      "images/65x33_tiles/water3.png",
-      "images/65x33_tiles/water_night0.png",
-      "images/65x33_tiles/water_night1.png",
-      "images/65x33_tiles/water_night2.png",
-      "images/65x33_tiles/water_night3.png",
-      "images/65x33_tiles/invalidTile.png",
-      "images/65x33_tiles/validTile.png",
-      "images/seastack1.png",
-      "images/seastack2.png",
-      "images/Eel_Bright_SW.png",
-      "images/Eel_Bright_NE.png",
-      "images/Eel_Bright_NW.png",
-      "images/Eel_Bright_SW.png",
-      "images/shipRack.png",
-      "images/shipRackFront.png",
-      "images/shipWreckBack.png",
-      "images/shipWreckFront.png",
-      "images/ElectricEel.png",
-      "images/eel_projectile.png",
-      "images/starfish.png",
-      "images/NpcPlaceholder.png",
-      "images/NPC convo.png",
-      "images/npc1.png",
-      "images/npcs/NPC-V2.2.png",
-      "images/npcs/NPC-V2.1.png",
-      "images/guardianLegacy1left.png",
-      "images/guardianLegacy1right.png",
-      "images/cornerWall1.png",
-      "images/cornerWall2.png",
-      "images/cornerWall3.png",
-      "images/cornerWall4.png",
-      "images/wallRight.png",
-      "images/wallLeft.png",
-      "images/turret.png",
-      "images/attack_towers/lv1GuardianLeft.png",
-      "images/attack_towers/animations/towerLevel2.png",
-      "images.attack_towers/lv1GuardianRight.png"
-  };
+  private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
+  private static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
+  private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
 
-  private static final String[] forestTextureAtlases = {
-      "images/terrain_iso_grass.atlas",
-      "images/ghost.atlas", "images/ghostKing.atlas",
-      "images/eel_animations/eel.atlas",
-      "images/eel_animations/eel.atlas",
-      "images/starfish_animation/starfish.atlas",
-      "images/final_boss_animations/final_boss.atlas",
-      "images/npc_animations/NPC1sprite.atlas",
-      "images/npc_animations/npc.atlas",
-      "images/attack_towers/animations/towerLevel2.atlas"
-  };
-
-  // Sound effect files
-  private static final String[] soundEffects = {
-      "sounds/sword_swing.mp3", "sounds/footsteps_grass_single.mp3", "sounds/hurt.mp3"
-  };
-  // Music files
-  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
-  private static final String backgroundSounds = "sounds/BgCricket.mp3";
-  private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
-  private static final String[] shopPopUpMusic = { shopMusic };
-  private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
   // private EnvironmentalCollision entityMapping;
 
   // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-  private Entity player;
-  private Entity crystal;
+  // private Entity player;
+  // private Entity crystal;
   private int dayNum = 1;
   private Boolean loadGame;
 
@@ -195,7 +95,6 @@ public class ForestGameArea extends GameArea {
    */
   @Override
   public void create() {
-    loadAssets();
     displayUI();
     playMusic();
     spawnTerrain();
@@ -205,10 +104,12 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
+    // logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
+
+    spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -439,11 +340,7 @@ public class ForestGameArea extends GameArea {
   }
 
   private void destroyWorldBorders(int lvl) {
-    Collection<Entity> entities = this.entityMapping.getEntities();
-    Iterator itr = entities.iterator();
-
-    while (itr.hasNext()) {
-      Entity entity = (Entity) itr.next();
+    for (Entity entity : this.entityMapping.getEntities()) {
       if (Objects.equals(entity.getName(), "wall")) {
         entity.dispose();
       }
@@ -546,6 +443,8 @@ public class ForestGameArea extends GameArea {
    * }
    */
 
+
+
   /**
    * Spawns NPCs during the day and removes them at night.
    * NPCs spawn based on the number of buildings you have.
@@ -555,13 +454,12 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
-    // System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
 
       case DAWN:
         // Spawns NPCs that already existed
         if (activeNPCs.size() > 0) {
-          // For each exisiting NPC, spawn them again
+          // For each existing NPC, spawn them again
           for (Entity npc : activeNPCs) {
             spawnNPCharacter();
           }
@@ -573,9 +471,7 @@ public class ForestGameArea extends GameArea {
 
       case DUSK:
         if (NPCNum != StructuresNum) {
-          // System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
-            // System.out.println("spawned");
             spawnNPCharacter();
           }
         }
@@ -587,10 +483,12 @@ public class ForestGameArea extends GameArea {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
-        // Set NPC number to 0 and updaste this in NPCService
+        // Set NPC number to 0 and update this in NPCService
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
+
+      default:
     }
   }
 
@@ -599,22 +497,19 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnSetEnemies(DayNightCycleStatus partOfDay) {
     switch (partOfDay) {
-      case DAWN:
-        break;
       case DAY:
-        break;
-      case DUSK:
         break;
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
           // spawnElectricEelEnemy();
           // spawnNinjaStarfishEnemy();
-          if (dayNum == BOSS_DAY) {
-            spawnMeleeBoss();
-          }
+        }
+        if (dayNum == BOSS_DAY) {
+          spawnMeleeBoss();
         }
         break;
+      default:
     }
   }
 
@@ -642,6 +537,7 @@ public class ForestGameArea extends GameArea {
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
+    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
   }
 
   /**
@@ -655,6 +551,7 @@ public class ForestGameArea extends GameArea {
 
     spawnEntityAt(entity, randomPos, true, true);
     ServiceLocator.getUGSService().setEntity(randomPos, entity, "Enemy@" + entity.getId());
+    entity.getComponent(AITaskComponent.class).updateMovementTask();
   }
 
   private void levelUp(Entity entity) {
@@ -679,8 +576,9 @@ public class ForestGameArea extends GameArea {
         entity.getComponent(CombatStatsComponent.class).setHealth(30);
         entity.getComponent(CombatStatsComponent.class).setBaseAttack(30);
         entity.getComponent(CombatStatsComponent.class).setBaseDefense(3);
+        break;
       default:
-        System.out.println("Level is invalided");
+        System.out.println("Level is invalid");
     }
   }
 
@@ -688,6 +586,9 @@ public class ForestGameArea extends GameArea {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
     levelUp(ElectricEelEnemy);
+    ElectricEelEnemy.setCollectable(true);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -711,86 +612,73 @@ public class ForestGameArea extends GameArea {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
     levelUp(ninjaStarfishEnemy);
+    ninjaStarfishEnemy.setCollectable(true);
+    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
+    ninjaStarfishEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
   }
 
+  /**
+   * Spawns an interactable NPC on the island
+   */
   private void spawnNPCharacter() {
+
     Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    // int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
     int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());
 
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
-    // NPC.setPosition(terrainFactory.getMapSize().x / 3,
-    // terrainFactory.getMapSize().y / 3);
-    // ServiceLocator.getEntityService().addEntity(NPC);
-
   }
 
   private void playMusic() {
     // Background Music
-    music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
 
     // Background Ambience
-    ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
+    ambience = ServiceLocator.getResourceService().getAsset(BACKGROUND_SOUNDS, Music.class);
     ambience.setLooping(true);
     ambience.setVolume(0.1f);
     ambience.play();
   }
 
   public void playShopMusic() {
-    ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
-    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
-    Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_SOUNDS, Music.class).stop();
+    Music music = ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
   }
 
   public void exitShop() {
-    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class).stop();
     playMusic();
   }
 
   private void loadAssets() {
     logger.debug("Loading assets");
-    ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.loadTextures(forestTextures);
-    resourceService.loadTextureAtlases(forestTextureAtlases);
-    resourceService.loadSounds(soundEffects);
-    resourceService.loadMusic(forestMusic);
-    resourceService.loadMusic(shopPopUpMusic);
-
-    while (!resourceService.loadForMillis(10)) {
-      // This could be upgraded to a loading screen
-      logger.info("Loading... {}%", resourceService.getProgress());
-    }
   }
 
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-    resourceService.unloadAssets(forestTextures);
-    resourceService.unloadAssets(forestTextureAtlases);
-    resourceService.unloadAssets(soundEffects);
-    resourceService.unloadAssets(forestMusic);
-    resourceService.unloadAssets(shopPopUpMusic);
+
   }
 
   @Override
   public void dispose() {
     super.dispose();
-    ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
-    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
-    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_SOUNDS, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class).stop();
     this.unloadAssets();
   }
 

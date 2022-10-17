@@ -85,8 +85,5 @@ public class TouchAttackComponent extends Component {
       targetBody.applyLinearImpulse(impulse, targetBody.getWorldCenter(), true);
     }
 
-    if (this.getEntity().getName().contains("Projectile")) {
-      ServiceLocator.getEntityService().getEntities().remove(this.getEntity());
-    }
   }
 }

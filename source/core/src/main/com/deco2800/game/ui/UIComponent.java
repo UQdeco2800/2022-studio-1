@@ -31,4 +31,8 @@ public abstract class UIComponent extends RenderComponent implements Renderable 
   public float getZIndex() {
     return 1f;
   }
+
+  public static Skin getSkin() {
+    return skin;
+  }
 }

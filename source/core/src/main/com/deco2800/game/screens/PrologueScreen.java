@@ -6,12 +6,9 @@ import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.storyline.prologueDisplay;
 import com.deco2800.game.components.storyline.storyLineAction;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.factories.RenderFactory;
 import com.deco2800.game.input.InputComponent;
 import com.deco2800.game.input.InputDecorator;
-import com.deco2800.game.input.InputService;
-import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.Renderer;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
@@ -36,11 +33,6 @@ public class PrologueScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising storyline screen services");
-        ServiceLocator.registerInputService(new InputService());
-        ServiceLocator.registerResourceService(new ResourceService());
-        ServiceLocator.registerEntityService(new EntityService());
-        ServiceLocator.registerRenderService(new RenderService());
-
         renderer = RenderFactory.createRenderer();
 
         loadAssets();
@@ -74,10 +66,6 @@ public class PrologueScreen extends ScreenAdapter {
         logger.debug("Disposing storyline screen");
 
         renderer.dispose();
-        unloadAssets();
-        ServiceLocator.getRenderService().dispose();
-        ServiceLocator.getEntityService().dispose();
-        ServiceLocator.clear();
     }
 
     private void loadAssets() {

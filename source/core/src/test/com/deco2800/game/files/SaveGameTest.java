@@ -134,7 +134,13 @@ public class SaveGameTest {
             "images/cornerWall4.png",
             "images/wallRight.png",
             "images/wallLeft.png",
-            "images/attack_towers/lv1GuardianLeft.png",
+            "images/attack_towers/tow1_1_l.png",
+            "images/attack_towers/tow1_1_r.png",
+            "images/attack_towers/tow1_2_l.png",
+            "images/attack_towers/tow1_2_r.png",
+            "images/attack_towers/tow1_3_l.png",
+            "images/attack_towers/tow1_3_r.png",
+            "images/attack_towers/tow2_2_l.gif",
             "images/TOWER3I.png"
     };
 
@@ -175,7 +181,8 @@ public class SaveGameTest {
     private static final String[] textureAtlases = {
             "images/anim_demo/main.atlas",
             "images/eel_animations/eel.atlas",
-            "images/starfish_animation/starfish.atlas"
+            "images/starfish_animation/starfish.atlas",
+            "images/crab_animations/crab_animation.atlas"
     };
 
     @BeforeEach
@@ -327,7 +334,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameSingleStaticEntityStructure() {
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -347,7 +354,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameMultipleStaticEntityStructure() {
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -355,7 +362,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test", false);;
+        Entity test1 = StructureFactory.createTower3(1, "test", false);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
@@ -383,7 +390,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedByLoadGameStructure() {
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -407,7 +414,7 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -415,7 +422,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test2", false);;
+        Entity test1 = StructureFactory.createTower3(1, "test2", false);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
