@@ -39,8 +39,10 @@ public class MainMenuScreen extends ScreenAdapter {
   private boolean loadComplete = false;
 
   private static String[] mainMenuScreenTextures = {
-      "images/uiElements/exports/title.png",
-          "images/StoryLine/SL_1.png"
+          "images/uiElements/exports/title.png",
+          "loadingAssets/loading_screen.png",
+          "loadingAssets/load_frame.png",
+          "loadingAssets/load_bar.png"
   };
   private static String[] mainMenuTextures = {
           "images/Centaur_Back_left.png",
@@ -245,8 +247,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
     if (this.time > 0.4f && !loadComplete) {
       AssetManager assetManager = ServiceLocator.getResourceService().getAssetManager();
-      //assetManager.update();
       float currProgress = assetManager.getProgress() * 100;
+      logger.info("Loading... {}%", currProgress);
       ServiceLocator.getEntityService().getNamedEntity("menu").getEvents()
               .trigger("loadStatUpdate", currProgress);
       if (assetManager.isFinished()) {
@@ -260,7 +262,7 @@ public class MainMenuScreen extends ScreenAdapter {
       }
     }
 
-    if (this.time > 0.5f && loadComplete) {
+    if (this.time > 0.4f && loadComplete) {
 
       ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class).nextFrame();
       rootTable = ServiceLocator.getEntityService().getNamedEntity("menu").getComponent(MainMenuDisplay.class)

@@ -3,14 +3,19 @@ package com.deco2800.game.components.mainmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.deco2800.game.components.loadingPage.LoadingDisplay;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
+import com.deco2800.game.utils.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +23,8 @@ public class loader extends UIComponent {
 
     private static final Logger logger = LoggerFactory.getLogger(LoadingDisplay.class);
     private Table loadTable;
-    private Table loadingStat;
-    private Table loadingTips;
     private Label currLoadProgress;
+    private Image loadBarFront;
 
     @Override
     public void create() {
@@ -39,7 +43,7 @@ public class loader extends UIComponent {
             loadTable = displayLoadScreen();
             return;
         }
-        Texture colour = new Texture(Gdx.files.internal("images/StoryLine/SL_1.png"));
+        Texture colour = new Texture(Gdx.files.internal("loadingAssets/loading_screen.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
         loadTable.setBackground(backgroundColour);
     }
@@ -49,38 +53,41 @@ public class loader extends UIComponent {
         loadTable = new Table();
         loadTable.setFillParent(true);
 
-        //create table and set positioning
-        loadingStat = new Table();
-        loadingStat.setFillParent(true);
-        loadingStat.left().padBottom(100);
-
-        loadingTips = new Table();
-        loadingTips.setFillParent(true);
-        loadingTips.left().padBottom(60);
-
         // load and set Background
         //TODO: Replace the background with loading screen design
-        Texture loadingScreenTexture = new Texture(Gdx.files.internal("images/StoryLine/SL_1.png"));
+        Texture loadingScreenTexture = new Texture(Gdx.files.internal("loadingAssets/loading_screen.png"));
         TextureRegionDrawable loadingScreenBackground = new TextureRegionDrawable(loadingScreenTexture);
         loadTable.setBackground(loadingScreenBackground);
+
+        Image title =
+                new Image(
+                        ServiceLocator.getResourceService()
+                                .getAsset("images/uiElements/exports/title.png", Texture.class));
 
         // display the loading stat number
         int loadProgress = 0;
         CharSequence LoadStat = String.format("Loading:  %d", loadProgress);
         currLoadProgress = new Label(String.valueOf(LoadStat), skin, "large");
 
+        Image loadBarBack = new Image(new Texture(Gdx.files.internal("loadingAssets/load_frame.png")));
+        loadBarFront = new Image(new Texture(Gdx.files.internal("loadingAssets/load_bar.png")));
+        loadBarFront.setSize(0, 18);
+
         // display the tips
         //TODO: make a list / LinkedList of tips to pick randomly from
         CharSequence getTips = "insert tips here";
-        Label displayTips = new Label(getTips, skin, "large");
+        Label displayTips = TextUtil.createTextLabel((String) getTips, 0x000000ff, 24);
+        //Label displayTips = new Label(getTips, skin, "large");
 
-        loadingTips.add(displayTips);
-        loadingStat.add(currLoadProgress);
-
+        loadTable.add(title).padTop(50);
         loadTable.row();
-        loadTable.add(loadingTips).expandY().bottom();
+        //add loading stat number
+        //loadTable.add(currLoadProgress).expandY().bottom().padBottom(10);
+        loadTable.add(displayTips).fillY().bottom().padBottom(50);
         loadTable.row();
-        loadTable.add(loadingStat);
+        loadBarFront.setSize(1f, 0.43f * loadBarFront.getHeight());
+        //loadTable.add(loadBarBack);
+        loadTable.add(loadBarFront);
 
         stage.addActor(loadTable);
 
@@ -88,12 +95,9 @@ public class loader extends UIComponent {
     }
 
     public void updateLoadingStat(float loadProgress) {
-        CharSequence newLoadStat = String.format("Loading:  %f", loadProgress);
+        CharSequence newLoadStat = String.format("Loading:  %d", (int)loadProgress);
         currLoadProgress.setText(newLoadStat);
-        if (loadProgress >= 95) {
-            logger.debug("Loading complete");
-            stage.clear();
-        }
+        loadBarFront.setWidth(loadProgress * 8 + 30);
     }
 
     private void addActors() {
@@ -107,8 +111,6 @@ public class loader extends UIComponent {
     @Override
     public void dispose() {
         loadTable.clear();
-        loadingStat.clear();
-        loadingTips.clear();
         stage.clear();
         super.dispose();
     }
