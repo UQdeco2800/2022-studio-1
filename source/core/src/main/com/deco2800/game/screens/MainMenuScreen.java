@@ -34,7 +34,7 @@ public class MainMenuScreen extends ScreenAdapter {
   private float time;
 
   private static String[] mainMenuTextures = {
-      "images/uiElements/exports/title.png",
+          "images/uiElements/exports/title.png",
           "images/Centaur_Back_left.png",
           "images/Centaur_Back_right.png",
           "images/Centaur_left.png",
@@ -173,13 +173,19 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/upgrade500.2.png",
           "images/upgrade1500.2.png",
           "images/attack_towers/tow1_1_l.png",
+          "images/upgradeFail500.png",
+          "images/upgradeFail1500.png",
+          "images/tutorials/crystalLevelPopUp.png",
+          "images/crystal2.0.png",
           "images/attack_towers/tow1_1_r.png",
           "images/attack_towers/tow1_2_l.png",
           "images/attack_towers/tow1_2_r.png",
           "images/attack_towers/tow1_3_l.png",
           "images/attack_towers/tow1_3_r.png",
           "images/attack_towers/tempStructures/temp_tow1_1_l.png",
-          "images/attack_towers/tempStructures/temp_tow1_1_r.png"
+          "images/attack_towers/tempStructures/temp_tow1_1_r.png",
+          "images/65x33_tiles/wall_left.png",
+          "images/65x33_tiles/wall_right.png"
   };
 
   private static final String[] forestTextureAtlases = {
@@ -189,8 +195,10 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/eel_animations/eel.atlas",
           "images/starfish_animation/starfish.atlas",
           "images/final_boss_animations/final_boss.atlas",
+          "images/crab_animations/crab_animation.atlas",
           "images/npc_animations/NPC1sprite.atlas",
           "images/npc_animations/npc.atlas",
+          "images/crystal_animation/crystal_damaged.atlas",
           "images/attack_towers/animations/towerLevel2.atlas"
   };
 

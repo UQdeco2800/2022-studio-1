@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Null;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.ForestGameArea;
@@ -24,12 +23,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
  */
 public class AchievementInterface extends UIComponent {
+    /**
+     * Event string for opening the achievement screen
+     */
     public static final String EVENT_OPEN_ACHIEVEMENTS = "achievement";
 
     /**
@@ -48,9 +49,14 @@ public class AchievementInterface extends UIComponent {
     private Table displayTable;
 
     /**
-     * Table for containing achievement navigation buttons
+     * ArrayList of achievement icon buttons
      */
-    private Table navigationTable;
+    private ArrayList<AchievementButton> achievementButtons;
+
+    /**
+     * Group containing the achievement badges
+     */
+    private Group achievementBadges;
 
     /**
      * Create the achievement base display
@@ -59,6 +65,8 @@ public class AchievementInterface extends UIComponent {
         super.create();
         entity.getEvents().addListener(EVENT_OPEN_ACHIEVEMENTS, this::openAchievements);
         entity.getEvents().addListener("closeAll", this::closeAchievements);
+        achievementButtons = new ArrayList<>();
+        achievementBadges = new Group();
         addActors();
     }
 
@@ -68,14 +76,25 @@ public class AchievementInterface extends UIComponent {
     private void addActors() {
         group = new Group();
         Table backgroundTable = new Table();
+        float iconSize = Gdx.graphics.getHeight() * 0.11f;
+        float backgroundTableWidth = Gdx.graphics.getWidth() * 0.7f;
+        float backgroundTableHeight = Gdx.graphics.getHeight() * 0.7f;
+
+        float navigationTableWidth = Gdx.graphics.getWidth() * 0.7f * 0.25f;
+        float navigationTableHeight = Gdx.graphics.getHeight() * 0.7f * 0.75f;
+
+        float leftColumnX = Gdx.graphics.getWidth() * 0.7f * 0.24f + navigationTableWidth / 4f - iconSize / 2f + 5f;
+        float rightColumnX = Gdx.graphics.getWidth() * 0.7f * 0.24f + navigationTableWidth * 3f / 4f - iconSize / 2f - 5f;
+
+        float firstRowY = Gdx.graphics.getHeight() * 0.57f;
 
         // Setup background for achievements
-        backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
-        backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
+        backgroundTable.setSize(backgroundTableWidth, backgroundTableHeight);
+        backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTableWidth / 2f,
+                Gdx.graphics.getHeight() / 2f - backgroundTableHeight / 2f);
 
-        this.navigationTable = new Table();
-        navigationTable.setSize(Gdx.graphics.getWidth() * 0.7f * 0.25f, Gdx.graphics.getHeight() * 0.7f * 0.75f);
+        Table navigationTable = new Table();
+        navigationTable.setSize(navigationTableWidth, navigationTableHeight);
         navigationTable.setPosition(Gdx.graphics.getWidth() * 0.7f * 0.24f, Gdx.graphics.getHeight() * 0.7f * 0.28f);
 
         this.displayTable = new Table();
@@ -86,14 +105,14 @@ public class AchievementInterface extends UIComponent {
         // Title
         Label title = new Label("Achievements", skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(2f);
-        title.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
-                Gdx.graphics.getHeight() * 0.85f - 110f);
+        title.setPosition(Gdx.graphics.getWidth() * 0.26f,
+                Gdx.graphics.getHeight() * 0.75f);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
+        Texture background = new Texture(Gdx.files.internal("images/achievements/Background.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png"));
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeContent_Box.png"));
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png"));
@@ -107,51 +126,43 @@ public class AchievementInterface extends UIComponent {
         changeDisplay(AchievementType.SUMMARY);
 
         // Home Button
-        ImageButton summaryButton = createButton(AchievementType.SUMMARY);
+        AchievementButton summaryButton = createButton(AchievementType.SUMMARY);
         this.addButtonEvent(summaryButton, AchievementType.SUMMARY.getTitle());
-        navigationTable.add(summaryButton).colspan(2).expand();
-        navigationTable.row();
+        summaryButton.setSize(Gdx.graphics.getWidth() * 0.7f * 0.25f * 0.75f, iconSize);
+        summaryButton.setPosition(Gdx.graphics.getWidth() * 0.19f, firstRowY);
 
         // Building Button
-        ImageButton buildingButton = createButton(AchievementType.BUILDINGS);
+        AchievementButton buildingButton = createButton(AchievementType.BUILDINGS);
         this.addButtonEvent(buildingButton, AchievementType.BUILDINGS.getTitle());
-
-        navigationTable.add(buildingButton).expand();
+        buildingButton.setPosition(leftColumnX, firstRowY - iconSize);
 
         // Game Button
-        ImageButton gameButton = createButton(AchievementType.GAME);
+        AchievementButton gameButton = createButton(AchievementType.GAME);
         this.addButtonEvent(gameButton, AchievementType.GAME.getTitle());
-
-        navigationTable.add(gameButton).expand();
-        navigationTable.row();
+        gameButton.setPosition(rightColumnX, firstRowY - iconSize);
 
         // Kill Button
-        ImageButton killButton = createButton(AchievementType.KILLS);
+        AchievementButton killButton = createButton(AchievementType.KILLS);
         this.addButtonEvent(killButton, AchievementType.KILLS.getTitle());
-
-        navigationTable.add(killButton).expand();
+        killButton.setPosition(leftColumnX, firstRowY - 2 * iconSize);
 
         // Resource Button
-        ImageButton resourceButton = createButton(AchievementType.RESOURCES);
+        AchievementButton resourceButton = createButton(AchievementType.RESOURCES);
         this.addButtonEvent(resourceButton, AchievementType.RESOURCES.getTitle());
-
-        navigationTable.add(resourceButton).expand();
-        navigationTable.row();
+        resourceButton.setPosition(rightColumnX, firstRowY - 2 * iconSize);
 
         // Upgrade Button
-        ImageButton upgradeButton = createButton(AchievementType.UPGRADES);
+        AchievementButton upgradeButton = createButton(AchievementType.UPGRADES);
         this.addButtonEvent(upgradeButton, AchievementType.UPGRADES.getTitle());
-
-        navigationTable.add(upgradeButton).expand();
+        upgradeButton.setPosition(leftColumnX, firstRowY - 3 * iconSize);
 
         // Misc Button
-        ImageButton miscButton = createButton(AchievementType.MISC);
+        AchievementButton miscButton = createButton(AchievementType.MISC);
         this.addButtonEvent(miscButton, AchievementType.MISC.getTitle());
-
-        navigationTable.add(miscButton).expand();
+        miscButton.setPosition(rightColumnX, firstRowY - 3 * iconSize);
 
         // Back Button
-        Texture backTexture = new Texture(Gdx.files.internal("images/cross.png"));
+        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
         Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
         TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
         TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
@@ -160,21 +171,31 @@ public class AchievementInterface extends UIComponent {
 
         backButton.setSize(40f, 40f);
         backButton.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
+                Gdx.graphics.getHeight() * 0.85f - 70f);
 
-        this.addButtonEvent(backButton, "Exit");
+        this.addExitButtonEvent(backButton);
 
         group.addActor(backgroundTable);
         group.addActor(title);
 
         // Display main content
         displayTable.align(Align.top);
-        displayTable.pad(50f);
-
-        navigationTable.pad(50f);
+        displayTable.pad(Gdx.graphics.getHeight() * 0.1f);
 
         group.addActor(navigationTable);
         group.addActor(displayTable);
+
+        // Add achievement badges
+        group.addActor(achievementBadges);
+
+        // Add buttons
+        for (AchievementButton button : achievementButtons) {
+            if (!button.getType().equals(AchievementType.SUMMARY)) {
+                button.setSize(iconSize, iconSize);
+            }
+
+            group.addActor(button);
+        }
 
         group.addActor(backButton);
         group.setVisible(false);
@@ -182,10 +203,16 @@ public class AchievementInterface extends UIComponent {
         //stage.setDebugAll(true);
     }
 
+    /**
+     * Opens the achievement interface by setting the group's visibility to true
+     */
     private void openAchievements() {
         group.setVisible(true);
     }
 
+    /**
+     * Closes the achievement interface by setting the group's visibility to false
+     */
     private void closeAchievements() {
         group.setVisible(false);
     }
@@ -245,7 +272,7 @@ public class AchievementInterface extends UIComponent {
      * @return the image button
      */
     private static Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel,
-            Achievement achievement, int milestoneNumber) {
+                                                                  Achievement achievement, int milestoneNumber) {
         AchievementHandler achievementService = ServiceLocator.getAchievementHandler();
 
         Texture backgroundTexture = new Texture(Gdx.files.internal(
@@ -300,26 +327,33 @@ public class AchievementInterface extends UIComponent {
      * @param achievement the achievement to create the card for
      * @return the actor (Table)
      */
-    public static Table buildAchievementCard(Achievement achievement) {
+    public Table buildAchievementCard(Achievement achievement) {
         Table achievementCard = new Table();
 
         achievementCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
-                : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
+
+        Texture backgroundTexture = new Texture(
+                Gdx.files.internal(achievement.isCompleted() ?
+                        "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle()) :
+                        "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())
+                )
+        );
 
         Image backgroundImg = new Image(backgroundTexture);
         achievementCard.setBackground(backgroundImg.getDrawable());
 
         Label achievementTitle = new Label(achievement.getName(), skin, ForestGameArea.TITLE_FONT);
-        achievementTitle.setFontScale(0.7f);
+        achievementTitle.setFontScale(0.5f);
         achievementTitle.setAlignment(Align.center);
         achievementCard.add(achievementTitle).colspan(3).expandX();
         achievementCard.row();
 
-        ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ? achievement.getDescription().formatted(achievement.getTotalAchieved()) : achievement.getDescription());
+        ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ?
+                achievement.getDescription().formatted(achievement.getTotalAchieved()) :
+                achievement.getDescription());
 
         var descriptionLabel = new Label(achievementDescription.get(0), skin, ForestGameArea.LARGE_FONT);
-        descriptionLabel.setFontScale(0.7f);
+        descriptionLabel.setFontScale(0.5f);
         achievementCard.add(descriptionLabel).colspan(3).expandX();
         achievementCard.row();
 
@@ -331,14 +365,14 @@ public class AchievementInterface extends UIComponent {
             }
 
             tempLabel = new Label(s, skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.7f);
+            tempLabel.setFontScale(0.5f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
         if (achievementDescription.size() == 1) {
             tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.7f);
+            tempLabel.setFontScale(0.5f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
@@ -347,7 +381,7 @@ public class AchievementInterface extends UIComponent {
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).expandX().colspan(3).padBottom(20).align(Align.center);
         } else {
             tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.7f);
+            tempLabel.setFontScale(0.5f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
@@ -364,11 +398,11 @@ public class AchievementInterface extends UIComponent {
      * @param description String
      * @return ArrayList
      */
-    public static ArrayList<String> splitDescription(String description) {
+    public ArrayList<String> splitDescription(String description) {
         ArrayList<String> splitDescription = new ArrayList<>();
         String[] temp = description.split(" ");
         int rowLength = 0;
-        int maxRowLength = 5;
+        int maxRowLength = 4;
 
         StringBuilder row = new StringBuilder();
 
@@ -393,53 +427,74 @@ public class AchievementInterface extends UIComponent {
         return splitDescription;
     }
 
-    public static Table buildAchievementSummaryCard(AchievementType type) {
+    /**
+     * Creates an achievement summary card of the provided achievement type
+     * @param type AchievementType
+     * @return Table
+     */
+    public Table buildAchievementSummaryCard(AchievementType type) {
         Table summaryCard = new Table();
         summaryCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture = new Texture(Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
+
+        Texture backgroundTexture = new Texture(
+                    Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         summaryCard.setBackground(backgroundImg.getDrawable());
 
         Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
-        title.setFontScale(0.7f);
+        title.setFontScale(0.5f);
         summaryCard.add(title).colspan(3).expand();
         summaryCard.row();
 
         return summaryCard;
     }
 
+    /**
+     * Sets all achievement icons to be checked, used for highlighting the selected achievement icon
+     * from the navigation panel
+     */
     public void changeSelectedIcon() {
-        SnapshotArray<Actor> navActors = navigationTable.getChildren();
-
-        for (int i = 0; i < navActors.size; i++) {
-            if (navActors.get(i) != null && navActors.get(i).getClass() == AchievementButton.class) {
-                AchievementButton button = (AchievementButton) navActors.get(i);
-
-                button.setChecked(true);
-            }
+        for (AchievementButton button : this.achievementButtons) {
+            button.setChecked(true);
         }
     }
 
+    /**
+     * Change displayed achievement badges to those of the provided type. If type is SUMMARY
+     * a breakdown of completion of each achievement type will be displayed
+     * @param type AchievementType
+     */
     public void changeDisplay(AchievementType type) {
-        displayTable.clear();
+        achievementBadges.clear();
+
         Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(1f);
-        displayTable.add(title).colspan(6).expandX();
-        displayTable.row();
+        title.setPosition(displayTable.getX() + displayTable.getWidth() / 2f - title.getWidth() / 2f, Gdx.graphics.getHeight() * 0.64f);
+        achievementBadges.addActor(title);
 
         int achievementsAdded = 0;
+        Table achievementBadge;
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
+
+        float badgeWidth = Gdx.graphics.getWidth() * 0.21f;
+        float badgeHeight = Gdx.graphics.getHeight() * 0.11f;
+
+        float leftColumnX = displayTable.getX() + displayTable.getWidth() / 4f - badgeWidth / 2f + badgeWidth / 20f;
+        float rightColumnX = displayTable.getX() + displayTable.getWidth() * 3f / 4f - badgeWidth / 2f - badgeWidth / 20f;
+        float firstRowY = Gdx.graphics.getHeight() * 0.5f;
 
         if (type == AchievementType.SUMMARY) {
             for (AchievementType achievementType : AchievementType.values()) {
-                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
-                    displayTable.row();
-                } else if (achievementType == AchievementType.SUMMARY) {
+                if (achievementType == AchievementType.SUMMARY) {
                     continue;
                 }
 
-                displayTable.add(buildAchievementSummaryCard(achievementType)).colspan(3).fillX();
+                achievementBadge = buildAchievementSummaryCard(achievementType);
+                achievementBadge.setSize(badgeWidth, badgeHeight);
+                achievementBadge.setPosition(achievementsAdded % 2 == 0 ? leftColumnX : rightColumnX, firstRowY - (badgeHeight + (achievementsAdded < 2 ? 0f : badgeHeight / 8f)) * Math.floorDiv(achievementsAdded, 2));
+
+                achievementBadges.addActor(achievementBadge);
 
                 achievementsAdded++;
             }
@@ -449,11 +504,12 @@ public class AchievementInterface extends UIComponent {
 
         for (Achievement achievement : achievements) {
             if (achievement.getAchievementType() == type) {
-                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
-                    displayTable.row();
-                }
+                achievementBadge = buildAchievementCard(achievement);
 
-                displayTable.add(buildAchievementCard(achievement)).colspan(3).fillX();
+                achievementBadge.setSize(badgeWidth, badgeHeight);
+                achievementBadge.setPosition(achievementsAdded % 2 == 0 ? leftColumnX : rightColumnX, firstRowY - (badgeHeight + (achievementsAdded < 2 ? 0f : badgeHeight / 8f)) * Math.floorDiv(achievementsAdded, 2));
+
+                achievementBadges.addActor(achievementBadge);
 
                 achievementsAdded++;
             }
@@ -461,12 +517,12 @@ public class AchievementInterface extends UIComponent {
     }
 
     /**
-     * Creates an ImageButton from a provided image
+     * Creates an AchievementButton from a provided image
      * 
      * @param type AchievementType
-     * @return ImageButton
+     * @return AchievementButton
      */
-    private static ImageButton createButton(AchievementType type) {
+    private AchievementButton createButton(AchievementType type) {
         String image = "images/achievements/" + type.getTitle() + "_Icon.png";
         String imageNotSelected = "images/achievements/" + type.getTitle() + "_NotCurrent.png";
 
@@ -478,48 +534,22 @@ public class AchievementInterface extends UIComponent {
         TextureRegionDrawable isUnselected = new TextureRegionDrawable(buttonNotSelected);
 
         AchievementButton button = new AchievementButton(up, down, isUnselected, type);
+        button.getLabel().setColor(skin.getColor(ForestGameArea.BLACK));
+
         button.setChecked(!type.equals(AchievementType.SUMMARY));
+
+        this.achievementButtons.add(button);
 
         return button;
     }
 
     /**
-     * Add listener to the provided ImageButton
-     * 
-     * @param button ImageButton
+     * Add listener to the provided AchievementButton, will change display of achievement interface
+     * on click
+     * @param button AchievementButton
      * @param name   String
      */
-    private void addButtonEvent(ImageButton button, String name) {
-        if (Objects.equals(name, "Exit")) {
-            button.addListener(
-                    new ClickListener() {
-                        @Override
-                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                            logger.debug("Exit button clicked");
-                            closeAchievements();
-                            entity.getEvents().trigger("closeAll");
-                            return true;
-                        }
-                    });
-            // Adds hover state to button
-            button.addListener(
-                    new InputListener() {
-                        @Override
-                        public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
-                            button.setChecked(true);
-                        }
-
-                        @Override
-                        public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
-                            button.setChecked(false);
-                        }
-                    });
-            button.addListener(
-                    new TextTooltip("Close achievement page", skin));
-
-            return;
-        }
-
+    private void addButtonEvent(AchievementButton button, String name) {
         button.addListener(
                 new ClickListener() {
                     @Override
@@ -533,5 +563,37 @@ public class AchievementInterface extends UIComponent {
 
         button.addListener(
                 new TextTooltip(name, skin));
+    }
+
+    /**
+     * Add listener to provided ImageButton, will close achievement interface
+     * @param button ImageButton
+     */
+    public void addExitButtonEvent(ImageButton button) {
+        button.addListener(
+                new ClickListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        logger.debug("Exit button clicked");
+                        closeAchievements();
+                        entity.getEvents().trigger("closeAll");
+                        return true;
+                    }
+                });
+        // Adds hover state to button
+        button.addListener(
+                new InputListener() {
+                    @Override
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                        button.setChecked(true);
+                    }
+
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                        button.setChecked(false);
+                    }
+                });
+        button.addListener(
+                new TextTooltip("Close achievement page", skin));
     }
 }
