@@ -376,22 +376,26 @@ public class AchievementInterface extends UIComponent {
     /**
      * Creates an achievement summary card of the provided achievement type
      * @param type AchievementType
-     * @return Table
+     * @return Group
      */
-    public Table buildAchievementSummaryCard(AchievementType type) {
-        Table summaryCard = new Table();
-        summaryCard.pad(30f, 40f, 30f, 40f);
+    public Group buildAchievementSummaryCard(AchievementType type) {
+        Group summaryCard = new Group();
+        float contentX = summaryCard.getX() + Gdx.graphics.getWidth() * 0.05f;
+        float contentWidth = badgeWidth * 0.7f;
 
         Texture backgroundTexture = new Texture(
                     Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
-        summaryCard.setBackground(backgroundImg.getDrawable());
+        backgroundImg.setFillParent(true);
+        summaryCard.addActor(backgroundImg);
 
-        Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
-        title.setFontScale(0.5f);
-        summaryCard.add(title).colspan(3).expand();
-        summaryCard.row();
+        Label achievementTitle = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
+        achievementTitle.setFontScale(0.5f);
+        achievementTitle.setPosition(contentX, summaryCard.getY() + Gdx.graphics.getHeight() * 0.056f);
+        achievementTitle.setAlignment(Align.center);
+        achievementTitle.setWidth(contentWidth);
+        summaryCard.addActor(achievementTitle);
 
         return summaryCard;
     }
