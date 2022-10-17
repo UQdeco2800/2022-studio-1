@@ -65,14 +65,14 @@ public class StructureFactory {
   private static String [] tempTower2Sprites = {"images/attack_towers/tempStructures/temp_tower3lv1Left.png",
           "images/attack_towers/tempStructures/temp_tower3lv1Right.png"};
   //Change to tower 2
-  private static String[][] tower2Sprites = {{"images/attack_towers/tower3lv1Left.png", "images/attack_tower3lv1Right.png"},
-          {"images/attack_towers/tower3lv2Left.png", "images/attack_tower3lv2Right.png"},
-          {"images/attack_towers/tower3lv3Left.png", "images/attack_tower3lv3Right.png"}};
+  private static String[][] tower2Sprites = {{"images/attack_towers/tower3lv1Left.png", "images/attack_towers/tower3lv1Right.png"},
+          {"images/attack_towers/tower3lv2Left.png", "images/attack_towers/tower3lv2Right.png"},
+          {"images/attack_towers/tower3lv3Left.png", "images/attack_towers/tower3lv3Right.png"}};
   private static String[] tempTower3Sprites = {"images/attack_towers/tempStructures/temp_tower3lv1Left.png",
           "images/attack_towers/tempStructures/temp_tower3lv1Right.png"};
-  private static String[][] tower3Sprites = {{"images/attack_towers/tower3lv1Left.png", "images/attack_tower3lv1Right.png"},
-          {"images/attack_towers/tower3lv2Left.png", "images/attack_tower3lv2Right.png"},
-          {"images/attack_towers/tower3lv3Left.png", "images/attack_tower3lv3Right.png"}};
+  private static String[][] tower3Sprites = {{"images/attack_towers/tower3lv1Left.png", "images/attack_towers/tower3lv1Right.png"},
+          {"images/attack_towers/tower3lv2Left.png", "images/attack_towers/tower3lv2Right.png"},
+          {"images/attack_towers/tower3lv3Left.png", "images/attack_towers/tower3lv3Right.png"}};
 
 
 
