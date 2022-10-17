@@ -368,22 +368,22 @@ public class StructureFactory {
      */
 
     Entity structure = new Entity();
-    animated = false; // We can't add animation to structure because its disposal causing problem.
-    if (animated) {
+//    animated = false; // We can't add animation to structure because its disposal causing problem.
+//    if (animated) {
 
       // texture (String) must just be the name of the file without extension
 
-      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
-          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
-      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
-      animator.startAnimation(texture);
-      structure.addComponent(animator);
-
-      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
-    } else {
+//      AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
+//          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
+//      animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
+//      animator.startAnimation(texture);
+//      structure.addComponent(animator);
+//
+//      structure.getComponent(AnimationRenderComponent.class).scaleEntity();
+//    } else {
       structure.addComponent(new TextureRenderComponent(texture));
       structure.getComponent(TextureRenderComponent.class).scaleEntity();
-    }
+//    }
 
     structure.addComponent(new PhysicsComponent())
         .addComponent(new ColliderComponent().setLayer(PhysicsLayer.OBSTACLE))
