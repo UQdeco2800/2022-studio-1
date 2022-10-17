@@ -28,20 +28,20 @@ class WanderTaskTest {
     ServiceLocator.registerTimeSource(gameTime);
   }
 
-//  @Test
-//  void shouldTriggerEvent() {
-//    WanderTask wanderTask = new WanderTask(Vector2Utils.ONE, 1f);
-//
-//    AITaskComponent aiTaskComponent = new AITaskComponent().addTask(wanderTask);
-//    Entity entity = new Entity().addComponent(aiTaskComponent).addComponent(new PhysicsMovementComponent());
-//    entity.create();
-//
-//    // Register callbacks
-//    EventListener0 callback = mock(EventListener0.class);
-//    entity.getEvents().addListener("wanderStart", callback);
-//
-//    wanderTask.start();
-//
-//    verify(callback).handle();
-//  }
+  @Test
+  void shouldTriggerEvent() {
+    WanderTask wanderTask = new WanderTask(Vector2Utils.ONE, 1f);
+
+    AITaskComponent aiTaskComponent = new AITaskComponent().addTask(wanderTask);
+    Entity entity = new Entity().addComponent(aiTaskComponent).addComponent(new PhysicsMovementComponent());
+    entity.create();
+
+    // Register callbacks
+    EventListener0 callback = mock(EventListener0.class);
+    entity.getEvents().addListener("wanderStart", callback);
+
+    wanderTask.start();
+
+    verify(callback).handle();
+  }
 }

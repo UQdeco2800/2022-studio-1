@@ -9,7 +9,6 @@ public class PhysicsLayer {
   // NPC (Non-Playable Character) colliders
   public static final short NPC = (1 << 3);
   public static final short RangeNPC = (1 << 3);
-  public static final short ENEMY = (1 << 4);
   public static final short PROJECTILE = (1 << 7);
   public static final short ALL = ~0;
 

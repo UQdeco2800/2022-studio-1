@@ -119,6 +119,6 @@ Thumbs.db
 
 
 ## Save Files
-Saves/*
-assets/Saves/*
-core/assets/Saves/*
+/Saves/*
+/assets/Saves/*
+/core/assets/Saves/*
