@@ -212,11 +212,16 @@ public class ForestGameArea extends GameArea {
           return;
         case SHIPWRECK_BACK:
         case SHIPWRECK_FRONT:
+          boolean placed = false;
           do {
-            randomPos = new GridPoint2(MathUtils.random(0, 119), MathUtils.random(0, 119));
+            randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(0, 119));
+
+            if (ServiceLocator.getUGSService().getTileType(randomPos) == "water")
+              placed = ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
+
             counter++;
-          } while (ServiceLocator.getUGSService().getTileType(randomPos) != "water"
-              && !ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName()) && counter < 1000);
+            System.out.println("[" + counter + "]: " + placed);
+          } while (!placed && counter < 1000);
           return;
         case SPEED_ARTEFACT:
         case SPIKY_BUSH:
@@ -231,26 +236,15 @@ public class ForestGameArea extends GameArea {
             randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
 
             // safety to avoid infinite looping on loading screen.
-            // If cant spawn the object thewhile (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
-          || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
-            randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
-    
-            // safety to avoid infinite looping on loading screen.
-            // If cant spawn the object then space has ran out on map
-            if (counter > 1000) {
-              return;
-            }
-            counter++;
-          }n space has ran out on map
             if (counter > 1000) {
               return;
             }
             counter++;
           }
-
       }
 
     }
+
   }
 
   /**
