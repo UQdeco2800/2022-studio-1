@@ -12,9 +12,7 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.DebugRenderer;
 import com.deco2800.game.services.ServiceLocator;
 
-/**
- * Chases a target entity until they get too far away or line of sight is lost
- */
+/** Chases a target entity until they get too far away or line of sight is lost */
 public class RangedMovementTask extends DefaultTask implements PriorityTask {
     private final Entity target;
 
@@ -28,12 +26,10 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
     private MovementTask movementTask;
 
     /**
-     * @param target           The entity to chase.
-     * @param priority         Task priority when chasing (0 when not chasing).
-     * @param viewDistance     Maximum distance from the entity at which chasing can
-     *                         start.
-     * @param maxChaseDistance Maximum distance from the entity while chasing before
-     *                         giving up.
+     * @param target The entity to chase.
+     * @param priority Task priority when chasing (0 when not chasing).
+     * @param viewDistance Maximum distance from the entity at which chasing can start.
+     * @param maxChaseDistance Maximum distance from the entity while chasing before giving up.
      */
     public RangedMovementTask(Entity target, int priority, float range, float viewDistance, float maxChaseDistance) {
         this.target = target;
@@ -43,14 +39,14 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
         this.maxChaseDistance = maxChaseDistance;
         physics = ServiceLocator.getPhysicsService().getPhysics();
         debugRenderer = ServiceLocator.getRenderService().getDebug();
-        movementTask = new MovementTask(target.getPosition(), viewDistance);
     }
 
     @Override
     public void start() {
         super.start();
+        movementTask = new MovementTask(target.getPosition());
         movementTask.create(owner);
-        animationDirection((int) target.getPosition().x, (int) target.getPosition().y);
+        animationDirection((int)target.getPosition().x,(int)target.getPosition().y);
         movementTask.start();
     }
 
@@ -85,12 +81,11 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
 
     private int getActivePriority() {
         float dst = getDistanceToTarget();
-        if (dst <= range) {
+        if (dst <= range || !isTargetVisible()) {
             stop();
             return -1; // Stop and get ready to shoot
-        } else if (target.getName().contains("player") && getDistanceToTarget() > viewDistance) {
-            stop();
-            return -1; // chase crystal instead
+        } else if (dst > maxChaseDistance || !isTargetVisible()) {
+            return -1; // Too far, stop chasing
         }
         return priority;
     }
@@ -101,10 +96,6 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
             return priority;
         }
         return -1;
-    }
-
-    public MovementTask getMovementTask() {
-        return movementTask;
     }
 
     private boolean isTargetVisible() {
@@ -120,11 +111,11 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
         return true;
     }
 
-    // Class takes input of target values and compares current position
-    private void animationDirection(int xValue, int yValue) {
-        // Eel current position
-        int eelCurrentPosX = (int) this.owner.getEntity().getPosition().x;
-        int eelCurrentPosY = (int) this.owner.getEntity().getPosition().y;
+    //Class takes input of target values and compares current position
+    private void animationDirection(int xValue, int yValue ) {
+        //Eel current position
+        int eelCurrentPosX = (int)this.owner.getEntity().getPosition().x;
+        int eelCurrentPosY = (int)this.owner.getEntity().getPosition().y;
 
         checkAnimations();
         if (eelCurrentPosX < xValue && eelCurrentPosY > yValue) {
@@ -138,29 +129,29 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
         }
 
         this.owner.getEntity().getComponent(AnimationRenderComponent.class).scaleEntity();
-        this.owner.getEntity().setScale(12f, 12f);
+        this.owner.getEntity().setScale(1.2f, 1.2f);
     }
 
-    // Checks all animation directions
+    //Checks all animation directions
     private void checkAnimations() {
         if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("fr"))) {
-            this.owner.getEntity().getComponent(AnimationRenderComponent.class).addAnimation("fr", 0.1f,
-                    Animation.PlayMode.LOOP);
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("fr", 0.1f, Animation.PlayMode.LOOP);
         }
 
         if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("br"))) {
-            this.owner.getEntity().getComponent(AnimationRenderComponent.class).addAnimation("br", 0.1f,
-                    Animation.PlayMode.LOOP);
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("br", 0.1f, Animation.PlayMode.LOOP);
         }
 
         if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("fl"))) {
-            this.owner.getEntity().getComponent(AnimationRenderComponent.class).addAnimation("fl", 0.1f,
-                    Animation.PlayMode.LOOP);
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("fl", 0.1f, Animation.PlayMode.LOOP);
         }
 
         if (!(this.owner.getEntity().getComponent(AnimationRenderComponent.class).hasAnimation("bl"))) {
-            this.owner.getEntity().getComponent(AnimationRenderComponent.class).addAnimation("bl", 0.1f,
-                    Animation.PlayMode.LOOP);
+            this.owner.getEntity().getComponent(AnimationRenderComponent.class).
+                    addAnimation("bl", 0.1f, Animation.PlayMode.LOOP);
         }
     }
 }
