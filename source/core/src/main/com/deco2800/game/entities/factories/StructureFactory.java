@@ -179,7 +179,7 @@ public class StructureFactory {
     if (isTemp) {
       TOWER1I = tempTower1Sprites[orientation]; // change texture to be temp
     } else {
-      TOWER1I = tower1Sprites[0]  [orientation];
+      TOWER1I = tower1Sprites[0][orientation];
     }
     String TOWER1II = tower1Sprites[1][orientation];
     String TOWER1III = tower1Sprites[2][orientation];
@@ -328,12 +328,6 @@ public class StructureFactory {
     BaseStructureConfig config;
     float tileSize;
     Texture t;
-
-    if (orientation == 1) {
-      TOWER3I = "images/attack_towers/tow3_1_r.png";
-      TOWER3II = "images/attack_towers/tow3_2_r.png";
-      TOWER3III = "images/attack_towers/tow3_3_r.png";
-    }
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
