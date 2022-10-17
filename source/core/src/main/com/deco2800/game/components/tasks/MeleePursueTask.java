@@ -17,11 +17,13 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
 
     /**
      * chases an entity regardless of line of sight
+     * 
      * @param target the entity to chase
      */
     public MeleePursueTask(Entity target) {
         this.target = target;
         dayNightCycleService = ServiceLocator.getDayNightCycleService();
+        movementTask = new MovementTask(target.getCenterPosition());
     }
 
     /**
@@ -30,9 +32,16 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
     @Override
     public void start() {
         super.start();
-        movementTask = new MovementTask(target.getPosition());
+
+        System.out.println("Creating Movement Task: [Target: {" + target.getName() + "}, {" + target.getCenterPosition()
+                + "}], [Origin: {" + owner.getEntity().getName() + "}, {" + owner.getEntity().getCenterPosition()
+                + "}]");
         movementTask.create(owner);
         movementTask.start();
+    }
+
+    public MovementTask getMovementTask() {
+        return movementTask;
     }
 
     /**
@@ -49,12 +58,13 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
 
     /**
      * get priority
+     * 
      * @return 0 if it's not dusk or night, 2 otherwise
      */
     @Override
     public int getPriority() {
         if (dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.NIGHT
-            && dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.DUSK) {
+                && dayNightCycleService.getCurrentCycleStatus() != DayNightCycleStatus.DUSK) {
             return 0;
         }
         return 2;

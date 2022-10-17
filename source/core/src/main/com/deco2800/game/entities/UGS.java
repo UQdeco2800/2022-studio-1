@@ -63,6 +63,9 @@ public class UGS {
      */
     public Entity getEntity(GridPoint2 coordinate) {
         String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        if (stringCoord == null) {
+            return null;
+        }
         return tiles.get(stringCoord).getEntity();
     }
 
@@ -88,26 +91,28 @@ public class UGS {
     }
 
     public String getStringByEntity(Entity entity) {
-//        //getting position, conversions
-//        Vector2 pos = entity.getPosition();
-//        GridPoint2 coord = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-//                        .worldToTilePosition(pos.x, pos.y);
-//        String tilePos = generateCoordinate(coord.x, coord.y);
-//        Entity tileEntity = tiles.get(tilePos).getEntity();
-//        //check the tile at entity's center position to see if it contains the entity
-//        if (tileEntity != null && tileEntity.equals(entity)) {
-//            return tilePos;
-//        } else {
-//            //check the tiles around that tile, just in case
-//            for (GridPoint2 coord2 : getSurroundingTiles(coord, "environmentalObject").keySet()) {
-//                tilePos = generateCoordinate(coord2.x, coord2.y);
-//                tileEntity = tiles.get(tilePos).getEntity();
-//                if (tileEntity != null && tileEntity.equals((entity))) {
-//                    return tilePos;
-//                }
-//            }
-//        }
-//        return null;
+        // //getting position, conversions
+        // Vector2 pos = entity.getPosition();
+        // GridPoint2 coord =
+        // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+        // .worldToTilePosition(pos.x, pos.y);
+        // String tilePos = generateCoordinate(coord.x, coord.y);
+        // Entity tileEntity = tiles.get(tilePos).getEntity();
+        // //check the tile at entity's center position to see if it contains the entity
+        // if (tileEntity != null && tileEntity.equals(entity)) {
+        // return tilePos;
+        // } else {
+        // //check the tiles around that tile, just in case
+        // for (GridPoint2 coord2 : getSurroundingTiles(coord,
+        // "environmentalObject").keySet()) {
+        // tilePos = generateCoordinate(coord2.x, coord2.y);
+        // tileEntity = tiles.get(tilePos).getEntity();
+        // if (tileEntity != null && tileEntity.equals((entity))) {
+        // return tilePos;
+        // }
+        // }
+        // }
+        // return null;
         for (String tilePos : tiles.keySet()) {
             if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
                 return tilePos;
@@ -147,7 +152,8 @@ public class UGS {
         if (checkEntityPlacement(coordinate, entityName)) {
             if (entity != null) {
                 // Add entity to the entity list through the entity service
-                if (!(entityName.equals("player")) || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
+                if (!(entityName.equals("player"))
+                        || ServiceLocator.getEntityService().getNamedEntity("player") == null) {
                     ServiceLocator.getEntityService().registerNamed(entityName, entity);
                 }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
@@ -203,7 +209,7 @@ public class UGS {
         if (getEntity(coordinate) == null) {
             if (entityType.contains("structure")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
-//                    logger.info("Building has been built at {}", coordinate);
+                    // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
                     logger.info("entity type Building cannot be built on water");
@@ -211,18 +217,18 @@ public class UGS {
                 }
             } else if (entityType.contains("player")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
-//                    logger.info("Building has been built at {}", coordinate);
+                    // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
-//                    logger.info("Building cannot be built on water");
+                    // logger.info("Building cannot be built on water");
                     return false;
                 }
             } else {
-//                logger.info("Tile {} is clear", coordinate);
+                // logger.info("Tile {} is clear", coordinate);
                 return true;
             }
         }
-//        logger.info("Tile {} is not clear", coordinate);
+        // logger.info("Tile {} is not clear", coordinate);
         return false;
     }
 

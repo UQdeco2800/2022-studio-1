@@ -2,6 +2,8 @@ package com.deco2800.game.ai.tasks;
 
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.tasks.MeleeAvoidObstacleTask;
+import com.deco2800.game.components.tasks.MeleePursueTask;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,6 +83,14 @@ public class AITaskComponent extends Component implements TaskRunner {
   public void dispose() {
     if (currentTask != null) {
       currentTask.stop();
+    }
+  }
+
+  public void updateMovementTask() {
+    for (PriorityTask task : priorityTasks) {
+      if (task instanceof MeleePursueTask) {
+        ((MeleePursueTask) task).getMovementTask().updateOrigin(getEntity().getCenterPosition());
+      }
     }
   }
 

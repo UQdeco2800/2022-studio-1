@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
 
+import java.security.Provider.Service;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -24,9 +26,10 @@ public class MovementTask extends DefaultTask {
   private static final Logger logger = LoggerFactory.getLogger(MovementTask.class);
 
   private Vector2 target;
+  private Vector2 origin;
   private GameTime gameTime;
-  private long updateTimeDelta = 500;
-  private long lastUpdateTime = 0;
+  private long updateMoveTimeDelta = 1500;
+  private long lastUpdateMoveTime = 0;
   private float stopDistance;
 
   private ArrayList<LinkedPoint> path;
@@ -45,51 +48,119 @@ public class MovementTask extends DefaultTask {
   @Override
   public void start() {
     super.start();
-
+    origin = owner.getEntity().getCenterPosition();
     path = generatePath();
-
   }
 
   @Override
   public void update() {
-
-    if (gameTime.getTime() > lastUpdateTime + updateTimeDelta) {
-
-      path = generatePath();
-      if (path != null) {
-        move(path.remove(0));
+    if (gameTime.getTime() > lastUpdateMoveTime + updateMoveTimeDelta) {
+      if (path != null && path.size() > 0) {
+        if (ServiceLocator.getUGSService().checkEntityPlacement(new GridPoint2(path.get(0).x, path.get(0).y),
+            "enemy")) {
+          move(path.remove(0));
+        }
       }
-      lastUpdateTime = gameTime.getTime();
+
+      // if (path == null || path.size() == 0) {
+      // generatePath();
+      // }
+
+      lastUpdateMoveTime = gameTime.getTime();
     }
 
   }
 
   private void move(LinkedPoint targetPosition) {
+    UGS ugs = ServiceLocator.getUGSService();
 
+    String originPositionString = ugs.getStringByEntity(owner.getEntity());
+    String split[] = originPositionString.split(",");
+    GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+
+    GridPoint2 movementVector = new GridPoint2(targetPosition.x - playerCurrentPos.x,
+        targetPosition.y - playerCurrentPos.y);
+
+    ugs.moveEntity(owner.getEntity(), playerCurrentPos, movementVector.x, movementVector.y);
   }
 
-  private ArrayList<LinkedPoint> findSurrounding(LinkedPoint origin) {
+  private boolean validateTile(LinkedPoint tile, LinkedPoint origin, LinkedPoint targetPoint) {
+    UGS ugs = ServiceLocator.getUGSService();
+
+    // Heuristic - Manhattan distance
+    int xDiff = Math.abs(targetPoint.x - tile.x);
+    int yDiff = Math.abs(targetPoint.y - tile.y);
+
+    int orgnXDiff = Math.abs(targetPoint.x - origin.x);
+    int orgnYDiff = Math.abs(targetPoint.y - origin.y);
+
+    if ((xDiff + yDiff) > (orgnXDiff + orgnYDiff + 2)) {
+      return false;
+    }
+
+    if (ugs.getTile(ugs.generateCoordinate(tile.x, tile.y)) == null) {
+      return false;
+    }
+
+    if (ugs.getEntity(new GridPoint2(tile.x, tile.y)) == null) {
+      return true;
+    }
+    return false;
+  }
+
+  private ArrayList<LinkedPoint> findSurrounding(LinkedPoint origin, LinkedPoint targetPoint) {
 
     ArrayList<LinkedPoint> openTiles = new ArrayList<>();
 
-    for (int x = -1; x < 2; x += 2) {
-      for (int y = -1; y < 2; y += 2) {
-
-        LinkedPoint tile = new LinkedPoint(origin.x + x, origin.y + y, origin);
-
-        if (ServiceLocator.getUGSService().getEntity(new GridPoint2(tile.x, tile.y)) == null) {
-          openTiles.add(tile);
-        }
-      }
+    LinkedPoint up = new LinkedPoint(origin.x, origin.y + 1, origin);
+    if (up.equals(targetPoint)) {
+      openTiles.add(up);
+      return openTiles;
     }
 
+    if (validateTile(up, origin, targetPoint)) {
+      openTiles.add(up);
+    }
+
+    LinkedPoint down = new LinkedPoint(origin.x, origin.y - 1, origin);
+    if (down.equals(targetPoint)) {
+      openTiles.clear();
+      openTiles.add(down);
+      return openTiles;
+    }
+
+    if (validateTile(down, origin, targetPoint)) {
+      openTiles.add(down);
+    }
+
+    LinkedPoint left = new LinkedPoint(origin.x - 1, origin.y, origin);
+    if (left.equals(targetPoint)) {
+      openTiles.clear();
+      openTiles.add(left);
+      return openTiles;
+    }
+
+    if (validateTile(left, origin, targetPoint)) {
+      openTiles.add(left);
+    }
+
+    LinkedPoint right = new LinkedPoint(origin.x + 1, origin.y, origin);
+    if (right.equals(targetPoint)) {
+      openTiles.clear();
+      openTiles.add(right);
+      return openTiles;
+    }
+
+    if (validateTile(right, origin, targetPoint)) {
+      openTiles.add(right);
+    }
     return openTiles;
   }
 
   private ArrayList<LinkedPoint> generatePath() {
     GridPoint2 ownerPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class)
-        .worldToTilePosition(owner.getEntity().getCenterPosition().x, owner.getEntity().getCenterPosition().y);
+        .worldToTilePosition(origin.x, origin.y);
 
     GridPoint2 targetPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class).worldToTilePosition(target.x, target.y);
@@ -100,29 +171,31 @@ public class MovementTask extends DefaultTask {
     boolean pathFound = false;
 
     ArrayList<LinkedPoint> path = new ArrayList<>();
-    ArrayList<LinkedPoint> used = new ArrayList<>();
+    ArrayList<LinkedPoint> closed = new ArrayList<>();
 
     if (startPosition.equals(targetPosition))
       return null;
 
-    used.add(startPosition);
+    closed.add(startPosition);
 
     while (!pathFound) {
 
       ArrayList<LinkedPoint> newPoints = new ArrayList<>();
 
-      for (int i = 0; i < used.size(); i++) {
-        LinkedPoint point = used.get(i);
+      for (int i = 0; i < closed.size(); i++) {
+        LinkedPoint point = closed.get(i);
 
-        for (LinkedPoint surroundingPoint : findSurrounding(point)) {
-          if (!used.contains(surroundingPoint) && !newPoints.contains(surroundingPoint)) {
+        for (LinkedPoint surroundingPoint : findSurrounding(point, targetPosition)) {
+          // System.out.println("Checking surrounding point: " +
+          // surroundingPoint.toString());
+          if (!closed.contains(surroundingPoint) && !newPoints.contains(surroundingPoint)) {
             newPoints.add(surroundingPoint);
           }
         }
       }
 
       for (LinkedPoint point : newPoints) {
-        used.add(point);
+        closed.add(point);
         if (point.equals(targetPosition)) { // path completed
           pathFound = true;
           break;
@@ -134,14 +207,23 @@ public class MovementTask extends DefaultTask {
       }
     }
 
-    LinkedPoint point = used.get(used.size() - 1);
-    while (point.previous != null) {
+    LinkedPoint point = closed.get(closed.size() - 1);
+    while (point.equals(targetPosition) || point.previous != null) {
       path.add(0, point);
       point = point.previous;
     }
 
     return path;
 
+  }
+
+  public void setTarget(Vector2 target) {
+    this.target = target;
+  }
+
+  public void updateOrigin(Vector2 originPosition) {
+    this.origin = originPosition;
+    path = generatePath();
   }
 }
 
