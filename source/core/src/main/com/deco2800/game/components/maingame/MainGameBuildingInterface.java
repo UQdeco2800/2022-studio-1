@@ -316,8 +316,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         CrystalUI.setVisible(true);
 
-        // add popup
-        // insert pop up texture
+
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
@@ -330,43 +329,7 @@ public class MainGameBuildingInterface extends UIComponent {
                 "",
                 skin.getColor(ForestGameArea.BLACK),
                 ForestGameArea.BUTTON_FONT, 1f, buttonDown, buttonUp, skin, false);
-
-        // upgradeButton.addListener(
-        //     new ChangeListener() {
-        //         @Override
-        //         public void changed(ChangeEvent changeEvent, Actor actor) {
-        //             Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
-        //             //Obtain reference to player, for some reason it was being accessed as 'entity'
-
-        //             logger.info("Upgrade Button clicked");
-
-        //             if (player.getComponent(InventoryComponent.class).hasGold(100)) {
-        //                 logger.info("Sufficient resources");
-
-        //                 logger.info("Structure name: " + clickedStructure.getName());
-        //                 StructureFactory.upgradeStructure(entityCords, clickedStructure.getName());
-        //                  //Subtract currency from inventory
-        //                  player.getComponent(InventoryComponent.class).addGold(-1 * 100);
-
-        //             } else {
-        //                 logger.info("Insufficient resource!");
-        //                 Sound filesound = Gdx.audio.newSound(
-        //                     Gdx.files.internal("sounds/purchase_fail.mp3"));
-        //                 filesound.play();
-        //             }
-        //         } 
-        //     }
-        // );
-
-        // sell button
-        TextButton sellButton = ShopUtils.createImageTextButton(
-                "Sell" + "\n",
-                skin.getColor("black"),
-                "button", 1f, buttonDown, buttonUp, skin, false);
-
-
-        //event handlers for buttons -- sell and upgrade
-        sellButton.addListener(
+        upgradeButton.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -402,8 +365,6 @@ public class MainGameBuildingInterface extends UIComponent {
         Table CrystalInfo = new Table();
         CrystalInfo.add(CrystalLabel).center();
 
-        // healthInfo.add(healthAmount);
-
         Table leftTable = new Table();
         leftTable.padTop(10f);
         leftTable.padBottom(10f);
@@ -421,7 +382,6 @@ public class MainGameBuildingInterface extends UIComponent {
         //rightTable.add(crystalImage).size(1f,1f);
         rightTable.add(crystalhealth).size(300f,40f);
         rightTable.add(healthLabel).size(30f,60f).padTop(10f).padBottom(10f);
-        //rightTable.add(healthLabel);
         rightTable.row();
         if(crystal.getComponent(CombatStatsComponent.class).getLevel()<3) {
             rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);

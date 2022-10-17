@@ -58,7 +58,8 @@ public class CrystalFactory {
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         crystal.getComponent(TextureRenderComponent.class).scaleEntity();
-        crystal.scaleHeight(15);
+        //crystal.scaleHeight(15);
+        crystal.scaleHeight(10);
         PhysicsUtils.setScaledCollider(crystal, 1f, 0.5f);
         return crystal;
     }
