@@ -182,7 +182,7 @@ public class EntityService {
    * @return Collection of entities stored on the map. This must be done for looping within components
    */
   public Collection<Entity> getEnemyEntities() {
-    return entityMap.values();
+    return enemyMap.values();
   }
 
   /**
