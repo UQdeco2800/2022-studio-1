@@ -111,7 +111,6 @@ public class NPCFactory {
 
                 PhysicsUtils.setScaledCollider(ElectricEelEnemy, 12f, 12f);
                 ElectricEelEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
-                ElectricEelEnemy.getComponent(AnimationRenderComponent.class).startAnimation("fl");
                 ElectricEelEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
                 ElectricEelEnemy.setScale(12f, 12f);
                 ElectricEelEnemy.setResourceType(ResourceType.GOLD);
@@ -162,8 +161,6 @@ public class NPCFactory {
         public static Entity createStarFishEnemy(Entity target, Entity crystal) {
                 Entity ninjaStarfish = createBaseRangeNPC(target, crystal);
                 EnemyConfig config = configs.ninjaStarfish;
-                // TextureRenderComponent textureRenderComponent = new
-                // TextureRenderComponent("images/starfish.png");
 
                 AnimationRenderComponent animator =
                         new AnimationRenderComponent(
@@ -178,14 +175,12 @@ public class NPCFactory {
                         .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
                         .addComponent(new HealthBarComponent(100, 10))
                         .addComponent(animator)
-                        //.addComponent(textureRenderComponent);
                         .addComponent(new AnimationController())
-                        .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
+                        .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
+                        .setCollectable(false);
 
-                ServiceLocator.getEntityService().registerNamed("NinjaStarfish",  ninjaStarfish);
-                PhysicsUtils.setScaledCollider(ninjaStarfish, 12f, 12f);
+                PhysicsUtils.setScaledCollider(ninjaStarfish, 1f, 1f);
                 ninjaStarfish.getComponent(ColliderComponent.class).setDensity(1.5f);
-                ninjaStarfish.getComponent(AnimationRenderComponent.class).startAnimation("fl");
                 ninjaStarfish.getComponent(AnimationRenderComponent.class).scaleEntity();
                 ninjaStarfish.setScale(12f, 12f);
                 ninjaStarfish.setResourceType(ResourceType.GOLD);
@@ -227,9 +222,9 @@ public class NPCFactory {
                 AITaskComponent aiComponent = new AITaskComponent()
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
                                 .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
-                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
-                                .addTask(new ShootTask(target, 30, 30f, 60f))
-                                .addTask(new ShootTask(crystal, 30, 30f, 60f));
+                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f));
+                                //.addTask(new ShootTask(target, 30, 30f, 60f))
+                                //.addTask(new ShootTask(crystal, 30, 30f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())
