@@ -304,15 +304,8 @@ public class AchievementInterface extends UIComponent {
         Table achievementCard = new Table();
 
         achievementCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture;
-
-        if (achievement.getAchievementType() == AchievementType.RESOURCES || achievement.getAchievementType() == AchievementType.UPGRADES) {
-            backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
-                    : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
-        } else {
-            backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png"
-                    : "images/achievements/achievement_card_locked_n.png"));
-        }
+        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
+                : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         achievementCard.setBackground(backgroundImg.getDrawable());
@@ -403,19 +396,7 @@ public class AchievementInterface extends UIComponent {
     public static Table buildAchievementSummaryCard(AchievementType type) {
         Table summaryCard = new Table();
         summaryCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture;
-
-        if (type == AchievementType.RESOURCES || type == AchievementType.UPGRADES) {
-            backgroundTexture = new Texture(
-                    Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
-                            ? "images/achievements/%s_Tick.png".formatted(type.getTitle())
-                            : "images/achievements/%s_Lock.png".formatted(type.getTitle())));
-        } else {
-            backgroundTexture = new Texture(
-                    Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
-                            ? "images/achievements/achievement_card_completed.png"
-                            : "images/achievements/achievement_card_locked_n.png"));
-        }
+        Texture backgroundTexture = new Texture(Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         summaryCard.setBackground(backgroundImg.getDrawable());
