@@ -196,6 +196,10 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/attack_towers/tower3lv2Right.png",
           "images/attack_towers/tower3lv3Left.png",
           "images/attack_towers/tower3lv3Right.png",
+          "images/attack_towers/Attack_Structure2_lev1.png",
+          "images/attack_towers/Attack_Structure2_lev2.png",
+          "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
+          "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
   };
 
   private static final String[] forestTextureAtlases = {
