@@ -51,6 +51,8 @@ public class AchievementInterface extends UIComponent {
      */
     private Table navigationTable;
 
+    AchievementProgressBar achievementProgressBar;
+
     /**
      * Create the achievement base display
      */
@@ -65,6 +67,9 @@ public class AchievementInterface extends UIComponent {
      * Adds content tables to the resource stage
      */
     private void addActors() {
+
+        achievementProgressBar = new AchievementProgressBar(350, 20, 100, true);
+        achievementProgressBar.setDone(50);
         group = new Group();
         Table backgroundTable = new Table();
 
@@ -426,6 +431,8 @@ public class AchievementInterface extends UIComponent {
         title.setFontScale(1f);
         displayTable.add(title).colspan(6).expandX();
         displayTable.row();
+        displayTable.add(achievementProgressBar.getActor()).colspan(6).expandX();
+        displayTable.row();
 
         int achievementsAdded = 0;
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
@@ -437,7 +444,6 @@ public class AchievementInterface extends UIComponent {
                 } else if (achievementType == AchievementType.SUMMARY) {
                     continue;
                 }
-
                 displayTable.add(buildAchievementSummaryCard(achievementType)).colspan(3).fillX();
 
                 achievementsAdded++;
