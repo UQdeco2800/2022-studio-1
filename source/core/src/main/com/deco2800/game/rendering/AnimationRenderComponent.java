@@ -20,18 +20,20 @@ import java.util.Map;
 /**
  * Renders animations from a texture atlas on an entity.
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
  *
  * <pre>
- *   AnimationRenderComponent animator = new AnimationRenderComponent("player.atlas");
- *   entity.addComponent(animator);
- *   animator.addAnimation("attack", 0.1f); // Only need to add animation once per entity
- *   animator.startAnimation("attack");
+ * AnimationRenderComponent animator = new AnimationRenderComponent("player.atlas");
+ * entity.addComponent(animator);
+ * animator.addAnimation("attack", 0.1f); // Only need to add animation once per entity
+ * animator.startAnimation("attack");
  * </pre>
  *
  * Texture atlases can be created using: <br>
  * - libgdx texture packer (included in External Libraries/gdx-tools) <br>
- * - gdx-texture-packer-gui (recommended) https://github.com/crashinvaders/gdx-texture-packer-gui <br>
+ * - gdx-texture-packer-gui (recommended)
+ * https://github.com/crashinvaders/gdx-texture-packer-gui <br>
  * - other third-party tools, e.g. https://www.codeandweb.com/texturepacker <br>
  */
 public class AnimationRenderComponent extends RenderComponent {
@@ -46,6 +48,7 @@ public class AnimationRenderComponent extends RenderComponent {
 
   /**
    * Create the component for a given texture atlas.
+   * 
    * @param atlas libGDX-supported texture atlas containing desired animations
    */
   public AnimationRenderComponent(TextureAtlas atlas) {
@@ -56,6 +59,7 @@ public class AnimationRenderComponent extends RenderComponent {
 
   /**
    * Returns animation name
+   * 
    * @return animation name
    */
   public String getAnimationName() {
@@ -63,10 +67,14 @@ public class AnimationRenderComponent extends RenderComponent {
   }
 
   /**
-   * Register an animation from the texture atlas. Will play once when called with startAnimation()
-   * @param name Name of the animation. Must match the name of this animation inside the texture
-   *             atlas.
-   * @param frameDuration How long, in seconds, to show each frame of the animation for when playing
+   * Register an animation from the texture atlas. Will play once when called with
+   * startAnimation()
+   * 
+   * @param name          Name of the animation. Must match the name of this
+   *                      animation inside the texture
+   *                      atlas.
+   * @param frameDuration How long, in seconds, to show each frame of the
+   *                      animation for when playing
    * @return true if added successfully, false otherwise
    */
   public boolean addAnimation(String name, float frameDuration) {
@@ -76,10 +84,14 @@ public class AnimationRenderComponent extends RenderComponent {
 
   /**
    * Register an animation from the texture atlas.
-   * @param name Name of the animation. Must match the name of this animation inside the texture
-   *             atlas.
-   * @param frameDuration How long, in seconds, to show each frame of the animation for when playing
-   * @param playMode How the animation should be played (e.g. looping, backwards)
+   * 
+   * @param name          Name of the animation. Must match the name of this
+   *                      animation inside the texture
+   *                      atlas.
+   * @param frameDuration How long, in seconds, to show each frame of the
+   *                      animation for when playing
+   * @param playMode      How the animation should be played (e.g. looping,
+   *                      backwards)
    * @return true if added successfully, false otherwise
    */
   public boolean addAnimation(String name, float frameDuration, PlayMode playMode) {
@@ -100,15 +112,21 @@ public class AnimationRenderComponent extends RenderComponent {
     return true;
   }
 
-  /** Scale the entity to a width of 1 and a height matching the texture's ratio */
+  /**
+   * Scale the entity to a width of 1 and a height matching the texture's ratio
+   */
   public void scaleEntity() {
     TextureRegion defaultTexture = this.atlas.findRegion("default");
-    int tileSize = (int) ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
-    entity.setScale((tileSize/2f), (tileSize/2f)*(float) defaultTexture.getRegionHeight() / defaultTexture.getRegionWidth());
+    int tileSize = (int) ServiceLocator.getEntityService().getNamedEntity("terrain")
+        .getComponent(TerrainComponent.class).getTileSize();
+    entity.setScale((tileSize / 2f),
+        (tileSize / 2f) * (float) defaultTexture.getRegionHeight() / defaultTexture.getRegionWidth());
   }
 
   /**
-   * Remove an animation from this animator. This is not required before disposing.
+   * Remove an animation from this animator. This is not required before
+   * disposing.
+   * 
    * @param name Name of the previously added animation.
    * @return true if removed, false if animation was not found.
    */
@@ -119,6 +137,7 @@ public class AnimationRenderComponent extends RenderComponent {
 
   /**
    * Whether the animator has added the given animation.
+   * 
    * @param name Name of the added animation.
    * @return true if added, false otherwise.
    */
@@ -127,7 +146,9 @@ public class AnimationRenderComponent extends RenderComponent {
   }
 
   /**
-   * Start playback of an animation. The animation must have been added using addAnimation().
+   * Start playback of an animation. The animation must have been added using
+   * addAnimation().
+   * 
    * @param name Name of the animation to play.
    */
   public void startAnimation(String name) {
@@ -146,7 +167,9 @@ public class AnimationRenderComponent extends RenderComponent {
   }
 
   /**
-   * Stop the currently running animation. Does nothing if no animation is playing.
+   * Stop the currently running animation. Does nothing if no animation is
+   * playing.
+   * 
    * @return true if animation was stopped, false if no animation is playing.
    */
   public boolean stopAnimation() {
@@ -163,6 +186,7 @@ public class AnimationRenderComponent extends RenderComponent {
 
   /**
    * Get the name of the animation currently being played.
+   * 
    * @return current animation name, or null if not playing.
    */
   public String getCurrentAnimation() {
@@ -170,7 +194,9 @@ public class AnimationRenderComponent extends RenderComponent {
   }
 
   /**
-   * Has the playing animation finished? This will always be false for looping animations.
+   * Has the playing animation finished? This will always be false for looping
+   * animations.
+   * 
    * @return true if animation was playing and has now finished, false otherwise.
    */
   public boolean isFinished() {
@@ -191,7 +217,6 @@ public class AnimationRenderComponent extends RenderComponent {
 
   @Override
   public void dispose() {
-    atlas.dispose();
     super.dispose();
   }
 }
