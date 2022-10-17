@@ -56,7 +56,7 @@ public class NPCFactory {
 
     AnimationRenderComponent animator = new AnimationRenderComponent(
             ServiceLocator.getResourceService().getAsset("images/crab_animations/crab_animation.atlas", TextureAtlas.class));
-    animator.addAnimation("crab_animation", 0.1f, Animation.PlayMode.LOOP);
+    animator.addAnimation("frame", 0.1f, Animation.PlayMode.LOOP);
 
     // Add combat stats, health bar and texture renderer to the pirate crab entity
     pirateCrabEnemy

@@ -537,7 +537,7 @@ public class ForestGameArea extends GameArea {
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
-    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("crab_animation");
+    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
   }
 
   /**
