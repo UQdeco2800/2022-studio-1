@@ -57,6 +57,7 @@ public class AchievementInterface extends UIComponent {
      * Group containing the achievement badges
      */
     private Group achievementBadges;
+    private float badgeWidth;
 
     /**
      * Create the achievement base display
@@ -200,7 +201,7 @@ public class AchievementInterface extends UIComponent {
         group.addActor(backButton);
         group.setVisible(false);
         stage.addActor(group);
-        //stage.setDebugAll(true);
+        stage.setDebugAll(true);
     }
 
     /**
@@ -301,9 +302,9 @@ public class AchievementInterface extends UIComponent {
      *
      * @param achievement      the achievement to create the buttons for
      * @param descriptionLabel the label to be changed on hover
-     * @return a row of buttons table
+     * @return Group of ImageButtons
      */
-    public static Table buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
+    public static Group buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
         var achievementService = ServiceLocator.getAchievementHandler();
         Table milestoneButtons = new Table();
         milestoneButtons.add();
@@ -327,10 +328,10 @@ public class AchievementInterface extends UIComponent {
      * @param achievement the achievement to create the card for
      * @return the actor (Table)
      */
-    public Table buildAchievementCard(Achievement achievement) {
-        Table achievementCard = new Table();
-
-        achievementCard.pad(30f, 40f, 30f, 40f);
+    public Group buildAchievementCard(Achievement achievement) {
+        Group achievementCard = new Group();
+        float contentX = achievementCard.getX() + Gdx.graphics.getWidth() * 0.05f;
+        float contentWidth = badgeWidth * 0.7f;
 
         Texture backgroundTexture = new Texture(
                 Gdx.files.internal(achievement.isCompleted() ?
@@ -340,54 +341,31 @@ public class AchievementInterface extends UIComponent {
         );
 
         Image backgroundImg = new Image(backgroundTexture);
-        achievementCard.setBackground(backgroundImg.getDrawable());
+        backgroundImg.setFillParent(true);
+        achievementCard.addActor(backgroundImg);
 
         Label achievementTitle = new Label(achievement.getName(), skin, ForestGameArea.TITLE_FONT);
         achievementTitle.setFontScale(0.5f);
+        achievementTitle.setPosition(contentX, achievementCard.getY() + Gdx.graphics.getHeight() * 0.056f);
         achievementTitle.setAlignment(Align.center);
-        achievementCard.add(achievementTitle).colspan(3).expandX();
-        achievementCard.row();
+        achievementTitle.setWidth(contentWidth);
+        achievementCard.addActor(achievementTitle);
 
-        ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ?
+        var descriptionLabel = new Label(achievement.isStat() ?
                 achievement.getDescription().formatted(achievement.getTotalAchieved()) :
-                achievement.getDescription());
-
-        var descriptionLabel = new Label(achievementDescription.get(0), skin, ForestGameArea.LARGE_FONT);
-        descriptionLabel.setFontScale(0.5f);
-        achievementCard.add(descriptionLabel).colspan(3).expandX();
-        achievementCard.row();
-
-        Label tempLabel;
-
-        for (String s : achievementDescription) {
-            if (achievementDescription.indexOf(s) == 0) {
-                continue;
-            }
-
-            tempLabel = new Label(s, skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.5f);
-            achievementCard.add(tempLabel).colspan(3).expandX();
-            achievementCard.row();
-        }
-
-        if (achievementDescription.size() == 1) {
-            tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.5f);
-            achievementCard.add(tempLabel).colspan(3).expandX();
-            achievementCard.row();
-        }
+                achievement.getDescription(), skin, ForestGameArea.SMALL_FONT);
+        descriptionLabel.setFontScale(0.9f);
+        descriptionLabel.setWidth(contentWidth);
+        descriptionLabel.setWrap(true);
+        descriptionLabel.setAlignment(Align.center);
+        descriptionLabel.setPosition(contentX,
+                achievementCard.getY() + Gdx.graphics.getHeight() * 0.05f - descriptionLabel.getHeight() / 2f);
+        achievementCard.addActor(achievementTitle);
+        achievementCard.addActor(descriptionLabel);
 
         if (achievement.isStat()) {
-            achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).expandX().colspan(3).padBottom(20).align(Align.center);
-        } else {
-            tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
-            tempLabel.setFontScale(0.5f);
-            achievementCard.add(tempLabel).colspan(3).expandX();
-            achievementCard.row();
+            achievementCard.addActor(buildAchievementMilestoneButtons(achievement, descriptionLabel));
         }
-
-        achievementCard.row();
-        achievementCard.pack();
 
         return achievementCard;
     }
@@ -474,10 +452,10 @@ public class AchievementInterface extends UIComponent {
         achievementBadges.addActor(title);
 
         int achievementsAdded = 0;
-        Table achievementBadge;
+        Group achievementBadge;
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
 
-        float badgeWidth = Gdx.graphics.getWidth() * 0.21f;
+        this.badgeWidth = Gdx.graphics.getWidth() * 0.21f;
         float badgeHeight = Gdx.graphics.getHeight() * 0.11f;
 
         float leftColumnX = displayTable.getX() + displayTable.getWidth() / 4f - badgeWidth / 2f + badgeWidth / 20f;
