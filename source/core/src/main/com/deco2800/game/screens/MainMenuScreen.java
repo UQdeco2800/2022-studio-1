@@ -34,7 +34,7 @@ public class MainMenuScreen extends ScreenAdapter {
   private float time;
 
   private static String[] mainMenuTextures = {
-      "images/uiElements/exports/title.png",
+          "images/uiElements/exports/title.png",
           "images/Centaur_Back_left.png",
           "images/Centaur_Back_right.png",
           "images/Centaur_left.png",
