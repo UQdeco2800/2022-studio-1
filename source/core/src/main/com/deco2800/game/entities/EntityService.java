@@ -163,8 +163,12 @@ public class EntityService {
     for (Entity entity : entities) {
       entity.earlyUpdate();
       entity.update();
-      if (entity.getName() != null && entity.getName().contains("tower") && entity.getComponent(CombatStatsComponent.class).getHealth() < 1) {
-        entity.dispose();
+      if (entity.getName() != null) {
+        if (entity.getName().contains("tower") && entity.getComponent(CombatStatsComponent.class).getHealth() < 1) {
+          entity.dispose();
+        } else if (entity.getName().contains("Projectile") && entity.getComponent(CombatStatsComponent.class).getHealth() == 1) {
+          entity.dispose();
+        }
       }
     }
   }

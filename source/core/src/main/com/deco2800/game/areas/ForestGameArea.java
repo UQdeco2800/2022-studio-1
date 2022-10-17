@@ -109,6 +109,8 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
+    spawnElectricEelEnemy();
+
     //spawnElectricEelEnemy();
 
     // spawnNPCharacter();

@@ -35,7 +35,7 @@ public class ProjectileFactory {
                 .addComponent(new ProjectileMovementComponent())
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
-                .addComponent(new CombatStatsComponent(1, 5))
+                .addComponent(new CombatStatsComponent(2, 5))
                 .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
                 .addComponent(new TouchAttackComponent(targetLayer, 0.2f));
 
