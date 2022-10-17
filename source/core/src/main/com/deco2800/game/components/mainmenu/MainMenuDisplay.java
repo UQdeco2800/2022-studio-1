@@ -236,6 +236,23 @@ public class MainMenuDisplay extends UIComponent {
               }
       );
 
+
+      Texture guidebookTexture = new Texture(Gdx.files.internal("images/guidebook.png"));
+      TextureRegionDrawable upGuidebook = new TextureRegionDrawable(guidebookTexture);
+      TextureRegionDrawable downGuidebook = new TextureRegionDrawable(guidebookTexture);
+      ImageButton guidebookButton = new ImageButton(upGuidebook, downGuidebook);
+
+      guidebookButton.addListener(
+              new ClickListener() {
+                  @Override
+                  public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                      logger.debug("Guidebook button clicked on main menu page");
+                      logger.info("Game paused");
+                      entity.getEvents().trigger("guideBook");
+                      return true;
+                  }
+              });
+
       mainTable.add(title).padTop(0.5f * buttonHeight).size(titleHeight * title.getWidth() / title.getHeight(), titleHeight);
       mainTable.row();
       mainTable.add(homeButton).size(buttonHeight * homeButton.getWidth() / homeButton.getHeight(), buttonHeight);
@@ -244,6 +261,8 @@ public class MainMenuDisplay extends UIComponent {
       mainTable.row();
       mainTable.add(exitButton).size(buttonHeight * exitButton.getWidth() / exitButton.getHeight(), buttonHeight);
 
+      settingsTable.add(guidebookButton).expandX().expandY().right().bottom().size(50f,50f);
+      settingsTable.row();
       settingsTable.add(settingsButton).expandX().expandY().right().bottom().size(50f,50f);
 
       rootTable.add(mainTable).expandX();
