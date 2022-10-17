@@ -161,6 +161,7 @@ public class EquipmentsShopDisplay extends UIComponent {
         subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
 
+        itemDisplay = new Table();
         changeRes();
 
         equipmentShop.addActor(leftButton);
@@ -211,7 +212,8 @@ public class EquipmentsShopDisplay extends UIComponent {
     }
 
     private void changeRes() {
-        itemDisplay = new Table();
+        itemDisplay.clear();
+
         itemDisplay.setFillParent(true);
         itemDisplay.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
         itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);

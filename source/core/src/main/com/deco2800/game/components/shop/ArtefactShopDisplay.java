@@ -153,6 +153,7 @@ public class ArtefactShopDisplay extends UIComponent {
         subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
 
+        itemDisplay = new Table();
         changeRes();
 
         artefactShop.addActor(leftButton);
@@ -206,15 +207,10 @@ public class ArtefactShopDisplay extends UIComponent {
     }
 
     private void changeRes() {
-
-        itemDisplay = new Table();
+        itemDisplay.clear();
         itemDisplay.setFillParent(true);
         itemDisplay.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
         itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
-
-        itemDisplay.removeActor(prevItem);
-        itemDisplay.removeActor(currentItem);
-        itemDisplay.removeActor(nextItem);
 
         itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
         itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
@@ -226,7 +222,6 @@ public class ArtefactShopDisplay extends UIComponent {
         itemDisplay.add(descriptionDisplay).colspan(3).center()
                 .width(Gdx.graphics.getWidth() * 0.31f)
                 .height(Gdx.graphics.getHeight() * 0.31f);
-        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
 
         artefactShop.addActor(itemDisplay);
 
