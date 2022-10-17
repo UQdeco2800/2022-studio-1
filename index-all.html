@@ -527,6 +527,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/camera/package-summary.html">com.deco2800.game.components.camera</a> - package com.deco2800.game.components.camera</dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/crystal/package-summary.html">com.deco2800.game.components.crystal</a> - package com.deco2800.game.components.crystal</dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/Environmental/package-summary.html">com.deco2800.game.components.Environmental</a> - package com.deco2800.game.components.Environmental</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/firstnight/package-summary.html">com.deco2800.game.components.firstnight</a> - package com.deco2800.game.components.firstnight</dt>
@@ -703,6 +705,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Called when the entity is created and registered.</div>
 </dd>
+<dt><a href="com/deco2800/game/components/crystal/CrystalAnimationController.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.components.crystal.<a href="com/deco2800/game/components/crystal/CrystalAnimationController.html" title="class in com.deco2800.game.components.crystal">CrystalAnimationController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/DayNightClockComponent.html#create()" class="member-name-link">create()</a> - Method in class com.deco2800.game.components.<a href="com/deco2800/game/components/DayNightClockComponent.html" title="class in com.deco2800.game.components">DayNightClockComponent</a></dt>
 <dd>
 <div class="block">Creates the clock UI component and adds the event listener for EVENT_PART_OF_DAY_PASSED from DayNightCycleService</div>
@@ -1026,6 +1030,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/areas/GameArea.html#crystal" class="member-name-link">crystal</a> - Variable in class com.deco2800.game.areas.<a href="com/deco2800/game/areas/GameArea.html" title="class in com.deco2800.game.areas">GameArea</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/components/CombatStatsComponent.html#CRYSTAL" class="member-name-link">CRYSTAL</a> - Static variable in class com.deco2800.game.components.<a href="com/deco2800/game/components/CombatStatsComponent.html" title="class in com.deco2800.game.components">CombatStatsComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/crystal/CrystalAnimationController.html" class="type-name-link" title="class in com.deco2800.game.components.crystal">CrystalAnimationController</a> - Class in <a href="com/deco2800/game/components/crystal/package-summary.html">com.deco2800.game.components.crystal</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/crystal/CrystalAnimationController.html#%3Cinit%3E()" class="member-name-link">CrystalAnimationController()</a> - Constructor for class com.deco2800.game.components.crystal.<a href="com/deco2800/game/components/crystal/CrystalAnimationController.html" title="class in com.deco2800.game.components.crystal">CrystalAnimationController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/configs/CrystalConfig.html" class="type-name-link" title="class in com.deco2800.game.entities.configs">CrystalConfig</a> - Class in <a href="com/deco2800/game/entities/configs/package-summary.html">com.deco2800.game.entities.configs</a></dt>
 <dd>
@@ -3142,8 +3150,14 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="com/deco2800/game/screens/MainMenuScreen.html#%3Cinit%3E(com.deco2800.game.AtlantisSinks)" class="member-name-link">MainMenuScreen(AtlantisSinks)</a> - Constructor for class com.deco2800.game.screens.<a href="com/deco2800/game/screens/MainMenuScreen.html" title="class in com.deco2800.game.screens">MainMenuScreen</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/deco2800/game/components/maingame/MainGameBuildingInterface.html#makeCrystalNoti(java.lang.Boolean)" class="member-name-link">makeCrystalNoti(Boolean)</a> - Method in class com.deco2800.game.components.maingame.<a href="com/deco2800/game/components/maingame/MainGameBuildingInterface.html" title="class in com.deco2800.game.components.maingame">MainGameBuildingInterface</a></dt>
+<dd>
+<div class="block">Create Crystal Notification when Crystal has reached max level</div>
+</dd>
 <dt><a href="com/deco2800/game/components/maingame/MainGameBuildingInterface.html#makeCrystalPopUp(java.lang.Boolean,float,float)" class="member-name-link">makeCrystalPopUp(Boolean, float, float)</a> - Method in class com.deco2800.game.components.maingame.<a href="com/deco2800/game/components/maingame/MainGameBuildingInterface.html" title="class in com.deco2800.game.components.maingame">MainGameBuildingInterface</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create Crystal Upgrade Pop Up</div>
+</dd>
 <dt><a href="com/deco2800/game/components/maingame/MainGameNpcInterface.html#makeUIPopUp(java.lang.Boolean)" class="member-name-link">makeUIPopUp(Boolean)</a> - Method in class com.deco2800.game.components.maingame.<a href="com/deco2800/game/components/maingame/MainGameNpcInterface.html" title="class in com.deco2800.game.components.maingame">MainGameNpcInterface</a></dt>
 <dd>
 <div class="block">Make Conversation UI pop up</div>
@@ -3994,7 +4008,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="com/deco2800/game/areas/terrain/IsoTileRenderer.html#screenPos" class="member-name-link">screenPos</a> - Static variable in class com.deco2800.game.areas.terrain.<a href="com/deco2800/game/areas/terrain/IsoTileRenderer.html" title="class in com.deco2800.game.areas.terrain">IsoTileRenderer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/entities/factories/CrystalService.html#screenShake()" class="member-name-link">screenShake()</a> - Static method in class com.deco2800.game.entities.factories.<a href="com/deco2800/game/entities/factories/CrystalService.html" title="class in com.deco2800.game.entities.factories">CrystalService</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Triggers shaking effect of the in-game camera</div>
+</dd>
 <dt><a href="com/deco2800/game/input/InputComponent.html#scrolled(float,float)" class="member-name-link">scrolled(float, float)</a> - Method in class com.deco2800.game.input.<a href="com/deco2800/game/input/InputComponent.html" title="class in com.deco2800.game.input">InputComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/input/InputDecorator.html#scrolled(float,float)" class="member-name-link">scrolled(float, float)</a> - Method in class com.deco2800.game.input.<a href="com/deco2800/game/input/InputDecorator.html" title="class in com.deco2800.game.input">InputDecorator</a></dt>
@@ -4538,8 +4554,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Start playback of an animation.</div>
 </dd>
-<dt><a href="com/deco2800/game/components/camera/CameraActions.html#startScreenShake()" class="member-name-link">startScreenShake()</a> - Method in class com.deco2800.game.components.camera.<a href="com/deco2800/game/components/camera/CameraActions.html" title="class in com.deco2800.game.components.camera">CameraActions</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="com/deco2800/game/services/AchievementHandler.html#STAT_ACHIEVEMENT_1_MILESTONE" class="member-name-link">STAT_ACHIEVEMENT_1_MILESTONE</a> - Static variable in class com.deco2800.game.services.<a href="com/deco2800/game/services/AchievementHandler.html" title="class in com.deco2800.game.services">AchievementHandler</a></dt>
 <dd>
 <div class="block">Default stat achievement first level</div>

@@ -7,6 +7,7 @@ com.deco2800.game.areas.terrain
 com.deco2800.game.components
 com.deco2800.game.components.achievements
 com.deco2800.game.components.camera
+com.deco2800.game.components.crystal
 com.deco2800.game.components.Environmental
 com.deco2800.game.components.firstnight
 com.deco2800.game.components.gamearea
