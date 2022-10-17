@@ -77,17 +77,14 @@ public class loader extends UIComponent {
         //TODO: make a list / LinkedList of tips to pick randomly from
         CharSequence getTips = "insert tips here";
         Label displayTips = TextUtil.createTextLabel((String) getTips, 0x000000ff, 24);
-        //Label displayTips = new Label(getTips, skin, "large");
 
-        loadTable.add(title).padTop(50);
+        loadTable.add(title).expandX().expandY().padTop(50);
         loadTable.row();
         //add loading stat number
         //loadTable.add(currLoadProgress).expandY().bottom().padBottom(10);
         loadTable.add(displayTips).fillY().bottom().padBottom(50);
         loadTable.row();
-        loadBarFront.setSize(1f, 0.43f * loadBarFront.getHeight());
-        //loadTable.add(loadBarBack);
-        loadTable.add(loadBarFront);
+        loadTable.add(loadBarFront).padBottom(50);
 
         stage.addActor(loadTable);
 
