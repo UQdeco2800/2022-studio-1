@@ -87,18 +87,20 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="RenderComponent.html" title="class in com.deco2800.game.rendering">RenderComponent</a></span></div>
 <div class="block">Renders animations from a texture atlas on an entity.
 
- <p>Example usage:
+ <p>
+ Example usage:
 
  <pre>
-   AnimationRenderComponent animator = new AnimationRenderComponent("player.atlas");
-   entity.addComponent(animator);
-   animator.addAnimation("attack", 0.1f); // Only need to add animation once per entity
-   animator.startAnimation("attack");
+ AnimationRenderComponent animator = new AnimationRenderComponent("player.atlas");
+ entity.addComponent(animator);
+ animator.addAnimation("attack", 0.1f); // Only need to add animation once per entity
+ animator.startAnimation("attack");
  </pre>
 
  Texture atlases can be created using: <br>
  - libgdx texture packer (included in External Libraries/gdx-tools) <br>
- - gdx-texture-packer-gui (recommended) https://github.com/crashinvaders/gdx-texture-packer-gui <br>
+ - gdx-texture-packer-gui (recommended)
+ https://github.com/crashinvaders/gdx-texture-packer-gui <br>
  - other third-party tools, e.g. https://www.codeandweb.com/texturepacker <br></div>
 </section>
 <section class="summary">
@@ -179,7 +181,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFinished()" class="member-name-link">isFinished</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Has the playing animation finished? This will always be false for looping animations.</div>
+<div class="block">Has the playing animation finished? This will always be false for looping
+ animations.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeAnimation(java.lang.String)" class="member-name-link">removeAnimation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
@@ -259,12 +262,15 @@ loadScripts(document, 'script');</script>
 <h3>addAnimation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">addAnimation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  float&nbsp;frameDuration)</span></div>
-<div class="block">Register an animation from the texture atlas. Will play once when called with startAnimation()</div>
+<div class="block">Register an animation from the texture atlas. Will play once when called with
+ startAnimation()</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>name</code> - Name of the animation. Must match the name of this animation inside the texture
-             atlas.</dd>
-<dd><code>frameDuration</code> - How long, in seconds, to show each frame of the animation for when playing</dd>
+<dd><code>name</code> - Name of the animation. Must match the name of this
+                      animation inside the texture
+                      atlas.</dd>
+<dd><code>frameDuration</code> - How long, in seconds, to show each frame of the
+                      animation for when playing</dd>
 <dt>Returns:</dt>
 <dd>true if added successfully, false otherwise</dd>
 </dl>
@@ -279,10 +285,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Register an animation from the texture atlas.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>name</code> - Name of the animation. Must match the name of this animation inside the texture
-             atlas.</dd>
-<dd><code>frameDuration</code> - How long, in seconds, to show each frame of the animation for when playing</dd>
-<dd><code>playMode</code> - How the animation should be played (e.g. looping, backwards)</dd>
+<dd><code>name</code> - Name of the animation. Must match the name of this
+                      animation inside the texture
+                      atlas.</dd>
+<dd><code>frameDuration</code> - How long, in seconds, to show each frame of the
+                      animation for when playing</dd>
+<dd><code>playMode</code> - How the animation should be played (e.g. looping,
+                      backwards)</dd>
 <dt>Returns:</dt>
 <dd>true if added successfully, false otherwise</dd>
 </dl>
@@ -299,7 +308,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="removeAnimation(java.lang.String)">
 <h3>removeAnimation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">removeAnimation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Remove an animation from this animator. This is not required before disposing.</div>
+<div class="block">Remove an animation from this animator. This is not required before
+ disposing.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - Name of the previously added animation.</dd>
@@ -325,7 +335,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="startAnimation(java.lang.String)">
 <h3>startAnimation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">startAnimation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Start playback of an animation. The animation must have been added using addAnimation().</div>
+<div class="block">Start playback of an animation. The animation must have been added using
+ addAnimation().</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - Name of the animation to play.</dd>
@@ -336,7 +347,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="stopAnimation()">
 <h3>stopAnimation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">stopAnimation</span>()</div>
-<div class="block">Stop the currently running animation. Does nothing if no animation is playing.</div>
+<div class="block">Stop the currently running animation. Does nothing if no animation is
+ playing.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if animation was stopped, false if no animation is playing.</dd>
@@ -358,7 +370,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isFinished()">
 <h3>isFinished</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFinished</span>()</div>
-<div class="block">Has the playing animation finished? This will always be false for looping animations.</div>
+<div class="block">Has the playing animation finished? This will always be false for looping
+ animations.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if animation was playing and has now finished, false otherwise.</dd>
