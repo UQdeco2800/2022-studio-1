@@ -1,6 +1,6 @@
 {
         "type": "building",
-        "name": "turret",
+        "name": "Turret",
         "goldCost": 0,
         "stoneCost": 200,
         "woodCost": 100,

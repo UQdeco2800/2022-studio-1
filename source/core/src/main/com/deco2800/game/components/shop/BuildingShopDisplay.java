@@ -155,7 +155,7 @@ public class BuildingShopDisplay extends UIComponent {
                                 true);
 
                 // create buy button
-                buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
+                buyButton = ShopUtils.createImageTextButton("BUY & PLACE", skin.getColor("black"), "button", 1f,
                                 goldenDrawable,
                                 clickDrawable,
                                 skin,
@@ -184,12 +184,10 @@ public class BuildingShopDisplay extends UIComponent {
                 nextItem.setSize(Gdx.graphics.getWidth() * 0.058f, Gdx.graphics.getWidth() * 0.058f);
 
                 itemNumber.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.05f,
-                                Gdx.graphics.getHeight() / 2f /* - Gdx.graphics.getHeight() * 0.05f */);
-                descriptionDisplay.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.2f,
-                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.35f);
-                descriptionDisplay.setSize(Gdx.graphics.getWidth() * 0.4f, Gdx.graphics.getWidth() * 0.3f);
-                // itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f,
-                // Gdx.graphics.getHeight() * 0.361f);
+                                Gdx.graphics.getHeight() / 2f);
+                descriptionDisplay.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.15f,
+                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.25f);
+                descriptionDisplay.setSize(Gdx.graphics.getWidth() * 0.3f, Gdx.graphics.getWidth() * 0.2f);
 
                 leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
@@ -199,13 +197,13 @@ public class BuildingShopDisplay extends UIComponent {
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
                 rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
 
-                buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
+                buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.17f,
                                 Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-                buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+                buyButton.setSize(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.156f);
 
                 priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
                                 Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-                priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+                priceDisplay.setSize(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.156f);
 
                 backButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.25f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.25f);
@@ -324,7 +322,7 @@ public class BuildingShopDisplay extends UIComponent {
                                 ShopBuilding.getFilepath(current.next.t));
 
                 priceDisplay.setText(
-                                "Stone: " + Integer.toString(stats.woodCost) + " Wood: "
+                                "Stone: " + Integer.toString(stats.woodCost) + "\nWood: "
                                                 + Integer.toString(stats.woodCost));
 
                 sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
@@ -343,7 +341,7 @@ public class BuildingShopDisplay extends UIComponent {
                 descriptionDisplay
                                 .setText(stats.name + "\n" + stats.description + "\n");
                 i = i == 1 ? ShopBuilding.getAllBuildingTypes().size() : i - 1;
-                itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
+                itemNumber.setText("Building " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
                 currentItem.setDrawable(new TextureRegionDrawable(
                                 new Texture(Gdx.files.internal(
                                                 stats.itemBackgroundImagePath))));
@@ -370,7 +368,7 @@ public class BuildingShopDisplay extends UIComponent {
                                 ShopBuilding.getFilepath(current.next.t));
 
                 priceDisplay.setText("Stone: " + Integer.toString(stats.stoneCost)
-                                + " Wood: "
+                                + "\nWood: "
                                 + Integer.toString(stats.woodCost));
                 sufficientFunds = MainArea.getInstance().getGameArea().getPlayer()
                                 .getComponent(InventoryComponent.class)
@@ -387,7 +385,7 @@ public class BuildingShopDisplay extends UIComponent {
                 descriptionDisplay
                                 .setText(stats.name + "\n" + stats.description + "\n");
                 i = i == ShopBuilding.getAllBuildingTypes().size() ? 1 : i + 1;
-                itemNumber.setText("Item " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
+                itemNumber.setText("Building " + i + "/" + ShopBuilding.getAllBuildingTypes().size());
                 currentItem.setDrawable(new TextureRegionDrawable(
                                 new Texture(Gdx.files.internal(
                                                 stats.itemBackgroundImagePath))));
