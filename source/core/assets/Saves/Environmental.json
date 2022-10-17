@@ -1,7 +1,7 @@
 [
 {
 	class: com.deco2800.game.files.Tuple
-	texture: images/seastack1.png
+	texture: images/seastack2.png
 	position: {}
 	name: Rock@72
 	tileString: "0,0"
