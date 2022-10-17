@@ -135,6 +135,7 @@ public class MainGameScreen extends ScreenAdapter {
   public void pause() {
     ServiceLocator.getDayNightCycleService().pause();
     logger.info("Game paused");
+    System.exit(0);
   }
 
   @Override
@@ -148,13 +149,6 @@ public class MainGameScreen extends ScreenAdapter {
     logger.debug("Disposing main game screen");
 
     renderer.dispose();
-//    unloadAssets();
-//
-//    ServiceLocator.getEntityService().dispose();
-//    ServiceLocator.getRenderService().dispose();
-//    ServiceLocator.getResourceService().dispose();
-//
-//    ServiceLocator.clear();
   }
 
   private void loadAssets() {

@@ -3,7 +3,7 @@
 	class: com.deco2800.game.files.Tuple
 	texture: images/seastack1.png
 	position: {}
-	name: Rock@72
+	name: Rock@117
 	tileString: "0,0"
 	creationMethod: createRock
 }

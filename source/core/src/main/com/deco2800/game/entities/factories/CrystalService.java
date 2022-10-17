@@ -78,7 +78,6 @@ public class CrystalService {
         CameraComponent cameraComp = cam.getComponent(CameraComponent.class);
         OrthographicCamera camera = (OrthographicCamera) cameraComp.getCamera();
         long currentGameTime = ServiceLocator.getTimeSource().getTime();
-        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
 
         final int[] shakeNum = {0};
         final int[] power = {1};

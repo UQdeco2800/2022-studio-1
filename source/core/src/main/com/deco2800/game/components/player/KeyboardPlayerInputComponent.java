@@ -211,7 +211,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       isVisible = false;
     }
     Entity clickedEntity = ServiceLocator.getUGSService().getClickedEntity();
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+
 
     if (pointer == Input.Buttons.LEFT) {
       if (ServiceLocator.getStructureService().getTempBuildState()) {
@@ -234,8 +234,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       } else {
         // crystal has been clicked
         if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL)) {
-          PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
-          isVisible = true;
+          if (ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL).getComponent(CombatStatsComponent.class).getLevel() < 3) {
+            PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
+            isVisible = true;
+          }
+          else {
+            PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalNoti(true);
+            isVisible = true;
+            final int[] i = {0};
+            Timer time = new Timer();
+            TimerTask showUI = new TimerTask() {
+              @Override
+              public void run() {
+                if (i[0] == 4) {
+                  PopUp.remove();
+                  isVisible = false;
+                }
+                i[0]++;
+              }
+            };
+            time.scheduleAtFixedRate(showUI, 150, 150);
+          }
         }
 
 

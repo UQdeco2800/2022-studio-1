@@ -32,9 +32,6 @@ import com.deco2800.game.utils.DrawableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class MainGameBuildingInterface extends UIComponent {
@@ -241,7 +238,12 @@ public class MainGameBuildingInterface extends UIComponent {
         return BuildingUI;
     }
 
-
+    /**
+     * Create Crystal Upgrade Pop Up
+     * @param value visibility value of Pop Up
+     * @param x x coordinate of Crystal
+     * @param y y coordinate of Crystal
+     */
     public Table makeCrystalPopUp(Boolean value, float x, float y) {
         float uiHeight = 300f;
         float screenHeight = Gdx.graphics.getHeight();
@@ -303,8 +305,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
         CrystalUI.setVisible(true);
 
-        // add popup
-        // insert pop up texture
+
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
@@ -317,7 +318,6 @@ public class MainGameBuildingInterface extends UIComponent {
                 "",
                 skin.getColor(ForestGameArea.BLACK),
                 ForestGameArea.BUTTON_FONT, 1f, buttonDown, buttonUp, skin, false);
-
         upgradeButton.addListener(
                 new ChangeListener() {
                     @Override
@@ -338,9 +338,6 @@ public class MainGameBuildingInterface extends UIComponent {
                             CrystalUI.remove();
                         }
 
-                        else if (level == 3) {
-                            logger.info("Crystal has reached Max Level");
-                        }
                         else {
                             logger.info("Insufficient gold to upgrade crystal!");
                             Sound filesound = Gdx.audio.newSound(
@@ -356,8 +353,6 @@ public class MainGameBuildingInterface extends UIComponent {
         //table
         Table CrystalInfo = new Table();
         CrystalInfo.add(CrystalLabel).center();
-
-        // healthInfo.add(healthAmount);
 
         Table leftTable = new Table();
         leftTable.padTop(10f);
@@ -376,20 +371,34 @@ public class MainGameBuildingInterface extends UIComponent {
         //rightTable.add(crystalImage).size(1f,1f);
         rightTable.add(crystalhealth).size(300f,40f);
         rightTable.add(healthLabel).size(30f,60f).padTop(10f).padBottom(10f);
-        //rightTable.add(healthLabel);
         rightTable.row();
         if(crystal.getComponent(CombatStatsComponent.class).getLevel()<3) {
             rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);
         }
-        else {
-//            Label healthLabel = new Label("Crystal has reached max level", skin, ForestGameArea.LARGE_FONT);
-//            rightTable.add(healthLabel).size(250f, 80f).center();
-        }
-
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.add(leftTable);
         CrystalUI.add(rightTable).padTop(10f);
 
+        stage.addActor(CrystalUI);
+
+        return CrystalUI;
+    }
+
+    /**
+     * Create Crystal Notification when Crystal has reached max level
+     * @param value visibility value of Pop Up
+     */
+    public Table makeCrystalNoti(Boolean value) {
+        visibility = value;
+        CrystalUI = new Table();
+        CrystalUI.setSize(461, 200);
+        CrystalUI.setPosition(730,45);
+        CrystalUI.setVisible(true);
+        Texture colour = new Texture(Gdx.files.internal("images/tutorials/CrystalPopUp.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+        CrystalUI.setBackground(backgroundColour);
+        CrystalUI.bottom();
+        CrystalUI.padBottom(50);
         stage.addActor(CrystalUI);
 
         return CrystalUI;
