@@ -21,6 +21,7 @@ public class ProjectileMovementComponent extends PhysicsMovementComponent {
                 super.update();
 
                 if (Math.abs(getEntity().getPosition().dst(origin)) > MAX_TRAVEL_DISTANCE) {
+                        System.out.println("Disposing of Projectile");
                         ServiceLocator.getUGSService().removeEntity(getEntity().getName());
                 }
         }
