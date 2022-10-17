@@ -347,7 +347,9 @@ public class AchievementInterface extends UIComponent {
         achievementCard.add(achievementTitle).colspan(3).expandX();
         achievementCard.row();
 
-        ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ? achievement.getDescription().formatted(achievement.getTotalAchieved()) : achievement.getDescription());
+        ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ?
+                achievement.getDescription().formatted(achievement.getTotalAchieved()) :
+                achievement.getDescription());
 
         var descriptionLabel = new Label(achievementDescription.get(0), skin, ForestGameArea.LARGE_FONT);
         descriptionLabel.setFontScale(0.5f);
