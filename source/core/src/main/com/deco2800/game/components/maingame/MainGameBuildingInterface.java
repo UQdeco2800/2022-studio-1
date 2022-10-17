@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
@@ -41,7 +42,7 @@ public class MainGameBuildingInterface extends UIComponent {
     private Label CrystalLabel;
     private Image crystalImage;
 
-    private boolean visability;
+    private boolean visibility;
 
     Entity buildingHealth;
     private ProgressBar progressBar;
@@ -53,7 +54,7 @@ public class MainGameBuildingInterface extends UIComponent {
     }
 
     public void addActors() {
-
+        // Handled outside
     }
 
     public Table makeUIPopUp(Boolean value, float x, float y, GridPoint2 entityCords, String structureName) {
@@ -80,7 +81,7 @@ public class MainGameBuildingInterface extends UIComponent {
         x = Math.max(x, 0f);
         x = Math.min(x, screenWidth - uiWidth);
 
-        visability = value;
+        visibility = value;
         BuildingUI.setVisible(true);
         BuildingUI = new Table();
         BuildingUI.setSize(uiWidth, uiHeight);
@@ -91,14 +92,14 @@ public class MainGameBuildingInterface extends UIComponent {
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
         String buildingName = structureName.replaceAll("[^A-Za-z]", "").toUpperCase();
-        CrystalLabel = new Label(buildingName, skin, "large");
+        CrystalLabel = new Label(buildingName, skin, ForestGameArea.LARGE_FONT);
 
         //Heart image
         Image heartImage = new Image(ServiceLocator.getResourceService().getAsset("images/uiElements/exports/heart.png", Texture.class));
         //Health Bar image
         Image healthBarImage = new Image(
                 ServiceLocator.getResourceService().getAsset("images/empty_healthbar.png", Texture.class));
-        // Label healthAmount = new Label(Integer.toString(health), skin, "large");
+        // Label healthAmount = new Label(Integer.toString(health), skin, ForestGameArea.LARGE_FONT);
 
         // //Health Bar image
         buildingHealth = clickedStructure;
@@ -127,7 +128,7 @@ public class MainGameBuildingInterface extends UIComponent {
         Boolean sufficientFunds = (MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class)
                 .hasGold(2000));
-        TextButton upgradeButton = ShopUtils.createImageTextButton("\n Upgrade for: " + "\n" + "2000", skin.getColor("black"), "button", 1f,
+        TextButton upgradeButton = ShopUtils.createImageTextButton("\n Upgrade for: " + "\n" + "2000", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
                 sufficientFunds ? brownDrawable : redDrawable,
                 sufficientFunds ? goldenDrawable : redDrawable,
                 skin,
@@ -138,7 +139,7 @@ public class MainGameBuildingInterface extends UIComponent {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                    Entity player = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER);
                     //Obtain reference to player, for some reason it was being accessed as 'entity'
                     int playerGold = player.getComponent(InventoryComponent.class).getGold();
                     logger.info("Upgrade Button clicked");
@@ -182,7 +183,7 @@ public class MainGameBuildingInterface extends UIComponent {
                .getComponent(InventoryComponent.class).hasWood(Integer.parseInt(arrOfStr[1])));
         TextButton  sellButton = ShopUtils.createImageTextButton("\n Sell for: " + "\n" + "Wood: " + arrOfStr[1]
                         + " & Stone: " + arrOfStr[0]
-                , skin.getColor("black"), "button", 1f,
+                , skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
                 sufficientFundsSell ? brownDrawable : redDrawable,
                 sufficientFundsSell ? goldenDrawable : redDrawable,
                 skin,
@@ -194,7 +195,7 @@ public class MainGameBuildingInterface extends UIComponent {
                     public void changed(ChangeEvent changeEvent, Actor actor) {
                         logger.debug("Sell button clicked");
 
-                        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                        Entity player = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER);
                         player.getComponent(InventoryComponent.class).addStone(Integer.parseInt(arrOfStr[0]));
                         player.getComponent(InventoryComponent.class).addWood(Integer.parseInt(arrOfStr[1]));
                         PlayerStatsDisplay.updateItems();
@@ -248,7 +249,7 @@ public class MainGameBuildingInterface extends UIComponent {
         float screenHeight = Gdx.graphics.getHeight();
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
         int level = crystal.getComponent(CombatStatsComponent.class).getLevel();
-        Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+        Entity player = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER);
         int playerGold = player.getComponent(InventoryComponent.class).getGold();
         //player.getComponent(InventoryComponent.class).addGold(-9500);
 
@@ -296,7 +297,7 @@ public class MainGameBuildingInterface extends UIComponent {
         x = Math.max(x, 0f);
         x = Math.min(x, screenWidth - uiWidth);
 
-        visability = value;
+        visibility = value;
 
         CrystalUI = new Table();
         CrystalUI.setSize(uiWidth, uiHeight);
@@ -309,15 +310,15 @@ public class MainGameBuildingInterface extends UIComponent {
         Texture colour = new Texture(Gdx.files.internal("images/pop-up background.png"));
         Drawable backgroundColour = new TextureRegionDrawable(colour);
 
-        CrystalLabel = new Label("Crystal", skin, "large");
+        CrystalLabel = new Label("Crystal", skin, ForestGameArea.LARGE_FONT);
         buttonUp = new TextureRegionDrawable(button);
         buttonDown = new TextureRegionDrawable(button);
         //upgrade button
 
         TextButton upgradeButton = ShopUtils.createImageTextButton(
                 "",
-                skin.getColor("black"),
-                "button", 1f, buttonDown, buttonUp, skin, false);
+                skin.getColor(ForestGameArea.BLACK),
+                ForestGameArea.BUTTON_FONT, 1f, buttonDown, buttonUp, skin, false);
 
         upgradeButton.addListener(
                 new ChangeListener() {
@@ -349,7 +350,7 @@ public class MainGameBuildingInterface extends UIComponent {
                 });
 
 
-        Label UpgradeCrystalLabel = new Label("Upgrade Crystal?", skin, "large");
+        Label UpgradeCrystalLabel = new Label("Upgrade Crystal?", skin, ForestGameArea.LARGE_FONT);
 
         //table
         Table CrystalInfo = new Table();
@@ -370,7 +371,7 @@ public class MainGameBuildingInterface extends UIComponent {
         rightTable.padBottom(10f);
         rightTable.add(UpgradeCrystalLabel);
         rightTable.row();
-        Label healthLabel = new Label(health, skin, "large");
+        Label healthLabel = new Label(health, skin, ForestGameArea.LARGE_FONT);
         //rightTable.add(crystalImage).size(1f,1f);
         rightTable.add(crystalhealth).size(300f,40f);
         rightTable.add(healthLabel).size(30f,60f).padTop(10f).padBottom(10f);
@@ -379,8 +380,6 @@ public class MainGameBuildingInterface extends UIComponent {
         if(crystal.getComponent(CombatStatsComponent.class).getLevel()<3) {
             rightTable.add(upgradeButton).size(250f, 80f).center().padLeft(50f).padRight(10f).padTop(10f).padBottom(10f);
         }
-
-
         CrystalUI.setBackground(backgroundColour);
         CrystalUI.add(leftTable);
         CrystalUI.add(rightTable).padTop(10f);
@@ -395,7 +394,7 @@ public class MainGameBuildingInterface extends UIComponent {
      * @param value visibility value of Pop Up
      */
     public Table makeCrystalNoti(Boolean value) {
-        visability = value;
+        visibility = value;
         CrystalUI = new Table();
         CrystalUI.setSize(461, 200);
         CrystalUI.setPosition(730,45);
@@ -410,8 +409,10 @@ public class MainGameBuildingInterface extends UIComponent {
         return CrystalUI;
     }
 
-    public boolean isVisability() {
-        return visability;
+
+    public boolean isVisible() {
+        return visibility;
+
     }
 
     private Array<StringDecorator<Graphics.DisplayMode>> getDisplayModes(Graphics.Monitor monitor) {

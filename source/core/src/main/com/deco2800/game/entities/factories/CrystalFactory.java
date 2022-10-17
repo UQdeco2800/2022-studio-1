@@ -1,34 +1,21 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.deco2800.game.achievements.AchievementType;
-import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.*;
-import com.deco2800.game.components.camera.CameraActions;
-import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.components.maingame.MainGameNpcInterface;
-import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.player.PlayerStatsDisplay;
+import com.deco2800.game.components.crystal.CrystalAnimationController;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
-import com.deco2800.game.files.SaveGame;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
 import com.deco2800.game.physics.components.ColliderComponent;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
-import com.deco2800.game.services.AchievementHandler;
-import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
  * Factory to create crystal entity.
@@ -48,12 +35,20 @@ public class CrystalFactory {
      * @return entity
      */
     public static Entity createCrystal(String texture, String name) {
+        AnimationRenderComponent animator =
+            new AnimationRenderComponent(
+                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/crystal_damaged.atlas", TextureAtlas.class));
+        animator.addAnimation("crystal", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("last", 0.1f, Animation.PlayMode.NORMAL);
+
         Entity crystal = new Entity()
                 .addComponent(new TextureRenderComponent(texture))
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
+                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                .addComponent(animator)
+                .addComponent(new CrystalAnimationController());
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
                 crystalStats.defense, crystalStats.level, 1000))
@@ -67,7 +62,6 @@ public class CrystalFactory {
         PhysicsUtils.setScaledCollider(crystal, 1f, 0.5f);
         return crystal;
     }
-
 
     private CrystalFactory() {
         throw new IllegalStateException("Instantiating static util class");

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
@@ -24,6 +25,10 @@ import java.util.*;
  * This input handler only uses keyboard input.
  */
 public class KeyboardPlayerInputComponent extends InputComponent {
+  public static final String EVENT_PLAYER_CONTROL_TUT = "playerControlTut";
+  public static final String EVENT_REMOVE_NO_MINE = "removeNoMine";
+  public static final String EVENT_WALK_REV = "walk_rev";
+
   private final Vector2 walkDirection = Vector2.Zero.cpy();
   private Boolean keyState;
   private static Table PopUp;
@@ -48,8 +53,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           walkDirection.add(Vector2Utils.UP);
           entity.getEvents().trigger("ch_dir_w");
           // triggerWalkEvent();
-          entity.getEvents().trigger("playerControlTut", "UP");
-          entity.getEvents().trigger("removeNoMine");
+          entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "UP");
+          entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
           // movePlayerInUgs(walkDirection);
           // ServiceLocator.getEntityService().getNamedEntity("player").getComponent(PlayerActions.class).update();
           updatePlayerMovement(0, true);
@@ -58,8 +63,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           walkDirection.add(Vector2Utils.LEFT);
           entity.getEvents().trigger("ch_dir_a");
           // triggerWalkEvent();
-          entity.getEvents().trigger("playerControlTut", "LEFT");
-          entity.getEvents().trigger("removeNoMine");
+          entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "LEFT");
+          entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(1, true);
           return true;
@@ -67,8 +72,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           walkDirection.add(Vector2Utils.DOWN);
           entity.getEvents().trigger("ch_dir_s");
           // triggerWalkEvent();
-          entity.getEvents().trigger("playerControlTut", "DOWN");
-          entity.getEvents().trigger("removeNoMine");
+          entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "DOWN");
+          entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(2, true);
           return true;
@@ -76,8 +81,8 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           walkDirection.add(Vector2Utils.RIGHT);
           entity.getEvents().trigger("ch_dir_d");
           // triggerWalkEvent();
-          entity.getEvents().trigger("playerControlTut", "RIGHT");
-          entity.getEvents().trigger("removeNoMine");
+          entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "RIGHT");
+          entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(3, true);
           return true;
@@ -87,7 +92,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.SPACE:
           entity.getEvents().trigger("attack");
           entity.getEvents().trigger("attack_anim");
-          entity.getEvents().trigger("playerControlTut", "SPACE");
+          entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "SPACE");
           entity.getEvents().trigger("skipEpilogue");
           return true;
         default:
@@ -115,27 +120,27 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         case Keys.W:
           walkDirection.sub(Vector2Utils.UP);
           // triggerWalkEvent();
-          entity.getEvents().trigger("walk_rev");
+          entity.getEvents().trigger(EVENT_WALK_REV);
           // movePlayerInUgs();
           updatePlayerMovement(0, false);
           return true;
         case Keys.A:
           walkDirection.sub(Vector2Utils.LEFT);
           // triggerWalkEvent();
-          entity.getEvents().trigger("walk_rev");
+          entity.getEvents().trigger(EVENT_WALK_REV);
           // movePlayerInUgs();
           updatePlayerMovement(1, false);
           return true;
         case Keys.S:
           walkDirection.sub(Vector2Utils.DOWN);
           // triggerWalkEvent();
-          entity.getEvents().trigger("walk_rev");
+          entity.getEvents().trigger(EVENT_WALK_REV);
           updatePlayerMovement(2, false);
           return true;
         case Keys.D:
           walkDirection.sub(Vector2Utils.RIGHT);
           // triggerWalkEvent();
-          entity.getEvents().trigger("walk_rev");
+          entity.getEvents().trigger(EVENT_WALK_REV);
           // movePlayerInUgs();
           updatePlayerMovement(3, false);
           return true;
@@ -149,7 +154,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("attack_anim_rev");
           return true;
         case Keys.PERIOD:
-          ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+          ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class)
               .decrementMapLvl();
           return true;
         default:
@@ -175,11 +180,11 @@ public class KeyboardPlayerInputComponent extends InputComponent {
       CameraComponent camComp = camera.getComponent(CameraComponent.class);
       Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
       Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-      GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
+      GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class)
           .worldToTilePosition(mousePosV2.x, mousePosV2.y);
-      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain")
+      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN)
           .getComponent(TerrainComponent.class).tileToWorldPosition(loc);
-      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class).getTileSize();
       worldLoc.x -= tileSize/4;
       worldLoc.y -= tileSize/8;
       ServiceLocator.getStructureService().drawVisualFeedback(loc, "structure");
@@ -206,7 +211,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         CameraComponent camComp = camera.getComponent(CameraComponent.class);
         Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
-        GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain")
+        GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN)
                 .getComponent(TerrainComponent.class).worldToTilePosition(mousePosV2.x, mousePosV2.y);
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
@@ -220,7 +225,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         }
       } else {
         // crystal has been clicked
-        if (clickedEntity == crystal) {
+        if (clickedEntity == ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL)) {
           if (crystal.getComponent(CombatStatsComponent.class).getLevel() < 3) {
             PopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class).makeCrystalPopUp(true, screenX, screenY);
             isVisible = true;
@@ -242,11 +247,12 @@ public class KeyboardPlayerInputComponent extends InputComponent {
             };
             time.scheduleAtFixedRate(showUI, 150, 150);
           }
+
         }
 
 
         String entityName = ServiceLocator.getStructureService().getTempEntityName();
-      if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity("crystal") ) {
+      if (entityName != null && clickedEntity != ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL) ) {
         if (entityName.contains("tower1") || entityName.contains("wallTemp") ||
                   entityName.contains("trap") || entityName.contains("tower2")
                   || entityName.contains("tower3")) {
@@ -274,7 +280,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
    * Damages crystal to imitate crystal being attacked (for testing purposes)
    */
   private void triggerCrystalAttacked() {
-    Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
+    Entity crystal = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL);
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
     combatStatsComponent.setHealth(health - 30);
@@ -285,7 +291,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   // // GET CURRENT PLAYER ENTITY AND GRID POINT POSITION
   // Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
   // GridPoint2 playerCurrentPos =
-  // ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x,
+  // ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class).worldToTilePosition(player.getPosition().x,
   // player.getPosition().y);
   // String key = UGS.generateCoordinate(playerCurrentPos.x, playerCurrentPos.y);
   //
