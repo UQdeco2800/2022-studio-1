@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -23,6 +24,8 @@ public class MainGameTutorials extends UIComponent {
     private Table objectiveHeader;
     private Table objective;
     private Table control;
+
+    private Table mine;
     private Table shopArrow;
     private final Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
     private Image objectiveImg;
@@ -43,6 +46,10 @@ public class MainGameTutorials extends UIComponent {
     private Image enemyInteract;
     private static boolean playerControlComp = true;
 
+    private static boolean mining = false;
+
+    private static boolean miningSpace = false;
+
     private static boolean up = false;
     private static boolean down = false;
     private static boolean left = false;
@@ -61,11 +68,12 @@ public class MainGameTutorials extends UIComponent {
         player.getEvents().addListener("updateObjective", this::updateObjective);
         player.getEvents().addListener("enemyKill", this::onEnemyKill);
         player.getEvents().addListener("playerControlTut", this::onPlayerControl);
+        player.getEvents().addListener("noMine", this::displayCantMine);
+        player.getEvents().addListener("removeNoMine", this::removeCantMine);
         ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                 this::onNight);
         addActors();
     }
-
 
     private void addActors() {
 
@@ -86,6 +94,12 @@ public class MainGameTutorials extends UIComponent {
         control.bottom();
         control.padBottom(50);
         control.setFillParent(true);
+
+        mine = new Table();
+        mine.bottom();
+        mine.padBottom(50);
+        mine.setFillParent(true);
+        mining = false;
 
         prompts = new Table();
         prompts.bottom();
@@ -112,17 +126,17 @@ public class MainGameTutorials extends UIComponent {
         //objective chop tree
         int woodCountInt = player.getComponent(InventoryComponent.class).getWood();
         CharSequence woodCount = String.format("Gather 100 wood:   %d / 100  ", woodCountInt);
-        woodDisplay = new Label(String.valueOf(woodCount), skin, "large");
+        woodDisplay = new Label(String.valueOf(woodCount), skin, ForestGameArea.LARGE_FONT);
 
         //objective mine stone
         int stoneCountInt = player.getComponent(InventoryComponent.class).getStone();
         CharSequence stoneCount = String.format("Mine 60 stone:   %d / 60  ", stoneCountInt);
-        stoneDisplay = new Label(String.valueOf(stoneCount), skin, "large");
+        stoneDisplay = new Label(String.valueOf(stoneCount), skin, ForestGameArea.LARGE_FONT);
 
         //objective kill enemies
         enemyCountInt = 0;
         CharSequence enemyCount = String.format("Kill 3 enemies:   %d / 3  ", enemyCountInt);
-        enemyDisplay = new Label(String.valueOf(enemyCount), skin, "large");
+        enemyDisplay = new Label(String.valueOf(enemyCount), skin, ForestGameArea.LARGE_FONT);
 
         //tickBoxes
         Texture emptyTickBoxImage = new Texture(Gdx.files.internal("images/tutorials/uncheckedTickBox.png"));
@@ -160,13 +174,15 @@ public class MainGameTutorials extends UIComponent {
         stage.addActor(objective);
         stage.addActor(prompts);
         stage.addActor(control);
+        stage.addActor(mine);
+
     }
 
     private void displayPrompts() {
         Entity currentPlayer = MainArea.getInstance().getGameArea().getPlayer();
         Entity closestEnemy = ServiceLocator.getEntityService().findClosestEnemy((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
-        Entity closestEntity = ServiceLocator.getEntityService().findClosetEntity((int) currentPlayer.getPosition().x,
+        Entity closestEntity = ServiceLocator.getEntityService().findClosestEntity((int) currentPlayer.getPosition().x,
                 (int) currentPlayer.getPosition().y);
 
         prompts.clear();
@@ -178,6 +194,7 @@ public class MainGameTutorials extends UIComponent {
                     case STONE -> prompts.add(stoneInteract);
                     case GOLD -> { //TODO: add gold dialogue
                     }
+                    default -> {}
                 }
             }
         } else if (closestEnemy != null) {
@@ -197,10 +214,14 @@ public class MainGameTutorials extends UIComponent {
         if (!woodObjComp && currentWood >= 100 ){
             uncheckedWoodTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
             woodObjComp = true;
-        } if (!stoneObjComp && currentStone >= 60) {
+        }
+
+        if (!stoneObjComp && currentStone >= 60) {
             uncheckedStoneTickBox.setDrawable(new SpriteDrawable(new Sprite(tickBoxImage)));
             stoneObjComp = true;
-        } if (stoneObjComp && woodObjComp) {
+        }
+
+        if (stoneObjComp && woodObjComp) {
             objectiveStatus = false;
             objective.clear();
             objectiveHeader.clear();
@@ -208,15 +229,36 @@ public class MainGameTutorials extends UIComponent {
         }
     }
 
+    private void displayCantMine() {
+        if (!mining) {
+            // When player tries to mine without axe
+            Texture playMine = new Texture(Gdx.files.internal("images/tutorials/cantmine.png"));
+            Image playerMine = new Image(playMine);
+            mine.add(playerMine).width(461).height(187);
+            mining = true;
+            miningSpace = true;
+        }
+
+    }
+
+    private void removeCantMine() {
+        if (mining) {
+            mine.clear();
+            mining = false;
+        }
+    }
+
     //remove the player control prompt after the user has pressed the buttons
     private void onPlayerControl(String controlType) {
         switch (controlType) {
-            case "UP": up = true;
-            case "DOWN": down = true;
-            case "LEFT": left = true;
-            case "RIGHT": right = true;
-            case "SPACE": space = true;
+            case "UP" -> up = true;
+            case "DOWN" -> down = true;
+            case "LEFT" -> left = true;
+            case "RIGHT" -> right = true;
+            case "SPACE" -> space = true;
+            default -> {}
         }
+        
         if (up && down && right && left && space) {
             control.clear();
             playerControlComp = false;
@@ -225,7 +267,7 @@ public class MainGameTutorials extends UIComponent {
 
     //displays the "attack tower" objective and adds the arrow screen overlay
     private void shopObjective() {
-        Label towerDisplay = new Label("Build an attack tower", skin, "large");
+        Label towerDisplay = new Label("Build an attack tower", skin, ForestGameArea.LARGE_FONT);
 
         objective.add(towerDisplay);
         stage.addActor(shopArrow);
@@ -240,7 +282,7 @@ public class MainGameTutorials extends UIComponent {
             objective.add(enemyDisplay);
             objective.add(uncheckedEnemyTickBox).width(25).height(25);
             objective.row();
-            Label surviveNight = new Label("Survive the night", skin, "large");
+            Label surviveNight = new Label("Survive the night", skin, ForestGameArea.LARGE_FONT);
             objective.add(surviveNight);
         }
     }
@@ -297,6 +339,7 @@ public class MainGameTutorials extends UIComponent {
         prompts.clear();
         control.clear();
         objective.clear();
+        mine.clear();
         super.dispose();
     }
 }

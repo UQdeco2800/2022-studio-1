@@ -3,20 +3,31 @@ package com.deco2800.game.files;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.*;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
 import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.*;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.events.EventHandler;
+import com.deco2800.game.entities.configs.CrystalConfig;
+import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.extensions.GameExtension;
+import com.deco2800.game.input.InputService;
+import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsService;
+import com.deco2800.game.physics.components.ColliderComponent;
+import com.deco2800.game.physics.components.HitboxComponent;
+import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.*;
+import com.deco2800.game.services.configs.DayNightCycleConfig;
 import com.deco2800.game.utils.RenderUtil;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -33,8 +44,13 @@ import static org.mockito.Mockito.*;
 public class SaveGameTest {
 
     String filePath = "Saves/";
+    Entity testPlayer;
+    Entity testCrystal;
+    private static final CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
+    Tile testTile;
 
     private static final String[] forestTextures = {
+            "images/uiElements/exports/title.png",
             "images/Centaur_Back_left.png",
             "images/Centaur_Back_right.png",
             "images/Centaur_left.png",
@@ -105,12 +121,14 @@ public class SaveGameTest {
             "images/shipWreckBack.png",
             "images/shipWreckFront.png",
             "images/ElectricEel.png",
+            "images/eel_projectile.png",
             "images/starfish.png",
             "images/NpcPlaceholder.png",
             "images/NPC convo.png",
             "images/npc1.png",
             "images/npcs/NPC-V2.2.png",
             "images/npcs/NPC-V2.1.png",
+            "images/npcs/npc_blacksmith_draft",
             "images/guardianLegacy1left.png",
             "images/guardianLegacy1right.png",
             "images/cornerWall1.png",
@@ -119,10 +137,116 @@ public class SaveGameTest {
             "images/cornerWall4.png",
             "images/wallRight.png",
             "images/wallLeft.png",
+            "images/turret.png",
             "images/attack_towers/lv1GuardianLeft.png",
-            "images/TOWER3I.png"
+            "images/attack_towers/animations/towerLevel2.png",
+            "images.attack_towers/lv1GuardianRight.png",
+            "images/uiElements/exports/heart.png",
+            "images/uiElements/exports/coin.png",
+            "images/healthBar.png",
+            "images/empty_healthbar.png",
+            "images/uiElements/exports/crystal.png",
+            "images/icon_stone.png",
+            "images/atlantisBasicBackground.png",
+            "images/icon_wood.png",
+            "images/clock_sprites/clock_day1_1.png",
+            "images/clock_sprites/clock_day1_2.png",
+            "images/clock_sprites/clock_day1_3.png",
+            "images/clock_sprites/clock_day1_4.png",
+            "images/clock_sprites/clock_day1_5.png",
+            "images/clock_sprites/clock_day1_6.png",
+            "images/clock_sprites/clock_day1_7.png",
+            "images/clock_sprites/clock_day1_8.png",
+            "images/clock_sprites/clock_day2_1.png",
+            "images/clock_sprites/clock_day2_2.png",
+            "images/clock_sprites/clock_day2_3.png",
+            "images/clock_sprites/clock_day2_4.png",
+            "images/clock_sprites/clock_day2_5.png",
+            "images/clock_sprites/clock_day2_6.png",
+            "images/clock_sprites/clock_day2_7.png",
+            "images/clock_sprites/clock_day2_8.png",
+            "images/clock_sprites/clock_day3_1.png",
+            "images/clock_sprites/clock_day3_2.png",
+            "images/clock_sprites/clock_day3_3.png",
+            "images/clock_sprites/clock_day3_4.png",
+            "images/clock_sprites/clock_day3_5.png",
+            "images/clock_sprites/clock_day3_6.png",
+            "images/clock_sprites/clock_day3_7.png",
+            "images/clock_sprites/clock_day3_8.png",
+            "images/clock_sprites/clock_day4_1.png",
+            "images/clock_sprites/clock_day4_2.png",
+            "images/clock_sprites/clock_day4_3.png",
+            "images/clock_sprites/clock_day4_4.png",
+            "images/clock_sprites/clock_day4_5.png",
+            "images/clock_sprites/clock_day4_6.png",
+            "images/clock_sprites/clock_boss.png",
+            "images/anim_demo/woodresourcebuilding.png",
+            "images/storyLine/skipButton.png",
+            "images/storyLine/textBox.png",
+            "images/crystalhealth3.png",
+            "images/crystalhealth4.png",
+            "images/crystalIcon.png",
+            "images/upgrade500.2.png",
+            "images/upgrade1500.2.png",
+            "images/attack_towers/tow1_1_l.png",
+            "images/upgradeFail500.png",
+            "images/upgradeFail1500.png",
+            "images/tutorials/crystalLevelPopUp.png",
+            "images/crystal2.0.png",
+            "images/attack_towers/tow1_1_r.png",
+            "images/attack_towers/tow1_2_l.png",
+            "images/attack_towers/tow1_2_r.png",
+            "images/attack_towers/tow1_3_l.png",
+            "images/attack_towers/tow1_3_r.png",
+            "images/attack_towers/tempStructures/temp_tow1_1_l.png",
+            "images/attack_towers/tempStructures/temp_tow1_1_r.png",
+            "images/65x33_tiles/wall_left.png",
+            "images/65x33_tiles/wall_right.png",
+            "images/attack_towers/tower3lv1Left.png",
     };
 
+    private final String[] clockSprites = {
+            "images/clock_sprites/clock_day1_1.png",
+            "images/clock_sprites/clock_day1_2.png",
+            "images/clock_sprites/clock_day1_3.png",
+            "images/clock_sprites/clock_day1_4.png",
+            "images/clock_sprites/clock_day1_5.png",
+            "images/clock_sprites/clock_day1_6.png",
+            "images/clock_sprites/clock_day1_7.png",
+            "images/clock_sprites/clock_day1_8.png",
+            "images/clock_sprites/clock_day2_1.png",
+            "images/clock_sprites/clock_day2_2.png",
+            "images/clock_sprites/clock_day2_3.png",
+            "images/clock_sprites/clock_day2_4.png",
+            "images/clock_sprites/clock_day2_5.png",
+            "images/clock_sprites/clock_day2_6.png",
+            "images/clock_sprites/clock_day2_7.png",
+            "images/clock_sprites/clock_day2_8.png",
+            "images/clock_sprites/clock_day3_1.png",
+            "images/clock_sprites/clock_day3_2.png",
+            "images/clock_sprites/clock_day3_3.png",
+            "images/clock_sprites/clock_day3_4.png",
+            "images/clock_sprites/clock_day3_5.png",
+            "images/clock_sprites/clock_day3_6.png",
+            "images/clock_sprites/clock_day3_7.png",
+            "images/clock_sprites/clock_day3_8.png",
+            "images/clock_sprites/clock_day4_1.png",
+            "images/clock_sprites/clock_day4_2.png",
+            "images/clock_sprites/clock_day4_3.png",
+            "images/clock_sprites/clock_day4_4.png",
+            "images/clock_sprites/clock_day4_5.png",
+            "images/clock_sprites/clock_day4_6.png",
+            "images/clock_sprites/clock_boss.png"
+    };
+
+    private static final String[] textureAtlases = {
+            "images/anim_demo/main.atlas",
+            "images/eel_animations/eel.atlas",
+            "images/starfish_animation/starfish.atlas",
+            "images/crab_animations/crab_animation.atlas"
+    };
+
+    @BeforeEach
     void deleteFiles() {
         try {
             Files.deleteIfExists(Path.of(filePath + "Environmental.json"));
@@ -130,17 +254,23 @@ public class SaveGameTest {
             Files.deleteIfExists(Path.of(filePath + "Structures.json"));
             Files.deleteIfExists(Path.of(filePath + "Player.json"));
             Files.deleteIfExists(Path.of(filePath + "Crystal.json"));
+            Files.deleteIfExists(Path.of(filePath + "Enemies.json"));
         } catch (IOException ignored) {
 
         }
     }
 
+    @BeforeEach
     void setUpServices() {
+        ServiceLocator.registerTimeSource(new GameTime());
+
         EntityService entityService = new EntityService();
         StructureService structureService = new StructureService();
-        DayNightCycleService dayNightCycleService = new DayNightCycleService();
+        DayNightCycleService dayNightCycleService = new DayNightCycleService(ServiceLocator.getTimeSource(),
+                FileLoader.readClass(DayNightCycleConfig.class, "configs/DayNight.json"));
         ResourceService resourceService = new ResourceService();
         RenderService renderService = new RenderService();
+        InputService inputService = new InputService();
 
         AchievementHandler achievementHandler = new AchievementHandler();
         PhysicsService physicsService = new PhysicsService();
@@ -154,8 +284,11 @@ public class SaveGameTest {
         ServiceLocator.registerAchievementHandler(achievementHandler);
         ServiceLocator.registerPhysicsService(physicsService);
         ServiceLocator.registerUGSService(ugs);
+        ServiceLocator.registerInputService(inputService);
 
         resourceService.loadTextures(forestTextures);
+        resourceService.loadTextures(clockSprites);
+        resourceService.loadTextureAtlases(textureAtlases);
 
         //mock terrain to avoid nullpointerexception when scaling entities
         TerrainComponent terrain = mock(TerrainComponent.class);
@@ -166,7 +299,20 @@ public class SaveGameTest {
         when(terrain.tileToWorldPosition(new GridPoint2(3, 3))).thenReturn(new Vector2(3, 3));
         when(terrain.tileToWorldPosition(new GridPoint2(4, 4))).thenReturn(new Vector2(4, 4));
         when(terrain.tileToWorldPosition(new GridPoint2(5, 5))).thenReturn(new Vector2(5, 5));
+        when(terrain.worldToTilePosition(0, 0)).thenReturn(new GridPoint2(0,0));
+        when(terrain.worldToTilePosition(1, 1)).thenReturn(new GridPoint2(1,1));
+        when(terrain.worldToTilePosition(2, 2)).thenReturn(new GridPoint2(2,2));
+        when(terrain.worldToTilePosition(3, 3)).thenReturn(new GridPoint2(3,3));
+        when(terrain.worldToTilePosition(4, 4)).thenReturn(new GridPoint2(4,4));
 
+//        float x = any(float.class);
+//        float y = any(float.class);
+//        when(terrain.worldToTilePosition(x, y)).thenReturn(new GridPoint2((int) x, (int) y));
+
+        Entity terrainEntity = new Entity();
+        terrainEntity.setName("terrain");
+        terrainEntity.addComponent(terrain);
+        ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
 
         Entity camera = new Entity().addComponent(new CameraComponent());
 
@@ -174,31 +320,35 @@ public class SaveGameTest {
 
         ServiceLocator.getEntityService().registerNamed("camera", camera);
 
-
-        Entity terrainEntity = new Entity().addComponent(terrain);
-        ServiceLocator.getEntityService().registerNamed("terrain", terrainEntity);
-
         while (!resourceService.loadForMillis(10)) {
-
         }
+    }
+
+    void setUpEnemyTesting() {
+        testTile = new Tile();
+        testCrystal = new Entity()
+                .addComponent(new TextureRenderComponent("images/crystal.png"))
+                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
+                .addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
+                        crystalStats.defense, crystalStats.level, 1000));
+        ServiceLocator.getUGSService().add(new GridPoint2(1, 1), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(1, 1), testCrystal, "crystal");
+        testPlayer = mock(Entity.class);
+        ServiceLocator.getUGSService().add(new GridPoint2(0, 0), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(0, 0), testPlayer, "player");
     }
 
     @Test
     void testSaveGameEmpty() {
-        deleteFiles();
-        setUpServices();
-
         SaveGame.saveGameState();
         assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
         assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
         assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
     }
 
     @Test
     void testSaveGameSingleStaticEntityGeneric() {
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
         Tile tile = new Tile();
@@ -218,9 +368,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameMultipleStaticEntityGeneric() {
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
 
@@ -248,10 +395,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameSingleStaticEntityStructure() {
-        deleteFiles();
-        setUpServices();
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -271,10 +415,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameMultipleStaticEntityStructure() {
-        deleteFiles();
-        setUpServices();
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -282,7 +423,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test", false);;
+        Entity test1 = StructureFactory.createTower3(1, "test", false, 0);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
@@ -310,10 +451,7 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedByLoadGameStructure() {
-        deleteFiles();
-        setUpServices();
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -337,11 +475,7 @@ public class SaveGameTest {
         deleteFiles();
         setUpServices();
 
-        deleteFiles();
-        setUpServices();
-
-
-        Entity test = StructureFactory.createTower1(1, "test", false);
+        Entity test = StructureFactory.createTower1(1, "test", false, 0);
         test.setPosition(0,0);
         Tile tile = new Tile();
 
@@ -349,7 +483,7 @@ public class SaveGameTest {
         test2.setPosition(1,1);
         Tile tile2 = new Tile();
 
-        Entity test1 = StructureFactory.createTower3(1, "test2", false);;
+        Entity test1 = StructureFactory.createTower3(1, "test2", false, 0);
         test1.setPosition(2,2);
         Tile tile1 = new Tile();
 
@@ -381,9 +515,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedBySingleEnvironmentalObject() {
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
         Tile tile = new Tile();
@@ -402,10 +533,6 @@ public class SaveGameTest {
 
     @Test
     void testSaveGameFollowedByMultipleEnvironmentalObject() {
-
-        deleteFiles();
-        setUpServices();
-
         Entity test = ObstacleFactory.createRock();
         test.setPosition(new Vector2(0, 0));
         test.setName("rock1");
@@ -431,5 +558,185 @@ public class SaveGameTest {
         assertEquals("rock1", ServiceLocator.getUGSService().getEntity(new GridPoint2(0,0)).getName());
         assertEquals("tree1", ServiceLocator.getUGSService().getEntity(new GridPoint2(1,1)).getName());
 
+    }
+
+
+    @Test
+    void testSaveGameSingleEnemy() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs@" + testEnemy.getId());
+        testEnemy.setPosition(2,2);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Enemies.json");
+        assertEquals(1, load.size());
+    }
+
+
+    @Test
+    void testSaveGameMultipleEnemies() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs@" + testEnemy.getId());
+        testEnemy.setPosition(2,2);
+        Entity testEnemy1 = NPCFactory.createElectricEelEnemy(testPlayer, testCrystal);
+        testEnemy1.setName("Mr. Electricity@" + testEnemy1.getId());
+        testEnemy1.setPosition(3,3);
+        Entity testEnemy2 = NPCFactory.createStarFishEnemy(testPlayer, testCrystal);
+        testEnemy2.setName("Mr. Starfish@" + testEnemy2.getId());
+        testEnemy2.setPosition(4,4);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        ServiceLocator.getEntityService().registerNamed("testEel",  testEnemy1);
+        ServiceLocator.getUGSService().add(new GridPoint2(3, 3), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(3, 3), testEnemy, "testEnemy1");
+
+        //Starfish already registered in NPCFactory!
+        //ServiceLocator.getEntityService().registerNamed("testStarfish",  testEnemy2);
+        ServiceLocator.getUGSService().add(new GridPoint2(4, 4), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(4, 4), testEnemy, "testEnemy1");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        ArrayList load = FileLoader.readClass(ArrayList.class,filePath + "Enemies.json");
+        assertEquals(3, load.size());
+    }
+
+
+    @Test
+    void testSaveGameFollowedBySingleEnemyLoad() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs");
+        testEnemy.setPosition(2,2);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        SaveGame.loadGameState();
+        int numberOfEnemies = 0;
+        //Cannot use UGS because it's only used for structures and environmental objects, also maybe because enemies move(?)
+        for (Entity enemy : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+            if (enemy.getClass() == Enemy.class){
+                numberOfEnemies++;
+                assertEquals("Mr. Crabs", enemy.getName());
+            }
+        }
+        assertEquals(1,numberOfEnemies);
+    }
+
+
+    @Test
+    void testSaveGameFollowedByMultipleEnemiesLoad() {
+        setUpEnemyTesting();
+
+        Entity testEnemy = NPCFactory.createPirateCrabEnemy(testPlayer);
+        testEnemy.setName("Mr. Crabs1");
+        testEnemy.setPosition(2,2);
+        Entity testEnemy1 = NPCFactory.createElectricEelEnemy(testPlayer, testCrystal);
+        testEnemy1.setName("Mr. Electricity2");
+        testEnemy1.setPosition(3,3);
+        Entity testEnemy2 = NPCFactory.createStarFishEnemy(testPlayer, testCrystal);
+        testEnemy2.setName("Mr. Starfish3");
+        testEnemy2.setPosition(4,4);
+
+        ServiceLocator.getEntityService().registerNamed("testCrab",  testEnemy);
+        ServiceLocator.getUGSService().add(new GridPoint2(2, 2), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(2, 2), testEnemy, "testEnemy");
+
+        ServiceLocator.getEntityService().registerNamed("testEel",  testEnemy1);
+        ServiceLocator.getUGSService().add(new GridPoint2(3, 3), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(3, 3), testEnemy, "testEnemy1");
+
+        //Starfish already registered in NPCFactory!
+        //ServiceLocator.getEntityService().registerNamed("testStarfish",  testEnemy2);
+        ServiceLocator.getUGSService().add(new GridPoint2(4, 4), testTile);
+        ServiceLocator.getUGSService().setEntity(new GridPoint2(4, 4), testEnemy, "testEnemy2");
+
+        SaveGame.saveGameState();
+        assertTrue(Files.exists(Path.of(filePath + "Environmental.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Structures.json")));
+        assertTrue(Files.exists(Path.of(filePath + "GameData.json")));
+        assertTrue(Files.exists(Path.of(filePath + "Enemies.json")));
+
+        SaveGame.loadGameState();
+        int numberOfEnemies = 0;
+        int numberOfCrabs = 0;
+        int numberOfEels = 0;
+        int numberOfStarfishes = 0;
+        //Cannot use UGS because it's only used for structures and environmental objects, also maybe because enemies move(?)
+        for (Entity enemy : ServiceLocator.getEntityService().getAllNamedEntities().values()) {
+            if (enemy.getClass() == Enemy.class){
+                numberOfEnemies++;
+                if(enemy.getName() == "Mr. Crabs1"){
+                    numberOfCrabs++;
+                } else if (enemy.getName() == "Mr. Electricity2") {
+                    numberOfEels++;
+                } else if (enemy.getName() == "Mr. Starfish3") {
+                    numberOfStarfishes++;
+                }
+            }
+        }
+        assertEquals(1,numberOfCrabs);
+        assertEquals(1,numberOfEels);
+        assertEquals(1,numberOfStarfishes);
+        assertEquals(3,numberOfEnemies);
+    }
+
+    @Test
+    void testSaveDayNightCycle() {
+        DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
+        cycleService.currentDayNumber = 3;
+        cycleService.currentCycleStatus = DayNightCycleStatus.DUSK;
+        SaveGame.saveGameState();
+        cycleService.currentDayNumber = 1;
+        cycleService.currentCycleStatus = DayNightCycleStatus.NIGHT;
+        SaveGame.loadGameState();
+        assertEquals(3, cycleService.currentDayNumber);
+        assertEquals(DayNightCycleStatus.DUSK, cycleService.currentCycleStatus);
+    }
+
+    @Test
+    void testClockLoad() {
+        Stage stage = mock(Stage.class);
+        ServiceLocator.getRenderService().setStage(stage);
+        DayNightCycleService cycleService = ServiceLocator.getDayNightCycleService();
+        cycleService.currentDayNumber = 1;
+        //says day 1, but is passed to the rest of the game and shown on clock as day 2
+        cycleService.currentCycleStatus = DayNightCycleStatus.DUSK;
+        DayNightClockComponent clockComponent = new DayNightClockComponent();
+        new Entity().addComponent(clockComponent);
+        clockComponent.create();
+        clockComponent.loadFromSave();
+        int currentSprite = clockComponent.getCurrentSprite();
+        assertEquals((1 * 8 + 5), currentSprite);
+        assertEquals("images/clock_sprites/clock_day2_6.png", clockSprites[currentSprite]);
     }
 }

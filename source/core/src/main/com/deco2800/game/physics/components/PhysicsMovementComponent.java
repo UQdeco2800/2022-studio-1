@@ -1,12 +1,22 @@
 package com.deco2800.game.physics.components;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.ai.movement.MovementController;
+import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.Component;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.Tile;
+import com.deco2800.game.entities.UGS;
+import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 /** Movement controller for a physics-based entity. */
 public class PhysicsMovementComponent extends Component implements MovementController {
@@ -18,6 +28,7 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   protected PhysicsComponent physicsComponent;
   private Vector2 targetPosition;
   private boolean movementEnabled = true;
+  private long lastUpdate = 0;
 
   @Override
   public void create() {
@@ -78,16 +89,20 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   }
 
   protected void setToVelocity(Body body, Vector2 desiredVelocity) {
+
+    if (desiredVelocity.x == 0 && desiredVelocity.y == 0) {
+      return;
+    }
+
     // impulse force = (desired velocity - current velocity) * mass
     Vector2 velocity = body.getLinearVelocity();
     Vector2 impulse = desiredVelocity.cpy().sub(velocity).scl(body.getMass());
     body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
-    body.setBullet(enabled);
   }
 
   protected Vector2 getDirection() {
     // Move towards targetPosition based on our current position
-    return targetPosition.cpy().sub(entity.getPosition()).nor();
+    return targetPosition.cpy().sub(entity.getCenterPosition()).nor();
   }
 
   /**
@@ -122,4 +137,5 @@ public class PhysicsMovementComponent extends Component implements MovementContr
   public void resetSpeed() {
     this.maxSpeed = defaultMaxSpeed;
   }
+
 }

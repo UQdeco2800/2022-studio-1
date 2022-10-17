@@ -1,0 +1,69 @@
+
+towerLevel2.png
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+default
+  rotate: false
+  xy: 2, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 6
+towerLevel2
+  rotate: false
+  xy: 2, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 6
+towerLevel2
+  rotate: false
+  xy: 69, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 3
+towerLevel2
+  rotate: false
+  xy: 136, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 8
+towerLevel2
+  rotate: false
+  xy: 203, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 2
+towerLevel2
+  rotate: false
+  xy: 270, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 7
+towerLevel2
+  rotate: false
+  xy: 337, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 4
+towerLevel2
+  rotate: false
+  xy: 404, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 5
+towerLevel2
+  rotate: false
+  xy: 471, 2
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 1
