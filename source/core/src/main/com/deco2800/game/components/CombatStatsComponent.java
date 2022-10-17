@@ -127,8 +127,7 @@ public class CombatStatsComponent extends Component {
             if (entity.getName().contains("Zero")) {
               ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BOSS_KILL, 10L);
             }
-
-            entity.dispose();
+            ServiceLocator.getEntityService().addToDestroyEntities(entity);
           }
         }
 

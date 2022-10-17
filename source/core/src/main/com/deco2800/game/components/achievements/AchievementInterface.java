@@ -68,24 +68,19 @@ public class AchievementInterface extends UIComponent {
         group = new Group();
         Table backgroundTable = new Table();
 
-        Table content = new Table();
-        content.setFillParent(true);
-        content.center();
-        content.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
-        content.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
-
         // Setup background for achievements
         backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
         backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
                 Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
 
         this.navigationTable = new Table();
-        navigationTable.defaults().pad(10f);
+        navigationTable.setSize(Gdx.graphics.getWidth() * 0.7f * 0.25f, Gdx.graphics.getHeight() * 0.7f * 0.75f);
+        navigationTable.setPosition(Gdx.graphics.getWidth() * 0.7f * 0.24f, Gdx.graphics.getHeight() * 0.7f * 0.28f);
+
         this.displayTable = new Table();
-        displayTable.defaults().pad(10f);
-        Table contentTable = new Table();
-        contentTable.defaults().pad(10f);
+        displayTable.defaults().pad(5f);
+        displayTable.setSize(Gdx.graphics.getWidth() * 0.7f * 0.69f, Gdx.graphics.getHeight() * 0.7f * 0.75f);
+        displayTable.setPosition(Gdx.graphics.getWidth() * 0.7f * 0.5f, Gdx.graphics.getHeight() * 0.7f * 0.28f);
 
         // Title
         Label title = new Label("Achievements", skin, "title");
@@ -169,7 +164,6 @@ public class AchievementInterface extends UIComponent {
         this.addButtonEvent(backButton, "Exit");
 
         group.addActor(backgroundTable);
-        group.addActor(backButton);
         group.addActor(title);
 
         // Display main content
@@ -178,15 +172,13 @@ public class AchievementInterface extends UIComponent {
 
         navigationTable.pad(50f);
 
-        contentTable.add(navigationTable).colspan(2).expand().pad(0f);
-        contentTable.add(displayTable).colspan(6).expand().pad(0f);
+        group.addActor(navigationTable);
+        group.addActor(displayTable);
 
-        content.add(contentTable).colspan(8).expand().pad(30f);
-        group.addActor(content);
-
+        group.addActor(backButton);
         group.setVisible(false);
         stage.addActor(group);
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
     }
 
     private void openAchievements() {

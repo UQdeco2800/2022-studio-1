@@ -183,7 +183,13 @@ public class PlayerActions extends Component {
    */
   void attack() {
     Entity current = MainArea.getInstance().getGameArea().getPlayer();
-    Vector2 player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
+    Vector2 player;
+    if (ServiceLocator.getUGSService().getEntityByName("player") != null) {
+      player = ServiceLocator.getUGSService().getEntityByName("player").getPosition();
+    } else {
+      return;
+    }
+
     GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class).worldToTilePosition(player.x, player.y + 1);
 

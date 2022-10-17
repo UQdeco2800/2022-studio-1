@@ -25,6 +25,8 @@ public class EntityService {
 
   private Hashtable<Vector2, Entity> entityMap = new Hashtable<>();
   private Hashtable<String, List<Boolean>> tileMapping = new Hashtable<>();
+  private boolean currentWorldStep;
+  private ArrayList<Entity> toDestroyEntities = new ArrayList<>();
 
   //You may ask why a second map instead of entities? I honestly have no clue
   //but this was the only way I could get a list of entities without crashing while looping in a component
@@ -51,6 +53,38 @@ public class EntityService {
     this.namedEntities.put(name, entity);
     this.register(entity);
   }
+
+  /**
+   * act as mutex lock to stop concurrent crashes with physics engine
+   * @param step if physics engine is updating
+   */
+  public void setCurrentWorldStep(Boolean step) {
+    this.currentWorldStep = step;
+  }
+
+  /**
+   * @return if physics engine is updating
+   */
+  public boolean getCurrentWorldStep() {
+    return this.currentWorldStep;
+  }
+
+  /**
+   *
+   * @return list of all entities to destroy
+   */
+  public ArrayList<Entity> getToDestroyEntities() {
+    return this.toDestroyEntities;
+  }
+
+  /**
+   *
+   * @param e entity to destroy
+   */
+  public void addToDestroyEntities(Entity e) {
+    this.toDestroyEntities.add(e);
+  }
+
 
   /**
    * Returns a registered named entity
