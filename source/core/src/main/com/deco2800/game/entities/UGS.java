@@ -63,6 +63,7 @@ public class UGS {
      */
     public Entity getEntity(GridPoint2 coordinate) {
         String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
+        logger.info("coords are: " + stringCoord);
         return tiles.get(stringCoord).getEntity();
     }
 
@@ -77,7 +78,6 @@ public class UGS {
                 String strCoord = generateCoordinate(x, y);
                 Entity entityToRemove = tiles.get(strCoord).getEntity();
                 if (entityToRemove != null) {
-
                     if (tiles.get(strCoord).getEntity().getName().equals(name)) {
                         ServiceLocator.getEntityService().getNamedEntity(name).dispose();
                         tiles.get(strCoord).setEntity(null);
@@ -88,26 +88,6 @@ public class UGS {
     }
 
     public String getStringByEntity(Entity entity) {
-//        //getting position, conversions
-//        Vector2 pos = entity.getPosition();
-//        GridPoint2 coord = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-//                        .worldToTilePosition(pos.x, pos.y);
-//        String tilePos = generateCoordinate(coord.x, coord.y);
-//        Entity tileEntity = tiles.get(tilePos).getEntity();
-//        //check the tile at entity's center position to see if it contains the entity
-//        if (tileEntity != null && tileEntity.equals(entity)) {
-//            return tilePos;
-//        } else {
-//            //check the tiles around that tile, just in case
-//            for (GridPoint2 coord2 : getSurroundingTiles(coord, "environmentalObject").keySet()) {
-//                tilePos = generateCoordinate(coord2.x, coord2.y);
-//                tileEntity = tiles.get(tilePos).getEntity();
-//                if (tileEntity != null && tileEntity.equals((entity))) {
-//                    return tilePos;
-//                }
-//            }
-//        }
-//        return null;
         for (String tilePos : tiles.keySet()) {
             if (tiles.get(tilePos).getEntity() != null && tiles.get(tilePos).getEntity().equals(entity)) {
                 return tilePos;
@@ -139,7 +119,7 @@ public class UGS {
     /**
      * Takes a String and Entity, and sets the corresponding tile's
      * Entity parameter
-     * 
+     *
      * @param coordinate
      * @param entity     Entity
      */
@@ -152,7 +132,15 @@ public class UGS {
                 }
                 Vector2 entityWorldPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
                         .getComponent(TerrainComponent.class).tileToWorldPosition(coordinate);
-                entity.setPosition(entityWorldPos);
+                if (entityName.contains("wall") || entityName.contains("tower1") || entityName.contains("tower2") || entityName.contains("tower3")
+                        || entityName.contains("turret") || entityName.contains("trap")) {
+                    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+                    entityWorldPos.x -= tileSize/4;
+                    entityWorldPos.y -= tileSize/8;
+                    entity.setPosition(entityWorldPos);
+                } else {
+                    entity.setPosition(entityWorldPos);
+                }
 
                 String stringCoord = generateCoordinate(coordinate.x, coordinate.y);
                 tiles.get(stringCoord).setEntity(entity);
@@ -176,7 +164,6 @@ public class UGS {
         int starting_yPos = centerCoord.y - offset;
         for (int x = starting_xPos; x < starting_xPos + (offset * 2) + 1; x++) {
             for (int y = starting_yPos; y < starting_yPos + (offset * 2) + 1; y++) {
-                // if (!(x == centerCoord.x && y == centerCoord.y)) {
                 if (checkEntityPlacement(new GridPoint2(x, y), entityType)) {
                     surroundingTiles.put(new GridPoint2(x, y), "empty");
                 } else {
@@ -203,7 +190,7 @@ public class UGS {
         if (getEntity(coordinate) == null) {
             if (entityType.contains("structure")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
-//                    logger.info("Building has been built at {}", coordinate);
+                    // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
                     logger.info("entity type Building cannot be built on water");
@@ -211,18 +198,18 @@ public class UGS {
                 }
             } else if (entityType.contains("player")) {
                 if (tiles.get(stringCoord).getTileType().equals("sand")) {
-//                    logger.info("Building has been built at {}", coordinate);
+                    // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
-//                    logger.info("Building cannot be built on water");
+                    // logger.info("Building cannot be built on water");
                     return false;
                 }
             } else {
-//                logger.info("Tile {} is clear", coordinate);
+                // logger.info("Tile {} is clear", coordinate);
                 return true;
             }
         }
-//        logger.info("Tile {} is not clear", coordinate);
+        // logger.info("Tile {} is not clear", coordinate);
         return false;
     }
 
@@ -308,8 +295,8 @@ public class UGS {
         if (ServiceLocator.getRangeService().registeredInUGS().contains(toRemove)) {
             Vector2 pos = toRemove.getPosition();
             GridPoint2 gridPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
-                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y + 1);
-            String tileKey = generateCoordinate(gridPos.x, gridPos.y);
+                    .getComponent(TerrainComponent.class).worldToTilePosition(pos.x, pos.y);
+            String tileKey = generateCoordinate(gridPos.x, gridPos.y + 1);
             String type = ServiceLocator.getUGSService().tiles.get(tileKey).getTileType();
             Tile tile = new Tile();
             tile.setTileType(type);

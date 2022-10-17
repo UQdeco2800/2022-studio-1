@@ -71,12 +71,6 @@ public class GuidebookScreen extends ScreenAdapter {
         this.game = game;
 
         logger.debug("Initialising guidebook screen services");
-//        ServiceLocator.registerTimeSource(new GameTime());
-//
-//        ServiceLocator.registerInputService(new InputService());
-//        ServiceLocator.registerResourceService(new ResourceService());
-//        ServiceLocator.registerEntityService(new EntityService());
-//        ServiceLocator.registerRenderService(new RenderService());
 
         renderer = RenderFactory.createRenderer();
         MainArea.getInstance().setMainArea(new GuidebookArea());
@@ -140,13 +134,6 @@ public class GuidebookScreen extends ScreenAdapter {
     public void dispose() {
         logger.debug("Disposing guidebook screen");
         renderer.dispose();
-//        unloadAssets();
-//
-//        ServiceLocator.getEntityService().dispose();
-//        ServiceLocator.getRenderService().dispose();
-//        ServiceLocator.getResourceService().dispose();
-//
-//        ServiceLocator.clear();
     }
 
     private void loadAssets() {

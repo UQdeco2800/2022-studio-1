@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.concurrent.CompletableFuture;
 
+import static com.badlogic.gdx.Gdx.app;
+
 /**
  * Service for managing the Day and Night cycle of the game.
  */
@@ -284,7 +286,7 @@ public class DayNightCycleService {
                     
                     if ((elapsed >= timePerHalveOfPartOfDay * partOfDayHalveIteration) &&
                             partOfDayHalveIteration != lastPartOfDayHalveIteration) {
-                        Gdx.app.postRunnable(() -> {
+                        app.postRunnable(() -> {
                             events.trigger(EVENT_INTERMITTENT_PART_OF_DAY_CLOCK, this.currentCycleStatus);
                         });
 
@@ -308,7 +310,7 @@ public class DayNightCycleService {
                         // End the game
                         this.stop();
 
-                        Gdx.app.postRunnable(() -> {
+                        app.postRunnable(() -> {
                             events.trigger(EVENT_DAY_PASSED, this.currentDayNumber + 1);
                         });
                         return;
@@ -317,7 +319,7 @@ public class DayNightCycleService {
                     this.setPartOfDayTo(DayNightCycleStatus.DAWN);
                     // Notify entities that it is now DAY
                     this.currentDayNumber++;
-                    Gdx.app.postRunnable(() -> {
+                    app.postRunnable(() -> {
                         events.trigger(EVENT_DAY_PASSED, this.currentDayNumber);
                     });
 
@@ -344,7 +346,7 @@ public class DayNightCycleService {
         this.lastCycleStatus = currentCycleStatus;
         this.currentCycleStatus = nextPartOfDay;
         // helps with testing
-        Gdx.app.postRunnable(() -> {
+        app.postRunnable(() -> {
             this.events.trigger(EVENT_PART_OF_DAY_PASSED, nextPartOfDay);
         });
         if (nextPartOfDay == DayNightCycleStatus.NIGHT) {

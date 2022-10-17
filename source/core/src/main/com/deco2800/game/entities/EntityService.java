@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.areas.terrain.TerrainComponent;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,6 +145,9 @@ public class EntityService {
     if (null != toRemove) {
       entityMap.remove(toRemove);
     }
+    if (entity.getName() != null && entity.getName().contains(",") && entity.getName().contains("tower")) {
+      this.namedEntities.remove(entity.getName(), entity);
+    }
   }
 
   public void removeNamedEntity (String name, Entity entity) {
@@ -159,6 +163,9 @@ public class EntityService {
     for (Entity entity : entities) {
       entity.earlyUpdate();
       entity.update();
+      if (entity.getName() != null && entity.getName().contains("tower") && entity.getComponent(CombatStatsComponent.class).getHealth() < 1) {
+        entity.dispose();
+      }
     }
   }
 
@@ -182,7 +189,7 @@ public class EntityService {
    * @return Collection of entities stored on the map. This must be done for looping within components
    */
   public Collection<Entity> getEnemyEntities() {
-    return entityMap.values();
+    return enemyMap.values();
   }
 
   /**

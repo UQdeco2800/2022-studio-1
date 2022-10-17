@@ -159,55 +159,41 @@ public class StructureService extends EntityService {
     String entityName = gridPos.toString();
     entityName = structureName + entityName;
     Vector2 worldPosition = ServiceLocator.getEntityService().getNamedEntity("terrain")
-        .getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
+            .getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
 
     Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
-
       switch (structureName) {
         case "wall":
           structure = StructureFactory.createWall(entityName, false, orientation);
           break;
-
         case "tower1":
           structure = StructureFactory.createTower1(1, entityName, false, orientation);
           break;
-
         case "tower2":
-          structure = StructureFactory.createTower2(1, entityName, false);
+          structure = StructureFactory.createTower2(1, entityName, false, orientation);
           break;
-
         case "tower3":
-          structure = StructureFactory.createTower3(1, entityName, false);
+          structure = StructureFactory.createTower3(1, entityName, false, orientation);
           break;
-
         case "trap":
           structure = StructureFactory.createTrap(entityName, false);
           break;
-
         case "turret":
           structure = StructureFactory.createTurret(entityName);
           structureEntities.add(structure);
           break;
-
         case "stoneQuarry":
           structure = ResourceBuildingFactory.createStoneQuarry(entityName);
           break;
-
         case "woodCutter":
           structure = ResourceBuildingFactory.createWoodCutter(entityName);
           break;
-
         default:
           return false;
       }
-
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
       ServiceLocator.getUGSService().addStructure(structure);
-      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
-      worldPosition.x -= tileSize/4;
-      worldPosition.y -= tileSize/8;
-      structure.setPosition(worldPosition);
       return true;
     }
     return false;
@@ -254,9 +240,9 @@ public class StructureService extends EntityService {
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .worldToTilePosition(mousePosV2.x, mousePosV2.y);
+            .worldToTilePosition(mousePosV2.x, mousePosV2.y);
     Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .tileToWorldPosition(loc);
+            .tileToWorldPosition(loc);
     String entityName = "Temp";
     entityName = name + entityName;
 
@@ -266,11 +252,11 @@ public class StructureService extends EntityService {
     } else if (Objects.equals(name, "tower1")) {
       tempEntity = StructureFactory.createTower1(1, entityName, true, orientation);
     } else if (Objects.equals(name, "tower2")) {
-      tempEntity = StructureFactory.createTower2(1, entityName, true);
+      tempEntity = StructureFactory.createTower2(1, entityName, true, orientation);
     } else if (Objects.equals(name, "woodCutter")) {
       tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {
-      tempEntity = StructureFactory.createTower3(1, entityName, true);
+      tempEntity = StructureFactory.createTower3(1, entityName, true, orientation);
     } else if (Objects.equals(name, "trap")) {
       tempEntity = StructureFactory.createTrap(entityName, true);
     } else if (Objects.equals(name, "stoneQuarry")) {
@@ -334,9 +320,9 @@ public class StructureService extends EntityService {
    * Rotate the current temp structure
    */
   public static void rotateTempStructure() {
-    
+
     toggleStructureOrientation();
-    
+
     ServiceLocator.getEntityService().getNamedEntity(getTempEntityName()).dispose();
     clearVisualTiles();
     String entityName = getTempEntityName();
@@ -397,43 +383,43 @@ public class StructureService extends EntityService {
     int wood = 0;
 
 
-   if (health < 10) {
-     stone = 10;
-     wood = 4;
-     player.getComponent(InventoryComponent.class).addStone(10);
-     player.getComponent(InventoryComponent.class).addWood(4);
+    if (health < 10) {
+      stone = 10;
+      wood = 4;
+      player.getComponent(InventoryComponent.class).addStone(10);
+      player.getComponent(InventoryComponent.class).addWood(4);
 
-   } else if (health < 20) {
-     stone = 20;
-     wood = 8;
+    } else if (health < 20) {
+      stone = 20;
+      wood = 8;
 
-   }else if( health < 30) {
-     stone = 30;
-     wood = 5;
-   }else if(health < 40) {
-     stone = 40;
-     wood = 8;
+    }else if( health < 30) {
+      stone = 30;
+      wood = 5;
+    }else if(health < 40) {
+      stone = 40;
+      wood = 8;
 
-   }else if (health < 50) {
-     stone = 50;
-     wood = 10;
+    }else if (health < 50) {
+      stone = 50;
+      wood = 10;
 
-   }else if (health < 60) {
-     stone = 60;
-     wood = 15;
+    }else if (health < 60) {
+      stone = 60;
+      wood = 15;
 
-   } else if (health < 70) {
-     stone = 70;
-     wood = 20;
-   }else if (health < 80) {
-     stone = 80;
-     wood = 25;
+    } else if (health < 70) {
+      stone = 70;
+      wood = 20;
+    }else if (health < 80) {
+      stone = 80;
+      wood = 25;
 
 
-   }else if (health < 90) {
-     stone = 90;
-     wood = 30;
-   }
+    }else if (health < 90) {
+      stone = 90;
+      wood = 30;
+    }
     String stoneAndWood = stone + "," + wood;
     return stoneAndWood;
   }

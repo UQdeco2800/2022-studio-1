@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -22,6 +23,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -70,8 +72,8 @@ public class ForestGameArea extends GameArea {
   // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-  //private Entity player;
-  //private Entity crystal;
+  // private Entity player;
+  // private Entity crystal;
   private int dayNum = 1;
   private Boolean loadGame;
 
@@ -103,12 +105,12 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-//    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
+    // logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
 
-    spawnElectricEelEnemy();
+    // spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -305,7 +307,10 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
-    Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+    Entity crystal = CrystalFactory.createCrystal("images/crystal1.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
     }
@@ -452,7 +457,6 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
-    // System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
 
       case DAWN:
@@ -470,9 +474,7 @@ public class ForestGameArea extends GameArea {
 
       case DUSK:
         if (NPCNum != StructuresNum) {
-          // System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
-            // System.out.println("spawned");
             spawnNPCharacter();
           }
         }
@@ -484,7 +486,7 @@ public class ForestGameArea extends GameArea {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
-        // Set NPC number to 0 and updaste this in NPCService
+        // Set NPC number to 0 and update this in NPCService
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
@@ -538,6 +540,7 @@ public class ForestGameArea extends GameArea {
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
+    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
   }
 
   /**
@@ -551,6 +554,7 @@ public class ForestGameArea extends GameArea {
 
     spawnEntityAt(entity, randomPos, true, true);
     ServiceLocator.getUGSService().setEntity(randomPos, entity, "Enemy@" + entity.getId());
+    entity.getComponent(AITaskComponent.class).updateMovementTask();
   }
 
   private void levelUp(Entity entity) {
@@ -585,6 +589,9 @@ public class ForestGameArea extends GameArea {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
     levelUp(ElectricEelEnemy);
+    ElectricEelEnemy.setCollectable(true);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -608,25 +615,27 @@ public class ForestGameArea extends GameArea {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
     levelUp(ninjaStarfishEnemy);
+    ninjaStarfishEnemy.setCollectable(true);
+    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
+    ninjaStarfishEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
   }
 
+  /**
+   * Spawns an interactable NPC on the island
+   */
   private void spawnNPCharacter() {
+
     Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    // int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
     int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());
 
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
-    // NPC.setPosition(terrainFactory.getMapSize().x / 3,
-    // terrainFactory.getMapSize().y / 3);
-    // ServiceLocator.getEntityService().addEntity(NPC);
-
   }
 
   private void playMusic() {
