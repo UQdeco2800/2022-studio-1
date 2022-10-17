@@ -224,7 +224,7 @@ public class AchievementInterface extends UIComponent {
      * @param descriptionLabel the description label for the achievement
      * @return an image or
      */
-    public Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete,
+    public static Image getMilestoneImageButtonByNumber(int milestoneNumber, boolean isComplete,
             Achievement achievement,
             Label descriptionLabel) {
         switch (milestoneNumber) {
@@ -256,8 +256,8 @@ public class AchievementInterface extends UIComponent {
      * @param milestoneNumber  the milestone number
      * @return the image button
      */
-    private Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel,
-            Achievement achievement, int milestoneNumber) {
+    private static Image createMilestoneImageButtonWithHoverEvent(boolean isComplete, Label descriptionLabel,
+                                                                  Achievement achievement, int milestoneNumber) {
         AchievementHandler achievementService = ServiceLocator.getAchievementHandler();
 
         Texture backgroundTexture = new Texture(Gdx.files.internal(
@@ -288,7 +288,7 @@ public class AchievementInterface extends UIComponent {
      * @param descriptionLabel the label to be changed on hover
      * @return a row of buttons table
      */
-    public Table buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
+    public static Table buildAchievementMilestoneButtons(Achievement achievement, Label descriptionLabel) {
         var achievementService = ServiceLocator.getAchievementHandler();
         Table milestoneButtons = new Table();
         milestoneButtons.add();
@@ -433,13 +433,12 @@ public class AchievementInterface extends UIComponent {
     }
 
     public void changeDisplay(AchievementType type) {
-        displayTable.clear();
         achievementBadges.clear();
 
         Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(1f);
-        displayTable.add(title).colspan(6).expandX();
-        displayTable.row();
+        title.setPosition(displayTable.getX() + displayTable.getWidth() / 2f - title.getWidth() / 2f, Gdx.graphics.getHeight() * 0.64f);
+        achievementBadges.addActor(title);
 
         int achievementsAdded = 0;
         Table achievementBadge;
