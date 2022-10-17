@@ -90,10 +90,10 @@ public class AchievementInterface extends UIComponent {
                 Gdx.graphics.getHeight() * 0.85f - 110f);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
+        Texture background = new Texture(Gdx.files.internal("images/achievements/Background.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png"));
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeContent_Box.png"));
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png"));
