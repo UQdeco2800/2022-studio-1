@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Base achievement display class to be extended by achievement type screens
@@ -90,10 +89,10 @@ public class AchievementInterface extends UIComponent {
                 Gdx.graphics.getHeight() * 0.85f - 110f);
 
         // Background Colour
-        Texture background = new Texture(Gdx.files.internal("images/achievements/Background_2540x1033.png"));
+        Texture background = new Texture(Gdx.files.internal("images/achievements/Background.png"));
         Drawable backgroundBox = new TextureRegionDrawable(background);
 
-        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeBackground_1664x824.png"));
+        Texture badgeBackground = new Texture(Gdx.files.internal("images/achievements/BadgeContent_Box.png"));
         Drawable badgeBackgroundBox = new TextureRegionDrawable(badgeBackground);
 
         Texture tabBackground = new Texture(Gdx.files.internal("images/achievements/Tab_Background_Box.png"));
@@ -107,51 +106,51 @@ public class AchievementInterface extends UIComponent {
         changeDisplay(AchievementType.SUMMARY);
 
         // Home Button
-        ImageButton summaryButton = createButton(AchievementType.SUMMARY);
+        AchievementButton summaryButton = createButton(AchievementType.SUMMARY);
         this.addButtonEvent(summaryButton, AchievementType.SUMMARY.getTitle());
         navigationTable.add(summaryButton).colspan(2).expand();
         navigationTable.row();
 
         // Building Button
-        ImageButton buildingButton = createButton(AchievementType.BUILDINGS);
+        AchievementButton buildingButton = createButton(AchievementType.BUILDINGS);
         this.addButtonEvent(buildingButton, AchievementType.BUILDINGS.getTitle());
 
         navigationTable.add(buildingButton).expand();
 
         // Game Button
-        ImageButton gameButton = createButton(AchievementType.GAME);
+        AchievementButton gameButton = createButton(AchievementType.GAME);
         this.addButtonEvent(gameButton, AchievementType.GAME.getTitle());
 
         navigationTable.add(gameButton).expand();
         navigationTable.row();
 
         // Kill Button
-        ImageButton killButton = createButton(AchievementType.KILLS);
+        AchievementButton killButton = createButton(AchievementType.KILLS);
         this.addButtonEvent(killButton, AchievementType.KILLS.getTitle());
 
         navigationTable.add(killButton).expand();
 
         // Resource Button
-        ImageButton resourceButton = createButton(AchievementType.RESOURCES);
+        AchievementButton resourceButton = createButton(AchievementType.RESOURCES);
         this.addButtonEvent(resourceButton, AchievementType.RESOURCES.getTitle());
 
         navigationTable.add(resourceButton).expand();
         navigationTable.row();
 
         // Upgrade Button
-        ImageButton upgradeButton = createButton(AchievementType.UPGRADES);
+        AchievementButton upgradeButton = createButton(AchievementType.UPGRADES);
         this.addButtonEvent(upgradeButton, AchievementType.UPGRADES.getTitle());
 
         navigationTable.add(upgradeButton).expand();
 
         // Misc Button
-        ImageButton miscButton = createButton(AchievementType.MISC);
+        AchievementButton miscButton = createButton(AchievementType.MISC);
         this.addButtonEvent(miscButton, AchievementType.MISC.getTitle());
 
         navigationTable.add(miscButton).expand();
 
         // Back Button
-        Texture backTexture = new Texture(Gdx.files.internal("images/cross.png"));
+        Texture backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
         Texture backTextureHover = new Texture(Gdx.files.internal("images/backButton_hover.png"));
         TextureRegionDrawable upBack = new TextureRegionDrawable(backTexture);
         TextureRegionDrawable downBack = new TextureRegionDrawable(backTexture);
@@ -162,7 +161,7 @@ public class AchievementInterface extends UIComponent {
         backButton.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
                 Gdx.graphics.getHeight() * 0.85f -70f);
 
-        this.addButtonEvent(backButton, "Exit");
+        this.addExitButtonEvent(backButton);
 
         group.addActor(backgroundTable);
         group.addActor(title);
@@ -304,15 +303,8 @@ public class AchievementInterface extends UIComponent {
         Table achievementCard = new Table();
 
         achievementCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture;
-
-        if (achievement.getAchievementType() == AchievementType.RESOURCES || achievement.getAchievementType() == AchievementType.UPGRADES) {
-            backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
-                    : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
-        } else {
-            backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png"
-                    : "images/achievements/achievement_card_locked_n.png"));
-        }
+        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
+                : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         achievementCard.setBackground(backgroundImg.getDrawable());
@@ -403,19 +395,7 @@ public class AchievementInterface extends UIComponent {
     public static Table buildAchievementSummaryCard(AchievementType type) {
         Table summaryCard = new Table();
         summaryCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture;
-
-        if (type == AchievementType.RESOURCES || type == AchievementType.UPGRADES) {
-            backgroundTexture = new Texture(
-                    Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
-                            ? "images/achievements/%s_Tick.png".formatted(type.getTitle())
-                            : "images/achievements/%s_Lock.png".formatted(type.getTitle())));
-        } else {
-            backgroundTexture = new Texture(
-                    Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
-                            ? "images/achievements/achievement_card_completed.png"
-                            : "images/achievements/achievement_card_locked_n.png"));
-        }
+        Texture backgroundTexture = new Texture(Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         summaryCard.setBackground(backgroundImg.getDrawable());
@@ -480,12 +460,12 @@ public class AchievementInterface extends UIComponent {
     }
 
     /**
-     * Creates an ImageButton from a provided image
+     * Creates an AchievementButton from a provided image
      * 
      * @param type AchievementType
-     * @return ImageButton
+     * @return AchievementButton
      */
-    private static ImageButton createButton(AchievementType type) {
+    private static AchievementButton createButton(AchievementType type) {
         String image = "images/achievements/" + type.getTitle() + "_Icon.png";
         String imageNotSelected = "images/achievements/" + type.getTitle() + "_NotCurrent.png";
 
@@ -497,48 +477,20 @@ public class AchievementInterface extends UIComponent {
         TextureRegionDrawable isUnselected = new TextureRegionDrawable(buttonNotSelected);
 
         AchievementButton button = new AchievementButton(up, down, isUnselected, type);
+        button.getLabel().setColor(skin.getColor(ForestGameArea.BLACK));
+
         button.setChecked(!type.equals(AchievementType.SUMMARY));
 
         return button;
     }
 
     /**
-     * Add listener to the provided ImageButton
+     * Add listener to the provided AchievementButton
      * 
-     * @param button ImageButton
+     * @param button AchievementButton
      * @param name   String
      */
-    private void addButtonEvent(ImageButton button, String name) {
-        if (Objects.equals(name, "Exit")) {
-            button.addListener(
-                    new ClickListener() {
-                        @Override
-                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                            logger.debug("Exit button clicked");
-                            closeAchievements();
-                            entity.getEvents().trigger("closeAll");
-                            return true;
-                        }
-                    });
-            // Adds hover state to button
-            button.addListener(
-                    new InputListener() {
-                        @Override
-                        public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
-                            button.setChecked(true);
-                        }
-
-                        @Override
-                        public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
-                            button.setChecked(false);
-                        }
-                    });
-            button.addListener(
-                    new TextTooltip("Close achievement page", skin));
-
-            return;
-        }
-
+    private void addButtonEvent(AchievementButton button, String name) {
         button.addListener(
                 new ClickListener() {
                     @Override
@@ -552,5 +504,33 @@ public class AchievementInterface extends UIComponent {
 
         button.addListener(
                 new TextTooltip(name, skin));
+    }
+
+    public void addExitButtonEvent(ImageButton button) {
+        button.addListener(
+                new ClickListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        logger.debug("Exit button clicked");
+                        closeAchievements();
+                        entity.getEvents().trigger("closeAll");
+                        return true;
+                    }
+                });
+        // Adds hover state to button
+        button.addListener(
+                new InputListener() {
+                    @Override
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                        button.setChecked(true);
+                    }
+
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                        button.setChecked(false);
+                    }
+                });
+        button.addListener(
+                new TextTooltip("Close achievement page", skin));
     }
 }

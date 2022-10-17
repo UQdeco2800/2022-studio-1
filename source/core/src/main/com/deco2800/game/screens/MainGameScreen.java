@@ -46,6 +46,9 @@ import java.util.ArrayList;
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
+
+
+
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
 
   private static final String[] mainGameTextureAtlases = {

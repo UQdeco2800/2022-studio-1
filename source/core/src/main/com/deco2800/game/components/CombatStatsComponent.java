@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Component used to store information related to combat such as health, attack,
@@ -159,7 +161,31 @@ public class CombatStatsComponent extends Component {
         entity.getEvents().trigger("playerDeath");
         break;
       case CRYSTAL:
-        ServiceLocator.getEntityService().getNamedEntity(CRYSTAL).getEvents().trigger("crystalDeath");
+        Timer time = new Timer();
+        TimerTask destroyedAnimation = new TimerTask() {
+            @Override
+            public void run() {
+              ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("desCrystal");
+              //ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("lastCrystal");
+              //entity.getEvents().trigger("desCrystal");
+            }
+        };
+        TimerTask lastAnimation = new TimerTask() {
+            @Override
+            public void run() {
+              ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("lastCrystal");
+              //entity.getEvents().trigger("desCrystal");
+            }
+        };
+        TimerTask destroyed = new TimerTask() {
+            @Override
+            public void run() {
+              ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
+            }
+        };
+        time.scheduleAtFixedRate(destroyedAnimation, 0, 1000);
+        time.scheduleAtFixedRate(lastAnimation, 1000, 1000);
+        time.scheduleAtFixedRate(destroyed, 2000, 2000);
         break;
       default:
         //do nothing
