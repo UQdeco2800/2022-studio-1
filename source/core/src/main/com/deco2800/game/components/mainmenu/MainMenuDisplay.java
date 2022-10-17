@@ -3,15 +3,13 @@ package com.deco2800.game.components.mainmenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
 import org.slf4j.Logger;
@@ -24,6 +22,7 @@ public class MainMenuDisplay extends UIComponent {
   private static final Logger logger = LoggerFactory.getLogger(MainMenuDisplay.class);
   private static final float Z_INDEX = 2f;
   private Table rootTable;
+  private Table layover;
   private int currentStep = 1;
 
 
@@ -33,7 +32,7 @@ public class MainMenuDisplay extends UIComponent {
     addActors();
   }
 
-  public void nextFrame() {
+    public void nextFrame() {
       currentStep = (currentStep % 55) + 1;
   }
 
@@ -41,8 +40,13 @@ public class MainMenuDisplay extends UIComponent {
       return rootTable;
   }
 
+
+
+
+
   public void updateDisplay() {
       if (rootTable == null) {
+          //layover.remove();
           rootTable = display();
           return;
       }
@@ -50,6 +54,22 @@ public class MainMenuDisplay extends UIComponent {
       Drawable backgroundColour = new TextureRegionDrawable(colour);
       rootTable.setBackground(backgroundColour);
   }
+
+  //display before main menu
+/*    public Table loadDisplay() {
+        float screenHeight = Gdx.graphics.getHeight();
+
+        layover = new Table();
+        layover.setFillParent(true);
+
+        // Background Colour
+        Texture colour = new Texture(Gdx.files.internal("images/StoryLine/SL_1.png"));
+        Drawable backgroundColour = new TextureRegionDrawable(colour);
+        layover.setBackground(backgroundColour);
+
+        stage.addActor(layover);
+        return rootTable;
+    }*/
 
   public Table display() {
 
@@ -64,6 +84,8 @@ public class MainMenuDisplay extends UIComponent {
       Table settingsTable = new Table();
 
       Table mainTable = new Table();
+
+      layover = new Table();
       Image title =
               new Image(
                       ServiceLocator.getResourceService()
@@ -97,6 +119,10 @@ public class MainMenuDisplay extends UIComponent {
       TextureRegionDrawable exitDown = new TextureRegionDrawable(exitButton1);
       TextureRegionDrawable exitButtonChecked = new TextureRegionDrawable(exitButton2);
       ImageButton exitButton = new ImageButton(exitUp, exitDown, exitButtonChecked);
+
+
+/*      Texture loadBackground = new Texture(Gdx.files.internal("images/StoryLine/SL_1.png"));
+      loadingLayover = new Image(loadBackground);*/
 
       // Triggers an event when the button is pressed
       homeButton.addListener(
@@ -210,6 +236,40 @@ public class MainMenuDisplay extends UIComponent {
               }
       );
 
+
+      Texture guidebookTexture = new Texture(Gdx.files.internal("images/guidebook_button.png"));
+      Texture guidebookHoverTexture = new Texture(Gdx.files.internal("images/guidebook_button_hover.png"));
+      TextureRegionDrawable upGuidebook = new TextureRegionDrawable(guidebookTexture);
+      TextureRegionDrawable downGuidebook = new TextureRegionDrawable(guidebookTexture);
+      TextureRegionDrawable checkedGuidebook = new TextureRegionDrawable(guidebookHoverTexture);
+      ImageButton guidebookButton = new ImageButton(upGuidebook, downGuidebook, checkedGuidebook);
+
+      guidebookButton.addListener(
+              new ClickListener() {
+                  @Override
+                  public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                      logger.debug("Guidebook button clicked on main menu page");
+                      logger.info("Game paused");
+                      entity.getEvents().trigger("guideBook");
+                      return true;
+                  }
+              });
+      guidebookButton.addListener(
+              new InputListener() {
+                  @Override
+                  public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      guidebookButton.setChecked(true);
+                  }
+
+                  @Override
+                  public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+                      guidebookButton.setChecked(false);
+                  }
+              });
+      settingsButton.addListener(
+              new TextTooltip("  Guidebook",skin)
+      );
+
       mainTable.add(title).padTop(0.5f * buttonHeight).size(titleHeight * title.getWidth() / title.getHeight(), titleHeight);
       mainTable.row();
       mainTable.add(homeButton).size(buttonHeight * homeButton.getWidth() / homeButton.getHeight(), buttonHeight);
@@ -218,12 +278,15 @@ public class MainMenuDisplay extends UIComponent {
       mainTable.row();
       mainTable.add(exitButton).size(buttonHeight * exitButton.getWidth() / exitButton.getHeight(), buttonHeight);
 
-      settingsTable.add(settingsButton).expandX().expandY().right().bottom().size(50f,50f);
+      settingsTable.add(guidebookButton).expandX().expandY().right().bottom().size(50f,50f).pad(15f).padRight(0);
+      settingsTable.add(settingsButton).size(50f,50f).pad(15f).padLeft(7.5f);
 
       rootTable.add(mainTable).expandX();
       rootTable.row();
       rootTable.add(settingsTable).fillX();
 
+
+      //stage.addActor(layover);
       stage.addActor(rootTable);
       return rootTable;
   }
