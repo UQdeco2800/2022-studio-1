@@ -197,6 +197,7 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
         .addComponent(new AchievementInterface())
+            //please don't move the order of these components
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
         .addComponent(new EquipmentsShopDisplay())
