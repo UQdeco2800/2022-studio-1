@@ -329,12 +329,6 @@ public class StructureFactory {
     float tileSize;
     Texture t;
 
-    if (orientation == 1) {
-      TOWER3I = "images/attack_towers/tow3_1_r.png";
-      TOWER3II = "images/attack_towers/tow3_2_r.png";
-      TOWER3III = "images/attack_towers/tow3_3_r.png";
-    }
-
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
         tower3 = createBaseStructure(TOWER3II, name, false);
