@@ -189,6 +189,7 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/eel_animations/eel.atlas",
           "images/starfish_animation/starfish.atlas",
           "images/final_boss_animations/final_boss.atlas",
+          "images/crab_animations/crab_animation.atlas",
           "images/npc_animations/NPC1sprite.atlas",
           "images/npc_animations/npc.atlas",
           "images/attack_towers/animations/towerLevel2.atlas"
