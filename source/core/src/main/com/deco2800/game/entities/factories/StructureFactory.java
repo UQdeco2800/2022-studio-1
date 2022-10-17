@@ -53,30 +53,24 @@ import org.w3c.dom.Text;
 public class StructureFactory {
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+  private static String[] tempWallSprites = { "images/65x33_tiles/temp_wall_left.png", "images/65x33_tiles/temp_wall_right.png" };
   private static String[] wallSprites = { "images/65x33_tiles/wall_left.png", "images/65x33_tiles/wall_right.png" };
-  private static String[] tempTower1Sprites = { "images/attack_towers/tempStructures/temp_tow1_1_l.png",
-      "images/attack_towers/tempStructures/temp_tow1_1_r.png" };
-  private static String[][] tower1Sprites = { { "images/attack_towers/tow1_1_l.png",
-      "images/attack_towers/tow1_1_r.png" },
-      { "images/attack_towers/tow1_2_l.png",
-          "images/attack_towers/tow1_2_r.png" },
-      { "images/attack_towers/tow1_3_l.png",
-          "images/attack_towers/tow1_3_r.png" } };
-
-  // change to tower 2
-  private static String[] tempTower2Sprites = { "images/attack_towers/tempStructures/temp_tower3lv1Left.png",
-      "images/attack_towers/tempStructures/temp_tower3lv1Right.png" };
-  // Change to tower 2
-  private static String[][] tower2Sprites = {
-      { "images/attack_towers/tower3lv1Left.png", "images/attack_tower3lv1Right.png" },
-      { "images/attack_towers/tower3lv2Left.png", "images/attack_tower3lv2Right.png" },
-      { "images/attack_towers/tower3lv3Left.png", "images/attack_tower3lv3Right.png" } };
-  private static String[] tempTower3Sprites = { "images/attack_towers/tempStructures/temp_tower3lv1Left.png",
-      "images/attack_towers/tempStructures/temp_tower3lv1Right.png" };
-  private static String[][] tower3Sprites = {
-      { "images/attack_towers/tower3lv1Left.png", "images/attack_tower3lv1Right.png" },
-      { "images/attack_towers/tower3lv2Left.png", "images/attack_tower3lv2Right.png" },
-      { "images/attack_towers/tower3lv3Left.png", "images/attack_tower3lv3Right.png" } };
+  private static String[] tempTower1Sprites = {"images/attack_towers/tempStructures/temp_tow1_1_l.png", "images/attack_towers/tempStructures/temp_tow1_1_r.png"};
+  private static String[][] tower1Sprites = { {"images/attack_towers/tow1_1_l.png",
+          "images/attack_towers/tow1_1_r.png"}, {"images/attack_towers/tow1_2_l.png",
+          "images/attack_towers/tow1_2_r.png"}, {"images/attack_towers/tow1_3_l.png",
+          "images/attack_towers/tow1_3_r.png"} };
+  private static String [] tempTower2Sprites = {"images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
+          "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png"};
+  //Change to tower 2
+  private static String[][] tower2Sprites = {{"images/attack_towers/Attack_Structure2_lev1.png", "images/attack_towers/Attack_Structure2_lev1.png"},
+          {"images/attack_towers/Attack_Structure2_lev2.png", "images/attack_towers/Attack_Structure2_lev2.png"},
+          {"images/attack_towers/Attack_Structure2_lev2.png", "images/attack_towers/Attack_Structure2_lev2.png"}};
+  private static String[] tempTower3Sprites = {"images/attack_towers/tempStructures/temp_tower3lv1Left.png",
+          "images/attack_towers/tempStructures/temp_tower3lv1Right.png"};
+  private static String[][] tower3Sprites = {{"images/attack_towers/tower3lv1Left.png", "images/attack_towers/tower3lv1Right.png"},
+          {"images/attack_towers/tower3lv2Left.png", "images/attack_towers/tower3lv2Right.png"},
+          {"images/attack_towers/tower3lv3Left.png", "images/attack_towers/tower3lv3Right.png"}};
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -104,7 +98,7 @@ public class StructureFactory {
   public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure(wallSprites[orientation], name, false); // change texture to be temp texture
+      wall = createBaseStructure(tempWallSprites[orientation], name, false); // change texture to be temp texture
     } else {
       wall = createBaseStructure(wallSprites[orientation], name, false);
     }
