@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
@@ -123,7 +122,7 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
                 final TiledMapTileLayer.Cell cell = layer.getCell(col, row);
                 if (cell == null)
                     continue;
-                final TiledMapTile tile = cell.getTile();
+                final TerrainTile tile = (TerrainTile) cell.getTile();
 
                 if (tile != null) {
                     final boolean flipX = cell.getFlipHorizontally();
@@ -227,6 +226,7 @@ public class IsoTileRenderer extends BatchTiledMapRenderer {
                                 vertices[U2] = tempU;
                                 break;
                             }
+                            default:
                         }
                     }
                     batch.draw(region.getTexture(), vertices, 0, NUM_VERTICES);

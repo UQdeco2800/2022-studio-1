@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(GameExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -28,36 +26,6 @@ class DayNightCycleComponentTest {
     }
 
     @Test
-    public void shouldSetShader() {
-        dayNightCycleComponent.render(batch);
-        verify(batch, times(1)).setShader(dayNightCycleComponent.getDayNightCycleShader());
-    }
-
-    @Test
-    public void shouldSetIntensityToDawnIntensity() {
-        dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DAWN);
-        assertEquals(DayNightCycleComponent.DAWN_INTENSITY, dayNightCycleComponent.getIntensity());
-    }
-
-    @Test
-    public void shouldSetIntensityToDayIntensity() {
-        dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DAY);
-        assertEquals(DayNightCycleComponent.DAY_INTENSITY, dayNightCycleComponent.getIntensity());
-    }
-
-    @Test
-    public void shouldSetIntensityToDuskIntensity() {
-        dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DUSK);
-        assertEquals(DayNightCycleComponent.DUSK_INTENSITY, dayNightCycleComponent.getIntensity());
-    }
-
-    @Test
-    public void shouldSetIntensityToNightIntensity() {
-        dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.NIGHT);
-        assertEquals(DayNightCycleComponent.NIGHT_INTENSITY, dayNightCycleComponent.getIntensity());
-    }
-
-    @Test
     public void shouldShadeDawnWithBrightAmbientColour() {
         dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DAWN);
         assertEquals(DayNightCycleComponent.bright, dayNightCycleComponent.getAmbientColour());
@@ -70,15 +38,9 @@ class DayNightCycleComponentTest {
     }
 
     @Test
-    public void shouldShadeDuskWithDarkAmbientColour() {
+    public void shouldShadeDuskWithBrightAmbientColour() {
         dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.DUSK);
-        assertEquals(DayNightCycleComponent.dark, dayNightCycleComponent.getAmbientColour());
-    }
-
-    @Test
-    public void shouldShadeNightWithDarkAmbientColour() {
-        dayNightCycleComponent.onPartOfDayChange(DayNightCycleStatus.NIGHT);
-        assertEquals(DayNightCycleComponent.dark, dayNightCycleComponent.getAmbientColour());
+        assertEquals(DayNightCycleComponent.bright, dayNightCycleComponent.getAmbientColour());
     }
 
 

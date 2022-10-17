@@ -76,8 +76,9 @@ public class TrapComponent extends Component {
     this.getEntity().getComponent(CombatStatsComponent.class).setHealth(0);
     
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).worldToTilePosition(this.getEntity().getPosition().x, this.getEntity().getPosition().y);
-    String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
-    StructureFactory.handleBuildingDestruction(name);
+    /* Game service was deleted */
+    //String name = ServiceLocator.getGameService().getGridPointInfo(mapPos).get("name");
+    //StructureFactory.handleBuildingDestruction(name);
 
     }
 }

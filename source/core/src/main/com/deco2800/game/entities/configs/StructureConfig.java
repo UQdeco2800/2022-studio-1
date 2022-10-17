@@ -15,4 +15,5 @@ public class StructureConfig {
   public BaseStructureConfig tower3I = new BaseStructureConfig();
   public BaseStructureConfig tower3II = new BaseStructureConfig();
   public BaseStructureConfig trap = new BaseStructureConfig();
+  public BaseStructureConfig turret = new BaseStructureConfig();
 }

@@ -28,12 +28,18 @@ public class TextureRenderComponent extends RenderComponent {
   /** Scale the entity to a width of 1 and a height matching the texture's ratio */
   public void scaleEntity() {
     int tileSize = (int) ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
-    entity.setScale((tileSize/2), (tileSize/2)*(float) texture.getHeight() / texture.getWidth());
+    entity.setScale((tileSize/2f), (tileSize/2f)*(float) texture.getHeight() / texture.getWidth());
   }
 
   public String getTexturePath() {
     return texturePath;
   }
+
+  /**
+   * Gets the texture of a texture component
+   * @return texture of the texture component
+   */
+  public Texture getTexture() {return texture;}
 
   @Override
   protected void draw(SpriteBatch batch) {

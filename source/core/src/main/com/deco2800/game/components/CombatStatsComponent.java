@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.rendering.TextureRenderComponent;
+import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import java.util.Objects;
  * extended for more specific combat needs.
  */
 public class CombatStatsComponent extends Component {
+  public static final String CRYSTAL = "crystal";
+  public static final String PLAYER = "player";
 
   private static final Logger logger = LoggerFactory.getLogger(CombatStatsComponent.class);
   private int health;
@@ -62,7 +65,9 @@ public class CombatStatsComponent extends Component {
   /**
    * Combat Stats Component with maxHealth parameter to enable increase of
    * maxHealth with each level upgrade independent
-   * to current health
+   * to current health (For crystal)
+   * Implements baseAttack, defense which are no use to crystal as constructor with 3 parameters is already present
+   *
    */
   public CombatStatsComponent(int health, int baseAttack, int defense, int level, int maxHealth) {
     setHealth(health);
@@ -106,6 +111,10 @@ public class CombatStatsComponent extends Component {
       if (health > maxHealth) {
         this.health = maxHealth;
       } else {
+        if (entity != null && Objects.equals(entity.getName(), CRYSTAL) && this.health > health) {
+          ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_CRYSTAL_DAMAGED, 11);
+        }
+
         this.health = health;
       }
     } else {
@@ -117,12 +126,18 @@ public class CombatStatsComponent extends Component {
         // remove enemies if health point is 0
         for (String enemy : enemies) {
           if (entity != null && entity.getName().contains(enemy) && isDead()) {
-            entity.dispose();
+            if (entity.getName().contains("Zero")) {
+              ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_BOSS_KILL, 10L);
+            }
+            ServiceLocator.getEntityService().addToDestroyEntities(entity);
           }
         }
 
-        if (entity != null && Objects.equals(entity.getName(), "crystal")) {
-          killEntity("crystal");
+        if (entity != null && Objects.equals(entity.getName(), CRYSTAL)) {
+          killEntity(CRYSTAL);
+        }
+        if (entity != null && Objects.equals(entity.getName(), PLAYER)) {
+          killEntity(PLAYER);
         }
       }
     }
@@ -140,11 +155,11 @@ public class CombatStatsComponent extends Component {
   public void killEntity(String entityName) {
     //String entityName = entity.getName()t
     switch (entityName) {
-      case "player":
+      case PLAYER:
         entity.getEvents().trigger("playerDeath");
         break;
-      case "crystal":
-        ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().trigger("crystalDeath");
+      case CRYSTAL:
+        ServiceLocator.getEntityService().getNamedEntity(CRYSTAL).getEvents().trigger("crystalDeath");
         break;
       default:
         //do nothing
@@ -233,7 +248,7 @@ public class CombatStatsComponent extends Component {
 
   public void hit(CombatStatsComponent attacker) {
     if (!invincible) {
-      int newHealth = getHealth() - attacker.getCurrentAttack() / (defense != 0 ? defense : 1);
+      int newHealth = getHealth() - attacker.getBaseAttack() / (defense != 0 ? defense : 1);
       setHealth(newHealth);
       Sound hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hurt.mp3"));
       hurtSound.play();

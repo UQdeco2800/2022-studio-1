@@ -11,21 +11,21 @@ import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.ServiceLocator;
 
-
-public class RangeAttackComponent extends Component{
+public class RangeAttackComponent extends Component {
     private short targetLayer;
     private float knockbackForce = 0f;
     private CombatStatsComponent combatStats;
     private HitboxComponent hitboxComponent;
     private float range = 0f;
-    private boolean targetAcquired = false; 
-    private Entity target; 
+    private boolean targetAcquired = false;
+    private Entity target;
 
     public RangeAttackComponent(short targetLayer, float knockbackForce, float range) {
         this.targetLayer = targetLayer;
         this.knockbackForce = knockbackForce;
-        this.range = range; 
+        this.range = range;
     }
+
     @Override
     public void create() {
         combatStats = entity.getComponent(CombatStatsComponent.class);
@@ -44,12 +44,12 @@ public class RangeAttackComponent extends Component{
      * Function which attacks the given target and applies knockback
      */
     private void attackTarget() {
-        //attack target
+        // attack target
         CombatStatsComponent targetStats = target.getComponent(CombatStatsComponent.class);
         if (targetStats != null) {
             targetStats.hit(combatStats);
-        } 
-        //apply knockback
+        }
+        // apply knockback
         PhysicsComponent physicsComponent = target.getComponent(PhysicsComponent.class);
         if (physicsComponent != null && knockbackForce > 0f) {
             Body targetBody = physicsComponent.getBody();
@@ -60,45 +60,44 @@ public class RangeAttackComponent extends Component{
     }
 
     /*
-    * Check target acquired
-    * if target acquired check distance, if distances < range attack
-    * if target outside range, negate TargetAcquired, check for new targets
-    */
+     * Check target acquired
+     * if target acquired check distance, if distances < range attack
+     * if target outside range, negate TargetAcquired, check for new targets
+     */
     @Override
     public void update() {
-//        System.out.println("Running RAT");
+        // System.out.println("Running RAT");
         if (targetAcquired) {
-//            System.out.println("target acquired true");
+            // System.out.println("target acquired true");
             if (getDistanceToTarget(this.target) <= this.range) {
                 while (getDistanceToTarget(entity) <= this.range) {
                     attackTarget();
                 }
             } else {
-                //Toggle targetAcquired, and set acquired target to null
+                // Toggle targetAcquired, and set acquired target to null
                 toggleTargetAcquired();
                 this.target = null;
             }
         } else {
-            for (Entity entity : ServiceLocator.getEntityService().getEntities()) {   
-//                System.out.println("Searching for target");
+            for (Entity entity : ServiceLocator.getEntityService().getEntities()) {
+                // System.out.println("Searching for target");
 
                 HitboxComponent hitboxComponent = entity.getComponent(HitboxComponent.class);
-                if (hitboxComponent != null) {    
-                    if (hitboxComponent.getLayer() == PhysicsLayer.NPC) {  //Check entity is an NPC
+                if (hitboxComponent != null) {
+                    if (hitboxComponent.getLayer() == PhysicsLayer.NPC) { // Check entity is an NPC
                         System.out.println("Got target");
-                        if (getDistanceToTarget(entity) <= this.range) { //Check range to target
+                        if (getDistanceToTarget(entity) <= this.range) { // Check range to target
                             toggleTargetAcquired();
-                            this.target = entity; //Set target
+                            this.target = entity; // Set target
                             while (getDistanceToTarget(entity) <= this.range) {
                                 attackTarget();
                             }
                         }
-                     }
+                    }
 
                 }
             }
         }
     }
 
-    
 }

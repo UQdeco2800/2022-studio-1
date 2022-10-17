@@ -52,11 +52,13 @@ class TouchAttackComponentTest {
   void shouldNotAttackWithoutCombatComponent() {
     short targetLayer = (1 << 3);
     Entity entity = EntityUtil.createAttacker(targetLayer);
+
     // Target does not have a combat component
-    Entity target =
-        new Entity()
-            .addComponent(new PhysicsComponent())
-            .addComponent(new HitboxComponent().setLayer(targetLayer));
+    Entity target = new Entity()
+        .addComponent(new PhysicsComponent())
+        .addComponent(new HitboxComponent().setLayer(targetLayer));
+
+    target.setName("target");
     target.create();
 
     Fixture entityFixture = entity.getComponent(HitboxComponent.class).getFixture();
@@ -65,6 +67,5 @@ class TouchAttackComponentTest {
     // This should not cause an exception, but the attack should be ignored
     entity.getEvents().trigger("collisionStart", entityFixture, targetFixture);
   }
-
 
 }
