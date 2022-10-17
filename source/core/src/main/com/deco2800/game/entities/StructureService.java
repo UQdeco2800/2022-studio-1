@@ -294,14 +294,9 @@ public class StructureService extends EntityService {
    * @param entityType  type of entity being checked
    */
   public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
-<<<<<<< HEAD
     HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord,
-        entityType);
+        entityType, 1);
     for (GridPoint2 mapPos : surroundingTiles.keySet()) {
-=======
-    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType, 1);
-    for (GridPoint2 mapPos: surroundingTiles.keySet()) {
->>>>>>> main
       String entityName = "visual" + mapPos.toString();
       Entity visualTile;
       if (surroundingTiles.get(mapPos).equals("empty")) {
@@ -338,9 +333,9 @@ public class StructureService extends EntityService {
    * Rotate the current temp structure
    */
   public static void rotateTempStructure() {
-    
+
     toggleStructureOrientation();
-    
+
     ServiceLocator.getEntityService().getNamedEntity(getTempEntityName()).dispose();
     clearVisualTiles();
     String entityName = getTempEntityName();
