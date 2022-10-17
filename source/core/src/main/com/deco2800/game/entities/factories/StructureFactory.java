@@ -54,6 +54,7 @@ import org.w3c.dom.Text;
 public class StructureFactory {
   private static final StructureConfig configs = FileLoader.readClass(StructureConfig.class, "configs/structure.json");
   private static int REFUNDMULTIPLIER = 80;
+  private static String[] tempWallSprites = { "images/65x33_tiles/temp_wall_left.png", "images/65x33_tiles/temp_wall_right.png" };
   private static String[] wallSprites = { "images/65x33_tiles/wall_left.png", "images/65x33_tiles/wall_right.png" };
   private static String[] tempTower1Sprites = {"images/attack_towers/tempStructures/temp_tow1_1_l.png", "images/attack_towers/tempStructures/temp_tow1_1_r.png"};
   private static String[][] tower1Sprites = { {"images/attack_towers/tow1_1_l.png",
@@ -102,7 +103,7 @@ public class StructureFactory {
   public static Entity createWall(String name, Boolean isTemp, int orientation) {
     Entity wall;
     if (isTemp) {
-      wall = createBaseStructure(wallSprites[orientation], name, false); // change texture to be temp texture
+      wall = createBaseStructure(tempWallSprites[orientation], name, false); // change texture to be temp texture
     } else {
       wall = createBaseStructure(wallSprites[orientation], name, false);
     }
