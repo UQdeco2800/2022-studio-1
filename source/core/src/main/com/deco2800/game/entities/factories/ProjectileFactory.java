@@ -26,6 +26,7 @@ public class ProjectileFactory {
         short targetLayer = PhysicsLayer.PLAYER;
 
         if (source.getName().contains("turret")) {
+            texturePath = "images/attack_towers/elecball.png";
             targetLayer = PhysicsLayer.ENEMY;
         }
 

@@ -34,7 +34,7 @@ public class MainMenuScreen extends ScreenAdapter {
   private float time;
 
   private static String[] mainMenuTextures = {
-      "images/uiElements/exports/title.png",
+          "images/uiElements/exports/title.png",
           "images/Centaur_Back_left.png",
           "images/Centaur_Back_right.png",
           "images/Centaur_left.png",
@@ -183,7 +183,24 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/attack_towers/tow1_3_l.png",
           "images/attack_towers/tow1_3_r.png",
           "images/attack_towers/tempStructures/temp_tow1_1_l.png",
-          "images/attack_towers/tempStructures/temp_tow1_1_r.png"
+          "images/attack_towers/tempStructures/temp_tow1_1_r.png",
+          "images/attack_towers/elecball.png",
+          "images/65x33_tiles/wall_left.png",
+          "images/65x33_tiles/wall_right.png",
+          "images/65x33_tiles/temp_wall_left.png",
+          "images/65x33_tiles/temp_wall_right.png",
+          "images/attack_towers/tempStructures/temp_tower3lv1Left.png",
+          "images/attack_towers/tempStructures/temp_tower3lv1Right.png",
+          "images/attack_towers/tower3lv1Left.png",
+          "images/attack_towers/tower3lv1Right.png",
+          "images/attack_towers/tower3lv2Left.png",
+          "images/attack_towers/tower3lv2Right.png",
+          "images/attack_towers/tower3lv3Left.png",
+          "images/attack_towers/tower3lv3Right.png",
+          "images/attack_towers/Attack_Structure2_lev1.png",
+          "images/attack_towers/Attack_Structure2_lev2.png",
+          "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
+          "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
   };
 
   private static final String[] forestTextureAtlases = {
