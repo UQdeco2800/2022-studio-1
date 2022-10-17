@@ -167,14 +167,9 @@ public class PhysicsMovementComponent extends Component implements MovementContr
 
       String newCoordString = ugs.generateCoordinate(newTilePos2.x, newTilePos2.y);
 
-      if (!previousCoordString.equals(newCoordString)) {
-
-//        if (ugs.checkEntityPlacement(newTilePos2, "enemy")) {
+      if (previousCoordString != null && !previousCoordString.equals(newCoordString)) {
           ugs.getTile(previousCoordString).clearTile();
           ugs.getTile(newCoordString).setEntity(owner);
-//        } else {
-//          setToVelocity(body, new Vector2(0, 0));
-//        }
       }
     }
 

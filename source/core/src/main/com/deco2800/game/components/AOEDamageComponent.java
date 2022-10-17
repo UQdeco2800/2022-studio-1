@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.RangeService;
@@ -26,7 +25,7 @@ public class AOEDamageComponent extends Component {
         private HitboxComponent hitbox;
 
         private GameTime gameTime;
-        private int updateRate = 5000; // time inbetween each update
+        private int updateRate = 2500; // time inbetween each update
         private long lastUpdate = 0;
 
         public AOEDamageComponent(int numTargets, int radiusRange, int attackRate) {
@@ -64,8 +63,8 @@ public class AOEDamageComponent extends Component {
                 Entity current = getEntity();
                 if (!current.getName().contains("emp")) {
                         String location = current.getName().substring(7, 13);
-                        locationX = Integer.parseInt(location.substring(0,2));
-                        locationY = Integer.parseInt(location.substring(4,6));
+                        locationX = Integer.parseInt(location.substring(0, 2));
+                        locationY = Integer.parseInt(location.substring(4, 6));
                 }
                 if (locationX != 0 && locationY != 0) {
 
@@ -111,9 +110,6 @@ public class AOEDamageComponent extends Component {
                 for (Entity target : targets) {
                         if (target != null) {
                                 target.getComponent(CombatStatsComponent.class).hit(combatStats);
-                                if (target.getComponent(CombatStatsComponent.class).getHealth() < 1) {
-                                        ServiceLocator.getUGSService().dispose(target);
-                                }
                         }
                 }
         }
