@@ -2,7 +2,6 @@ package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.components.*;
-import com.deco2800.game.components.crystal.CrystalAnimationController;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
@@ -46,9 +45,7 @@ public class CrystalFactory {
                 .addComponent(new PhysicsComponent())
                 .addComponent(new ColliderComponent().setLayer(PhysicsLayer.PLAYER))
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
-                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f))
-                .addComponent(animator)
-                .addComponent(new CrystalAnimationController());
+                .addComponent(new TouchAttackComponent(PhysicsLayer.PLAYER, 1.5f));
 
         crystal.addComponent(new CombatStatsComponent(crystalStats.health, crystalStats.baseAttack,
                 crystalStats.defense, crystalStats.level, 1000))
@@ -59,7 +56,7 @@ public class CrystalFactory {
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
         // crystal.getComponent(TextureRenderComponent.class).scaleEntity();
         crystal.getComponent(AnimationRenderComponent.class).scaleEntity();
-        crystal.scaleHeight(15.0f);
+        crystal.scaleHeight(10.0f);
         PhysicsUtils.setScaledCollider(crystal, 1f, 0.5f);
         return crystal;
     }
