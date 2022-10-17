@@ -143,18 +143,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add listener to provided ImageButton, will close achievement interface</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Table</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.Group</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildAchievementCard(com.deco2800.game.achievements.Achievement)" class="member-name-link">buildAchievementCard</a><wbr>(<a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Builds an achievement card actor read to be displayed</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.badlogic.gdx.scenes.scene2d.ui.Table</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildAchievementMilestoneButtons(com.deco2800.game.achievements.Achievement,com.badlogic.gdx.scenes.scene2d.ui.Label)" class="member-name-link">buildAchievementMilestoneButtons</a><wbr>(<a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static com.badlogic.gdx.scenes.scene2d.Group</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildAchievementMilestoneButtons(com.badlogic.gdx.scenes.scene2d.Group,com.deco2800.game.achievements.Achievement,com.badlogic.gdx.scenes.scene2d.ui.Label)" class="member-name-link">buildAchievementMilestoneButtons</a><wbr>(com.badlogic.gdx.scenes.scene2d.Group&nbsp;milestoneButtons,
+ <a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
  com.badlogic.gdx.scenes.scene2d.ui.Label&nbsp;descriptionLabel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Constructs the achievement milestone buttons for a given achievement</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.ui.Table</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.badlogic.gdx.scenes.scene2d.Group</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildAchievementSummaryCard(com.deco2800.game.achievements.AchievementType)" class="member-name-link">buildAchievementSummaryCard</a><wbr>(<a href="../../achievements/AchievementType.html" title="enum class in com.deco2800.game.achievements">AchievementType</a>&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates an achievement summary card of the provided achievement type</div>
@@ -192,11 +193,6 @@ loadScripts(document, 'script');</script>
  com.badlogic.gdx.scenes.scene2d.ui.Label&nbsp;descriptionLabel)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates the milestone button actor.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#splitDescription(java.lang.String)" class="member-name-link">splitDescription</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Split a description string into multiple lines</div>
 </div>
 </div>
 </div>
@@ -329,9 +325,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="buildAchievementMilestoneButtons(com.deco2800.game.achievements.Achievement,com.badlogic.gdx.scenes.scene2d.ui.Label)">
+<section class="detail" id="buildAchievementMilestoneButtons(com.badlogic.gdx.scenes.scene2d.Group,com.deco2800.game.achievements.Achievement,com.badlogic.gdx.scenes.scene2d.ui.Label)">
 <h3>buildAchievementMilestoneButtons</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Table</span>&nbsp;<span class="element-name">buildAchievementMilestoneButtons</span><wbr><span class="parameters">(<a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.Group</span>&nbsp;<span class="element-name">buildAchievementMilestoneButtons</span><wbr><span class="parameters">(com.badlogic.gdx.scenes.scene2d.Group&nbsp;milestoneButtons,
+ <a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement,
  com.badlogic.gdx.scenes.scene2d.ui.Label&nbsp;descriptionLabel)</span></div>
 <div class="block">Constructs the achievement milestone buttons for a given achievement</div>
 <dl class="notes">
@@ -339,14 +336,14 @@ loadScripts(document, 'script');</script>
 <dd><code>achievement</code> - the achievement to create the buttons for</dd>
 <dd><code>descriptionLabel</code> - the label to be changed on hover</dd>
 <dt>Returns:</dt>
-<dd>a row of buttons table</dd>
+<dd>Group of ImageButtons</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="buildAchievementCard(com.deco2800.game.achievements.Achievement)">
 <h3>buildAchievementCard</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Table</span>&nbsp;<span class="element-name">buildAchievementCard</span><wbr><span class="parameters">(<a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.Group</span>&nbsp;<span class="element-name">buildAchievementCard</span><wbr><span class="parameters">(<a href="../../achievements/Achievement.html" title="class in com.deco2800.game.achievements">Achievement</a>&nbsp;achievement)</span></div>
 <div class="block">Builds an achievement card actor read to be displayed</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -357,28 +354,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="splitDescription(java.lang.String)">
-<h3>splitDescription</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">splitDescription</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</span></div>
-<div class="block">Split a description string into multiple lines</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>description</code> - String</dd>
-<dt>Returns:</dt>
-<dd>ArrayList</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="buildAchievementSummaryCard(com.deco2800.game.achievements.AchievementType)">
 <h3>buildAchievementSummaryCard</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.ui.Table</span>&nbsp;<span class="element-name">buildAchievementSummaryCard</span><wbr><span class="parameters">(<a href="../../achievements/AchievementType.html" title="enum class in com.deco2800.game.achievements">AchievementType</a>&nbsp;type)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.badlogic.gdx.scenes.scene2d.Group</span>&nbsp;<span class="element-name">buildAchievementSummaryCard</span><wbr><span class="parameters">(<a href="../../achievements/AchievementType.html" title="enum class in com.deco2800.game.achievements">AchievementType</a>&nbsp;type)</span></div>
 <div class="block">Creates an achievement summary card of the provided achievement type</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>type</code> - AchievementType</dd>
 <dt>Returns:</dt>
-<dd>Table</dd>
+<dd>Group</dd>
 </dl>
 </section>
 </li>
