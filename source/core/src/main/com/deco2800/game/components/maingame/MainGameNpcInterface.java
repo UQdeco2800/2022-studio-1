@@ -38,7 +38,7 @@ public class MainGameNpcInterface extends UIComponent{
         }
 
         public void addActors() {
-
+            // Handled outside
         }
 
     /**

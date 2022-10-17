@@ -2,6 +2,7 @@ package com.deco2800.game.areas;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
+import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.infrastructure.ResourceType;
@@ -28,8 +29,15 @@ import java.util.*;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {
+  public static final String TITLE_FONT = "title";
+  public static final String LARGE_FONT = "large";
+  public static final String SMALL_FONT = "small";
+  public static final String BUTTON_FONT = "button";
+  public static final String BLACK = "black";
+  public static final String WHITE = "white";
+  public static final String TERRAIN = "terrain";
+
   private static final Logger logger = LoggerFactory.getLogger(ForestGameArea.class);
-  private static final int NUM_GHOSTS = 2;
   private static final GridPoint2 PLAYER_SPAWN = new GridPoint2(59, 59);
   // private static final GridPoint2 NPC_SPAWN = new GridPoint2(60, 60);
   private static final GridPoint2[] NPC_SPAWNS = { new GridPoint2(61, 60),
@@ -54,16 +62,17 @@ public class ForestGameArea extends GameArea {
   private Music music;
   private Music ambience;
 
-  private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
-  private static final String backgroundSounds = "sounds/BgCricket.mp3";
-  private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
+  private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
+  private static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
+  private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
+
   // private EnvironmentalCollision entityMapping;
 
   // private EnvironmentalCollision entityMapping;
 
   private final TerrainFactory terrainFactory;
-  //private Entity player;
-  //private Entity crystal;
+  // private Entity player;
+  // private Entity crystal;
   private int dayNum = 1;
   private Boolean loadGame;
 
@@ -94,7 +103,7 @@ public class ForestGameArea extends GameArea {
 
     // EntityMapping must be made AFTER spawn Terrain and BEFORE any environmental
     // objects are created
-//    logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
+    // logger.info("Terrain map size ==> {}", terrainFactory.getMapSize());
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
@@ -433,6 +442,8 @@ public class ForestGameArea extends GameArea {
    * }
    */
 
+
+
   /**
    * Spawns NPCs during the day and removes them at night.
    * NPCs spawn based on the number of buildings you have.
@@ -442,13 +453,12 @@ public class ForestGameArea extends GameArea {
    */
   private void spawnNPC(DayNightCycleStatus partOfDay) {
     int StructuresNum = ServiceLocator.getStructureService().getAllNamedEntities().size();
-    // System.out.println("struct:"+StructuresNum);
     switch (partOfDay) {
 
       case DAWN:
         // Spawns NPCs that already existed
         if (activeNPCs.size() > 0) {
-          // For each exisiting NPC, spawn them again
+          // For each existing NPC, spawn them again
           for (Entity npc : activeNPCs) {
             spawnNPCharacter();
           }
@@ -460,9 +470,7 @@ public class ForestGameArea extends GameArea {
 
       case DUSK:
         if (NPCNum != StructuresNum) {
-          // System.out.println(NPCNum);
           for (int i = NPCNum; i < StructuresNum; i++) {
-            // System.out.println("spawned");
             spawnNPCharacter();
           }
         }
@@ -474,10 +482,12 @@ public class ForestGameArea extends GameArea {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
           NPC.dispose();
         }
-        // Set NPC number to 0 and updaste this in NPCService
+        // Set NPC number to 0 and update this in NPCService
         NPCNum = 0;
         ServiceLocator.getNpcService().setNpcNum(NPCNum);
         break;
+
+      default:
     }
   }
 
@@ -498,6 +508,7 @@ public class ForestGameArea extends GameArea {
           spawnMeleeBoss();
         }
         break;
+      default:
     }
   }
 
@@ -538,6 +549,7 @@ public class ForestGameArea extends GameArea {
 
     spawnEntityAt(entity, randomPos, true, true);
     ServiceLocator.getUGSService().setEntity(randomPos, entity, "Enemy@" + entity.getId());
+    entity.getComponent(AITaskComponent.class).updateMovementTask();
   }
 
   private void levelUp(Entity entity) {
@@ -572,6 +584,9 @@ public class ForestGameArea extends GameArea {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
     levelUp(ElectricEelEnemy);
+    ElectricEelEnemy.setCollectable(true);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
   }
@@ -595,52 +610,54 @@ public class ForestGameArea extends GameArea {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
     levelUp(ninjaStarfishEnemy);
+    ninjaStarfishEnemy.setCollectable(true);
+    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
+    ninjaStarfishEnemy.setResourceAmount(50);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
   }
 
+  /**
+   * Spawns an interactable NPC on the island
+   */
   private void spawnNPCharacter() {
+
     Entity NPC = NPCFactory.createSpecialNPC();
     ServiceLocator.getNpcService().registerNamed(String.valueOf(NPCNum), NPC);
     this.entityMapping.addEntity(NPC);
-    // int index = (int) ((Math.random() * (NPC_SPAWNS.length)));
     int index = (int) (new SecureRandom().nextInt(NPC_SPAWNS.length));
     spawnEntityAt(NPC, NPC_SPAWNS[index], true, true);
     ServiceLocator.getUGSService().setEntity(NPC_SPAWNS[index], NPC, "NPC@" + NPC.getId());
 
     NPCNum++;
     ServiceLocator.getNpcService().setNpcNum(NPCNum);
-    // NPC.setPosition(terrainFactory.getMapSize().x / 3,
-    // terrainFactory.getMapSize().y / 3);
-    // ServiceLocator.getEntityService().addEntity(NPC);
-
   }
 
   private void playMusic() {
     // Background Music
-    music = ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class);
+    music = ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
 
     // Background Ambience
-    ambience = ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class);
+    ambience = ServiceLocator.getResourceService().getAsset(BACKGROUND_SOUNDS, Music.class);
     ambience.setLooping(true);
     ambience.setVolume(0.1f);
     ambience.play();
   }
 
   public void playShopMusic() {
-    ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
-    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
-    Music music = ServiceLocator.getResourceService().getAsset(shopMusic, Music.class);
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_SOUNDS, Music.class).stop();
+    Music music = ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class);
     music.setLooping(true);
     music.setVolume(0.3f);
     music.play();
   }
 
   public void exitShop() {
-    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class).stop();
     playMusic();
   }
 
@@ -657,9 +674,9 @@ public class ForestGameArea extends GameArea {
   @Override
   public void dispose() {
     super.dispose();
-    ServiceLocator.getResourceService().getAsset(backgroundMusic, Music.class).stop();
-    ServiceLocator.getResourceService().getAsset(backgroundSounds, Music.class).stop();
-    ServiceLocator.getResourceService().getAsset(shopMusic, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_MUSIC, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(BACKGROUND_SOUNDS, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class).stop();
     this.unloadAssets();
   }
 

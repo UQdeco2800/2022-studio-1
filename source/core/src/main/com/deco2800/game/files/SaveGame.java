@@ -17,10 +17,7 @@ import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
-import com.deco2800.game.entities.factories.CrystalService;
-import com.deco2800.game.entities.factories.NPCFactory;
-import com.deco2800.game.entities.factories.ObstacleFactory;
-import com.deco2800.game.entities.factories.StructureFactory;
+import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.DayNightCycleService;
@@ -55,7 +52,7 @@ public class SaveGame {
     private static Entity loadedCrystal;
 
     /**
-     * Saves environmental objects to enviromental via the use of json
+     * Saves environmental objects to environmental via the use of json
      */
     private static void saveEnvironmentalObjects() {
         logger.debug("Begin Saving Environment");
@@ -185,11 +182,9 @@ public class SaveGame {
         logger.debug("Begin Saving Crystal");
         String name = "crystal";
         Entity crystal = ServiceLocator.getEntityService().getNamedEntity(name);
-
         if (crystal == null) {
             return;
         }
-
         // save crystal level, health, texture, name, and position
         Tuple crystalRepresentation = new Tuple().setName(name).setPosition(crystal.getPosition());
         crystalRepresentation.setLevel(crystal.getComponent(CombatStatsComponent.class).getLevel());
@@ -260,8 +255,6 @@ public class SaveGame {
         CrystalConfig crystalStats = FileLoader.readClass(CrystalConfig.class, "configs/crystal.json");
         if (crystalRepresentation != null) {
             Entity crystal = ServiceLocator.getEntityService().getNamedEntity("crystal");
-            // CrystalFactory.createCrystal(crystalRepresentation.texture,
-            // crystalRepresentation.name);
             if (crystal == null) {
                 return;
             }
@@ -285,11 +278,6 @@ public class SaveGame {
         if (player == null) {
             return;
         }
-        // save player status - look at CareTaker and Memento which would for sure be
-        // the more elegant way to do this
-        // in sprint 4, but I don't want to mess with that code this sprint to avoid
-        // conflicts
-        // lmao this wont work if you close the game at which point caretaker/memento would need to be seralized which is just a further extension of this and is more work
         HashMap<String, Object> status = new HashMap();
         status.put("gold", player.getComponent(InventoryComponent.class).getGold());
         status.put("stone", player.getComponent(InventoryComponent.class).getStone());

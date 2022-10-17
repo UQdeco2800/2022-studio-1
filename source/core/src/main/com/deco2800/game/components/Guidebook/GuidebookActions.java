@@ -26,6 +26,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * events is triggered.
  */
 public class GuidebookActions extends Component {
+    private static final String GUIDEBOOK = "guidebook";
+
     private static final Logger logger = LoggerFactory.getLogger(GuidebookActions.class);
     private AtlantisSinks game;
     private Renderer renderer;
@@ -48,17 +50,17 @@ public class GuidebookActions extends Component {
 
     private void nextPage() {
         int proposedNextPage = GuidebookDisplay.currentPage + 2;
-        if (proposedNextPage >= GuidebookDisplay.maxPages) {
+        if (proposedNextPage >= GuidebookDisplay.MAX_PAGES) {
             return;
         }
         GuidebookDisplay.currentPage = proposedNextPage;
-        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK)
                 .getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table : guidebook) {
             table.remove();
         }
         GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_NEXT;
-        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+        ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK).getComponent(GuidebookDisplay.class)
                 .displayBook();
 
         ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();
@@ -79,13 +81,13 @@ public class GuidebookActions extends Component {
         }
         GuidebookDisplay.currentPage = proposedBackPage;
 
-        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity("guidebook")
+        Table[] guidebook = ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK)
                 .getComponent(GuidebookDisplay.class).getGuidebook();
         for (Table table : guidebook) {
             table.remove();
         }
         GuidebookDisplay.bookStatus = GuidebookStatus.FLICK_PREVIOUS;
-        ServiceLocator.getEntityService().getNamedEntity("guidebook").getComponent(GuidebookDisplay.class)
+        ServiceLocator.getEntityService().getNamedEntity(GUIDEBOOK).getComponent(GuidebookDisplay.class)
                 .displayBook();
 
         ScheduledExecutorService flicking = Executors.newSingleThreadScheduledExecutor();

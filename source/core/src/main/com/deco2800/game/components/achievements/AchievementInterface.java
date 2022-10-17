@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.achievements.AchievementType;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -83,7 +84,7 @@ public class AchievementInterface extends UIComponent {
         displayTable.setPosition(Gdx.graphics.getWidth() * 0.7f * 0.5f, Gdx.graphics.getHeight() * 0.7f * 0.28f);
 
         // Title
-        Label title = new Label("Achievements", skin, "title");
+        Label title = new Label("Achievements", skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(2f);
         title.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
                 Gdx.graphics.getHeight() * 0.85f - 110f);
@@ -303,20 +304,13 @@ public class AchievementInterface extends UIComponent {
         Table achievementCard = new Table();
 
         achievementCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture;
-
-        if (achievement.getAchievementType() == AchievementType.RESOURCES || achievement.getAchievementType() == AchievementType.UPGRADES) {
-            backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
-                    : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
-        } else {
-            backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/achievement_card_completed.png"
-                    : "images/achievements/achievement_card_locked_n.png"));
-        }
+        Texture backgroundTexture = new Texture(Gdx.files.internal(achievement.isCompleted() ? "images/achievements/%s_Tick.png".formatted(achievement.getAchievementType().getTitle())
+                : "images/achievements/%s_Lock.png".formatted(achievement.getAchievementType().getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         achievementCard.setBackground(backgroundImg.getDrawable());
 
-        Label achievementTitle = new Label(achievement.getName(), skin, "title");
+        Label achievementTitle = new Label(achievement.getName(), skin, ForestGameArea.TITLE_FONT);
         achievementTitle.setFontScale(0.7f);
         achievementTitle.setAlignment(Align.center);
         achievementCard.add(achievementTitle).colspan(3).expandX();
@@ -324,7 +318,7 @@ public class AchievementInterface extends UIComponent {
 
         ArrayList<String> achievementDescription = splitDescription(achievement.isStat() ? achievement.getDescription().formatted(achievement.getTotalAchieved()) : achievement.getDescription());
 
-        var descriptionLabel = new Label(achievementDescription.get(0), skin, "large");
+        var descriptionLabel = new Label(achievementDescription.get(0), skin, ForestGameArea.LARGE_FONT);
         descriptionLabel.setFontScale(0.7f);
         achievementCard.add(descriptionLabel).colspan(3).expandX();
         achievementCard.row();
@@ -336,14 +330,14 @@ public class AchievementInterface extends UIComponent {
                 continue;
             }
 
-            tempLabel = new Label(s, skin, "large");
+            tempLabel = new Label(s, skin, ForestGameArea.LARGE_FONT);
             tempLabel.setFontScale(0.7f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
         }
 
         if (achievementDescription.size() == 1) {
-            tempLabel = new Label("", skin, "large");
+            tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
             tempLabel.setFontScale(0.7f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
@@ -352,7 +346,7 @@ public class AchievementInterface extends UIComponent {
         if (achievement.isStat()) {
             achievementCard.add(buildAchievementMilestoneButtons(achievement, descriptionLabel)).expandX().colspan(3).padBottom(20).align(Align.center);
         } else {
-            tempLabel = new Label("", skin, "large");
+            tempLabel = new Label("", skin, ForestGameArea.LARGE_FONT);
             tempLabel.setFontScale(0.7f);
             achievementCard.add(tempLabel).colspan(3).expandX();
             achievementCard.row();
@@ -402,24 +396,12 @@ public class AchievementInterface extends UIComponent {
     public static Table buildAchievementSummaryCard(AchievementType type) {
         Table summaryCard = new Table();
         summaryCard.pad(30f, 40f, 30f, 40f);
-        Texture backgroundTexture;
-
-        if (type == AchievementType.RESOURCES || type == AchievementType.UPGRADES) {
-            backgroundTexture = new Texture(
-                    Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
-                            ? "images/achievements/%s_Tick.png".formatted(type.getTitle())
-                            : "images/achievements/%s_Lock.png".formatted(type.getTitle())));
-        } else {
-            backgroundTexture = new Texture(
-                    Gdx.files.internal(ServiceLocator.getAchievementHandler().allCompletedOfType(type)
-                            ? "images/achievements/achievement_card_completed.png"
-                            : "images/achievements/achievement_card_locked_n.png"));
-        }
+        Texture backgroundTexture = new Texture(Gdx.files.internal("images/achievements/%s_Summary.png".formatted(type.getTitle())));
 
         Image backgroundImg = new Image(backgroundTexture);
         summaryCard.setBackground(backgroundImg.getDrawable());
 
-        Label title = new Label(type.getTitle(), skin, "title");
+        Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(0.7f);
         summaryCard.add(title).colspan(3).expand();
         summaryCard.row();
@@ -441,7 +423,7 @@ public class AchievementInterface extends UIComponent {
 
     public void changeDisplay(AchievementType type) {
         displayTable.clear();
-        Label title = new Label(type.getTitle(), skin, "title");
+        Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(1f);
         displayTable.add(title).colspan(6).expandX();
         displayTable.row();
