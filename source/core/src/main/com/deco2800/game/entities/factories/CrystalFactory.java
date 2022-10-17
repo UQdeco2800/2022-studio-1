@@ -36,9 +36,9 @@ public class CrystalFactory {
     public static Entity createCrystal(String texture, String name) {
         AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/p_crystal_damaged.atlas", TextureAtlas.class));
-        animator.addAnimation("pcrystal", 0.1f, Animation.PlayMode.NORMAL);
-        animator.addAnimation("plast", 0.1f, Animation.PlayMode.NORMAL);
+                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/crystal_damaged.atlas", TextureAtlas.class));
+        animator.addAnimation("crystal", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("last", 0.1f, Animation.PlayMode.NORMAL);
 
         Entity crystal = new Entity()
                 .addComponent(new TextureRenderComponent(texture))

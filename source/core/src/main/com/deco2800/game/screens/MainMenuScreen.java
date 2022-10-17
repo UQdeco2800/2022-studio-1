@@ -203,7 +203,6 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/npc_animations/NPC1sprite.atlas",
           "images/npc_animations/npc.atlas",
           "images/crystal_animation/crystal_damaged.atlas",
-          "images/crystal_animation/p_crystal_damaged.atlas",
           "images/attack_towers/animations/towerLevel2.atlas"
   };
 

@@ -9,15 +9,16 @@ public class CrystalAnimationController extends Component {
     public void create() {
         super.create();
         animator = entity.getComponent(AnimationRenderComponent.class);
+        // ServiceLocator.getEntityService().getNamedEntity("crystal").getEvents().addListener("desCrystal", this::destroyedCrystal);
         entity.getEvents().addListener("desCrystal", this::destroyedCrystal);
         entity.getEvents().addListener("lastCrystal", this::lastCrystal);
     }
 
     private void destroyedCrystal() {
-        animator.startAnimation("pcrystal");
+        animator.startAnimation("crystal");
     }
 
     private void lastCrystal(){
-        animator.startAnimation("plast");
+        animator.startAnimation("last");
     }
 }
