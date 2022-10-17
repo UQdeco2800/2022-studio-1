@@ -1,6 +1,5 @@
 {
 currentCycleStatus: NONE
-currentDayMillis: 1
 config: {
 	dawnLength: 15000
 	dayLength: 60000
@@ -9,6 +8,6 @@ config: {
 	maxDays: 4
 }
 timer: {
-	startTime: 1665968724319
+	startTime: 1665970181046
 }
 }
