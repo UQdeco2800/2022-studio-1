@@ -368,8 +368,6 @@ public class AchievementInterface extends UIComponent {
         }
 
         achievementCard.row();
-        achievementCard.setSize(Gdx.graphics.getWidth() * 0.7f * 0.69f * 0.2f, Gdx.graphics.getHeight() * 0.7f * 0.75f * 0.2f);
-
         achievementCard.pack();
 
         return achievementCard;
@@ -434,23 +432,34 @@ public class AchievementInterface extends UIComponent {
 
     public void changeDisplay(AchievementType type) {
         displayTable.clear();
+        achievementBadges.clear();
         Label title = new Label(type.getTitle(), skin, ForestGameArea.TITLE_FONT);
         title.setFontScale(1f);
         displayTable.add(title).colspan(6).expandX();
         displayTable.row();
 
         int achievementsAdded = 0;
+        Table achievementBadge;
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
+
+        float badgeWidth = Gdx.graphics.getWidth() * 0.21f;
+        float badgeHeight = Gdx.graphics.getHeight() * 0.11f;
+
+        float leftColumnX = displayTable.getX() + displayTable.getWidth() / 4f - badgeWidth / 2f + badgeWidth / 20f;
+        float rightColumnX = displayTable.getX() + displayTable.getWidth() * 3f / 4f - badgeWidth / 2f - badgeWidth / 20f;
+        float firstRowY = Gdx.graphics.getHeight() * 0.5f;
 
         if (type == AchievementType.SUMMARY) {
             for (AchievementType achievementType : AchievementType.values()) {
-                if (achievementsAdded != 0 && achievementsAdded % 2 == 0) {
-                    displayTable.row();
-                } else if (achievementType == AchievementType.SUMMARY) {
+                if (achievementType == AchievementType.SUMMARY) {
                     continue;
                 }
 
-                displayTable.add(buildAchievementSummaryCard(achievementType)).colspan(3).fillX();
+                achievementBadge = buildAchievementSummaryCard(achievementType);
+                achievementBadge.setSize(badgeWidth, badgeHeight);
+                achievementBadge.setPosition(achievementsAdded % 2 == 0 ? leftColumnX : rightColumnX, firstRowY - (badgeHeight + (achievementsAdded < 2 ? 0f : badgeHeight / 8f)) * Math.floorDiv(achievementsAdded, 2));
+
+                achievementBadges.addActor(achievementBadge);
 
                 achievementsAdded++;
             }
@@ -464,7 +473,12 @@ public class AchievementInterface extends UIComponent {
                     displayTable.row();
                 }
 
-                displayTable.add(buildAchievementCard(achievement)).colspan(3).fillX();
+                achievementBadge = buildAchievementCard(achievement);
+
+                achievementBadge.setSize(badgeWidth, badgeHeight);
+                achievementBadge.setPosition(achievementsAdded % 2 == 0 ? leftColumnX : rightColumnX, firstRowY - (badgeHeight + (achievementsAdded < 2 ? 0f : badgeHeight / 8f)) * Math.floorDiv(achievementsAdded, 2));
+
+                achievementBadges.addActor(achievementBadge);
 
                 achievementsAdded++;
             }
