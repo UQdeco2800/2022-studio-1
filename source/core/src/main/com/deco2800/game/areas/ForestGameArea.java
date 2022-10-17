@@ -23,6 +23,7 @@ import com.deco2800.game.entities.Entity;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
+import com.deco2800.game.rendering.AnimationRenderComponent;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -536,6 +537,7 @@ public class ForestGameArea extends GameArea {
     levelUp(pirateCrabEnemy);
     this.entityMapping.addEntity(pirateCrabEnemy);
     spawnEnemy(pirateCrabEnemy);
+    pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
   }
 
   /**
