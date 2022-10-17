@@ -7,6 +7,8 @@ import com.deco2800.game.rendering.RenderComponent;
 import com.deco2800.game.rendering.Renderable;
 import com.deco2800.game.services.ServiceLocator;
 
+import javax.swing.*;
+
 /**
  * A generic component for rendering onto the ui.
  */
@@ -30,5 +32,9 @@ public abstract class UIComponent extends RenderComponent implements Renderable 
   @Override
   public float getZIndex() {
     return 1f;
+  }
+
+  public static Skin getSkin() {
+    return skin;
   }
 }
