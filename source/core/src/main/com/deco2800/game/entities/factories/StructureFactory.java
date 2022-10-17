@@ -65,7 +65,7 @@ public class StructureFactory {
   //Change to tower 2
   private static String[][] tower2Sprites = {{"images/attack_towers/Attack_Structure2_lev1.png", "images/attack_towers/Attack_Structure2_lev1.png"},
           {"images/attack_towers/Attack_Structure2_lev2.png", "images/attack_towers/Attack_Structure2_lev2.png"},
-          {"images/attack_towers/Attack_Structure2_lev2.png", "images/attack_towers/Attack_Structure2_lev2.png"}};
+          {"images/attack_towers/Attack_Structure2_lev3.png", "images/attack_towers/Attack_Structure2_lev3.png"}};
   private static String[] tempTower3Sprites = {"images/attack_towers/tempStructures/temp_tower3lv1Left.png",
           "images/attack_towers/tempStructures/temp_tower3lv1Right.png"};
   private static String[][] tower3Sprites = {{"images/attack_towers/tower3lv1Left.png", "images/attack_towers/tower3lv1Right.png"},
