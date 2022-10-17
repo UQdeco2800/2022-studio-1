@@ -67,6 +67,10 @@ public class NPCFactory {
             .addComponent(new ContinuousAttackComponent(3000, 3000))
             .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
 
+    pirateCrabEnemy.setName("pirateCrab");
+    pirateCrabEnemy.setCollectable(false);
+
+    PhysicsUtils.setScaledCollider(pirateCrabEnemy, 12f, 12f);
     pirateCrabEnemy.getComponent(ColliderComponent.class).setDensity(1.5f);
     pirateCrabEnemy.getComponent(AnimationRenderComponent.class).startAnimation("frame");
     pirateCrabEnemy.getComponent(AnimationRenderComponent.class).scaleEntity();
