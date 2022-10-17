@@ -32,7 +32,7 @@ public class ProjectileFactory {
         Entity projectile = new Entity()
                 .addComponent(new TextureRenderComponent("images/eel_projectile.png"))
                 .addComponent(new PhysicsComponent())
-                .addComponent(new PhysicsMovementComponent())
+                .addComponent(new ProjectileMovementComponent())
                 .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
                 .addComponent(new CombatStatsComponent(1, 5))
