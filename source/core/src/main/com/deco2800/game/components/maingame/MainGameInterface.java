@@ -944,6 +944,8 @@ public class MainGameInterface extends UIComponent {
                 currBuilding.setDrawable(new TextureRegionDrawable(currBuildingTexture));
 
                 nextBuilding.setDrawable(new TextureRegionDrawable(nextBuildingTexture));
+              } else {
+                entity.getEvents().trigger("noBuildNight");
               }
             } else {
               logger.debug("No building to place!");
