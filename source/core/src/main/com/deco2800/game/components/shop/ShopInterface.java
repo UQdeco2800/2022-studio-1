@@ -17,8 +17,9 @@ import org.slf4j.LoggerFactory;
 public class ShopInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(ShopInterface.class);
     private static final float Z_INDEX = 2f;
-    int screenWidth;
-    int screenHeight;
+    private int screenWidth;
+    private int screenHeight;
+    private int displaySize;
 
     private Label subtitle;
     private Table backgroundTable;
@@ -52,19 +53,21 @@ public class ShopInterface extends UIComponent {
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
+        displaySize = screenHeight > screenWidth ? screenHeight : screenWidth;
+
         group = new Group();
         category = new Group();
         backgroundTable = new Table();
 
         artefact = new Table();
         artefact.setFillParent(true);
-        artefact.setSize(100f, 100f);
+        artefact.setSize(displaySize * 0.052f, displaySize * 0.052f);
         artefact.center().right();
         artefact.padRight(150f).padTop(100f);
 
         equipment = new Table();
         equipment.setFillParent(true);
-        equipment.setSize(100f, 100f);
+        equipment.setSize(displaySize * 0.052f, displaySize * 0.052f);
         equipment.center().left();
         equipment.padLeft(150f).padTop(100f);
 
@@ -187,6 +190,8 @@ public class ShopInterface extends UIComponent {
 
     private void compareRes() {
         if (screenHeight != Gdx.graphics.getHeight() || screenWidth != Gdx.graphics.getWidth()) {
+            equipment.setSize(displaySize * 0.052f, displaySize * 0.052f);
+            artefact.setSize(displaySize * 0.052f, displaySize * 0.052f);
             backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
             backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
                     Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
