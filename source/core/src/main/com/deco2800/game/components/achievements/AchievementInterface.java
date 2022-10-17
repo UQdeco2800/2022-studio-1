@@ -58,7 +58,6 @@ public class AchievementInterface extends UIComponent {
      */
     private Group achievementBadges;
     private float badgeWidth;
-    private float badgeHeight;
 
     /**
      * Create the achievement base display
@@ -202,7 +201,7 @@ public class AchievementInterface extends UIComponent {
         group.addActor(backButton);
         group.setVisible(false);
         stage.addActor(group);
-        stage.setDebugAll(true);
+        //stage.setDebugAll(true);
     }
 
     /**
@@ -373,42 +372,7 @@ public class AchievementInterface extends UIComponent {
 
         return achievementCard;
     }
-
-    /**
-     * Split a description string into multiple lines
-     * 
-     * @param description String
-     * @return ArrayList
-     */
-    public ArrayList<String> splitDescription(String description) {
-        ArrayList<String> splitDescription = new ArrayList<>();
-        String[] temp = description.split(" ");
-        int rowLength = 0;
-        int maxRowLength = 4;
-
-        StringBuilder row = new StringBuilder();
-
-        for (String s : temp) {
-            if (rowLength >= maxRowLength) {
-                if (row.isEmpty()) {
-                    return splitDescription;
-                }
-
-                splitDescription.add(row.toString());
-                rowLength = 0;
-                row = new StringBuilder();
-            }
-
-            row.append(s);
-            row.append(" ");
-            rowLength++;
-        }
-
-        splitDescription.add(row.toString());
-
-        return splitDescription;
-    }
-
+    
     /**
      * Creates an achievement summary card of the provided achievement type
      * @param type AchievementType
@@ -460,7 +424,7 @@ public class AchievementInterface extends UIComponent {
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
 
         this.badgeWidth = Gdx.graphics.getWidth() * 0.21f;
-        this.badgeHeight = Gdx.graphics.getHeight() * 0.11f;
+        float badgeHeight = Gdx.graphics.getHeight() * 0.11f;
 
         float leftColumnX = displayTable.getX() + displayTable.getWidth() / 4f - badgeWidth / 2f + badgeWidth / 20f;
         float rightColumnX = displayTable.getX() + displayTable.getWidth() * 3f / 4f - badgeWidth / 2f - badgeWidth / 20f;
