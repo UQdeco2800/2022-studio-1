@@ -51,7 +51,7 @@ public class GuidebookArea extends GameArea {
 
         while (!resourceService.loadForMillis(10)) {
             // This could be upgraded to a loading screen
-            logger.info("Loading... {}%", resourceService.getProgress());
+            logger.info("Loading guidebook assets... {}%", resourceService.getProgress());
 
         }
     }

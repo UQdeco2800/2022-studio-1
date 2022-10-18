@@ -186,4 +186,8 @@ public class ResourceService implements Disposable {
   public void dispose() {
     assetManager.clear();
   }
+
+  public AssetManager getAssetManager() {
+    return this.assetManager;
+  }
 }

@@ -302,4 +302,8 @@ class LinkedPoint {
     return obj.x == this.x && obj.y == this.y;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 }

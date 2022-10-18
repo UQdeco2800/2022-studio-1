@@ -2,11 +2,12 @@
     "type": "building",
     "name": "Trap",
     "goldCost": 0,
-    "stoneCost": 25,
-    "woodCost": 25,
+    "stoneCost": 100,
+    "woodCost": 50,
     "attack": 10,
     "defense": 0,
     "description": "damage when stepped",
     "itemImagePath": "images/shop-attack-building.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png"
+    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
+    "placementName": "trap"
 }
