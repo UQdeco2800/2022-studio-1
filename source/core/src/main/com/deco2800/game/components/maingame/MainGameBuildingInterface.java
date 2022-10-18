@@ -129,8 +129,8 @@ public class MainGameBuildingInterface extends UIComponent {
         // create buy button
         Boolean sufficientFunds = (MainArea.getInstance().getGameArea().getPlayer()
                 .getComponent(InventoryComponent.class)
-                .hasGold(2000));
-        TextButton upgradeButton = ShopUtils.createImageTextButton("\n Upgrade for: " + "\n" + "2000", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
+                .hasGold(200));
+        TextButton upgradeButton = ShopUtils.createImageTextButton("\n Upgrade for: " + "\n" + "200", skin.getColor(ForestGameArea.BLACK), ForestGameArea.BUTTON_FONT, 1f,
                 sufficientFunds ? brownDrawable : redDrawable,
                 sufficientFunds ? goldenDrawable : redDrawable,
                 skin,
@@ -144,7 +144,7 @@ public class MainGameBuildingInterface extends UIComponent {
                     Entity player = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.PLAYER);
                     //Obtain reference to player, for some reason it was being accessed as 'entity'
                     int playerGold = player.getComponent(InventoryComponent.class).getGold();
-                    if (playerGold > 2000) {
+                    if (playerGold > 200) {
                         logger.info("Sufficient resources");
 
                         //Get building and convert it's position to gridPoint2
@@ -162,7 +162,7 @@ public class MainGameBuildingInterface extends UIComponent {
 
                         if (!clickedStructure.getName().contains("wall")) {
                             //Subtract currency from inventory if ! wall
-                            player.getComponent(InventoryComponent.class).addGold(-1 * 2000);
+                            player.getComponent(InventoryComponent.class).addGold(-1 * 200);
                             PlayerStatsDisplay.updateItems();
                         }
 
