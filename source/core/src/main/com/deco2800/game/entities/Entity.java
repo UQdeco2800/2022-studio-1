@@ -12,8 +12,6 @@ import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.utils.math.Vector2Utils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

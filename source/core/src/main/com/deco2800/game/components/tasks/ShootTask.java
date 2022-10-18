@@ -1,17 +1,17 @@
 package com.deco2800.game.components.tasks;
 
+import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
 import com.deco2800.game.components.player.PlayerActions;
-import com.deco2800.game.services.GameTime;
-import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.physics.PhysicsEngine;
-import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.ProjectileFactory;
+import com.deco2800.game.physics.PhysicsEngine;
+import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.raycast.RaycastHit;
 import com.deco2800.game.rendering.DebugRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.deco2800.game.services.GameTime;
+import com.deco2800.game.services.ServiceLocator;
 
 public class ShootTask extends DefaultTask implements PriorityTask {
     protected Entity target;

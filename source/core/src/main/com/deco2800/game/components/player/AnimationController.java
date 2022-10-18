@@ -2,8 +2,9 @@ package com.deco2800.game.components.player;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.components.shop.equipments.Equipments;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+
 import java.util.List;
 //import com.deco2800.game.components.shop;;
 /**

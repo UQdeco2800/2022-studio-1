@@ -1,21 +1,16 @@
 package com.deco2800.game.components.tasks;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.entities.UGS;
-import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
-
-import java.security.Provider.Service;
-import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 /**
  * Move to a given position, finishing when you get close enough. Requires an

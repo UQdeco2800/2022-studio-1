@@ -1,44 +1,40 @@
 package com.deco2800.game.files;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.components.*;
-import com.deco2800.game.components.Environmental.EnvironmentalComponent;
+import com.deco2800.game.components.CameraComponent;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.DayNightClockComponent;
+import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.camera.CameraActions;
 import com.deco2800.game.entities.*;
+import com.deco2800.game.entities.configs.CrystalConfig;
+import com.deco2800.game.entities.factories.NPCFactory;
 import com.deco2800.game.entities.factories.ObstacleFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
-import com.deco2800.game.events.EventHandler;
-import com.deco2800.game.entities.configs.CrystalConfig;
-import com.deco2800.game.entities.factories.*;
 import com.deco2800.game.extensions.GameExtension;
 import com.deco2800.game.input.InputService;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsService;
-import com.deco2800.game.physics.components.ColliderComponent;
-import com.deco2800.game.physics.components.HitboxComponent;
-import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.rendering.RenderService;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.*;
 import com.deco2800.game.services.configs.DayNightCycleConfig;
-import com.deco2800.game.utils.RenderUtil;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 public class SaveGameTest {

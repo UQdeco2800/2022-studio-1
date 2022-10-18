@@ -4,12 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.TimerComponent;
-import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.PhysicsLayer;
-import com.deco2800.game.physics.PhysicsUtils;
-import com.deco2800.game.physics.components.*;
+import com.deco2800.game.physics.components.HitboxComponent;
+import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.physics.components.ProjectileMovementComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 

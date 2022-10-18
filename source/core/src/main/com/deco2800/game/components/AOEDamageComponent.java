@@ -1,18 +1,13 @@
 package com.deco2800.game.components;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.physics.components.HitboxComponent;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.RangeService;
 import com.deco2800.game.services.ServiceLocator;
+
+import java.util.ArrayList;
 
 public class AOEDamageComponent extends Component {
 

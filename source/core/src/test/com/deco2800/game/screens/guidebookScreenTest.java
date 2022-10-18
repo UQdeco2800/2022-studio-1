@@ -1,7 +1,6 @@
 package com.deco2800.game.screens;
 
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.screens.GuidebookScreen;
 import com.deco2800.game.extensions.GameExtension;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;

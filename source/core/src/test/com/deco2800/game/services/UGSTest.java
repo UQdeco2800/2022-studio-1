@@ -1,20 +1,14 @@
 package com.deco2800.game.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-
 import com.badlogic.gdx.math.GridPoint2;
-import com.deco2800.game.entities.EntityService;
-import org.junit.Before;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.Tile;
 import com.deco2800.game.entities.UGS;
 import com.deco2800.game.extensions.GameExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UGSTest {
     /**

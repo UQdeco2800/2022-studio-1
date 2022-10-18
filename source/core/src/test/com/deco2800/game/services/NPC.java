@@ -1,16 +1,15 @@
 package com.deco2800.game.services;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.spy;
 
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.NpcService;
 import org.junit.Test;
 
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
-import com.deco2800.game.entities.Tile;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.spy;
 
 public class NPC {
 

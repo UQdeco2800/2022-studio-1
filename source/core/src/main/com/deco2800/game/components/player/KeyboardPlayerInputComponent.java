@@ -4,22 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.entities.*;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.NpcService;
+import com.deco2800.game.entities.StructureService;
 import com.deco2800.game.input.InputComponent;
-import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 
-//import java.io.Serial;     // this had an error not sure what the go is???
-
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Input handler for the player for keyboard and touch (mouse) input.

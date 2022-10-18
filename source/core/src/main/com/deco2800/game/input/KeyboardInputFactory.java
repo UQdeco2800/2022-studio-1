@@ -4,7 +4,6 @@ import com.deco2800.game.components.camera.KeyboardCameraInputComponent;
 import com.deco2800.game.components.player.KeyboardPlayerInputComponent;
 import com.deco2800.game.components.storyline.storyLineInputComponent;
 import com.deco2800.game.ui.terminal.KeyboardTerminalInputComponent;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

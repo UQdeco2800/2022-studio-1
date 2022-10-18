@@ -1,22 +1,12 @@
 package com.deco2800.game.physics.components;
 
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.deco2800.game.ai.movement.MovementController;
-import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.Tile;
-import com.deco2800.game.entities.UGS;
-import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.math.Vector2Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
 /** Movement controller for a physics-based entity. */
 public class PhysicsMovementComponent extends Component implements MovementController {

@@ -1,31 +1,27 @@
 package com.deco2800.game.components.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.achievements.AchievementType;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.components.shop.artefacts.Equipment;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.Tile;
-import com.deco2800.game.entities.UGS;
 import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
-import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Action component for interacting with the player. Player events should be

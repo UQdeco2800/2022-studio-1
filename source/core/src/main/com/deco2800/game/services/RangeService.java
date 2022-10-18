@@ -5,14 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.Tile;
-import com.deco2800.game.entities.UGS;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 public class RangeService {
 

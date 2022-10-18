@@ -1,11 +1,5 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessFiles;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.achievements.Achievement;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CameraComponent;
 import com.deco2800.game.components.camera.CameraActions;
@@ -25,10 +19,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(GameExtension.class)
 class StructureFactoryTest {

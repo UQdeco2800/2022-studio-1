@@ -12,10 +12,7 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.entities.factories.CrystalService;
-import com.deco2800.game.entities.factories.PlayerFactory;
-import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
@@ -23,8 +20,6 @@ import com.deco2800.game.utils.DrawableUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A ui component for displaying player stats, e.g. health.

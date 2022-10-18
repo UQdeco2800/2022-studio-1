@@ -1,32 +1,39 @@
 package com.deco2800.game.areas;
 
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.areas.terrain.EnvironmentalCollision;
-import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.infrastructure.ResourceType;
-import com.deco2800.game.components.npc.BossAnimationController;
-import com.deco2800.game.files.SaveGame;
-import com.deco2800.game.services.DayNightCycleService;
-import com.deco2800.game.services.DayNightCycleStatus;
-import com.deco2800.game.entities.factories.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.badlogic.gdx.audio.Music;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.areas.terrain.TerrainFactory.TerrainType;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent;
-import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.components.Environmental.EnvironmentalComponent.EnvironmentalObstacle;
-import com.deco2800.game.entities.Entity;
+import com.deco2800.game.components.Environmental.ValueTuple;
 import com.deco2800.game.components.gamearea.GameAreaDisplay;
+import com.deco2800.game.components.infrastructure.ResourceType;
+import com.deco2800.game.components.npc.BossAnimationController;
+import com.deco2800.game.entities.Entity;
+import com.deco2800.game.entities.factories.CrystalFactory;
+import com.deco2800.game.entities.factories.NPCFactory;
+import com.deco2800.game.entities.factories.ObstacleFactory;
+import com.deco2800.game.entities.factories.PlayerFactory;
+import com.deco2800.game.files.SaveGame;
+import com.deco2800.game.rendering.AnimationRenderComponent;
+import com.deco2800.game.services.DayNightCycleService;
+import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ResourceService;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.rendering.AnimationRenderComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 /** Forest area for the demo game with trees, a player, and some enemies. */
 public class ForestGameArea extends GameArea {

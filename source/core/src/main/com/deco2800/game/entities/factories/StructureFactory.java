@@ -1,7 +1,5 @@
 package com.deco2800.game.entities.factories;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,7 +15,6 @@ import com.deco2800.game.components.infrastructure.OrientationComponent;
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import com.deco2800.game.components.infrastructure.TrapComponent;
 import com.deco2800.game.components.player.InventoryComponent;
-
 import com.deco2800.game.components.tasks.ShootMultipleTask;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.BaseStructureConfig;
@@ -32,8 +29,8 @@ import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
-import com.sun.jdi.ObjectReference;
-import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 /**
  * Factory to create structure entities with predefined components.

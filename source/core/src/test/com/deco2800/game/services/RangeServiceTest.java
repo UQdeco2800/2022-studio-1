@@ -3,7 +3,6 @@ package com.deco2800.game.services;
 import com.badlogic.gdx.math.GridPoint2;
 import com.deco2800.game.areas.terrain.IsoTileRenderer;
 import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.entities.Tile;
@@ -14,9 +13,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.spy;
 
 @ExtendWith(GameExtension.class)

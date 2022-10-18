@@ -1,10 +1,7 @@
 package com.deco2800.game.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,8 +13,6 @@ import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.entities.factories.ResourceBuildingFactory;
 import com.deco2800.game.entities.factories.StructureFactory;
-import com.deco2800.game.rendering.TextureRenderComponent;
-import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

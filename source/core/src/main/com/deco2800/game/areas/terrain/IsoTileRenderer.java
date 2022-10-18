@@ -15,8 +15,6 @@
  ******************************************************************************/
 package com.deco2800.game.areas.terrain;
 
-import static com.badlogic.gdx.graphics.g2d.Batch.*;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,6 +25,8 @@ import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import static com.badlogic.gdx.graphics.g2d.Batch.*;
 
 public class IsoTileRenderer extends BatchTiledMapRenderer {
 

@@ -1,7 +1,6 @@
 package com.deco2800.game.utils.math;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.security.SecureRandom;

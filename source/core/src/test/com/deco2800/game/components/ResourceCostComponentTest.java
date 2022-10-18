@@ -1,6 +1,8 @@
 package com.deco2800.game.components;
+
 import com.deco2800.game.components.infrastructure.ResourceCostComponent;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ResourceCostComponentTest {
