@@ -234,7 +234,6 @@ public class StructureService extends EntityService {
    * @param name of the tempStructureEntity
    */
   public static void buildTempStructure(String name) {
-    //MAKE ALL TEMP STRUCTURES TRANSPARENT TO ADD TO THE GHOST STRUCTURE EFFECT
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -246,7 +245,6 @@ public class StructureService extends EntityService {
     String entityName = "Temp";
     entityName = name + entityName;
 
-    // @TODO change to switch statement for efficiency
     if (Objects.equals(name, "wall")) {
       tempEntity = StructureFactory.createWall(entityName, true, orientation);
     } else if (Objects.equals(name, "tower1")) {
@@ -257,12 +255,12 @@ public class StructureService extends EntityService {
       tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {
       tempEntity = StructureFactory.createTower3(1, entityName, true, orientation);
-    } else if (Objects.equals(name, "trap")) {
-      tempEntity = StructureFactory.createTrap(entityName, true);
+    } else if (Objects.equals(name, "trap1")) {
+      tempEntity = StructureFactory.createTrap(entityName, true, 0);
+    } else if (Objects.equals(name, "trap2")) {
+      tempEntity = StructureFactory.createTrap(entityName, true, 1);
     } else if (Objects.equals(name, "stoneQuarry")) {
       tempEntity = ResourceBuildingFactory.createStoneQuarry(entityName);
-    } else if (Objects.equals(name, "turret")) {
-      tempEntity = StructureFactory.createTurret(entityName);
     }
     // Update achievements for structures/building
     //This is not a successfully built building, so I don't think it warrants an achievement
