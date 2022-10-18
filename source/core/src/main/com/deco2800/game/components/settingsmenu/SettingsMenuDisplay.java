@@ -275,7 +275,7 @@ public class SettingsMenuDisplay extends UIComponent {
 
   @Override
   public void update() {
-    stage.act(ServiceLocator.getTimeSource().getDeltaTime());
+    //stage.act(ServiceLocator.getTimeSource().getDeltaTime());
   }
 
   @Override

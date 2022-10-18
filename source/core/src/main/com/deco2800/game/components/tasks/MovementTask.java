@@ -71,6 +71,11 @@ public class MovementTask extends DefaultTask {
 
   }
 
+  /**
+   * Moves the entity to the specified tile
+   * 
+   * @param targetPosition tile coordinates to move to
+   */
   private void move(LinkedPoint targetPosition) {
     UGS ugs = ServiceLocator.getUGSService();
 
@@ -84,6 +89,21 @@ public class MovementTask extends DefaultTask {
     ugs.moveEntity(owner.getEntity(), playerCurrentPos, movementVector.x, movementVector.y);
   }
 
+  /**
+   * Heuristic for the Path finding algorithm. Checks the following conditions:
+   * - First checks to see if the manhattan distance from the neighbour tile to
+   * the target position is smaller than the distance from the original tile to
+   * the target tile.
+   * - Then checks if the tile is valid (not null) in the ugs.
+   * - Then checks to see if the tile is not occupied
+   * 
+   * If all of these conditions are true, then the tile is valid
+   * 
+   * @param tile        neighbouring tile to check
+   * @param origin      original tile
+   * @param targetPoint end point
+   * @return true if tile is valid, false otherwise.
+   */
   private boolean validateTile(LinkedPoint tile, LinkedPoint origin, LinkedPoint targetPoint) {
     UGS ugs = ServiceLocator.getUGSService();
 
@@ -108,6 +128,14 @@ public class MovementTask extends DefaultTask {
     return false;
   }
 
+  /**
+   * Checks neighbouring tiles of the origin tile to see if they're valid or not,
+   * and returns those that are.
+   * 
+   * @param origin      original tile
+   * @param targetPoint endpoint
+   * @return list of valid surrounding tiles
+   */
   private ArrayList<LinkedPoint> findSurrounding(LinkedPoint origin, LinkedPoint targetPoint) {
 
     ArrayList<LinkedPoint> openTiles = new ArrayList<>();
@@ -157,6 +185,19 @@ public class MovementTask extends DefaultTask {
     return openTiles;
   }
 
+  /**
+   * Generates the ~shortest~ path to the target position based on the owners
+   * original position. This uses a simplified version of Djikstra's shortest path
+   * algorithm: it checks all the starting points neighbouring tiles against a
+   * heuristic to see if they're valid, then adds them to a list to check. These
+   * tiles are then also have their neighbouring tiles checked against the
+   * heuristic until the target position is found.
+   * 
+   * This algorithm has a fairly large overhead and is quite slow in large
+   * distances. If the map plans to get any larger, change this algorithm.
+   * 
+   * @return path for the entity to follow as a list of points to move to.
+   */
   private ArrayList<LinkedPoint> generatePath() {
     GridPoint2 ownerPos = ServiceLocator.getEntityService().getNamedEntity("terrain")
         .getComponent(TerrainComponent.class)
@@ -226,8 +267,16 @@ public class MovementTask extends DefaultTask {
     this.origin = originPosition;
     path = generatePath();
   }
+
+  public ArrayList<LinkedPoint> getPath() {
+    return this.path;
+  }
 }
 
+/**
+ * LinkedPoint represents a coordinate, and knows the previous coordinate it
+ * spawned from.
+ */
 class LinkedPoint {
 
   public int x;
@@ -253,4 +302,8 @@ class LinkedPoint {
     return obj.x == this.x && obj.y == this.y;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 }

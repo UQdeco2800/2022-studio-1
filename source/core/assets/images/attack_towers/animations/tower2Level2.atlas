@@ -1,0 +1,69 @@
+
+tower2Level2.png
+size: 540, 92
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+default
+  rotate: false
+  xy: 2, 4
+  size: 65, 83
+  orig: 65, 83
+  offset: 0, 0
+  index: 0
+tower2Level2
+  rotate: false
+  xy: 2, 4
+  size: 65, 83
+  orig: 65, 83
+  offset: 0, 0
+  index: 1
+tower2Level2
+  rotate: false
+  xy: 69, 4
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 2
+tower2Level2
+  rotate: false
+  xy: 136, 4
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 3
+tower2Level2
+  rotate: false
+  xy: 203, 4
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 4
+tower2Level2
+  rotate: false
+  xy: 270, 4
+  size: 65, 84
+  orig: 65, 84
+  offset: 0, 0
+  index: 5
+tower2Level2
+  rotate: false
+  xy: 337, 4
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 6
+tower2Level2
+  rotate: false
+  xy: 404, 4
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 7
+tower2Level2
+  rotate: false
+  xy: 471, 4
+  size: 65, 86
+  orig: 65, 86
+  offset: 0, 0
+  index: 8

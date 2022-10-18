@@ -1,8 +1,6 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
-import com.deco2800.game.areas.GameArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.TimerComponent;
@@ -26,6 +24,7 @@ public class ProjectileFactory {
         short targetLayer = PhysicsLayer.PLAYER;
 
         if (source.getName().contains("turret")) {
+            texturePath = "images/attack_towers/elecball.png";
             targetLayer = PhysicsLayer.ENEMY;
         }
 
@@ -35,9 +34,11 @@ public class ProjectileFactory {
                 .addComponent(new ProjectileMovementComponent())
 //                .addComponent(new ColliderComponent())
                 .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PROJECTILE))
-                .addComponent(new CombatStatsComponent(2, 5))
-                .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY));
-//                .addComponent(new TouchAttackComponent(targetLayer, 0.2f));
+                .addComponent(new CombatStatsComponent(1, 5))
+                .addComponent(new EntityClassification(EntityClassification.NPCClassification.ENEMY))
+//                .addComponent(new TouchAttackComponent(targetLayer, 0.2f))
+                .addComponent(new TimerComponent());
+
 
         destination.y -= ServiceLocator.getEntityService().getNamedEntity("terrain")
                 .getComponent(TerrainComponent.class).getTileSize() / 2;

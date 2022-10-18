@@ -55,17 +55,17 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_CRABS = 1;
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
-  private static final int MAX_NUM_EELS = 1;
+  private static final int MAX_NUM_EELS = 2;
   private static final int BOSS_DAY = 3;
   private static final int MIN_NUM_STARFISH = 1;
-  private static final int MAX_NUM_STARFISH = 3;
+  private static final int MAX_NUM_STARFISH = 2;
 
   private Music music;
   private Music ambience;
 
-  private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
-  private static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
-  private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
+  public static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
+  public static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
+  public static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
 
   // private EnvironmentalCollision entityMapping;
 
@@ -98,6 +98,7 @@ public class ForestGameArea extends GameArea {
     displayUI();
     playMusic();
     spawnTerrain();
+
     ServiceLocator.getUGSService().generateUGS();
 
     entityMapping = new EnvironmentalCollision(terrain);
@@ -110,8 +111,6 @@ public class ForestGameArea extends GameArea {
     this.player = spawnPlayer();
 
     spawnElectricEelEnemy();
-
-    //spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -307,8 +306,9 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
-    //Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
-    Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+    Entity crystal = CrystalFactory.createCrystal("images/crystal1.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
 
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
@@ -447,8 +447,6 @@ public class ForestGameArea extends GameArea {
    * }
    */
 
-
-
   /**
    * Spawns NPCs during the day and removes them at night.
    * NPCs spawn based on the number of buildings you have.
@@ -506,9 +504,14 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
-          // spawnElectricEelEnemy();
-          // spawnNinjaStarfishEnemy();
         }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
+          spawnElectricEelEnemy();
+        }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_STARFISH, MAX_NUM_STARFISH); i++) {
+          spawnNinjaStarfishEnemy();
+        }
+
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
@@ -589,6 +592,9 @@ public class ForestGameArea extends GameArea {
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
+    ElectricEelEnemy.setCollectable(true);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(50);
     levelUp(ElectricEelEnemy);
     ElectricEelEnemy.setCollectable(true);
     ElectricEelEnemy.setResourceType(ResourceType.GOLD);
@@ -615,6 +621,9 @@ public class ForestGameArea extends GameArea {
   private void spawnNinjaStarfishEnemy() {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
+    ninjaStarfishEnemy.setCollectable(true);
+    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
+    ninjaStarfishEnemy.setResourceAmount(50);
     levelUp(ninjaStarfishEnemy);
     ninjaStarfishEnemy.setCollectable(true);
     ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
@@ -667,14 +676,9 @@ public class ForestGameArea extends GameArea {
     playMusic();
   }
 
-  private void loadAssets() {
-    logger.debug("Loading assets");
-  }
-
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-
   }
 
   @Override

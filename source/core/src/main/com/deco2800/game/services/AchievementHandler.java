@@ -132,7 +132,7 @@ public class AchievementHandler {
         this.events = new EventHandler();
 
         if (Files.exists(Path.of(Gdx.files.getLocalStoragePath() +
-                Gdx.files.local("Saves/playerAchievementsVersion5.json").path()))) {
+                Gdx.files.local("Saves/playerAchievementsVersion6.json").path()))) {
             // Load from file
             this.achievements = this.loadAchievements(null);
         } else {

@@ -112,10 +112,11 @@ public class PlayerActions extends Component {
         keyOfPlayer = entry.getKey();
       }
     }
-    String keyCoorSplit[] = keyOfPlayer.split(",");
-    GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(keyCoorSplit[0]), Integer.parseInt(keyCoorSplit[1]));
-
-    ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, direction.x, direction.y);
+    if (keyOfPlayer != null) {
+      String keyCoorSplit[] = keyOfPlayer.split(",");
+      GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(keyCoorSplit[0]), Integer.parseInt(keyCoorSplit[1]));
+      ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, direction.x, direction.y);
+    }
 
     // uncomment in case of emergency
     // switch (direction.toString()) {
@@ -256,17 +257,19 @@ public class PlayerActions extends Component {
    * Kills the player
    */
   public void die() {
-    entity.getEvents().trigger("death_anim");
-    entity.setScale(11f, 10.5f);
-    playerAlive = false;
-    dieTask = new TimerTask() {
-      @Override
-      public void run() {
-        // hide the character sprite
-        entity.setScale(0.1F, 0.1F);
-      }
-    };
-    timer.schedule(dieTask, 1000);
+    if (playerAlive) {
+      entity.getEvents().trigger("death_anim");
+      entity.setScale(11f, 10.5f);
+      playerAlive = false;
+      dieTask = new TimerTask() {
+        @Override
+        public void run() {
+          // hide the character sprite
+          entity.setScale(0.1F, 0.1F);
+        }
+      };
+      timer.schedule(dieTask, 1000);
+    }
   }
 
   /**

@@ -71,6 +71,7 @@ class CrystalTest {
     @Mock Texture texture;
     @Mock Texture texture2;
     static Entity crystal;
+    static Entity crystal2;
 
     @BeforeEach
     void crystalEntity() {
@@ -103,5 +104,22 @@ class CrystalTest {
         assertNotEquals(1100, combatStatsComponent.getHealth());
     }
 
+    // Crystal stats update on upgrade
+    @Test
+    void recoverCrystalHealth() {
+        CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
+
+        combatStatsComponent.setHealth(100);
+        combatStatsComponent.addHealth(+20);
+        assertEquals(120, combatStatsComponent.getHealth());
+    }
+
+    // Crystal stats update on upgrade
+    @Test
+    void triggerCrystal() {
+        ServiceLocator.registerPhysicsService(new PhysicsService());
+        crystal2 = new Entity();
+        crystal2.setName("crystal2");
+    }
 
 }

@@ -61,7 +61,7 @@ public class AtlantisSinks extends Game {
 
     if (screenType == ScreenType.MAIN_GAME) {
       Gdx.gl.glClearColor(44f / 255f, 49 / 255f, 120 / 255f, 1);
-    } else if (screenType == screenType.GUIDEBOOK) {
+    }  else if (screenType == ScreenType.GUIDEBOOK) {
       Gdx.gl.glClearColor(216f / 255f, 189f / 255f, 151f / 255f, 1);
     } else {
       Gdx.gl.glClearColor(248f / 255f, 249 / 255f, 178 / 255f, 1);
@@ -101,6 +101,8 @@ public class AtlantisSinks extends Game {
         return new MainMenuScreen(this);
       case STORY_LINE_PROLOGUE:
         return new PrologueScreen(this);
+      case LOAD_PAGE:
+        return new LoadingScreen(this);
       case MAIN_GAME:
         return new MainGameScreen(this, false);
       case SETTINGS:
@@ -120,7 +122,7 @@ public class AtlantisSinks extends Game {
 
   public enum ScreenType {
     MAIN_MENU, STORY_LINE_PROLOGUE, MAIN_GAME, SETTINGS, FIRST_NIGHT, STORY_LINE_EPILOGUE, GUIDEBOOK,
-    MAIN_GAME_LOAD
+    MAIN_GAME_LOAD, LOAD_PAGE
   }
 
   /**

@@ -1,8 +1,13 @@
 package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.GuidebookArea;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
@@ -17,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.lang.Thread;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -70,6 +76,21 @@ public class GuidebookActions extends Component {
             Gdx.graphics.requestRendering();
         };
 
+        Sound clickSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/mouse_click.mp3"));
+        clickSound.play();
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+
+        Sound flipSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/book_flip.mp3"));
+        flipSound.play();
+
         flicking.schedule(flickTask, 250, MILLISECONDS);
     }
 
@@ -97,6 +118,21 @@ public class GuidebookActions extends Component {
             Gdx.graphics.requestRendering();
         };
 
+        Sound clickSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/mouse_click.mp3"));
+        clickSound.play();
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+
+        Sound flipSound = Gdx.audio.newSound(
+                Gdx.files.internal("sounds/book_flip.mp3"));
+        flipSound.play();
+
         flicking.schedule(flickTask, 250, MILLISECONDS);
     }
 
@@ -106,7 +142,8 @@ public class GuidebookActions extends Component {
     private void onExit() {
         logger.info("Exiting guidebook screen");
         ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GUIDEBOOK_CLOSED);
-        game.setScreen(AtlantisSinks.ScreenType.MAIN_GAME);
+        ((GuidebookArea) MainArea.getInstance().getGameArea()).stopMusic();
+        game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
         GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }
 

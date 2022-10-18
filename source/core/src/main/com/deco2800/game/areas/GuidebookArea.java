@@ -31,8 +31,8 @@ public class GuidebookArea extends GameArea {
 
     private static final Logger logger = LoggerFactory.getLogger(GuidebookArea.class);
 
-    private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
-    private static final String[] gameMusic = { SHOP_MUSIC };
+    private static final String GUIDEBOOK_MUSIC = "sounds/guidebookMusic.mp3";
+    private static final String[] gameMusic = { GUIDEBOOK_MUSIC };
 
     public GuidebookArea() {
         super();
@@ -40,24 +40,11 @@ public class GuidebookArea extends GameArea {
 
     @Override
     public void create() {
-        loadAssets();
         playMusic();
     }
 
-    private void loadAssets() {
-        logger.debug("Loading assets");
-        ResourceService resourceService = ServiceLocator.getResourceService();
-        resourceService.loadMusic(gameMusic);
-
-        while (!resourceService.loadForMillis(10)) {
-            // This could be upgraded to a loading screen
-            logger.info("Loading... {}%", resourceService.getProgress());
-
-        }
-    }
-
     private void playMusic() {
-        Music music = ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class);
+        Music music = ServiceLocator.getResourceService().getAsset(GUIDEBOOK_MUSIC, Music.class);
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
@@ -69,10 +56,15 @@ public class GuidebookArea extends GameArea {
         resourceService.unloadAssets(gameMusic);
     }
 
+    public void stopMusic() {
+        Music music = ServiceLocator.getResourceService().getAsset(GUIDEBOOK_MUSIC, Music.class);
+        music.stop();
+    }
+
     @Override
     public void dispose() {
         super.dispose();
-        ServiceLocator.getResourceService().getAsset(SHOP_MUSIC, Music.class).stop();
+        ServiceLocator.getResourceService().getAsset(GUIDEBOOK_MUSIC, Music.class).stop();
         this.unloadAssets();
     }
 }
