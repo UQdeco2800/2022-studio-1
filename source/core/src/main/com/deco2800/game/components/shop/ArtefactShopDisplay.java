@@ -245,7 +245,7 @@ public class ArtefactShopDisplay extends UIComponent {
                 priceDisplay.setSize(Gdx.graphics.getWidth() * 0.175f, Gdx.graphics.getHeight() * 0.156f);
 
                 subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 200f,
-                                Gdx.graphics.getHeight() * 0.75f);
+                                Gdx.graphics.getHeight() * 0.7f);
 
                 backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
                                 Gdx.graphics.getHeight() * 0.85f - 70f);

@@ -77,11 +77,11 @@ public class ShopInterface extends UIComponent {
                 Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
 
         // setup exit
-        Texture crossTexture = new Texture(Gdx.files.internal("images/cross.png"));
+        Texture crossTexture = new Texture(Gdx.files.internal("images/uiElements/exports/closeButton.png"));
         TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
         crossFrame = new ImageButton(cross, cross);
         crossFrame.setSize(40f, 40f);
-        crossFrame.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.29f,
+        crossFrame.setPosition(Gdx.graphics.getWidth() * 0.79f,
                 Gdx.graphics.getHeight() * 0.85f - 70f);
 
         // setup title
@@ -89,7 +89,7 @@ public class ShopInterface extends UIComponent {
         subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
         subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 100f,
-                Gdx.graphics.getHeight() * 0.75f);
+                Gdx.graphics.getHeight() * 0.7f);
 
         // setup artefact category
         artefactTexture = new Texture(Gdx.files.internal("images/shop-items-framed/health-potion-framed.png"));
@@ -191,7 +191,7 @@ public class ShopInterface extends UIComponent {
             backgroundTable.setPosition(Gdx.graphics.getWidth() / 2f - backgroundTable.getWidth() / 2f,
                     Gdx.graphics.getHeight() / 2f - backgroundTable.getHeight() / 2f);
             subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 100f,
-                    Gdx.graphics.getHeight() * 0.75f);
+                    Gdx.graphics.getHeight() * 0.7f);
             crossFrame.setPosition(Gdx.graphics.getWidth() * 0.85f - 70f,
                     Gdx.graphics.getHeight() * 0.85f - 70f);
             category.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
