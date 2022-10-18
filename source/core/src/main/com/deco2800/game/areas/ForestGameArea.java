@@ -193,7 +193,6 @@ public class ForestGameArea extends GameArea {
           break;
         case SHIPWRECK_FRONT:
           envObj = ObstacleFactory.createShipwreckFront();
-          System.out.println("Created");
           break;
         case SHELL:
           envObj = ObstacleFactory.createShell();
