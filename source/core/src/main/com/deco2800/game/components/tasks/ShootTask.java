@@ -2,6 +2,7 @@ package com.deco2800.game.components.tasks;
 
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
+import com.deco2800.game.components.player.PlayerActions;
 import com.deco2800.game.services.GameTime;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.physics.PhysicsEngine;
@@ -52,7 +53,11 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         timer++;
         Entity entity = this.owner.getEntity();
         if (TotalTime.getTime() >= taskEnd && this.timer % 120 == 0) {
-            ProjectileFactory.createProjectile(entity, target);
+            if (entity.getName().contains("player")) {
+                if (entity.getComponent(PlayerActions.class).playerAlive) {
+                    ProjectileFactory.createProjectile(entity, target);
+                }
+            }
             taskEnd = TotalTime.getTime() + (SECOND);
         }
     }
