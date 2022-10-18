@@ -15,7 +15,6 @@ import com.deco2800.game.entities.configs.*;
 import com.deco2800.game.entities.Enemy;
 import com.deco2800.game.entities.configs.EnemyConfig;
 import com.deco2800.game.entities.configs.NPCConfigs;
-import com.deco2800.game.events.EventHandler;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsUtils;
@@ -219,8 +218,8 @@ public class NPCFactory {
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
                                 .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
                                 .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
-                                .addTask(new ShootTask(target, 30, 30f, 60f))
-                                .addTask(new ShootTask(crystal, 30, 30f, 60f));
+                                .addTask(new ShootTask(target, 30, 20f, 60f))
+                                .addTask(new ShootTask(crystal, 30, 20f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())
