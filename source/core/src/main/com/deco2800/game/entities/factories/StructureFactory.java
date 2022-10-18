@@ -409,7 +409,6 @@ public class StructureFactory {
 
       // texture (String) must just be the name of the file without extension
       String file = "images/attack_towers/animations/".concat(texture).concat(".atlas");
-      System.out.println(file);
       AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
           .getAsset(file, TextureAtlas.class));
       animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
