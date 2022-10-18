@@ -91,11 +91,11 @@ public class PlayerFactory {
         .addComponent(new AnimationController())
         .addComponent(new HitboxComponent().setLayer(PhysicsLayer.PLAYER))
         .addComponent(new PlayerActions())
-        .addComponent(new InventoryComponent(10000, stats.stone, stats.wood))
+        .addComponent(new InventoryComponent(stats.gold, stats.stone, stats.wood))
         .addComponent(inputComponent)
         .addComponent(new PlayerStatsDisplay());
 
-    player.addComponent(new CombatStatsComponent(50, stats.baseAttack, stats.baseDefense, 1, 100))
+    player.addComponent(new CombatStatsComponent(stats.health, stats.baseAttack, stats.baseDefense, 1, 100))
         .addComponent(new HealthBarComponent(100, 10));
 
     player.setName("player");

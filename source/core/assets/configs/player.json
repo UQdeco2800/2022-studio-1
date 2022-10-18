@@ -1,9 +1,9 @@
 {
   "health": 100,
   "baseAttack": 10,
-  "gold": 50,
-  "stone": 1000,
-  "wood": 1000,
+  "gold": 500,
+  "stone": 500,
+  "wood": 500,
   "baseDefense": 1,
   "favouriteColour": "peach"
 }

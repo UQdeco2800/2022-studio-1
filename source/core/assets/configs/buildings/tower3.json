@@ -2,11 +2,12 @@
     "type": "building",
     "name": "Tower 3",
     "goldCost": 0,
-    "stoneCost": 200,
-    "woodCost": 100,
+    "stoneCost": 400,
+    "woodCost": 300,
     "attack": 10,
     "defense": 0,
     "description": "Attacks nearby enemies",
     "itemImagePath": "images/shop-attack-building.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png"
+    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
+    "placementName": "tower3"
 }

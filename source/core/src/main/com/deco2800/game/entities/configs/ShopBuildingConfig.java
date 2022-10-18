@@ -11,4 +11,5 @@ public class ShopBuildingConfig {
     public String description = "Blocks incoming enemies";
     public String itemImagePath = "images/shop-wall.png";
     public String itemBackgroundImagePath = "images/shop-items-framed/wall-framed.png";
+    public String placementName = "wall";
 }
