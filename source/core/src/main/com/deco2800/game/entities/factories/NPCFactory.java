@@ -59,10 +59,12 @@ public class NPCFactory {
                 EnemyConfig config = configs.pirateCrab;
 
                 AnimationRenderComponent animator = new AnimationRenderComponent(
-                        ServiceLocator.getResourceService().getAsset("images/crab_animations/crab_animation.atlas", TextureAtlas.class));
+                                ServiceLocator.getResourceService().getAsset(
+                                                "images/crab_animations/crab_animation.atlas", TextureAtlas.class));
                 animator.addAnimation("frame", 0.1f, Animation.PlayMode.LOOP);
 
-                // Add combat stats, health bar and animation controller to the pirate crab entity
+                // Add combat stats, health bar and animation controller to the pirate crab
+                // entity
                 pirateCrabEnemy
                                 .addComponent(new CombatStatsComponent(config.health, config.baseAttack))
                                 .addComponent(new HealthBarComponent(100, 10))
@@ -218,7 +220,7 @@ public class NPCFactory {
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
                                 .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
                                 .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
-                                .addTask(new ShootTask(target, 30, 20f, 60f))
+                                .addTask(new ShootTask(target, 40, 20f, 60f))
                                 .addTask(new ShootTask(crystal, 30, 20f, 60f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
