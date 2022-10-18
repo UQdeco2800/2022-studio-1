@@ -18,6 +18,7 @@ import com.deco2800.game.components.shop.artefacts.Artefact;
 import com.deco2800.game.components.shop.artefacts.ShopBuilding;
 import com.deco2800.game.components.shop.equipments.Equipments;
 import com.deco2800.game.concurrency.JobSystem;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.EquipmentConfig;
 import com.deco2800.game.entities.configs.ShopBuildingConfig;
 import com.deco2800.game.files.FileLoader;
@@ -36,8 +37,9 @@ public class MainGameInterface extends UIComponent {
   private static final float Z_INDEX = 2f;
   private Table leftSideTable;
   private Table rightSideTable;
+  private boolean buildingNow;
 
-  @Override
+    @Override
   public void create() {
     super.create();
     addActors();
@@ -156,8 +158,15 @@ public class MainGameInterface extends UIComponent {
           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             logger.debug("Building button clicked");
             entity.getEvents().trigger(MainGameActions.EVENT_CLOSE_ALL);
-            entity.getEvents().trigger("buildingShop");
-            return true;
+            if (ServiceLocator.getDayNightCycleService().currentCycleStatus == DayNightCycleStatus.NIGHT) {
+                Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
+                player.getEvents().trigger("noBuildNight");
+                return false;
+            } else {
+                entity.getEvents().trigger("buildingShop");
+                return true;
+            }
+
           }
         });
 
