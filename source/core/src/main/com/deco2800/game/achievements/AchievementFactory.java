@@ -3,9 +3,10 @@ package com.deco2800.game.achievements;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Creates a fresh list of game achievements
+ */
 public class AchievementFactory {
-
-
     /**
      * Creates a map for custom stat achievements milestones.
      * The keys are achievement ids and the list values are milestones
