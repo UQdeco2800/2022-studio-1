@@ -345,7 +345,7 @@ public class AchievementInterface extends UIComponent {
 
         Label achievementTitle = new Label(achievement.getName(), skin, ForestGameArea.TITLE_FONT);
         achievementTitle.setFontScale(0.5f);
-        achievementTitle.setPosition(contentX, achievementCard.getY() + Gdx.graphics.getHeight() * 0.056f);
+        achievementTitle.setPosition(contentX, achievementCard.getY() + Gdx.graphics.getHeight() * 0.062f);
         achievementTitle.setAlignment(Align.center);
         achievementTitle.setWidth(contentWidth);
         achievementCard.addActor(achievementTitle);
@@ -428,7 +428,7 @@ public class AchievementInterface extends UIComponent {
         ArrayList<Achievement> achievements = new ArrayList<>(ServiceLocator.getAchievementHandler().getAchievements());
 
         this.badgeWidth = Gdx.graphics.getWidth() * 0.21f;
-        float badgeHeight = Gdx.graphics.getHeight() * 0.11f;
+        float badgeHeight = Gdx.graphics.getHeight() * 0.12f;
 
         float leftColumnX = displayTable.getX() + displayTable.getWidth() / 4f - badgeWidth / 2f + badgeWidth / 20f;
         float rightColumnX = displayTable.getX() + displayTable.getWidth() * 3f / 4f - badgeWidth / 2f - badgeWidth / 20f;

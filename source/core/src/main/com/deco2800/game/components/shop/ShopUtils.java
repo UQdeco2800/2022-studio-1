@@ -18,8 +18,8 @@ public class ShopUtils {
      * @return TextButton with image
      */
     public static TextButton createImageTextButton(String text, Color color, String textString, float scale,
-            TextureRegionDrawable down,
             TextureRegionDrawable up,
+            TextureRegionDrawable down,
             Skin skin, Boolean isDisabled) {
         TextButtonStyle style = new TextButtonStyle(up, down, up, skin.getFont(textString));
         TextButton button = new TextButton(text, style);

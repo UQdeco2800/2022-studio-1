@@ -267,6 +267,10 @@ public class MovementTask extends DefaultTask {
     this.origin = originPosition;
     path = generatePath();
   }
+
+  public ArrayList<LinkedPoint> getPath() {
+    return this.path;
+  }
 }
 
 /**
@@ -298,4 +302,8 @@ class LinkedPoint {
     return obj.x == this.x && obj.y == this.y;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 }
