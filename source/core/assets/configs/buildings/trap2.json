@@ -1,0 +1,13 @@
+{
+    "type": "building",
+    "name": "Venus Fly Trap",
+    "goldCost": 0,
+    "stoneCost": 100,
+    "woodCost": 100,
+    "attack": 10,
+    "defense": 0,
+    "description": "Traps enemies",
+    "itemImagePath": "images/shop-attack-building.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/trap2-framed.png",
+    "placementName": "trap2"
+}

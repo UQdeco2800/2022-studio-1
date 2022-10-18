@@ -1,6 +1,6 @@
 {
     "type": "building",
-    "name": "Tower 2",
+    "name": "Flame Tower",
     "goldCost": 0,
     "stoneCost": 300,
     "woodCost": 200,
@@ -8,6 +8,6 @@
     "defense": 0,
     "description": "Attacks nearby enemies",
     "itemImagePath": "images/shop-attack-building.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/tower2-framed.png",
     "placementName": "tower2"
 }
