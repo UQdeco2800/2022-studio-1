@@ -1,6 +1,6 @@
 {
     "type": "building",
-    "name": "Tower 1",
+    "name": "Guardian Tower",
     "goldCost": 0,
     "stoneCost": 200,
     "woodCost": 100,
@@ -8,6 +8,6 @@
     "defense": 0,
     "description": "Attacks nearby enemies",
     "itemImagePath": "images/shop-attack-building.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/tower1-framed.png",
     "placementName": "tower1"
 }
