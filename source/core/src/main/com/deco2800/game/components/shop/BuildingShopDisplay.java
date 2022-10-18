@@ -168,7 +168,7 @@ public class BuildingShopDisplay extends UIComponent {
 
                 subtitle = new Label("Buildings", skin, "title");
                 subtitle.setFontScale(1.5f);
-                subtitle.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.07f,
+                subtitle.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.1f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.25f);
                 subtitle.setColor(skin.getColor("black"));
 
@@ -183,11 +183,11 @@ public class BuildingShopDisplay extends UIComponent {
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.07f);
                 nextItem.setSize(Gdx.graphics.getWidth() * 0.058f, Gdx.graphics.getWidth() * 0.058f);
 
-                itemNumber.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.05f,
+                itemNumber.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.07f,
                                 Gdx.graphics.getHeight() / 2f);
-                descriptionDisplay.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.15f,
-                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.25f);
-                descriptionDisplay.setSize(Gdx.graphics.getWidth() * 0.3f, Gdx.graphics.getWidth() * 0.2f);
+                descriptionDisplay.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.18f,
+                                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.31f);
+                descriptionDisplay.setSize(Gdx.graphics.getWidth() * 0.35f, Gdx.graphics.getWidth() * 0.25f);
 
                 leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
@@ -197,13 +197,13 @@ public class BuildingShopDisplay extends UIComponent {
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.10f);
                 rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
 
-                buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.17f,
+                buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.15f,
                                 Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-                buyButton.setSize(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.156f);
+                buyButton.setSize(Gdx.graphics.getWidth() * 0.175f, Gdx.graphics.getHeight() * 0.156f);
 
                 priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
                                 Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-                priceDisplay.setSize(Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.156f);
+                priceDisplay.setSize(Gdx.graphics.getWidth() * 0.175f, Gdx.graphics.getHeight() * 0.156f);
 
                 backButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.25f,
                                 Gdx.graphics.getHeight() / 2f + Gdx.graphics.getHeight() * 0.25f);
