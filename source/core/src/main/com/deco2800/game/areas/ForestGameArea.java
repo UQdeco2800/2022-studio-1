@@ -186,6 +186,7 @@ public class ForestGameArea extends GameArea {
           break;
         case SHIPWRECK_FRONT:
           envObj = ObstacleFactory.createShipwreckFront();
+          System.out.println("Created");
           break;
         case SHELL:
           envObj = ObstacleFactory.createShell();
@@ -201,28 +202,17 @@ public class ForestGameArea extends GameArea {
 
       switch (type) {
         case ROCK:
+        case SHIPWRECK_BACK:
+        case SHIPWRECK_FRONT:
           randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
           ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
-          return;
+          break;
         case SHELL:
           do {
             randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
             counter++;
           } while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName()) && counter < 1000);
-          return;
-        case SHIPWRECK_BACK:
-        case SHIPWRECK_FRONT:
-          boolean placed = false;
-          do {
-            randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(0, 119));
-
-            if (Objects.equals(ServiceLocator.getUGSService().getTileType(randomPos), "water"))
-              placed = ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
-
-            counter++;
-            System.out.println("[" + counter + "]: " + placed);
-          } while (!placed && counter < 1000);
-          return;
+          break;
         case SPEED_ARTEFACT:
         case SPIKY_BUSH:
         case STONE_PILLAR:
@@ -237,7 +227,7 @@ public class ForestGameArea extends GameArea {
 
             // safety to avoid infinite looping on loading screen.
             if (counter > 1000) {
-              return;
+              break;
             }
             counter++;
           }
