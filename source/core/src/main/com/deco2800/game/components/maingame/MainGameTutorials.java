@@ -48,8 +48,6 @@ public class MainGameTutorials extends UIComponent {
 
     private static boolean mining = false;
 
-    private static boolean miningSpace = false;
-
     private static boolean up = false;
     private static boolean down = false;
     private static boolean left = false;
@@ -236,7 +234,6 @@ public class MainGameTutorials extends UIComponent {
             Image playerMine = new Image(playMine);
             mine.add(playerMine).width(461).height(187);
             mining = true;
-            miningSpace = true;
         }
 
     }
