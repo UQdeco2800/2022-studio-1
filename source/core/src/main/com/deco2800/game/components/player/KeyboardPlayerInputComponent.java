@@ -96,8 +96,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "SPACE");
           entity.getEvents().trigger("skipEpilogue");
           return true;
-        case Keys.N:
-          ServiceLocator.getDayNightCycleService().setPartOfDayTo(DayNightCycleStatus.NIGHT);
         default:
           return false;
       }
@@ -115,14 +113,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   @Override
   public boolean keyUp(int keycode) {
     switch (keycode) {
-      case Keys.Q:
-        if (PlayerActions.playerAlive) {
-           // entity.setScale(11f, 10.5f);
-          entity.getEvents().trigger("playerDeath");
-          return true;
-        } else {
-          return false;
-        }
       case Keys.W:
         if (PlayerActions.playerAlive) {
           walkDirection.sub(Vector2Utils.UP);
@@ -177,10 +167,6 @@ public class KeyboardPlayerInputComponent extends InputComponent {
         if (ServiceLocator.getStructureService().getTempBuildState()) {
           ServiceLocator.getStructureService().rotateTempStructure();
         }
-        return true;
-      case Keys.PERIOD:
-        ServiceLocator.getEntityService().getNamedEntity(ForestGameArea.TERRAIN).getComponent(TerrainComponent.class)
-            .decrementMapLvl();
         return true;
       default:
         return false;
