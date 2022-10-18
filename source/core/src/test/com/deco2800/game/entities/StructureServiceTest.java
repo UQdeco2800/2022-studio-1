@@ -179,12 +179,14 @@ class StructureServiceTest {
 
     @Test
     void shouldGetStructureOrientationLeft() {
+        ServiceLocator.registerStructureService(new StructureService());
         int orientation = ServiceLocator.getStructureService().getStructureOrientation();
         assertEquals(0, orientation);
     }
 
     @Test
     void shouldGetStructureOrientationRight() {
+        ServiceLocator.registerStructureService(new StructureService());
         ServiceLocator.getStructureService().toggleStructureOrientation();
         int orientation = ServiceLocator.getStructureService().getStructureOrientation();
         assertEquals(1, orientation);
@@ -193,11 +195,12 @@ class StructureServiceTest {
     @Test
     void shouldToggleStructureOrientation() {
         int orientation;
-        orientation = ServiceLocator.getStructureService().getStructureOrientation();
-        assertEquals(0, orientation);
-        ServiceLocator.getStructureService().toggleStructureOrientation();
+        ServiceLocator.registerStructureService(new StructureService());
         orientation = ServiceLocator.getStructureService().getStructureOrientation();
         assertEquals(1, orientation);
+        ServiceLocator.getStructureService().toggleStructureOrientation();
+        orientation = ServiceLocator.getStructureService().getStructureOrientation();
+        assertEquals(0, orientation);
     }
 
 }
