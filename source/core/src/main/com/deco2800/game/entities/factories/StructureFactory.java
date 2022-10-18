@@ -271,7 +271,7 @@ public class StructureFactory {
         return tower2;
 
       case 3: // Represents the second upgraded version of the tower
-        tower2 = createBaseStructure(TOWER2III, name, false);
+        tower2 = createBaseStructure(TOWER2III, name, true);
         config = configs.tower2II;
         config.orientation = orientation;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 3, 3, 100))
@@ -286,7 +286,7 @@ public class StructureFactory {
         tower2.setScale(10, 10);
         return tower2;
       default:
-        tower2 = createBaseStructure(TOWER2I, name, false);
+        tower2 = createBaseStructure(TOWER2I, name, true);
         config = configs.tower2;
         config.orientation = orientation;
         tower2.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
@@ -396,9 +396,10 @@ public class StructureFactory {
     if (animated) {
 
       // texture (String) must just be the name of the file without extension
-
+      String file = "images/attack_towers/animations/".concat(texture).concat(".atlas");
+      System.out.println(file);
       AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
-          .getAsset("images/attack_towers/animations/" + texture + ".atlas", TextureAtlas.class));
+          .getAsset(file, TextureAtlas.class));
       animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
       animator.startAnimation(texture);
       structure.addComponent(animator);
