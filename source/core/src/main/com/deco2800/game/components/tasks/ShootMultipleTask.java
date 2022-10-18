@@ -79,10 +79,11 @@ public class ShootMultipleTask extends ShootTask {
         @Override
         public void update() {
                 Entity owner = this.owner.getEntity();
-                System.out.println("[ShootTask Update] {Owner: " + owner.getName() + "} {Time-taskEnd:"
-                                + TotalTime.getTime()
-                                + " - "
-                                + taskEnd + "}");
+                // System.out.println("[ShootTask Update] {Owner: " + owner.getName() + "}
+                // {Time-taskEnd:"
+                // + TotalTime.getTime()
+                // + " - "
+                // + taskEnd + "}");
                 if (TotalTime.getTime() >= taskEnd) {
 
                         if (this.target == null) {
