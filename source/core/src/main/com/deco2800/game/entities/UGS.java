@@ -196,7 +196,7 @@ public class UGS {
                     // logger.info("Building has been built at {}", coordinate);
                     return true;
                 } else {
-                    logger.info("entity type Building cannot be built on water");
+//                    logger.info("entity type Building cannot be built on water");
                     return false;
                 }
             } else if (entityType.contains("player")) {
