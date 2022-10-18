@@ -1,13 +1,13 @@
 {
     "type": "building",
-    "name": "Trap",
+    "name": "Skull Trap",
     "goldCost": 0,
     "stoneCost": 100,
     "woodCost": 50,
     "attack": 10,
     "defense": 0,
-    "description": "damage when stepped",
+    "description": "Traps enemies",
     "itemImagePath": "images/shop-attack-building.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
-    "placementName": "trap"
+    "itemBackgroundImagePath": "images/shop-items-framed/trap1-framed.png",
+    "placementName": "trap1"
 }

@@ -80,6 +80,9 @@ public class MovementTask extends DefaultTask {
     UGS ugs = ServiceLocator.getUGSService();
 
     String originPositionString = ugs.getStringByEntity(owner.getEntity());
+    if (originPositionString == null) {
+      return;
+    }
     String split[] = originPositionString.split(",");
     GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
 

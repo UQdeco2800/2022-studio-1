@@ -1,7 +1,9 @@
 package com.deco2800.game.components.tasks;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.deco2800.game.ai.tasks.DefaultTask;
 import com.deco2800.game.ai.tasks.PriorityTask;
+import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
@@ -46,7 +48,32 @@ public class MeleePursueTask extends DefaultTask implements PriorityTask {
     @Override
     public void update() {
         movementTask.setTarget(target.getPosition());
-        movementTask.update();
+
+        if (movementTask.getPath() != null && movementTask.getPath().size() > 0
+                && movementTask.getPath().get(0) != null) {
+            int lastX = movementTask.getPath().get(0).x;
+            int lastY = movementTask.getPath().get(0).y;
+
+            movementTask.update();
+            if (movementTask.getPath() != null && movementTask.getPath().size() > 0
+                    && movementTask.getPath().get(0) != null) {
+                if (lastX == movementTask.getPath().get(0).x && lastY == movementTask.getPath().get(0).y) {
+                    Entity blocker = ServiceLocator.getUGSService().getEntity(new GridPoint2(lastX, lastY));
+                    if (blocker != null) {
+                        CombatStatsComponent stats = blocker.getComponent(CombatStatsComponent.class);
+                        if (stats != null) {
+                            stats.hit(owner.getEntity().getComponent(CombatStatsComponent.class));
+                        }
+                    }
+                }
+            }
+
+        } else {
+
+            movementTask.update();
+
+        }
+
         if (movementTask.getStatus() != Status.ACTIVE) {
             movementTask.start();
         }
