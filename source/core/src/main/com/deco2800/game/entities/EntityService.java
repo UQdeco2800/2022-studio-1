@@ -165,9 +165,11 @@ public class EntityService {
       entity.update();
       if (entity.getName() != null) {
         if (entity.getName().contains("tower") && entity.getComponent(CombatStatsComponent.class).getHealth() < 1) {
-          entity.dispose();
+          this.addToDestroyEntities(entity);
+//          entity.dispose();
         } else if (entity.getName().contains("rojectile") && entity.getComponent(CombatStatsComponent.class).getHealth() == 1) {
-          entity.dispose();
+//          entity.dispose();
+          this.addToDestroyEntities(entity);
         }
       }
     }

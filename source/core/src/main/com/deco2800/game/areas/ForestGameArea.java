@@ -510,7 +510,8 @@ public class ForestGameArea extends GameArea {
         // Dispose of NPCs
         for (int i = 0; i < NPCNum; i++) {
           Entity NPC = ServiceLocator.getNpcService().getNamedEntity(String.valueOf(i));
-          NPC.dispose();
+          ServiceLocator.getEntityService().addToDestroyEntities(NPC);
+//          NPC.dispose(); //Hot fix
         }
         // Set NPC number to 0 and update this in NPCService
         NPCNum = 0;
