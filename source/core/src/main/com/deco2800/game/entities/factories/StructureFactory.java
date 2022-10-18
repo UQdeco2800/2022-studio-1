@@ -108,7 +108,8 @@ public class StructureFactory {
     config.orientation = orientation;
     wall.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 1, 1, 100))
         .addComponent(new ResourceCostComponent(config.gold, config.stone, config.wood))
-        .addComponent((new HealthBarComponent(50, 10)));
+        .addComponent((new HealthBarComponent(50, 10)))
+            .addComponent(new OrientationComponent(config.orientation));
     float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
         .getTileSize();
     Texture t = wall.getComponent(TextureRenderComponent.class).getTexture();
