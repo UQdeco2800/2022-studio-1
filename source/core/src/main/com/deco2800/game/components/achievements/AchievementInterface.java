@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Base achievement display class to be extended by achievement type screens
@@ -60,15 +61,69 @@ public class AchievementInterface extends UIComponent {
     private float badgeWidth;
 
     /**
+     * List of achievement progress bars for purpose of updating
+     */
+    private java.util.List<AchievementProgressBar> achievementProgressBars = new ArrayList<>();
+
+    /**
      * Create the achievement base display
      */
     public void create() {
         super.create();
         entity.getEvents().addListener(EVENT_OPEN_ACHIEVEMENTS, this::openAchievements);
         entity.getEvents().addListener("closeAll", this::closeAchievements);
+        ServiceLocator.getAchievementHandler().getEvents().addListener(AchievementHandler.EVENT_ACHIEVEMENT_MADE,
+                this::updateAchievementProgressBarOnAchievementMade);
+        ServiceLocator.getAchievementHandler().getEvents().addListener(AchievementHandler.EVENT_STAT_ACHIEVEMENT_MADE,
+                this::updateAchievementProgressBarOnAchievementMade);
         achievementButtons = new ArrayList<>();
         achievementBadges = new Group();
         addActors();
+    }
+
+
+    /**
+     * Upon receiving that an achiement update is made update summary
+     * and individual sections
+     * @param achievement the achievement just achieved
+     */
+    private void updateAchievementProgressBarOnAchievementMade(Achievement achievement) {
+        java.util.List<AchievementProgressBar> summaryProgress = achievementProgressBars
+                .stream()
+                .filter(a -> a.getAchievementType() == AchievementType.SUMMARY).toList();
+
+
+        java.util.List<AchievementProgressBar> typeProgressBars = achievementProgressBars
+                .stream()
+                .filter(a -> a.getAchievementType() == achievement.getAchievementType()).toList();
+
+        updateAchievementTypeProgressBars(typeProgressBars, achievement.getAchievementType());
+        updateSummaryProgressBars(summaryProgress);
+    }
+
+    /**
+     * Updates overall summary achievements
+     * NOTE: Only one will be in list
+     *
+     * @param progressBars progress bars to update
+     */
+    private void updateSummaryProgressBars(java.util.List<AchievementProgressBar> progressBars) {
+      for(AchievementProgressBar progressBar : progressBars) {
+          progressBar.setDone(getTotalAchievementTypesAchieved());
+      }
+
+    }
+
+    /**
+     * Updates every other progress bar that is not the summary
+     *
+     * @param progressBars the list of all types of progressbars excluding SUMMARY
+     * @param type type other than SUMMARY
+     */
+    private void updateAchievementTypeProgressBars(java.util.List<AchievementProgressBar> progressBars, AchievementType type) {
+        for(AchievementProgressBar progressBar : progressBars) {
+            progressBar.setDone(getTotalAchievementsAchievedByType(type));;
+        }
     }
 
     /**
@@ -396,6 +451,21 @@ public class AchievementInterface extends UIComponent {
         achievementTitle.setAlignment(Align.center);
         achievementTitle.setWidth(contentWidth);
         summaryCard.addActor(achievementTitle);
+        long totalAchievements = ServiceLocator.getAchievementHandler()
+                .getAchievements()
+                .stream()
+                .filter(a -> a.getAchievementType() == type).count();
+        long totalAchieved = ServiceLocator.getAchievementHandler()
+                .getAchievements()
+                .stream()
+                .filter(a -> a.getAchievementType() == type && a.isCompleted())
+                .count();
+        AchievementProgressBar progressBar = new AchievementProgressBar(100, 10, (int) totalAchievements, false, type);
+        Actor progressBarActor = progressBar.getActor();
+        progressBarActor.setPosition(contentX, (summaryCard.getY() - 15)+ Gdx.graphics.getHeight() * 0.056f);
+        progressBarActor.setWidth(contentWidth);
+        progressBar.setDone((int)totalAchieved);
+        summaryCard.addActor(progressBarActor);
 
         return summaryCard;
     }
@@ -411,6 +481,57 @@ public class AchievementInterface extends UIComponent {
     }
 
     /**
+     * Calculates the total list of achievements achieved
+     * @return total achieved
+     */
+    private int getTotalAchievementTypesAchieved() {
+        return ServiceLocator.getAchievementHandler().getAchievements()
+                .stream()
+                .filter(a -> a.getAchievementType() != AchievementType.SUMMARY && a.isCompleted())
+                .collect(Collectors.groupingBy(Achievement::getAchievementType))
+                .values()
+                .size();
+    }
+
+    /**
+     * Calculates the total amount of achievements in existent
+     * @return total amount of achievements that exist
+     */
+    private int getTotalAchievementsInExistent() {
+        return ServiceLocator.getAchievementHandler().getAchievements()
+                .stream()
+                .filter(a -> a.getAchievementType() != AchievementType.SUMMARY)
+                .collect(Collectors.groupingBy(Achievement::getAchievementType))
+                .values()
+                .size();
+    }
+
+    /**
+     * Gets the total amount of achievements achieved by the type
+     *
+     * @param type the type of achievements
+     * @return total number achieved
+     */
+    private int getTotalAchievementsAchievedByType(AchievementType type) {
+        return (int) ServiceLocator.getAchievementHandler().getAchievements()
+                .stream()
+                .filter(a -> a.getAchievementType() == type && a.isCompleted())
+                .count();
+    }
+
+    /**
+     * Computes the total number of achievements by the achievement type
+     * @param type the achievement type to check
+     * @return total number that exist
+     */
+    private int getTotalNumberOfAchievementsByType(AchievementType type) {
+        return (int) ServiceLocator.getAchievementHandler().getAchievements()
+                .stream()
+                .filter(a -> a.getAchievementType() == type)
+                .count();
+    }
+
+    /**
      * Change displayed achievement badges to those of the provided type. If type is SUMMARY
      * a breakdown of completion of each achievement type will be displayed
      * @param type AchievementType
@@ -422,6 +543,7 @@ public class AchievementInterface extends UIComponent {
         title.setFontScale(1f);
         title.setPosition(displayTable.getX() + displayTable.getWidth() / 2f - title.getWidth() / 2f, Gdx.graphics.getHeight() * 0.64f);
         achievementBadges.addActor(title);
+
 
         int achievementsAdded = 0;
         Group achievementBadge;
@@ -435,6 +557,15 @@ public class AchievementInterface extends UIComponent {
         float firstRowY = Gdx.graphics.getHeight() * 0.5f;
 
         if (type == AchievementType.SUMMARY) {
+            // Add progress bar
+            AchievementProgressBar progressBar = new AchievementProgressBar(100, 8, getTotalAchievementsInExistent(), false, type);
+            progressBar.setHideLabel(true);
+            Actor progressBarActor = progressBar.getActor();
+            progressBarActor.setPosition(displayTable.getX() + displayTable.getWidth() / 2f - badgeWidth/ 2f, (Gdx.graphics.getHeight() - 15) * 0.64f);
+            progressBarActor.setWidth(badgeWidth);
+            progressBar.setDone(getTotalAchievementTypesAchieved());
+            achievementBadges.addActor(progressBarActor);
+
             for (AchievementType achievementType : AchievementType.values()) {
                 if (achievementType == AchievementType.SUMMARY) {
                     continue;
@@ -451,6 +582,15 @@ public class AchievementInterface extends UIComponent {
 
             return;
         }
+
+        // Add progress bar per achievement type
+        AchievementProgressBar progressBar = new AchievementProgressBar(100, 8, getTotalNumberOfAchievementsByType(type), false, type);
+        progressBar.setHideLabel(true);
+        Actor progressBarActor = progressBar.getActor();
+        progressBarActor.setPosition(displayTable.getX() + displayTable.getWidth() / 2f - badgeWidth/ 2f, (Gdx.graphics.getHeight() - 15) * 0.64f);
+        progressBarActor.setWidth(badgeWidth);
+        progressBar.setDone(getTotalAchievementsAchievedByType(type));
+        achievementBadges.addActor(progressBarActor);
 
         for (Achievement achievement : achievements) {
             if (achievement.getAchievementType() == type) {

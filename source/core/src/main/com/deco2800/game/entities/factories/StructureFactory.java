@@ -70,6 +70,9 @@ public class StructureFactory {
           {"images/attack_towers/tower3lv2Left.png", "images/attack_towers/tower3lv2Right.png"},
           {"images/attack_towers/tower3lv3Left.png", "images/attack_towers/tower3lv3Right.png"}};
 
+  private static String[][] trapSprites = {{"images/shop_structures_sprites/Trap_shop_sprite", "images/shop_structures_sprites/Trap_shop_sprite"},
+          {"images/shop_structures_sprites/Trap2_shop_sprite", "images/shop_structures_sprites/Trap2_shop_sprite"}};
+
   /**
    * creates an entity of a coloured tile to show where a building can be placed
    *
@@ -122,13 +125,13 @@ public class StructureFactory {
    *
    * @return entity
    */
-  public static Entity createTrap(String name, Boolean isTemp) {
+  public static Entity createTrap(String name, Boolean isTemp, int trapNum) {
     // TODO change trap texture
     Entity trap;
     if (isTemp) {
-      trap = createBaseStructure("images/trap.png", name, false); // change texture to be temp texture
+      trap = createBaseStructure(trapSprites[trapNum][0], name, false); // change texture to be temp texture
     } else {
-      trap = createBaseStructure("images/trap.png", name, false);
+      trap = createBaseStructure(trapSprites[trapNum][1], name, false);
     }
     BaseStructureConfig config = configs.trap;
 
@@ -168,7 +171,6 @@ public class StructureFactory {
    * @return entity
    */
   public static Entity createTower1(int level, String name, Boolean isTemp, int orientation) {
-    // TODO Change string constant
     String TOWER1I;
     if (isTemp) {
       TOWER1I = tempTower1Sprites[orientation]; // change texture to be temp
@@ -239,7 +241,6 @@ public class StructureFactory {
    * @return tower2 entity
    */
   public static Entity createTower2(int level, String name, Boolean isTemp, int orientation) {
-    // @TODO Change string constant
     String TOWER2I;
     if (isTemp) {
       TOWER2I = tempTower2Sprites[orientation]; // change texture to be temp texture
@@ -311,7 +312,6 @@ public class StructureFactory {
    * @return tower3 entity
    */
   public static Entity createTower3(int level, String name, Boolean isTemp, int orientation) {
-    // @TODO Change string constant
     String TOWER3I;
     if (isTemp) {
       TOWER3I = tempTower3Sprites[orientation]; // change texture to be temp texture
