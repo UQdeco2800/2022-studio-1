@@ -26,6 +26,8 @@ public class MainGameTutorials extends UIComponent {
     private Table control;
 
     private Table mine;
+
+    private Table building;
     private Table shopArrow;
     private final Entity player = ServiceLocator.getEntityService().getNamedEntity("player");
     private Image objectiveImg;
@@ -45,6 +47,8 @@ public class MainGameTutorials extends UIComponent {
     private Image stoneInteract;
     private Image enemyInteract;
     private static boolean playerControlComp = true;
+
+    private static boolean buildingNow = false;
 
     private static boolean mining = false;
 
@@ -70,6 +74,8 @@ public class MainGameTutorials extends UIComponent {
         player.getEvents().addListener("playerControlTut", this::onPlayerControl);
         player.getEvents().addListener("noMine", this::displayCantMine);
         player.getEvents().addListener("removeNoMine", this::removeCantMine);
+        player.getEvents().addListener("noBuildNight", this::displayCantBuild);
+        player.getEvents().addListener("removeNoBuildNight", this::removeNoBuilding);
         ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
                 this::onNight);
         addActors();
@@ -100,6 +106,11 @@ public class MainGameTutorials extends UIComponent {
         mine.padBottom(50);
         mine.setFillParent(true);
         mining = false;
+
+        building = new Table();
+        building.bottom();
+        building.padBottom(50);
+        building.setFillParent(true);
 
         prompts = new Table();
         prompts.bottom();
@@ -175,6 +186,7 @@ public class MainGameTutorials extends UIComponent {
         stage.addActor(prompts);
         stage.addActor(control);
         stage.addActor(mine);
+        stage.addActor(building);
 
     }
 
@@ -226,6 +238,23 @@ public class MainGameTutorials extends UIComponent {
             objective.clear();
             objectiveHeader.clear();
             //shopObjective();
+        }
+    }
+
+    private void displayCantBuild() {
+        if (!buildingNow) {
+            // When player tries to mine without axe
+            Texture playBuilding = new Texture(Gdx.files.internal("images/tutorials/nobuildingnight.png"));
+            Image playerBuild = new Image(playBuilding);
+            building.add(playerBuild).width(461).height(187);
+            buildingNow = true;
+        }
+    }
+
+    private void removeNoBuilding() {
+        if (buildingNow) {
+            building.clear();
+            buildingNow = false;
         }
     }
 

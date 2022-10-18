@@ -9,6 +9,7 @@ import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainFactory;
 import com.deco2800.game.components.DayNightClockComponent;
 import com.deco2800.game.components.achievements.AchievementInterface;
+import com.deco2800.game.components.InventoryDisplay;
 import com.deco2800.game.components.achievements.AchievementPopupComponent;
 import com.deco2800.game.components.gamearea.PerformanceDisplay;
 import com.deco2800.game.components.maingame.*;
@@ -46,13 +47,12 @@ import java.util.ArrayList;
 public class MainGameScreen extends ScreenAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MainGameScreen.class);
 
-
-
-
   private static final Vector2 CAMERA_POSITION = new Vector2(960f, 5f);
 
   private static final String[] mainGameTextureAtlases = {
-      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/main.atlas"
+      "images/anim_demo/stonequarr.atlas", "images/anim_demo/woodresource.atlas", "images/anim_demo/main.atlas",
+      "images/attack_towers/animations/tower2Level1.atlas", "images/attack_towers/animations/tower2Level2.atlas",
+      "images/attack_towers/animations/tower2Level3.atlas"
   };
 
   private final AtlantisSinks game;
@@ -74,7 +74,7 @@ public class MainGameScreen extends ScreenAdapter {
     physicsEngine = physicsService.getPhysics();
 
     ServiceLocator.registerInputService(new InputService());
-    //ServiceLocator.registerResourceService(new ResourceService());
+    // ServiceLocator.registerResourceService(new ResourceService());
     ServiceLocator.registerUGSService(new UGS());
     ServiceLocator.registerEntityService(new EntityService());
     ServiceLocator.registerRangeService(new RangeService());
@@ -193,10 +193,12 @@ public class MainGameScreen extends ScreenAdapter {
         .addComponent(inputComponent)
         .addComponent(new TerminalDisplay())
         .addComponent(new AchievementInterface())
-        .addComponent(new ShopInterface())
+        // please don't move the order of these components
+        .addComponent(new EquipmentsShopDisplay())
         .addComponent(new ArtefactShopDisplay())
         .addComponent(new BuildingShopDisplay())
-        .addComponent(new EquipmentsShopDisplay());
+        .addComponent(new InventoryDisplay())
+        .addComponent(new ShopInterface());
 
     ServiceLocator.getEntityService().registerNamed("ui", ui);
 

@@ -57,6 +57,8 @@ public class ArtefactShopDisplay extends UIComponent {
 
     private Texture goldenCategoryTexture;
     private TextureRegionDrawable goldenDrawable;
+    private Texture clickCategoryTexture;
+    private TextureRegionDrawable clickDrawable;
     private Texture brownCategoryTexture;
     private TextureRegionDrawable brownDrawable;
     private Texture redCategoryTexture;
@@ -76,14 +78,12 @@ public class ArtefactShopDisplay extends UIComponent {
         super.create();
         entity.getEvents().addListener("artefactShop", this::openShop);
         entity.getEvents().addListener("closeAll", this::closeShop);
+        entity.getEvents().addListener("changeRes", this::changeRes);
         addActors();
     }
 
     private void addActors() {
         artefactShop = new Group();
-        itemDisplay = new Table();
-        itemDisplay.setFillParent(true);
-        itemDisplay.setSize((float) (Gdx.graphics.getWidth() * 0.6), (float) (Gdx.graphics.getHeight() * 0.4));
         
         // Create linked list of the available shop stock
         stock = new CircularLinkedList<Artefact>();
@@ -91,32 +91,28 @@ public class ArtefactShopDisplay extends UIComponent {
         for (Artefact e : artefactOptions) {
             stock.add(e);
         }
-        current = stock.head;
-        i = 1;
-        itemNumber = new Label("Item " + i + "/" + artefactOptions.size(), skin, "button");
+        itemNumber = new Label("", skin, "button");
         itemNumber.setFontScale(1.5f);
         itemNumber.setColor(skin.getColor("black"));
-
-        prevStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.prev.t));
-        stats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.t));
-        nextStats = FileLoader.readClass(ArtefactConfig.class, Artefact.getFilepath(current.next.t));
         // Create the current artefact to display
-        currentTexture = new Texture(Gdx.files.internal(stats.itemBackgroundImagePath));
+        currentTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         currentItem = new Image(currentTexture);
 
-        prevTexture = new Texture(Gdx.files.internal(prevStats.itemBackgroundImagePath));
+        prevTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         prevItem = new Image(prevTexture);
 
-        nextTexture = new Texture(Gdx.files.internal(nextStats.itemBackgroundImagePath));
+        nextTexture = new Texture(Gdx.files.internal("images/shop-items-framed/category-button-clicked.png"));
         nextItem = new Image(nextTexture);
 
         // Create textures for arrows, price, descrition and buy button
         brownCategoryTexture = new Texture(Gdx.files.internal("images/shop-description.png"));
         leftTexture = new Texture(Gdx.files.internal("images/left_arrow.png"));
         rightTexture = new Texture(Gdx.files.internal("images/right_arrow.png"));
-        goldenCategoryTexture = new Texture(Gdx.files.internal("images/shop-buy-button.png"));
-        redCategoryTexture = new Texture(Gdx.files.internal("images/shop-fail-button.png"));
+        goldenCategoryTexture = new Texture(Gdx.files.internal("images/buy-button.png"));
+        clickCategoryTexture = new Texture(Gdx.files.internal("images/buy-button-clicked.png"));
+        redCategoryTexture = new Texture(Gdx.files.internal("images/buy-button-cannot-buy.png"));
         goldenDrawable = new TextureRegionDrawable(goldenCategoryTexture);
+        clickDrawable = new TextureRegionDrawable(clickCategoryTexture);
         brownDrawable = new TextureRegionDrawable(brownCategoryTexture);
         redDrawable = new TextureRegionDrawable(redCategoryTexture);
         left = new TextureRegionDrawable(leftTexture);
@@ -131,34 +127,22 @@ public class ArtefactShopDisplay extends UIComponent {
         rightButton.setTransform(true);
 
         // create price sticker
-        priceDisplay = ShopUtils.createImageTextButton(
-                Integer.toString(stats.goldCost), skin.getColor("black"),
+        priceDisplay = ShopUtils.createImageTextButton( "", skin.getColor("black"),
                 "button", 1f,
                 goldenDrawable, goldenDrawable,
                 skin,
                 true);
 
         // create description sticker
-        descriptionDisplay = ShopUtils.createImageTextButton(
-                stats.name + "\n" + stats.description + "\n"
-                        + "Inventory Count: "
-                        + MainArea.getInstance().getGameArea()
-                        .getPlayer().getComponent(InventoryComponent.class)
-                        .getItemCount(current.t),
+        descriptionDisplay = ShopUtils.createImageTextButton( "",
                 skin.getColor("black"),
                 "button", 1f,
                 brownDrawable, brownDrawable, skin,
                 true);
 
         // create buy button
-        sufficientFunds = MainArea.getInstance().getGameArea()
-                .getPlayer().getComponent(InventoryComponent.class)
-                .hasGold(stats.goldCost);
         buyButton = ShopUtils.createImageTextButton("BUY", skin.getColor("black"), "button", 1f,
-                sufficientFunds ? brownDrawable : redDrawable,
-                sufficientFunds ? goldenDrawable : redDrawable,
-                skin,
-                false);
+                goldenDrawable, clickDrawable, skin, false);
 
         // create the back button
         backTexture = new Texture(Gdx.files.internal("images/backButton.png"));
@@ -166,44 +150,12 @@ public class ArtefactShopDisplay extends UIComponent {
         backButton = new ImageButton(upBack, upBack);
 
         subtitle = new Label("ARTEFACTS", skin, "title");
-        subtitle.setFontScale(3f);
+        subtitle.setFontScale(2f);
         subtitle.setColor(skin.getColor("black"));
 
-        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
-        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
-        itemDisplay.row();
-        itemDisplay.add(itemNumber).colspan(3).center();
-        itemDisplay.row();
-        itemDisplay.add(descriptionDisplay).colspan(3).center()
-                .width(Gdx.graphics.getWidth() * 0.17f)
-                .height(Gdx.graphics.getHeight() * 0.31f);
-        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+        itemDisplay = new Table();
+        changeRes();
 
-        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
-                Gdx.graphics.getHeight() / 2f);
-        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
-
-        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
-                Gdx.graphics.getHeight() / 2f);
-        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
-
-        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
-
-        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
-                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
-        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
-
-        subtitle.setPosition(Gdx.graphics.getWidth() * 0.15f + 110f,
-                Gdx.graphics.getHeight() * 0.85f - 110f);
-
-        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
-                Gdx.graphics.getHeight() * 0.85f -70f);
-        backButton.setSize(40f, 40f);
-
-        artefactShop.addActor(itemDisplay);
         artefactShop.addActor(leftButton);
         artefactShop.addActor(rightButton);
         artefactShop.addActor(buyButton);
@@ -254,6 +206,49 @@ public class ArtefactShopDisplay extends UIComponent {
         
     }
 
+    private void changeRes() {
+        itemDisplay.clear();
+        itemDisplay.setFillParent(true);
+        itemDisplay.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.4f);
+        itemDisplay.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() * 0.361f);
+
+        itemDisplay.add(prevItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
+        itemDisplay.add(currentItem).width(Gdx.graphics.getWidth() * 0.087f).height(Gdx.graphics.getWidth() * 0.087f);
+        itemDisplay.add(nextItem).width(Gdx.graphics.getWidth() * 0.058f).height(Gdx.graphics.getWidth() * 0.058f);
+
+        itemDisplay.row();
+        itemDisplay.add(itemNumber).colspan(3).center();
+        itemDisplay.row();
+        itemDisplay.add(descriptionDisplay).colspan(3).center()
+                .width(Gdx.graphics.getWidth() * 0.31f)
+                .height(Gdx.graphics.getHeight() * 0.31f);
+
+        artefactShop.addActor(itemDisplay);
+
+        leftButton.setPosition(Gdx.graphics.getWidth() / 2f - Gdx.graphics.getWidth() * 0.3f,
+                Gdx.graphics.getHeight() / 2f);
+        leftButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+
+        rightButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.27f,
+                Gdx.graphics.getHeight() / 2f);
+        rightButton.setSize(Gdx.graphics.getWidth() * 0.029f, Gdx.graphics.getWidth() * 0.029f);
+
+        buyButton.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.2f,
+                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+        buyButton.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+
+        priceDisplay.setPosition(Gdx.graphics.getWidth() * 0.2f,
+                Gdx.graphics.getHeight() / 2f - Gdx.graphics.getHeight() * 0.33f);
+        priceDisplay.setSize(Gdx.graphics.getWidth() * 0.094f, Gdx.graphics.getHeight() * 0.156f);
+
+        subtitle.setPosition(Gdx.graphics.getWidth() / 2f - 210f,
+                Gdx.graphics.getHeight() * 0.75f);
+
+        backButton.setPosition(Gdx.graphics.getWidth() * 0.15f + 30f,
+                Gdx.graphics.getHeight() * 0.85f -70f);
+        backButton.setSize(40f, 40f);
+    }
+
     private void carouselRight() {
         Node<Artefact> temp = current;
         current = stock.head.next;
@@ -272,7 +267,7 @@ public class ArtefactShopDisplay extends UIComponent {
                 .hasGold(stats.goldCost);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+        buyButton.getStyle().down = sufficientFunds ? clickDrawable
                 : redDrawable;
         buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                 : redDrawable;
@@ -312,7 +307,7 @@ public class ArtefactShopDisplay extends UIComponent {
                 .hasGold(stats.goldCost);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+        buyButton.getStyle().down = sufficientFunds ? clickDrawable
                 : redDrawable;
         buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                 : redDrawable;
@@ -367,7 +362,7 @@ public class ArtefactShopDisplay extends UIComponent {
                 .hasGold(stats.goldCost);
         buyButton.getStyle().up = sufficientFunds ? goldenDrawable
                 : redDrawable;
-        buyButton.getStyle().down = sufficientFunds ? brownDrawable
+        buyButton.getStyle().down = sufficientFunds ? clickDrawable
                 : redDrawable;
         buyButton.getStyle().checked = sufficientFunds ? goldenDrawable
                 : redDrawable;
@@ -380,7 +375,11 @@ public class ArtefactShopDisplay extends UIComponent {
     }
 
     private void openShop() {
+        i = 0;
+        current = stock.tail;
+        carouselRight();
         artefactShop.setVisible(true);
+
     }
 
     private void closeShop() {
