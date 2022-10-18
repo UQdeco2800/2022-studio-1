@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
@@ -113,6 +115,25 @@ class StructureServiceTest {
 
         while (!resourceService.loadForMillis(10)) {
         }
+    }
+
+    @Test
+    void shouldRegisterStructure() {
+        ServiceLocator.getStructureService().registerNamed("wall", new Entity());
+        assertTrue(ServiceLocator.getStructureService().getAllNamedEntities().containsKey("wall"));
+    }
+
+    @Test
+    void shouldUnregisterStructure() {
+        ServiceLocator.getStructureService().unregisterNamed("wall");
+        assertFalse(ServiceLocator.getStructureService().getAllNamedEntities().containsKey("wall"));
+    }
+
+    @Test
+    void shouldGetLastAddedEntityToStructureService() {
+        ServiceLocator.getStructureService().registerNamed("wall", new Entity());
+        Entity lastEntity = ServiceLocator.getStructureService().getLastEntity();
+        assertTrue(lastEntity != null);
     }
 
     @Test
