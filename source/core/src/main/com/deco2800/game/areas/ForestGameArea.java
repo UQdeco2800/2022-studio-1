@@ -53,10 +53,10 @@ public class ForestGameArea extends GameArea {
   private static final int MIN_NUM_CRABS = 1;
   private static final int MAX_NUM_CRABS = 3;
   private static final int MIN_NUM_EELS = 1;
-  private static final int MAX_NUM_EELS = 1;
+  private static final int MAX_NUM_EELS = 2;
   private static final int BOSS_DAY = 3;
   private static final int MIN_NUM_STARFISH = 1;
-  private static final int MAX_NUM_STARFISH = 3;
+  private static final int MAX_NUM_STARFISH = 2;
 
   private Music music;
   private Music ambience;
@@ -106,8 +106,6 @@ public class ForestGameArea extends GameArea {
     this.crystal = spawnCrystal(terrainFactory.getMapSize().x / 2, terrainFactory.getMapSize().y / 2);
 
     this.player = spawnPlayer();
-
-    spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -501,9 +499,14 @@ public class ForestGameArea extends GameArea {
       case NIGHT:
         for (int i = 0; i < MathUtils.random(MIN_NUM_CRABS, MAX_NUM_CRABS); i++) {
           spawnPirateCrabEnemy();
-          // spawnElectricEelEnemy();
-          // spawnNinjaStarfishEnemy();
         }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_EELS, MAX_NUM_EELS); i++) {
+          spawnElectricEelEnemy();
+        }
+        for (int i = 0; i < MathUtils.random(MIN_NUM_STARFISH, MAX_NUM_STARFISH); i++) {
+          spawnNinjaStarfishEnemy();
+        }
+
         if (dayNum == BOSS_DAY) {
           spawnMeleeBoss();
         }
@@ -582,6 +585,9 @@ public class ForestGameArea extends GameArea {
   private void spawnElectricEelEnemy() {
     Entity ElectricEelEnemy = NPCFactory.createElectricEelEnemy(player, crystal);
     ElectricEelEnemy.setName("Mr. Electricity");
+    ElectricEelEnemy.setCollectable(true);
+    ElectricEelEnemy.setResourceType(ResourceType.GOLD);
+    ElectricEelEnemy.setResourceAmount(50);
     levelUp(ElectricEelEnemy);
     this.entityMapping.addEntity(ElectricEelEnemy);
     spawnEnemy(ElectricEelEnemy);
@@ -605,6 +611,9 @@ public class ForestGameArea extends GameArea {
   private void spawnNinjaStarfishEnemy() {
     Entity ninjaStarfishEnemy = NPCFactory.createStarFishEnemy(player, crystal);
     ninjaStarfishEnemy.setName("Mr. Starfish");
+    ninjaStarfishEnemy.setCollectable(true);
+    ninjaStarfishEnemy.setResourceType(ResourceType.GOLD);
+    ninjaStarfishEnemy.setResourceAmount(50);
     levelUp(ninjaStarfishEnemy);
     this.entityMapping.addEntity(ninjaStarfishEnemy);
     spawnEnemy(ninjaStarfishEnemy);
