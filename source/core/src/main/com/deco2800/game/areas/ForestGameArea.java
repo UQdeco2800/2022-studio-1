@@ -63,9 +63,9 @@ public class ForestGameArea extends GameArea {
   private Music music;
   private Music ambience;
 
- private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
-  private static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
-  private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
+  public static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
+  public static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
+  public static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
 
   // private EnvironmentalCollision entityMapping;
 

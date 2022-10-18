@@ -29,6 +29,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
   public static final String EVENT_PLAYER_CONTROL_TUT = "playerControlTut";
   public static final String EVENT_REMOVE_NO_MINE = "removeNoMine";
   public static final String EVENT_WALK_REV = "walk_rev";
+  private static final String EVENT_REMOVE_NO_BUILD_NIGHT = "removeNoBuildNight";
 
   private final Vector2 walkDirection = Vector2.Zero.cpy();
   private Boolean keyState;
@@ -56,6 +57,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "UP");
           entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
+          entity.getEvents().trigger(EVENT_REMOVE_NO_BUILD_NIGHT);
           // movePlayerInUgs(walkDirection);
           // ServiceLocator.getEntityService().getNamedEntity("player").getComponent(PlayerActions.class).update();
           updatePlayerMovement(0, true);
@@ -66,6 +68,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "LEFT");
           entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
+          entity.getEvents().trigger(EVENT_REMOVE_NO_BUILD_NIGHT);
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(1, true);
           return true;
@@ -75,6 +78,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "DOWN");
           entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
+          entity.getEvents().trigger(EVENT_REMOVE_NO_BUILD_NIGHT);
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(2, true);
           return true;
@@ -84,6 +88,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           // triggerWalkEvent();
           entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "RIGHT");
           entity.getEvents().trigger(EVENT_REMOVE_NO_MINE);
+          entity.getEvents().trigger(EVENT_REMOVE_NO_BUILD_NIGHT);
           // movePlayerInUgs(walkDirection);
           updatePlayerMovement(3, true);
           return true;
@@ -94,6 +99,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
           entity.getEvents().trigger("attack");
           entity.getEvents().trigger("attack_anim");
           entity.getEvents().trigger(EVENT_PLAYER_CONTROL_TUT, "SPACE");
+          entity.getEvents().trigger(EVENT_REMOVE_NO_BUILD_NIGHT);
           entity.getEvents().trigger("skipEpilogue");
           return true;
         case Keys.N:
