@@ -136,6 +136,9 @@ public class TerrainComponent extends RenderComponent {
     return walls;
   }
 
+  /**
+   * Damages all buildings that are on water
+   */
   protected void damageSunkenBuildings() {
 
     String[] buildingNames = { "wall", "tower", "trap", "stoneQuarry", "woodCutter" };
@@ -215,6 +218,11 @@ public class TerrainComponent extends RenderComponent {
 
   }
 
+  /**
+   * Changes the current map level to the night version when night comes around
+   * 
+   * @param partOfDay day night cycle time period
+   */
   public void partOfDayPassed(DayNightCycleStatus partOfDay) {
     System.out.println(partOfDay.name());
     if (partOfDay == DayNightCycleStatus.DAY) {

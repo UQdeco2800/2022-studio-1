@@ -63,7 +63,7 @@ public class ForestGameArea extends GameArea {
   private Music music;
   private Music ambience;
 
-  private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
+ private static final String BACKGROUND_MUSIC = "sounds/bgm_dusk.mp3";
   private static final String BACKGROUND_SOUNDS = "sounds/BgCricket.mp3";
   private static final String SHOP_MUSIC = "sounds/shopping_backgroundmusic-V1.mp3";
 
@@ -98,6 +98,7 @@ public class ForestGameArea extends GameArea {
     displayUI();
     playMusic();
     spawnTerrain();
+
     ServiceLocator.getUGSService().generateUGS();
 
     entityMapping = new EnvironmentalCollision(terrain);
@@ -109,7 +110,7 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
-    //spawnElectricEelEnemy();
+    // spawnElectricEelEnemy();
 
     // spawnNPCharacter();
     if (this.loadGame) {
@@ -123,6 +124,7 @@ public class ForestGameArea extends GameArea {
         this::spawnSetEnemies);
     ServiceLocator.getDayNightCycleService().getEvents().addListener(DayNightCycleService.EVENT_PART_OF_DAY_PASSED,
         this::spawnNPC);
+
   }
 
   private void displayUI() {
@@ -305,8 +307,9 @@ public class ForestGameArea extends GameArea {
   }
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
-    //Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
-    Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+    Entity crystal = CrystalFactory.createCrystal("images/crystal1.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
 
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
@@ -444,8 +447,6 @@ public class ForestGameArea extends GameArea {
    * super.spawnEntityAt(wall, new GridPoint2(x, y), false, false);
    * }
    */
-
-
 
   /**
    * Spawns NPCs during the day and removes them at night.
@@ -669,10 +670,10 @@ public class ForestGameArea extends GameArea {
     logger.debug("Loading assets");
   }
 
+
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
-
   }
 
   @Override

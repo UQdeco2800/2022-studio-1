@@ -139,6 +139,13 @@ public class TerrainFactory {
         bordersPositionList);
   }
 
+  /**
+   * Creates IsoTileRenderer for use of the map
+   * 
+   * @param tiledMap  tiledMap to render
+   * @param tileScale scale of the tiles
+   * @return IsoTileRenderer
+   */
   private TiledMapRenderer createRenderer(TiledMap tiledMap, float tileScale) {
     return new IsoTileRenderer(tiledMap, tileScale);
   }
@@ -210,6 +217,14 @@ public class TerrainFactory {
     return tiledMap;
   }
 
+  /**
+   * Creates a terrain tile with the given tile name and tile type
+   * 
+   * @param tileName        tile name to apply
+   * @param tileType        tile type to create
+   * @param resourceService resource service
+   * @return new terrain tile with texture based on tile type and name
+   */
   private TerrainTile createTile(String tileName, TileType tileType, ResourceService resourceService) {
 
     Array<StaticTiledMapTile> tileFrames = new Array<>();
@@ -241,6 +256,13 @@ public class TerrainFactory {
     return bordersPositionList;
   }
 
+  /**
+   * Loads the given tile texture
+   * 
+   * @param tileName        name of the texture
+   * @param resourceService resource service
+   * @return TextureRegion loaded
+   */
   private TextureRegion createTileTexture(String tileName, ResourceService resourceService) {
     return new TextureRegion(
         resourceService.getAsset("images/65x33_tiles/" + tileName + ".png", Texture.class));
@@ -309,6 +331,12 @@ public class TerrainFactory {
     landTilesList.add(landTiles);
   }
 
+  /**
+   * Fills the remaining tiles in the map with non-spawnable water tiles.
+   * 
+   * @param layer     layer to fill
+   * @param waterTile water tile terrain tile
+   */
   private void fillWater(TiledMapTileLayer layer, TerrainTile waterTile) {
     for (int x = 0; x < MAP_SIZE.x; x++) {
       for (int y = 0; y < MAP_SIZE.y; y++) {

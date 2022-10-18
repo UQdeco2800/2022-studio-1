@@ -47,14 +47,14 @@ public class CrystalService {
         if (level == 1) {
             // crystal.addComponent(new
             // TextureRenderComponent("images/crystal_level2.png"));
-            triggerCrystal("images/crystal_level2.png");
+            triggerCrystal("images/crystal2.png");
             player.getComponent(InventoryComponent.class).addGold(-500);
             PlayerStatsDisplay.updateItems();
             crystal.getComponent(CombatStatsComponent.class).setMaxHealth(1200);
 
         } else if (level == 2) {
             ServiceLocator.getEntityService().getNamedEntity("crystal2").dispose();
-            triggerCrystal("images/crystal_level3.png");
+            triggerCrystal("images/crystal3.png");
             // crystal.addComponent(new
             // TextureRenderComponent("images/crystal_level3.png"));
             ServiceLocator.getEntityService().unregisterNamed("crystal2");

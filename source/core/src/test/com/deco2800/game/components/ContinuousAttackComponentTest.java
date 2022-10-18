@@ -64,8 +64,8 @@ public class ContinuousAttackComponentTest {
         enemy.getEvents().trigger("collisionStart", entityFixture, targetFixture);
         wait(10);
         enemy.getEvents().trigger("collisionEnd", entityFixture, targetFixture);
+        wait(3); //prevent thread ending one tick later, causing assertion failure
         int healthBefore  = target.getComponent(CombatStatsComponent.class).getHealth();
-
         wait(10);
         assertEquals(healthBefore, target.getComponent(CombatStatsComponent.class).getHealth());
     }

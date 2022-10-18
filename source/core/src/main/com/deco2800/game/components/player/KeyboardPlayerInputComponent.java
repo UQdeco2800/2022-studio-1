@@ -117,7 +117,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     switch (keycode) {
       case Keys.Q:
         if (PlayerActions.playerAlive) {
-          // entity.setScale(11f, 10.5f);
+           // entity.setScale(11f, 10.5f);
           entity.getEvents().trigger("playerDeath");
           return true;
         } else {
@@ -305,7 +305,7 @@ public class KeyboardPlayerInputComponent extends InputComponent {
     Entity crystal = ServiceLocator.getEntityService().getNamedEntity(CombatStatsComponent.CRYSTAL);
     CombatStatsComponent combatStatsComponent = crystal.getComponent(CombatStatsComponent.class);
     int health = combatStatsComponent.getHealth();
-    combatStatsComponent.setHealth(health - 30);
+    combatStatsComponent.setHealth(health - 200);
     // System.out.println(crystal.getComponent(CombatStatsComponent.class).getHealth());
   }
 

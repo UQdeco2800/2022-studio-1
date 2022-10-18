@@ -8,5 +8,6 @@
     "defense": 0,
     "description": "Blocks incoming enemies",
     "itemImagePath": "images/shop-wall.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/wall-framed.png"
+    "itemBackgroundImagePath": "images/shop-items-framed/wall-framed.png",
+    "placementName": "wall"
 }

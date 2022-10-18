@@ -2,7 +2,6 @@ package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.deco2800.game.components.*;
-import com.deco2800.game.components.crystal.CrystalAnimationController;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.CrystalConfig;
 import com.deco2800.game.files.FileLoader;
@@ -16,6 +15,7 @@ import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.deco2800.game.components.crystal.CrystalAnimationController;
 
 /**
  * Factory to create crystal entity.
@@ -37,9 +37,9 @@ public class CrystalFactory {
     public static Entity createCrystal(String texture, String name) {
         AnimationRenderComponent animator =
             new AnimationRenderComponent(
-                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/crystal_damaged.atlas", TextureAtlas.class));
-        animator.addAnimation("crystal", 0.1f, Animation.PlayMode.NORMAL);
-        animator.addAnimation("last", 0.1f, Animation.PlayMode.NORMAL);
+                    ServiceLocator.getResourceService().getAsset("images/crystal_animation/p_crystal_damaged.atlas", TextureAtlas.class));
+        animator.addAnimation("pcrystal", 0.1f, Animation.PlayMode.NORMAL);
+        animator.addAnimation("plast", 0.1f, Animation.PlayMode.NORMAL);
 
         Entity crystal = new Entity()
                 .addComponent(new TextureRenderComponent(texture))
@@ -57,9 +57,9 @@ public class CrystalFactory {
         crystal.setCollectable(false);
 
         crystal.getComponent(PhysicsComponent.class).setBodyType(BodyDef.BodyType.StaticBody);
-        crystal.getComponent(TextureRenderComponent.class).scaleEntity();
-        //crystal.scaleHeight(15);
-        crystal.scaleHeight(10);
+        // crystal.getComponent(TextureRenderComponent.class).scaleEntity();
+        crystal.getComponent(AnimationRenderComponent.class).scaleEntity();
+        crystal.scaleHeight(15.0f);
         PhysicsUtils.setScaledCollider(crystal, 1f, 0.5f);
         return crystal;
     }

@@ -159,7 +159,7 @@ public class StructureService extends EntityService {
     String entityName = gridPos.toString();
     entityName = structureName + entityName;
     Vector2 worldPosition = ServiceLocator.getEntityService().getNamedEntity("terrain")
-        .getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
+            .getComponent(TerrainComponent.class).tileToWorldPosition(gridPos);
 
     Entity structure;
     if (ServiceLocator.getUGSService().checkEntityPlacement(gridPos, "structure")) {
@@ -171,10 +171,10 @@ public class StructureService extends EntityService {
           structure = StructureFactory.createTower1(1, entityName, false, orientation);
           break;
         case "tower2":
-          structure = StructureFactory.createTower2(1, entityName, false);
+          structure = StructureFactory.createTower2(1, entityName, false, orientation);
           break;
         case "tower3":
-          structure = StructureFactory.createTower3(1, entityName, false);
+          structure = StructureFactory.createTower3(1, entityName, false, orientation);
           break;
         case "trap":
           structure = StructureFactory.createTrap(entityName, false);
@@ -194,11 +194,6 @@ public class StructureService extends EntityService {
       }
       ServiceLocator.getUGSService().setEntity(gridPos, structure, entityName);
       ServiceLocator.getUGSService().addStructure(structure);
-      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-          .getTileSize();
-      // worldPosition.x -= tileSize / 4;
-      // worldPosition.y -= tileSize / 8;
-      structure.setPosition(worldPosition);
       return true;
     }
     return false;
@@ -239,15 +234,15 @@ public class StructureService extends EntityService {
    * @param name of the tempStructureEntity
    */
   public static void buildTempStructure(String name) {
-    // MAKE ALL TEMP STRUCTURES TRANSPARENT TO ADD TO THE GHOST STRUCTURE EFFECT
+    //MAKE ALL TEMP STRUCTURES TRANSPARENT TO ADD TO THE GHOST STRUCTURE EFFECT
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 loc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .worldToTilePosition(mousePosV2.x, mousePosV2.y);
+            .worldToTilePosition(mousePosV2.x, mousePosV2.y);
     Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .tileToWorldPosition(loc);
+            .tileToWorldPosition(loc);
     String entityName = "Temp";
     entityName = name + entityName;
 
@@ -257,11 +252,11 @@ public class StructureService extends EntityService {
     } else if (Objects.equals(name, "tower1")) {
       tempEntity = StructureFactory.createTower1(1, entityName, true, orientation);
     } else if (Objects.equals(name, "tower2")) {
-      tempEntity = StructureFactory.createTower2(1, entityName, true);
+      tempEntity = StructureFactory.createTower2(1, entityName, true, orientation);
     } else if (Objects.equals(name, "woodCutter")) {
       tempEntity = ResourceBuildingFactory.createWoodCutter(entityName);
     } else if (Objects.equals(name, "tower3")) {
-      tempEntity = StructureFactory.createTower3(1, entityName, true);
+      tempEntity = StructureFactory.createTower3(1, entityName, true, orientation);
     } else if (Objects.equals(name, "trap")) {
       tempEntity = StructureFactory.createTrap(entityName, true);
     } else if (Objects.equals(name, "stoneQuarry")) {
@@ -270,33 +265,27 @@ public class StructureService extends EntityService {
       tempEntity = StructureFactory.createTurret(entityName);
     }
     // Update achievements for structures/building
-    // This is not a successfully built building, so I don't think it warrants an
-    // achievement
-    // ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED,
-    // name);
+    //This is not a successfully built building, so I don't think it warrants an achievement
+    //ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_ON_TEMP_STRUCTURE_PLACED, name);
 
     buildingTempEntity = true;
     tempEntityName = entityName;
     ServiceLocator.getEntityService().registerNamed(entityName, tempEntity);
-    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .getTileSize();
-    worldLoc.x -= tileSize / 4;
-    worldLoc.y -= tileSize / 8;
+    float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+    worldLoc.x -= tileSize/4;
+    worldLoc.y -= tileSize/8;
     tempEntity.setPosition(worldLoc);
     drawVisualFeedback(loc, "structure");
   }
 
   /**
-   * Draw the coloured tiles around a structure to show the player where they can
-   * build a structure
-   * 
+   * Draw the coloured tiles around a structure to show the player where they can build a structure
    * @param centerCoord location of the structure in gridPoint2
-   * @param entityType  type of entity being checked
+   * @param entityType type of entity being checked
    */
   public static void drawVisualFeedback(GridPoint2 centerCoord, String entityType) {
-    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord,
-        entityType, 1);
-    for (GridPoint2 mapPos : surroundingTiles.keySet()) {
+    HashMap<GridPoint2, String> surroundingTiles = ServiceLocator.getUGSService().getSurroundingTiles(centerCoord, entityType, 1);
+    for (GridPoint2 mapPos: surroundingTiles.keySet()) {
       String entityName = "visual" + mapPos.toString();
       Entity visualTile;
       if (surroundingTiles.get(mapPos).equals("empty")) {
@@ -305,12 +294,10 @@ public class StructureService extends EntityService {
         visualTile = StructureFactory.createVisualFeedbackTile(entityName, "images/65x33_tiles/invalidTile.png");
       }
       ServiceLocator.getEntityService().registerNamed(entityName, visualTile);
-      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain")
-          .getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
-      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-          .getTileSize();
-      worldLoc.x -= tileSize / 4;
-      worldLoc.y -= tileSize / 8;
+      Vector2 worldLoc = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).tileToWorldPosition(mapPos);
+      float tileSize = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class).getTileSize();
+      worldLoc.x -= tileSize/4;
+      worldLoc.y -= tileSize/8;
       visualTile.setPosition(worldLoc);
     }
   }
@@ -344,14 +331,10 @@ public class StructureService extends EntityService {
   }
 
   /**
-   * get the orientation of the structure being built (facing forward or facing
-   * right)
-   * 
+   * get the orientation of the structure being built (facing forward or facing right)
    * @return
    */
-  public static int getStructureOrientation() {
-    return orientation;
-  }
+  public static int getStructureOrientation() {return orientation;}
 
   /**
    * toggle the structure orientation from 0 to 1 or from 1 to 0
@@ -365,24 +348,24 @@ public class StructureService extends EntityService {
   }
 
   public static void setUiPopUp(int screenX, int screenY) {
-    // getting the building location on the map
+    //getting the building location on the map
     Entity camera = ServiceLocator.getEntityService().getNamedEntity("camera");
     CameraComponent camComp = camera.getComponent(CameraComponent.class);
     Vector3 mousePos = camComp.getCamera().unproject(new Vector3(screenX, screenY, 0));
     Vector2 mousePosV2 = new Vector2(mousePos.x, mousePos.y);
     GridPoint2 mapPos = ServiceLocator.getEntityService().getNamedEntity("terrain").getComponent(TerrainComponent.class)
-        .worldToTilePosition(mousePosV2.x, mousePosV2.y);
-    // if UI is false on click then the pop-up should appear
+            .worldToTilePosition(mousePosV2.x, mousePosV2.y);
+    //if UI is false on click then the pop-up should appear
     if (!uiIsVisible) {
       try {
         String structureName = ServiceLocator.getUGSService().getEntity(mapPos).getName();
 
         uiPopUp = ServiceLocator.getEntityService().getNamedEntity("ui").getComponent(MainGameBuildingInterface.class)
-            .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
+                .makeUIPopUp(true, screenX, screenY, mapPos, structureName);
         uiIsVisible = true;
 
         // else the pop-up will be removed
-      } catch (NullPointerException e) {
+      } catch(NullPointerException e) {
         logger.debug("Null error in UGS, you did not click a building");
       }
     } else {
@@ -399,6 +382,7 @@ public class StructureService extends EntityService {
     int stone = 0;
     int wood = 0;
 
+
     if (health < 10) {
       stone = 10;
       wood = 4;
@@ -409,29 +393,30 @@ public class StructureService extends EntityService {
       stone = 20;
       wood = 8;
 
-    } else if (health < 30) {
+    }else if( health < 30) {
       stone = 30;
       wood = 5;
-    } else if (health < 40) {
+    }else if(health < 40) {
       stone = 40;
       wood = 8;
 
-    } else if (health < 50) {
+    }else if (health < 50) {
       stone = 50;
       wood = 10;
 
-    } else if (health < 60) {
+    }else if (health < 60) {
       stone = 60;
       wood = 15;
 
     } else if (health < 70) {
       stone = 70;
       wood = 20;
-    } else if (health < 80) {
+    }else if (health < 80) {
       stone = 80;
       wood = 25;
 
-    } else if (health < 90) {
+
+    }else if (health < 90) {
       stone = 90;
       wood = 30;
     }
