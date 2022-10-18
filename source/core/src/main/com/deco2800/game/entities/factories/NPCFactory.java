@@ -1,19 +1,25 @@
 package com.deco2800.game.entities.factories;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.ai.tasks.AITaskComponent;
 import com.deco2800.game.components.CombatStatsComponent;
-import com.deco2800.game.components.npc.*;
 import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.TouchAttackComponent;
+import com.deco2800.game.components.npc.BossAnimationController;
+import com.deco2800.game.components.npc.ContinuousAttackComponent;
+import com.deco2800.game.components.npc.EffectNearBy;
+import com.deco2800.game.components.npc.EntityClassification;
 import com.deco2800.game.components.player.AnimationController;
-import com.deco2800.game.components.tasks.*;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.configs.*;
+import com.deco2800.game.components.tasks.MeleePursueTask;
+import com.deco2800.game.components.tasks.RangedMovementTask;
+import com.deco2800.game.components.tasks.ShootTask;
+import com.deco2800.game.components.tasks.WanderTask;
 import com.deco2800.game.entities.Enemy;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.configs.EnemyConfig;
+import com.deco2800.game.entities.configs.MeleeBossConfig;
 import com.deco2800.game.entities.configs.NPCConfigs;
 import com.deco2800.game.files.FileLoader;
 import com.deco2800.game.physics.PhysicsLayer;
@@ -24,7 +30,6 @@ import com.deco2800.game.physics.components.PhysicsComponent;
 import com.deco2800.game.physics.components.PhysicsMovementComponent;
 import com.deco2800.game.rendering.AnimationRenderComponent;
 import com.deco2800.game.rendering.TextureRenderComponent;
-import com.deco2800.game.services.AchievementHandler;
 import com.deco2800.game.services.ServiceLocator;
 
 import java.security.SecureRandom;

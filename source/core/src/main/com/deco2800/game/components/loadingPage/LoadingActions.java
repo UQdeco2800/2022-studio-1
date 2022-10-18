@@ -2,8 +2,6 @@ package com.deco2800.game.components.loadingPage;
 
 import com.deco2800.game.AtlantisSinks;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,14 +1,7 @@
 package com.deco2800.game.components.firstnight;
 
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
-import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.memento.CareTaker;
-import com.deco2800.game.memento.Originator;
-import com.deco2800.game.services.DayNightCycleService;
-import com.deco2800.game.services.DayNightCycleStatus;
-import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

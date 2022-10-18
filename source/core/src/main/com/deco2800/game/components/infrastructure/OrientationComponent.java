@@ -1,6 +1,5 @@
 package com.deco2800.game.components.infrastructure;
 
-import com.badlogic.gdx.Input.Orientation;
 import com.deco2800.game.components.Component;
 
 public class OrientationComponent extends Component {

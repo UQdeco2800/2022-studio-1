@@ -1,34 +1,25 @@
 package com.deco2800.game.entities.factories;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.deco2800.game.components.*;
-import com.deco2800.game.components.camera.CameraActions;
+import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.HealthBarComponent;
+import com.deco2800.game.components.TouchAttackComponent;
 import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
-import com.deco2800.game.entities.factories.CrystalFactory;
 import com.deco2800.game.extensions.GameExtension;
+import com.deco2800.game.physics.PhysicsLayer;
 import com.deco2800.game.physics.PhysicsService;
-import com.deco2800.game.physics.components.*;
-import com.deco2800.game.rendering.*;
-import com.deco2800.game.services.ResourceService;
+import com.deco2800.game.physics.components.ColliderComponent;
+import com.deco2800.game.physics.components.HitboxComponent;
+import com.deco2800.game.physics.components.PhysicsComponent;
+import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
-import com.deco2800.game.utils.RenderUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import util.EntityUtil;
-import com.deco2800.game.physics.PhysicsLayer;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.lang.reflect.Method;
 
 
 @ExtendWith(GameExtension.class)

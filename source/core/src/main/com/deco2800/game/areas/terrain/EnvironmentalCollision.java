@@ -3,7 +3,11 @@ package com.deco2800.game.areas.terrain;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.entities.Entity;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Helper Class that stores entities on the map and checks collisions when given

@@ -4,7 +4,6 @@ import com.deco2800.game.components.Component;
 import com.deco2800.game.components.tasks.MeleeAvoidObstacleTask;
 import com.deco2800.game.components.tasks.MeleePursueTask;
 import com.deco2800.game.components.tasks.RangedMovementTask;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,11 +1,9 @@
 package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
-import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.GuidebookArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.Component;
@@ -22,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.lang.Thread;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 

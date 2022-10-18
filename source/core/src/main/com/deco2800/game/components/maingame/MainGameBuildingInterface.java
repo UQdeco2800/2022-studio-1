@@ -18,23 +18,19 @@ import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.areas.terrain.TerrainComponent;
 import com.deco2800.game.components.CombatStatsComponent;
+import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
 import com.deco2800.game.components.shop.ShopUtils;
+import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.factories.CrystalService;
 import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.ui.UIComponent;
-import com.deco2800.game.utils.StringDecorator;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.components.HealthBarComponent;
 import com.deco2800.game.utils.DrawableUtil;
+import com.deco2800.game.utils.StringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.badlogic.gdx.math.MathUtils.random;
-
-import java.sql.Struct;
 
 public class MainGameBuildingInterface extends UIComponent {
     private static final Logger logger = LoggerFactory.getLogger(MainGameExitDisplay.class);

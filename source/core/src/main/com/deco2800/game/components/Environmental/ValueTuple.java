@@ -1,8 +1,6 @@
 package com.deco2800.game.components.Environmental;
 
 
-import com.deco2800.game.components.Environmental.EnvironmentalComponent;
-
 /** Tuple for passing the values of environmental objects */
 public class ValueTuple<ResourceTypes, Integer> {
 

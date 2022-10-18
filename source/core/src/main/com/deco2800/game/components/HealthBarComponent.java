@@ -2,25 +2,12 @@ package com.deco2800.game.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.areas.terrain.TerrainComponent;
-import com.deco2800.game.components.maingame.MainGameBuildingInterface;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.StructureService;
-import com.deco2800.game.entities.configs.StructureConfig;
-import com.deco2800.game.entities.factories.StructureFactory;
 import com.deco2800.game.rendering.RenderComponent;
-import com.deco2800.game.services.ServiceLocator;
 import com.deco2800.game.utils.DrawableUtil;
 import com.deco2800.game.utils.RenderUtil;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 

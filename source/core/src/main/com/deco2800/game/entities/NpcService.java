@@ -1,20 +1,14 @@
 package com.deco2800.game.entities;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.deco2800.game.components.CameraComponent;
-import com.deco2800.game.components.maingame.MainGameBuildingInterface;
 import com.deco2800.game.components.maingame.MainGameNpcInterface;
-import com.deco2800.game.components.player.InventoryComponent;
-import com.deco2800.game.components.player.PlayerStatsDisplay;
-import com.deco2800.game.rendering.TextureRenderComponent;
 import com.deco2800.game.services.ServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.util.HashMap;
 import java.util.Map;

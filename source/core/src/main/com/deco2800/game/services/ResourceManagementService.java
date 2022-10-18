@@ -1,12 +1,9 @@
 package com.deco2800.game.services;
 
 import com.deco2800.game.areas.MainArea;
-import com.deco2800.game.components.infrastructure.ResourceBuilding;
 import com.deco2800.game.components.infrastructure.ResourceType;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.components.player.PlayerStatsDisplay;
-import com.deco2800.game.entities.Entity;
-import com.deco2800.game.entities.EntityService;
 import com.deco2800.game.events.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

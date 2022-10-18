@@ -1,6 +1,5 @@
 package com.deco2800.game.physics.components;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;

@@ -1,12 +1,5 @@
 package com.deco2800.game.components.tasks;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.math.Vector2;
 import com.deco2800.game.entities.Entity;
 import com.deco2800.game.entities.UGS;
@@ -14,6 +7,12 @@ import com.deco2800.game.entities.factories.ProjectileFactory;
 import com.deco2800.game.services.DayNightCycleService;
 import com.deco2800.game.services.DayNightCycleStatus;
 import com.deco2800.game.services.ServiceLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ShootMultipleTask extends ShootTask {
         Logger logger = LoggerFactory.getLogger(ShootMultipleTask.class);
