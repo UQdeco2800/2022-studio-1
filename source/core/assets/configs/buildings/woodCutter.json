@@ -6,8 +6,8 @@
     "woodCost": 400,
     "attack": 0,
     "defense": 0,
-    "description": "Chops for wood",
+    "description": "Extracts wood",
     "itemImagePath": "images/shop-quarry.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/quarry-framed.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/cutter-framed.png",
     "placementName": "woodCutter"
 }

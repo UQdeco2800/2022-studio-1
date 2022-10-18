@@ -1,6 +1,6 @@
 {
     "type": "building",
-    "name": "Tower 3",
+    "name": "Cursed Tomb",
     "goldCost": 0,
     "stoneCost": 400,
     "woodCost": 300,
@@ -8,6 +8,6 @@
     "defense": 0,
     "description": "Attacks nearby enemies",
     "itemImagePath": "images/shop-attack-building.png",
-    "itemBackgroundImagePath": "images/shop-items-framed/attack-building-framed.png",
+    "itemBackgroundImagePath": "images/shop-items-framed/tower3-framed.png",
     "placementName": "tower3"
 }

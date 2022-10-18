@@ -68,8 +68,8 @@ class StructureFactoryTest {
             "images/attack_towers/Attack_Structure2_lev3.png",
             "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
             "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
-            "images/shop_structures_sprites/Trap_shop_sprite",
-            "images/shop_structures_sprites/Trap2_shop_sprite"};
+            "images/shop_structures_sprites/Trap_shop_sprite.png",
+            "images/shop_structures_sprites/Trap2_shop_sprite.png"};
 
     @BeforeEach
     void beforeEach() {
@@ -316,4 +316,37 @@ class StructureFactoryTest {
         assertTrue(tower3 != null);
         assertTrue(tower3.getComponent(OrientationComponent.class).getOrientation() == 1);
     }
+
+    //############## TRAP TESTS #############
+    @Test
+    void shouldCreateTrap1Entity() {
+        Entity trap1 = StructureFactory.createTrap("trap1", false, 0);
+        assertTrue(trap1 != null);
+    }
+
+    @Test
+    void shouldCreateTrap2Entity() {
+        Entity trap2 = StructureFactory.createTrap("trap2", false, 1);
+        assertTrue(trap2 != null);
+    }
+
+    @Test
+    void shouldCreateTempTrap1Entity() {
+        Entity tempTrap1 = StructureFactory.createTrap("temp_trap1", true, 0);
+        assertTrue(tempTrap1 != null);
+    }
+
+    @Test
+    void shouldCreateTempTrap2Entity() {
+        Entity tempTrap2 = StructureFactory.createTrap("temp_trap2", true, 1);
+        assertTrue(tempTrap2 != null);
+    }
+
+    @Test
+    void shouldCreateBaseStructure() {
+        Entity baseStructure = StructureFactory.createBaseStructure("images/65x33_tiles/wall_left.png", "baseStruct", false);
+        assertTrue(baseStructure != null);
+    }
+
+    
 }
