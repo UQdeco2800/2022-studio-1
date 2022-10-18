@@ -55,7 +55,6 @@ public class ShootTask extends DefaultTask implements PriorityTask {
         if (TotalTime.getTime() >= taskEnd && this.timer % 120 == 0) {
             if (entity.getName().contains("player")) {
                 if (entity.getComponent(PlayerActions.class).playerAlive) {
-                    status = Status.INACTIVE;
                     ProjectileFactory.createProjectile(entity, target);
                 }
             }
