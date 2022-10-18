@@ -218,8 +218,8 @@ public class NPCFactory {
                                 .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
                                 .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
                                 .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
-                                .addTask(new ShootTask(target, 30, 20f, 60f))
-                                .addTask(new ShootTask(crystal, 30, 20f, 60f));
+                                .addTask(new ShootTask(target, 31, 20f, 20f))
+                                .addTask(new ShootTask(crystal, 30, 20f, 20f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())

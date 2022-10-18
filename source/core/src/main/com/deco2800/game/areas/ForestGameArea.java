@@ -110,6 +110,8 @@ public class ForestGameArea extends GameArea {
 
     this.player = spawnPlayer();
 
+    spawnElectricEelEnemy();
+
     // spawnNPCharacter();
     if (this.loadGame) {
       SaveGame.loadGameState();
