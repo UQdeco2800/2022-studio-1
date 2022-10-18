@@ -112,10 +112,11 @@ public class PlayerActions extends Component {
         keyOfPlayer = entry.getKey();
       }
     }
-    String keyCoorSplit[] = keyOfPlayer.split(",");
-    GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(keyCoorSplit[0]), Integer.parseInt(keyCoorSplit[1]));
-
-    ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, direction.x, direction.y);
+    if (keyOfPlayer != null) {
+      String keyCoorSplit[] = keyOfPlayer.split(",");
+      GridPoint2 playerCurrentPos = new GridPoint2(Integer.parseInt(keyCoorSplit[0]), Integer.parseInt(keyCoorSplit[1]));
+      ServiceLocator.getUGSService().moveEntity(player, playerCurrentPos, direction.x, direction.y);
+    }
 
     // uncomment in case of emergency
     // switch (direction.toString()) {
