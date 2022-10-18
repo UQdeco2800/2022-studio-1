@@ -32,8 +32,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(GameExtension.class)
 class StructureFactoryTest {
-    private AchievementHandler achievementHandler;
-
     private static String[] textures = {
             "images/attack_towers/tow1_1_l.png",
             "images/upgradeFail500.png",
@@ -347,6 +345,4 @@ class StructureFactoryTest {
         Entity baseStructure = StructureFactory.createBaseStructure("images/65x33_tiles/wall_left.png", "baseStruct", false);
         assertTrue(baseStructure != null);
     }
-
-    
 }
