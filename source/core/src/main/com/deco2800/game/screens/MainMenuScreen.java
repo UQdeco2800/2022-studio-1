@@ -242,7 +242,8 @@ public class MainMenuScreen extends ScreenAdapter {
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String backgroundSounds = "sounds/BgCricket.mp3";
   private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
-  private static final String[] shopPopUpMusic = { shopMusic };
+  private static final String guideMusic = "sounds/guidebookMusic.mp3";
+  private static final String[] shopPopUpMusic = { shopMusic, guideMusic };
   private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
 
   public MainMenuScreen(AtlantisSinks game) {
