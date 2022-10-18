@@ -60,13 +60,13 @@ public class ShopInterface extends UIComponent {
         artefact.setFillParent(true);
         artefact.setSize(100f, 100f);
         artefact.center().right();
-        artefact.padRight(150f).padTop(100f);
+        artefact.padRight(100f).padTop(100f);
 
         equipment = new Table();
         equipment.setFillParent(true);
         equipment.setSize(100f, 100f);
         equipment.center().left();
-        equipment.padLeft(150f).padTop(100f);
+        equipment.padLeft(100f).padTop(100f);
 
         // setup background for shop
         backgroundTable.setSize(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
@@ -81,7 +81,7 @@ public class ShopInterface extends UIComponent {
         TextureRegionDrawable cross = new TextureRegionDrawable(crossTexture);
         crossFrame = new ImageButton(cross, cross);
         crossFrame.setSize(40f, 40f);
-        crossFrame.setPosition(Gdx.graphics.getWidth() * 0.81f,
+        crossFrame.setPosition(Gdx.graphics.getWidth() / 2f + Gdx.graphics.getWidth() * 0.29f,
                 Gdx.graphics.getHeight() * 0.85f - 70f);
 
         // setup title
