@@ -296,6 +296,14 @@ public class EquipmentsShopDisplay extends UIComponent {
                                         MainArea.getInstance().getGameArea().getPlayer()
                                                         .getComponent(AnimationRenderComponent.class)
                                                         .startAnimation(Equipments.getAnimationName(current.t));
+                                        descriptionDisplay
+                                                        .setText(stats.name + "\n" + stats.description + "\n"
+                                                                        + "Inventory Count: "
+                                                                        + MainArea.getInstance().getGameArea()
+                                                                                        .getPlayer()
+                                                                                        .getComponent(InventoryComponent.class)
+                                                                                        .countInEquipmentList(current.t)
+                                                                        + "/1");
                                         entity.getEvents().trigger("updateEquipment");
 
                                         coinSound.play();
@@ -329,6 +337,15 @@ public class EquipmentsShopDisplay extends UIComponent {
                                         MainArea.getInstance().getGameArea().getPlayer()
                                                         .getComponent(InventoryComponent.class)
                                                         .addGold(-1 * stats.goldCost);
+                                        descriptionDisplay
+                                                        .setText(stats.name + "\n" + stats.description + "\n"
+                                                                        + "Inventory Count: "
+                                                                        + MainArea.getInstance().getGameArea()
+                                                                                        .getPlayer()
+                                                                                        .getComponent(InventoryComponent.class)
+                                                                                        .countInEquipmentList(current.t)
+                                                                        + "/1");
+
                                         coinSound.play();
                                         entity.getEvents().trigger("updateEquipment");
 
