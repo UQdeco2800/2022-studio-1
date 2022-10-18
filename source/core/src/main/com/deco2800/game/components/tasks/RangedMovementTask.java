@@ -52,6 +52,7 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
         movementTask.create(owner);
         animationDirection((int) target.getPosition().x, (int) target.getPosition().y);
         movementTask.start();
+        this.status = Status.ACTIVE;
     }
 
     @Override
@@ -85,22 +86,21 @@ public class RangedMovementTask extends DefaultTask implements PriorityTask {
 
     private int getActivePriority() {
         float dst = getDistanceToTarget();
-        if (dst <= range) {
+
+        if (dst < range) {
             stop();
-            return -1; // Stop and get ready to shoot
-        } else if (target.getName().contains("player") && getDistanceToTarget() > viewDistance) {
+            return -1;
+        }
+
+        if (target.getName().contains("player") && getDistanceToTarget() > viewDistance) {
             stop();
             return -1; // chase crystal instead
         }
-        return priority;
+        return Math.round(dst);
     }
 
     private int getInactivePriority() {
-        float dst = getDistanceToTarget();
-        if (dst < viewDistance && isTargetVisible()) {
-            return priority;
-        }
-        return -1;
+        return getActivePriority();
     }
 
     public MovementTask getMovementTask() {

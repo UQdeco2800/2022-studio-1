@@ -217,11 +217,10 @@ public class NPCFactory {
         private static Enemy createBaseRangeNPC(Entity target, Entity crystal) {
                 // Vector2 RangeHitbox = new Vector2(2f, 1f);
                 AITaskComponent aiComponent = new AITaskComponent()
-                                .addTask(new WanderTask(new Vector2(3f, 3f), 2f))
-                                .addTask(new RangedMovementTask(crystal, 20, 15f, 100f, 60f))
-                                .addTask(new RangedMovementTask(target, 20, 15f, 50f, 60f))
-                                .addTask(new ShootTask(target, 31, 20f, 20f))
-                                .addTask(new ShootTask(crystal, 30, 20f, 20f));
+                                .addTask(new RangedMovementTask(crystal, 30, 30f, 500f, 60f))
+                                .addTask(new RangedMovementTask(target, 30, 30f, 50f, 60f))
+                                .addTask(new ShootTask(target, 20, 30f, 20f))
+                                .addTask(new ShootTask(crystal, 20, 30f, 20f));
                 Enemy enemy = (Enemy) new Enemy()
                                 .addComponent(new PhysicsComponent())
                                 .addComponent(new ColliderComponent())
