@@ -218,7 +218,7 @@ public class ForestGameArea extends GameArea {
           do {
             randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(0, 119));
 
-            if (ServiceLocator.getUGSService().getTileType(randomPos) == "water")
+            if (Objects.equals(ServiceLocator.getUGSService().getTileType(randomPos), "water"))
               placed = ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
 
             counter++;
