@@ -260,6 +260,7 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
     spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.SHELL);
     spawnEnvironmentalObject(40, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
+    spawnEnvironmentalObject(3, EnvironmentalObstacle.GEYSER);
     /*
      * // semi random rocks and trees
      * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
@@ -334,8 +335,10 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal("images/crystal1.png", "crystal");
-    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
-    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png",
+    // "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png",
+    // "crystal");
 
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
