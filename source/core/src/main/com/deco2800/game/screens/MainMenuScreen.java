@@ -213,8 +213,10 @@ public class MainMenuScreen extends ScreenAdapter {
           "images/attack_towers/tower3lv3Right.png",
           "images/attack_towers/Attack_Structure2_lev1.png",
           "images/attack_towers/Attack_Structure2_lev2.png",
+          "images/attack_towers/Attack_Structure2_lev3.png",
           "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
           "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
+
   };
 
   private static final String[] forestTextureAtlases = {
@@ -240,7 +242,8 @@ public class MainMenuScreen extends ScreenAdapter {
   private static final String backgroundMusic = "sounds/bgm_dusk.mp3";
   private static final String backgroundSounds = "sounds/BgCricket.mp3";
   private static final String shopMusic = "sounds/shopping_backgroundmusic-V1.mp3";
-  private static final String[] shopPopUpMusic = { shopMusic };
+  private static final String guideMusic = "sounds/guidebookMusic.mp3";
+  private static final String[] shopPopUpMusic = { shopMusic, guideMusic };
   private static final String[] forestMusic = { backgroundMusic, backgroundSounds };
 
   public MainMenuScreen(AtlantisSinks game) {

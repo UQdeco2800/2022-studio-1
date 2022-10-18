@@ -1,6 +1,8 @@
 package com.deco2800.game.components.maingame;
 
+import com.badlogic.gdx.audio.Music;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.ForestGameArea;
 import com.deco2800.game.components.CombatStatsComponent;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.player.InventoryComponent;
@@ -52,6 +54,9 @@ public class MainGameActions extends Component {
    */
   private void onExit() {
     logger.info("Exiting main game screen");
+    ServiceLocator.getResourceService().getAsset(ForestGameArea.BACKGROUND_MUSIC, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(ForestGameArea.BACKGROUND_SOUNDS, Music.class).stop();
+    ServiceLocator.getResourceService().getAsset(ForestGameArea.SHOP_MUSIC, Music.class).stop();
     CareTaker.deleteAll();
     game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
   }
