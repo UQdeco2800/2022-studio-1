@@ -288,7 +288,7 @@ public class NPCFactory {
          */
         public static Entity createNormalNPC() {
                 String[] NPC_textures = { "images/npcs/NPC_V3.png",
-                                "images/npcs/npc_blacksmith_draft.png" };
+                                "images/npcs/npc_blacksmith.png" };
 
                 int index = (int) (new SecureRandom().nextInt(NPC_textures.length));
                 Entity NPC = createBaseNPC();

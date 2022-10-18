@@ -124,7 +124,7 @@ public class MainMenuScreen extends ScreenAdapter {
       "images/npc1.png",
       "images/npcs/NPC-V2.2.png",
       "images/npcs/NPC-V2.1.png",
-      "images/npcs/npc_blacksmith_draft",
+      "images/npcs/npc_blacksmith",
       "images/guardianLegacy1left.png",
       "images/guardianLegacy1right.png",
       "images/cornerWall1.png",
