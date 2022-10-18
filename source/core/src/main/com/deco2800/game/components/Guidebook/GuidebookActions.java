@@ -1,9 +1,13 @@
 package com.deco2800.game.components.Guidebook;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.deco2800.game.AtlantisSinks;
+import com.deco2800.game.areas.ForestGameArea;
+import com.deco2800.game.areas.GuidebookArea;
+import com.deco2800.game.areas.MainArea;
 import com.deco2800.game.components.Component;
 import com.deco2800.game.components.player.InventoryComponent;
 import com.deco2800.game.memento.CareTaker;
@@ -138,6 +142,7 @@ public class GuidebookActions extends Component {
     private void onExit() {
         logger.info("Exiting guidebook screen");
         ServiceLocator.getAchievementHandler().getEvents().trigger(AchievementHandler.EVENT_GUIDEBOOK_CLOSED);
+        ((GuidebookArea) MainArea.getInstance().getGameArea()).stopMusic();
         game.setScreen(AtlantisSinks.ScreenType.MAIN_MENU);
         GuidebookDisplay.bookStatus = GuidebookStatus.CLOSED;
     }

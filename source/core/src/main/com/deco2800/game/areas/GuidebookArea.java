@@ -56,6 +56,11 @@ public class GuidebookArea extends GameArea {
         resourceService.unloadAssets(gameMusic);
     }
 
+    public void stopMusic() {
+        Music music = ServiceLocator.getResourceService().getAsset(GUIDEBOOK_MUSIC, Music.class);
+        music.stop();
+    }
+
     @Override
     public void dispose() {
         super.dispose();
