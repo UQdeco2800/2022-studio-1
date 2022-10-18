@@ -77,8 +77,8 @@ public class StructureFactory {
           {"images/attack_towers/tower3lv2Left.png", "images/attack_towers/tower3lv2Right.png"},
           {"images/attack_towers/tower3lv3Left.png", "images/attack_towers/tower3lv3Right.png"}};
 
-  private static String[][] trapSprites = {{"images/shop_structures_sprites/Trap_shop_sprite", "images/shop_structures_sprites/Trap_shop_sprite"},
-          {"images/shop_structures_sprites/Trap2_shop_sprite", "images/shop_structures_sprites/Trap2_shop_sprite"}};
+  private static String[][] trapSprites = {{"images/shop_structures_sprites/Trap_shop_sprite.png", "images/shop_structures_sprites/Trap_shop_sprite.png"},
+          {"images/shop_structures_sprites/Trap2_shop_sprite.png", "images/shop_structures_sprites/Trap2_shop_sprite.png"}};
 
   /**
    * creates an entity of a coloured tile to show where a building can be placed
@@ -402,7 +402,6 @@ public class StructureFactory {
 
       // texture (String) must just be the name of the file without extension
       String file = "images/attack_towers/animations/".concat(texture).concat(".atlas");
-      System.out.println(file);
       AnimationRenderComponent animator = new AnimationRenderComponent(ServiceLocator.getResourceService()
           .getAsset(file, TextureAtlas.class));
       animator.addAnimation(texture, 0.2f, Animation.PlayMode.LOOP);
