@@ -199,24 +199,52 @@ public class ForestGameArea extends GameArea {
       int counter = 0;
       // check for possible collision and reroll location until valid
 
-      if (type == EnvironmentalObstacle.ROCK || type == EnvironmentalObstacle.SHIPWRECK_BACK
-          || type == EnvironmentalObstacle.SHIPWRECK_FRONT) {
-        randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
-        ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
-      } else {
-        while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
-            || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
-          randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+      switch (type) {
+        case ROCK:
+          randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(20, 100));
+          ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
+          return;
+        case SHELL:
+          do {
+            randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+            counter++;
+          } while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName()) && counter < 1000);
+          return;
+        case SHIPWRECK_BACK:
+        case SHIPWRECK_FRONT:
+          boolean placed = false;
+          do {
+            randomPos = new GridPoint2(MathUtils.random(20, 100), MathUtils.random(0, 119));
 
-          // safety to avoid infinite looping on loading screen.
-          // If cant spawn the object then space has ran out on map
-          if (counter > 1000) {
-            return;
+            if (ServiceLocator.getUGSService().getTileType(randomPos) == "water")
+              placed = ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName());
+
+            counter++;
+            System.out.println("[" + counter + "]: " + placed);
+          } while (!placed && counter < 1000);
+          return;
+        case SPEED_ARTEFACT:
+        case SPIKY_BUSH:
+        case STONE_PILLAR:
+        case TREE:
+        case UNDEFINED:
+        case VINE:
+        case WOODEN_FENCE:
+        default:
+          while (!ServiceLocator.getUGSService().setEntity(randomPos, envObj, envObj.getName())
+              || entityMapping.isNearWater(randomPos.x, randomPos.y)) {
+            randomPos = terrain.getLandTiles().get(MathUtils.random(0, terrain.getLandTiles().size() - 1));
+
+            // safety to avoid infinite looping on loading screen.
+            if (counter > 1000) {
+              return;
+            }
+            counter++;
           }
-          counter++;
-        }
       }
+
     }
+
   }
 
   /**
@@ -232,6 +260,7 @@ public class ForestGameArea extends GameArea {
     spawnEnvironmentalObject(1, EnvironmentalComponent.EnvironmentalObstacle.STONE_PILLAR);
     spawnEnvironmentalObject(3, EnvironmentalComponent.EnvironmentalObstacle.SHELL);
     spawnEnvironmentalObject(40, EnvironmentalComponent.EnvironmentalObstacle.ROCK);
+    spawnEnvironmentalObject(3, EnvironmentalObstacle.GEYSER);
     /*
      * // semi random rocks and trees
      * int numTrees = MIN_NUM_TREES + (int) (Math.random() * ((MAX_NUM_TREES -
@@ -306,8 +335,10 @@ public class ForestGameArea extends GameArea {
 
   private Entity spawnCrystal(int x_pos, int y_pos) {
     Entity crystal = CrystalFactory.createCrystal("images/crystal1.png", "crystal");
-    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png", "crystal");
-    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png", "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal2.0.png",
+    // "crystal");
+    // Entity crystal = CrystalFactory.createCrystal("images/crystal.png",
+    // "crystal");
 
     while (this.entityMapping.wouldCollide(crystal, x_pos, y_pos)) {
       x_pos++;
