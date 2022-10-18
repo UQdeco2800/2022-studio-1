@@ -176,8 +176,11 @@ public class StructureService extends EntityService {
         case "tower3":
           structure = StructureFactory.createTower3(1, entityName, false, orientation);
           break;
-        case "trap":
-          structure = StructureFactory.createTrap(entityName, false);
+        case "trap1":
+          structure = StructureFactory.createTrap(entityName, false, 0);
+          break;
+        case "trap2":
+          structure = StructureFactory.createTrap(entityName, false, 1);
           break;
         case "turret":
           structure = StructureFactory.createTurret(entityName);
