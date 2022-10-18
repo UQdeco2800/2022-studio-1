@@ -267,6 +267,10 @@ public class MovementTask extends DefaultTask {
     this.origin = originPosition;
     path = generatePath();
   }
+
+  public ArrayList<LinkedPoint> getPath() {
+    return this.path;
+  }
 }
 
 /**
