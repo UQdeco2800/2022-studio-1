@@ -29,7 +29,7 @@ public class TimerComponent extends Component {
     @Override
     public void update(){
         timer++;
-        if (timer > 240) {
+        if (timer > 600) {
             ServiceLocator.getEntityService().addToDestroyEntities(this.entity);
         }
     }
