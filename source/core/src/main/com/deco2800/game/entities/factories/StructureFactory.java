@@ -61,11 +61,15 @@ public class StructureFactory {
           "images/attack_towers/tow1_2_r.png"}, {"images/attack_towers/tow1_3_l.png",
           "images/attack_towers/tow1_3_r.png"} };
 
-  private static String [] tempTower2Sprites = {"images/attack_towers/tow2_1.png", "images/attack_towers/tow2_1.png"};
+  private static String [] tempTower2Sprites = {"images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png",
+          "images/attack_towers/tempStructures/temp_Attack_Structure2_lev1.png"};
   //Change to tower 2
-  private static String[][] tower2Sprites = {{"images/attack_towers/tow2_1.png", "images/attack_towers/tow2_1.png"},
-  {"images/attack_towers/tow2_2.png", "images/attack_towers/tow2_2.png"},
-  {"images/attack_towers/tow2_3.png", "images/attack_towers/tow2_3.png"}};
+  private static String[][] tower2Sprites = {{"images/attack_towers/Attack_Structure2_lev1.png",
+          "images/attack_towers/Attack_Structure2_lev1.png"},
+  {"images/attack_towers/Attack_Structure2_lev2.png",
+          "images/attack_towers/Attack_Structure2_lev2.png"},
+  {"images/attack_towers/Attack_Structure2_lev3.png",
+          "images/attack_towers/Attack_Structure2_lev3.png"}};
 
   private static String[] tempTower3Sprites = {"images/attack_towers/tempStructures/temp_tower3lv1Left.png",
           "images/attack_towers/tempStructures/temp_tower3lv1Right.png"};
@@ -192,7 +196,7 @@ public class StructureFactory {
 
     switch (level) {
       case 2: // Represents the first upgraded version of the tower
-        tower1 = createBaseStructure(TOWER1II, name, true);
+        tower1 = createBaseStructure(TOWER1II, name, false);
         config = configs.tower1I;
         config.orientation = orientation;
         tower1.addComponent(new CombatStatsComponent(config.health, config.baseAttack, 2, 2, 100))
