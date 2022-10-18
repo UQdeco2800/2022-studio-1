@@ -666,11 +666,6 @@ public class ForestGameArea extends GameArea {
     playMusic();
   }
 
-  private void loadAssets() {
-    logger.debug("Loading assets");
-  }
-
-
   private void unloadAssets() {
     logger.debug("Unloading assets");
     ResourceService resourceService = ServiceLocator.getResourceService();
